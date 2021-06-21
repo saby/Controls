@@ -5,6 +5,7 @@ https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
 -->
 <div class="controls-Scroll-ContainerBase  controls-Scroll__content {{_scrollCssClass}} {{_initialScrollPositionCssClass}}"
     name="content"
+    data-qa="controls-Scroll__content"
     on:scroll="_scrollHandler()"
     on:doScroll="_doScrollHandler()"
     on:register="_registerIt()"

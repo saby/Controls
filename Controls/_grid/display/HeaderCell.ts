@@ -219,7 +219,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
                 wrapperClasses += ' controls-Grid__header-cell_min-width';
             }
         } else {
-            wrapperClasses += ' controls-Grid__header-cell-checkbox_min-width';
+            wrapperClasses += ' controls-Grid__header-cell-checkbox controls-Grid__header-cell-checkbox_min-width';
         }
 
         if (this.contentOrientation.valign) {

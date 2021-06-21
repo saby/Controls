@@ -1,5 +1,6 @@
 <Controls.popupTemplate:Confirmation size="l"
                                      style="{{_options.operationsCount === _options.operationsSuccess ? 'success' : 'danger'}}"
+                                     attr:class="controls_operations_theme-{{_options.theme}}"
                                      closeButtonVisibility="{{false}}">
    <ws:bodyContentTemplate>
       <div class="controls-ReportDialog__title">{{_options.title}}</div>

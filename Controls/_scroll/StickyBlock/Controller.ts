@@ -352,11 +352,12 @@ class StickyHeaderController {
 
         let heightChanged = false;
         let operation;
-        const updateHeaders = [];
+        const updateHeaders = {};
         for (const entry of entries) {
             const header = this._getHeaderFromNode(entry.target);
             // В момент переключения по вкладкам в мастер детейле на ноде может не быть замаунчен стикиБлок
-            if (header) {
+            // Контроллер инициализируется при наведении мыши или когда заголовки зафиксированы.
+            if (header && this._initialized) {
                 const heightEntry = this._getElementHeightEntry(entry.target);
                 if (heightEntry) {
                     operation = this._getOperationForHeadersStack(entry.contentRect.height, heightEntry.value);
@@ -365,7 +366,7 @@ class StickyHeaderController {
                 if (operation) {
                     if (this._isHeaderOfGroup(header.index)) {
                         const groupHeader = this._getGroupByHeader(header);
-                        const groupInUpdateHeaders = updateHeaders.find((updateHeader) => updateHeader.header.id === groupHeader.id);
+                        const groupInUpdateHeaders = Object.entries(updateHeaders).find(([, updateHeader]) => updateHeader.header.id === groupHeader.id);
                         if (!groupInUpdateHeaders) {
                             updateHeaders[groupHeader.id] = {
                                 header: groupHeader,
@@ -384,7 +385,7 @@ class StickyHeaderController {
             heightChanged = this._updateElementHeight(entry.target, entry.contentRect.height) || heightChanged;
         }
 
-        updateHeaders.forEach((updateHeader) => {
+        Object.entries(updateHeaders).forEach(([, updateHeader]) => {
             this._changeHeadersStackByHeader(updateHeader.header, updateHeader.operation);
         });
 

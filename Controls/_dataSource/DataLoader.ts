@@ -21,6 +21,7 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {constants} from 'Env/Constants';
 import {PrefetchProxy} from 'Types/source';
 
+const QUERY_PARAMS_LOAD_TIMEOUT = 5000;
 const DEFAULT_LOAD_TIMEOUT = 10000;
 const DEBUG_DEFAULT_LOAD_TIMEOUT = 30000;
 
@@ -100,7 +101,7 @@ function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
 
 function getFilterController(options: IFilterControllerOptions): FilterController {
     const controllerClass = loadSync<typeof import('Controls/filter')>('Controls/filter').ControllerClass;
-    return new controllerClass(options);
+    return new controllerClass({...options});
 }
 
 function getSourceController(options: ILoadDataConfig): NewSourceController {
@@ -172,8 +173,9 @@ function getLoadResult(
 
 function loadDataByConfig(
     loadConfig: ILoadDataConfig,
-    loadTimeout: number = getLoadTimeout()
+    loadTimeout?: number
 ): Promise<ILoadDataResult> {
+    const loadDataTimeout = loadTimeout || getLoadTimeout(loadConfig);
     let filterController: FilterController;
     let filterHistoryItems;
     let sortingPromise;
@@ -200,14 +202,14 @@ function loadDataByConfig(
             .catch(() => {
                 filterController = getFilterController(loadConfig as IFilterControllerOptions);
             });
-        filterPromise = wrapTimeout(filterPromise, getLoadTimeout(loadConfig)).catch(() => {
+        filterPromise = wrapTimeout(filterPromise, QUERY_PARAMS_LOAD_TIMEOUT).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные фильтрации не загрузились за 1 секунду');
         });
     }
 
     if (loadConfig.propStorageId) {
         sortingPromise = loadSavedConfig(loadConfig.propStorageId, ['sorting']);
-        sortingPromise = wrapTimeout(sortingPromise, getLoadTimeout(loadConfig)).catch(() => {
+        sortingPromise = wrapTimeout(sortingPromise, QUERY_PARAMS_LOAD_TIMEOUT).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные сортировки не загрузились за 1 секунду');
         });
     }
@@ -221,7 +223,7 @@ function loadDataByConfig(
             ...loadConfig,
             sorting,
             filter: filterController ? filterController.getFilter() : loadConfig.filter,
-            loadTimeout: getLoadTimeout(loadConfig)
+            loadTimeout: loadDataTimeout
         });
 
         return new Promise((resolve) => {
@@ -269,7 +271,7 @@ export default class DataLoader {
 
         sourceConfigs.forEach((loadConfig) => {
             if (loadConfig.type === 'custom') {
-                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments);
+                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments).catch((error) => error);
             } else {
                 loadPromise = loadDataByConfig(loadConfig, loadTimeout);
             }

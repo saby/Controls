@@ -127,7 +127,11 @@ export interface ITreeControlOptions extends IControlOptions {
  * @cfg {TemplateFunction|String} Пользовательский шаблон подвала развернутого узла в {@link Controls/treeGrid:View дереве}.
  * @default undefined
  * @remark
- * В области видимости шаблона доступен объект itemData, внутри доступно свойство item - запись, под которой отрисовывается шаблон.
+ * В области видимости шаблона доступна переменная **item**, из которой можно получить доступ к:
+ * 
+ * * свойству **contents** — это объект, который содержит данные элемента, под которым отрисовывается шаблон.
+ * * методу **getNode()** — возвращает узел, внутри которого отображается шаблон.
+ * 
  * @demo Controls-demo/treeGrid/NodeFooter/NodeFooterTemplate/Index
  * @see nodeFooterVisibilityCallback
  * @see nodeLoadCallback
@@ -136,7 +140,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /*
  * @name Controls/_tree/interface/ITreeControl#nodeFooterTemplate
  * @cfg {Function} Sets footer template that will be shown for every node.
- * @demo Controls-demo/treeGrid/NodeFooter/NodeFooterTemplate/Index
+ * @demo Controls-demo/treeGridNew/NodeFooter/NodeFooterTemplate/Index
  */
 
 /**
@@ -217,9 +221,9 @@ export interface ITreeControlOptions extends IControlOptions {
  * @name Controls/_tree/interface/ITreeControl#expanderVisibility
  * @cfg {Controls/_tree/interface/ITreeControl/ExpanderVisibility.typedef} Режим отображения {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/expander/ кнопки-экспандера} в {@link Controls/treeGrid:View дереве}.
  * @default visible
- * @demo Controls-demo/treeGrid/Expander/ExpanderIcon/Node/Index В следующем примере для контрола опция expanderVisibility установлена в значение visible.
- * @demo Controls-demo/treeGrid/Expander/ExpanderVisibility/HasChildren/Index В следующем примере для контрола опция expanderVisibility установлена в значение hasChildren.
- * @demo Controls-demo/treeGrid/Expander/ExpanderVisibility/HasChildrenOrHover/Index В следующем примере для контрола опция expanderVisibility установлена в значение hasChildrenOrHover.
+ * @demo Controls-demo/treeGridNew/Expander/ExpanderIcon/Node/Index В следующем примере для контрола опция expanderVisibility установлена в значение visible.
+ * @demo Controls-demo/treeGridNew/Expander/ExpanderVisibility/HasChildren/Index В следующем примере для контрола опция expanderVisibility установлена в значение hasChildren.
+ * @demo Controls-demo/treeGridNew/Expander/ExpanderVisibility/HasChildrenOrHover/Index В следующем примере для контрола опция expanderVisibility установлена в значение hasChildrenOrHover.
  * @see expanderIcon
  * @see expanderSize
  */
@@ -288,7 +292,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @name Controls/_tree/interface/ITreeControl#selectAncestors
  * @cfg {Boolean} Определяет, будут ли отмечаться родительские узлы элементы при {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ отметке узла чекбоксом}.
  * @default true
- * @demo Controls-demo/treeGrid/MultiSelect/SelectAncestors/DoNotSelectAncestors/Index
+ * @demo Controls-demo/treeGridNew/MultiSelect/SelectAncestors/DoNotSelectAncestors/Index
  * @example
  * <pre class="brush: html">
  * <Controls.treeGrid.View selectAncestors="{{false}}"/>
@@ -302,7 +306,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @name Controls/_tree/interface/ITreeControl#selectDescendants
  * @cfg {Boolean} Определяет, будут ли отмечаться дочерние элементы при {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ отметке узла чекбоксом}.
  * @default true
- * @demo Controls-demo/treeGrid/MultiSelect/SelectDescendants/DoNotSelectDescendants/Index
+ * @demo Controls-demo/treeGridNew/MultiSelect/SelectDescendants/DoNotSelectDescendants/Index
  * @example
  * <pre class="brush: html">
  * <Controls.treeGrid.View selectDescendants="{{false}}"/>
@@ -489,5 +493,5 @@ export interface ITreeControlOptions extends IControlOptions {
  * @default false
  * @variant true
  * @variant false
- * @demo Controls-demo/treeGrid/ReverseType/SingleExpand/Index
+ * @demo Controls-demo/treeGridNew/ReverseType/SingleExpand/Index
  */

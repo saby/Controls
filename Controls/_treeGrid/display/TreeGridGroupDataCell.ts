@@ -44,6 +44,9 @@ export default class TreeGridGroupDataCell<T extends Model>
         //  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
         classes += ' controls-ListView__groupContent_baseline_default';
         classes += this._getHorizontalPaddingClasses(theme);
+        if (this._$owner.hasMultiSelectColumn() && this.isFirstColumn()) {
+            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
+        }
         classes += this._getContentAlignClasses();
         classes += ' controls-ListView__groupContent';
         return classes;

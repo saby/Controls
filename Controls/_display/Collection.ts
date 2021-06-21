@@ -198,7 +198,7 @@ export interface IHasMoreData {
  * @variant row - Редактирование всей строки таблицы
  * @variant cell - Редактирование отдельных ячеек таблицы
  * @default row
- * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+ * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  */
 
 /*
@@ -206,7 +206,7 @@ export interface IHasMoreData {
  * @variant row - Editing of whole row.
  * @variant cell - Editing of separated cell.
  * @default row
- * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+ * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  */
 type TEditingMode = 'cell' | 'row';
 
@@ -296,22 +296,7 @@ function onCollectionChange<T>(
         case IObservable.ACTION_RESET:
             const projectionOldItems = toArray(this);
             let projectionNewItems;
-            // TODO Здесь был вызов _reBuild(true), который полностью пересоздает все
-            // CollectionItem'ы, из-за чего мы теряли их состояние. ACTION_RESET происходит
-            // не только при полном пересоздании рекордсета, но и например при наборе
-            // "критической массы" изменений при выключенном режиме обработки событий.
-            // https://online.sbis.ru/opendoc.html?guid=573aed02-3c97-4432-9d39-19e53bda8bc0
-            // По идее, нам это не нужно, потому что в случае реального пересоздания рекордсета,
-            // нам передадут его новый инстанс, и мы пересоздадим всю коллекцию сами.
-            // Но на случай, если такой кейс все таки имеет право на жизнь, выписал
-            // задачу в этом разобраться.
-            // https://online.sbis.ru/opendoc.html?guid=bd17a1fb-5d00-4f90-82d3-cb733fe7ab27
-            // Как минимум пока мы поддерживаем совместимость с BaseControl, такая возможность нужна,
-            // потому что там пересоздание модели вызывает лишние перерисовки, подскроллы, баги
-            // виртуального скролла.
-            // TODO избавиться по ошибке https://online.sbis.ru/opendoc.html?guid=f44d88a0-ac53-4d45-9dea-2b594211ee57
-            const needReset = this._$compatibleReset || newItems.length === 0 || reason === 'assign';
-            this._reBuild(needReset);
+            this._reBuild(true);
             projectionNewItems = toArray(this);
             this._notifyBeforeCollectionChange();
             this._notifyCollectionChange(
@@ -323,9 +308,6 @@ function onCollectionChange<T>(
                 reason
             );
             this._handleAfterCollectionChange(undefined, action);
-            if (!needReset) {
-                this._handleCollectionActionChange(newItems);
-            }
             this._nextVersion();
             return;
 
@@ -3154,7 +3136,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                                    conditionProperty?: string,
                                    silent?: boolean): void {
         this._getItems().forEach((item: CollectionItem<S>) => {
-            if (!conditionProperty || item[conditionProperty]) {
+            // todo Разобраться, почему item === undefined по https://online.sbis.ru/opendoc.html?guid=9018fdea-5de1-4b89-9f48-fb8ded0673cd
+            if (item && (!conditionProperty || item[conditionProperty])) {
                 item[updateMethodName](newPropertyValue, silent);
             }
         });

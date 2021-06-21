@@ -4,7 +4,7 @@ import {Logger} from 'UI/Utils';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import toString from 'Controls/_decorator/inputUtils/toString';
 import * as template from 'wml!Controls/_decorator/Number/Number';
-import { abbreviateNumber, trimTrailingZeros, fillAdditionalZeros } from 'Controls/_decorator/resources/Formatter';
+import { abbreviateNumber, trimTrailingZeros, fillAdditionalZeros, correctNumberValue } from 'Controls/_decorator/resources/Formatter';
 // @ts-ignore
 import {
     INumberFormatOptions,
@@ -188,9 +188,9 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
         }
 
         if (abbreviationType && abbreviationType !== 'none') {
-            return abbreviateNumber(strNumber, abbreviationType);
+            return correctNumberValue(abbreviateNumber(strNumber, abbreviationType));
         }
-
+        strNumber = correctNumberValue(strNumber);
         if (useGrouping) {
             return splitIntoTriads(strNumber);
         }

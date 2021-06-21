@@ -140,6 +140,9 @@ const _private = {
             return Promise
                 .resolve(expandController.toggleItem(nodeKey) as Promise<RecordSet[]>)
                 .then((results?: RecordSet[]) => {
+                    if (self._destroyed) {
+                        return Promise.reject();
+                    }
                     //region Применим новое состояние развернутости к моделе
                     // Проставляем hasMoreStorage до простановки expandedItems,
                     // чтобы футеры узлов правильно посчитать за один раз

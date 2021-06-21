@@ -69,7 +69,9 @@ import {
     Controller as EditInPlaceController,
     InputHelper as EditInPlaceInputHelper,
     CONSTANTS as EDIT_IN_PLACE_CONSTANTS,
-    JS_SELECTORS
+    JS_SELECTORS,
+    IBeforeBeginEditCallbackParams,
+    IBeforeEndEditCallbackParams
 } from '../editInPlace';
 import {IEditableListOption} from './interface/IEditableList';
 
@@ -251,6 +253,7 @@ interface IBeginAddOptions {
     shouldActivateInput?: boolean;
     addPosition?: 'top' | 'bottom';
     targetItem?: Model;
+    columnIndex?: number;
 }
 
 //#endregion
@@ -1477,7 +1480,9 @@ const _private = {
      * Обработать прокрутку списка виртуальным скроллом
      */
     handleListScroll(self, params) {
-
+        if (_private.hasHoverFreezeController(self) && _private.isAllowedHoverFreeze(self)) {
+            self._hoverFreezeController.unfreezeHover();
+        }
     },
 
     getTopOffsetForItemsContainer(self, itemsContainer) {
@@ -3523,7 +3528,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _editingItem: IEditableCollectionItem;
 
-    _continuationEditingDirection: 'top' | 'bottom' = null;
+    _continuationEditingDirection: Exclude<EDIT_IN_PLACE_CONSTANTS, EDIT_IN_PLACE_CONSTANTS.CANCEL>;
 
     _hoverFreezeController: HoverFreeze;
 
@@ -4904,6 +4909,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
                     this._handleLoadToDirection = false;
                     resolver();
+                }).catch((error) => {
+                    return error;
                 });
             }
         });
@@ -5430,11 +5437,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beforeBeginEditCallback(options: { item?: Model}, isAdd: boolean) {
+    _beforeBeginEditCallback(params: IBeforeBeginEditCallbackParams) {
         return new Promise((resolve) => {
             // Редактирование может запуститься при построении.
-            const eventResult = this._isMounted ? this._notify('beforeBeginEdit', [options, isAdd]) : undefined;
-            _private.removeShowActionsClass(this);
+            const eventResult = this._isMounted ? this._notify('beforeBeginEdit', params.toArray()) : undefined;
             if (this._savedItemClickArgs && this._isMounted) {
                 // itemClick стреляет, даже если после клика начался старт редактирования, но itemClick
                 // обязательно должен случиться после события beforeBeginEdit.
@@ -5446,7 +5452,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             if (result === LIST_EDITING_CONSTANTS.CANCEL) {
                 if (this._continuationEditingDirection) {
-                    return this._continuationEditingDirection === 'top' ? EDIT_IN_PLACE_CONSTANTS.GOTOPREV : EDIT_IN_PLACE_CONSTANTS.GOTONEXT;
+                    return this._continuationEditingDirection;
                 } else {
                     if (this._savedItemClickArgs && this._isMounted) {
                         // Запись становится активной по клику, если не началось редактирование.
@@ -5463,7 +5469,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 return LIST_EDITING_CONSTANTS.CANCEL;
             }
 
-            if (isAdd && !((options && options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
+            if (params.isAdd && !((params.options && params.options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
                 return sourceController.create().then((item) => {
                     if (item instanceof Model) {
                         return {item};
@@ -5482,7 +5488,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // Не вся бизнес логика поддерживает загрузку первой/последней страницы при курсорной навигации.
             // TODO: Поддержать везде по задаче
             //  https://online.sbis.ru/opendoc.html?guid=000ff88b-f37e-4aa6-9bd3-3705bb721014
-            if (editingConfig.task1181625554 && isAdd) {
+            if (editingConfig.task1181625554 && params.isAdd) {
                 return _private.scrollToEdge(this, editingConfig.addPosition === 'top' ? 'up' : 'down').then(() => {
                     return result;
                 });
@@ -5500,8 +5506,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // уведомлений о запуске редактирования происходить не должно, а дождаться построение
         // редактора невозможно(построение списка не будет завершено до выполнения данного промиса).
         return new Promise((resolve) => {
+            // Принудительно прекращаем заморозку ховера
+            if (_private.hasHoverFreezeController(this)) {
+                this._hoverFreezeController.unfreezeHover();
+            }
             // Операции над записью должны быть обновлены до отрисовки строки редактирования,
             // иначе будет "моргание" операций.
+            _private.removeShowActionsClass(this);
             _private.updateItemActions(this, this._options, item);
             this._continuationEditingDirection = null;
 
@@ -5534,13 +5545,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean, force: boolean = false, sourceIndex?: number) {
-        if (force) {
-            this._notify('beforeEndEdit', [item, willSave, isAdd]);
+    _beforeEndEditCallback(params: IBeforeEndEditCallbackParams) {
+        if (params.force) {
+            this._notify('beforeEndEdit', params.toArray());
             return;
         }
         return Promise.resolve().then(() => {
-            if (willSave) {
+            if (params.willSave) {
                 // Валидайция запускается не моментально, а после заказанного для нее цикла синхронизации.
                 // Такая логика необходима, если синхронно поменяли реактивное состояние, которое будет валидироваться и позвали валидацию.
                 // В таком случае, первый цикл применит все состояния и только после него произойдет валидация.
@@ -5560,17 +5571,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (result === LIST_EDITING_CONSTANTS.CANCEL) {
                 return result;
             }
-            const eventResult = this._notify('beforeEndEdit', [item, willSave, isAdd]);
+            const eventResult = this._notify('beforeEndEdit', params.toArray());
 
             // Если пользователь не сохранил добавляемый элемент, используется платформенное сохранение.
             // Пользовательское сохранение потенциально может начаться только если вернули Promise
-            const shouldUseDefaultSaving = willSave && (isAdd || item.isChanged()) && (
+            const shouldUseDefaultSaving = params.willSave && (params.isAdd || params.item.isChanged()) && (
                 !eventResult || (
                     eventResult !== LIST_EDITING_CONSTANTS.CANCEL && !(eventResult instanceof Promise)
                 )
             );
 
-            return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd, sourceIndex) : eventResult;
+            return shouldUseDefaultSaving ? this._saveEditingInSource(params.item, params.isAdd, params.sourceIndex) : eventResult;
         });
     }
 
@@ -5668,10 +5679,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom', targetItem}: IBeginAddOptions = {}) {
+    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().add(options, {addPosition, targetItem}).then((addResult) => {
+        return this._getEditInPlaceController().add(options, {addPosition, targetItem, columnIndex}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
             }
@@ -5734,7 +5745,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _onEditingRowKeyDown(e: SyntheticEvent<KeyboardEvent>, nativeEvent: KeyboardEvent) {
-        const editNext = (item: Model | undefined, direction: 'top' | 'bottom') => {
+        const editNext = (item: Model | undefined, direction: EDIT_IN_PLACE_CONSTANTS.GOTOPREV | EDIT_IN_PLACE_CONSTANTS.GOTONEXT) => {
             if (!item) {
                 return Promise.resolve();
             }
@@ -5758,54 +5769,89 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 return this._cancelEdit();
             case 38: // ArrowUp
                 const prev = this._getEditInPlaceController().getPrevEditableItem();
-                return editNext(prev?.contents, 'top');
+                return editNext(prev?.contents, EDIT_IN_PLACE_CONSTANTS.GOTOPREV);
             case 40: // ArrowDown
                 const next = this._getEditInPlaceController().getNextEditableItem();
-                return editNext(next?.contents, 'bottom');
+                return editNext(next?.contents, EDIT_IN_PLACE_CONSTANTS.GOTONEXT);
         }
     }
 
     _editingRowEnterHandler(e: SyntheticEvent<KeyboardEvent>) {
         const editingConfig = this._getEditingConfig();
+        const columnIndex = this._editInPlaceController._getEditingItem()._$editingColumnIndex;
         const next = this._getEditInPlaceController().getNextEditableItem();
         const shouldEdit = editingConfig.sequentialEditing && !!next;
         const shouldAdd = !next && !shouldEdit && !!editingConfig.autoAdd && editingConfig.addPosition === 'bottom';
-        return this._tryContinueEditing(shouldEdit, shouldAdd, next && next.contents);
+        return this._tryContinueEditing(shouldEdit, shouldAdd, next && next.contents, columnIndex);
     }
 
-    _onRowDeactivated(e: SyntheticEvent, eventOptions: any): void {
+    _onRowDeactivated(e: SyntheticEvent, eventOptions: any) {
         e.stopPropagation();
 
         if (eventOptions.isTabPressed) {
-            const editingConfig = this._getEditingConfig();
-            let next;
-            let shouldEdit;
-            let shouldAdd;
-
-            if (eventOptions.isShiftKey) {
-                this._continuationEditingDirection = 'top';
-                next = this._getEditInPlaceController().getPrevEditableItem();
-                shouldEdit = !!next;
-                shouldAdd = editingConfig.autoAdd && !next && !shouldEdit && editingConfig.addPosition === 'top';
+            if (this._getEditingConfig()?.mode === 'cell') {
+                this._onEditingCellTabHandler(eventOptions);
             } else {
-                this._continuationEditingDirection = 'bottom';
-                next = this._getEditInPlaceController().getNextEditableItem();
-                shouldEdit = !!next;
-                shouldAdd = editingConfig.autoAdd && !next && !shouldEdit && editingConfig.addPosition === 'bottom';
+                this._onEditingRowTabHandler(eventOptions);
             }
-            return this._tryContinueEditing(shouldEdit, shouldAdd, next && next.contents);
         }
     }
 
-    _tryContinueEditing(shouldEdit, shouldAdd, item?: Model) {
+    _onEditingCellTabHandler(eventOptions) {
+        const editingConfig = this._getEditingConfig();
+        const editingItem = this._editInPlaceController._getEditingItem();
+        let columnIndex;
+        let next = editingItem;
+        let shouldAdd;
+        if (eventOptions.isShiftKey) {
+            this._continuationEditingDirection = EDIT_IN_PLACE_CONSTANTS.PREV_COLUMN;
+            columnIndex = editingItem._$editingColumnIndex - 1;
+            if (columnIndex < 0) {
+                next = this._getEditInPlaceController().getPrevEditableItem();
+                columnIndex = this._options.columns.length - 1;
+            }
+            shouldAdd = editingConfig.autoAdd && !next && editingConfig.addPosition === 'top';
+        } else {
+            this._continuationEditingDirection = EDIT_IN_PLACE_CONSTANTS.NEXT_COLUMN;
+            columnIndex = editingItem._$editingColumnIndex + 1;
+            if (columnIndex > this._options.columns.length - 1) {
+                next = this._getEditInPlaceController().getNextEditableItem();
+                columnIndex = 0;
+            }
+            shouldAdd = editingConfig.autoAdd && !next && editingConfig.addPosition === 'bottom';
+        }
+        return this._tryContinueEditing(!!next, shouldAdd, next && next.contents, columnIndex);
+    }
+
+    _onEditingRowTabHandler(eventOptions) {
+        const editingConfig = this._getEditingConfig();
+        let next;
+        let shouldEdit;
+        let shouldAdd;
+
+        if (eventOptions.isShiftKey) {
+            this._continuationEditingDirection = EDIT_IN_PLACE_CONSTANTS.GOTOPREV;
+            next = this._getEditInPlaceController().getPrevEditableItem();
+            shouldEdit = !!next;
+            shouldAdd = editingConfig.autoAdd && !next && !shouldEdit && editingConfig.addPosition === 'top';
+        } else {
+            this._continuationEditingDirection = EDIT_IN_PLACE_CONSTANTS.GOTONEXT;
+            next = this._getEditInPlaceController().getNextEditableItem();
+            shouldEdit = !!next;
+            shouldAdd = editingConfig.autoAdd && !next && !shouldEdit && editingConfig.addPosition === 'bottom';
+        }
+        return this._tryContinueEditing(shouldEdit, shouldAdd, next && next.contents);
+    }
+
+    _tryContinueEditing(shouldEdit, shouldAdd, item?: Model, columnIndex?: number) {
         return this._commitEdit().then((result) => {
             if (result && result.canceled) {
                 return result;
             }
             if (shouldEdit) {
-                return this._beginEdit({ item });
+                return this._beginEdit({ item }, { columnIndex });
             } else if (shouldAdd) {
-                return this._beginAdd({}, { addPosition: this._getEditingConfig().addPosition });
+                return this._beginAdd({}, { addPosition: this._getEditingConfig().addPosition, columnIndex });
             } else {
                 this._continuationEditingDirection = null;
             }
@@ -6290,7 +6336,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _mouseEnter(event): void {
-        this._dragEnter(this._getDragObject());
+        if (this._listViewModel) {
+            this._dragEnter(this._getDragObject());
+        }
 
         // Нельзя отображать верхний индикатор, если уже отображается нижний и элементы не занимают весь вьюпорт
         // Верхний индикатор пересчитаем после подгрузки элементов
@@ -6313,7 +6361,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _mouseLeave(event): void {
-        this._dragLeave();
+        if (this._listViewModel) {
+            this._dragLeave();
+        }
     }
 
     __pagingChangePage(event, page) {
@@ -6397,6 +6447,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // и закрытию окна. Для ios отключаю реакцию на скролл, событие скролла стрельнуло на body.
         if (detection.isMobileIOS && (scrollEvent.target === document.body || scrollEvent.target === document)) {
             return;
+        }
+        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this)) {
+            this._hoverFreezeController.unfreezeHover();
         }
         _private.closeActionsMenu(this);
     }

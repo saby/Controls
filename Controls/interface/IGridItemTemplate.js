@@ -38,7 +38,7 @@ define('Controls/interface/IGridItemTemplate', [
     *    </ws:itemTemplate>
     * </Controls.grid:View>
     * </pre>
-    * @demo Controls-demo/grid/ItemTemplate/NoHighlight/Index
+    * @demo Controls-demo/gridNew/ItemTemplate/NoHighlight/Index
     * @see Controls/interface/IGridItemTemplate#itemTemplateProperty
     * @see Controls/grid:ItemTemplate
     */

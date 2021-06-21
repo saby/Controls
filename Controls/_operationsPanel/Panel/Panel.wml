@@ -1,5 +1,5 @@
 <Controls.dragnDrop:Container name="dragNDrop" on:dragmove="_onDragMove()" on:documentdragend="_onDragEnd()">
-    <div class="controls-operationsPanelNew ws-flexbox ws-align-items-center"
+    <div class="controls_operations_theme-{{_options.theme}} controls-operationsPanelNew ws-flexbox ws-align-items-center"
          on:click="_click('click')"
          on:mousedown="_onMouseDown()">
         <Controls.operations:MultiSelector

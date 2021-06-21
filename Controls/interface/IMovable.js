@@ -89,7 +89,7 @@ define('Controls/interface/IMovable', [
     * </pre>
     * @see moveItemsWithDialog
     * @see Controls/moverDialog:Template
-    * @demo Controls-demo/treeGrid/Mover/Base/Index
+    * @demo Controls-demo/treeGridNew/Mover/Base/Index
     */
 
    /*

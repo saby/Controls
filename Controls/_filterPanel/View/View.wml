@@ -46,10 +46,23 @@
             <ws:groupTemplate>
                <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate"
                            scope="{{groupTemplate}}"
+                           viewMode="{{_options.viewMode}}"
                            resetCaption="{{_resetCaption}}"
                            groupItems="{{_viewModel.getGroupItems()}}"/>
             </ws:groupTemplate>
          </Controls.propertyGrid:PropertyGrid>
+         <ws:if data="{{_options.viewMode === 'default'}}">
+            <Controls.scroll:StickyHeader backgroundStyle="filterPanel"
+                                          position="bottom"
+                                          attr:class="controls-FilterViewPanel__applyButton-{{_options.viewMode}}">
+               <Controls.buttons:Button viewMode="linkButton"
+                                        caption="{{rk('Сбросить все')}}"
+                                        fontColorStyle="link"
+                                        fontSize="m"
+                                        attr:class="controls-FilterViewPanel__applyButton"
+                                        on:click="_resetFilter()"/>
+            </Controls.scroll:StickyHeader>
+         </ws:if>
       </ws:if>
       <ws:if data="{{_viewModel.hasExtendedItems()}}">
          <div class="controls-FilterViewPanel__additional-editors-container">
