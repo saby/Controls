@@ -38,7 +38,7 @@ class DialogStrategy {
         const positionCoordinates = this._getPositionCoordinates(windowData, containerSizes, item);
         const position = this._validateCoordinate(positionCoordinates, maxHeight, maxWidth);
 
-        this._resetMargins(position);
+        this._resetMargins(item, position);
 
         return {
             ...position,
