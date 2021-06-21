@@ -180,6 +180,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // TODO: Логика инициализации для поддержки разных браузеров была скопирована почти полностью
         //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
         this._updateScrollContainerPaigingSccClass(options);
+        if (ContainerBase.getScrollOrientation(options) !== ContainerBase.getScrollOrientation(this._options)) {
+            this._scrollbars.updateScrollbarsModels(options);
+        }
         this._scrollbars.updateOptions(options);
         this._shadows.updateOptions(this._getShadowsModelOptions(options));
     }
@@ -450,6 +453,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 break;
         }
         this._doScroll(scrollParam);
+    }
+
+    protected _onWheelHandler(): void {
+        if (!ScrollbarsModel.wheelEventHappened) {
+            ScrollbarsModel.wheelEventHappened = true;
+        }
     }
 
     protected _mouseenterHandler(event) {

@@ -29,6 +29,7 @@ export interface IContextOptionsValue {
    listsExcludedKeys?: TKey[];
    contrastBackground?: boolean;
    newDesign?: boolean;
+   groupProperty?: string;
 }
 
 const Context = DataContext.extend({
