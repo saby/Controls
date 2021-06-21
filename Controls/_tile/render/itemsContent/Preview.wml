@@ -18,15 +18,18 @@
         <ws:itemActionsTpl>
             <ws:if data="{{ (item || itemData).shouldDisplayItemActions(itemType, itemActionsPosition, 'title') }}">
                 <ws:partial template="{{ item.getItemActionsControl(itemType) }}" item="{{(item)}}">
-                    <ws:partial template="{{itemActionsTemplate}}"
-                                actionPadding="{{ (item || itemData).getActionPadding(itemType) }}"
-                                actionStyle="{{!titleStyle || titleStyle === 'light' ? 'tileLight' : 'tileDark'}}"
-                                iconStyle="{{!titleStyle || titleStyle === 'light' ? 'contrast' : 'tileDark'}}"
-                                actionMode="{{ (item || itemData).getActionMode(itemType) }}"
-                                highlightOnHover="{{false}}"
-                                itemData="{{(item || itemData)}}"
-                                item="{{(item || itemData)}}"
-                                itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"/>
+                    <ws:partial
+                        template="{{itemActionsTemplate}}"
+                        actionPadding="{{ (item || itemData).getActionPadding(itemType) }}"
+                        actionStyle="{{!titleStyle || titleStyle === 'light' ? 'tileLight' : 'tileDark'}}"
+                        iconStyle="{{!titleStyle || titleStyle === 'light' ? 'contrast' : 'tileDark'}}"
+                        actionMode="{{ (item || itemData).getActionMode(itemType) }}"
+                        highlightOnHover="{{false}}"
+                        itemData="{{(item || itemData)}}"
+                        item="{{(item || itemData)}}"
+                        itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType, itemActionsClass) }}"
+                        attr:data-qa="controls-TileView__previewTemplate_itemActions_node"
+                    />
                 </ws:partial>
             </ws:if>
             <ws:else data="{{ (item || itemData).shouldDisplaySwipeTemplate() }}">
