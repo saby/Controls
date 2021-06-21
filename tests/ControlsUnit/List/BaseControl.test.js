@@ -6541,6 +6541,34 @@ define([
             assert.isTrue(control._hideTopTrigger);
             assert.isTrue(control._resetTopTriggerOffset);
           });
+
+          describe('_getLoadingIndicatorClasses', () => {
+             it('portioned search', async() => {
+                const cfg = getCorrectBaseControlConfig({
+                   keyProperty: 'id',
+                   source: new sourceLib.Memory({
+                      keyProperty: 'id',
+                      data: [
+                         {
+                            id: 1,
+                            title: 'Первый'
+                         }
+                      ]
+                   }),
+                   viewModelConstructor: 'Controls/display:Collection',
+                });
+
+                const control = new lists.BaseControl();
+                control.saveOptions(cfg);
+                await control._beforeMount(cfg);
+
+                control._loadingIndicatorState = 'down';
+                control._portionedSearchInProgress = true;
+                assert.equal(control._getLoadingIndicatorClasses('down'), 'controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl__loadingIndicator_style-portionedSearch');
+
+                assert.equal(control._getLoadingIndicatorClasses('up'), 'controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-up controls-BaseControl__loadingIndicator__state-up-absolute');
+             });
+          });
        });
 
       describe('navigation', function() {
