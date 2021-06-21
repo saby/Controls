@@ -5406,7 +5406,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return new Promise((resolve) => {
             // Редактирование может запуститься при построении.
             const eventResult = this._isMounted ? this._notify('beforeBeginEdit', params.toArray()) : undefined;
-            _private.removeShowActionsClass(this);
             if (this._savedItemClickArgs && this._isMounted) {
                 // itemClick стреляет, даже если после клика начался старт редактирования, но itemClick
                 // обязательно должен случиться после события beforeBeginEdit.
@@ -5472,8 +5471,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // уведомлений о запуске редактирования происходить не должно, а дождаться построение
         // редактора невозможно(построение списка не будет завершено до выполнения данного промиса).
         return new Promise((resolve) => {
+            // Принудительно прекращаем заморозку ховера
+            if (_private.hasHoverFreezeController(this)) {
+                this._hoverFreezeController.unfreezeHover();
+            }
             // Операции над записью должны быть обновлены до отрисовки строки редактирования,
             // иначе будет "моргание" операций.
+            _private.removeShowActionsClass(this);
             _private.updateItemActions(this, this._options, item);
             this._continuationEditingDirection = null;
 
