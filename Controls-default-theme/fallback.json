@@ -668,6 +668,8 @@
   "--inline-height_headingBack": "var(--inline_height_default)",
   "--secondary_hover_text-color_headingBack": "var(--secondary_hover_text-color)",
   "--secondary_text-color_headingBack": "var(--secondary_text-color)",
+  "--primary_hover_text-color_headingBack": "var(--primary_hover_text-color)",
+  "--primary_text-color_headingBack": "var(--primary_text-color)",
   "--secondary_icon_background-image_s_headingBack": "url('../Controls-default-theme/img/BackArrowBlueSmall.svg')",
   "--secondary_icon_background-image_m_headingBack": "url('../Controls-default-theme/img/BackArrowBlue.svg')",
   "--secondary_icon_background-image_l_headingBack": "url('../Controls-default-theme/img/BackArrowBlue.svg')",
