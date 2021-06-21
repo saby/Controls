@@ -80,7 +80,7 @@ export default class AdditionalParamsRender extends Control<IAdditionalRenderOpt
 }
 /**
  * @name Controls/_filterPopup/Panel/AdditionalParams/Render#source
- * @cfg {Array<Controls/filter:IFilterItem.typedef>} Коллекция элементов для отображения.
+ * @cfg {Array<Controls/filter:IFilterItem>} Коллекция элементов для отображения.
  */
 
 /**
