@@ -281,7 +281,7 @@ export default class DataLoader {
                 loadPromise = loadDataByConfig(loadConfig, loadTimeout);
             }
             Promise.resolve(loadPromise).then((result) => {
-                if (!result.source && result.historyItems && loadConfig.type === 'list') {
+                if (loadConfig.type === 'list' && !result.source && result.historyItems) {
                     result.sourceController.setFilter(result.filter);
                 }
                 return result;
