@@ -6761,7 +6761,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             hasPaging: !!this._pagingVisible,
             loadingIndicatorState: indicatorState,
             theme: this._options.theme,
-            isPortionedSearchInProgress: !!this._portionedSearchInProgress,
+            isPortionedSearchInProgress: !!this._portionedSearchInProgress && this._loadingIndicatorState === state,
             attachLoadTopTriggerToNull: this._attachLoadTopTriggerToNull,
             attachLoadDownTriggerToNull: this._attachLoadDownTriggerToNull,
             attachLoadTopTriggerToNullOption: this._options.attachLoadTopTriggerToNull
