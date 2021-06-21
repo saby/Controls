@@ -1,4 +1,4 @@
-import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig} from 'Controls/dataSource';
+import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig, IDataLoaderOptions} from 'Controls/dataSource';
 import {Memory, PrefetchProxy} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
 import {NewSourceController} from 'Controls/dataSource';
@@ -39,8 +39,8 @@ function getSource(): Memory {
     });
 }
 
-function getDataLoader(): DataLoader {
-    return new DataLoader();
+function getDataLoader(dataLoaderOptions?: IDataLoaderOptions): DataLoader {
+    return new DataLoader(dataLoaderOptions);
 }
 
 describe('Controls/dataSource:loadData', () => {
@@ -179,6 +179,33 @@ describe('Controls/dataSource:loadData', () => {
 
         ok(loadDataPromises.length === 2);
         ok(loadResults.length === 2);
+    });
+
+    it('loadEvery with config in constructor', async () => {
+        const loadDataConfigs = [{source: getSource()}, {source: getSource()}];
+        const loadDataPromises = getDataLoader({loadDataConfigs}).loadEvery();
+        const loadResults = await Promise.all(loadDataPromises);
+
+        ok(loadDataPromises.length === 2);
+        ok(loadResults.length === 2);
+    });
+
+    it('loadEvery with different parameters', async () => {
+        const dataLoader = getDataLoader();
+        let loadDataConfigs = [{source: getSource()}, {source: getSource()}];
+        let loadDataPromises = dataLoader.loadEvery(loadDataConfigs);
+        let loadResults = await Promise.all(dataLoader.loadEvery(loadDataConfigs));
+        const sourceController = dataLoader.getSourceController();
+
+        ok(loadDataPromises.length === 2);
+        ok(loadResults.length === 2);
+
+        loadDataConfigs = [{source: getSource()}];
+        loadDataPromises = dataLoader.loadEvery(loadDataConfigs);
+        loadResults = await Promise.all(dataLoader.loadEvery(loadDataConfigs));
+        ok(loadDataPromises.length === 1);
+        ok(loadResults.length === 1);
+        ok(sourceController !== dataLoader.getSourceController());
     });
 
     it('load data with sourceController in config', async () => {
