@@ -142,6 +142,7 @@ export default class Collection<
             options.rowSeparatorSize = this._$rowSeparatorSize;
             options.colspanGroup = this._$colspanGroup;
             options.hasStickyGroup = this._$hasStickyGroup;
+            options.itemActionsPosition = this._$itemActionsPosition;
             return superFactory.call(this, options);
         };
     }

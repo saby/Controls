@@ -1480,7 +1480,9 @@ const _private = {
      * Обработать прокрутку списка виртуальным скроллом
      */
     handleListScroll(self, params) {
-
+        if (_private.hasHoverFreezeController(self) && _private.isAllowedHoverFreeze(self)) {
+            self._hoverFreezeController.unfreezeHover();
+        }
     },
 
     getTopOffsetForItemsContainer(self, itemsContainer) {
@@ -6435,6 +6437,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // и закрытию окна. Для ios отключаю реакцию на скролл, событие скролла стрельнуло на body.
         if (detection.isMobileIOS && (scrollEvent.target === document.body || scrollEvent.target === document)) {
             return;
+        }
+        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this)) {
+            this._hoverFreezeController.unfreezeHover();
         }
         _private.closeActionsMenu(this);
     }
