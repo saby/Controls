@@ -4909,6 +4909,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
                     this._handleLoadToDirection = false;
                     resolver();
+                }).catch((error) => {
+                    return error;
                 });
             }
         });
