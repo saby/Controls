@@ -3,13 +3,18 @@
 </ws:if>
 <ws:else>
    <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"
-        attr:class="{{ (item || itemData).getItemClasses((item || itemData).getItemType(itemType, nodeContentTemplate), clickable, hasTitle, cursor, marker, shadowVisibility, border) }}" attr:style="{{ (item || itemData).getItemStyles((item || itemData).getItemType(itemType, nodeContentTemplate), width || itemWidth, staticHeight, imagePosition, imageViewMode) }}">
+        attr:class="{{ (item || itemData).getItemClasses((item || itemData).getItemType(itemType, nodeContentTemplate), clickable, hasTitle, cursor, marker, shadowVisibility, border) }}"
+        attr:style="{{ (item || itemData).getItemStyles((item || itemData).getItemType(itemType, nodeContentTemplate), width || itemWidth, staticHeight, imagePosition, imageViewMode) }}"
+        attr:data-qa="controls-TileView__item_withMarker"
+   >
       <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer((item || itemData).getItemType(itemType, nodeContentTemplate), staticHeight) }}">
          <div style="{{ (item || itemData).getAutoResizerStyles((item || itemData).getItemType(itemType, nodeContentTemplate), width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
       </ws:if>
 
-      <div attr:class="{{ (item || itemData).getWrapperClasses((item || itemData).getItemType(itemType, nodeContentTemplate), shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border, titleStyle) }}"
-           attr:style="{{ (item || itemData).getWrapperStyles((item || itemData).getItemType(itemType, nodeContentTemplate)) }}">
+         <div attr:class="{{ (item || itemData).getWrapperClasses((item || itemData).getItemType(itemType, nodeContentTemplate), shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border, titleStyle) }}"
+             attr:style="{{ (item || itemData).getWrapperStyles((item || itemData).getItemType(itemType, nodeContentTemplate)) }}"
+             attr:data-qa="controls-TileView__item_withMarker"
+         >
 
          <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
                      template="{{ multiSelectTpl }}"
@@ -28,12 +33,15 @@
             </ws:multiSelectTemplate>
          </ws:partial>
 
-         <ws:partial if="{{ (item || itemData).shouldDisplayItemActions((item || itemData).getItemType(itemType, nodeContentTemplate), itemActionsPosition, 'wrapper') }}"
-                     template="{{itemActionsTemplate}}"
-                     scope="{{_options}}"
-                     actionMode="{{ (item || itemData).getActionMode((item || itemData).getItemType(itemType, nodeContentTemplate)) }}"
-                     itemActionsClass="{{ (item || itemData).getItemActionsClasses((item || itemData).getItemType(itemType, nodeContentTemplate), itemActionsClass) }}"
-                     highlightOnHover="{{ highlightOnHover }}"/>
+         <ws:partial
+            if="{{ (item || itemData).shouldDisplayItemActions((item || itemData).getItemType(itemType, nodeContentTemplate), itemActionsPosition, 'wrapper') }}"
+            template="{{itemActionsTemplate}}"
+            scope="{{_options}}"
+            actionMode="{{ (item || itemData).getActionMode((item || itemData).getItemType(itemType, nodeContentTemplate)) }}"
+            itemActionsClass="{{ (item || itemData).getItemActionsClasses((item || itemData).getItemType(itemType, nodeContentTemplate), itemActionsClass) }}"
+            highlightOnHover="{{ highlightOnHover }}"
+            attr:data-qa="controls-TileView__previewTemplate_itemActions_node"
+         />
          <ws:partial if="{{ (item || itemData).shouldDisplaySwipeTemplate() }}"
                      template="{{swipeTemplate}}"
                      itemData="{{(item || itemData)}}"

@@ -8,30 +8,41 @@
            width="{{ item.getImageWidthAttribute(itemType) }}"
            style="{{ item.getBigGradientStyles(itemType, gradientStartColor, gradientStopColor ) }}"
            class="{{ (item || itemData).getImageClasses(itemType, width || itemWidth, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
-           preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}">
-         <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width || itemWidth, imagePosition, imageViewMode, fallbackImage) }}"></image>
+           preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}"
+           attr:data-qa="controls-TileView__image"
+      >
+          <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width || itemWidth, imagePosition, imageViewMode, fallbackImage) }}"></image>
       </svg>
    </ws:if>
    <ws:else>
       <div class="{{ (item || itemData).getImageAlignClasses(imageAlign) }}">
-         <img class="{{ (item || itemData).getImageClasses(itemType, width || itemWidth, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
-              src="{{(item || itemData).getImageUrl(width || itemWidth, imagePosition, imageViewMode)}}"/>
+        <img
+            class="{{ (item || itemData).getImageClasses(itemType, width || itemWidth, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
+            src="{{(item || itemData).getImageUrl(width || itemWidth, imagePosition, imageViewMode)}}"
+            attr:data-qa="controls-TileView__image"
+        />
       </div>
    </ws:else>
 </ws:template>
 
 <ws:if data="{{ imageViewMode !== 'none' }}">
-   <div attr:class="{{ (item || itemData).getImageWrapperClasses(itemType, hasTitle, titleStyle, imageViewMode, imageProportion, imagePosition, imageSize, imageProportionOnItem) }}"
-        attr:style="{{ (item || itemData).getImageWrapperStyles(itemType, imageViewMode, imagePosition) }}">
-      <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight, imagePosition, imageViewMode, imageProportionOnItem) }}">
-         <div class="{{ (item || itemData).getAutoResizerClasses(itemType, staticHeight, hasTitle) }}" style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
-      </ws:if>
+    <div
+        attr:class="{{ (item || itemData).getImageWrapperClasses(itemType, hasTitle, titleStyle, imageViewMode, imageProportion, imagePosition, imageSize, imageProportionOnItem) }}"
+        attr:style="{{ (item || itemData).getImageWrapperStyles(itemType, imageViewMode, imagePosition) }}"
+        attr:data-qa="controls-TileView__item_animated"
+    >
+        <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight, imagePosition, imageViewMode, imageProportionOnItem) }}">
+            <div class="{{ (item || itemData).getAutoResizerClasses(itemType, staticHeight, hasTitle) }}" style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>
+        </ws:if>
 
-      <ws:partial template="imageTpl"/>
+        <ws:partial template="imageTpl"/>
 
-      <ws:if data="{{ (item || itemData).shouldDisplayGradient(itemType, imageEffect, imageViewMode, imagePosition, 'image') }}">
-         <div class="{{ (item || itemData).getGradientClasses(itemType, gradientType) }}"
-              style="{{ (item || itemData).getGradientStyles(itemType, gradientColor, gradientType) }}"></div>
-      </ws:if>
+        <ws:if data="{{ (item || itemData).shouldDisplayGradient(itemType, imageEffect, imageViewMode, imagePosition, 'image') }}">
+            <div
+                class="{{ (item || itemData).getGradientClasses(itemType, gradientType) }}"
+                style="{{ (item || itemData).getGradientStyles(itemType, gradientColor, gradientType) }}"
+            >
+            </div>
+        </ws:if>
    </div>
 </ws:if>
