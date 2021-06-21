@@ -10,7 +10,6 @@
                     name="masterList"
                     markedKey="{{_options.master.markedKey || _detailExplorerOptions.root}}"
                     style="master"
-                    newDesign="{{_options.masterNewDesign}}"
                     on:dragStart="_notifyHandler('masterDragStart')"
                     on:dragEnd="_notifyHandler('masterDragEnd')"
                     on:dragEnter="_notifyHandler('masterDragEnter')"
@@ -123,6 +122,7 @@
         masterWidth="{{_options.master ? _options.master.width}}"
         masterMinWidth="{{_options.master ? _options.master.minWidth}}"
         masterMaxWidth="{{_options.master ? _options.master.maxWidth}}"
+        newDesign="{{_options.master.newDesign}}"
 >
 
     <ws:master>
