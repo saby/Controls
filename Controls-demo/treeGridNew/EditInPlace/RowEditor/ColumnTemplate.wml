@@ -1,0 +1,12 @@
+<ws:if data="{{ item.isEditing() }}">
+    <ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}">
+        <ws:contentTemplate>
+            <div style="padding-bottom: 30px">
+                Расширенный шаблон редактирования
+            </div>
+        </ws:contentTemplate>
+    </ws:partial>
+</ws:if>
+<ws:else>
+    <ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}"/>
+</ws:else>
