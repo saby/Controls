@@ -7,6 +7,7 @@
             columns="{{_columns}}"
             rowSeparatorSize="s"
             columnSeparatorSize="s"
+            on:beforeBeginEdit="_onBeforeBeginEdit()"
             itemActions="{{_itemActions}}"
             itemActionsPosition="custom">
         <ws:editingConfig>
