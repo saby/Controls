@@ -138,7 +138,11 @@ define([
                component = createComponent(StickyHeader, options);
 
             component._container = {
-               closest: () => false
+               closest: () => false,
+               style: {
+                  top: 0,
+                  bottom: 0
+               }
             };
             component._model = {
                destroy: sinon.fake()
