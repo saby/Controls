@@ -12,11 +12,12 @@ import {
    INavigationOptionValue,
    INavigationSourceConfig,
    TFilter,
-   TKey
+   TKey,
+   ISortingOptions
 } from 'Controls/interface';
 import { RecordSet } from 'Types/collection';
 
-export interface IContextOptionsValue {
+export interface IContextOptionsValue extends ISortingOptions {
    newLayout?: boolean; // до 3100 для OnlinePage/_base/View/Content.ts и Layout/_browsers/Browser/Tabs.ts
    items?: RecordSet;
    source?: unknown;
