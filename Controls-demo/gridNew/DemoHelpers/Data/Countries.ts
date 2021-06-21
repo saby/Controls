@@ -182,7 +182,7 @@ export const Countries = {
             square: 1285220,
             populationDensity: 21.73
         }
-    ].slice(0, count || -1),
+    ].slice(0, count || undefined),
     getHeader: (): IHeaderCell[] => [
         { caption: '#' },
         { caption: 'Страна' },
@@ -198,7 +198,7 @@ export const Countries = {
         { displayProperty: 'population' },
         { displayProperty: 'square' },
         { displayProperty: 'populationDensity' }
-    ].slice(0, count || -1),
+    ].slice(0, count || undefined),
     getResults: (): IResults => ({
         full: [
             {
@@ -244,7 +244,7 @@ export const Countries = {
             displayProperty: 'populationDensity',
             width: '120px'
         }
-    ].slice(0, count || -1),
+    ].slice(0, count || undefined),
     getColumnsWithWidths: (setCompatibleWidths: boolean = true): IColumnRes[] => [
         {
             displayProperty: 'number',
