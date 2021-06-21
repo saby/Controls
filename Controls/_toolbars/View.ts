@@ -92,14 +92,14 @@ export interface IMenuOptions {
     popupFooterTemplate?: String | Function;
     /**
      * @name Controls/toolbars:IToolbar#itemActions
-     * @cfg {Array<ItemAction>} Конфигурация опций записи.
+     * @cfg {Array<Controls/itemActions:IItemAction>} Конфигурация опций записи.
      * @demo Controls-demo/Toolbar/ItemActions/Index
      */
     itemActions?: IItemAction[];
     /**
      * @name Controls/toolbars:IToolbar#itemActionVisibilityCallback
      * @cfg {function} Функция управления видимостью операций над записью.
-     * @param {ItemAction} action Объект с настройкой действия.
+     * @param {Controls/itemActions:IItemAction} action Объект с настройкой действия.
      * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
      * @remark Если из функции возвращается true, то операция отображается.
      * @demo Controls-demo/Toolbar/ItemActions/Index

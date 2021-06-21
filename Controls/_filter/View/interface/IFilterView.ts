@@ -44,7 +44,7 @@ export interface IFilterView {
 
 /**
  * @name Controls/_filter/View/interface/IFilterView#source
- * @cfg {Array.<Controls/filter:IFilterItem.typedef>} Устанавливает список полей фильтра и их конфигурацию.
+ * @cfg {Array.<Controls/filter:IFilterItem>} Устанавливает список полей фильтра и их конфигурацию.
  * В числе прочего, по конфигурации определяется визуальное представление поля фильтра в составе контрола.
  * @demo Controls-demo/Filter_new/FilterView/Source/AdditionalTemplateProperty/Index
  * @example
