@@ -938,10 +938,11 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             if (hasAdditional) {
                 this._visibleIds.splice(MAX_HISTORY_VISIBLE_ITEMS_COUNT);
             }
+
             fixedIds.forEach((fixedId) => {
-               if (!this._visibleIds.includes(fixedId)) {
-                   this._visibleIds.push(fixedId);
-               }
+                if (!this._visibleIds.includes(fixedId)) {
+                    this._visibleIds.push(fixedId);
+                }
             });
         }
         return hasAdditional;
