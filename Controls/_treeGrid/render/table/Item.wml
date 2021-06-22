@@ -16,7 +16,8 @@
             attr:style="{{ gridColumn.getWrapperStyles(containerSize) }}"
             attr:colspan="{{ gridColumn.getColspan() }}"
             attr:rowspan="{{ gridColumn.getRowspan() }}">
-            <div class="{{ gridColumn.getRelativeCellWrapperClasses(theme) }}">
+            <div class="{{ gridColumn.getRelativeCellWrapperClasses() }}"
+                 style="{{ gridColumn.getRelativeCellWrapperStyles() }}">
                 <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker) }}"
                      attr:class="{{ gridColumn.getMarkerClasses(theme, style) }}"></div>
 
