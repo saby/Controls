@@ -92,7 +92,7 @@ export interface ILoadDataResult extends ILoadDataConfig {
 
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
 type TLoadConfig = ILoadDataConfig|ILoadDataCustomConfig;
-type TLoadResult = ILoadDataResult|ILoadDataCustomConfig;
+type TLoadResult = ILoadDataResult|ILoadDataCustomConfig|boolean;
 type TLoadPromiseResult = Promise<TLoadResult>;
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
@@ -386,7 +386,7 @@ export default class DataLoader {
     ): void {
         this._loadedConfigStorage.clear();
         data.forEach((result) => {
-            this._loadedConfigStorage.set(result.id || Guid.create(), result);
+            this._loadedConfigStorage.set(result?.id || Guid.create(), result);
         });
     }
 
