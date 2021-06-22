@@ -3,7 +3,7 @@
         keyProperty="id"
         source="{{_source}}"
         displayProperty="title"
-        iconSize="m"
+        iconSize="{{_options.iconSize}}"
         iconStyle="{{_options.iconStyle}}"
         viewMode="{{_options.viewMode}}"
         fontSize="m"
