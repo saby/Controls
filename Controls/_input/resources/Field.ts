@@ -281,6 +281,9 @@ class Field<Value, ModelOptions>
     }
 
     protected _beforeUpdate(options: IFieldOptions<Value, ModelOptions>): void {
+        if (!isEqual(this._model, options.model)) {
+           this._model = options.model;
+        }
         const currentDisplayValue: string = this._model.displayValue;
         if (this._model.displayValueBeforeUpdate !== currentDisplayValue) {
             this._changeEventController.fixed(currentDisplayValue);
