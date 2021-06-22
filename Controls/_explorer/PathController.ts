@@ -96,6 +96,7 @@ export default class PathController extends Control<IOptions> {
         // Если пользовательский контент первой ячейки заголовка не задан, то
         // то задаем наш шаблон с хлебными крошками
         if (
+            options.breadcrumbsVisibility !== 'hidden' &&
             firstHeaderCell &&
             !(firstHeaderCell.title || firstHeaderCell.caption) &&
             !firstHeaderCell.template
