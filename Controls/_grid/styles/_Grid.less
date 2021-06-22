@@ -91,12 +91,6 @@
    min-width: auto;
 }
 
-.controls-ColumnScroll__thumbWrapper,
-.controls-Grid_columnScroll_wrapper {
-   z-index: 4;
-   position: sticky;
-}
-
 /* Этот костыль выпилен в 6000 по https://online.sbis.ru/opendoc.html?guid=f5e830c3-7be2-4272-9c38-594c241401cc */
 .ws-is-desktop-safari .controls-Grid__columnScroll_will-transform,
 .ws-is-mobile-safari .controls-Grid__columnScroll_will-transform {
@@ -251,14 +245,6 @@
 .controls-Grid__row-cell_master {
    font-size: var(--font-size_l);
    border-bottom: var(--master_item_separator_thickness_list) solid var(--master_item_background-color_list) ;
-}
-
-.controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
-   z-index: 3;
-}
-
-.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-ladder-cell {
-   z-index: 4;
 }
 
 // Строка редактирования имеет свой z-index, который вешается на все ячейки.
