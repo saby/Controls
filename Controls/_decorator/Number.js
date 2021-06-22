@@ -102,6 +102,13 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
  */
 
 /**
+ * @name Controls/_decorator/INumber#underline
+ * @cfg {Controls/_decorator/INumber/TUnderline.typedef} Вариант подчеркивания.
+ * @default none
+ * @demo Controls-demo/Decorator/Number/Underline/Index
+ */
+
+/**
  * Тип данных для форматируемого значения
  * @typedef {string|number|null} Controls/_decorator/INumber/TValue
  */
@@ -111,6 +118,13 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
  * @typedef {string} Controls/_decorator/INumber/TAbbreviationType
  * @variant short
  * @variant long
+ * @variant none
+ */
+
+/**
+ * Тип данных для подчеркивания
+ * @typedef {string} Controls/_decorator/INumber/TUnderline
+ * @variant hovered
  * @variant none
  */
 
