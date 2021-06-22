@@ -105,9 +105,13 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     private _gridAutoShadows: boolean = true;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
-        getSettings(['scrollbarVisible']).then((storage) => {
-            if (storage?.scrollbarVisible) {
-                ScrollbarsModel.wheelEventHappened = storage.scrollbarVisible;
+        // Будем показывать скроллбар до тех пор, пока пользователь не воспользовался колесиком мышки, даже если
+        // прикладник задал опцию scrollbarVisible=false.
+        // Таким образом пользователи без колесика мышки смогут скроллить контент.
+        // Если пользователь использовал колесико мышки - записываем это в localstorage
+        getSettings(['scrollContainerWheelEventHappened']).then((storage) => {
+            if (storage?.scrollContainerWheelEventHappened) {
+                ScrollbarsModel.wheelEventHappened = storage.scrollContainerWheelEventHappened;
             }
         });
         this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
@@ -464,7 +468,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _onWheelHandler(): void {
         if (!ScrollbarsModel.wheelEventHappened) {
-            setSettings({scrollbarVisible: true });
+            setSettings({scrollContainerWheelEventHappened: true });
             ScrollbarsModel.wheelEventHappened = true;
         }
     }

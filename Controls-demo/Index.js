@@ -29,8 +29,12 @@ define('Controls-demo/Index', [
                   var controlId = ids[0];
                   if (!storage[controlId]) {
                      storage[controlId] = 1000;
-                     if (controlId.indexOf('master') > -1 || controlId.indexOf('scrollbarVisible') > -1) {
+                     if (controlId.indexOf('master') > -1) {
                         storage[controlId] = undefined;
+                     }
+                     if (controlId.indexOf('scrollContainerWheelEventHappened') > -1) {
+                        // Уберем скроллбар с демок
+                        storage[controlId] = true;
                      }
                   }
                   return (new Deferred()).callback(storage);
