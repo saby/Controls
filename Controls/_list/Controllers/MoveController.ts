@@ -196,7 +196,7 @@ export class MoveController {
     private _moveInSourceWithCallback(selection: ISelectionObject,
                                       filter: TFilterObject,
                                       target: Model | CrudEntityKey): Promise<DataSet> {
-        const root = (this._popupOptions.templateOptions as IMoverDialogTemplateOptions).root || null;
+        const root = (this._popupOptions?.templateOptions as IMoverDialogTemplateOptions)?.root || null;
         const targetKey = target === root ? target : (target as Model).getKey();
         let callbackResult: Promise<void> | boolean;
         if (this._popupOptions.beforeMoveCallback) {
