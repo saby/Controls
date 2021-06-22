@@ -12,5 +12,5 @@ export default class extends Control {
         this._source = getSource();
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo'];
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/PropertyGridNew/Group/Expander/Expander'];
 }
