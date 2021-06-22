@@ -1,7 +1,7 @@
 import {Model} from 'Types/entity';
 import {getWidth} from 'Controls/sizeUtils';
 import {hasHorizontalScroll as hasHorizontalScrollUtil} from 'Controls/scroll';
-import {CONSTANTS} from 'Controls/editInPlace';
+import {CONSTANTS} from './Types';
 
 const typographyStyles = [
     'fontFamily',
