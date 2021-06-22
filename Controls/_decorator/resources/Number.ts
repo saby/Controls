@@ -18,6 +18,7 @@ import {
 type TValue = string | number | null;
 
 type TAbbreviationType = 'none' | 'short' | 'long';
+type TUnderline = 'hovered' | 'none';
 type RoundingFn = (number: string, precision: number) => string;
 
 export type RoundMode = 'round' | 'trunc';
@@ -29,6 +30,7 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
     precision?: number;
     roundMode: RoundMode;
     abbreviationType?: TAbbreviationType;
+    underline?: TUnderline;
 }
 
 export function calculateMainClass(
