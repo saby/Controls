@@ -45,6 +45,7 @@ export interface IOptions<T> extends IBaseOptions<T> {
     columnSeparatorSize?: TColumnSeparatorSize;
     colspanGroup?: boolean;
     hasStickyGroup?: boolean;
+    itemActionsPosition?: 'inside' | 'outside' | 'custom';
 }
 
 export default abstract class Row<T> {
@@ -63,6 +64,7 @@ export default abstract class Row<T> {
     protected _$rowTemplate: TemplateFunction;
     protected _$rowTemplateOptions: object;
     protected _$columns: TColumns;
+    protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
     protected _$backgroundStyle: string;
     protected _savedColumns: TColumns;
 
@@ -287,6 +289,7 @@ export default abstract class Row<T> {
                 contentStyle: `left: -${this.getColumnsConfig()[0].width}; right: 0;`,
                 stickyProperty: stickyLadderProperties[1],
                 isFixed: this.hasColumnScroll(),
+                isPointerEventsDisabled: this._$itemActionsPosition === 'outside',
                 stickyHeaderZIndex: 1
             }));
         }
@@ -301,6 +304,7 @@ export default abstract class Row<T> {
                     contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this.getColumnsConfig()[0].width};` : '',
                     stickyProperty: stickyLadderProperties[0],
                     isFixed: this.hasColumnScroll(),
+                    isPointerEventsDisabled: this._$itemActionsPosition === 'outside',
                     stickyHeaderZIndex: 2
                 })
             ] as Array<Cell<T, Row<T>>>).concat(this._$columnItems);
@@ -774,5 +778,6 @@ Object.assign(Row.prototype, {
     _$colspanCallback: null,
     _$columnSeparatorSize: null,
     _$backgroundStyle: 'default',
+    _$itemActionsPosition: 'inside',
     _$editingColumnIndex: null,
 });

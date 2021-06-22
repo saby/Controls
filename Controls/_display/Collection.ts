@@ -3152,7 +3152,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                                    conditionProperty?: string,
                                    silent?: boolean): void {
         this._getItems().forEach((item: CollectionItem<S>) => {
-            if (!conditionProperty || item[conditionProperty]) {
+            // todo Разобраться, почему item === undefined по https://online.sbis.ru/opendoc.html?guid=9018fdea-5de1-4b89-9f48-fb8ded0673cd
+            if (item && (!conditionProperty || item[conditionProperty])) {
                 item[updateMethodName](newPropertyValue, silent);
             }
         });
@@ -3577,7 +3578,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             processedIndices.add(index);
             item = items[index];
             match = true;
-            if (item['[Controls/_display/GroupItem]']) {
+            if (item['[Controls/_display/SearchSeparator]']) {
+                changed = applyMatch(match, index) || changed;
+            } else if (item['[Controls/_display/GroupItem]']) {
                 // A new group begin, check match for previous
                 if (prevGroup) {
                     match = isMatch(prevGroup, prevGroupIndex, prevGroupPosition, prevGroupHasMembers);
@@ -3589,7 +3592,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 prevGroupIndex = index;
                 prevGroupPosition = position;
                 prevGroupHasMembers = false;
-            } else if (!(item['[Controls/_display/SearchSeparator]'])) {
+            } else {
                 // Check item match
                 match = isMatch(item, index, position);
                 changed = applyMatch(match, index) || changed;

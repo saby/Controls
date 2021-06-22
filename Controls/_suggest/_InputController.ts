@@ -507,7 +507,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       // toDO Пока что делаем лишний вызов на бл, ждем доработки хелпера от Шубина
       this._getHistoryService().addCallback((historyService) => {
          historyService.query().addCallback((dataSet) => {
-            if (this._historyLoad) {
+            if (this._historyLoad && !this._historyLoad.isReady()) {
                const keys = [];
                dataSet.getRow().get('recent').each((item) => {
                   keys.push(item.get('ObjectId'));

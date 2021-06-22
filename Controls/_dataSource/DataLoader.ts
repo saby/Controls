@@ -92,7 +92,7 @@ export interface ILoadDataResult extends ILoadDataConfig {
 
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
 type TLoadConfig = ILoadDataConfig|ILoadDataCustomConfig;
-type TLoadResult = ILoadDataResult|ILoadDataCustomConfig;
+type TLoadResult = ILoadDataResult|ILoadDataCustomConfig|boolean;
 type TLoadPromiseResult = Promise<TLoadResult>;
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
@@ -254,29 +254,34 @@ export default class DataLoader {
     }
 
     load<T extends ILoadDataResult>(
-        sourceConfigs: TLoadConfig[] = this._loadDataConfigs
+        sourceConfigs?: TLoadConfig[]
     ): Promise<TLoadResult[]> {
-        return Promise.all(this.loadEvery<T>(sourceConfigs)).then((results) => {
-            this._fillLoadedConfigStorage(results);
-            return results;
-        });
+        return Promise.all(this.loadEvery<T>(sourceConfigs));
     }
 
     loadEvery<T extends ILoadDataConfig|ILoadDataCustomConfig>(
-        sourceConfigs: TLoadConfig[] = this._loadDataConfigs,
+        sourceConfigs?: TLoadConfig[],
         loadTimeout?: number
     ): TLoadPromiseResult[] {
         const loadDataPromises = [];
         let loadPromise;
+        let configs;
 
-        sourceConfigs.forEach((loadConfig) => {
+        if (sourceConfigs) {
+            this._loadedConfigStorage.clear();
+            configs = sourceConfigs;
+        } else {
+            configs = this._loadDataConfigs;
+        }
+
+        configs.forEach((loadConfig) => {
             if (loadConfig.type === 'custom') {
                 loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments).catch((error) => error);
             } else {
                 loadPromise = loadDataByConfig(loadConfig, loadTimeout);
             }
             Promise.resolve(loadPromise).then((result) => {
-                if (!result.source && result.historyItems && loadConfig.type === 'list') {
+                if (loadConfig.type === 'list' && !result.source && result.historyItems) {
                     result.sourceController.setFilter(result.filter);
                 }
                 return result;
@@ -296,6 +301,9 @@ export default class DataLoader {
                 });
             }
             loadDataPromises.push(loadPromise);
+        });
+        Promise.all(loadDataPromises).then((results) => {
+            this._fillLoadedConfigStorage(results);
         });
 
         return loadDataPromises;
@@ -386,7 +394,7 @@ export default class DataLoader {
     ): void {
         this._loadedConfigStorage.clear();
         data.forEach((result) => {
-            this._loadedConfigStorage.set(result.id || Guid.create(), result);
+            this._loadedConfigStorage.set(result?.id || Guid.create(), result);
         });
     }
 

@@ -7,6 +7,11 @@
    position: relative;
 }
 
+.controls-MasterDetail_master-template .controls-Grid_master {
+   box-sizing: border-box;
+   padding-right: var(--master_item_horizontal-offset_list);
+}
+
 .controls-OldGridView__emptyTemplate,
 .controls-GridView__emptyTemplate {
    display: contents;
@@ -89,12 +94,6 @@
    // With enabled column scroll and setting the value of grid column width as 'auto' in template columns, flex starts to shrink
    // because grid has no fixed width and hack as min-width allows such behaviour.
    min-width: auto;
-}
-
-.controls-ColumnScroll__thumbWrapper,
-.controls-Grid_columnScroll_wrapper {
-   z-index: 4;
-   position: sticky;
 }
 
 /* Этот костыль выпилен в 6000 по https://online.sbis.ru/opendoc.html?guid=f5e830c3-7be2-4272-9c38-594c241401cc */
@@ -251,14 +250,6 @@
 .controls-Grid__row-cell_master {
    font-size: var(--font-size_l);
    border-bottom: var(--master_item_separator_thickness_list) solid var(--master_item_background-color_list) ;
-}
-
-.controls-ColumnScroll_visible .controls-GridNew__cell_fixed {
-   z-index: 3;
-}
-
-.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-ladder-cell {
-   z-index: 4;
 }
 
 // Строка редактирования имеет свой z-index, который вешается на все ячейки.
@@ -542,6 +533,10 @@
    // иначе не будет работать мини-карточка
    // https://online.sbis.ru/opendoc.html?guid=873e5d1a-016f-456f-b51e-1a67a18a53d4
    pointer-events: auto;
+}
+
+.controls-Grid__ladder-cell__withoutPointerEvents {
+   pointer-events: none;
 }
 
 // скрыть разделитель перед первой строкой в группе

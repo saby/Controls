@@ -472,8 +472,12 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             this.setExpandedItems(newOptions.expandedItems);
         }
 
-        if (isSourceChanged && this._crudWrapper) {
-            this._crudWrapper.updateOptions({source: newOptions.source as ICrud});
+        if (isSourceChanged) {
+            if (newOptions.source) {
+                this._crudWrapper?.updateOptions({source: newOptions.source as ICrud});
+            } else {
+                this._crudWrapper = null;
+            }
         }
 
         if (isNavigationChanged) {
@@ -702,10 +706,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         let hierarchyRelation;
 
         if (this._hasNavigationBySource()) {
-            if (this._deepReload || !direction && this._root === id) {
+            const isMultiNavigation = this._isMultiNavigation(navigationConfig, list);
+            if ((this._deepReload || !direction && this._root === id) && !isMultiNavigation) {
                 this._destroyNavigationController();
             }
-            if (this._options.parentProperty && this._isMultiNavigation(navigationConfig)) {
+            if (this._options.parentProperty && isMultiNavigation) {
                 hierarchyRelation = this._getHierarchyRelation();
             }
             this._getNavigationController(this._navigation)
@@ -761,8 +766,12 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return resultQueryParams;
     }
 
-    private _isMultiNavigation(navigationSourceConfig: INavigationSourceConfig): boolean {
-        return (navigationSourceConfig || this._options.navigation.sourceConfig)?.multiNavigation;
+    private _isMultiNavigation(
+        navigationSourceConfig: INavigationSourceConfig,
+        list?: RecordSet
+    ): boolean {
+        return (navigationSourceConfig || this._options.navigation.sourceConfig)?.multiNavigation ||
+                list?.getMetaData().more instanceof RecordSet;
     }
 
     private _addItems(items: RecordSet, key: TKey, direction: Direction): RecordSet {

@@ -9,13 +9,13 @@
 
 <ws:template name="master">
    <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
-      <div class="controls-MasterDetail_master" style="{{ _masterFixed ? 'position: sticky; top: ' + _options.masterOffsetTop + 'px; max-height: calc(100vh - ' + _options.masterOffsetTop + 'px);' }} width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
+      <div class="controls-MasterDetail_master" style="{{ _masterFixed ? 'position: sticky; top: ' + _options.masterOffsetTop + 'px;' + _getMasterStyle(_options.scrollTop, _options.scrollOffsetTop, _options.masterOffsetTop) }} width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
            on:touchstart="_touchstartHandler()"
            on:touchmove="_touchMoveHandler()"
            on:touchend="_touchendHandler()">
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:if data="{{_masterFixed}}">
-               <Controls.scroll:Container attr:style="max-height: calc(100vh - {{ _options.masterOffsetTop }}px);">
+               <Controls.scroll:Container attr:style="{{_getMasterStyle(_options.scrollTop, _options.scrollOffsetTop, _options.masterOffsetTop)}}">
                   <ws:partial template="masterContentTemplate" />
                </Controls.scroll:Container>
             </ws:if>

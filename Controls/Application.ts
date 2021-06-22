@@ -17,6 +17,7 @@ import {setController as setSettingsController, IPopupSettingsController} from
        'Controls/Application/SettingsController';
 import {ManagerClass as PopupManager, GlobalController as PopupGlobalController, IPopupItem} from
        'Controls/popup';
+import {PendingClass, IPendingConfig} from 'Controls/Pending';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 import { getConfig } from 'Application/Env';
@@ -135,6 +136,7 @@ export default class Application extends Control<IApplication> {
    private _isPopupShow: boolean;
    private _isSuggestShow: boolean;
    private _touchController: TouchDetect;
+   private _pendingController: PendingClass;
 
    // start hooks
    protected _beforeMount(options: IApplication): void {
@@ -170,6 +172,13 @@ export default class Application extends Control<IApplication> {
       this._createPopupManager(options);
       this._createRegisters();
       this._createTouchDetector();
+
+      const pendingOptions = {
+         notifyHandler: (eventName: string, args?: []) => {
+            return this._notify(eventName, args, {bubbling: true});
+         }
+      };
+      this._pendingController = new PendingClass(pendingOptions);
    }
    protected _afterMount(options: IApplication): void {
       // Подписка через viewPort дает полную информацию про ресайз страницы, на мобильных устройствах
@@ -557,6 +566,21 @@ export default class Application extends Control<IApplication> {
    protected _popupEventHandler(event, action): void {
       let args = Array.prototype.slice.call(arguments, 2);
       this._popupManager.eventHandler.apply(this._popupManager, [action, args]);
+   }
+
+   protected _registerPendingHandler(event: Event, promise: Promise<unknown>, config: IPendingConfig): void {
+      event.stopPropagation();
+      this._pendingController.registerPending(promise, config);
+   }
+
+   protected _finishPendingHandler(event: Event, forceFinishValue: boolean, root: string): Promise<unknown> {
+      event.stopPropagation();
+      return this._pendingController.finishPendingOperations(forceFinishValue, root);
+   }
+
+   protected _cancelFinishingPendingHandler(event: Event, root: string): void {
+      event.stopPropagation();
+      this._pendingController.cancelFinishingPending(root);
    }
 
    /**

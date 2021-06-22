@@ -29,6 +29,10 @@
      on:workspaceResize="_popupEventHandler('workspaceResize')"
      on:pageScrolled="_popupEventHandler('pageScrolled')"
 
+     on:registerPending="_registerPendingHandler()"
+     on:finishPendingOperations="_finishPendingHandler()"
+     on:cancelFinishingPending="_cancelFinishingPendingHandler()"
+
      on:_updateDraggingTemplate="_updateDraggingTemplate()"
      on:_removeDraggingTemplate="_removeDraggingTemplate()"
      on:_documentDragStart="_documentDragStart()"

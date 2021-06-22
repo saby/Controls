@@ -196,5 +196,5 @@ export function fillAdditionalZeros(str: string, precision: number) {
 }
 
 export function correctNumberValue(value: string): string {
-    return value.replace('-', '- ');
+    return value.replace(/-\b/, '- ');
 }

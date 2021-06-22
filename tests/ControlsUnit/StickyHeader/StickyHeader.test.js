@@ -131,6 +131,44 @@ define([
          // });
       });
 
+      describe('_componentDidMount', function() {
+         it('should restore scrollTop', function() {
+            const sandbox = sinon.createSandbox();
+            const component = createComponent(StickyHeader, options);
+            sandbox.stub(component, '_isStickyEnabled').returns(false);
+            component._container = {
+               style: {
+                  top: 1,
+                  bottom: 1
+               },
+               dataset: {
+                  stickyBlockNode: 'true'
+               }
+            };
+            component._componentDidMount();
+            assert.equal(component._container.style.top, 0);
+            sandbox.restore();
+         });
+
+         it('should\'t restore scrollTop', function () {
+            const sandbox = sinon.createSandbox();
+            const component = createComponent(StickyHeader, options);
+            sandbox.stub(component, '_isStickyEnabled').returns(false);
+            component._container = {
+               style: {
+                  top: 1,
+                  bottom: 1
+               },
+               dataset: {
+                  stickyBlockNode: ''
+               }
+            };
+            component._componentDidMount();
+            assert.equal(component._container.style.top, 1);
+            sandbox.restore();
+         });
+      });
+
       describe('_beforeUnmount', function() {
          it('should destroy all inner objects', function() {
             const

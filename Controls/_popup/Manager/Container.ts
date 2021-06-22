@@ -134,13 +134,16 @@ class Container extends Control<IControlOptions> {
 
     private _registerPendingHandler(event: Event, promise: Promise<unknown>, config: IPendingConfig): void {
         this._pendingController.registerPending(promise, config);
+        event.stopPropagation();
     }
 
     private _finishPendingHandler(event: Event, forceFinishValue: boolean, root: string): Promise<unknown> {
+        event.stopPropagation();
         return this._pendingController.finishPendingOperations(forceFinishValue, root);
     }
 
     private _cancelFinishingPendingHandler(event: Event, root: string): void {
+        event.stopPropagation();
         this._pendingController.cancelFinishingPending(root);
     }
 

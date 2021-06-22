@@ -26,4 +26,28 @@ export default class TreeGridViewTable extends TreeGridView {
     protected _getGridViewStyles(): string {
         return '';
     }
+
+    onViewResized(): void {
+        super.onViewResized();
+
+        // Обновление авто-высоты контента, в IE иначе не работает.
+        this._fixIETableCellAutoHeightBug();
+    }
+
+    private _fixIETableCellAutoHeightBug(): void {
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        // Данная конструкция "пересчелкивает" высоту блока, довольно безопасно, без скачков.
+        // В IE td поддерживает position: relative лишь частично, который так нужен для
+        // позиционирования абсолютных частей элементов(actions, marker).
+        // Не поддерживается автовысота, она считается только когда действительно поменялась высота стилями.
+        window.requestAnimationFrame(() => {
+            this._children.redrawWrapperStyles.innerHTML = '.controls-Grid_table-layout .controls-Grid__row-cell__content { flex-basis: 100% }';
+            window.requestAnimationFrame(() => {
+                this._children.redrawWrapperStyles.innerHTML = '';
+            });
+        });
+    }
 }

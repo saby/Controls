@@ -149,7 +149,9 @@ export default class View extends Control<IOptions, IReceivedState> {
     }
 
     private _processItems(items: RecordSet): void {
-        this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+        if (items) {
+            this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+        }
     }
 
     protected _beforeMount(
@@ -267,7 +269,9 @@ export default class View extends Control<IOptions, IReceivedState> {
     }
 
     private _processItemsMetadata(items: RecordSet, options: IOptions = this._options): void {
-        this._applyListConfiguration(options.listConfiguration || getListConfiguration(items), options);
+        if (items) {
+            this._applyListConfiguration(options.listConfiguration || getListConfiguration(items), options);
+        }
     }
 
     /**

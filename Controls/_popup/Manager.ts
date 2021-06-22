@@ -146,6 +146,8 @@ class Manager {
                 }
                 this._redrawItems();
             });
+        } else if (defaultConfigResult === false) {
+            this._fireEventHandler(item, 'onClose');
         } else {
             this._addElement(item);
             this._redrawItems();

@@ -218,7 +218,7 @@
   "--border-radius_4xl_button_functionalButton": "22px",
   "--border-radius_5xl_button_functionalButton": "24px",
   "--border-radius_default_button_functionalButton": "12px",
-  "--min-width_button_button": "calc(var(--inline_height_default_button) + var(--padding-horizontal_m_button) * 2)",
+  "--min-width_button_button": "calc(var(--inline_height_m) + var(--padding-horizontal_m_button) * 2)",
   "--text-color_button": "var(--text-color)",
   "--readonly_text-color_button": "var(--readonly_color)",
   "--readonly_text-color_button_button": "var(--readonly_text-color_button)",
@@ -256,7 +256,7 @@
   "--readonly_border-color_ArrowButton": "rgba(0, 0, 0, 0.08)",
   "--border-color_hover_ArrowButton": "#CCC",
   "--icon-color_ArrowButton": "#999",
-  "--hover_icon-color_ArrowButton": "var(--hover_text-color_button)",
+  "--hover_icon-color_ArrowButton": "var(--text-color_button)",
   "--readonly_icon-color_ArrowButton": "#CCC",
   "--width_ArrowButton": "var(--width_s_ArrowButton)",
   "--height_ArrowButton": "var(--height_s_ArrowButton)",
@@ -495,8 +495,8 @@
   "--box-shadow_closeButton_toolButton": "var(--box-shadow_button)",
   "--box-shadow_closeButton_functionalButton": "none",
   "--background-color_closeButton_toolButton": "var(--background-color_button_toolButton)",
-  "--background-color_hover_closeButton_toolButton": "var(--background-color_hover_button_toolButton)",
-  "--background-color_active_closeButton_toolButton": "var(--background-color_active_button_toolButton)",
+  "--background-color_hover_closeButton_toolButton": "var(--background-color_contrast_hover_button_toolButton)",
+  "--background-color_active_closeButton_toolButton": "var(--background-color_contrast_active_button_toolButton)",
 
   "--icon-size_closeButton_toolButton": "12px",
   "--icon-size_closeButton_link": "var(--icon-size_closeButton_toolButton)",
@@ -554,7 +554,7 @@
   "--background-color_infobox": "#f7f8fa",
   "--info_background-color_infobox": "#f2f2fe",
   "--font-size_infobox": "var(--font-size_l)",
-  "--marker-thickness_infobox": "var(--border-thickness_infobox)",
+  "--marker-thickness_infobox": "var(--border-thickness)",
   "--header_padding-left_dialog": "var(--offset_m)",
   "--header-min-height_dialog": "44px",
   "--header_lineheight_dialog": "27px",
@@ -928,7 +928,7 @@
   "--basic_item_reset-button_icon-size_filterPanel": "var(--icon-size_s)",
   "--basic_item_reset-button_icon-color_filterPanel": "#CCC",
   "--extended_content_padding-left_filterPanel": "var(--basic_content_padding-left_filterPanel)",
-  "--extended_max-height_filterPanel": "calc(var(--extended_item_height_filterPanel) * 5)",
+  "--extended_max-height_filterPanel": "calc(var(--item_height_filterPanel) * 5)",
   "--extended_group_height_filterPanel": "40px",
   "--extended_heading_text-color_filterPanel": "var(--secondary_text-color_heading)",
 
@@ -968,16 +968,16 @@
 
   "--toolbar_padding-right_editableArea": "5px",
 
-  "--height_applyButton_editableArea": "var(--inline_height_m_button)",
+  "--height_applyButton_editableArea": "var(--inline_height_m)",
 
   "--border-radius_applyButton_editableArea": "12px",
-  "--box-shadow_applyButton_editableArea": "0 1px 4px rgba(0, 0, 0, 0.05)",
+  "--box-shadow_applyButton_editableArea": "var(--box-shadow_contrast-button)",
   "--background-color_applyButton_editableArea": "var(--success_color)",
   "--background-color_hover_applyButton_editableArea": "var(--success_hover_background-color_button_functionalButton)",
 
   "--text-shadow_applyButton_editableArea": "var(--text-shadow_button)",
   "--icon-size_applyButton_editableArea": "var(--icon-size_s)",
-  "--height_closeButton_editableArea": "var(--inline_height_m_button)",
+  "--height_closeButton_editableArea": "var(--inline_height_m)",
   "--width_closeButton_editableArea": "24px",
   "--border-thickness_closeButton_editableArea": "0",
   "--border-color_closeButton_editableArea": "var(--border-color_closeButton_toolButton)",
@@ -1044,7 +1044,7 @@
   "--item_font-size_menu": "var(--font-size_l)",
   "--item_text-color_menu": "var(--text-color)",
   "--empty-item_text-color_menu": "#ccc",
-
+  "--readonly_item_text-color_menu": "var(--readonly_color)",
   "--item_height_menu": "32px",
   "--item_padding-horizontal_s_menu": "var(--offset_2xs)",
   "--item_padding-horizontal_l_menu": "var(--offset_m)",
@@ -1056,7 +1056,9 @@
 
   "--hierarchy_icon_offset-right_menu": "var(--offset_xs)",
   "--hierarchy_icon_offset-left_menu": "var(--offset_xs)",
-
+  "--pin-button_offset-right_menu": "var(--offset_m)",
+  "--pin-button_icon-size_menu": "var(--icon-size_s)",
+  "--pin-button_offset-left_menu": "var(--offset_xs)",
   "--marker_width_menu": "6px",
   "--marker_height_menu": "9px",
   "--marker_color_menu": "#d94700",
@@ -1365,9 +1367,9 @@
   "--item_padding-bottom_s_grid": "3px",
   "--item_padding-bottom_l_grid": "var(--offset_xs)",
   "--cell_padding-left_s_grid": "3px",
-  "--cell_padding-left_default_grid": "var(--cell_padding-left_l_grid)",
+  "--cell_padding-left_default_grid": "var(--offset_xs)",
   "--cell_padding-right_s_grid": "3px",
-  "--cell_padding-right_default_grid": "var(--cell_padding-right_l_grid)",
+  "--cell_padding-right_default_grid": "var(--offset_xs)",
   "--item_font-size_s_grid": "var(--font-size_s)",
   "--item_font-size_m_grid": "var(--font-size_m)",
   "--item_font-size_l_grid": "var(--font-size_l)",
@@ -1474,6 +1476,7 @@
   "--height_medium_tile": "158px",
   "--gradient_dark_height_preview_tile": "14px",
   "--gradient_light_height_preview_tile": "4px",
+  "--text_light_color_preview_tile": "var(--background-color)",
 
   "--title_multi_line_height_preview_tile": "48px",
 
@@ -1568,9 +1571,9 @@
   "--danger_text-color_decorator_fraction": "#ceb1b1",
   "--stroked_line-color_decorator": "#999",
 
-  "--monthview_width_monthSlider": "calc(var(--monthview_item_width_monthSlider) * 7 + var(--monthview_item_border-thickness_monthSlider) * 8)",
+  "--monthview_width_monthSlider": "calc(var(--monthview_item_height_monthSlider) * 7 + var(--monthview_item_border-thickness_monthSlider) * 8)",
   "--monthview_height_monthSlider": "calc(var(--weekdays_height_monthSlider) + var(--header_height_monthSlider) + 6 * (var(--monthview_item_height_monthSlider) + var(--monthview_item_border-thickness_monthSlider)))",
-
+  "--monthview_item_border-thickness_monthSlider": "var(--border-thickness)",
   "--header_height_monthSlider": "28px",
   "--arrow_icon-size_monthSlider": "var(--icon-size_s)",
   "--heading_text-color_monthSlider": "#587AB0",
