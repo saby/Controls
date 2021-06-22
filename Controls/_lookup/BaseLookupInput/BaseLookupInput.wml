@@ -15,6 +15,7 @@
             source="{{_options.suggestSource || _options.source}}"
             suggestTarget="{{_options.suggestTarget}}"
             keyProperty="{{_options.suggestKeyProperty || _options.keyProperty}}"
+            parentProperty="{{_options.parentProperty}}"
             historyId="{{_options.historyId}}"
             searchParam="{{_options.searchParam}}"
             searchDelay="{{_options.searchDelay}}"
