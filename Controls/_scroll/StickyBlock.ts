@@ -190,6 +190,15 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     }
 
     protected _componentDidMount(options: IStickyHeaderOptions): void {
+        // Компонент иногда модифицирует стили до циклов синхронизации чтобы не было миганий. Из-за этого имеем
+        // следующую ошибку. Заголовок уничтожается, и на том же dom контейнере строится новый компонент.
+        // Несмотря на то, что _style === '', на дом элементе остаются стили от старого компонента.
+        // Если стили остались, то чистим их.
+        // TODO: После того как заменим инферно на реакт проблемы скорее не будет.
+        if (this._container.dataset?.stickyBlockNode) {
+            this._container.style.top = '';
+            this._container.style.bottom = '';
+        }
         if (!this._isStickyEnabled(options)) {
             return;
         }
@@ -245,16 +254,9 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     }
 
     protected _beforeUnmount(): void {
-        // Компонент иногда модифицирует стили до циклов синхронизации чтобы не было миганий. Из-за этого имеем
-        // следующую ошибку. Заголовок уничтожается, и на том же dom контейнере строится новый компонент.
-        // Несмотря на то, что _style === '', на дом элементе остаются стили от старого компонента.
-        // Если стили остались, то чистим их.
-        // TODO: После того как заменим инферно на реакт проблемы скорее не будет.
-        if (this._container.style.top || this._container.style.bottom) {
-            this._container.style.top = '';
-            this._container.style.bottom = '';
-        }
-
+        // Установим дата аттрибут, чтобы в будущем была возможность определить, был ли в этой ноде стики блок.
+        // Подробности в комментарии в _componentDidMount.
+        this._container.dataset?.stickyBlockNode = 'true';
         if (!this._isStickySupport || this._options.mode === MODE.notsticky) {
             return;
         }
