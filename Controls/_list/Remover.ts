@@ -1,19 +1,17 @@
-import {CrudEntityKey} from 'Types/source';
 import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
-import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
 import {ContextOptions as dataOptions} from 'Controls/context';
+import {Remove as RemoveAction} from 'Controls/listActions';
+import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {Logger} from 'UI/Utils';
+import {ISelectionObject} from "Controls/_interface/ISelectionType";
 
 var _private = {
-    removeFromSource(self, items): Promise<void> {
-        return self._source.destroy(items);
-    },
-
-    removeFromItems: function (self, items) {
+    removeFromItems: function (self, keys) {
         var item;
         self._items.setEventRaising(false, true);
-        for (var i = 0; i < items.length; i++) {
-            item = self._items.getRecordById(items[i]);
+        for (var i = 0; i < keys.length; i++) {
+            item = self._items.getRecordById(keys[i]);
             if (item) {
                 self._items.remove(item);
             }
@@ -21,14 +19,14 @@ var _private = {
         self._items.setEventRaising(true, true);
     },
 
-    beforeItemsRemove: function (self, items) {
-        const beforeItemsRemoveResult = self._notify('beforeItemsRemove', [items]);
+    beforeItemsRemove: function (self, keys) {
+        const beforeItemsRemoveResult = self._notify('beforeItemsRemove', [keys]);
         return beforeItemsRemoveResult instanceof Deferred || beforeItemsRemoveResult instanceof Promise ?
             beforeItemsRemoveResult : Deferred.success(beforeItemsRemoveResult);
     },
 
-    afterItemsRemove: function (self, items, result) {
-        var afterItemsRemoveResult = self._notify('afterItemsRemove', [items, result]);
+    afterItemsRemove: function (self, keys, result) {
+        var afterItemsRemoveResult = self._notify('afterItemsRemove', [keys, result]);
 
         //According to the standard, after moving the items, you need to unselect all in the table view.
         //The table view and Mover are in a common container (Control.Container.MultiSelector) and do not know about each other.
@@ -46,15 +44,16 @@ var _private = {
         self._items = newOptions?.items ? newOptions.items : contextDataOptions.items;
         self._source = newOptions?.source ? newOptions.source : contextDataOptions.source;
         self._filter = newOptions?.filter ? newOptions.filter : contextDataOptions.filter;
+        self._items = newOptions?.items ? newOptions.items : contextDataOptions.items;
     },
 
-    getItemsBySelection(self, items): Promise<CrudEntityKey[]> {
-        //Support removing with mass selection.
-        //Full transition to selection will be made by:
+    getItemsBySelection(self, keys): Promise<ISelectionObject> {
+        // Выбранные ключи могут быть массивом или selection'ом
+        // Полный переход к selection'у:
         // https://online.sbis.ru/opendoc.html?guid=080d3dd9-36ac-4210-8dfa-3f1ef33439aa
-        return items instanceof Array
-            ? Promise.resolve(items)
-            : getItemsBySelection(items, self._source, self._items, self._filter, null, self._options.selectionTypeForAllSelected);
+        return keys instanceof Array
+            ? Promise.resolve(keys)
+            : getItemsBySelection(keys, self._source, self._items, self._filter, null, self._options.selectionTypeForAllSelected);
     }
 };
 
@@ -71,6 +70,7 @@ var _private = {
  * @class Controls/_list/Remover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IRemovable
+ * @deprecated Класс устарел и будет удалён. Используйте методы интерфейса {@link Controls/list:IRemovableList}, который по умолчанию подключен в списки.
  *
  * @public
  * @author Авраменко А.С.
@@ -91,36 +91,46 @@ var _private = {
 var Remover = BaseAction.extend({
     _beforeMount: function (options, context) {
         _private.updateDataOptions(this, options, context.dataOptions);
+        Logger.warn('Controls/list:Remover: Класс устарел и будет удалён.' +
+            ' Используйте методы интерфейса Controls/list:IRemovableList, который по умолчанию подключен в списки.', this);
     },
 
     _beforeUpdate: function (options, context) {
         _private.updateDataOptions(this, options, context.dataOptions);
     },
 
-    removeItems(items: string[]): Promise<void> {
+    removeItems(keys: string[]): Promise<void> {
         const both = (result) => {
-            return _private.afterItemsRemove(this, items, result).then((eventResult) => {
+            return _private.afterItemsRemove(this, keys, result).then((eventResult) => {
                 if (eventResult === false || !(result instanceof Error)) {
                     return;
                 }
 
                 this._notify('dataError', [{ error: result }]);
             });
-        }
-        return _private.getItemsBySelection(this, items).then((items) => (
-            _private.beforeItemsRemove(this, items).then((result) => {
+        };
+        return _private.getItemsBySelection(this, keys).then((selection) => {
+            return _private.beforeItemsRemove(this, selection).then((result) => {
                 // если отменили удаление, то надо вернуть false
                 if (result === false) {
                     return Promise.resolve(result);
                 }
-                return _private.removeFromSource(this, items).then((result) => {
-                    _private.removeFromItems(this, items);
+                this._removeAction = new RemoveAction({
+                    source: this._source,
+                    filter: this._filter,
+                    providerName: 'Controls/listActions:RemoveProvider',
+                    selection: keys instanceof Array ? {
+                        selected: keys,
+                        excluded: []
+                    } : keys
+                });
+                return this._removeAction.execute().then((result) => {
+                    _private.removeFromItems(this, selection);
                     return result;
-                })
-                    .then((result) => both(result))
+                }).then((result) => both(result))
                     .catch((result) => both(result));
-            })
-        ));
+            });
+        });
     }
 });
 
