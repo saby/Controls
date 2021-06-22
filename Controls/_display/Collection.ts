@@ -478,7 +478,7 @@ function groupingFilter(item: EntityModel,
  * @mixes Types/_entity/SerializableMixin
  * @mixes Types/_entity/VersionableMixin
  * @mixes Types/_collection/EventRaisingMixin
- * @ignoreMethods notifyItemChange
+ * @ignoremethods notifyItemChange
  * @public
  * @author Мальцев А.А.
  */
