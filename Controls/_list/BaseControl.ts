@@ -1745,6 +1745,11 @@ const _private = {
                 _private.recountAttachIndicatorsAfterReload(self);
             }
 
+            if (action === IObservable.ACTION_RESET) {
+                // Если перезагрузили список, то сбрасываем уже устаревшую видимость триггеров
+                self._loadTriggerVisibility = {};
+            }
+
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
             }
