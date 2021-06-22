@@ -3,8 +3,9 @@ import {List} from 'Types/collection';
 import {IPopupItem} from 'Controls/_popup/interface/IPopup';
 import {dispatcherHandler} from 'UI/HotKeys';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
+import Popup from 'Controls/_popup/Manager/Popup';
 import {PendingClass, IPendingConfig} from 'Controls/Pending';
-import template = require('wml!Controls/_popup/Manager/Container');
+import * as template from 'wml!Controls/_popup/Manager/Container';
 import 'css!Controls/popup';
 
 // step zindex between popups.
@@ -114,8 +115,10 @@ class Container extends Control<IControlOptions> {
         return this._removeItems;
     }
 
-    getPopupById(id: string): Control {
-        return this._children[id] as Control;
+    getPopupById(id: string): Popup {
+        if (this._children.hasOwnProperty(id)) {
+            return this._children[id] as Popup;
+        }
     }
 
     activatePopup(id: string): void {
@@ -131,13 +134,16 @@ class Container extends Control<IControlOptions> {
 
     private _registerPendingHandler(event: Event, promise: Promise<unknown>, config: IPendingConfig): void {
         this._pendingController.registerPending(promise, config);
+        event.stopPropagation();
     }
 
     private _finishPendingHandler(event: Event, forceFinishValue: boolean, root: string): Promise<unknown> {
+        event.stopPropagation();
         return this._pendingController.finishPendingOperations(forceFinishValue, root);
     }
 
     private _cancelFinishingPendingHandler(event: Event, root: string): void {
+        event.stopPropagation();
         this._pendingController.cancelFinishingPending(root);
     }
 

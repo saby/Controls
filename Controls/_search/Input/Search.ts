@@ -75,6 +75,7 @@ class Search extends Base {
     protected _wasActionUser: boolean = false;
     protected _resetCommandCallbackId: string = '';
     protected _storeCtxCallbackId: string = '';
+    protected _controlName: string = 'search';
 
     protected _beforeMount(options): void {
         this._notifySearchClick = throttle(this._notifySearchClick, SEARCH_BY_CLICK_THROTTLE, false);

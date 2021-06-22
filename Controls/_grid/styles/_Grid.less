@@ -7,6 +7,11 @@
    position: relative;
 }
 
+.controls-MasterDetail_master-template .controls-Grid_master {
+   box-sizing: border-box;
+   padding-right: var(--master_item_horizontal-offset_list);
+}
+
 .controls-OldGridView__emptyTemplate,
 .controls-GridView__emptyTemplate {
    display: contents;
@@ -542,6 +547,10 @@
    // иначе не будет работать мини-карточка
    // https://online.sbis.ru/opendoc.html?guid=873e5d1a-016f-456f-b51e-1a67a18a53d4
    pointer-events: auto;
+}
+
+.controls-Grid__ladder-cell__withoutPointerEvents {
+   pointer-events: none;
 }
 
 // скрыть разделитель перед первой строкой в группе

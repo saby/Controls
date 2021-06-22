@@ -194,3 +194,7 @@ export function fillAdditionalZeros(str: string, precision: number) {
     const splitter = parsedString.hasSplitter || !zeros ? '' : '.';
     return `${str}${splitter}${zeros}`;
 }
+
+export function correctNumberValue(value: string): string {
+    return value.replace(/-\b/, '- ');
+}

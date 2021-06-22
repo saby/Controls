@@ -72,7 +72,7 @@ define(
 
          it('Negative number', function() {
             result = decorator.Number._formatNumber(-123456.000001, {roundMode: 'round', useGrouping: true});
-            assert.equal(result, '-123 456.000001');
+            assert.equal(result, '- 123 456.000001');
          });
 
          it('Mode trunc', function() {

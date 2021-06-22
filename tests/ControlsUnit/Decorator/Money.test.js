@@ -85,15 +85,15 @@ define(
             });
             it('value: -1000.00, useGrouping: false', function() {
                assert.deepEqual(ctrl.calculateFormattedNumber(-1000.00, false, 'none'), {
-                  number: '-1000.00',
-                  integer: '-1000',
+                  number: '- 1000.00',
+                  integer: '- 1000',
                   fraction: '.00'
                });
             });
             it('value: -1000.00, useGrouping: true', function() {
                assert.deepEqual(ctrl.calculateFormattedNumber(-1000.00, true, 'none'), {
-                  number: '-1 000.00',
-                  integer: '-1 000',
+                  number: '- 1 000.00',
+                  integer: '- 1 000',
                   fraction: '.00'
                });
             });

@@ -1,5 +1,5 @@
 /**
- * Шаблон для отображения строки в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#string режиме редактирования} без деления на колонки.
+ * Шаблон для отображения строки в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#string режиме редактирования} без деления на колонки.
  * @class Controls/_grid/interface/IitemEditorTemplate
  * @author Авраменко А.С.
  * @example

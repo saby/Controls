@@ -45,6 +45,7 @@ export default class View extends Control<IViewControlOptions> {
    };
    private _isStartEditing: boolean = false;
    private _isToolbarVisible: boolean;
+   private _isCommitEdit: boolean = false;
 
    protected _beforeMount(newOptions: IViewControlOptions): void {
        this._isEditing = newOptions.autoEdit;
@@ -141,14 +142,20 @@ export default class View extends Control<IViewControlOptions> {
    }
 
    commitEdit(): Promise<void> {
-      return this._validate().addCallback((result) => {
-         for (const key in result) {
-            if (result.hasOwnProperty(key) && result[key]) {
-               return Deferred.success();
+      if (!this._isCommitEdit) {
+         this._isCommitEdit = true;
+         return this._validate().addCallback((result) => {
+            for (const key in result) {
+               if (result.hasOwnProperty(key) && result[key]) {
+                  this._isCommitEdit = false;
+                  return Deferred.success();
+               }
             }
-         }
-         return this._endEdit(true);
-      });
+            return this._endEdit(true).then(() => {
+               this._isCommitEdit = false;
+            });
+         });
+      }
    }
 
    private _validate(): Promise<unknown> {

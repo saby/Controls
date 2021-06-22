@@ -1,4 +1,4 @@
-define(['Controls/operations'], function(operations) {
+define(['Controls/operations', 'Types/collection'], function(operations, collection) {
    'use strict';
    describe('Controls/_operations/Panel/Container', function() {
       it('_getSelectedKeys', function() {
@@ -59,6 +59,39 @@ define(['Controls/operations'], function(operations) {
                   selectedKeys: [2]
                });
                assert.equal(containerInstance._selectedKeysCount, 100);
+            });
+         });
+
+         describe('items', () => {
+            it('empty items', () => {
+               containerInstance._beforeUpdate({
+                  listMarkedKey: 1,
+                  selectedKeys: [],
+                  items: new collection.RecordSet()
+               });
+               assert.deepStrictEqual(containerInstance._selectedKeys, []);
+            });
+            it('without items', () => {
+               containerInstance._beforeUpdate({
+                  listMarkedKey: 1,
+                  selectedKeys: []
+               });
+               assert.deepStrictEqual(containerInstance._selectedKeys, [1]);
+            });
+            it('with items', () => {
+               containerInstance._beforeUpdate({
+                  listMarkedKey: 1,
+                  selectedKeys: [],
+                  items: new collection.RecordSet({
+                     keyProperty: 'id',
+                     rawData: [
+                        {
+                           id: 0
+                        }
+                     ]
+                  })
+               });
+               assert.deepStrictEqual(containerInstance._selectedKeys, [1]);
             });
          });
       });

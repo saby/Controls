@@ -236,8 +236,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const index: number = this._itemsArray.findIndex((item: ITabButtonItem) => {
             return item[options.keyProperty] === options.selectedKey;
         });
-        const align = this._marker.getAlign();
         const changed = this._marker.setSelectedIndex(index);
+        const align = this._marker.getAlign();
         // Не заускаем анимацию при переключении с группы вкладок слева на группу вкладок справа.
         if (changed && startAnimation && align && align === this._marker.getAlign() &&
                 this._options.animationMode !== ANIMATION_MODE.none) {

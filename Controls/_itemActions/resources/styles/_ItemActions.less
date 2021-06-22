@@ -241,9 +241,11 @@
    flex-grow: 1;
 }
 
+//todo change font icons to svg https://online.sbis.ru/opendoc.html?guid=90761cbd-04f8-4fad-be7d-8c1707bdd30e
+//icon-24 font has a problem with baseline in FF
 .ws-is-firefox {
-   .icon-SettingsNew.controls-itemActionsV__action_icon::before {
-      line-height: calc(var(--item_icon-size_itemActions) - 1);
+   .icon-SettingsNew.controls-itemActionsV__action_icon {
+      line-height: calc(var(--item_icon-size_itemActions) - 1px);
       transform: rotate(360deg);
    }
 }

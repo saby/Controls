@@ -1,4 +1,4 @@
-import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig} from 'Controls/dataSource';
+import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig, IDataLoaderOptions} from 'Controls/dataSource';
 import {Memory, PrefetchProxy} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
 import {NewSourceController} from 'Controls/dataSource';
@@ -39,8 +39,8 @@ function getSource(): Memory {
     });
 }
 
-function getDataLoader(): DataLoader {
-    return new DataLoader();
+function getDataLoader(dataLoaderOptions?: IDataLoaderOptions): DataLoader {
+    return new DataLoader(dataLoaderOptions);
 }
 
 describe('Controls/dataSource:loadData', () => {
@@ -97,10 +97,13 @@ describe('Controls/dataSource:loadData', () => {
                 }
             ]
         } as ILoadDataConfig;
-        const loadDataResult = await getDataLoader().load<ILoadDataResult>([loadDataConfigWithFilter]);
+        const dataLoader = getDataLoader();
+        const loadDataResult = await dataLoader.load<ILoadDataResult>([loadDataConfigWithFilter]);
+        const filterController = dataLoader.getFilterController();
 
         ok(loadDataResult.length === 1);
         ok((loadDataResult[0]).data.getCount() === 1);
+        ok(filterController !== filterController._options.filterController);
         deepStrictEqual(
             (loadDataResult[0]).filter,
             {
@@ -119,6 +122,17 @@ describe('Controls/dataSource:loadData', () => {
         const loadDataConfigCustomLoader = {
             type: 'custom',
             loadDataMethod: () => Promise.resolve({ testField: 'testValue', historyItems: [] })
+        } as ILoadDataCustomConfig;
+        const loadDataResult = await getDataLoader().load([loadDataConfigCustomLoader]);
+
+        ok(loadDataResult.length === 1);
+        deepStrictEqual(loadDataResult[0], { testField: 'testValue', historyItems: [] });
+    });
+
+    it('load with custom loader (promise rejected)', async () => {
+        const loadDataConfigCustomLoader = {
+            type: 'custom',
+            loadDataMethod: () => Promise.reject({ testField: 'testValue', historyItems: [] })
         } as ILoadDataCustomConfig;
         const loadDataResult = await getDataLoader().load([loadDataConfigCustomLoader]);
 
@@ -165,6 +179,33 @@ describe('Controls/dataSource:loadData', () => {
 
         ok(loadDataPromises.length === 2);
         ok(loadResults.length === 2);
+    });
+
+    it('loadEvery with config in constructor', async () => {
+        const loadDataConfigs = [{source: getSource()}, {source: getSource()}];
+        const loadDataPromises = getDataLoader({loadDataConfigs}).loadEvery();
+        const loadResults = await Promise.all(loadDataPromises);
+
+        ok(loadDataPromises.length === 2);
+        ok(loadResults.length === 2);
+    });
+
+    it('loadEvery with different parameters', async () => {
+        const dataLoader = getDataLoader();
+        let loadDataConfigs = [{source: getSource()}, {source: getSource()}];
+        let loadDataPromises = dataLoader.loadEvery(loadDataConfigs);
+        let loadResults = await Promise.all(dataLoader.loadEvery(loadDataConfigs));
+        const sourceController = dataLoader.getSourceController();
+
+        ok(loadDataPromises.length === 2);
+        ok(loadResults.length === 2);
+
+        loadDataConfigs = [{source: getSource()}];
+        loadDataPromises = dataLoader.loadEvery(loadDataConfigs);
+        loadResults = await Promise.all(dataLoader.loadEvery(loadDataConfigs));
+        ok(loadDataPromises.length === 1);
+        ok(loadResults.length === 1);
+        ok(sourceController !== dataLoader.getSourceController());
     });
 
     it('load data with sourceController in config', async () => {
@@ -240,6 +281,31 @@ describe('Controls/dataSource:loadData', () => {
         const loadDataResult = dataLoader.load([loadDataConfig]);
         return new Promise((resolve) => {
             loadDataResult.then((loadResult ) => {
+                ok(loadResult[0].sourceController.getLoadError().status === HTTPStatus.GatewayTimeout);
+                resolve();
+            });
+        });
+    });
+
+    it('load with timeout', async () => {
+        const fakeTimer = useFakeTimers();
+        const source = getSource();
+        const loadTimeOut = 5000;
+        const queryLoadTimeOut = 10000;
+        source.query = () => new Promise(() => {
+            Promise.resolve().then(() => {
+                fakeTimer.tick(queryLoadTimeOut);
+            });
+        });
+        const loadDataConfig = {
+            source,
+            filter: {}
+        };
+
+        const dataLoader = getDataLoader();
+        const loadDataResult = dataLoader.loadEvery([loadDataConfig], loadTimeOut);
+        return new Promise((resolve) => {
+            Promise.all(loadDataResult).then((loadResult) => {
                 ok(loadResult[0].sourceController.getLoadError().status === HTTPStatus.GatewayTimeout);
                 resolve();
             });

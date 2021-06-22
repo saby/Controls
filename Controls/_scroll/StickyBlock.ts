@@ -680,8 +680,16 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         // Включаю оптимизацию для всех заголовков на ios, в 5100 проблем выявлено не было
         const isIosOptimizedMode = this._isMobileIOS && task1181007458 !== true;
         const stickyPosition = StickyBlock.getStickyPosition({position: positionFromOptions});
-        if (stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1 && this._stickyHeadersHeight.top !== null) {
-            top = this._stickyHeadersHeight.top;
+
+        const isStickedOnTop = stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1;
+        const isStickedOnBottom = stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1;
+        const isStickedOnLeft = stickyPosition.horizontal && stickyPosition.horizontal?.indexOf(POSITION.left) !== -1;
+        const isStickedOnRight = stickyPosition.horizontal && stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1;
+
+        if (isStickedOnTop) {
+            // После построения контролов на afterMount инициализируется контроллер, он проставит заголовкам
+            // top'ы. Установив изначально в стилях top: 0, мы избавимся от лишних синхранизаций в множестве мест.
+            top = this._stickyHeadersHeight.top || 0;
             if (offsetTop) {
                 top += offsetTop;
             }
@@ -689,18 +697,18 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             style += 'top: ' + (top - (checkOffset ? offset : 0)) + 'px;';
         }
 
-        if (stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
-            bottom = this._stickyHeadersHeight.bottom;
+        if (isStickedOnBottom) {
+            bottom = this._stickyHeadersHeight.bottom || 0;
             style += 'bottom: ' + (bottom - offset) + 'px;';
         }
 
-        if (stickyPosition.horizontal && stickyPosition.horizontal?.indexOf(POSITION.left) !== -1 && this._stickyHeadersHeight.left !== null) {
-            left = this._stickyHeadersHeight.left;
+        if (isStickedOnLeft) {
+            left = this._stickyHeadersHeight.left || 0;
             style += 'left: ' + (left) + 'px;';
         }
 
-        if (stickyPosition.horizontal && stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1 && this._stickyHeadersHeight.right !== null) {
-            right = this._stickyHeadersHeight.right;
+        if (isStickedOnRight) {
+            right = this._stickyHeadersHeight.right || 0;
             style += 'right: ' + (right) + 'px;';
         }
 
