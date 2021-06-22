@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper">
+    <Controls.browser:Browser source="{{_viewSource}}"
+                              keyProperty="id"
+                              parentProperty="parent"
+                              searchParam="title"
+                              minSearchLength="{{3}}"
+                              nodeTypeProperty="nodeType"
+                              bind:root="_root">
+        <div class="ws-fragment">
+            <Controls.search:InputContainer>
+                <Controls.search:Input/>
+            </Controls.search:InputContainer>
+            <Controls.list:Container>
+                <Controls.explorer:View
+                        name="explorerView"
+                        bind:selectedKeys="_selectedKeys"
+                        bind:excludedKeys="_excludedKeys"
+                        attr:class="demo-Explorer ControlsDemo-Explorer"
+                        keyProperty="id"
+                        itemActions="{{_itemActions}}"
+                        parentProperty="parent"
+                        nodeProperty="type"
+                        colspanCallback="{{ _colspanCallback }}"
+                        columns="{{_columns}}">
+                </Controls.explorer:View>
+            </Controls.list:Container>
+        </div>
+    </Controls.browser:Browser>
+</div>
+
