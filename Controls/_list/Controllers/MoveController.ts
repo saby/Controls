@@ -9,6 +9,7 @@ import {IHashMap} from 'Types/declarations';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {ISiblingStrategy} from '../interface/ISiblingStrategy';
+import {TBeforeMoveCallback} from '../interface/IMovableList';
 
 // @todo https://online.sbis.ru/opendoc.html?guid=2f35304f-4a67-45f4-a4f0-0c928890a6fc
 type TSource = SbisService|Memory;
@@ -26,7 +27,7 @@ interface IValidationResult {
  * @author Аверкиев П.А.
  */
 export interface IMoverDialogOptions extends IBasePopupOptions {
-    beforeMoveCallback?: (selection: ISelectionObject, target: Model | CrudEntityKey) => boolean | Promise<boolean>;
+    beforeMoveCallback?: TBeforeMoveCallback;
 }
 
 /**
@@ -174,7 +175,6 @@ export class MoveController {
         const templateOptions: IMoverDialogTemplateOptions = {
             movedItems: selection.selected,
             source: this._source,
-            keyProperty: this._source.getKeyProperty(),
             ...(this._popupOptions.templateOptions as IMoverDialogTemplateOptions)
         };
 
@@ -198,7 +198,7 @@ export class MoveController {
                                       target: Model | CrudEntityKey): Promise<DataSet> {
         const root = (this._popupOptions.templateOptions as IMoverDialogTemplateOptions).root || null;
         const targetKey = target === root ? target : (target as Model).getKey();
-        let callbackResult: Promise<boolean> | boolean;
+        let callbackResult: Promise<void> | boolean;
         if (this._popupOptions.beforeMoveCallback) {
             callbackResult = this._popupOptions.beforeMoveCallback(selection, target);
         }
