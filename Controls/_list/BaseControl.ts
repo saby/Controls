@@ -4877,6 +4877,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     this._handleLoadToDirection = false;
                     resolver();
                 }).catch((error) => {
+                    _private.hideIndicator(this);
                     return error;
                 });
             }
