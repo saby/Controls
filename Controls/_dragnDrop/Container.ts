@@ -3,6 +3,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from 'Types/entity';
 import {detection} from 'Env/Env';
 import {Bus as EventBus} from 'Env/Event';
+import ControllerClass from 'Controls/_dragnDrop/ControllerClass';
 
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -208,6 +209,7 @@ class Container extends Control<IContainerOptions> {
         }
         this._documentDragging = true;
         this._notifyDragEvent('documentDragStart', [dragObject]);
+        ControllerClass._dragStart();
     }
 
     private _documentDragEnd(dragObject: IDragObject): void {
@@ -217,6 +219,7 @@ class Container extends Control<IContainerOptions> {
 
         this._insideDragging = false;
         this._documentDragging = false;
+        ControllerClass._dragEnd();
         this._notifyDragEvent('documentDragEnd', [dragObject]);
     }
 
