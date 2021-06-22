@@ -129,6 +129,17 @@ describe('Controls/dataSource:loadData', () => {
         deepStrictEqual(loadDataResult[0], { testField: 'testValue', historyItems: [] });
     });
 
+    it('custom loader returns primitive value', async () => {
+        const loadDataConfigCustomLoader = {
+            type: 'custom',
+            loadDataMethod: () => Promise.resolve(false)
+        } as ILoadDataCustomConfig;
+        const loadDataResult = await getDataLoader().load([loadDataConfigCustomLoader]);
+
+        ok(loadDataResult.length === 1);
+        ok(loadDataResult[0] === false);
+    });
+
     it('load with custom loader (promise rejected)', async () => {
         const loadDataConfigCustomLoader = {
             type: 'custom',
