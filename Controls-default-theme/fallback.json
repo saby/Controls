@@ -1484,6 +1484,7 @@
   "--height_medium_tile": "158px",
   "--gradient_dark_height_preview_tile": "14px",
   "--gradient_light_height_preview_tile": "4px",
+  "--text_light_color_preview_tile": "var(--background-color)",
 
   "--title_multi_line_height_preview_tile": "48px",
 
