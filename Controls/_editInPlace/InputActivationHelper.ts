@@ -1,6 +1,7 @@
 import {Model} from 'Types/entity';
 import {getWidth} from 'Controls/sizeUtils';
 import {hasHorizontalScroll as hasHorizontalScrollUtil} from 'Controls/scroll';
+import {CONSTANTS} from './Types';
 
 const typographyStyles = [
     'fontFamily',
@@ -98,7 +99,7 @@ export class InputActivationHelper {
     /**
      * Сохраняет информацию о поле ввода, в которое необходимо ставить фокус
      */
-    setInputForFastEdit(currentTarget: HTMLElement, direction: 'top' | 'bottom'): void {
+    setInputForFastEdit(currentTarget: HTMLElement, direction: CONSTANTS.GOTONEXT | CONSTANTS.GOTOPREV): void {
         // Ячейка, с которй уходит фокус
         const cell = currentTarget.closest('.controls-Grid__row-cell');
         if (!cell) { return; }
@@ -123,7 +124,7 @@ export class InputActivationHelper {
         const currentRow = currentTarget.closest('.controls-Grid__row');
         let nextRowIndex = 1 + Array.prototype.indexOf.call(currentRow.parentElement.children, currentRow);
 
-        if (direction === 'bottom') {
+        if (direction === CONSTANTS.GOTONEXT) {
             nextRowIndex += 1;
         } else {
             nextRowIndex -= 1;
