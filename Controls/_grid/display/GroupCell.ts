@@ -19,6 +19,8 @@ export interface IOptions<T> {
     colspanGroup?: boolean;
 }
 
+const FIXED_GROUP_CELL_Z_INDEX = 4;
+
 export default class GroupCell<T>
     extends mixin<DataCell<any, GroupRow<any>>, GridGroupCellMixin<any>>(DataCell, GridGroupCellMixin) {
     protected _$columnsLength: number;
@@ -58,7 +60,7 @@ export default class GroupCell<T>
     }
 
     getZIndex(): number {
-        return this._$zIndex;
+        return this._$isFixed ? Math.max(FIXED_GROUP_CELL_Z_INDEX, this._$zIndex) : this._$zIndex;
     }
 
     getContentStyles(): string {
