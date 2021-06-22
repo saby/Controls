@@ -50,7 +50,7 @@ interface IItemsFactoryOptions<S> {
     hasChildrenByRecordSet?: boolean;
     node?: boolean;
     expanderTemplate?: TemplateFunction;
-    hasNodeWithChildren?: boolean;
+    displayExpanderPadding?: boolean;
     expanded?: boolean;
     hasMore?: boolean;
 }
@@ -68,6 +68,7 @@ export interface IOptions<S, T> extends ICollectionOptions<S, T> {
     expandedItems?: CrudEntityKey[];
     collapsedItems?: CrudEntityKey[];
     nodeFooterVisibilityCallback?: TNodeFooterVisibilityCallback;
+    expanderSize?: string;
 }
 
 /**
@@ -300,10 +301,16 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _hasNodeWithChildren: boolean;
 
     /**
-     * Признак, означающий чтов списке есть узел
+     * Признак, означающий что в списке есть узел
      * @protected
      */
     protected _hasNode: boolean = null;
+
+    /**
+     * Признак, означающий что отступ вместо экспандеров нужно рисовать
+     * @protected
+     */
+    protected _displayExpanderPadding: boolean;
 
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));
@@ -336,6 +343,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
+        } else {
+            this._recountHasNode();
         }
     }
 
@@ -398,6 +407,20 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     getExpanderSize(): string {
         return this._$expanderSize;
+    }
+
+    protected _recountDisplayExpanderPadding(): void {
+        const newValue = this.getExpanderIcon() !== 'none' && this.getExpanderPosition() === 'default'
+            && (this.getExpanderVisibility() === 'hasChildren' ? this.hasNodeWithChildren() : this.hasNode())
+        this._setDisplayExpanderPadding(newValue);
+    }
+
+    protected _setDisplayExpanderPadding(newValue: boolean): void {
+        if (this._displayExpanderPadding !== newValue) {
+            this._displayExpanderPadding = newValue;
+            this._updateItemsProperty('setDisplayExpanderPadding', newValue, 'setDisplayExpanderPadding')
+            this._nextVersion();
+        }
     }
 
     // endregion Expander
@@ -868,7 +891,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             options.hasChildrenProperty = this.getHasChildrenProperty();
             options.hasChildrenByRecordSet = !!this.getChildrenByRecordSet(options.contents).length;
             options.expanderTemplate = this._$expanderTemplate;
-            options.hasNodeWithChildren = this._hasNodeWithChildren;
+            options.displayExpanderPadding = this._displayExpanderPadding;
 
             const key = object.getPropertyValue<CrudEntityKey>(options.contents, this._$keyProperty);
             options.expanded = this._expandedItems?.includes(key) || this._expandedItems?.includes(null) && !this._collapsedItems?.includes(key);
@@ -1170,7 +1193,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
         if (this._hasNodeWithChildren !== hasNodeWithChildren) {
             this._hasNodeWithChildren = hasNodeWithChildren;
-            this._updateItemsProperty('setHasNodeWithChildren', this._hasNodeWithChildren, 'setHasNodeWithChildren');
+            this._recountDisplayExpanderPadding();
             this._nextVersion();
         }
     }
@@ -1201,8 +1224,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _setHasNode(hasNode: boolean): void {
         if (this._hasNode !== hasNode) {
             this._hasNode = hasNode;
-            // TODO conditionProperty должно быть вида this._footerModule
-            this._updateItemsProperty('setHasNode', this._hasNode, '[Controls/treeGrid:TreeGridFooterRow]');
+            this._recountDisplayExpanderPadding();
             this._nextVersion();
         }
     }

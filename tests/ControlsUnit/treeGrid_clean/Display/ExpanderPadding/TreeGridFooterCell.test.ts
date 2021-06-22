@@ -1,7 +1,7 @@
 import { TreeGridFooterCell } from 'Controls/treeGrid';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
-describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterCell', () => {
+describe('Controls/treeGrid_clean/Display/ExpanderPadding/TreeGridFooterCell', () => {
     let mockedOwner;
 
     beforeEach(() => {
@@ -25,90 +25,48 @@ describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterCell
         } as any;
     });
 
-    it('exists item with expander', () => {
+    it('display expander padding', () => {
         const footerCell = new TreeGridFooterCell({
-            hasNodeWithChildren: true,
+            displayExpanderPadding: true,
             column: {},
             owner: mockedOwner
         });
 
         CssClassesAssert.include(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            'controls-TreeGridView__footer__expanderPadding-default'
+            'controls-TreeGridView__expanderPadding-default'
         );
     });
 
-    it('not exists item with expander', () => {
+    it('not display expander padding', () => {
         const footerCell = new TreeGridFooterCell({
-            hasNodeWithChildren: false,
+            displayExpanderPadding: false,
             column: {},
             owner: mockedOwner
         });
 
         CssClassesAssert.notInclude(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            'controls-TreeGridView__footer__expanderPadding-default'
+            'controls-TreeGridView__expanderPadding-default'
         );
     });
 
-    it('setHasNodeWithChildren', () => {
+    it('setDisplayExpanderPadding', () => {
         const footerCell = new TreeGridFooterCell({
-            hasNodeWithChildren: false,
+            displayExpanderPadding: false,
             column: {},
             owner: mockedOwner
         });
 
         CssClassesAssert.notInclude(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            'controls-TreeGridView__footer__expanderPadding-default'
+            'controls-TreeGridView__expanderPadding-default'
         );
 
-        footerCell.setHasNodeWithChildren(true);
+        footerCell.setDisplayExpanderPadding(true);
         CssClassesAssert.include(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            'controls-TreeGridView__footer__expanderPadding-default'
-        );
-    });
-
-    it('custom expander position', () => {
-        mockedOwner.getExpanderPosition = () => 'custom';
-        const footerCell = new TreeGridFooterCell({
-            hasNodeWithChildren: true,
-            column: {},
-            owner: mockedOwner
-        });
-
-        CssClassesAssert.notInclude(
-            footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            'controls-TreeGridView__footer__expanderPadding-default'
-        );
-    });
-
-    it('expander icon is none', () => {
-        mockedOwner.getExpanderIcon = () => 'none';
-        const footerCell = new TreeGridFooterCell({
-            hasNodeWithChildren: true,
-            column: {},
-            owner: mockedOwner
-        });
-
-        CssClassesAssert.notInclude(
-            footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            'controls-TreeGridView__footer__expanderPadding-default'
-        );
-    });
-
-    it('expander visibility is visible', () => {
-        mockedOwner.getExpanderVisibility = () => 'visible';
-        const footerCell = new TreeGridFooterCell({
-            hasNodeWithChildren: false,
-            column: {},
-            owner: mockedOwner
-        });
-
-        CssClassesAssert.include(
-            footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            'controls-TreeGridView__footer__expanderPadding-default'
+            'controls-TreeGridView__expanderPadding-default'
         );
     });
 
@@ -120,28 +78,27 @@ describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterCell
         it('wrapper classes don\'t include expander padding classes', () => {
             mockedOwner.getExpanderVisibility = () => 'visible';
             const footerCell = new TreeGridFooterCell({
-                hasNodeWithChildren: false,
+                displayExpanderPadding: false,
                 column: {},
                 owner: mockedOwner
             });
 
             CssClassesAssert.notInclude(
                 footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-                'controls-TreeGridView__footer__expanderPadding-default'
+                'controls-TreeGridView__expanderPadding-default'
             );
         });
 
         it('content classes include expander padding classes', () => {
-            mockedOwner.getExpanderVisibility = () => 'visible';
             const footerCell = new TreeGridFooterCell({
-                hasNodeWithChildren: false,
+                displayExpanderPadding: true,
                 column: {},
                 owner: mockedOwner
             });
 
             CssClassesAssert.include(
                 footerCell.getContentClasses(),
-                'controls-TreeGridView__footer__expanderPadding-default'
+                'controls-TreeGridView__expanderPadding-default'
             );
         });
     });

@@ -2577,4 +2577,54 @@ describe('Controls/_display/Tree', () => {
             assert.isNotOk(node.getNodeFooter()); // проверяем что ссылка на футер занулилась
         });
     });
+
+    describe('displayExpanderPadding', () => {
+        it('default', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isTrue(tree._displayExpanderPadding);
+        })
+
+        it('expander icon is none', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs, {expanderIcon: 'none'});
+            assert.isFalse(tree._displayExpanderPadding);
+        })
+
+        it('custom expander position', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs, {expanderPosition: 'custom'});
+            assert.isFalse(tree._displayExpanderPadding);
+        })
+
+        it('expander visibility is hasChildren', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs, {expanderVisibility: 'hasChildren', hasChildrenProperty: 'hasChildren'});
+            assert.isFalse(tree._displayExpanderPadding);
+
+            rs.at(0).set('hasChildren', true);
+
+            assert.isTrue(tree._displayExpanderPadding);
+        })
+    });
 });
