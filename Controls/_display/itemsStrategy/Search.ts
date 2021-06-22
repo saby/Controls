@@ -80,7 +80,13 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
     let breadCrumbs;
     const last = getNearestNode(item);
     const root = display && display.getRoot();
-    if (last && last !== root) {
+    if (item['[Controls/treeGrid:TreeGridGroupDataRow]']) {
+        breadCrumbs = treeItemToBreadcrumbs.get(last);
+        if (!breadCrumbs) {
+            breadCrumbs = last;
+        }
+        treeItemToBreadcrumbs.set(last, breadCrumbs);
+    } else if (last && last !== root) {
         breadCrumbs = treeItemToBreadcrumbs.get(last);
         if (!breadCrumbs) {
             breadCrumbs = display?.createBreadcrumbsItem({
@@ -308,10 +314,11 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
                     // Look at the next item after current node
                     const next = items[index + 1];
                     const nextIsTreeItem = next && next['[Controls/_display/TreeItem]'];
+                    const itemIsGroupNode = item && item['[Controls/treeGrid:TreeGridGroupDataRow]'];
 
                     // Check that the next tree item is a node with bigger level.
                     // If it's not that means we've reached the end of current breadcrumbs.
-                    const isLastBreadcrumb = nextIsTreeItem && next.isNode() ?
+                    const isLastBreadcrumb = nextIsTreeItem && next.isNode() && !itemIsGroupNode ?
                         item.getLevel() >= next.getLevel() :
                         true;
 
@@ -413,7 +420,9 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
         // Expand breadcrumbs into flat array
         const resultItems: Array<T | BreadcrumbsItem<S> | SearchSeparator<S>> = [];
         sortedItems.forEach((item) => {
-            if (item['[Controls/_display/BreadcrumbsItem]'] || item['[Controls/_display/SearchSeparator]']) {
+            if (item['[Controls/_display/BreadcrumbsItem]'] ||
+                item['[Controls/_display/SearchSeparator]'] ||
+                item['[Controls/treeGrid:TreeGridGroupDataRow]']) {
                 resultItems.push(item);
                 const data = breadcrumbsToData.get(item);
                 if (data) {
