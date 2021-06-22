@@ -5,6 +5,7 @@
          <ws:if data="{{_listModel}}">
             <Controls.scroll:Container attr:class="controls-ScrollContainer__flex
                                                 controls-Menu__scroll"
+                                       shadowMode="js"
                                        scrollbarVisible="{{_options.scrollbarVisible}}"
                                        topShadowVisibility="hidden"
                                        bottomShadowVisibility="{{(_options.footerContentTemplate || _expandButtonVisible) ? 'auto' : 'hidden'}}">
