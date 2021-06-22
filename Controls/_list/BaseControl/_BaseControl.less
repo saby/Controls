@@ -64,9 +64,11 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    }
 }
 
-/* paging with position: absolute work bad on Ipad/IPhone,
+/* paging with position: absolute work bad on Ipad/IPhone/Mac,
    becouse of -webkit-overflow-scrolling: touch breaks absolute positioning.*/
-.ws-is-mobile-safari, .ws-is-mobile-chrome-ios {
+.ws-is-mobile-safari,
+.ws-is-desktop-safari,
+.ws-is-mobile-chrome-ios {
    .controls-BaseControl__pagingContainer {
       position: sticky;
       top: auto;
@@ -129,6 +131,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl__emptyTemplate__contentWrapper {
    // Пустое представление обязано и расширяться и сжиматья, подстраиваясь под список
    flex-grow: 1;
+   max-width: 100%;
 }
 
 .controls-BaseControl__loadingIndicator__state-attachToNull {
