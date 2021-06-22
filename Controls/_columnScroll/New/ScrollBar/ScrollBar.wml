@@ -3,6 +3,7 @@
     <!-- Если прикладной разработчик не конфигурировал backgroundStyle, он должен быть прозрачным, иначе будет белая подложка у стики шапки. -->
     <!-- https://online.sbis.ru/opendoc.html?guid=6f6af645-3f36-4081-810c-652fa25eebd5 -->
     <Controls.scroll:StickyHeader attr:class="controls-ColumnScroll__thumbWrapper {{ _fixedClass }} js-controls-ColumnScroll__thumbWrapper"
+                                  attr:style="z-index: 4;"
                                   backgroundStyle="{{ (_options.backgroundStyle || _options.style) === 'default' ? 'transparent' : (_options.backgroundStyle || _options.style) }}"
                                   mode="stackable"
                                   ntype="scroll"
