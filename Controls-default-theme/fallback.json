@@ -971,7 +971,7 @@
   "--height_applyButton_editableArea": "var(--inline_height_m)",
 
   "--border-radius_applyButton_editableArea": "12px",
-  "--box-shadow_applyButton_editableArea": "0 1px 4px rgba(0, 0, 0, 0.05)",
+  "--box-shadow_applyButton_editableArea": "var(--box-shadow_contrast-button)",
   "--background-color_applyButton_editableArea": "var(--success_color)",
   "--background-color_hover_applyButton_editableArea": "var(--success_hover_background-color_button_functionalButton)",
 
