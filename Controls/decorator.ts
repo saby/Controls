@@ -26,18 +26,20 @@ import * as Parser from './_decorator/resources/parse';
 import * as numberConstant from './_decorator/resources/NumberConstant';
 
 import * as Money from 'Controls/_decorator/Money';
+import * as Number from 'Controls/_decorator/Number';
 
 export {default as Markup} from './_decorator/Markup';
-export {default as Number, INumberOptions, RoundMode} from 'Controls/_decorator/Number';
 export {default as Phone, IPhoneOptions} from 'Controls/_decorator/Phone';
 export {default as WrapURLs, IWrapURLsOptions} from 'Controls/_decorator/WrapURLs';
 export {default as Highlight, SearchMode, IHighlightOptions} from 'Controls/_decorator/Highlight';
 export {default as MultilineText} from 'Controls/_decorator/MultilineText';
 export {default as IMask} from 'Controls/_decorator/resources/IMask';
 export {default as Date, IDateOptions} from 'Controls/_decorator/Date';
-export {Money};
+export {Money, Number};
 export {IMoneyOptions} from 'Controls/_decorator/resources/Money';
+export {INumberOptions, RoundMode} from 'Controls/_decorator/resources/Number';
 export * as MoneyFunctions from 'Controls/_decorator/resources/Money';
+export * as NumberFunctions from 'Controls/_decorator/resources/Number';
 
 export * from './_decorator/resources/IMask';
 export * from './_decorator/resources/Util';
