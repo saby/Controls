@@ -25,11 +25,9 @@ class DateRangeEditor extends Control<IControlOptions> {
     protected _dateRangeModule: Record<string, any> = null;
     protected _emptyCaption: string;
     protected _reseted: boolean = false;
-    protected _fontColorStyle: string;
 
     protected _beforeMount(options: IControlOptions): Promise<void>|void {
         this._templateName = 'Controls/dateRange:' + (options.editorMode === 'Selector' ? 'RangeSelector' : 'RangeShortSelector');
-        this._fontColorStyle = options.readOnly ? 'label' : options.fontColorStyle;
         this._reseted = isEqual(options.value, options.resetValue);
         return import('Controls/dateRange').then((dateRange) => {
             this._dateRangeModule = dateRange;
