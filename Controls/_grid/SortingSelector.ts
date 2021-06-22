@@ -241,6 +241,8 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @property {String} title Подпись пункта меню, соответствующего данному полю.
  * @property {String} [icon=undefined] Имя иконки, которая отображается в меню рядом с подписью (см. свойство title), а также в заголовке выпадающего меню. Список иконок {@link /icons/ тут}.
  * @property {String} [iconSize=l] Размер иконки. Допустимые значения описаны {@link Controls/interface:IIconSize#iconSize здесь}.
+ * @property {string} titleAsc Подсказка при наведении на стрелку сортировки по возрастанию.
+ * @property {string} titleDesc Подсказка при наведении на стрелку сортировки по убыванию.
  */
 
 
