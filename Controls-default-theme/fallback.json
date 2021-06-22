@@ -928,7 +928,7 @@
   "--basic_item_reset-button_icon-size_filterPanel": "var(--icon-size_s)",
   "--basic_item_reset-button_icon-color_filterPanel": "#CCC",
   "--extended_content_padding-left_filterPanel": "var(--basic_content_padding-left_filterPanel)",
-  "--extended_max-height_filterPanel": "calc(var(--extended_item_height_filterPanel) * 5)",
+  "--extended_max-height_filterPanel": "calc(var(--item_height_filterPanel) * 5)",
   "--extended_group_height_filterPanel": "40px",
   "--extended_heading_text-color_filterPanel": "var(--secondary_text-color_heading)",
 
