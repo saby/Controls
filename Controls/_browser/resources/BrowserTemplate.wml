@@ -28,6 +28,7 @@
         root="{{_options.searchNavigationMode === 'expand' ? undefined : _sourceControllerState.root}}"
         on:filterChanged="_filterChanged()"
         on:rootChanged="_rootChanged()"
+        on:breadCrumbsItemClick="_breadCrumbsItemClick()"
         on:dataError="_onDataError()"
         on:listSelectedKeysChanged="_selectedKeysChanged()"
         on:listExcludedKeysChanged="_excludedKeysChanged()"
