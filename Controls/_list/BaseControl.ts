@@ -2352,6 +2352,7 @@ const _private = {
         }
 
         if (this._isMounted && this._scrollController) {
+            _private.notifyVirtualNavigation(this, this._scrollController, this._sourceController);
             this.startBatchAdding(direction);
             return this._scrollController.getScrollStopPromise();
         }
@@ -2731,6 +2732,32 @@ const _private = {
 
     // endregion
 
+    notifyVirtualNavigation(self, scrollController: ScrollController, sourceController: SourceController): void {
+        let topEnabled = false;
+        let bottomEnabled = false;
+
+        if (sourceController) {
+            topEnabled = topEnabled || self._hasMoreData(self._sourceController, 'up');
+            bottomEnabled = bottomEnabled || self._hasMoreData(self._sourceController, 'down');
+        }
+        if (scrollController) {
+            topEnabled = topEnabled || scrollController.getShadowVisibility()?.up;
+            bottomEnabled = bottomEnabled || scrollController.getShadowVisibility()?.down;
+            topEnabled = topEnabled || scrollController.getPlaceholders()?.top;
+            bottomEnabled = bottomEnabled || scrollController.getPlaceholders()?.bottom;
+        }
+        if (topEnabled) {
+            self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
+        } else {
+            self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+        }
+        if (bottomEnabled) {
+            self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+        } else {
+            self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
+        }
+    },
+
     handleScrollControllerResult(self, result: IScrollControllerResult) {
         if (!result) {
             return;
@@ -2744,17 +2771,8 @@ const _private = {
             if (result.placeholders) {
                 self._notifyPlaceholdersChanged = () => {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
-                }
-                if (result.shadowVisibility?.up || result.placeholders.top > 0 || self._hasMoreData(self._sourceController, 'up')) {
-                    self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
-                } else {
-                    self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
-                }
-                if (result.shadowVisibility?.down || result.placeholders.bottom > 0 || self._hasMoreData(self._sourceController, 'down')) {
-                    self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
-                } else {
-                    self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
-                }
+                };
+                _private.notifyVirtualNavigation(self, self._scrollController, self._sourceController);
             }
             if (self._items && typeof self._items.getRecordById(result.activeElement || self._options.activeElement) !== 'undefined') {
                 // activeElement запишется в result только, когда он изменится
@@ -3926,16 +3944,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._useServerSideColumnScroll = false;
         }
 
-        if (this._hasMoreData(this._sourceController, 'up')) {
-            this._notify('enableVirtualNavigation', ['top'], { bubbling: true });
-        } else {
-            this._notify('disableVirtualNavigation', ['top'], { bubbling: true });
-        }
-        if (this._hasMoreData(this._sourceController, 'down')) {
-            this._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
-        } else {
-            this._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
-        }
+        _private.notifyVirtualNavigation(this, this._scrollController, this._sourceController);
 
         if (!this.__error) {
             this._registerObserver();
