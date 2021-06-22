@@ -72,13 +72,13 @@
    width: var(--width_closeButton_toolButton);
    height: var(--height_closeButton_toolButton);
    background-color: var(--background-color_closeButton_toolButton);
-   border-color: var(--border-color_button_toolButton);
+   border-color: var(--border-color_closeButton_toolButton);
    border-width: var(--border-thickness_closeButton_toolButton);
    border-radius: var(--border-radius_closeButton_toolButton);
    box-shadow: var(--box-shadow_closeButton_toolButton);
    &:active {
-      border-color: var(--background-color_contrast_active_button_toolButton);
-      background-color: var(--background-color_contrast_active_button_toolButton);
+      border-color: var(--background-color_active_closeButton_toolButton);
+      background-color: var(--background-color_active_closeButton_toolButton);
       box-shadow: var(--box-shadow_closeButton_toolButton); //none
    }
 }
@@ -125,8 +125,8 @@
 
    //button and icon must be hovered at the same time
    .controls-Button__close_toolButton:hover {
-      border-color: var(--background-color_contrast_hover_button_toolButton);
-      background-color: var(--background-color_contrast_hover_button_toolButton);
+      border-color: var(--background-color_hover_closeButton_toolButton);
+      background-color: var(--background-color_hover_closeButton_toolButton);
       .controls-Button__close__icon_toolButton {
          background-image: var(--icon_hovered_background-image_closeButton_toolButton);
       }

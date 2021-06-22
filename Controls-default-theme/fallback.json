@@ -503,8 +503,8 @@
   "--box-shadow_closeButton_toolButton": "var(--box-shadow_button)",
   "--box-shadow_closeButton_functionalButton": "none",
   "--background-color_closeButton_toolButton": "var(--background-color_button_toolButton)",
-  "--background-color_hover_closeButton_toolButton": "var(--background-color_hover_button_toolButton)",
-  "--background-color_active_closeButton_toolButton": "var(--background-color_active_button_toolButton)",
+  "--background-color_hover_closeButton_toolButton": "var(--background-color_contrast_hover_button_toolButton)",
+  "--background-color_active_closeButton_toolButton": "var(--background-color_contrast_active_button_toolButton)",
 
   "--icon-size_closeButton_toolButton": "12px",
   "--icon-size_closeButton_link": "var(--icon-size_closeButton_toolButton)",
