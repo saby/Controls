@@ -4599,7 +4599,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
-            this._dragNDropEnded();
+            this._notify('_removeDraggingTemplate', [], {bubbling: true});
         }
         if (this._finishScrollToEdgeOnDrawItems) {
             this._finishScrollToEdgeOnDrawItems = null;
@@ -7130,9 +7130,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return result;
     }
 
-    _dragNDropEnded(event?: SyntheticEvent): void {
+    _dragNDropEnded(event: SyntheticEvent): void {
         if (this._dndListController && this._dndListController.isDragging()) {
-            this._notify('_documentDragEnd', [this._getDragObject(event?.nativeEvent, this._startEvent)], {bubbling: true});
+            const dragObject = this._getDragObject(event.nativeEvent, this._startEvent);
+            this._notify('_documentDragEnd', [dragObject], {bubbling: true});
         }
         if (this._startEvent && this._startEvent.target) {
             this._startEvent.target.classList.remove('controls-DragNDrop__dragTarget');
