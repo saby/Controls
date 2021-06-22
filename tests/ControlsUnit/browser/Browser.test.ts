@@ -861,6 +861,7 @@ describe('Controls/browser:Browser', () => {
             const browser = getBrowser();
 
             await browser._beforeMount(options);
+            browser.saveOptions(options);
 
             options = {...options};
             delete options.source;
