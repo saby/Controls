@@ -239,7 +239,7 @@ const _private = {
         const hasMore = {};
 
         expandedItems.forEach((nodeKey) => {
-            hasMore[nodeKey] = sourceController.hasMoreData('down', nodeKey);
+            hasMore[nodeKey] = sourceController ? sourceController.hasMoreData('down', nodeKey) : false;
         });
 
         return hasMore;
