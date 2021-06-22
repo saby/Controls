@@ -20,6 +20,16 @@ interface IValidationResult {
 }
 
 /**
+ * Интерфейс опций диалога перемещения.
+ * @interface
+ * @public
+ * @author Аверкиев П.А.
+ */
+export interface IMoverDialogOptions extends IBasePopupOptions {
+    beforeMoveCallback?: (selection: ISelectionObject, target: Model | CrudEntityKey) => boolean | Promise<boolean>;
+}
+
+/**
  * Интерфейс опций контроллера.
  * @author Аверкиев П.А.
  * @private
@@ -36,7 +46,7 @@ export interface IMoveControllerOptions {
     /**
      * @cfg {Controls/popup:IBaseOpener} опции диалога перемещения
      */
-    popupOptions?: IBasePopupOptions;
+    popupOptions?: IMoverDialogOptions;
     /**
      * @cfg Array<{[columnName: string] Массив сортировок. Необходим при перемещении записей вверх/вниз
      */
@@ -58,7 +68,7 @@ export interface IMoveControllerOptions {
 export class MoveController {
 
     // Опции диалога перемещения записей
-    protected _popupOptions: IBasePopupOptions;
+    protected _popupOptions: IMoverDialogOptions;
 
     // Ресурс данных, в котором производится смена мест
     private _source: TSource;
@@ -168,8 +178,6 @@ export class MoveController {
             ...(this._popupOptions.templateOptions as IMoverDialogTemplateOptions)
         };
 
-        const root = templateOptions.root || null;
-
         return new Promise((resolve) => {
             Dialog.openPopup({
                 opener: this._popupOptions.opener,
@@ -178,14 +186,29 @@ export class MoveController {
                 template: this._popupOptions.template,
                 eventHandlers: {
                     onResult: (target: Model | CrudEntityKey) => {
-                        const targetKey = target === root ? target : (target as Model).getKey();
-                        resolve(
-                            this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>
-                        );
+                        resolve(this._moveInSourceWithCallback(selection, filter, target));
                     }
                 }
             });
         });
+    }
+
+    private _moveInSourceWithCallback(selection: ISelectionObject,
+                                      filter: TFilterObject,
+                                      target: Model | CrudEntityKey): Promise<DataSet> {
+        const root = (this._popupOptions.templateOptions as IMoverDialogTemplateOptions).root || null;
+        const targetKey = target === root ? target : (target as Model).getKey();
+        let callbackResult: Promise<boolean> | boolean;
+        if (this._popupOptions.beforeMoveCallback) {
+            callbackResult = this._popupOptions.beforeMoveCallback(selection, target);
+        }
+        if (callbackResult instanceof Promise) {
+            return callbackResult.then(() => {
+                return this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>;
+            });
+        } else if (callbackResult !== false) {
+            return this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>;
+        }
     }
 
     /**
@@ -301,7 +324,7 @@ export class MoveController {
      * @private
      */
     private static _validateBeforeOpenDialog(selection: ISelectionObject,
-                                             popupOptions: IBasePopupOptions): IValidationResult {
+                                             popupOptions: IMoverDialogOptions): IValidationResult {
         const result: IValidationResult = {
             message: undefined,
             isError: false
