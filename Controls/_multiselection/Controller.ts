@@ -409,6 +409,10 @@ export class Controller {
    // endregion
 
    private _removeFilteredItemKeys(selection: ISelection): ISelection {
+      if (this.isAllSelected(false)) {
+         return selection;
+      }
+
       return {
          selected: selection.selected.filter((key) => !!this._model.getItemBySourceKey(key)),
          excluded: selection.excluded.filter((key) => !!this._model.getItemBySourceKey(key))
