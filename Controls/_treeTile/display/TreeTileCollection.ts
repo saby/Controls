@@ -4,6 +4,7 @@ import {TileMixin} from 'Controls/tile';
 import TreeTileCollectionItem from './TreeTileCollectionItem';
 import {ItemsFactory, itemsStrategy, Tree, TreeItem} from 'Controls/display';
 import InvisibleStrategy from './strategy/Invisible';
+import TreeChildren from "Controls/_display/TreeChildren";
 
 /**
  * Рекурсивно проверяет скрыт ли элемент сворачиванием родительских узлов
@@ -78,6 +79,12 @@ export default class TreeTileCollection<
 
     getExpanderIcon(): string {
         return 'none';
+    }
+
+    protected _getChildrenArray(parent: T, withFilter?: boolean): T[] {
+        // фильтруем невидимые элементы, т.к. они нужны только для отрисовки, обрабатывать их никак не нужно
+        const childrenArray = super._getChildrenArray(parent, withFilter);
+        return childrenArray.filter((it) => !it['[Controls/_tile/display/mixins/InvisibleItem]']) as T[];
     }
 
     protected _getItemsFactory(): ItemsFactory<T> {
