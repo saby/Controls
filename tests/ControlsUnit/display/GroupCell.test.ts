@@ -13,16 +13,22 @@ describe('Controls/_display/GroupCell', () => {
     let column: IColumn;
     let hasMultiSelectColumn: boolean;
 
-    function getGroupCell(): GroupCell<Model> {
-        const owner = {
+    function getGroupCell(owner = {}, params = {}): GroupCell<Model> {
+        const baseOwner = {
             hasMultiSelectColumn: () => hasMultiSelectColumn,
-            getGroupPaddingClasses: () => 'controls-ListView__groupContent__rightPadding_s'
+            getGroupPaddingClasses: () => 'controls-ListView__groupContent__rightPadding_s',
+            ...owner
         } as undefined as GroupItem<Model>;
         return new GroupCell({
             contents: {},
             columnsLength: 4,
             column,
-            owner
+            ...params,
+            owner: {
+                ...baseOwner,
+                ...owner,
+                ...(params.owner || {})
+            }
         });
     }
 
@@ -65,6 +71,13 @@ describe('Controls/_display/GroupCell', () => {
         it('should not add separator placeholder when columnAlignGroup is defined and textAlign === "right" && textVisible === true', () => {
             const classes = getGroupCell().getRightTemplateClasses(false, true, 2);
             CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
+        });
+    });
+
+    describe('.getZIndex()', () => {
+        it('fixed cell + column scroll => [4]', () => {
+            const cell = getGroupCell({}, {isFixed: true});
+            assert.equal(cell.getZIndex(), 4);
         });
     });
 });
