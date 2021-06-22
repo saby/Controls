@@ -472,8 +472,12 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             this.setExpandedItems(newOptions.expandedItems);
         }
 
-        if (isSourceChanged && this._crudWrapper) {
-            this._crudWrapper.updateOptions({source: newOptions.source as ICrud});
+        if (isSourceChanged) {
+            if (newOptions.source) {
+                this._crudWrapper?.updateOptions({source: newOptions.source as ICrud});
+            } else {
+                this._crudWrapper = null;
+            }
         }
 
         if (isNavigationChanged) {
