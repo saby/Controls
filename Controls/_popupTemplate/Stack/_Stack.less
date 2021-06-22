@@ -21,23 +21,6 @@
    flex-direction: column;
 }
 
-.controls-StackTemplate__rightPanel {
-   position: absolute;
-   right: calc((var(--width_stack-right_panel) + var(--border_width_stack-right_panel)) * -1);
-   top: 0;
-   height: 100%;
-   display: flex;
-   flex-direction: column;
-   flex-grow: 1;
-   flex-shrink: 0;
-   justify-content: space-between;
-   min-width: 1px;
-   width: var(--width_stack-right_panel);
-   background-color: var(--unaccented_background-color);
-   border-left: var(--border_width_stack-right_panel) solid rgba(0, 0, 0, 0.04);
-   align-items: center;
-}
-
 .controls-stack-Button__close {
    margin-top: var(--offset_2xs);
 }
@@ -164,20 +147,6 @@
 
 .controls-background-stackHeader {
    background-color: var(--header_background-color_stack);
-}
-
-// todo: убрать после доработки кнопки по https://online.sbis.ru/opendoc.html?guid=b94c7204-28b3-4a3a-a408-0864f1d5ae3f
-.ws-is-hover .controls-stack-Button__rightPanel__close.controls-Button_functionalButton_style-unaccented:hover {
-   background-color: var(--unaccented_contrast_background-color);
-   border-color: var(--unaccented_contrast_background-color);
-}
-
-.ws-is-hover .controls-stack-Button__rightPanel__close:hover .controls-icon_style-label {
-   color: var(--secondary_text-color);
-}
-
-.controls-stack-Button__rightPanel__close.controls-Button_functionalButton {
-   box-shadow: none;
 }
 
 .controls-StackTemplate__top-area_default {

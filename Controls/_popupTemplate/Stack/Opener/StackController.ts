@@ -528,9 +528,9 @@ class StackController extends BaseController {
                 stackRoot = stackRoot.parentElement as HTMLDivElement;
             }
             rootCoords = TargetCoords.get(stackRoot || document.body);
+            rootCoords.right -= RIGHT_PANEL_WIDTH;
         } else {
-            const offset = Controller.getRightTemplate() ? RIGHT_PANEL_WIDTH : 0;
-            rootCoords = BaseController.getRootContainerCoords(item, '.controls-Popup__stack-target-container', offset);
+            rootCoords = BaseController.getRootContainerCoords(item, '.controls-Popup__stack-target-container', RIGHT_PANEL_WIDTH);
         }
 
         // calc with scroll only on desktop devices, because stack popup has fixed position and can scroll with page
