@@ -3562,7 +3562,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             processedIndices.add(index);
             item = items[index];
             match = true;
-            if (item['[Controls/_display/GroupItem]']) {
+            if (item['[Controls/_display/SearchSeparator]']) {
+                changed = applyMatch(match, index) || changed;
+            } else if (item['[Controls/_display/GroupItem]']) {
                 // A new group begin, check match for previous
                 if (prevGroup) {
                     match = isMatch(prevGroup, prevGroupIndex, prevGroupPosition, prevGroupHasMembers);
@@ -3574,7 +3576,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 prevGroupIndex = index;
                 prevGroupPosition = position;
                 prevGroupHasMembers = false;
-            } else if (!(item['[Controls/_display/SearchSeparator]'])) {
+            } else {
                 // Check item match
                 match = isMatch(item, index, position);
                 changed = applyMatch(match, index) || changed;
