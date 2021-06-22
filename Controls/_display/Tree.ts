@@ -1195,8 +1195,14 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             }
         }
 
+        this._setHasNode(hasNode);
+    }
+
+    protected _setHasNode(hasNode: boolean): void {
         if (this._hasNode !== hasNode) {
             this._hasNode = hasNode;
+            // TODO conditionProperty должно быть вида this._footerModule
+            this._updateItemsProperty('setHasNode', this._hasNode, '[Controls/treeGrid:TreeGridFooterRow]');
             this._nextVersion();
         }
     }

@@ -7,6 +7,11 @@ export default class TreeGridFooterRow extends GridFooterRow<any> {
     */
    protected _$hasNodeWithChildren: boolean;
 
+   /**
+    * Признак, означающий что в списке есть узел
+    */
+   protected _$hasNode: boolean;
+
    getExpanderSize(): string {
       return this.getOwner().getExpanderSize();
    }
@@ -47,6 +52,30 @@ export default class TreeGridFooterRow extends GridFooterRow<any> {
    }
 
    // endregion HasNodeWithChildren
+
+   // region HasNode
+
+   setHasNode(hasNode: boolean): void {
+      if (this._$hasNode !== hasNode) {
+         this._$hasNode = hasNode;
+
+         this._updateColumnsHasNode(hasNode);
+
+         this._nextVersion();
+      }
+   }
+
+   protected _updateColumnsHasNode(hasNode: boolean): void {
+      if (this._$columnItems) {
+         this._$columnItems.forEach((cell: TreeGridFooterCell) => {
+            if (cell['[Controls/treeGrid:TreeGridFooterCell]']) {
+               cell.setHasNode(hasNode);
+            }
+         });
+      }
+   }
+
+   // endregion HasNode
 
    getColumnsFactory(): (options: any) => TreeGridFooterCell {
       const superFactory = super.getColumnsFactory();
