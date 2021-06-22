@@ -95,6 +95,8 @@
      on:focusIn="_onFocusIn()"
      class="{{ _getGridViewWrapperClasses(_options) }}">
 
+    <style attr:name="redrawWrapperStyles" data-vdom-ignore="true"></style>
+
     <ws:if data="{{ _options.columnScroll }}">
         <Controls.columnScroll:StyleContainers name="columnScrollStyleContainers"/>
         <Controls.columnScroll:Shadows backgroundStyle="{{ _options.backgroundStyle }}"
