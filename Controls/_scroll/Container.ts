@@ -30,6 +30,7 @@ import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
 import template = require('wml!Controls/_scroll/Container/Container');
 import baseTemplate = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {descriptor} from "Types/entity";
+import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 
 /**
  * @typeof {String} TPagingPosition
@@ -104,6 +105,11 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     private _gridAutoShadows: boolean = true;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
+        getSettings(['scrollbarVisible']).then((storage) => {
+            if (storage?.scrollbarVisible) {
+                ScrollbarsModel.wheelEventHappened = storage.scrollbarVisible;
+            }
+        });
         this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController({ resizeCallback: this._headersResizeHandler.bind(this) });
@@ -458,6 +464,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _onWheelHandler(): void {
         if (!ScrollbarsModel.wheelEventHappened) {
+            setSettings({scrollbarVisible: true });
             ScrollbarsModel.wheelEventHappened = true;
         }
     }

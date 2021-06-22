@@ -29,7 +29,7 @@ define('Controls-demo/Index', [
                   var controlId = ids[0];
                   if (!storage[controlId]) {
                      storage[controlId] = 1000;
-                     if (controlId.indexOf('master') > -1) {
+                     if (controlId.indexOf('master') > -1 || controlId.indexOf('scrollbarVisible') > -1) {
                         storage[controlId] = undefined;
                      }
                   }
