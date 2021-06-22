@@ -3,6 +3,7 @@
     <div class="controls-Tabs-wrapper {{!_options.canShrink ? controls-Tabs__scrollWrapper}}"
          name="wrapper"
          on:mouseenter="_mouseEnterHandler()"
+         on:mouseout="_mouseOutHandler()"
          on:touchstart="_touchStartHandler()">
         <ws:for data="index, item in _itemsArray">
             <div name="tab{{item[_options.keyProperty]}}"
