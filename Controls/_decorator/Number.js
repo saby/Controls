@@ -6,7 +6,7 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
 
       var useGrouping = data.useGrouping !== false;
       var roundMode = data.roundMode || 'trunc';
-      var showEmptyDecimals = data.showEmptyDecimals !== false;
+      var showEmptyDecimals = data.showEmptyDecimals || false;
       var abbreviationType = data.abbreviationType || 'none';
       var stroked = data.stroked || false;
       var underline = data.underline || 'none';

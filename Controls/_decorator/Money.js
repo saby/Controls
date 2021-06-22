@@ -5,14 +5,14 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
       var key = thelpers.validateNodeKey(attr && attr.key);
 
       var value = data.value || null;
-      var useGrouping = data.useGrouping === false ? false : true;
+      var useGrouping = data.useGrouping !== false;
       var abbreviationType = data.abbreviationType || 'none';
       var formattedNumber = Money.calculateFormattedNumber(value, useGrouping, abbreviationType);
       var stroked = data.stroked || false;
       var fontColorStyle = Money.calculateFontColorStyle(stroked, data) || 'default';
       var fontSize = data.fontSize || 'm';
       var fontWeight = data.fontWeight || 'default';
-      var showEmptyDecimals = data.showEmptyDecimals === false ? false : true;
+      var showEmptyDecimals = data.showEmptyDecimals !== false;
       var currencySize = data.currencySize || 's';
       var currencyPosition = data.currencyPosition || 'right';
       var underline = data.underline || 'none';
