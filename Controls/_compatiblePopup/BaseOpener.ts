@@ -45,9 +45,7 @@ const BaseOpener = {
    },
    _prepareConfigForOldTemplate(cfg, templateClass): void {
       let rightOffset = cfg.isStack ? this._getTargetRightCoords() : 0;
-      if (ManagerController.getRightTemplate()) {
-         rightOffset += RIGHT_PANEL_WIDTH;
-      }
+      rightOffset += RIGHT_PANEL_WIDTH;
       let
          templateOptions = this._getTemplateOptions(templateClass),
          parentContext;
@@ -776,7 +774,6 @@ const BaseOpener = {
       cMerge(options, opts || {});
       return options;
    }
-
 };
 
 export default BaseOpener;

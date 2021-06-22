@@ -79,6 +79,13 @@ export interface IMenuOptions {
      * @default medium
      */
     itemsSpacing: TItemsSpacing;
+     /**
+      * @name Controls/toolbars:IToolbar#direction
+      * @cfg {String} Расположение элементов в тулбаре
+      * @variant vertical
+      * @variant horizontal
+      */
+     direction: 'vertical' | 'horizontal';
     /**
      * @name Controls/toolbars:IToolbar#additionalProperty
      * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/item-config/#additional">здесь</a>.
@@ -120,7 +127,6 @@ export interface IMenuOptions {
      */
     contrastBackground?: true;
 }
-
 
 /**
  * Интерфейс опций контрола {@link Controls/toolbars:View}.
@@ -673,6 +679,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             popupClassName: '',
             itemsSpacing: 'medium',
             iconSize: 'm',
+            direction: 'horizontal',
             itemTemplate: defaultItemTemplate,
             iconStyle: 'secondary'
         };

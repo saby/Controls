@@ -1,0 +1,25 @@
+<div class="controls-StackTemplate__rightPanel">
+    <Controls.buttons:Button
+            attr:data-qa="controls-stack-Button__close"
+            icon="icon-Close"
+            iconStyle="label"
+            buttonStyle="pale"
+            iconSize="m"
+            viewMode="functionalButton"
+            inlineHeight="xl"
+            tooltip="{[Закрыть]}"
+            readOnly="{{false}}"
+            attr:class="controls-stack-Button__close controls-stack-Button__rightPanel__close ws-flex-shrink-0"
+            on:click="_close()"
+    />
+
+    <ws:if data="{{_options.toolbarContentTemplate}}">
+        <ws:partial template="{{_options.toolbarContentTemplate}}"/>
+    </ws:if>
+
+    <ws:if data="{{_rightBottomTemplate}}">
+        <Controls.Container.Async templateName="{{_rightBottomTemplate}}" templateOptions="{{_options.rightPanelOptions}}">
+            <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
+        </Controls.Container.Async>
+    </ws:if>
+</div>

@@ -44,7 +44,6 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
     '[Controls/_popupTemplate/interface/IPopupTemplate]': boolean = true;
     protected _template: TemplateFunction = template;
     protected _headerTheme: string;
-    protected _stackRightPanel: string;
     protected _maximizeButtonTitle: string;
     protected _maximizeButtonVisibility: boolean = false;
 
@@ -52,7 +51,6 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
         this._maximizeButtonTitle = `${rk('Свернуть')}/${rk('Развернуть', 'окно')}`;
         this._updateMaximizeButton(options);
         this._prepareTheme();
-        this._stackRightPanel = ManagerController.getRightTemplate();
     }
 
     protected _beforeUpdate(options: IStackTemplateOptions): void {
@@ -71,10 +69,6 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
         } else {
             this._maximizeButtonVisibility = options.maximizeButtonVisibility;
         }
-    }
-
-    protected close(): void {
-        this._notify('close', [], {bubbling: true});
     }
 
     toggleMaximizeState(maximized?: boolean): void {
@@ -144,15 +138,11 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
 /**
  * @name Controls/_popupTemplate/Stack#bodyContentTemplate
  * @cfg {function|String} Основной контент шаблона, располагается под headerContentTemplate.
- * @remark
- * По новым стандартам справа от стековой панели может отображаться область с тулбаром.
- * В этом случае крестик закрытия будет отображаться в этой области. В случае если области с тулбаром нет,
- * то крестик закрытия отображается внутри стековой раскладки.
- * Если на контроле опция {@link headerContentTemplate} и {@link headingCaption} не заданы и шапка стековой
- * раскладки <b>не отображается</b>, то отступ контента до крестика может различаться.
- * Для того чтобы регулировать отступ контента до крестика в этих 2х ситуациях, на шаблон, объявленный внутри
- * bodyContentTemplate, контрол отдает опцию <b>hasRightTemplate</b> (только на чтение).
- * Опция отвечает за наличие справа от стекового шаблона области с тулбаром.
+ */
+
+/**
+ * @name Controls/_popupTemplate/Stack#toolbarContentTemplate
+ * @cfg {function|String} Шаблон контента под крестиком закрытия для размещения тулбара, расположенного в правой панели.
  */
 
 /**
