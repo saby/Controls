@@ -7886,6 +7886,15 @@ define([
             assert.isTrue(baseControl.getViewModel().isDragOutsideList());
             return timeout;
          });
+
+         it('_beforeUnmount should end drag', () => {
+            baseControl._dragStart({ entity: new dragNDrop.ItemsEntity({items: [1]}) }, 1);
+            baseControl._container = {
+               removeEventListener: () => null
+            };
+            baseControl._beforeUnmount();
+            assert.isTrue(notifySpy.withArgs('_documentDragEnd').called);
+         });
       });
 
       // region Move
