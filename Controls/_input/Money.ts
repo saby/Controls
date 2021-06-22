@@ -4,7 +4,7 @@ import readOnlyFieldTemplate = require('wml!Controls/_input/Money/ReadOnly');
 import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
 import {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
-import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
+import IOnlyPositive, {IOnlyPositiveOptions} from 'Controls/interface/IOnlyPositive';
 import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
 import {Formatter} from 'Controls/decorator';
 
@@ -22,7 +22,7 @@ interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPo
  * @class Controls/_input/Money
  * @extends Controls/input:Base
  *
- * @mixes Controls/input:IOnlyPositive
+ * @mixes Controls/interface:IOnlyPositive
  * @mixes Controls/input:INumberLength
  * @mixes Controls/input:IFieldTemplate
  *
@@ -37,7 +37,7 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
     protected _controlName: string = 'Money';
 
     readonly '[Controls/_input/interface/INumberLength]': boolean = true;
-    readonly '[Controls/_input/interface/IOnlyPositive]': boolean = true;
+    readonly '[Controls/interface/IOnlyPositive]': boolean = true;
 
     protected _initProperties(options: IMoneyOptions): void {
         super._initProperties(options);
