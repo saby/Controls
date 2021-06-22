@@ -138,6 +138,11 @@ class InfoBoxController extends StickyController {
         return isActive;
     }
 
+    // Инфобокс закрывается всегда при драге на странице
+    dragNDropOnPage(item): boolean {
+        return true;
+    }
+
     getDefaultConfig(item: IPopupItem): Promise<void> {
         super.getDefaultConfig.apply(this, arguments);
         const defaultPosition: IPopupPosition = {
