@@ -82,7 +82,9 @@
                             on:closeInfoBox="_closeInfoBox()"
                             attr:class="controls-Lookup__collection
                                         {{!_options.multiSelect && !_options.comment && _items.getCount() === 1 ? 'controls-Lookup__collection__selectedSingle'}}
-                                        {{(_isInputVisible(_options) && !_options.comment) ? 'controls-Lookup__collection_with_input'}}"
+                                        {{_isInputVisible(_options) ? 'controls-Lookup__collection_with_input'}}
+                                        {{_options.comment ? 'controls-Lookup__collection_with_commentInput'}}"
+
                             attr:style="max-width:{{_isInputVisible(_options) ? _availableWidthCollection}}px;">
                         <ws:itemTemplate>
                             <ws:partial template="{{_options.itemTemplate}}" attr:class="{{_itemTemplateClasses}}"/>
