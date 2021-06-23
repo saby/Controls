@@ -20,10 +20,7 @@
                             <ws:contentTemplate>
                                 <div class="cloud controls-ListView__item_showActions controls-ListView__highlightOnHover_default_theme-default">
                                     <div class="cloud-content">
-                                        <div>
-                                            <div>country:&nbsp;{{ contentTemplate.item.getContents().get('country') }}</div>
-                                            <div>capital:&nbsp;{{ contentTemplate.item.getContents().get('capital') }}</div>
-                                        </div>
+                                        <div>country:&nbsp;{{ contentTemplate.item.getContents().get('country') }}</div>
                                     </div>
                                     <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="{{contentTemplate.itemActionsClass}}"/>
                                 </div>
