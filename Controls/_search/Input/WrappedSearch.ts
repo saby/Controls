@@ -143,6 +143,19 @@ export default class WrappedSearch extends Control {
  */
 
 /**
+ * @name Controls/_search/Input/WrappedSearch#searchButtonAlign
+ * @cfg {String} Определяет, с какой стороны расположена иконка лупы.
+ * @variant left Иконка лупы расположена слева.
+ * @variant right Иконка лупы расположена справа.
+ * @default right
+ */
+
+/**
+ * @name Controls/_search/Input/WrappedSearch#searchButtonIconStyle
+ * @cfg {String} Цвет иконки лупы. См. {@link Controls/interface:IIconStyle#iconStyle подробнее}.
+ */
+
+/**
  * @name Controls/_search/Input/WrappedSearch#searchButtonVisible
  * @cfg {Boolean} Определяет отображение иконки лупы внутри поля поиска, клик по которой запускает поиск.
  * @default true
