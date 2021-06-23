@@ -179,12 +179,15 @@ const BaseOpener = {
       this._setSizes(cfg, templateClass);
 
       // поддерживаем такое поведение для старых панелей, на VDOM его убрали
-      if (cfg.templateOptions.type === 'stack') {
+      const popupType = cfg.templateOptions.type;
+      if (popupType === 'stack') {
          if (!cfg.width && !cfg.maxWidth && cfg.minWidth) {
             cfg.width = cfg.minWidth;
          } else {
             cfg.width = cfg.width || cfg.maxWidth;
          }
+      } else if (popupType === 'sticky' || popupType === 'dialog') {
+         cfg.className += ' controls-Popup__border-radius';
       }
       cfg.templateOptions.minWidth = cfg.minWidth;
       cfg.templateOptions.maxWidth = cfg.maxWidth;
