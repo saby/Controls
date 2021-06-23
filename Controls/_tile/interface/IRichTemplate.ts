@@ -59,6 +59,7 @@ export default interface IRichTemplateOptions {
      * @see imageEffect
      */
     imageSize?: 's' | 'm' | 'l';
+
     /**
      * @typedef {String} ImagePosition
      * @variant top Изображение отображается сверху.
@@ -66,7 +67,7 @@ export default interface IRichTemplateOptions {
      * @variant right Изображение отображается справа.
      */
     /**
-     * @cfg {ImagePosition} Размер изображения.
+     * @cfg {ImagePosition} Положение изображения.
      * @see imageSize
      * @see imageViewMode
      * @see nodesScaleSize
@@ -116,7 +117,7 @@ export default interface IRichTemplateOptions {
     /**
      * @cfg {ImageEffect} Эффект у изображения.
      * @default none
-     * 
+     *
      * @see nodesScaleSize
      */
     imageEffect?: 'none' | 'gradient';
@@ -199,4 +200,12 @@ export default interface IRichTemplateOptions {
      * @see footerEditor
      */
     afterImageTemplate?: TemplateFunction;
+
+    /**
+    * @cfg {String} Соотношение сторон изображения.
+    * @default 1:1
+    *
+    * @see imageSize
+    */
+    imageProportion?: string;
 }
