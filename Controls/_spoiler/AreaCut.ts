@@ -55,8 +55,8 @@ class AreaCut extends Cut {
     protected _mousedownHandler(event: Event): void {
         if (!this._options.readOnly) {
             this._expanded = true;
+            this._notify('expandedChanged', [this._expanded]);
         }
-        this._notify('expandedChanged', [this._expanded]);
         event.preventDefault();
     }
 
