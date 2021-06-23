@@ -154,6 +154,22 @@ describe('Controls/_multiselection/Controller', () => {
       });
    });
 
+   describe('increaseLimitByCount', () => {
+      it('limit is increased', () => {
+         controller.increaseLimitByCount(1);
+         assert.equal(controller.getLimit(), 1);
+
+         controller.increaseLimitByCount(1);
+         assert.equal(controller.getLimit(), 2);
+      });
+
+      it('update model', () => {
+         controller.setSelection({selected: [null], excluded: []});
+         controller.increaseLimitByCount(1);
+         assert.isTrue(model.getItemBySourceKey(1).isSelected());
+      });
+   });
+
    it('selectAll', () => {
       let result = controller.selectAll();
       assert.deepEqual(result, { selected: [null], excluded: [] });
@@ -220,11 +236,10 @@ describe('Controls/_multiselection/Controller', () => {
          });
 
          controller.setSelection({ selected: [null], excluded: [] });
-         let result = controller.toggleAll();
+         const result = controller.toggleAll();
          assert.deepEqual(result, { selected: [], excluded: [] });
-      })
+      });
    });
-
 
    it('unselectAll', () => {
       controller.toggleItem(1);
