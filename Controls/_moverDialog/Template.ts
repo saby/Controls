@@ -84,6 +84,11 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         this._columns = options.columns.slice();
         this._columns[0].textOverflow = 'ellipsis';
 
+        // Пока поддерживаем обе опции
+        if (options.showRoot) {
+            Logger.error('MoverDialog: Опция showRoot устарела и будет удалена в 5100. Необходимо использовать опцию rootVisible', this);
+        }
+
         if (options.rootVisible || options.showRoot) {
             if (!options.rootTitle) {
                 Logger.error('MoverDialog: Для диалога перемещения необходимо указать опцию rootTitle', this);
@@ -149,8 +154,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
     protected _dataLoadCallback(recordSet: RecordSet): void {
         if ((!this._searchValue || this._searchValue.length === 0) &&
             this._root === this._options.root &&
-            (this._options.showRoot || this._options.rootVisible) &&
-            !!this._options.rootTitle) {
+            (this._options.showRoot || this._options.rootVisible)) {
             recordSet.add(new Model({
                 keyProperty: recordSet.getKeyProperty(),
                 rawData: this._getRootRawData()
