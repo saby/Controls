@@ -6,6 +6,7 @@ import {IFontColorStyleOptions} from 'Controls/_interface/IFontColorStyle';
 import {IFontWeightOptions} from 'Controls/_interface/IFontWeight';
 import {IFontSizeOptions} from 'Controls/_interface/IFontSize';
 
+import {IOnlyPositiveOptions} from 'Controls/_decorator/interfaces/IOnlyPositive';
 import toString from 'Controls/_decorator/inputUtils/toString';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import {
@@ -16,19 +17,20 @@ import {
 } from 'Controls/_decorator/resources/Formatter';
 
 type TValue = string | number | null;
-
 type TAbbreviationType = 'none' | 'short' | 'long';
+type TUnderline = 'hovered' | 'none';
 type RoundingFn = (number: string, precision: number) => string;
 
 export type RoundMode = 'round' | 'trunc';
 
 export interface INumberOptions extends IControlOptions, INumberFormatOptions, IFontColorStyleOptions,
-    IFontWeightOptions, IFontSizeOptions {
+    IFontWeightOptions, IFontSizeOptions, IOnlyPositiveOptions {
     value: TValue;
     fractionSize?: number;
     precision?: number;
     roundMode: RoundMode;
     abbreviationType?: TAbbreviationType;
+    underline?: TUnderline;
 }
 
 export function calculateMainClass(
@@ -94,9 +96,9 @@ export function calculateFormattedNumber(
     }
 
     if (abbreviationType && abbreviationType !== 'none') {
-        return correctNumberValue(abbreviateNumber(strNumber, abbreviationType));
+        return correctNumberValue(abbreviateNumber(strNumber, abbreviationType), format.onlyPositive);
     }
-    strNumber = correctNumberValue(strNumber);
+    strNumber = correctNumberValue(strNumber, format.onlyPositive);
     if (useGrouping) {
         return splitIntoTriads(strNumber);
     }

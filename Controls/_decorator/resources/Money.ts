@@ -23,48 +23,17 @@ type TAbbreviationType = 'long' | 'none';
 type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
 type TCurrencyPosition = 'right' | 'left';
 type TCurrencySize = '2xs' | 'xs' | 's' | 'm' | 'l';
-/**
- * Тип данных для подчеркивания
- * @typedef {string} Controls/_decorator/IMoney/TUnderline
- * @variant hovered
- * @variant none
- */
 type TUnderline = 'hovered' | 'none';
-/**
- * Тип данных количества знаков после запятой
- * @typedef {string} Controls/_decorator/IMoney/TPrecision
- * @variant 0
- * @variant 2
- */
 type TPrecision = 0 | 2;
 
 export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions,
     IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions, IOnlyPositiveOptions {
-    /**
-     * @name Controls/_decorator/IMoney#value
-     * @cfg {Controls/_decorator/IMoney/TValue.typedef} Декорируемое число.
-     * @implements Controls/decorator:IOnlyPositive
-     * @default null
-     * @demo Controls-demo/Decorator/Money/Value/Index
-     */
     value: TValue;
     abbreviationType?: TAbbreviationType;
     currency?: TCurrency;
     currencySize?: TCurrencySize;
     currencyPosition?: TCurrencyPosition;
-    /**
-     * @name Controls/_decorator/IMoney#underline
-     * @cfg {Controls/_decorator/IMoney/TUnderline.typedef} Вариант подчеркивания.
-     * @default none
-     * @demo Controls-demo/Decorator/Money/Underline/Index
-     */
     underline?: TUnderline;
-    /**
-     * @name Controls/_decorator/IMoney#precision
-     * @cfg {Number} Количество знаков после запятой.
-     * @default 2
-     * @demo Controls-demo/Decorator/Money/Precision/Index
-     */
     precision?: TPrecision;
 }
 

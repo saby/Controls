@@ -133,6 +133,7 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
 /**
  * @name Controls/_decorator/IMoney#value
  * @cfg {Controls/_decorator/IMoney/TValue.typedef} Декорируемое число.
+ * @implements Controls/decorator:IOnlyPositive
  * @default null
  * @demo Controls-demo/Decorator/Money/Value/Index
  */
@@ -162,6 +163,21 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
  * @cfg {Controls/_decorator/IMoney/TCurrencyPosition.typedef} Позиция отображаемой валюты относительно суммы.
  * @default right
  * @demo Controls-demo/Decorator/Money/Currency/Index
+ */
+
+/**
+ * @name Controls/_decorator/IMoney#underline
+ * @cfg {Controls/_decorator/IMoney/TUnderline.typedef} Вариант подчеркивания.
+ * @default none
+ * @demo Controls-demo/Decorator/Money/Underline/Index
+ */
+
+
+/**
+ * @name Controls/_decorator/IMoney#precision
+ * @cfg {Number} Количество знаков после запятой.
+ * @default 2
+ * @demo Controls-demo/Decorator/Money/Precision/Index
  */
 
 /**
@@ -199,4 +215,18 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
  * @variant s
  * @variant m
  * @variant l
+ */
+
+/**
+ * Тип данных для подчеркивания
+ * @typedef {string} Controls/_decorator/IMoney/TUnderline
+ * @variant hovered
+ * @variant none
+ */
+
+/**
+ * Тип данных количества знаков после запятой
+ * @typedef {string} Controls/_decorator/IMoney/TPrecision
+ * @variant 0
+ * @variant 2
  */
