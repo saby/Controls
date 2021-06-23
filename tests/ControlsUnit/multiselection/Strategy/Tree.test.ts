@@ -586,6 +586,14 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(toArrayKeys(res.get(null)), []);
       });
 
+      it('with limit', () => {
+         const selection = { selected: [null], excluded: [null] };
+         let res = strategy.getSelectionForModel(selection, 3);
+         assert.deepEqual(toArrayKeys(res.get(true)), [1, 2, 3] );
+         assert.deepEqual(toArrayKeys(res.get(null)), []);
+         assert.deepEqual(toArrayKeys(res.get(false)), [4, 5, 6, 7]);
+      });
+
       it('search model', () => {
          const items = new RecordSet({
             rawData: [{
@@ -777,6 +785,12 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const selection = { selected: [2], excluded: [] };
          const res = strategy.getCount(selection, false);
          assert.equal(res, 3);
+      });
+
+      it('with limit', () => {
+         const selection = { selected: [null], excluded: [null] };
+         const count = strategy.getCount(selection, false, 5);
+         assert.equal(count, 5);
       });
    });
 
