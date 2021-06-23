@@ -59,7 +59,8 @@ define(
             source: new sourceLib.Memory({
                keyProperty: 'id',
                data: items
-            })
+            }),
+            closeMenuOnOutsideClick: true
          };
 
 
