@@ -15,7 +15,7 @@
       </ws:for>
       <ws:if data="{{_needShowMenu}}">
          <Controls.buttons:Button
-                 arrt:class="controls-Toolbar__menu controls-Toolbar__menu_spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}"
+                 attr:class="controls-Toolbar__menu controls-Toolbar__menu_spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}"
                  name="menuTarget"
                  viewMode="toolButton"
                  tooltip="{[Открыть меню]}"
