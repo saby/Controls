@@ -31,6 +31,7 @@ class AreaCut extends Cut {
             this._firstEditPassed = true;
             this._value = options.value;
         }
+        super._beforeMount(options);
     }
 
     protected _beforeUpdate(options: IAreaCutOptions): void {
@@ -55,6 +56,7 @@ class AreaCut extends Cut {
         if (!this._options.readOnly) {
             this._expanded = true;
         }
+        this._notify('expandedChanged', [this._expanded]);
         event.preventDefault();
     }
 
