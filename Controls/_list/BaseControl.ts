@@ -4809,7 +4809,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         //TODO: можно убрать после https://online.sbis.ru/opendoc.html?guid=2be6f8ad-2fc2-4ce5-80bf-6931d4663d64
         if (_private.needScrollPaging(this._options.navigation)) {
-            if (!this._scrollController.getParamsToRestoreScrollPosition()) {
+            if (this._scrollController && !this._scrollController.getParamsToRestoreScrollPosition()) {
                 _private.updateScrollPagingButtons(this, this._getScrollParams());
             }
         }
