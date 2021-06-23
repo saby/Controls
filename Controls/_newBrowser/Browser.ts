@@ -319,7 +319,11 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         //region update master
-        const newMasterVisibility = Browser.calcMasterVisibility(newOptions);
+        const newMasterVisibility = Browser.calcMasterVisibility({
+            master: newOptions.master,
+            userViewMode: this._appliedViewMode,
+            listConfiguration: this._listConfiguration
+        });
         // Если видимость мастера не меняется, то меняем _masterRoot,
         // т.к. если он есть, то произойдет загрузка новых данных, а если нет,
         // то не произойдет, но _masterRoot будет актуальным
@@ -843,7 +847,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         'Controls/newBrowser'
     ];
 
-    static calcMasterVisibility(options: IOptions): MasterVisibilityEnum {
+    static calcMasterVisibility(options: Partial<IOptions>): MasterVisibilityEnum {
         if (options.master?.visibility) {
             return options.master.visibility;
         }
