@@ -108,7 +108,7 @@ export default class HoverFreeze {
         if (this._isCursorInsideOfMouseMoveArea(x, y)) {
             this._itemUnfreezeHoverTimeout = setTimeout(() => {
                 this.unfreezeHover();
-                if (this._delayedItemData) {
+                if (event.target === this._delayedItemData?.nativeEvent?.target) {
                     const timeout = HOVER_FREEZE_TIMEOUT - HOVER_UNFREEZE_TIMEOUT;
                     this._startFreezeHoverTimeout(
                         this._delayedItemData.key,
@@ -116,6 +116,8 @@ export default class HoverFreeze {
                         this._delayedItemData.index,
                         this._delayedItemData.startIndex,
                         timeout);
+                } else {
+                    this._delayedItemData = null;
                 }
             }, HOVER_UNFREEZE_TIMEOUT);
         } else {

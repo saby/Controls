@@ -495,8 +495,8 @@
   "--box-shadow_closeButton_toolButton": "var(--box-shadow_button)",
   "--box-shadow_closeButton_functionalButton": "none",
   "--background-color_closeButton_toolButton": "var(--background-color_button_toolButton)",
-  "--background-color_hover_closeButton_toolButton": "var(--background-color_hover_button_toolButton)",
-  "--background-color_active_closeButton_toolButton": "var(--background-color_active_button_toolButton)",
+  "--background-color_hover_closeButton_toolButton": "var(--background-color_contrast_hover_button_toolButton)",
+  "--background-color_active_closeButton_toolButton": "var(--background-color_contrast_active_button_toolButton)",
 
   "--icon-size_closeButton_toolButton": "12px",
   "--icon-size_closeButton_link": "var(--icon-size_closeButton_toolButton)",
@@ -928,7 +928,7 @@
   "--basic_item_reset-button_icon-size_filterPanel": "var(--icon-size_s)",
   "--basic_item_reset-button_icon-color_filterPanel": "#CCC",
   "--extended_content_padding-left_filterPanel": "var(--basic_content_padding-left_filterPanel)",
-  "--extended_max-height_filterPanel": "calc(var(--extended_item_height_filterPanel) * 5)",
+  "--extended_max-height_filterPanel": "calc(var(--item_height_filterPanel) * 5)",
   "--extended_group_height_filterPanel": "40px",
   "--extended_heading_text-color_filterPanel": "var(--secondary_text-color_heading)",
 
@@ -971,7 +971,7 @@
   "--height_applyButton_editableArea": "var(--inline_height_m)",
 
   "--border-radius_applyButton_editableArea": "12px",
-  "--box-shadow_applyButton_editableArea": "0 1px 4px rgba(0, 0, 0, 0.05)",
+  "--box-shadow_applyButton_editableArea": "var(--box-shadow_contrast-button)",
   "--background-color_applyButton_editableArea": "var(--success_color)",
   "--background-color_hover_applyButton_editableArea": "var(--success_hover_background-color_button_functionalButton)",
 
@@ -1476,6 +1476,7 @@
   "--height_medium_tile": "158px",
   "--gradient_dark_height_preview_tile": "14px",
   "--gradient_light_height_preview_tile": "4px",
+  "--text_light_color_preview_tile": "var(--background-color)",
 
   "--title_multi_line_height_preview_tile": "48px",
 

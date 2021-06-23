@@ -57,7 +57,9 @@
    visibility: hidden;
 }
 
-.controls-Grid__row-cell_single-cell-editable_fixed:hover {
+// Усиление необходимо, т.к. z-index навешивается контроллером скрола через GUID-селектор
+// .GUID-селектор .controls-Grid_columnScroll__fixed {} и имеет больший вес.
+.controls-Grid_columnScroll__fixed.controls-Grid__row-cell_single-cell-editable_fixed:hover {
    z-index: 4;
 }
 

@@ -356,7 +356,11 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         const sourceController = this._getSourceController(id);
-        const isChanged = sourceController.updateOptions({...newOptions, ...this._getSourceControllerOptions(newOptions)});
+        const isChanged = sourceController.updateOptions({
+            ...newOptions,
+            ...this._getSourceControllerOptions(newOptions),
+            source: sourceChanged ? newOptions.source : this._getOriginalSource(newOptions)
+        });
 
         if (searchValueOptionsChanged && searchValueChanged) {
             this._inputSearchValue = newOptions.searchValue;
@@ -702,11 +706,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _getSourceControllerOptions(options: IListConfiguration): ISourceControllerOptions {
         const root = options.id ? options.root : this._root;
-        const source = options.id ? options.source : this._source;
         const filter = options.id ? options.filter : this._filter;
         return {
             filter,
-            source,
             navigationParamsChangedCallback: this._notifyNavigationParamsChanged,
             dataLoadErrback: this._dataLoadErrback,
             dataLoadCallback: this._dataLoadCallback,

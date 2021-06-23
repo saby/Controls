@@ -284,6 +284,15 @@ class Base extends Control<IMasterDetail, string> {
         }
     }
 
+    protected _getMasterStyle(scrollTop: number = 0, scrollOffsetTop: number, masterOffsetTop: number): string {
+        if (this._container) {
+            const normalHeight = scrollOffsetTop + masterOffsetTop;
+            const height = document.body.clientHeight - Math.max(normalHeight - scrollTop, masterOffsetTop);
+            return `max-height: ${height}px;`;
+        }
+        return `max-height: calc(100vh - ${masterOffsetTop }px);`;
+    }
+
     private _isMasterFixed(options: IMasterDetail): boolean {
         return options.scrollTop !== undefined;
     }
