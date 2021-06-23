@@ -8,8 +8,8 @@ import {
 import Drag from 'Controls/_display/itemsStrategy/Drag';
 import { Model } from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import Direct from "Controls/_display/itemsStrategy/Direct";
-import AdjacencyList from "Controls/_display/itemsStrategy/AdjacencyList";
+import Direct from 'Controls/_display/itemsStrategy/Direct';
+import AdjacencyList from 'Controls/_display/itemsStrategy/AdjacencyList';
 
 describe('Controls/_display/itemsStrategy/Drag', () => {
    function wrapItem<S extends Model = Model, T = CollectionItem>(item: S): T {
@@ -101,8 +101,75 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
       assert.equal(strategy.source, source);
    });
 
-   it('.getDisplayIndex', () => {
-      assert.equal(strategy.getDisplayIndex(1), 1);
+   describe('.getDisplayIndex', () => {
+      it('default', () => {
+         assert.equal(strategy.getDisplayIndex(1), 1);
+      });
+
+      it('drag some items', () => {
+         display = new Tree({
+            collection: new RecordSet({
+               rawData: [
+                  { id: 1, node: null, parent: null },
+                  { id: 2, node: null, parent: null },
+                  { id: 3, node: true, parent: null },
+                  { id: 31, node: null, parent: 3 }
+               ],
+               keyProperty: 'id'
+            }),
+            keyProperty: 'id',
+            nodeProperty: 'node',
+            parentProperty: 'parent',
+            root: null,
+            expandedItems: [3]
+         });
+         source = getSource(display.getItems());
+         strategy = new Drag({
+            source,
+            display,
+            draggableItem: display.getItemBySourceKey(2),
+            draggedItemsKeys: [1, 2],
+            targetIndex: 0
+         });
+         // чтобы инициализировать все значения
+         // tslint:disable-next-line:no-unused-expression
+         strategy.items;
+
+         assert.equal(strategy.getDisplayIndex(2), 1);
+      });
+
+      it('drag some items separately', () => {
+         display = new Tree({
+            collection: new RecordSet({
+               rawData: [
+                  { id: 1 },
+                  { id: 2 },
+                  { id: 3 },
+                  { id: 4 },
+                  { id: 5 },
+                  { id: 6 }
+               ],
+               keyProperty: 'id'
+            }),
+            keyProperty: 'id'
+         });
+         source = getSource(display.getItems());
+         strategy = new Drag({
+            source,
+            display,
+            draggableItem: display.getItemBySourceKey(3),
+            draggedItemsKeys: [2, 3, 5],
+            targetIndex: 0
+         });
+         // чтобы инициализировать все значения
+         // tslint:disable-next-line:no-unused-expression
+         strategy.items;
+
+         assert.equal(strategy.getDisplayIndex(1), 1);
+         assert.equal(strategy.getDisplayIndex(2), 1);
+         assert.equal(strategy.getDisplayIndex(3), 2);
+         assert.equal(strategy.getDisplayIndex(5), 3);
+      });
    });
 
    it('.getCollectionIndex', () => {
@@ -117,11 +184,42 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
       assert.equal(strategy.at(0).getContents(), display.getItemBySourceKey(1).getContents());
    });
 
-   it('items', () => {
-      const items = strategy.items;
-      assert.equal(items[0].getContents(), display.getItemBySourceKey(1).getContents());
-      assert.equal(items[1].getContents(), display.getItemBySourceKey(2).getContents());
-      assert.equal(items[2].getContents(), display.getItemBySourceKey(3).getContents());
+   describe('items', () => {
+      it('default', () => {
+         const items = strategy.items;
+         assert.equal(items[0].getContents(), display.getItemBySourceKey(1).getContents());
+         assert.equal(items[1].getContents(), display.getItemBySourceKey(2).getContents());
+         assert.equal(items[2].getContents(), display.getItemBySourceKey(3).getContents());
+      });
+
+      it('drag some items separately', () => {
+         display = new Tree({
+            collection: new RecordSet({
+               rawData: [
+                  { id: 1 },
+                  { id: 2 },
+                  { id: 3 },
+                  { id: 4 },
+                  { id: 5 },
+                  { id: 6 }
+               ],
+               keyProperty: 'id'
+            }),
+            keyProperty: 'id'
+         });
+         source = getSource(display.getItems());
+         strategy = new Drag({
+            source,
+            display,
+            draggableItem: display.getItemBySourceKey(2),
+            draggedItemsKeys: [2, 3, 5],
+            targetIndex: 1
+         });
+
+         const items = strategy.items;
+         const keys = items.map((it) => it.getContents().getKey());
+         assert.deepEqual(keys, [1, 2, 4, 6]);
+      });
    });
 
    it('setPosition', () => {
