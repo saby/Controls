@@ -2318,6 +2318,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$stickyHeader;
     }
 
+    isStickyFooter(): boolean {
+        return this._$stickyFooter;
+    }
+
     setRoundBorder(roundBorder: IRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;

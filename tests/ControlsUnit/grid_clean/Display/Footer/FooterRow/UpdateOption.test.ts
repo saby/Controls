@@ -8,7 +8,8 @@ const mockedOwner = {
     hasMultiSelectColumn: () => false,
     hasItemActionsSeparatedCell: () => false,
     isFullGridSupport: () => true,
-    hasColumnScroll: () => false
+    hasColumnScroll: () => false,
+    isStickyFooter: () => false
 } as any;
 
 describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
@@ -105,7 +106,8 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
             hasMultiSelectColumn: () => false,
             hasItemActionsSeparatedCell: () => false,
             isFullGridSupport: () => true,
-            hasColumnScroll: () => false
+            hasColumnScroll: () => false,
+            isStickyFooter: () => false
         } as any;
 
         const footerRow = new GridFooterRow({

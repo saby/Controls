@@ -62,6 +62,16 @@ export default class FooterRow<T> extends mixin<Row<string>, Footer>(Row, Footer
         return this._actionsTemplateConfig;
     }
 
+    isSticked(): boolean {
+        return this.getOwner().isStickyFooter();
+    }
+
+    getStickyHeaderPosition(): {} {
+        return {
+            vertical: 'bottom'
+        };
+    }
+
     //region Аспект "Колонки. Создание, колспан."
     protected _initializeColumns(): void {
         super._initializeColumns({

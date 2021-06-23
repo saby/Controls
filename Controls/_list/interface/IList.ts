@@ -729,6 +729,13 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
+ * @name Controls/_list/interface/IList#stickyFooter
+ * @description
+ * Закрепляет {@link /doc/platform/developmentapl/interface-development/controls/list/list/footer/ подвал} списка.
+ * @default false
+ */
+
+/**
  * @typedef {String} Controls/_list/interface/IList/ButtonName
  * @description Допустимые значения для аргумента события {@link Controls/list:IList#pagingArrowClick pagingArrowClick}.
  * @variant Begin Кнопка "В начало".
