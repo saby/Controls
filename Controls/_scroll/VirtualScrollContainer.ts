@@ -3,12 +3,28 @@ import template = require('wml!Controls/_scroll/VirtualScrollContainer/VirtualSc
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
 /**
- *
+ * Контейнер, используемый для поддержки виртуальной прокрутки при наличии дополнительных контролов в {@link Controls/scroll:Container}.
+ * Подробнее об использовании читайте {@link /doc/platform/developmentapl/interface-development/controls/list/performance-optimization/virtual-scroll/#container здесь}.
  * @class Controls/_scroll/VirtualScrollContainer
- *
  * @author Красильников А.С.
  * @see Controls/_scroll/Container
  * @public
+ * @example
+ * <pre class="brush: html; highlight: [3,7]">
+ * <!-- WML -->
+ * <Controls.scroll:Container>
+ *    <Controls.scroll:VirtualScrollContainer>
+ *       <Controls.buttons:Button
+ *          viewMode="link"
+ *          caption="Контент, расположенный над списком"/>
+ *    </Controls.scroll:VirtualScrollContainer>
+ *    <Controls.list:View
+ *       source="{{_viewSource}}"
+ *       navigation="{{_navigation}}">
+ *       <ws:virtualScrollConfig pageSize="{{100}}"/>
+ *    </Controls.list:View>
+ * </Controls.scroll:Container>
+ * </pre>
  */
 
 /**
