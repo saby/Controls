@@ -47,7 +47,7 @@ export default class MassOperationMenu extends Control<IControlOptions> {
         this._operationPanelItemsStoreId = Store.onPropertyChanged('operationToolbarItems', () => {
             this._source = this._getMenuSource();
         });
-        this._operationPanelOpenMenu = Store.declareCommand('openOperationMenu', () => {
+        this._operationPanelOpenMenu = Store.declareCommand('openOperationsMenu', () => {
             this._children.menu.openMenu();
         });
     }
