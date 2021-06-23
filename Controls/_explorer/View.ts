@@ -267,6 +267,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _afterMount(): void {
         this._isMounted = true;
+        this._notify('register', ['rootChanged', this, this._setRootOnBreadCrumbsClick.bind(this)], {bubbling: true});
     }
 
     protected _beforeUpdate(cfg: IExplorerOptions): void {
@@ -388,6 +389,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _beforeUnmount(): void {
         this._unsubscribeOnCollectionChange();
+        this._notify('unregister', ['rootChanged', this], {bubbling: true});
     }
 
     protected _documentDragEnd(event: SyntheticEvent, dragObject: IDragObject): void {
@@ -578,7 +580,12 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _onBreadCrumbsClick(event: SyntheticEvent, item: Model): void {
         const newRoot = item.getKey();
-        const rootChanged = this._setRoot(newRoot);
+        this._setRootOnBreadCrumbsClick(newRoot);
+
+    }
+
+    private _setRootOnBreadCrumbsClick(root: TKey): void {
+        const rootChanged = this._setRoot(root);
 
         // Если смену root отменили, то и делать ничего не надо, т.к.
         // остаемся в текущей папке
@@ -596,7 +603,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // цикле синхронизации если сверху был передан markedKey !== undefined. Т.к. в
         // BaseControl метод setMarkedKey проставляет маркер синхронно только если в опциях
         // не указан markedKey
-        const markedKey = this._restoredMarkedKeys[newRoot].markedKey;
+        const markedKey = this._restoredMarkedKeys[root]?.markedKey;
         if (markedKey) {
             this._potentialMarkedKey = markedKey;
             this._children.treeControl.setMarkedKey(markedKey);
@@ -616,7 +623,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // то нужно восстановить курсор что бы тот, кто грузит данные сверху выполнил запрос с
         // корректным значением курсора
         if (this._isCursorNavigation(this._options.navigation)) {
-            this._restoredCursor = this._restorePositionNavigation(newRoot);
+            this._restoredCursor = this._restorePositionNavigation(root);
         }
     }
 
