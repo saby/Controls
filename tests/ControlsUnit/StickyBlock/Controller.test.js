@@ -413,7 +413,7 @@ define([
          });
       });
 
-      describe('StickyHeader', function() {
+      describe('StickyBlock', function() {
          var event = {
             stopImmediatePropagation: function() {}
          };

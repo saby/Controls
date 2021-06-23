@@ -13,7 +13,7 @@ define(
 
       const _StickyHeader = _StickyHeaderLib.default;
 
-      describe('Controls.StickyHeader.Template', function() {
+      describe('Controls.StickyBlock.Template', function() {
          var ctrl, template, inst, compat;
 
          before(function() {
@@ -38,9 +38,9 @@ define(
             Env.constants.compat = compat;
          });
 
-         describe('StickyHeader', function() {
+         describe('StickyBlock', function() {
             beforeEach(function() {
-               ctrl = new scroll.StickyHeader({});
+               ctrl = new scroll.StickyBlock({});
                ctrl._container = {
                   offsetParent: true
                };
