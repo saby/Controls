@@ -41,7 +41,6 @@ var _private = {
     },
 
     updateDataOptions: function (self, newOptions, contextDataOptions) {
-        self._items = newOptions?.items ? newOptions.items : contextDataOptions.items;
         self._source = newOptions?.source ? newOptions.source : contextDataOptions.source;
         self._filter = newOptions?.filter ? newOptions.filter : contextDataOptions.filter;
         self._items = newOptions?.items ? newOptions.items : contextDataOptions.items;

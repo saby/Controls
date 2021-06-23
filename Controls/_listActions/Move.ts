@@ -1,12 +1,12 @@
 import IAction from './interface/IAction';
 import IActionOptions from './interface/IActionOptions';
-import {IMoveProvider} from './Move/Provider';
+import {IMoveProvider, IMoveProviderOptions} from './Move/Provider';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
-import {IMoveControllerOptions} from 'Controls/list';
+import {DataSet} from "Types/source";
 
-interface IOptions extends IActionOptions, IMoveControllerOptions {
-    providerName: string;
-    providerOptions: any;
+export interface IMoveActionOptions extends IActionOptions, IMoveProviderOptions {
+    providerName?: string;
+    providerOptions?: any;
 }
 
 /**
@@ -17,23 +17,23 @@ interface IOptions extends IActionOptions, IMoveControllerOptions {
  * @author Крайнов Д.О.
  */
 export default class Move implements IAction {
-    private _options: IOptions;
+    private _options: IMoveActionOptions;
 
-    constructor(options: IOptions) {
+    constructor(options: IMoveActionOptions) {
         this._options = options
     }
 
-    execute(meta: Partial<IOptions>): Promise<void> {
+    execute(meta: Partial<IMoveActionOptions>): Promise<void | DataSet> {
         const config = {...this._options, ...meta};
-        return this._getProvider().then((provider) => {
-            provider.execute({
+        return this._getProvider(config.providerName).then((provider) => {
+            return provider.execute({
                 ...config,
                 ...config.providerOptions
             });
         });
     }
 
-    private _getProvider(providerName: string = 'Controls/listActions:MoveProvider'): Promise<IMoveProvider> {
+    private _getProvider(providerName: string = 'Controls/listActions:MoveProviderWithDialog'): Promise<IMoveProvider> {
         return ModulesLoader.loadAsync(providerName).then((provider) => {
            return new provider();
         });
