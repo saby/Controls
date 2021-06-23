@@ -326,13 +326,13 @@ export default class ScrollController {
                                     // _completeScrollToItem
                                     this._completeScrollToItem = () => {
                                         this._fakeScroll = true;
+                                        this.savePlaceholders(rangeShiftResult.placeholders);
                                         scrollCallback(index, {
                                             placeholders: rangeShiftResult.placeholders,
                                                 shadowVisibility: this._calcShadowVisibility(
                                                 this._options.collection,
                                                 rangeShiftResult.range)
                                         });
-                                        this.savePlaceholders(rangeShiftResult.placeholders);
                                         resolve();
                                     };
                                 }
