@@ -77,6 +77,7 @@ class ListEditor extends BaseEditor {
         this._selectedKeys = options.propertyValue;
         this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
         this._itemsReadyCallback = this._handleItemsReadyCallback.bind(this);
+        this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
         this._navigation = options.navigation;
     }
 
@@ -84,12 +85,16 @@ class ListEditor extends BaseEditor {
         const valueChanged =
             !isEqual(options.propertyValue, this._options.propertyValue) &&
             !isEqual(options.propertyValue, this._selectedKeys);
+        const filterChanged = !isEqual(options.filter, this._options.filter);
         const displayPropertyChanged = options.displayProperty !== this._options.displayProperty;
         const additionalDataChanged = options.additionalTextProperty !== this._options.additionalTextProperty;
         if (additionalDataChanged || valueChanged || displayPropertyChanged) {
             this._selectedKeys = options.propertyValue;
             this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
             this._navigation = this._getNavigation(options);
+        }
+        if (filterChanged || (valueChanged && !this._selectedKeys.length)) {
+            this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
         }
     }
 
@@ -123,9 +128,10 @@ class ListEditor extends BaseEditor {
         });
         if (selectedKeys.length) {
             this._items.assign(result);
+            this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
-        this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
         this._navigation = this._getNavigation(this._options);
+        this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
     }
 
     protected _handleFooterClick(event: SyntheticEvent): void {
@@ -180,6 +186,13 @@ class ListEditor extends BaseEditor {
     protected _beforeUnmount(): void {
         if (this._popupOpener) {
             this._popupOpener.destroy();
+        }
+    }
+
+    private _setFilter(selectedKeys: string[]|number[], filter: object, keyProperty: string): void {
+        this._filter = {...filter};
+        if (selectedKeys && selectedKeys.length) {
+            this._filter[keyProperty] = selectedKeys;
         }
     }
 
