@@ -7886,6 +7886,15 @@ define([
             assert.isTrue(baseControl.getViewModel().isDragOutsideList());
             return timeout;
          });
+
+         it('_beforeUnmount should hide dragging template', () => {
+            baseControl._dragStart({ entity: new dragNDrop.ItemsEntity({items: [1]}) }, 1);
+            baseControl._container = {
+               removeEventListener: () => null
+            };
+            baseControl._beforeUnmount();
+            assert.isTrue(notifySpy.withArgs('_removeDraggingTemplate').called);
+         });
       });
 
       // region Move
