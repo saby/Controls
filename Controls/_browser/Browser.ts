@@ -357,10 +357,18 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         const sourceController = this._getSourceController(id);
+        let source;
+        if (sourceChanged) {
+            source = newOptions.source;
+        } else if (sourceController.getSource() !== newOptions.source) {
+            source = this._getOriginalSource(newOptions);
+        } else {
+            source = newOptions.source;
+        }
         const isChanged = sourceController.updateOptions({
             ...newOptions,
             ...this._getSourceControllerOptions(newOptions),
-            source: sourceChanged ? newOptions.source : this._getOriginalSource(newOptions)
+            source
         });
 
         if (searchValueOptionsChanged && searchValueChanged) {

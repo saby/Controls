@@ -654,6 +654,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
+    getSource(): ICrudPlus | ICrud & ICrudPlus & IData {
+        return this._options.source;
+    }
+
     /**
      * Разрушает экземпляр класса.
      * Выполняет отмену запросов, а так же необходимые отписки от событий.
