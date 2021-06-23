@@ -17,6 +17,7 @@ export interface IBaseDropdownOptions extends IControlOptions, ISourceOptions,
     keyProperty: string;
     emptyText?: string;
     displayProperty: string;
+    closeMenuOnOutsideClick: boolean;
 }
 
 /**
@@ -165,6 +166,12 @@ export default interface IBaseDropdown {
  *     }
  * }
  * </pre>
+ */
+
+/**
+ * @name Controls/_dropdown/interface/IBaseDropdown#closeMenuOnOutsideClick
+ * @cfg {Boolean} Определяет возможность закрытия меню по клику вне.
+ * @default true
  */
 
 /**
