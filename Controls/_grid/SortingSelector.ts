@@ -109,7 +109,8 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
 
                 this._selectedKeys = [this._currentParamName];
                 this._currentCaption = dataElem.title;
-                this._currentTitle = { ASC: dataElem.titleAsc, DESC: dataElem.titleDesc }[this._orders[key]];
+                this._currentTitle = { ASC: dataElem.titleAsc,
+                                       DESC: dataElem.titleDesc }[this._orders[key]] || dataElem.title;
                 if (dataElem.icon) {
                     this._nocaption = true;
                     this._arrowIconStyle = dataElem.iconStyle || 'secondary';
