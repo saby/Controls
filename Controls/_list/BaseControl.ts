@@ -5651,7 +5651,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
-        return this._beginEdit(userOptions);
+        return this._beginEdit(userOptions, {
+            shouldActivateInput: userOptions?.shouldActivateInput
+        });
     }
 
     beginAdd(userOptions: object): Promise<void | { canceled: true }> {
@@ -5660,7 +5662,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
         return this._beginAdd(userOptions, {
             addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
-            targetItem: userOptions?.targetItem
+            targetItem: userOptions?.targetItem,
+            shouldActivateInput: userOptions?.shouldActivateInput
         });
     }
 
@@ -5711,10 +5714,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
+    _beginAdd(userOptions, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().add(options, {addPosition, targetItem, columnIndex}).then((addResult) => {
+        return this._getEditInPlaceController().add(userOptions, {addPosition, targetItem, columnIndex}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
             }
