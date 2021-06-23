@@ -7899,20 +7899,12 @@ define([
 
       // region Move
 
-      describe('MoveController', () => {
-         const moveController = {
-            move: () => Promise.resolve(),
-            moveUp: () => Promise.resolve(),
-            moveDown: () => Promise.resolve(),
-            moveWithDialog: () => Promise.resolve(),
-            updateOptions: () => {}
-         };
+      describe('MoveAction', () => {
+         const moveAction = { execute: ({providerName}) => Promise.resolve(providerName) };
          let spyMove;
-         let spyMoveUp;
-         let spyMoveDown;
-         let spyMoveWithDialog;
          let cfg;
          let baseControl;
+         let sandbox;
 
          beforeEach(() => {
             const items = new collection.RecordSet({
@@ -7932,7 +7924,9 @@ define([
             baseControl = correctCreateBaseControl(cfg);
             baseControl.saveOptions(cfg);
             baseControl._beforeMount(cfg);
-            baseControl._moveController = moveController;
+
+            sandbox = sinon.createSandbox();
+            sandbox.replace(lists.BaseControl._private, 'getMoveAction', () => moveAction);
             baseControl._listViewModel._display = {
                getCollection: () => items,
                getItemBySourceItem: () => collectionItem,
@@ -7947,71 +7941,52 @@ define([
                getItemBySourceKey: () => collectionItem,
                isEditing: () => false
             };
-            spyMove = sinon.spy(moveController, 'move');
-            spyMoveUp = sinon.spy(moveController, 'moveUp');
-            spyMoveDown = sinon.spy(moveController, 'moveDown');
-            spyMoveWithDialog = sinon.spy(moveController, 'moveWithDialog');
+            spyMove = sinon.spy(moveAction, 'execute');
          });
 
          afterEach(() => {
             spyMove.restore();
-            spyMoveUp.restore();
-            spyMoveDown.restore();
-            spyMoveWithDialog.restore();
+            sandbox.restore();
          });
 
-         // moveItemUp вызывает moveController
-         it('moveItemUp() should call moveController', () => {
-            return baseControl.moveItemUp(2).then(() => {
-               sinon.assert.called(spyMoveUp);
-            });
-         });
-
-         // moveItemDown вызывает moveController
-         it('moveItemDown() should call moveController', () => {
-            return baseControl.moveItemDown(2).then(() => {
-               sinon.assert.called(spyMoveDown);
-            });
-         });
-
-         // moveItems вызывает moveController
-         it('moveItems() should call moveController', () => {
-            const selectionObject = {
-               selected: [2],
-               excluded: []
-            };
-            return baseControl.moveItems(selectionObject, 3, 'on').then(() => {
+         // moveItemUp вызывает moveAction
+         it('moveItemUp() should call moveAction', () => {
+            return baseControl.moveItemUp(2).then((providerName) => {
                sinon.assert.called(spyMove);
+               assert.equal(providerName, 'Controls/listActions:MoveProviderDirection');
             });
          });
 
-         // moveItemsWithDialog вызывает moveController
-         it('moveItemsWithDialog() should call moveController', () => {
+         // moveItemDown вызывает moveAction
+         it('moveItemDown() should call moveAction', () => {
+            return baseControl.moveItemDown(2).then((providerName) => {
+               sinon.assert.called(spyMove);
+               assert.equal(providerName, 'Controls/listActions:MoveProviderDirection');
+            });
+         });
+
+         // moveItems вызывает moveAction
+         it('moveItems() should call moveAction', () => {
             const selectionObject = {
                selected: [2],
                excluded: []
             };
-            return baseControl.moveItemsWithDialog(selectionObject, {anyFilter: 'anyVal'}).then(() => {
-               sinon.assert.called(spyMoveWithDialog);
+            return baseControl.moveItems(selectionObject, 3, 'on').then((providerName) => {
+               sinon.assert.called(spyMove);
+               assert.equal(providerName, 'Controls/listActions:MoveProvider');
             });
          });
 
-         // Работает даже после update
-         it('should also work after update', () => {
-            baseControl._beforeUpdate({
-               ...cfg,
-               moveDialogTemplate: {
-                  templateName: 'fakeTemplate',
-                  templateOptions: {
-                     containerWidth: 500
-                  }
-               }
+         // moveItemsWithDialog вызывает moveAction
+         it('moveItemsWithDialog() should call moveAction', () => {
+            const selectionObject = {
+               selected: [2],
+               excluded: []
+            };
+            return baseControl.moveItemsWithDialog(selectionObject, {anyFilter: 'anyVal'}).then((providerName) => {
+               sinon.assert.called(spyMove);
+               assert.isUndefined(providerName);
             });
-            const stubUpdateOptions = sinon.stub(moveController, 'updateOptions').callsFake((options) => {
-               assert(options.popupOptions.template, 'fakeTemplate');
-               assert(options.popupOptions.templateOptions.containerWidth, 500);
-            });
-            stubUpdateOptions.restore();
          });
       });
 

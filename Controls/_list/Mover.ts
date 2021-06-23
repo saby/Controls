@@ -4,7 +4,7 @@ import cInstance = require('Core/core-instance');
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
 import {Logger} from 'UI/Utils';
 
-import {MoveController, IMoveControllerOptions} from './Controllers/MoveController';
+import {Move as MoveAction, IMoveActionOptions} from 'Controls/listActions';
 import {Model} from 'Types/entity';
 import {LOCAL_MOVE_POSITION} from 'Types/source';
 
@@ -23,18 +23,20 @@ const DEFAULT_SORTING_ORDER = 'asc';
 
 var _private = {
     moveItems(self, items, target, position) {
-        const useController = _private.useController(items);
+        const useAction = _private.useAction(items);
         const afterItemsMove = function (result) {
             _private.afterItemsMove(self, items, target, position, result);
             return result;
         }
         return _private.beforeItemsMove(self, items, target, position).addCallback(function (beforeItemsMoveResult) {
-            if (useController) {
-                return self._controller.move(
-                    _private.convertItemsToISelectionObject(items),
-                    _private.extractFilter(items),
-                    _private.getIdByItem(self, target),
-                    position, beforeItemsMoveResult);
+            if (useAction) {
+                return self._action.execute({
+                    selection: _private.convertItemsToISelectionObject(items),
+                    filter: _private.extractFilter(items),
+                    targetKey: _private.getIdByItem(self, target),
+                    position: position,
+                    providerName: 'Controls/listActions:MoveProvider'
+                });
             }
             if (beforeItemsMoveResult === BEFORE_ITEMS_MOVE_RESULT.MOVE_IN_ITEMS) {
                 return _private.moveInItems(self, items, target, position);
@@ -184,7 +186,7 @@ var _private = {
     updateDataOptions: function (self, newOptions, contextDataOptions) {
         self._items = newOptions.items || contextDataOptions?.items;
 
-        let controllerOptions: Partial<IMoveControllerOptions> = {
+        let controllerOptions: Partial<IMoveActionOptions> = {
             parentProperty: newOptions.parentProperty
         };
         if (contextDataOptions) {
@@ -213,11 +215,7 @@ var _private = {
                 Logger.warn('Mover: Wrong type of moveDialogTemplate option, use object notation instead of template function', self);
             }
         }
-        if (!self._controller) {
-            self._controller = new MoveController(controllerOptions as IMoveControllerOptions);
-        } else {
-            self._controller.updateOptions(controllerOptions);
-        }
+        self._action = new MoveAction(controllerOptions as IMoveActionOptions);
     },
 
     checkItem: function (self, item, target, position) {
@@ -318,13 +316,13 @@ var _private = {
         return resultFilter;
     },
 
-    useController(items): boolean {
+    useAction(items): boolean {
         return !items.forEach && !items.selected;
     },
 
     openMoveDialog(self, selection): Promise<void> {
         const templateOptions: IMoverDialogTemplateOptions = {
-            movedItems: _private.useController(selection) ? selection.selectedKeys : selection,
+            movedItems: _private.useAction(selection) ? selection.selectedKeys : selection,
             source: self._source,
             keyProperty: self._keyProperty, // keyProperty может быть заменён в moveDialogOptions
             ...(self._moveDialogOptions as IMoverDialogTemplateOptions)
@@ -405,12 +403,14 @@ var _private = {
  */
 
 var Mover = BaseAction.extend({
-    _controller: null,
+    _action: null,
     _moveDialogTemplate: null,
     _moveDialogOptions: null,
     _template: Template,
     _beforeMount: function (options) {
         _private.updateDataOptions(this, options, options._dataOptionsValue);
+        Logger.warn('Controls/list:Mover: Класс устарел и буден удалён.' +
+            ' Используйте методы интерфейса Controls/list:IMovableList, который по умолчанию подключен в списки.', this);
     },
 
     _beforeUpdate: function (options) {
@@ -430,7 +430,7 @@ var Mover = BaseAction.extend({
         if (target === undefined) {
             return Deferred.success();
         }
-        if (_private.useController(items)) {
+        if (_private.useAction(items)) {
             return _private.moveItems(self, items, target, position);
         } else {
             return _private.getItemsBySelection.call(this, items).addCallback(function (items) {
@@ -449,7 +449,7 @@ var Mover = BaseAction.extend({
     moveItemsWithDialog(items: []|IMoveItemsParams): Promise<any> {
         if (this._moveDialogTemplate) {
             if (this.validate(items)) {
-                if (_private.useController(items)) {
+                if (_private.useAction(items)) {
                     return _private.openMoveDialog(this, items);
                 } else {
                     return _private.getItemsBySelection.call(this, items).addCallback((items: []) => (

@@ -1,10 +1,10 @@
-import {ICrud, CrudEntityKey} from 'Types/source';
+import {ICrudPlus, CrudEntityKey} from 'Types/source';
 import {INavigationOptionValue} from 'Controls/interface';
 import {IColumn} from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
 
 export default interface IActionOptions {
-    source: ICrud;
+    source: ICrudPlus;
     filter?: object;
     navigation?: INavigationOptionValue<unknown>;
     sorting?: unknown;

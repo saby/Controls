@@ -7,7 +7,7 @@ import * as rk from 'i18n!*';
 
 import {IHashMap} from 'Types/declarations';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
-import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
+import {ICrudPlus, CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {ISiblingStrategy} from '../interface/ISiblingStrategy';
 
 // @todo https://online.sbis.ru/opendoc.html?guid=2f35304f-4a67-45f4-a4f0-0c928890a6fc
@@ -28,11 +28,15 @@ export interface IMoveControllerOptions {
     /**
      * @cfg {TSource} Ресурс, в котором производится перемещение
      */
-    source: TSource;
+    source: ICrudPlus;
     /**
      * @cfg {String} Имя поля, содержащего идентификатор родительского элемента.
      */
-    parentProperty: string;
+    parentProperty?: string;
+    /**
+     * @cfg {String} Имя поля, содержащего идентификатор элемента.
+     */
+    keyProperty?: string;
     /**
      * @cfg {Controls/popup:IBaseOpener} опции диалога перемещения
      */
@@ -40,7 +44,7 @@ export interface IMoveControllerOptions {
     /**
      * @cfg Array<{[columnName: string] Массив сортировок. Необходим при перемещении записей вверх/вниз
      */
-    sorting: QueryOrderSelector;
+    sorting?: QueryOrderSelector;
     /**
      * Стратегия поиска соседних записей
      */
@@ -61,10 +65,13 @@ export class MoveController {
     protected _popupOptions: IBasePopupOptions;
 
     // Ресурс данных, в котором производится смена мест
-    private _source: TSource;
+    private _source: ICrudPlus;
 
     // Имя свойства, хранящего ключ родителя в дереве, необходим для _moveInSource
     protected _parentProperty: string;
+
+    // Имя свойства, хранящего ключ элемента в дереве, необходим для _moveInSource
+    protected _keyProperty: string;
 
     // Сортировка при перемещении вверх/вниз
     private _sorting: QueryOrderSelector;
@@ -84,6 +91,7 @@ export class MoveController {
     updateOptions(options: IMoveControllerOptions): void {
         this._popupOptions = options.popupOptions;
         this._source = options.source;
+        this._keyProperty = options.keyProperty;
         this._parentProperty = options.parentProperty;
         this._sorting = options.sorting;
         this._siblingStrategy = options.siblingStrategy;
@@ -164,7 +172,7 @@ export class MoveController {
         const templateOptions: IMoverDialogTemplateOptions = {
             movedItems: selection.selected,
             source: this._source,
-            keyProperty: this._source.getKeyProperty(),
+            keyProperty: this._keyProperty || this._source.getKeyProperty(),
             ...(this._popupOptions.templateOptions as IMoverDialogTemplateOptions)
         };
 
@@ -262,7 +270,7 @@ export class MoveController {
      * @private
      */
     private static _validateBeforeMove(
-        source: TSource,
+        source: ICrudPlus,
         selection: ISelectionObject,
         filter: TFilterObject,
         targetKey: CrudEntityKey,
