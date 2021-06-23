@@ -6,6 +6,7 @@
    <ws:if data="{{options.searchButtonAlign === 'left' && options.searchButtonVisible}}">
       <ws:partial template="wml!Controls/_search/Input/SearchTemplate/searchButton"
                   searchButtonAlign="{{options.searchButtonAlign}}"
+                  searchButtonIconStyle="{{options.searchButtonIconStyle}}"
                   inlineHeight="{{options.inlineHeight}}"
                   calculateState="{{calculateState}}"/>
    </ws:if>
