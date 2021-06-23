@@ -131,6 +131,13 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
  */
 
 /**
+ * Интерфейс для опций контрола {@link Controls/decorator:Money}.
+ * @interface Controls/_decorator/IMoney
+ * @public
+ * @author Красильников А.С.
+ */
+
+/**
  * @name Controls/_decorator/IMoney#value
  * @cfg {Controls/_decorator/IMoney/TValue.typedef} Декорируемое число.
  * @implements Controls/decorator:IOnlyPositive
