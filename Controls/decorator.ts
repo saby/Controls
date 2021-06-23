@@ -38,6 +38,7 @@ export {default as Date, IDateOptions} from 'Controls/_decorator/Date';
 export {Money};
 export {IMoneyOptions} from 'Controls/_decorator/resources/Money';
 export * as MoneyFunctions from 'Controls/_decorator/resources/Money';
+export {default as IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_decorator/interfaces/IOnlyPositive';
 
 export * from './_decorator/resources/IMask';
 export * from './_decorator/resources/Util';

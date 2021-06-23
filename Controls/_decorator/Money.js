@@ -8,7 +8,7 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
       var useGrouping = data.useGrouping === false ? false : true;
       var abbreviationType = data.abbreviationType || 'none';
       var precision = data.precision === 0 ? 0 : 2;
-      var formattedNumber = Money.calculateFormattedNumber(value, useGrouping, abbreviationType, precision);
+      var formattedNumber = Money.calculateFormattedNumber(value, useGrouping, abbreviationType, precision, data.onlyPositive);
       var stroked = data.stroked || false;
       var fontColorStyle = Money.calculateFontColorStyle(stroked, data) || 'default';
       var fontSize = data.fontSize || 'm';

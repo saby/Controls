@@ -5,6 +5,7 @@ import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import toString from 'Controls/_decorator/inputUtils/toString';
 import * as template from 'wml!Controls/_decorator/Number/Number';
 import { abbreviateNumber, trimTrailingZeros, fillAdditionalZeros, correctNumberValue } from 'Controls/_decorator/resources/Formatter';
+import {IOnlyPositiveOptions} from 'Controls/_decorator/interfaces/IOnlyPositive';
 // @ts-ignore
 import {
     INumberFormatOptions,
@@ -48,7 +49,7 @@ type RoundingFn = (number: string, precision: number) => string;
 export type RoundMode = 'round' | 'trunc';
 
 export interface INumberOptions extends IControlOptions, INumberFormatOptions, IFontColorStyleOptions,
-    IFontWeightOptions, IFontSizeOptions {
+    IFontWeightOptions, IFontSizeOptions, IOnlyPositiveOptions {
     /**
      * @name Controls/_decorator/INumber#value
      * @cfg {Controls/_decorator/INumber/TValue.typedef} Декорируемое число.
@@ -102,6 +103,7 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
  * @class Controls/_decorator/Number
  * @extends UI/Base:Control
  * @mixes Controls/decorator:INumber
+ * @implements Controls/decorator:IOnlyPositive
  * @public
  * @demo Controls-demo/Decorator/Number/Index
  *
@@ -188,9 +190,9 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
         }
 
         if (abbreviationType && abbreviationType !== 'none') {
-            return correctNumberValue(abbreviateNumber(strNumber, abbreviationType));
+            return correctNumberValue(abbreviateNumber(strNumber, abbreviationType), format.onlyPositive);
         }
-        strNumber = correctNumberValue(strNumber);
+        strNumber = correctNumberValue(strNumber, format.onlyPositive);
         if (useGrouping) {
             return splitIntoTriads(strNumber);
         }

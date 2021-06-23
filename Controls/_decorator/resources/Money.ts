@@ -5,6 +5,7 @@ import {IFontWeightOptions} from 'Controls/_interface/IFontWeight';
 import {IFontSizeOptions} from 'Controls/_interface/IFontSize';
 import {ITooltipOptions} from 'Controls/_interface/ITooltip';
 import {INumberFormatOptions} from 'Controls/_interface/INumberFormat';
+import {IOnlyPositiveOptions} from 'Controls/_decorator/interfaces/IOnlyPositive';
 
 import {abbreviateNumber, correctNumberValue} from 'Controls/_decorator/resources/Formatter';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
@@ -70,10 +71,11 @@ type TUnderline = 'hovered' | 'none';
 type TPrecision = 0 | 2;
 
 export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions,
-    IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
+    IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions, IOnlyPositiveOptions {
     /**
      * @name Controls/_decorator/IMoney#value
      * @cfg {Controls/_decorator/IMoney/TValue.typedef} Декорируемое число.
+     * @implements Controls/decorator:IOnlyPositive
      * @default null
      * @demo Controls-demo/Decorator/Money/Value/Index
      */
@@ -194,7 +196,8 @@ export function calculateFormattedNumber(
     value: TValue,
     useGrouping: boolean,
     abbreviationType: TAbbreviationType,
-    precision: number
+    precision: number,
+    onlyPositive: boolean
 ): string | IPaths {
     const formattedValue = toFormat(toString(value, precision), precision);
 
@@ -206,7 +209,7 @@ export function calculateFormattedNumber(
         integer = useGrouping ? splitIntoTriads(integer) : integer;
     }
 
-    integer = correctNumberValue(integer);
+    integer = correctNumberValue(integer, onlyPositive);
 
     return {
         integer,
