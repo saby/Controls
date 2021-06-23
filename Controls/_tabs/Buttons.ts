@@ -206,7 +206,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     protected _wrapperIncludesTarget(target: HTMLElement): boolean {
         let result: boolean = this._children.wrapper === target;
-        if (!result) {
+        if (!result && target) {
             result = !!target.closest('.controls-Tabs-wrapper');
         }
         return result;
