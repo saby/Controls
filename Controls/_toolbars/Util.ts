@@ -46,7 +46,7 @@ export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions
     // todo: https://online.sbis.ru/opendoc.html?guid=244a5058-47c1-4896-a494-318ba2422497
     const inlineHeight = item.get('inlineHeight') ||
         (viewMode === 'functionalButton' ? 'default' : defaultHeight(viewMode));
-    const iconSize = viewMode === 'functionalButton' ? 's' : item.get('iconSize') || toolbarOptions.iconSize || 'm';
+    const iconSize = item.get('iconSize') || viewMode === 'functionalButton' ? 's' : toolbarOptions.iconSize || 'm';
 
     cfg._hoverIcon = true;
     cfg._buttonStyle = readOnly ? 'readonly' : buttonStyle;
