@@ -1,4 +1,9 @@
 <Controls._input.Render attr:title="{{_tooltip}}"
+                        attr:style="{{
+                            '--calculated-line-min-height_inputArea: calc(' + _minLines + ' * var(--line-height_' + _options.fontSize + '_inputArea)); ' +
+                            '--calculated-line-min-height_inputArea-scroll: calc(' + _minLines + ' * var(--line-height_' + _options.fontSize + '_inputArea) + (2 * var(--padding-vertical_inputArea))); ' +
+                            '--calculated-line-max-height_inputArea-scroll: calc(' + _maxLines + ' * var(--line-height_' + _options.fontSize + '_inputArea) + (2 * var(--padding-vertical_inputArea)));'
+                         }}"
                         attr:class="controls-Area controls-Area_line-height_{{_options.fontSize}}"
                         inlineHeight="{{_options.inlineHeight}}"
                         borderVisibility="{{_options.borderVisibility}}"
@@ -18,11 +23,31 @@
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">
    <ws:content>
-      <Controls.scroll:Container name="scroll"
-                                 attr:class="controls-Area__scroll controls-InputBase__field
-                                          controls-Area__minHeight_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
-                                          {{_maxLines ? 'controls-Area__maxHeight_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}"
-                                  shadowMode="{{_options.shadowMode}}">
+      <Controls.scroll:Container
+         name="scroll"
+         attr:style="
+             {{
+                  'min-height: ' + (
+                     _isIE ?
+                        (_lineHeightForIE[_options.fontSize] * _minLines + 4)  + 'px; ' :
+                        'var(--calculated-line-min-height_inputArea-scroll); '
+                  )
+             }}
+             {{
+                  _maxLines ?
+                  (
+                     'max-height: ' + (
+                        _isIE ?
+                         (_lineHeightForIE[_options.fontSize] * _maxLines + 4) + 'px; ' :
+                         'var(--calculated-line-max-height_inputArea-scroll);'
+                     )
+                  )
+             }}
+         "
+         attr:class="controls-Area__scroll controls-InputBase__field
+            controls-Area__minHeight_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
+            {{_maxLines ? 'controls-Area__maxHeight_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}"
+         shadowMode="{{_options.shadowMode}}">
          <ws:if data="{{_options.readOnly}}">
             <ws:partial options="{{_options}}"
                         scope="{{_readOnlyField.scope}}"
@@ -45,14 +70,17 @@
                         value="{{_viewModel.displayValue}}"
                         isBrowserPlatform="{{_isBrowserPlatform}}"
                         hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
+                        isIE="{{_isIE}}"
+                        lineHeightForIE="{{ _lineHeightForIE[_options.fontSize] }}"
                         isEdge="{{_isEdge}}"/>
          </ws:else>
       </Controls.scroll:Container>
    </ws:content>
    <ws:footerTemplate>
       <ws:if data="{{_options.footerTemplate}}">
-         <ws:partial template="{{_options.footerTemplate}}"
-                     attr:class="controls-Area__footer controls-Area__field_margin-{{_options.horizontalPadding}}"/>
+         <ws:partial
+           template="{{_options.footerTemplate}}"
+           attr:class="controls-Area__footer controls-Area__field_margin-{{_options.horizontalPadding}}"/>
       </ws:if>
    </ws:footerTemplate>
 </Controls._input.Render>

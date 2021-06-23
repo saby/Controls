@@ -108,7 +108,7 @@ export default class HoverFreeze {
         if (this._isCursorInsideOfMouseMoveArea(x, y)) {
             this._itemUnfreezeHoverTimeout = setTimeout(() => {
                 this.unfreezeHover();
-                if (this._delayedItemData) {
+                if (event.target === this._delayedItemData?.nativeEvent?.target) {
                     const timeout = HOVER_FREEZE_TIMEOUT - HOVER_UNFREEZE_TIMEOUT;
                     this._startFreezeHoverTimeout(
                         this._delayedItemData.key,
@@ -116,6 +116,8 @@ export default class HoverFreeze {
                         this._delayedItemData.index,
                         this._delayedItemData.startIndex,
                         timeout);
+                } else {
+                    this._delayedItemData = null;
                 }
             }, HOVER_UNFREEZE_TIMEOUT);
         } else {
@@ -178,7 +180,10 @@ export default class HoverFreeze {
             // Стартуем новый таймер залипания.
             this._itemFreezeHoverTimeout = setTimeout(() => {
                 // Выставляем новую запись как залипшую:
-                this._freezeHover(itemKey, itemIndex, this._calculateHTMLNodeIndex(nativeEvent, itemIndex, startIndex));
+                const htmlNodeIndex = this._calculateHTMLNodeIndex(nativeEvent, itemIndex, startIndex);
+                if (htmlNodeIndex) {
+                    this._freezeHover(itemKey, itemIndex, htmlNodeIndex);
+                }
             }, timeout);
         }
     }
@@ -186,10 +191,8 @@ export default class HoverFreeze {
     private _calculateHTMLNodeIndex(nativeEvent: SyntheticEvent, itemIndex: number, startIndex: number): number {
         if (nativeEvent && nativeEvent.target) {
             const itemContainer = nativeEvent.target.closest('.controls-ListView__itemV');
-            if (itemContainer) {
-                const listContainer = itemContainer.parentNode;
-                return [].slice.call(listContainer.children).indexOf(itemContainer) + 1;
-            }
+            const listContainer = itemContainer?.parentNode;
+            return listContainer ? [].slice.call(listContainer.children).indexOf(itemContainer) + 1 : null;
         }
         return itemIndex - startIndex + 1;
     }

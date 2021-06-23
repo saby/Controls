@@ -98,7 +98,7 @@ Object.defineProperty(View, 'defaultProps', {
 /**
  * @name Controls/_tile/View#itemPadding
  * @cfg
- * @demo Controls-demo/Tile/ItemPadding/PaddingS/Index
+ * @demo Controls-demo/tileNew/ItemPadding/PaddingS/Index
  * @example
  * <pre class="brush: html">
  * <!-- WML -->

@@ -1,5 +1,6 @@
 <div class="controls_list_theme-{{_options.theme}} controls-Explorer" on:keyDown="_onExternalKeyDown()">
    <Controls.list:DataContainer
+      attr:style="height: 100%;"
       scope="{{_options}}"
       root="{{_getRoot(_options.root)}}"
       on:breadCrumbsItemsChanged="_onBreadcrumbsChanged()"
@@ -22,6 +23,7 @@
                on:itemClick="_onBreadCrumbsClick()"
             >
                <Controls.tree:TreeControl scope="{{_options}}"
+                                          attr:class="controls-Explorer__view"
                                           itemPadding="{{_itemPadding}}"
                                           header="{{content.header}}"
                                           columns="{{_columns}}"
@@ -32,7 +34,7 @@
                                           viewModelConstructor="{{_viewModelConstructor}}"
                                           actionAlignment="{{ _viewMode === 'tile' ? 'vertical' : _options.actionAlignment }}"
                                           actionCaptionPosition="{{ _viewMode === 'tile' ? 'none' : _options.actionCaptionPosition }}"
-                                          itemTemplate="{{_viewMode==='tile' ? _options.tileItemTemplate : _itemTemplate}}"
+                                          itemTemplate="{{_getItemTemplate(_viewMode, _itemTemplate, _options.listItemTemplate, _options.tileItemTemplate)}}"
                                           groupTemplate="{{_viewMode==='tile' ? _options.tileGroupTemplate : _groupTemplate}}"
                                           itemActionsPosition="{{_itemActionsPosition}}"
                                           disableVirtualScroll="{{_viewMode==='tile'}}"
@@ -65,6 +67,7 @@
                                           on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
                                           on:beforeMarkedKeyChanged="_notifyHandler('beforeMarkedKeyChanged')"
                                           on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
+                                          on:selectedLimitChanged="_notifyHandler('selectedLimitChanged')"
                                           on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
                                           on:beforeSelectionChanged="_notifyHandler('beforeSelectionChanged')"
                                           on:keyDown="_onExplorerKeyDown()"

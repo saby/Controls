@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo__flex">
     <Controls.treeGrid:View
             keyProperty="key"
             source="{{_viewSource}}"

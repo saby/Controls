@@ -37,7 +37,7 @@ export type IVirtualScrollMode = 'remove' | 'hide';
  * @property {number} pageSize Количество отображаемых элементов при инициализации списка.
  * @property {IVirtualScrollMode} [mode=remove] Режим управления элементами виртуального скроллинга.
  * @property {number} [viewportHeight=undefined] Высота контейнера со списком.
- * @property {number} [segmentSize] Количество подгружаемых элементов при скроллировании. По умолчанию равен четверти размера виртуальной страницы, который задан в опции pageSize.
+ * @property {number} [segmentSize=pageSize/4] Количество подгружаемых элементов при скроллировании. По умолчанию равен четверти размера виртуальной страницы, который задан в опции pageSize.
  * @property {string} [itemHeightProperty=undefined] Имя поля, которое содержит высоту элемента.
  */
 

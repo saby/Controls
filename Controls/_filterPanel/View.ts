@@ -28,7 +28,7 @@ import {StickyOpener} from 'Controls/popup';
  * @property {*} value Текущее значение фильтра.
  * @property {*} resetValue Значение фильтра по умолчанию.
  * @property {String} textValue Текстовое значение фильтра. Используется для отображения текста при закрытии группы.
- * @property {Controls/_filter/View/interface/IFilterItem/EditorOptions.typedef} editorOptions Опции для редактора.
+ * @property {Controls/filter:EditorOptions.typedef} editorOptions Опции для редактора.
  * @property {String} editorTemplateName Имя редактора.
  * В настоящей версии фреймворка поддерживается только 2 значения для editorTemplateName — NumberRangeEditor и ListEditor.
  * При использовании NumberRangeEditor будет построен контрол {@link Controls/input:Number}.
@@ -55,12 +55,14 @@ export default class View extends Control<IViewPanelOptions> {
         bottom: 'null'
     };
     protected _viewModel: ViewModel = null;
+    protected _applyButtonSticky: StickyOpener;
 
     protected _beforeMount(options: IViewPanelOptions): void {
+        this._applyButtonSticky = new StickyOpener();
         this._viewModel = new ViewModel({
             source: options.source,
             collapsedGroups: options.collapsedGroups,
-            filterViewMode: options.viewMode
+            applyButtonSticky: options.viewMode === 'default' && this._applyButtonSticky
         });
     }
 
@@ -68,7 +70,7 @@ export default class View extends Control<IViewPanelOptions> {
         this._viewModel.update({
             source: options.source,
             collapsedGroups: options.collapsedGroups,
-            filterViewMode: options.viewMode
+            applyButtonSticky: options.viewMode === 'default' && this._applyButtonSticky
         });
     }
 

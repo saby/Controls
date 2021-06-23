@@ -463,7 +463,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
     }
 
     private _updateRecent(data: any, meta: any): Promise<any> {
-        return new Promise((resolve, re) => {
+        return new Promise((resolve) => {
             setTimeout(() => {
                 let historyData;
                 let recentData;
@@ -484,13 +484,18 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
                     }
                 }
 
-                this._resolveRecent(recentData);
-                if (this._$historyItems && !this._updateRecentInItems(recentData)) {
-                    this._$historyItems = null;
+                if (recentData) {
+                    this._resolveRecent(recentData);
+                    if (this._$historyItems && !this._updateRecentInItems(recentData)) {
+                        this._$historyItems = null;
+                    }
+
+                    this._$historySource.saveHistory(this._$historySource.getHistoryId(), this._$history);
+                    resolve(this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(historyData, meta));
+                } else {
+                    resolve(false);
                 }
 
-                this._$historySource.saveHistory(this._$historySource.getHistoryId(), this._$history);
-                resolve(this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(historyData, meta));
             }, HISTORY_UPDATE_RECENT_DELAY);
         });
     }

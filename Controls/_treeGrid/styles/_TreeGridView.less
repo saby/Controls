@@ -53,6 +53,10 @@
    padding-right: var(--expander_xl_padding-right_treeGrid);
 }
 
+.controls-TreeGrid__row-expander {
+   cursor: pointer;
+}
+
 .controls-TreeGrid__row-expander, .controls-TreeGrid__row-expanderPadding {
    line-height: 1;
    display: inline-block;
@@ -79,9 +83,7 @@
    right: 0;
    bottom: 0;
 
-   //the z-index is larger than itemActions so that itemActions does not overlap the folder border when drag'n'drop.
-   //Will be deleted by task: https://online.sbis.ru/opendoc.html?guid=7503eaab-e38a-4c6e-8f0d-940646d8bd28
-   z-index: 2;
+   // Уже не актуально задавать z-index. Левая и правая границы не вызывают ошибок без него.
 }
 .controls-TreeGridView__dragTargetNode_first:after {
    content: '\200b';
@@ -138,7 +140,6 @@
 .controls-TreeGrid__row-expander:before {
    user-select: none;
    flex-shrink: 0;
-   cursor: pointer;
    overflow: hidden;
    text-align: center;
    font-weight: normal; // https://online.sbis.ru/opendoc.html?guid=c9f0873b-3b20-4b73-a084-f67cc2c3071f

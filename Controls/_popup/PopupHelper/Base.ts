@@ -32,7 +32,7 @@ export default class Base {
     }
 
     open(popupOptions: IBasePopupOptions): Promise<void> {
-        return new Promise((resolve,reject) => {
+        return new Promise((resolve, reject) => {
             const config: IBasePopupOptions = BaseOpenerUtil.getConfig(this._options, popupOptions);
             config.isHelper = true;
 

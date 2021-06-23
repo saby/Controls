@@ -1,5 +1,5 @@
 <div class="{{ getItemsPaddingContainerClasses() }} controls_list_theme-{{_options.theme}} controls-TileView_new">
-    <div class="controls-ListView controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()">
+    <div class="controls-ListViewV controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()">
         <ws:if data="{{_listModel}}">
             <ws:partial
                     template="Controls/list:ForTemplate"

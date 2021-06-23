@@ -1,15 +1,17 @@
 import {debounce} from 'Types/function';
-import {IFixedEventData,
+import {
+    getGapFixSize,
+    IFixedEventData,
     isHidden,
     MODE,
     POSITION,
     SHADOW_VISIBILITY,
     SHADOW_VISIBILITY_BY_CONTROLLER,
+    STACK_OPERATION,
     TRegisterEventData,
-    TYPE_FIXED_HEADERS,
-    getGapFixSize
+    TYPE_FIXED_HEADERS
 } from './Utils';
-import { SHADOW_VISIBILITY as SCROLL_SHADOW_VISIBILITY } from 'Controls/_scroll/Container/Interface/IShadows';
+import {SHADOW_VISIBILITY as SCROLL_SHADOW_VISIBILITY} from 'Controls/_scroll/Container/Interface/IShadows';
 import StickyBlock from 'Controls/_scroll/StickyBlock';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
@@ -58,7 +60,6 @@ class StickyHeaderController {
         top: SCROLL_SHADOW_VISIBILITY.AUTO,
         bottom: SCROLL_SHADOW_VISIBILITY.AUTO
     };
-    private _needUpdateHeadersAfterVisibleChange: boolean = false;
 
     // TODO: Избавиться от передачи контрола доработав логику ResizeObserverUtil
     // https://online.sbis.ru/opendoc.html?guid=4091b62e-cca4-45d8-834b-324f3b441892
@@ -262,7 +263,7 @@ class StickyHeaderController {
             }
         } else {
             // При 'отрегистриации' удаляем заголовок из всех возможных стэков
-            this._deleteElementFromElementsHeightStack(this._headers[data.id].inst.getHeaderContainer(), 0);
+            this._deleteElementFromElementsHeight(this._headers[data.id].inst.getHeaderContainer());
             this._unobserveStickyHeader(this._headers[data.id]);
             delete this._headers[data.id];
             this._removeFromStack(data.id, this._headersStack);
@@ -288,55 +289,124 @@ class StickyHeaderController {
             this._stickyHeaderResizeObserver.unobserve(elem);
         });
     }
-    private _deleteElementFromElementsHeightStack(element: HTMLElement, height: number): boolean {
-        if (height === 0) {
-            this._elementsHeight.forEach((item, index) => {
-                if (item.key === element) {
-                    this._elementsHeight.splice(index, 1);
-                    this._needUpdateHeadersAfterVisibleChange = true;
-                    return true;
-                }
-            });
-        }
-        return false;
+    private _deleteElementFromElementsHeight(element: HTMLElement): void {
+        this._elementsHeight = this._elementsHeight.filter((item) => item.key !== element);
     }
 
-    private _updateElementsHeight(element: HTMLElement, height: number) {
+    private _getElementHeightEntry(element: HTMLElement): IHeightEntry {
+        return this._elementsHeight.find((item: IHeightEntry) => item.key === element);
+    }
+
+    private _updateElementHeight(element: HTMLElement, height: number): boolean {
         let heightChanged: boolean = false;
-        const heightEntry: IHeightEntry = this._elementsHeight.find((item: IHeightEntry) => {
-                return item.key === element;
-        });
-        // Если у элемента высота ровна нулю, то удаляем его из массива высот.
-        // Так мы избавимся от утечки в _elementsHeight.
-        const isElementDeleted = this._deleteElementFromElementsHeightStack(element, height);
-        if (!isElementDeleted) {
-            if (heightEntry) {
-                if (heightEntry.value !== height) {
-                    heightEntry.value = height;
-                    heightChanged = true;
-                }
-            } else {
-                // ResizeObserver всегда кидает событие сразу после добавления элемента. Не будем генрировать
-                // событие, а просто сохраним текущую высоту если это первое событие для элемента и высоту
-                // этого элемента мы еще не сохранили.
-                this._elementsHeight.push({key: element, value: height});
-                this._needUpdateHeadersAfterVisibleChange = true;
+        const heightEntry: IHeightEntry = this._getElementHeightEntry(element);
+
+        if (heightEntry) {
+            if (heightEntry.value !== height) {
+                heightEntry.value = height;
+                heightChanged = true;
             }
+        } else {
+            // ResizeObserver всегда кидает событие сразу после добавления элемента. Не будем генерировать
+            // событие, а просто сохраним текущую высоту если это первое событие для элемента и высоту
+            // этого элемента мы еще не сохранили.
+            this._elementsHeight.push({key: element, value: height});
         }
         return heightChanged;
     }
 
+    private _getOperationForHeadersStack(newHeight: number, oldHeight: number): string {
+        let result;
+        if (newHeight === 0 && oldHeight !== 0) {
+            result = STACK_OPERATION.remove;
+        } else if (newHeight !== 0 && oldHeight === 0) {
+            result = STACK_OPERATION.add;
+        }
+        return result;
+    }
+
+    private _isHeaderOfGroup(id: number): boolean {
+        return !this._headers[id];
+    }
+
+    private _isGroup(id: number): boolean {
+        return !!this._headers[id].inst.getChildrenHeaders;
+    }
+
+    private _getGroupByHeader(header: StickyBlock) {
+        for (const headerId in this._headers) {
+            if (this._isGroup(headerId)) {
+                const groupChildren = this._headers[headerId].inst.getChildrenHeaders();
+                const isHeaderGroup = groupChildren.find((groupHeader) => groupHeader.id === header.index);
+                if (isHeaderGroup) {
+                    return this._headers[headerId];
+                }
+            }
+        }
+    }
+
     private _resizeObserverCallback(entries: any): void {
-        if(isHidden(this._container)) {
-                return;
+        if (isHidden(this._container)) {
+            return;
         }
+
         let heightChanged = false;
+        let operation;
+        const updateHeaders = {};
         for (const entry of entries) {
-            heightChanged = this._updateElementsHeight(entry.target, entry.contentRect.height) || heightChanged;
+            const header = this._getHeaderFromNode(entry.target);
+            // В момент переключения по вкладкам в мастер детейле на ноде может не быть замаунчен стикиБлок
+            // Контроллер инициализируется при наведении мыши или когда заголовки зафиксированы.
+            if (header && this._initialized) {
+                const heightEntry = this._getElementHeightEntry(entry.target);
+                if (heightEntry) {
+                    operation = this._getOperationForHeadersStack(entry.contentRect.height, heightEntry.value);
+                }
+
+                if (operation) {
+                    if (this._isHeaderOfGroup(header.index)) {
+                        const groupHeader = this._getGroupByHeader(header);
+                        const groupInUpdateHeaders = Object.entries(updateHeaders).find(([, updateHeader]) => updateHeader.header.id === groupHeader.id);
+                        if (!groupInUpdateHeaders) {
+                            updateHeaders[groupHeader.id] = {
+                                header: groupHeader,
+                                operation
+                            };
+                        }
+                    } else {
+                        updateHeaders[header.index] = {
+                            header: this._headers[header.index],
+                            operation
+                        };
+                    }
+                }
+            }
+
+            heightChanged = this._updateElementHeight(entry.target, entry.contentRect.height) || heightChanged;
         }
+
+        Object.entries(updateHeaders).forEach(([, updateHeader]) => {
+            this._changeHeadersStackByHeader(updateHeader.header, updateHeader.operation);
+        });
+
         if (heightChanged) {
             this.resizeHandler();
         }
+    }
+
+    private _changeHeadersStackByHeader(header: StickyBlock, operation: STACK_OPERATION): void {
+        if (operation === STACK_OPERATION.remove) {
+            this._removeFromStack(header.id, this._headersStack);
+            // Если заголовок опять в будущем отобразится нужно будет пересчитать его offset.
+            this._headers[header.id].offset = {};
+        } else if (operation === STACK_OPERATION.add) {
+            const headerPosition = StickyBlock.getStickyPosition(this._headers[header.id]);
+            this._addToHeadersStack(header.id, headerPosition);
+        }
+    }
+
+    private _getHeaderFromNode(container: HTMLElement): any {
+        return container.controlNodes[0]?.control;
     }
 
     private _getStickyHeaderElements(header: TRegisterEventData): NodeListOf<HTMLElement> {
@@ -424,15 +494,6 @@ class StickyHeaderController {
         // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
         // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
         this._registerDelayed();
-    }
-
-    resizeContainerHandler(): void {
-        // Если какие-то заголовки были скрыты (или какие-то отобразились, например, сняли display: none),
-        // то нужно пересчитать все заголовки
-        if (this._needUpdateHeadersAfterVisibleChange) {
-            this.resizeHandler();
-            this._needUpdateHeadersAfterVisibleChange = false;
-        }
     }
 
     resizeHandler() {
@@ -768,7 +829,7 @@ class StickyHeaderController {
                                     if (position === 'top' || position === 'bottom') {
                                         // Сохраним высоты по которым рассчитали позицию заголовков,
                                         // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
-                                        this._updateElementsHeight(header.inst.getHeaderContainer(), size);
+                                        this._updateElementHeight(header.inst.getHeaderContainer(), size);
                                     }
                                     return offset + size;
                                 } else if (j > 0) {

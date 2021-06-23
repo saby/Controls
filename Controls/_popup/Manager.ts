@@ -146,6 +146,8 @@ class Manager {
                 }
                 this._redrawItems();
             });
+        } else if (defaultConfigResult === false) {
+            this._fireEventHandler(item, 'onClose');
         } else {
             this._addElement(item);
             this._redrawItems();
@@ -486,7 +488,16 @@ class Manager {
         this._outsideClickHandler(event);
     }
 
+    private _handlePopupWithOverlay(): void {
+        const popupContainer = ManagerController.getContainer();
+        const popupItem = ManagerController.find(popupContainer.getOverlayId());
+        if (popupItem && popupItem.popupState !== popupItem.controller.POPUP_STATE_INITIALIZING) {
+            this._closePopupByOutsideClick(popupItem);
+        }
+    }
+
     protected historyChangeHandler(): void {
+        this._handlePopupWithOverlay();
         this._outsideClickHandler();
     }
 
@@ -495,11 +506,7 @@ class Manager {
         const isClickToOverlay = target ? this._elementIsPopupOverlay(target) : false;
         const isClickToIgnoredArea = target ? this._isIgnoreActivationArea(target) : false;
         if (isClickToOverlay) {
-            const popupContainer = ManagerController.getContainer();
-            const popupItem = ManagerController.find(popupContainer.getOverlayId());
-            if (popupItem && popupItem.popupState !== popupItem.controller.POPUP_STATE_INITIALIZING) {
-                this._closePopupByOutsideClick(popupItem);
-            }
+            this._handlePopupWithOverlay();
         } else if (!isClickToIgnoredArea) {
             const popupsForClose = [];
             this._popupItems.each((item) => {

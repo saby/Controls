@@ -284,6 +284,17 @@ export default class TreeGridCollection<
 
     // endregion HasNodeWithChildren
 
+    // region HasNode
+
+    protected _setHasNode(hasNode: boolean): void {
+        super._setHasNode(hasNode);
+        if (this.getFooter()) {
+            this.getFooter().setHasNode(hasNode);
+        }
+    }
+
+    // endregion HasNode
+
     // region itemsFactoryResolver
 
     protected _itemsFactoryResolver(superFactory: ItemsFactory<T>, options?: ITreeGridRowOptions<S>): ItemsFactory<T> {
@@ -330,7 +341,8 @@ export default class TreeGridCollection<
             columns: options.footer,
             shouldAddFooterPadding: options.itemActionsPosition === 'outside',
             rowTemplate: options.footerTemplate,
-            hasNodeWithChildren: this._hasNodeWithChildren
+            hasNodeWithChildren: this._hasNodeWithChildren,
+            hasNode: this._hasNode
         });
     }
 

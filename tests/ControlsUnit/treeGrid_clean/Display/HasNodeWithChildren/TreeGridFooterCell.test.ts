@@ -20,7 +20,8 @@ describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterCell
             getLeftPadding: () => '',
             getRightPadding: () => '',
             hasItemActionsSeparatedCell: () => false,
-            getColumnIndex: () => 0
+            getColumnIndex: () => 0,
+            isFullGridSupport: () => true
         } as any;
     });
 
@@ -109,5 +110,39 @@ describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterCell
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
             'controls-TreeGridView__footer__expanderPadding-default'
         );
+    });
+
+    describe('not full grid support', () => {
+        beforeEach(() => {
+            mockedOwner.isFullGridSupport = () => false;
+        });
+
+        it('wrapper classes don\'t include expander padding classes', () => {
+            mockedOwner.getExpanderVisibility = () => 'visible';
+            const footerCell = new TreeGridFooterCell({
+                hasNodeWithChildren: false,
+                column: {},
+                owner: mockedOwner
+            });
+
+            CssClassesAssert.notInclude(
+                footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
+                'controls-TreeGridView__footer__expanderPadding-default'
+            );
+        });
+
+        it('content classes include expander padding classes', () => {
+            mockedOwner.getExpanderVisibility = () => 'visible';
+            const footerCell = new TreeGridFooterCell({
+                hasNodeWithChildren: false,
+                column: {},
+                owner: mockedOwner
+            });
+
+            CssClassesAssert.include(
+                footerCell.getContentClasses(),
+                'controls-TreeGridView__footer__expanderPadding-default'
+            );
+        });
     });
 });

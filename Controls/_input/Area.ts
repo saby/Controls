@@ -9,6 +9,7 @@ import {IAreaOptions} from 'Controls/_input/interface/IArea';
 import {BaseText} from 'Controls/_input/BaseText';
 import {processKeydownEvent} from 'Controls/_input/resources/Util';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
+import LINE_HEIGHT_FOR_IE from 'Controls/_input/Area/IECompatibleLineHeights';
 import template = require('wml!Controls/_input/Area/Area');
 import fieldTemplate = require('wml!Controls/_input/Area/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Area/ReadOnly');
@@ -55,6 +56,8 @@ export default class Area extends BaseText<IAreaOptions> {
     protected _minLines: number;
     protected _maxLines: number;
     protected _controlName: string = 'Area';
+    protected _lineHeightForIE: Record<string, number> = LINE_HEIGHT_FOR_IE;
+    protected _isIE: boolean = detection.isIE11;
 
     protected _syncBeforeMount(options: IAreaOptions): void {
         super._syncBeforeMount(options);
@@ -100,8 +103,27 @@ export default class Area extends BaseText<IAreaOptions> {
         this._notify('controlResize', [], {bubbling: true});
     }
 
+    private _isTextSelected(): boolean {
+        return this._viewModel.selection.start !== this._viewModel.selection.end;
+    }
+
     protected _keyDownHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        const additionalProcessedKeys = ['ArrowUp', 'ArrowDown', 'Up', 'Down'];
+        let additionalProcessedKeys = ['Up', 'Down'];
+
+        // Не будем стопать событие keyDown, если текст не выделен и:
+        // 1. Каретка стоит в конце и нажали стрелку вниз.
+        // 2. Каретка стоит в начале и нажали стрелку вверх.
+        const isCursorAtTheEnd = this._viewModel.selection.end === this._viewModel.displayValue.length;
+        const isCursorAtTheStart = this._viewModel.selection.start === 0;
+        const isHandleUp = this._isTextSelected() || !isCursorAtTheStart;
+        const isHandleDown = this._isTextSelected() || !isCursorAtTheEnd;
+        if (isHandleUp) {
+            additionalProcessedKeys.push('ArrowUp');
+        }
+        if (isHandleDown) {
+            additionalProcessedKeys.push('ArrowDown');
+        }
+
         processKeydownEvent(event, additionalProcessedKeys);
         this._newLineHandler(event, true);
     }

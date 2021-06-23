@@ -39,7 +39,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
         return styles;
     }
 
-    getContentClasses(theme: string): string {
+    getContentClasses(): string {
         return 'controls-GridView__footer__cell__content';
     }
 

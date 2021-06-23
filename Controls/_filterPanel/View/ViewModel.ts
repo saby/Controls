@@ -7,11 +7,12 @@ import {VersionableMixin} from 'Types/entity';
 import {mixin} from 'Types/util';
 import {FilterUtils} from 'Controls/filter';
 import * as coreClone from 'Core/core-clone';
+import {StickyOpener} from 'Controls/popup';
 
 interface IFilterViewModelOptions {
     source: IFilterItem[];
     collapsedGroups: string[] | number[];
-    filterViewMode: string;
+    applyButtonSticky: StickyOpener;
 }
 
 interface IFilterGroup {
@@ -59,7 +60,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
                 ...item.editorOptions,
                 ...{
                     viewMode: item.viewMode,
-                    filterViewMode: this._options.filterViewMode
+                    applyButtonSticky: this._options.applyButtonSticky
                 }};
             newSource.push({...item, ...{editorOptions}});
         });
@@ -89,7 +90,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     private _getItemsByViewMode(viewMode: IFilterItem['viewMode']): IFilterItem[] {
         return this._source.filter((item) => {
-            return item.viewMode === viewMode || (viewMode === 'basic' && !item.viewMode)
+            return item.viewMode === viewMode || (viewMode === 'basic' && !item.viewMode);
         });
     }
 
@@ -98,6 +99,12 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         if (editorValue?.textValue !== undefined) {
             item.textValue = editorValue.textValue;
         }
+    }
+
+    private _resetSourceViewMode(): void {
+        this._source.forEach((item) => {
+            item.viewMode = item.editorOptions?.extendedCaption ? 'extended' : item.viewMode;
+        });
     }
 
     getBasicFilterItems(): IFilterItem[] {
@@ -110,7 +117,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     setEditingObject(editingObject: Record<string, IExtendedPropertyValue>): void {
         this._editingObject = editingObject;
-        this._source = object.clone(this._source);
+        this._source = this._getSource(this._source);
         this._source.forEach((item) => {
             const editingItemProperty = editingObject[item.name];
             this._setValueToSourceItem(item, editingItemProperty);
@@ -185,6 +192,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
     resetFilter(): void {
         this._source = object.clone(this._source);
         FilterUtils.resetFilter(this._source);
+        this._resetSourceViewMode();
         this._collapsedGroups = [];
         this._editingObject = this._getEditingObjectBySource(this._source);
         this._groupItems = this._getGroupItemsBySource(this._source);

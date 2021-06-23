@@ -175,6 +175,12 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
+    protected _afterRender(oldOptions: ITabsOptions): void {
+        if (this._options.selectedKey !== oldOptions.selectedKey) {
+            this._scrollToTab(this._options.selectedKey);
+        }
+    }
+
     protected _beforeUnmount(): void {
         if (this._markerAnimationTimer) {
             clearTimeout(this._markerAnimationTimer);
@@ -182,8 +188,28 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         this._isUnmounted = true;
     }
 
-    protected _mouseEnterHandler(): void {
-        this._updateMarker();
+    protected _mouseEnterHandler(event: SyntheticEvent<MouseEvent>): void {
+        if (this._wrapperIncludesTarget(event.nativeEvent.target as HTMLElement)) {
+            this._updateMarker();
+        }
+    }
+
+    protected _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
+        if (
+            !this._isAnimationProcessing &&
+            this._animatedMarkerSelectedKey === this._options.selectedKey &&
+            !this._wrapperIncludesTarget(event.nativeEvent.relatedTarget as HTMLElement)
+        ) {
+            this._isAnimatedMakerVisible = false;
+        }
+    }
+
+    protected _wrapperIncludesTarget(target: HTMLElement): boolean {
+        let result: boolean = this._children.wrapper === target;
+        if (!result) {
+            result = !!target.closest('.controls-Tabs-wrapper');
+        }
+        return result;
     }
 
     protected _touchStartHandler(): void {
@@ -196,7 +222,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
         let isUpdateMarker = true;
         const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
-            const children = this._children[`Tab${key}`];
+            const children = this._children[`TabContent${key}`];
             /**
              * Может произойти ситуация, когда обновляется source, при этом курсор находится на контролле.
              * В таком случае на контроле снова срабатывает mouseenter, при этом содержимое контрола еще не перерисовалось.
@@ -230,13 +256,15 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const index: number = this._itemsArray.findIndex((item: ITabButtonItem) => {
             return item[options.keyProperty] === options.selectedKey;
         });
-        const align = this._marker.getAlign();
         const changed = this._marker.setSelectedIndex(index);
+        const align = this._marker.getAlign();
         // Не заускаем анимацию при переключении с группы вкладок слева на группу вкладок справа.
         if (changed && startAnimation && align && align === this._marker.getAlign() &&
                 this._options.animationMode !== ANIMATION_MODE.none) {
+            if (this._isAnimatedMakerVisible) {
+                this._isAnimationProcessing = true;
+            }
             this._isAnimatedMakerVisible = true;
-            this._isAnimationProcessing = true;
         }
     }
 
@@ -295,7 +323,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
      * @private
      */
     private _tabCanShrink(item: ITabButtonItem): boolean {
-        if (item.width !== undefined) {
+        if (item.width !== undefined || !this._options.canShrink) {
             return false;
         } else {
             return !this._hasMainTab || item.isMainTab || item.minWidth !== undefined || item.maxWidth !== undefined;
@@ -509,6 +537,21 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }, false);
     }
 
+    /**
+     * Подскрол к выбранной вкладке
+     * @param key
+     * @private
+     */
+    private _scrollToTab(key: string): void {
+
+        if (this._children.wrapper.scrollWidth <= this._children.wrapper.clientWidth) {
+            return;
+        }
+
+        this._children[`tab${key}`].scrollIntoView();
+    }
+
+
     static _prepareStyle(style: string): string {
         if (style === 'default') {
             // 'Tabs/Buttons: Используются устаревшие стили. Используйте style = primary вместо style = default'
@@ -559,7 +602,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             separatorVisible: true,
             displayProperty: 'title',
             horizontalPadding: 'xs',
-            animationMode: ANIMATION_MODE.none
+            animationMode: ANIMATION_MODE.none,
+            canShrink: true
         };
     }
 }

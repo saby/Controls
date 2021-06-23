@@ -140,6 +140,9 @@ const _private = {
             return Promise
                 .resolve(expandController.toggleItem(nodeKey) as Promise<RecordSet[]>)
                 .then((results?: RecordSet[]) => {
+                    if (self._destroyed) {
+                        return Promise.reject();
+                    }
                     //region Применим новое состояние развернутости к моделе
                     // Проставляем hasMoreStorage до простановки expandedItems,
                     // чтобы футеры узлов правильно посчитать за один раз
@@ -236,7 +239,7 @@ const _private = {
         const hasMore = {};
 
         expandedItems.forEach((nodeKey) => {
-            hasMore[nodeKey] = sourceController.hasMoreData('down', nodeKey);
+            hasMore[nodeKey] = sourceController ? sourceController.hasMoreData('down', nodeKey) : false;
         });
 
         return hasMore;
@@ -494,6 +497,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     private _itemOnWhichStartCountDown = null;
     private _timeoutForExpandOnDrag = null;
     private _deepReload;
+    private _loadedRoot: TKey;
 
     _expandController: ExpandController;
     private _mouseDownExpanderKey: TKey;
@@ -691,7 +695,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             // При смене корне, не надо запрашивать все открытые папки,
             // т.к. их может не быть и мы загрузим много лишних данных.
             // Так же учитываем, что вместе со сменой root могут поменять и expandedItems - тогда не надо их сбрасывать.
-            if (isEqual(newOptions.expandedItems, this._options.expandedItems)) {
+            // Если данные для нового рута уже загружены, то выставлять флаг нет смысла, т.к. _afterReloadCallback
+            // уже отработал и флаг _needResetExpandedItems будет обработан и сброшен только при следующем релоаде
+            // списка и не факт что это будет актуально
+            if (
+                this._loadedRoot !== newOptions.root &&
+                isEqual(newOptions.expandedItems, this._options.expandedItems)
+            ) {
                 this._needResetExpandedItems = true;
             }
 
@@ -1045,6 +1055,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             if (viewModelRoot !== root) {
                 this._listViewModel.setRoot(root);
             }
+
+            this._loadedRoot = sourceController?.getRoot();
         }
         // reset deepReload after loading data (see reload method or constructor)
         this._deepReload = false;

@@ -384,7 +384,7 @@ var _private = {
  * @mixes Controls/interface/IMovable
  * @mixes Controls/interface:IHierarchy
  * @deprecated Класс устарел и буден удалён. Используйте методы интерфейса {@link Controls/list:IMovableList}, который по умолчанию подключен в списки.
- * @demo Controls-demo/treeGrid/Mover/Base/Index
+ * @demo Controls-demo/treeGridNew/Mover/Base/Index
  * @public
  * @author Авраменко А.С.
  */

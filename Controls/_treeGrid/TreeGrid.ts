@@ -11,6 +11,42 @@ import { isFullGridSupport } from 'Controls/display';
 import ITreeGrid, {IOptions as ITreeGridOptions} from 'Controls/_treeGrid/interface/ITreeGrid';
 import 'css!Controls/grid';
 import 'css!Controls/treeGrid';
+
+/**
+ * Контрол "Дерево" позволяет отображать данные из различных источников в виде иерархического списка.
+ * Контрол поддерживает широкий набор возможностей, позволяющих разработчику максимально гибко настраивать отображение данных.
+ * @remark
+ * Дополнительно о контроле:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/ руководство разработчика}
+ * * {@link http://axure.tensor.ru/StandardsV8/%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE.html Спецификация Axure}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand демо-пример с множественным выбором элементов и с единичным раскрытием содержимого папок}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FTreeWithPhoto демо-пример с пользовательским шаблоном элемента списка с фото}
+ * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_treeGrid.less переменные тем оформления treeGrid}
+ * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_list.less переменные тем оформления list}
+ *
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/interface/IPromisedSelectable
+ * @mixes Controls/interface/IGroupedGrid
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/list:IList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/interface:IHierarchy
+ * @implements Controls/tree:ITreeControl
+ * @mixes Controls/interface/ITreeGridItemTemplate
+ * @mixes Controls/interface:IDraggable
+ * @mixes Controls/interface:IGridControl
+ * @mixes Controls/grid:IPropStorage
+ * @mixes Controls/treeGrid:IReloadableTreeGrid
+ *
+ * @mixes Controls/list:IVirtualScrollConfig
+ *
+ *
+ * @public
+ * @author Авраменко А.С.
+ * @demo Controls-demo/treeGridNew/Base/TreeGridView/Index
+ */
 export default class TreeGrid extends Grid implements ITreeGrid {
     protected _viewName: TemplateFunction = null;
     protected _viewTemplate: TemplateFunction = TreeControl;
@@ -62,8 +98,16 @@ export default class TreeGrid extends Grid implements ITreeGrid {
 
     static getOptionTypes(): object {
         return {
-            keyProperty: descriptor(String).required(),
             parentProperty: descriptor(String).required()
         };
     }
 }
+
+/**
+ * Загружает модель из {@link /doc/platform/developmentapl/interface-development/controls/list/source/ источника данных}, объединяет изменения в текущих данных и отображает элемент.
+ * @name Controls/treeGrid:View#reloadItem
+ * @function
+ * @param {String} key Идентификатор элемента коллекции, который должен быть перезагружен из источника.
+ * @param {Object} readMeta Метаинформация, которая будет передана методу запроса/чтения.
+ * @param {String} direction Если аргумент установлен в значение "depth", то перезагрузка происходит с сохранением загруженных записей, т.е. они остаются в списке на клиенте.
+ */

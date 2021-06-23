@@ -39,6 +39,8 @@ export interface IPagingOptions extends IControlOptions {
  *
  * @mixes Controls/_paging/Paging/Styles
  * @mixes Controls/_paging/Paging/DigitButtons/Styles
+ * 
+ * @ignoreoptions readOnly
  *
  */
 class Paging extends Control<IPagingOptions> {

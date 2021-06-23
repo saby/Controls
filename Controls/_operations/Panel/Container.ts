@@ -4,11 +4,13 @@ import { isEqual } from 'Types/object';
 import { TKeysSelection as TKeys, TKeySelection as TKey } from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
+import {RecordSet} from 'Types/collection';
 
 export interface IOperationsPanelContainerOptions extends IControlOptions {
     selectedKeys: TKeys;
     listMarkedKey: TKey;
     selectedKeysCount: number;
+    items?: RecordSet;
 }
 
 /**
@@ -39,7 +41,8 @@ export default class OperationsPanelContainer extends Control<IOperationsPanelCo
     protected _beforeUpdate(newOptions: IOperationsPanelContainerOptions): void {
         if (!isEqual(this._options.selectedKeys, newOptions.selectedKeys) ||
             this._options.listMarkedKey !== newOptions.listMarkedKey ||
-            this._selectedKeysCount !== newOptions.selectedKeysCount) {
+            this._selectedKeysCount !== newOptions.selectedKeysCount ||
+            (!newOptions.items?.getCount() && this._selectedKeys.length)) {
             this._selectedKeys = this._getSelectedKeys(newOptions);
             this._selectedKeysCount = this._getSelectedKeysCount(newOptions, this._selectedKeys);
         }
@@ -62,7 +65,8 @@ export default class OperationsPanelContainer extends Control<IOperationsPanelCo
     private _getSelectedKeys(options: IOperationsPanelContainerOptions): TKeys {
         let result;
 
-        if (!options.selectedKeys.length && options.listMarkedKey !== null) {
+        if (!options.selectedKeys.length && options.listMarkedKey !== null &&
+            (!options.items || options.items.getCount())) {
             result = [options.listMarkedKey];
         } else {
             result = options.selectedKeys;

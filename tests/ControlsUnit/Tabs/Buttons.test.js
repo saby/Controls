@@ -100,7 +100,7 @@ define([
             };
 
             for (let i = 0; i < data.length; i++) {
-               tabs._children[`Tab${i}`] = {
+               tabs._children[`TabContent${i}`] = {
                   getBoundingClientRect: () => {
                      return {
                         left: i*10,
@@ -123,9 +123,11 @@ define([
 
          it('should\'t update marker model if selectedKey changed', function() {
             sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0, borderRightWidth: 0 });
+            tabs._wrapperIncludesTarget = () => true;
 
-            tabs._mouseEnterHandler();
-            const right = tabs._marker.getOffset();
+            tabs._mouseEnterHandler({
+               nativeEvent: {}
+            });
             assert.strictEqual(tabs._marker.getOffset(), 0);
 
             tabs._beforeUpdate({
@@ -134,6 +136,22 @@ define([
                keyProperty: 'id'
             });
             assert.strictEqual(tabs._marker.getOffset(), 20);
+            sinon.restore();
+         });
+
+         it('marker should be native after the mouseout event', function() {
+            sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0, borderRightWidth: 0 });
+            tabs._wrapperIncludesTarget = () => true;
+
+            tabs._mouseEnterHandler({
+               nativeEvent: {}
+            });
+            assert.isTrue(tabs._isAnimatedMakerVisible);
+            tabs._wrapperIncludesTarget = () => false;
+            tabs._mouseOutHandler({
+               nativeEvent: {}
+            });
+            assert.isFalse(tabs._isAnimatedMakerVisible);
             sinon.restore();
          });
 
@@ -149,6 +167,45 @@ define([
                selectedKey: 3
             });
             assert.isFalse(tabs._isAnimatedMakerVisible);
+         });
+      });
+
+      describe('_afterRender', () => {
+         let tabs;
+
+         const items = new collection.RecordSet({
+            rawData: data,
+            keyProperty: 'id'
+         });
+
+         beforeEach(function() {
+            tabs = new tabsMod.Buttons();
+
+            tabs._beforeMount({
+               items: items,
+               selectedKey: 1
+            });
+            tabs._options.items = items;
+            tabs._options.selectedKey = 1;
+            tabs._children = {
+               wrapper: {
+                  scrollWidth: 200,
+                  clientWidth: 100
+               },
+               tab1: {
+                  scrollIntoView: sinon.fake()
+               }
+            }
+         });
+
+         it('should\'t scroll into view if selectedKey does not changed', () => {
+            tabs._afterRender({ selectedKey: 1 });
+            sinon.assert.notCalled(tabs._children.tab1.scrollIntoView);
+         });
+
+         it('should scroll into view if selectedKey is changed', () => {
+            tabs._afterRender({ selectedKey: 2 });
+            sinon.assert.calledOnce(tabs._children.tab1.scrollIntoView);
          });
       });
 
@@ -244,7 +301,8 @@ define([
                selectedKey: '15',
                keyProperty: 'karambola',
                theme: 'default',
-               horizontalPadding: 'xs'
+               horizontalPadding: 'xs',
+               canShrink: true
             },
             expected = 'controls-Tabs__item' +
                ' controls-Tabs__item_inlineHeight-s' +
@@ -493,7 +551,7 @@ define([
          it('should update marker model', () => {
             const tabs = new tabsMod.Buttons();
 
-            sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0 });
+             sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0, borderRightWidth: 0 });
 
             let items = new collection.RecordSet({
                rawData: data,
@@ -501,14 +559,14 @@ define([
             });
 
             const getBoundingClientRect = () => {
-               return { width: 10, left: 20 };
+               return { width: 10, left: 20, right: 30 };
             };
 
             tabs._container = { getBoundingClientRect };
 
             tabs._children = {};
             for (let i = 0; i < data.length; i++) {
-               tabs._children[`Tab${i}`] = { getBoundingClientRect };
+               tabs._children[`TabContent${i}`] = { getBoundingClientRect };
             }
 
             tabs._beforeUpdate({ items, selectedKey: 1 });
@@ -566,6 +624,7 @@ define([
       describe('_tabCanShrink', () => {
          it('should return true', () => {
             const tabs = new tabsMod.Buttons();
+            tabs._options = { canShrink: true };
             const item = {
                isMainTab: true
             };
@@ -574,6 +633,7 @@ define([
          });
          it('should return true', () => {
             const tabs = new tabsMod.Buttons();
+            tabs._options = { canShrink: true };
             const item = {
                minWidth: '20px'
             };
@@ -582,6 +642,7 @@ define([
          });
          it('should return true', () => {
             const tabs = new tabsMod.Buttons();
+            tabs._options = { canShrink: true };
             const item = {
                maxWidth: '20px'
             };
@@ -590,6 +651,7 @@ define([
          });
          it('should return false', () => {
             const tabs = new tabsMod.Buttons();
+            tabs._options = { canShrink: true };
             const item = {
                width: '20px'
             };
@@ -598,6 +660,7 @@ define([
          });
          it('should return true', () => {
             const tabs = new tabsMod.Buttons();
+            tabs._options = { canShrink: true };
             const item = {};
             tabs._hasMainTab = false;
             const result = tabs._tabCanShrink(item);
@@ -605,8 +668,16 @@ define([
          });
          it('should return false', () => {
             const tabs = new tabsMod.Buttons();
+            tabs._options = { canShrink: true };
             const item = {};
             tabs._hasMainTab = true;
+            const result = tabs._tabCanShrink(item);
+            assert.isFalse(result);
+         });
+         it('should return false', () => {
+            const tabs = new tabsMod.Buttons();
+            tabs._options = { canShrink: false };
+            const item = {};
             const result = tabs._tabCanShrink(item);
             assert.isFalse(result);
          });

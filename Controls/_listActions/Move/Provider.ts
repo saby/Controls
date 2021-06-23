@@ -10,22 +10,23 @@ export interface IMoveProvider {
 
 /**
  * Стандартный провайдер "перемещения записей"
- * @private
  * @author Крайнов Д.О.
  */
 export default class Move implements IAction, IMoveProvider {
     private _moveController: MoveController;
 
     execute(meta: Partial<IMoveProviderOptions>): void {
-        this._moveController = new MoveController({
-            popupOptions: meta.popupOptions || {
-                template: 'Controls/moverDialog:Template'
-            },
-            source: meta.source,
-            sorting: meta.sorting,
-            parentProperty: meta.parentProperty,
-            siblingStrategy: meta.siblingStrategy
+        import('Controls/list').then(({MoveController}) => {
+            this._moveController = new MoveController({
+                popupOptions: meta.popupOptions || {
+                    template: 'Controls/moverDialog:Template'
+                },
+                source: meta.source,
+                sorting: meta.sorting,
+                parentProperty: meta.parentProperty,
+                siblingStrategy: meta.siblingStrategy
+            });
+            this._moveController.moveWithDialog(meta.selection, meta.filter);
         });
-        this._moveController.moveWithDialog(meta.selection, meta.filter);
     }
 }

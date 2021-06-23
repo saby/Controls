@@ -30,6 +30,7 @@ export interface IButton extends IContrastBackground {
  * @default false
  * @remark
  * Опция используется для акцентирования внимания на кнопке, и ее визуального выделения относительно окружения.
+ * Для viewMode=functionalButton, значение по умолчанию true.
  * @demo Controls-demo/Buttons/ContrastBackground/Index
  * @example
  * У кнопки контрастный фон.

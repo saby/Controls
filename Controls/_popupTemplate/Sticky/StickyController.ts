@@ -7,6 +7,7 @@ import * as StickyContent from 'wml!Controls/_popupTemplate/Sticky/StickyContent
 import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 import {Logger} from 'UI/Utils';
 import {getScrollbarWidthByMeasuredBlock} from 'Controls/scroll';
+import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 import {constants, detection} from 'Env/Env';
 
 export type TVertical = 'top' | 'bottom' | 'center';
@@ -287,6 +288,10 @@ export class StickyController extends BaseController {
         item.popupOptions = _private.prepareOriginPoint(item.popupOptions);
         const popupCfg = this._getPopupConfig(item);
         _private.updateStickyPosition(item, popupCfg);
+        // Если идет dnd на странице, стики окна не открываем
+        if (DnDController.isDragging()) {
+            return false;
+        }
         item.position = {
             top: -10000,
             left: -10000,

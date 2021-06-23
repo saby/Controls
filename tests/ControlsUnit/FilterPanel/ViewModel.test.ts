@@ -24,6 +24,32 @@ describe('Controls/filterPanel:ViewModel', () => {
         });
     });
 
+    describe('resetFilter', () => {
+        const source = [
+            {
+                group: 'owners',
+                name: 'owner',
+                value: 'Test owner',
+                textValue: 'Test owner',
+                resetValue: null,
+                viewMode: 'basic',
+                editorOptions: {
+                    extendedCaption: 'Owner'
+                }
+            }
+        ];
+        const collapsedGroups = [];
+        const viewModel = new ViewModel({
+            source,
+            collapsedGroups
+        });
+
+        it('view mode changed', () => {
+            viewModel.resetFilter();
+            assert.equal(viewModel._source[0].viewMode,  'extended');
+        });
+    });
+
     describe('setEditingObjectValue', () => {
         const source = [
             {

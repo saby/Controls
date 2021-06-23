@@ -90,6 +90,10 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
             }
         }
 
+        if (this._$isFixed && this._$owner.getEditingConfig()?.mode === 'cell') {
+            classes += ' controls-Grid__row-cell_single-cell-editable_fixed';
+        }
+
         return classes;
     }
 
@@ -189,12 +193,12 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
     // region Аспект "Обрезка текста по многоточию"
 
     getTextOverflowClasses(): string {
-        let classes =  `controls-Grid__cell_${this.config.textOverflow || 'none'} `;
+        let classes =  `controls-Grid__cell_${this.config.textOverflow || 'none'}`;
 
         // Для правильного отображения стрелки редактирования рядом с текстом, который
         // обрезается нужно повесить на контейнер с этим текстом специальные CSS классы
         if (this.config.textOverflow && this.shouldDisplayEditArrow(null)) {
-            classes += `controls-Grid__editArrow-cellContent controls-Grid__editArrow-overflow-${this.config.textOverflow}`;
+            classes += ` controls-Grid__editArrow-cellContent controls-Grid__editArrow-overflow-${this.config.textOverflow}`;
         }
         return classes;
     }

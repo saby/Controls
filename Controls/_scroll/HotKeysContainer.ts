@@ -9,7 +9,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  * 
- * @class Controls/_scroll/HotKeysContainer
  * @extends UI/Base:Control
  * @author Шипин А.А.
  * @public

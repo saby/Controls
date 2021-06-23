@@ -21,6 +21,7 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {constants} from 'Env/Constants';
 import {PrefetchProxy} from 'Types/source';
 
+const QUERY_PARAMS_LOAD_TIMEOUT = 5000;
 const DEFAULT_LOAD_TIMEOUT = 10000;
 const DEBUG_DEFAULT_LOAD_TIMEOUT = 30000;
 
@@ -91,7 +92,7 @@ export interface ILoadDataResult extends ILoadDataConfig {
 
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
 type TLoadConfig = ILoadDataConfig|ILoadDataCustomConfig;
-type TLoadResult = ILoadDataResult|ILoadDataCustomConfig;
+type TLoadResult = ILoadDataResult|ILoadDataCustomConfig|boolean;
 type TLoadPromiseResult = Promise<TLoadResult>;
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
@@ -100,7 +101,7 @@ function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
 
 function getFilterController(options: IFilterControllerOptions): FilterController {
     const controllerClass = loadSync<typeof import('Controls/filter')>('Controls/filter').ControllerClass;
-    return new controllerClass(options);
+    return new controllerClass({...options});
 }
 
 function getSourceController(options: ILoadDataConfig): NewSourceController {
@@ -172,8 +173,9 @@ function getLoadResult(
 
 function loadDataByConfig(
     loadConfig: ILoadDataConfig,
-    loadTimeout: number = getLoadTimeout()
+    loadTimeout?: number
 ): Promise<ILoadDataResult> {
+    const loadDataTimeout = loadTimeout || getLoadTimeout(loadConfig);
     let filterController: FilterController;
     let filterHistoryItems;
     let sortingPromise;
@@ -200,14 +202,14 @@ function loadDataByConfig(
             .catch(() => {
                 filterController = getFilterController(loadConfig as IFilterControllerOptions);
             });
-        filterPromise = wrapTimeout(filterPromise, getLoadTimeout(loadConfig)).catch(() => {
+        filterPromise = wrapTimeout(filterPromise, QUERY_PARAMS_LOAD_TIMEOUT).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные фильтрации не загрузились за 1 секунду');
         });
     }
 
     if (loadConfig.propStorageId) {
         sortingPromise = loadSavedConfig(loadConfig.propStorageId, ['sorting']);
-        sortingPromise = wrapTimeout(sortingPromise, getLoadTimeout(loadConfig)).catch(() => {
+        sortingPromise = wrapTimeout(sortingPromise, QUERY_PARAMS_LOAD_TIMEOUT).catch(() => {
             Logger.info('Controls/dataSource:loadData: Данные сортировки не загрузились за 1 секунду');
         });
     }
@@ -221,7 +223,7 @@ function loadDataByConfig(
             ...loadConfig,
             sorting,
             filter: filterController ? filterController.getFilter() : loadConfig.filter,
-            loadTimeout: getLoadTimeout(loadConfig)
+            loadTimeout: loadDataTimeout
         });
 
         return new Promise((resolve) => {
@@ -252,29 +254,34 @@ export default class DataLoader {
     }
 
     load<T extends ILoadDataResult>(
-        sourceConfigs: TLoadConfig[] = this._loadDataConfigs
+        sourceConfigs?: TLoadConfig[]
     ): Promise<TLoadResult[]> {
-        return Promise.all(this.loadEvery<T>(sourceConfigs)).then((results) => {
-            this._fillLoadedConfigStorage(results);
-            return results;
-        });
+        return Promise.all(this.loadEvery<T>(sourceConfigs));
     }
 
     loadEvery<T extends ILoadDataConfig|ILoadDataCustomConfig>(
-        sourceConfigs: TLoadConfig[] = this._loadDataConfigs,
+        sourceConfigs?: TLoadConfig[],
         loadTimeout?: number
     ): TLoadPromiseResult[] {
         const loadDataPromises = [];
         let loadPromise;
+        let configs;
 
-        sourceConfigs.forEach((loadConfig) => {
+        if (sourceConfigs) {
+            this._loadedConfigStorage.clear();
+            configs = sourceConfigs;
+        } else {
+            configs = this._loadDataConfigs;
+        }
+
+        configs.forEach((loadConfig) => {
             if (loadConfig.type === 'custom') {
-                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments);
+                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments).catch((error) => error);
             } else {
                 loadPromise = loadDataByConfig(loadConfig, loadTimeout);
             }
             Promise.resolve(loadPromise).then((result) => {
-                if (!result.source && result.historyItems && loadConfig.type === 'list') {
+                if (loadConfig.type === 'list' && !result.source && result.historyItems) {
                     result.sourceController.setFilter(result.filter);
                 }
                 return result;
@@ -294,6 +301,9 @@ export default class DataLoader {
                 });
             }
             loadDataPromises.push(loadPromise);
+        });
+        Promise.all(loadDataPromises).then((results) => {
+            this._fillLoadedConfigStorage(results);
         });
 
         return loadDataPromises;
@@ -384,7 +394,7 @@ export default class DataLoader {
     ): void {
         this._loadedConfigStorage.clear();
         data.forEach((result) => {
-            this._loadedConfigStorage.set(result.id || Guid.create(), result);
+            this._loadedConfigStorage.set(result?.id || Guid.create(), result);
         });
     }
 
