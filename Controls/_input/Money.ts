@@ -57,6 +57,12 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
             onlyPositive: options.onlyPositive
         };
     }
+    protected _beforeUpdate(newOptions: IMoneyOptions): void {
+        super._beforeUpdate(newOptions);
+        if (this._viewModel.displayValueBeforeUpdate === '' && newOptions.value === this._getValue(newOptions)) {
+            this._viewModel.displayValueBeforeUpdate = this._viewModel.displayValue;
+        }
+    }
 
     protected _getViewModelConstructor() {
         return ViewModel;
