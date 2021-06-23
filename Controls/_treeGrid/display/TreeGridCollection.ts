@@ -277,10 +277,6 @@ export default class TreeGridCollection<
 
     // region HasNodeWithChildren
 
-    protected _recountDisplayExpanderPadding() {
-        super._recountDisplayExpanderPadding();
-    }
-
     protected _setDisplayExpanderPadding(newValue: boolean) {
         super._setDisplayExpanderPadding(newValue);
         if (this.getFooter()) {
