@@ -44,7 +44,8 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
     protected _items: T[];
 
     private _startIndex: number;
-    private _currentPosition: IDragPosition<T>;
+    // Массив, который содержит индексы всех скрытых записей
+    private _hiddenIndexes: number[] = [];
 
     constructor(options: IOptions<S, T>) {
         super();
@@ -92,7 +93,6 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
         }
 
         this._options.targetIndex = newIndex;
-        this._currentPosition = newPosition;
         this.invalidate();
     }
 
@@ -108,7 +108,8 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
     }
 
     getDisplayIndex(index: number): number {
-        return this.source.getDisplayIndex(index);
+        const displayIndex = this.source.getDisplayIndex(index);
+        return this._correctIndexByHiddenItems(displayIndex);
     }
 
     getCollectionIndex(index: number): number {
@@ -175,20 +176,29 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
     }
 
     protected _createItems(): T[] {
-        const filteredItems = this.source.items.filter((item) => {
+        this._hiddenIndexes = [];
+        const filteredItems = this.source.items.filter((item, index) => {
             if (!item.DraggableItem) {
                 return true;
             }
             const key = item.getContents().getKey();
-            return !this._options.draggedItemsKeys.includes(key);
+            const filtered = !this._options.draggedItemsKeys.includes(key);
+            const draggableItem = this._options.draggableItem;
+            // запоминаем индексы всех скрытых элементов
+            if (!filtered && (!draggableItem || draggableItem.getContents().getKey() !== key)) {
+                this._hiddenIndexes.push(index);
+            }
+            return filtered;
         });
         // Если не передали перетаскиваемый элемент, то не нужно создавать "призрачный" элемент
         if (!this._avatarItem && this._options.draggableItem) {
             this._avatarItem = this._createAvatarItem();
         }
         if (this._avatarItem) {
+            this._startIndex = this._correctIndexByHiddenItems(this._startIndex);
             filteredItems.splice(this._startIndex, 0, this._avatarItem);
         }
+        this._options.targetIndex = this._correctIndexByHiddenItems(this._options.targetIndex);
         return filteredItems;
     }
 
@@ -211,6 +221,13 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
             item.setSelected(protoItem.isSelected(), true);
         }
         return item;
+    }
+
+    // Корректирует индекс исходя из скрытых элементов.
+    // Например, если начали днд нескольких первых записей, то нужно скорректировать startIndex
+    private _correctIndexByHiddenItems(index: number): number {
+        const hiddenIndexesLessIndex = this._hiddenIndexes.filter((it) => it < index);
+        return index - hiddenIndexesLessIndex.length;
     }
 
     static sortItems<S extends Model = Model, T extends CollectionItem<S> = CollectionItem<S>>(
