@@ -178,7 +178,7 @@ export default class ScrollController {
     }
 
     getShadowVisibility(): IShadowVisibility {
-        if (!this._shadowVisibility) {
+        if (!this._shadowVisibility && this._virtualScroll) {
             this._calcShadowVisibility(this._options.collection, this._virtualScroll.getRange());
         }
         return this._shadowVisibility;
