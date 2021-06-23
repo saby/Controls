@@ -300,14 +300,17 @@ export default class Selector extends BaseDropdown {
    }
 
    protected _deactivated(): void {
-      this.closeMenu();
+      if (this._options.closeMenuOnOutsideClick) {
+         this.closeMenu();
+      }
    }
 
    static getDefaultOptions(): Partial<IInputOptions> {
       return {
          iconSize: 's',
          emptyKey: null,
-         maxVisibleItems: 1
+         maxVisibleItems: 1,
+         closeMenuOnOutsideClick: true
       };
    }
 }
