@@ -301,7 +301,9 @@ export default class Selector extends BaseDropdown {
    }
 
    protected _deactivated(): void {
-      this.closeMenu();
+      if (this._options.closeMenuOnOutsideClick) {
+         this.closeMenu();
+      }
    }
 
    static getDefaultOptions(): Partial<IInputOptions> {
@@ -309,7 +311,8 @@ export default class Selector extends BaseDropdown {
          iconSize: 's',
          emptyKey: null,
          maxVisibleItems: 1,
-         validationStatus: 'valid'
+         validationStatus: 'valid',
+         closeMenuOnOutsideClick: true
       };
    }
 }
