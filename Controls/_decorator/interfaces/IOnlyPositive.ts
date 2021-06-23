@@ -3,7 +3,7 @@ export interface IOnlyPositiveOptions {
 }
 
 /**
- * @name Controls/_decorator/interface/IOnlyPositive#onlyPositive
+ * @name Controls/_decorator/interfaces/IOnlyPositive#onlyPositive
  * @cfg {Boolean} Определяет, будут ли отображаться только положительные числа.
  * @default false
  * @remark
@@ -23,5 +23,5 @@ export interface IOnlyPositiveOptions {
  * @author Красильников А.С.
  */
 export default interface IOnlyPositive {
-    readonly '[Controls/_input/interface/IOnlyPositive]': boolean;
+    readonly '[Controls/_decorator/interfaces/IOnlyPositive]': boolean;
 }

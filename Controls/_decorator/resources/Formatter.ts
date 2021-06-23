@@ -196,9 +196,11 @@ export function fillAdditionalZeros(str: string, precision: number) {
 }
 
 export function correctNumberValue(value: string, onlyPositive?: boolean): string {
+    let replaceValue;
     if (onlyPositive) {
-        return value;
+        replaceValue = '';
     } else {
-        return value.replace(/-\b/, '- ');
+        replaceValue = '- ';
     }
+    return value.replace(/-\b/, replaceValue);
 }

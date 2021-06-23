@@ -36,7 +36,7 @@ interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, I
  */
 // TODO: https://online.sbis.ru/doc/f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
 class NumberInput extends Base<INumberInputOptions> implements IOnlyPositive {
-    readonly '[Controls/_interface/IOnlyPositive]': boolean = true;
+    readonly '[Controls/_decorator/interfaces/IOnlyPositive]': boolean = true;
     _defaultValue: number = 0;
     _inputMode: string = 'decimal';
     _controlName: string = 'Number';

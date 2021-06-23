@@ -37,7 +37,7 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
     protected _controlName: string = 'Money';
 
     readonly '[Controls/_input/interface/INumberLength]': boolean = true;
-    readonly '[Controls/interface/IOnlyPositive]': boolean = true;
+    readonly '[Controls/_decorator/interfaces/IOnlyPositive]': boolean = true;
 
     protected _initProperties(options: IMoneyOptions): void {
         super._initProperties(options);
