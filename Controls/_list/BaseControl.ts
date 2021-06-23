@@ -1717,6 +1717,7 @@ const _private = {
             }
             if (action === IObservable.ACTION_RESET) {
                 if (self._updatePagingOnResetItems) {
+                    self._knownPagesCount = INITIAL_PAGES_COUNT;
                     _private.updatePagingData(self, self._items.getMetaData().more, self._options);
                 }
                 self._updatePagingOnResetItems = true;
