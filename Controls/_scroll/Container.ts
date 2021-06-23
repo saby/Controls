@@ -104,7 +104,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     private _wasMouseEnter: boolean = false;
     private _gridAutoShadows: boolean = true;
 
-    _beforeMount(options: IContainerOptions, context, receivedState) {
+    _beforeMount(options: IContainerOptions) {
         // Будем показывать скроллбар до тех пор, пока пользователь не воспользовался колесиком мышки, даже если
         // прикладник задал опцию scrollbarVisible=false.
         // Таким образом пользователи без колесика мышки смогут скроллить контент.
@@ -115,7 +115,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             }
         });
         this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
-        this._scrollbars = new ScrollbarsModel(options, receivedState);
+        this._scrollbars = new ScrollbarsModel(options);
         this._stickyHeaderController = new StickyHeaderController({ resizeCallback: this._headersResizeHandler.bind(this) });
         // При инициализации оптимизированные тени включаем только если они явно включены, или включен режим auto.
         // В режиме mixed используем тени на css что бы не вызывать лишние синхронизации. Когда пользователь наведет
@@ -127,10 +127,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._optimizeShadowClass = this._getOptimizeShadowClass(options);
 
         super._beforeMount(...arguments);
-
-        if (!receivedState) {
-            return Promise.resolve(this._scrollbars.serializeState());
-        }
     }
 
     _afterMount(options: IContainerOptions) {
