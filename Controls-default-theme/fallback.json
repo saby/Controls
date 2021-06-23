@@ -1602,6 +1602,7 @@
   "--monthview_weekend_text-color_monthSlider": "var(--primary_text-color)",
   "--monthview_otherday_text-color_monthSlider": "var(--monthview_item_text-color_monthSlider)",
   "--monthview_today_text-color_monthSlider": "#fff",
+  "--monthview_weekend_today_text-color_monthSlider": "var(--monthview_today_text-color_monthSlider)",
 
   "--box-shadow-size_datePicker": "0 0 6px 0",
   "--box-shadow-color_datePicker": "rgba(0, 0, 0, 0.45)",
