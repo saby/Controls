@@ -59,11 +59,11 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetCol
     });
 
     // 2, потому что колонка multiSelect не колспанится, а добавляется пустая
-    it('multiSelectVisibility=visible, colspan should be 1 / 3', () => {
+    it('multiSelectVisibility=visible, should not colspan', () => {
         multiSelectVisibility = 'visible';
         groupRow = getGroupRow();
         const columns = groupRow.getColumns();
         assert.equal(columns[0].getColspanStyles(), '');
-        assert.equal(columns[1].getColspanStyles(), 'grid-column: 1 / 3;');
+        assert.equal(columns[1].getColspanStyles(), '');
     });
 });
