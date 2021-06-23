@@ -406,7 +406,8 @@ define(
                right: 100
             }, itemConfig);
 
-            assert.equal(position.right, 0);
+            // Тут странно, надо посмотреть внимательнее
+            assert.equal(position.right, 100);
 
             StackStrategy._getParentPosition = baseParentPosition;
          });
@@ -568,7 +569,7 @@ define(
             }, item);
             assert.equal(position.width, item.popupOptions.minWidth);
             assert.isTrue(position.top === 0);
-            assert.isTrue(position.right === 0);
+            assert.isTrue(position.right === 52);
          });
 
          it('stack width', () => {
@@ -590,9 +591,9 @@ define(
                top: 0,
                right: 400
             }, item);
-            assert.equal(position.maxWidth, 1000); //В тесте getMaxPanelWidth === 1000
+            assert.equal(position.maxWidth, 948); //В тесте getMaxPanelWidth === 1000 - 52 rightPanel
             assert.equal(position.width, 1000);
-            assert.equal(position.right, 0);
+            assert.equal(position.right, 52);
          });
 
          it('stack max width', () => {
@@ -794,7 +795,7 @@ define(
             /* Так как окно спозиционируется с координатами right: 150 с шириной 950 - то панель не влезет в окно браузера.
             Если панель не уместилась по ширине, то позиционирование панели осуществляется от правого края экрана.
             Проверяем координаты right. */
-            assert.equal(tCoords.right, 0);
+            assert.equal(tCoords.right, 52);
          });
 
          it('workspaceResize', () => {
@@ -840,7 +841,7 @@ define(
             assert.equal(result, 10);
 
             result = Strategy._getRightPosition(tCoord, true);
-            assert.equal(result, 0);
+            assert.equal(result, 52);
 
             Strategy._getRightTemplate = () => 'rightTemplate.wml';
             result = Strategy._getRightPosition(tCoord, true);
