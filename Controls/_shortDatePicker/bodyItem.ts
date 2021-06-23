@@ -78,7 +78,7 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
                     name: numerals[quarter],
                     number: quarter,
                     fullName: formatDate(new Date(year, quarterMonth, 1), 'QQQQr'),
-                    tooltip: formatDate(new Date(year, quarterMonth, 1), formatDate.FULL_QUATER),
+                    tooltip: formatDate(new Date(year, quarterMonth, 1), formatDate.FULL_QUARTER),
                     months: monthsList
                 });
             }
