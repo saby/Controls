@@ -98,8 +98,8 @@ function getCenterOffset(parentElement: HTMLElement, element: HTMLElement): numb
 export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boolean | SCROLL_POSITION, force?: Boolean): void {
    // TODO: переделать аргумент toBottom в position https://online.sbis.ru/opendoc.html?guid=4693dfce-f11d-4792-b62d-9faf54564553
    const position: SCROLL_POSITION = toBottomOrPosition === true ? SCROLL_POSITION.bottom : toBottomOrPosition;
-
-   getScrollableParents(element).forEach(parent => {
+   const scrollableParent = getScrollableParents(element);
+   for (const parent of scrollableParent) {
       const
          elemToScroll = parent === document.documentElement ? document.body : parent,
          parentOffset = getOffset(parent),
@@ -111,6 +111,10 @@ export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boole
       // StickyHeader'ы одной высоты и сменяются друг за другом.
       let innerStickyHeaderHeight;
       const stickyHeaderClass = 'controls-StickyHeader';
+
+      // Элемент, к которому нужно подскролить, может находиться в стики блоке.
+      const outerStickyHeaderElement = element.closest(`.${stickyHeaderClass}`);
+
       if (element.classList.contains(stickyHeaderClass)) {
           innerStickyHeaderHeight = element.offsetHeight;
       } else {
@@ -155,5 +159,10 @@ export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boole
             }
          }
       }
-   });
+
+      // Мы подскролили к элементу, если он лежит в стики заголовке.
+      if (outerStickyHeaderElement) {
+         return;
+      }
+   }
 }
