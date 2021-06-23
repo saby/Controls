@@ -252,6 +252,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
             template: 'Controls/operationsPanel:Panel',
             opener: this,
             className: 'controls-operationPanel__offset',
+            propStorageId: this._options.propStorageId,
             target
          });
       });
