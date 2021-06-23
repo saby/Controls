@@ -298,7 +298,7 @@ export default class Collection<
         if (position) {
             const strategy = this.getStrategyInstance(this._dragStrategy) as unknown as ColumnsDragStrategy<S>;
             const avatarItem = strategy.avatarItem;
-            if (avatarItem.getColumn() !== position.dispItem.getColumn()) {
+            if (position.position !== 'on' && avatarItem.getColumn() !== position.dispItem.getColumn()) {
                 strategy.avatarItem.setColumn(position.dispItem.getColumn());
             }
         }
