@@ -161,6 +161,8 @@
                 on:doScroll="_stopBubblingEvent()"
                 on:updatePlaceholdersSize="_stopBubblingEvent()"
                 on:saveScrollPosition="_stopBubblingEvent()"
+                on:enableVirtualNavigation="_stopBubblingEvent()"
+                on:disableVirtualNavigation="_stopBubblingEvent()"
                 on:restoreScrollPosition="_stopBubblingEvent()"
                 on:loadMore="_onClickMoreButton()"
                 on:toggleHorizontalScroll="_onToggleHorizontalScroll()"
