@@ -110,7 +110,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         this._filter = this._options.filter || {};
     }
 
-    protected _itemsFilterMethod(item: Model | Model[]): boolean {
+    protected _itemsFilterMethod(items: Model | Model[]): boolean {
         let result = true;
         const item = Array.isArray(items) ? items[items.length - 1] : items;
 
