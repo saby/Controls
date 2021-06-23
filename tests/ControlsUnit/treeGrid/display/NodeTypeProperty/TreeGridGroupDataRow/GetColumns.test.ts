@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {TreeGridCollection, TreeGridGroupDataRow} from 'Controls/treeGrid';
 import {Model} from 'Types/entity';
-import {IColumn} from "Controls/grid";
+import {IColumn} from 'Controls/grid';
 
 describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetColumns', () => {
     let groupRow: TreeGridGroupDataRow<Model>;
@@ -51,16 +51,19 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetCol
         multiSelectVisibility = 'hidden';
     });
 
-    it('multiSelectVisibility=visible, total columns count should be 1', () => {
+    // 2, потому что колонка multiSelect не колспанится, а добавляется пустая
+    it('multiSelectVisibility=visible, total columns count should be 2', () => {
         multiSelectVisibility = 'visible';
         groupRow = getGroupRow();
-        assert.equal(groupRow.getColumnsCount(),1);
+        assert.equal(groupRow.getColumnsCount(),2);
     });
 
+    // 2, потому что колонка multiSelect не колспанится, а добавляется пустая
     it('multiSelectVisibility=visible, colspan should be 1 / 3', () => {
         multiSelectVisibility = 'visible';
         groupRow = getGroupRow();
         const columns = groupRow.getColumns();
-        assert.equal(columns[0].getColspanStyles(), 'grid-column: 1 / 3;');
+        assert.equal(columns[0].getColspanStyles(), '');
+        assert.equal(columns[1].getColspanStyles(), 'grid-column: 1 / 3;');
     });
 });
