@@ -523,7 +523,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            expandedItems: this._expandedItems
+            expandedItems: this._options.hasOwnProperty('expandedItems') ? this._expandedItems : void 0
         };
         OPTIONS_FOR_UPDATE_AFTER_LOAD.forEach((optionName) => {
             state[optionName] = this._options[optionName];
