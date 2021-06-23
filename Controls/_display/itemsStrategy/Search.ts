@@ -80,7 +80,7 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
     let breadCrumbs;
     const last = getNearestNode(item);
     const root = display && display.getRoot();
-    if (item['[Controls/treeGrid:TreeGridGroupDataRow]']) {
+    if (last && last['[Controls/treeGrid:TreeGridGroupDataRow]']) {
         breadCrumbs = treeItemToBreadcrumbs.get(last);
         if (!breadCrumbs) {
             breadCrumbs = last;

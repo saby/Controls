@@ -19,7 +19,7 @@ function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
    const parent = item.getParent();
 
    // корневой узел не может быть свернут
-   if (!parent || parent['[Controls/_display/BreadcrumbsItem]'] || parent.isRoot()) {
+   if (!parent || parent.isRoot()) {
       return true;
    } else if (parent['[Controls/treeGrid:TreeGridGroupDataRow]'] && !parent.isExpanded()) {
       return false;
