@@ -20,6 +20,7 @@
                                     parentProperty="parent"
                                     hasChildrenProperty="hasChild"
                                     rootTitle="Каталог"
+                                    rootLabelVisible="{{false}}"
                                     searchParam="title"
                                     nodeProperty="type"
                                     source="{{_viewSource}}"
