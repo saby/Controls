@@ -104,9 +104,7 @@ import { EdgeIntersectionObserver, getStickyHeadersHeight } from 'Controls/scrol
 import { ItemsEntity } from 'Controls/dragnDrop';
 import {ISiblingStrategy} from './interface/ISiblingStrategy';
 import {FlatSiblingStrategy} from './Strategies/FlatSiblingStrategy';
-import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
-import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
-import {Remove as RemoveAction} from 'Controls/listActions';
+import {Remove as RemoveAction, Move as MoveAction, IMoveActionOptions} from 'Controls/listActions';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IMovableList} from './interface/IMovableList';
 import {saveConfig} from 'Controls/Application/SettingsController';
@@ -3173,10 +3171,23 @@ const _private = {
         return result;
     },
 
-    prepareMoverControllerOptions(self, options: IList): IMoveControllerOptions {
-        const controllerOptions: IMoveControllerOptions = {
+    moveItem(self, selectedKey: CrudEntityKey, direction: 'up' | 'down'): Promise<void> {
+        const selection: ISelectionObject = {
+            selected: [selectedKey],
+            excluded: []
+        };
+        return _private.getMoveAction(self).execute({
+            selection,
+            providerName: 'Controls/listActions:MoveProviderDirection',
+            direction
+        }) as Promise<void>;
+    },
+
+    prepareMoveActionOptions(self, options: IList): IMoveActionOptions {
+        const controllerOptions: IMoveActionOptions = {
             source: options.source,
             parentProperty: options.parentProperty,
+            keyProperty: self._keyProperty,
             sorting: options.sorting,
             siblingStrategy: self._getSiblingsStrategy()
         };
@@ -3198,11 +3209,8 @@ const _private = {
         return controllerOptions;
     },
 
-    getMoveController(self): MoveController {
-        if (!self._moveController) {
-            self._moveController = new MoveController(_private.prepareMoverControllerOptions(self, self._options));
-        }
-        return self._moveController;
+    getMoveAction(self): MoveAction {
+        return new MoveAction(_private.prepareMoveActionOptions(self, self._options));
     },
 
     getRemoveAction(self, selection: ISelectionObject, providerName?: string): RemoveAction {
@@ -3539,11 +3547,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _draggedKey = null;
     _validateController = null;
 
-    // Контроллер для перемещения элементов из источника
-    _moveController = null;
-
-    // Контроллер для удаления элементов из источника
-    _removeAction = null;
     _removedItems = [];
     _keyProperty = null;
 
@@ -4200,10 +4203,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._pagingVisible) {
                 this._pagingVisible = false;
             }
-        }
-
-        if (this._moveController) {
-            this._moveController.updateOptions(_private.prepareMoverControllerOptions(this, newOptions));
         }
 
         const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor ||
@@ -6209,27 +6208,25 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // region move
 
     moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet> {
-        return _private.getMoveController(this).move(selection, this._filter, targetKey, position) as Promise<DataSet>;
+        return _private.getMoveAction(this).execute({
+            selection,
+            filter: this._filter,
+            targetKey,
+            position,
+            providerName: 'Controls/listActions:MoveProvider'
+        }) as Promise<DataSet>;
     }
 
     moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        const selection: ISelectionObject = {
-            selected: [selectedKey],
-            excluded: []
-        };
-        return _private.getMoveController(this).moveUp(selection) as Promise<void>;
+        return _private.moveItem(this, selectedKey, 'up');
     }
 
     moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        const selection: ISelectionObject = {
-            selected: [selectedKey],
-            excluded: []
-        };
-        return _private.getMoveController(this).moveDown(selection) as Promise<void>;
+        return _private.moveItem(this, selectedKey, 'down');
     }
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
-        return _private.getMoveController(this).moveWithDialog(selection, this._options.filter);
+        return _private.getMoveAction(this).execute({selection, filter: this._options.filter});
     }
 
     protected _getSiblingsStrategy(): ISiblingStrategy {
