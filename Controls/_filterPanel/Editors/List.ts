@@ -125,7 +125,6 @@ class ListEditor extends BaseEditor {
             this._items.assign(result);
         }
         this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
-        this._navigation = this._getNavigation(this._options);
     }
 
     protected _handleFooterClick(event: SyntheticEvent): void {
