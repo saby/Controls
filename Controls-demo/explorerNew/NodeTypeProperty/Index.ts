@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {CrudEntityKey} from 'Types/source';
 import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
-import {IColumn} from 'Controls/grid';
+import {IColumn, TColspanCallbackResult} from 'Controls/grid';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
 import {IGroupNodeColumn} from 'Controls/_treeGrid/interface/IGroupNodeColumn';
 
@@ -9,6 +9,7 @@ import {extendedData as data} from './data/NodeTypePropertyData';
 
 import * as PriceColumnTemplate from 'wml!Controls-demo/explorerNew/NodeTypeProperty/resources/PriceColumnTemplate';
 import * as Template from 'wml!Controls-demo/explorerNew/NodeTypeProperty/NodeTypeProperty';
+import {Model} from "Types/entity";
 
 const columns: IGroupNodeColumn[] = [
     {
@@ -60,9 +61,8 @@ export default class extends Control {
     protected _viewSource: MemorySource;
     protected _columns: IColumn[] = columns;
     protected _root: CrudEntityKey = null;
-
-    protected _selectedKeys: [] = [];
-    protected _excludedKeys: [] = [];
+    protected _expandedItems: CrudEntityKey[] = [1, 2, 3];
+    protected _collapsedItems: CrudEntityKey[] = [];
 
     protected _itemActions: IItemAction[] = [
         {
@@ -85,6 +85,13 @@ export default class extends Control {
             keyProperty: 'id',
             data
         });
+    }
+
+    protected _colspanCallback(item: Model, column: IGroupNodeColumn, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
+        if (item.get('nodeType') === 'group' && columnIndex === 0) {
+            return 3;
+        }
+        return 1;
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];

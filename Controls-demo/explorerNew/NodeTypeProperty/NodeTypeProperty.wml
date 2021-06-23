@@ -2,9 +2,12 @@
     <Controls.browser:Browser source="{{_viewSource}}"
                               keyProperty="id"
                               parentProperty="parent"
+                              nodeProperty="type"
                               searchParam="title"
                               minSearchLength="{{3}}"
                               nodeTypeProperty="nodeType"
+                              bind:expandedItems="_expandedItems"
+                              bind:collapsedItems="_collapsedItems"
                               bind:root="_root">
         <div class="ws-fragment">
             <Controls.search:InputContainer>
@@ -13,13 +16,9 @@
             <Controls.list:Container>
                 <Controls.explorer:View
                         name="explorerView"
-                        bind:selectedKeys="_selectedKeys"
-                        bind:excludedKeys="_excludedKeys"
                         attr:class="demo-Explorer ControlsDemo-Explorer"
                         keyProperty="id"
                         itemActions="{{_itemActions}}"
-                        parentProperty="parent"
-                        nodeProperty="type"
                         colspanCallback="{{ _colspanCallback }}"
                         columns="{{_columns}}">
                 </Controls.explorer:View>
