@@ -7,7 +7,6 @@ export interface IButtonOptions {
 /**
  * Интерфейс для стилевого оформления кнопки.
  *
- * @interface Controls/_buttons/interface/IButton
  * @implements Controls/interface:IContrastBackground
  * @public
  * @author Красильников А.С.
@@ -27,15 +26,19 @@ export interface IButton extends IContrastBackground {
 /**
  * @name Controls/_buttons/interface/IButton#contrastBackground
  * @cfg
- * @default false
+ * @default false (Когда опция {@link Controls/buttons:Button#viewMode viewMode} установлена в значение functionalButton, то для опции contrastBackground значение по умолчанию - true.)
  * @remark
  * Опция используется для акцентирования внимания на кнопке, и ее визуального выделения относительно окружения.
- * Для viewMode=functionalButton, значение по умолчанию true.
  * @demo Controls-demo/Buttons/ContrastBackground/Index
  * @example
  * У кнопки контрастный фон.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="toolButton" contrastBackground="{{true}}" />
+ * <pre class="brush: html; highlight: [6]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="primary"
+ *    viewMode="toolButton"
+ *    contrastBackground="{{true}}" />
  * </pre>
  * @see style
  */
@@ -69,13 +72,16 @@ export interface IButton extends IContrastBackground {
  * @variant pale
  * @default secondary
  * @remark
- * Стиль может влиять на цвет фона или цвет границы для различных значений режима отображения (viewMode).
+ * Стиль может влиять на цвет фона или цвет границы для различных значений режима отображения (см. {@link Controls/buttons:Button#viewMode viewMode}).
  * @demo Controls-demo/Buttons/ButtonStyle/Index
  * @demo Controls-demo/Buttons/ButtonStyleFull/Index
  * @example
  * Кнопка со стилем "Primary" с иконкой по умолчанию.
- * <pre>
- *    <Controls.buttons:Button viewMode="button" buttonStyle="primary"/>
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    viewMode="button"
+ *    buttonStyle="primary"/>
  * </pre>
  */
 

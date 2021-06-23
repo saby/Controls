@@ -211,21 +211,37 @@ Object.defineProperty(Button, 'defaultProps', {
  * @default button
  * @demo Controls-demo/Buttons/ViewModes/Index
  * @example
- * Кнопка в режиме отображения 'linkButton'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="linkButton" fontSize="3xl"/>
+ * Кнопка в режиме отображения "linkButton".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="primary"
+ *    viewMode="linkButton"
+ *    fontSize="3xl"/>
  * </pre>
- * Кнопка в режиме отображения 'toolButton'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="danger" viewMode="toolButton"/>
+ * Кнопка в режиме отображения "toolButton".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="danger"
+ *    viewMode="toolButton"/>
  * </pre>
- * Кнопка в режиме отображения 'button'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
+ * Кнопка в режиме отображения "button".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="success"
+ *    viewMode="button"/>
  * </pre>
- *  * Кнопка в режиме отображения 'link'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" viewMode="link"/>
+ * Кнопка в режиме отображения "link".
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    viewMode="link"/>
  * </pre>
  * @see Size
  */
