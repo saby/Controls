@@ -596,7 +596,9 @@ const _private = {
             const scrollItemIndex = index - self._listViewModel.getStartIndex();
             const itemContainer = self._options.itemContainerGetter.getItemContainerByIndex(scrollItemIndex, itemsContainer, self._listViewModel);
 
-            if (itemContainer) {
+            const needScroll = !self._doNotScrollToFirtsItem || index !== 0;
+            self._doNotScrollToFirtsItem = false;
+            if (itemContainer && needScroll) {
                 self._notify('scrollToElement', [{
                     itemContainer, toBottom, force
                 }], {bubbling: true});
@@ -3961,6 +3963,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (this._scrollController) {
             if (this._options.activeElement) {
+
+                // Не нужно скроллить к первому активному элементу на маунте: его и так видно
+                // https://online.sbis.ru/opendoc.html?guid=8b6716c3-d188-465a-8f5c-b3e51cb0bdb2
+                this._doNotScrollToFirtsItem = true;
                 _private.scrollToItem(this, this._options.activeElement, false, true);
             }
 
