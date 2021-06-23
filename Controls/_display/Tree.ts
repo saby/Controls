@@ -833,18 +833,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._resetLastItem();
     }
 
-    resetExpandedItems(): void {
-        if (!this.getCount()) {
-            return;
-        }
-
-        this.getItems().filter((it) => it['[Controls/_display/TreeItem]'] && it.isExpanded()).forEach((it) => {
-            if (it['[Controls/_display/TreeItem]']) {
-                it.setExpanded(false);
-            }
-        });
-    }
-
     toggleExpanded(item: T): void {
         // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
         const newExpandedState = !item.isExpanded();

@@ -478,7 +478,7 @@ function groupingFilter(item: EntityModel,
  * @mixes Types/_entity/SerializableMixin
  * @mixes Types/_entity/VersionableMixin
  * @mixes Types/_collection/EventRaisingMixin
- * @ignoreMethods notifyItemChange
+ * @ignoremethods notifyItemChange
  * @public
  * @author Мальцев А.А.
  */
@@ -2316,6 +2316,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     isStickyHeader(): boolean {
         return this._$stickyHeader;
+    }
+
+    isStickyFooter(): boolean {
+        return this._$stickyFooter;
     }
 
     setRoundBorder(roundBorder: IRoundBorder): void {

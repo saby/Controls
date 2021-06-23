@@ -164,6 +164,11 @@ export default class MonthViewModel extends VersionableMixin {
 
             if (scope.today) {
                 css.push('controls-MonthViewVDOM__today');
+                if (!scope.weekend) {
+                    css.push('controls-MonthViewVDOM__workday-today');
+                } else {
+                    css.push('controls-MonthViewVDOM__weekend-today');
+                }
             }
         }
         css.push(scope.isCalendar ? 'controls-MonthViewVDOM__currentMonthDay' :

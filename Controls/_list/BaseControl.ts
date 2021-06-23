@@ -104,9 +104,7 @@ import { EdgeIntersectionObserver, getStickyHeadersHeight } from 'Controls/scrol
 import { ItemsEntity } from 'Controls/dragnDrop';
 import {ISiblingStrategy} from './interface/ISiblingStrategy';
 import {FlatSiblingStrategy} from './Strategies/FlatSiblingStrategy';
-import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
-import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
-import {Remove as RemoveAction} from 'Controls/listActions';
+import {Remove as RemoveAction, Move as MoveAction, IMoveActionOptions} from 'Controls/listActions';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IMovableList} from './interface/IMovableList';
 import {saveConfig} from 'Controls/Application/SettingsController';
@@ -1717,6 +1715,7 @@ const _private = {
             }
             if (action === IObservable.ACTION_RESET) {
                 if (self._updatePagingOnResetItems) {
+                    self._knownPagesCount = INITIAL_PAGES_COUNT;
                     _private.updatePagingData(self, self._items.getMetaData().more, self._options);
                 }
                 self._updatePagingOnResetItems = true;
@@ -1743,11 +1742,6 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 _private.recountAttachIndicatorsAfterReload(self);
-            }
-
-            if (action === IObservable.ACTION_RESET) {
-                // Если перезагрузили список, то сбрасываем уже устаревшую видимость триггеров
-                self._loadTriggerVisibility = {};
             }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
@@ -2339,6 +2333,7 @@ const _private = {
         }
 
         if (this._isMounted && this._scrollController) {
+            _private.notifyVirtualNavigation(this, this._scrollController, this._sourceController);
             this.startBatchAdding(direction);
             return this._scrollController.getScrollStopPromise();
         }
@@ -2718,6 +2713,32 @@ const _private = {
 
     // endregion
 
+    notifyVirtualNavigation(self, scrollController: ScrollController, sourceController: SourceController): void {
+        let topEnabled = false;
+        let bottomEnabled = false;
+
+        if (sourceController) {
+            topEnabled = topEnabled || self._hasMoreData(self._sourceController, 'up');
+            bottomEnabled = bottomEnabled || self._hasMoreData(self._sourceController, 'down');
+        }
+        if (scrollController) {
+            topEnabled = topEnabled || scrollController.getShadowVisibility()?.up;
+            bottomEnabled = bottomEnabled || scrollController.getShadowVisibility()?.down;
+            topEnabled = topEnabled || scrollController.getPlaceholders()?.top;
+            bottomEnabled = bottomEnabled || scrollController.getPlaceholders()?.bottom;
+        }
+        if (topEnabled) {
+            self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
+        } else {
+            self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+        }
+        if (bottomEnabled) {
+            self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+        } else {
+            self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
+        }
+    },
+
     handleScrollControllerResult(self, result: IScrollControllerResult) {
         if (!result) {
             return;
@@ -2731,17 +2752,8 @@ const _private = {
             if (result.placeholders) {
                 self._notifyPlaceholdersChanged = () => {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
-                }
-                if (result.shadowVisibility?.up || result.placeholders.top > 0 || self._hasMoreData(self._sourceController, 'up')) {
-                    self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
-                } else {
-                    self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
-                }
-                if (result.shadowVisibility?.down || result.placeholders.bottom > 0 || self._hasMoreData(self._sourceController, 'down')) {
-                    self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
-                } else {
-                    self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
-                }
+                };
+                _private.notifyVirtualNavigation(self, self._scrollController, self._sourceController);
             }
             if (self._items && typeof self._items.getRecordById(result.activeElement || self._options.activeElement) !== 'undefined') {
                 // activeElement запишется в result только, когда он изменится
@@ -3154,10 +3166,23 @@ const _private = {
         return result;
     },
 
-    prepareMoverControllerOptions(self, options: IList): IMoveControllerOptions {
-        const controllerOptions: IMoveControllerOptions = {
+    moveItem(self, selectedKey: CrudEntityKey, direction: 'up' | 'down'): Promise<void> {
+        const selection: ISelectionObject = {
+            selected: [selectedKey],
+            excluded: []
+        };
+        return _private.getMoveAction(self).execute({
+            selection,
+            providerName: 'Controls/listActions:MoveProviderDirection',
+            direction
+        }) as Promise<void>;
+    },
+
+    prepareMoveActionOptions(self, options: IList): IMoveActionOptions {
+        const controllerOptions: IMoveActionOptions = {
             source: options.source,
             parentProperty: options.parentProperty,
+            keyProperty: self._keyProperty,
             sorting: options.sorting,
             siblingStrategy: self._getSiblingsStrategy()
         };
@@ -3165,8 +3190,13 @@ const _private = {
             if (options.moveDialogTemplate.templateName) {
                 controllerOptions.popupOptions = {
                     template: options.moveDialogTemplate.templateName,
-                    templateOptions: options.moveDialogTemplate.templateOptions
+                    templateOptions: options.moveDialogTemplate.templateOptions,
+                    beforeMoveCallback: options.moveDialogTemplate.beforeMoveCallback
                 };
+                const templateOptions = controllerOptions.popupOptions.templateOptions as IMoverDialogTemplateOptions;
+                if (templateOptions && !templateOptions.keyProperty) {
+                    templateOptions.keyProperty = options.keyProperty;
+                }
             } else {
                 Logger.error('Mover: Wrong type of moveDialogTemplate option, use object notation instead of template function', self);
             }
@@ -3174,11 +3204,8 @@ const _private = {
         return controllerOptions;
     },
 
-    getMoveController(self): MoveController {
-        if (!self._moveController) {
-            self._moveController = new MoveController(_private.prepareMoverControllerOptions(self, self._options));
-        }
-        return self._moveController;
+    getMoveAction(self): MoveAction {
+        return new MoveAction(_private.prepareMoveActionOptions(self, self._options));
     },
 
     getRemoveAction(self, selection: ISelectionObject, providerName?: string): RemoveAction {
@@ -3515,11 +3542,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _draggedKey = null;
     _validateController = null;
 
-    // Контроллер для перемещения элементов из источника
-    _moveController = null;
-
-    // Контроллер для удаления элементов из источника
-    _removeAction = null;
     _removedItems = [];
     _keyProperty = null;
 
@@ -3965,16 +3987,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._useServerSideColumnScroll = false;
         }
 
-        if (this._hasMoreData(this._sourceController, 'up')) {
-            this._notify('enableVirtualNavigation', ['top'], { bubbling: true });
-        } else {
-            this._notify('disableVirtualNavigation', ['top'], { bubbling: true });
-        }
-        if (this._hasMoreData(this._sourceController, 'down')) {
-            this._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
-        } else {
-            this._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
-        }
+        _private.notifyVirtualNavigation(this, this._scrollController, this._sourceController);
 
         if (!this.__error) {
             this._registerObserver();
@@ -4185,10 +4198,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._pagingVisible) {
                 this._pagingVisible = false;
             }
-        }
-
-        if (this._moveController) {
-            this._moveController.updateOptions(_private.prepareMoverControllerOptions(this, newOptions));
         }
 
         const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor ||
@@ -4601,6 +4610,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
+            this._notify('_removeDraggingTemplate', [], {bubbling: true});
         }
         if (this._finishScrollToEdgeOnDrawItems) {
             this._finishScrollToEdgeOnDrawItems = null;
@@ -4841,6 +4851,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._finishScrollToEdgeOnDrawItems = null;
         }
         this._notifyOnDrawItems();
+
+        //TODO: можно убрать после https://online.sbis.ru/opendoc.html?guid=2be6f8ad-2fc2-4ce5-80bf-6931d4663d64
+        if (_private.needScrollPaging(this._options.navigation)) {
+            if (this._scrollController && !this._scrollController.getParamsToRestoreScrollPosition()) {
+                _private.updateScrollPagingButtons(this, this._getScrollParams());
+            }
+        }
+
         if (this._callbackBeforePaint) {
             this._callbackBeforePaint.forEach((callback) => {
                 callback();
@@ -5627,7 +5645,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
-        return this._beginEdit(userOptions);
+        return this._beginEdit(userOptions, {
+            shouldActivateInput: userOptions?.shouldActivateInput
+        });
     }
 
     beginAdd(userOptions: object): Promise<void | { canceled: true }> {
@@ -5636,7 +5656,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
         return this._beginAdd(userOptions, {
             addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
-            targetItem: userOptions?.targetItem
+            targetItem: userOptions?.targetItem,
+            shouldActivateInput: userOptions?.shouldActivateInput
         });
     }
 
@@ -5687,10 +5708,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
+    _beginAdd(userOptions, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().add(options, {addPosition, targetItem, columnIndex}).then((addResult) => {
+        return this._getEditInPlaceController().add(userOptions, {addPosition, targetItem, columnIndex}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
             }
@@ -6185,27 +6206,25 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // region move
 
     moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet> {
-        return _private.getMoveController(this).move(selection, this._filter, targetKey, position) as Promise<DataSet>;
+        return _private.getMoveAction(this).execute({
+            selection,
+            filter: this._filter,
+            targetKey,
+            position,
+            providerName: 'Controls/listActions:MoveProvider'
+        }) as Promise<DataSet>;
     }
 
     moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        const selection: ISelectionObject = {
-            selected: [selectedKey],
-            excluded: []
-        };
-        return _private.getMoveController(this).moveUp(selection) as Promise<void>;
+        return _private.moveItem(this, selectedKey, 'up');
     }
 
     moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        const selection: ISelectionObject = {
-            selected: [selectedKey],
-            excluded: []
-        };
-        return _private.getMoveController(this).moveDown(selection) as Promise<void>;
+        return _private.moveItem(this, selectedKey, 'down');
     }
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
-        return _private.getMoveController(this).moveWithDialog(selection, this._options.filter);
+        return _private.getMoveAction(this).execute({selection, filter: this._options.filter});
     }
 
     protected _getSiblingsStrategy(): ISiblingStrategy {
@@ -7132,9 +7151,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return result;
     }
 
-    _dragNDropEnded(event): void {
+    _dragNDropEnded(event: SyntheticEvent): void {
         if (this._dndListController && this._dndListController.isDragging()) {
-            this._notify('_documentDragEnd', [this._getDragObject(event.nativeEvent, this._startEvent)], {bubbling: true});
+            const dragObject = this._getDragObject(event.nativeEvent, this._startEvent);
+            this._notify('_documentDragEnd', [dragObject], {bubbling: true});
         }
         if (this._startEvent && this._startEvent.target) {
             this._startEvent.target.classList.remove('controls-DragNDrop__dragTarget');

@@ -139,7 +139,11 @@ export class Controller {
     * @public
     */
    increaseLimitByCount(count: number): number {
-      return this._limit += count;
+      this._limit += count;
+
+      this._updateModel(this._selection);
+
+      return this._limit;
    }
 
    /**

@@ -93,7 +93,7 @@ const _private = {
     },
 
     toggleExpanded(self: TreeControl, dispItem: TreeItem): Promise<unknown> {
-        if (self.getViewModel().SupportExpand === false) {
+        if (self._options.supportExpand === false || self.getViewModel().SupportExpand === false) {
             return Promise.resolve();
         }
 
@@ -1005,7 +1005,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     _onViewKeyDown(event): void {
-        if (this._listViewModel.SupportExpand !== false) {
+        if (this._options.supportExpand !== false && this._listViewModel.SupportExpand !== false) {
             this._onTreeViewKeyDown(event);
         }
         if (!event.stopped && event._bubbling !== false) {
@@ -1465,7 +1465,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             selectAncestors: true,
             expanderPosition: 'default',
             selectionType: 'all',
-            markerMoveMode: 'all'
+            markerMoveMode: 'all',
+            supportExpand: true
         };
     }
 }

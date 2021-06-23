@@ -9,7 +9,8 @@ const mockedOwner = {
     hasMultiSelectColumn: () => false,
     hasItemActionsSeparatedCell: () => true,
     isFullGridSupport: () => true,
-    hasColumnScroll: () => false
+    hasColumnScroll: () => false,
+    isStickyFooter: () => false
 } as any;
 
 describe('Controls/treeGrid_clean/Display/ExpanderPadding/TreeGridFooterRow', () => {

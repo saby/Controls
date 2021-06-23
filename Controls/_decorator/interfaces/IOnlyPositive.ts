@@ -3,12 +3,12 @@ export interface IOnlyPositiveOptions {
 }
 
 /**
- * @name Controls/_input/interface/IOnlyPositive#onlyPositive
- * @cfg {Boolean} Определяет, можно ли вводить в поле только положительные числа.
+ * @name Controls/_decorator/interfaces/IOnlyPositive#onlyPositive
+ * @cfg {Boolean} Определяет, будут ли отображаться только положительные числа.
  * @default false
  * @remark
- * true - в поле можно вводить только положительные числа.
- * false - в поле можно вводить положительные и отрицательные числа.
+ * true - только положительные числа.
+ * false - положительные и отрицательные числа.
  * @example
  * В этом примере _inputValue в состоянии контрола будет хранить только положительные числа.
  * <pre class="brush: html">
@@ -22,6 +22,6 @@ export interface IOnlyPositiveOptions {
  * @public
  * @author Красильников А.С.
  */
-export interface IOnlyPositive {
-    readonly '[Controls/_input/interface/IOnlyPositive]': boolean;
+export default interface IOnlyPositive {
+    readonly '[Controls/_decorator/interfaces/IOnlyPositive]': boolean;
 }
