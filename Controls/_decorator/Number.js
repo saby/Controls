@@ -69,6 +69,13 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
  */
 
 /**
+ * Интерфейс для опций контрола {@link Controls/decorator:Number}.
+ * @interface Controls/_decorator/INumber
+ * @public
+ * @author Красильников А.С.
+ */
+
+/**
  * @name Controls/_decorator/INumber#value
  * @cfg {Controls/_decorator/INumber/TValue.typedef} Декорируемое число.
  * @demo Controls-demo/Decorator/Number/Value/Index
