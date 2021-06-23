@@ -3964,9 +3964,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._scrollController) {
             if (this._options.activeElement) {
 
-                // Если список - ScrollView в Header раскладке, то подскролл к первой на маунте записи сожмет шапку
+                // Не нужно скроллить к первому активному элементу на маунте: его и так видно
                 // https://online.sbis.ru/opendoc.html?guid=8b6716c3-d188-465a-8f5c-b3e51cb0bdb2
-                this._doNotScrollToFirtsItem = this._options.withoutScroll;
+                this._doNotScrollToFirtsItem = true;
                 _private.scrollToItem(this, this._options.activeElement, false, true);
             }
 
