@@ -165,6 +165,20 @@ describe('Controls/dataSource:SourceController', () => {
             ok(controllerState.root === null);
             ok(controllerState.keyProperty === 'testKeyProperty');
         });
+
+        it('without expandedItems in options', () => {
+            const controller = getControllerWithHierarchy();
+            controller.setExpandedItems(['testKey1']);
+            ok(!controller.getState().expandedItems);
+        });
+
+        it('expandedItems in options', () => {
+            const controller = getControllerWithHierarchy({
+                expandedItems: []
+            });
+            controller.setExpandedItems(['testKey1']);
+            deepStrictEqual(controller.getState().expandedItems, ['testKey1']);
+        });
     });
 
     describe('load', () => {
