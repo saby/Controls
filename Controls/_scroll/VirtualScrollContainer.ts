@@ -2,10 +2,20 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_scroll/VirtualScrollContainer/VirtualScrollContainer');
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
+export interface IVirtualScrollContainerOptions extends IControlOptions {
+    /**
+     * @name Controls/_scroll/VirtualScrollContainer#position
+     * @cfg {String} Положение контрола в контейнере
+     * @variant top Сверху. Контент виден, если видно начало списка, иначе скрыт.
+     * @variant bottom Снизу. Контент виден, если виден конец списка, иначе скрыт.
+     * @default top
+     */
+    position: 'top' | 'bottom';
+}
+
 /**
  * Контейнер, используемый для поддержки виртуальной прокрутки при наличии дополнительных контролов в {@link Controls/scroll:Container}.
  * Подробнее об использовании читайте {@link /doc/platform/developmentapl/interface-development/controls/list/performance-optimization/virtual-scroll/#container здесь}.
- * @class Controls/_scroll/VirtualScrollContainer
  * @author Красильников А.С.
  * @see Controls/_scroll/Container
  * @public
@@ -26,18 +36,6 @@ import {RegisterUtil, UnregisterUtil} from 'Controls/event';
  * </Controls.scroll:Container>
  * </pre>
  */
-
-/**
- * @name Controls/_scroll/VirtualScrollContainer#position
- * @cfg {String} Положение контрола в контейнере
- * @variant top Сверху. Контент виден, если видно начало списка, иначе скрыт.
- * @variant bottom Снизу. Контент виден, если виден конец списка, иначе скрыт.
- * @default top
- */
-export interface IVirtualScrollContainerOptions extends IControlOptions {
-    position: 'top' | 'bottom';
-}
-
 class  VirtualScrollContainer extends Control<IVirtualScrollContainerOptions> {
     protected _template: TemplateFunction = template;
     protected _options: IVirtualScrollContainerOptions;
