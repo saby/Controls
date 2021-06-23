@@ -22,7 +22,7 @@ interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPo
  * @class Controls/_input/Money
  * @extends Controls/input:Base
  *
- * @mixes Controls/interface:IOnlyPositive
+ * @mixes Controls/decorator:IOnlyPositive
  * @mixes Controls/input:INumberLength
  * @mixes Controls/input:IFieldTemplate
  *

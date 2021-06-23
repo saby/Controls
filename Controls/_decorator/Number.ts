@@ -103,7 +103,7 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
  * @class Controls/_decorator/Number
  * @extends UI/Base:Control
  * @mixes Controls/decorator:INumber
- * @implements Controls/interface/IOnlyPositive
+ * @implements Controls/decorator:IOnlyPositive
  * @public
  * @demo Controls-demo/Decorator/Number/Index
  *

@@ -24,7 +24,7 @@ interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, I
  * @class Controls/_input/Number
  * @extends Controls/_input/Base
  *
- * @implements Controls/interface:IOnlyPositive
+ * @implements Controls/decorator:IOnlyPositive
  * @implements Controls/interface:INumberFormat
  * @implements Controls/input:INumberLength
  * @implements Controls/input:IFieldTemplate

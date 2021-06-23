@@ -75,7 +75,7 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
     /**
      * @name Controls/_decorator/IMoney#value
      * @cfg {Controls/_decorator/IMoney/TValue.typedef} Декорируемое число.
-     * @implements Controls/interface/IOnlyPositive
+     * @implements Controls/decorator:IOnlyPositive
      * @default null
      * @demo Controls-demo/Decorator/Money/Value/Index
      */
