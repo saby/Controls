@@ -119,6 +119,7 @@ interface IExplorerOptions
      *  строки с хлебными крошками.
      */
     breadCrumbsMode?: 'row' | 'cell';
+    useColumns?: boolean;
 }
 
 interface IMarkedKeysStore {
@@ -208,6 +209,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     // Восстановленное значение курсора при возврате назад по хлебным крошкам
     private _restoredCursor: unknown;
     private _pendingViewMode: TExplorerViewMode;
+    private _columnsViewLoaded: boolean = false;
 
     private _items: RecordSet;
     private _isGoingFront: boolean;
@@ -280,7 +282,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // Т.к. у списка и таблицы заданы одинаковые коллекции, то изменение набора колонок
         // с прикладной стороны в режиме list не приводит к прокидыванию новых колонок в модель
         // и в итоге таблица разъезжается при переключении в режим таблицы
-        this._recreateCollection = this._needRecreateCollection(this._options.viewMode, cfg.viewMode);
+        this._recreateCollection = this._needRecreateCollection(this._options.viewMode, cfg.viewMode, cfg.useColumns);
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
@@ -835,7 +837,15 @@ export default class Explorer extends Control<IExplorerOptions> {
         this._restoredMarkedKeys = store;
     }
 
-    private _needRecreateCollection(oldViewMode: TExplorerViewMode, newViewMode: TExplorerViewMode): boolean {
+    private _needRecreateCollection(
+        oldViewMode: TExplorerViewMode,
+        newViewMode: TExplorerViewMode,
+        useColumns: boolean
+    ): boolean {
+        if (useColumns) {
+            return false;
+        }
+
         if (oldViewMode === 'list' && newViewMode === 'table') {
             return true;
         }
@@ -950,7 +960,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
-        } else if (viewMode === 'list' && cfg.useColumns) {
+        } else if (!this._columnsViewLoaded && viewMode === 'list' && cfg.useColumns) {
             this._setViewModePromise = this._loadColumnsViewMode().then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
@@ -1062,6 +1072,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             MARKER_STRATEGY.list = MultiColumnStrategy;
             ITEM_GETTER.list = columns.ItemContainerGetter;
             VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+            this._columnsViewLoaded = true;
         }).catch((err) => {
             Logger.error('Controls/_explorer/View: ' + err.message, this, err);
         });
