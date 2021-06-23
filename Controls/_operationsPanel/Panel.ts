@@ -26,6 +26,9 @@ export default class extends Control<IOperationsPanelOptions> {
     protected _afterMount(): void {
         this._operationPanelConfigStoreId = Store.onPropertyChanged('operationPanelConfig', (config) => {
             if (!isEqual(config, this._operationPanelConfig)) {
+                if (config.selectedKeys.length !== this._operationPanelConfig.selectedKeys) {
+                    Store.sendCommand('openOperationsMenu');
+                }
                 this._operationPanelConfig = Store.getState().operationPanelConfig;
             }
         });
