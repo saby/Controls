@@ -648,7 +648,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._updateSelectionByOptions(newOptions);
     }
 
-    private _getValue(options: IBaseInputOptions): string {
+    protected _getValue(options: IBaseInputOptions): string {
         if (options.hasOwnProperty('value')) {
             return options.value === undefined ? this._defaultValue : options.value;
         }
