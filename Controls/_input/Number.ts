@@ -3,7 +3,7 @@ import {default as Base, IBaseInputOptions} from 'Controls/_input/Base';
 import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
 import {INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
-import IOnlyPositive, {IOnlyPositiveOptions} from 'Controls/interface/IOnlyPositive';
+import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/decorator';
 import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
 
 interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IFieldTemplateOptions {

@@ -5,7 +5,7 @@ import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import toString from 'Controls/_decorator/inputUtils/toString';
 import * as template from 'wml!Controls/_decorator/Number/Number';
 import { abbreviateNumber, trimTrailingZeros, fillAdditionalZeros, correctNumberValue } from 'Controls/_decorator/resources/Formatter';
-import {IOnlyPositiveOptions} from 'Controls/interface/IOnlyPositive';
+import {IOnlyPositiveOptions} from 'Controls/_decorator/interfaces/IOnlyPositive';
 // @ts-ignore
 import {
     INumberFormatOptions,
@@ -49,7 +49,7 @@ type RoundingFn = (number: string, precision: number) => string;
 export type RoundMode = 'round' | 'trunc';
 
 export interface INumberOptions extends IControlOptions, INumberFormatOptions, IFontColorStyleOptions,
-    IFontWeightOptions, IFontSizeOptions {
+    IFontWeightOptions, IFontSizeOptions, IOnlyPositiveOptions {
     /**
      * @name Controls/_decorator/INumber#value
      * @cfg {Controls/_decorator/INumber/TValue.typedef} Декорируемое число.

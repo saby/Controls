@@ -3,7 +3,7 @@ export interface IOnlyPositiveOptions {
 }
 
 /**
- * @name Controls/_interface/IOnlyPositive#onlyPositive
+ * @name Controls/_decorator/interface/IOnlyPositive#onlyPositive
  * @cfg {Boolean} Определяет, будут ли отображаться только положительные числа.
  * @default false
  * @remark

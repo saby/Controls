@@ -5,7 +5,7 @@ import {IFontWeightOptions} from 'Controls/_interface/IFontWeight';
 import {IFontSizeOptions} from 'Controls/_interface/IFontSize';
 import {ITooltipOptions} from 'Controls/_interface/ITooltip';
 import {INumberFormatOptions} from 'Controls/_interface/INumberFormat';
-import {IOnlyPositiveOptions} from 'Controls/_interface/IOnlyPositive';
+import {IOnlyPositiveOptions} from 'Controls/_decorator/interfaces/IOnlyPositive';
 
 import {abbreviateNumber, correctNumberValue} from 'Controls/_decorator/resources/Formatter';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';

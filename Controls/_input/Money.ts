@@ -4,7 +4,7 @@ import readOnlyFieldTemplate = require('wml!Controls/_input/Money/ReadOnly');
 import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
 import {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
-import IOnlyPositive, {IOnlyPositiveOptions} from 'Controls/interface/IOnlyPositive';
+import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/decorator';
 import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
 import {Formatter} from 'Controls/decorator';
 
