@@ -110,6 +110,8 @@ class DialogController extends BaseController {
         } = getPositionProperties(item.popupOptions.resizeDirection);
         if (item.popupOptions.propStorageId) {
             return this._getPopupCoords(item, horisontalProperty, verticalProperty).then(() => {
+                // Если сохранена позиция, то считаем что окно уже перемещали.
+                item.dragged = true;
                 this._getDefaultConfig(item, horisontalProperty, verticalProperty);
             });
         } else {

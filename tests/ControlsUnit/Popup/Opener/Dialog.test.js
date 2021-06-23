@@ -434,6 +434,7 @@ define(
                   assert.strictEqual(item.position.left, 500);
                   assert.strictEqual(item.popupOptions.top, 200);
                   assert.strictEqual(item.popupOptions.left, 500);
+                  assert.strictEqual(item.dragged, true);
                   done();
                } catch (e) {
                   done(e);
