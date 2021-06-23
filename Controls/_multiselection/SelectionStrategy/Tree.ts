@@ -255,6 +255,14 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
             isSelected = null;
          }
 
+         // Проверяем на лимит, если он уже превышен, то остальные элементы нельзя выбрать
+         if (isSelected !== false && limit) {
+            const countSelectedItems = selectedItems.get(true).length + selectedItems.get(null).length;
+            if (countSelectedItems >= limit) {
+               isSelected = false;
+            }
+         }
+
          selectedItems.get(isSelected).push(item);
       };
 
@@ -267,7 +275,11 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return selectedItems;
    }
 
-   getCount(selection: ISelection, hasMoreData: boolean): number|null {
+   getCount(selection: ISelection, hasMoreData: boolean, limit?: number): number|null {
+      if (limit) {
+         return limit;
+      }
+
       let countItemsSelected: number|null = 0;
       let selectedNodes: TKeys = [];
 
