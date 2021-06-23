@@ -62,6 +62,6 @@ export default class extends Control<IOperationsPanelOptions> {
     }
 
     protected _click(e: SyntheticEvent): void {
-        Store.sendCommand('openOperationPanel');
+        Store.sendCommand('openOperationsMenu');
     }
 }
