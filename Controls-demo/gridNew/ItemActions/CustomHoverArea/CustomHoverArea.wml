@@ -24,10 +24,6 @@
                                             <div>country:&nbsp;{{ contentTemplate.item.getContents().get('country') }}</div>
                                             <div>capital:&nbsp;{{ contentTemplate.item.getContents().get('capital') }}</div>
                                         </div>
-                                        <div>
-                                            <div>population:&nbsp;{{ contentTemplate.item.getContents().get('population') }}</div>
-                                            <div>square:&nbsp;{{ contentTemplate.item.getContents().get('square') }}</div>
-                                        </div>
                                     </div>
                                     <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="{{contentTemplate.itemActionsClass}}"/>
                                 </div>
