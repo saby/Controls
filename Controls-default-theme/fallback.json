@@ -506,6 +506,7 @@
   "--icon-color_hovered_closeButton_toolButton": "var(--link_hover_text-color)",
   "--icon-color_closeButton_link": "#8991A9",
   "--icon-color_hovered_closeButton_link": "var(--link_hover_text-color)",
+  "--icon-color_hovered_closeButton_link_compoundArea": "var(--icon-color_hovered_closeButton_link)",
 
   "--border-thickness_closeButton_toolButton": "0",
   "--border-thickness_closeButton_functionalButton": "0",
