@@ -169,14 +169,14 @@ export default class Container extends Control<ISearchInputContainerOptions> {
 /**
  * @event Происходит при начале поиска
  * @name Controls/_search/Input/Container#search
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {value} string Значение по которому производится поиск.
  */
 
 /**
  * @event Происходит при сбросе поиска
  * @name Controls/_search/Input/Container#searchReset
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 Object.defineProperty(Container, 'defaultProps', {

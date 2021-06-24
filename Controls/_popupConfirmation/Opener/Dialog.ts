@@ -201,6 +201,6 @@ Object.defineProperty(ConfirmDialog, 'defaultProps', {
 /**
  * @event Происходит при нажатии на кнопку диалога.
  * @name Controls/_popupConfirmation/Opener/Dialog#sendResult
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события
  * @param {Result} Результат
  */

@@ -1421,5 +1421,5 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @event Происходит при клике на кнопку "Просмотр записи".
  * @name Controls/_explorer/View#arrowClick
  * @remark Кнопка отображается при наведении курсора на текущую папку хлебных крошек. Отображение кнопки "Просмотр записи" задаётся с помощью опции {@link Controls/_explorer/interface/IExplorer#showActionButton}. По умолчанию кнопка скрыта.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */

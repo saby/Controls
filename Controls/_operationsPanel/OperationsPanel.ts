@@ -293,7 +293,7 @@ Object.defineProperty(OperationsPanel, 'defaultProps', {
 /**
  * @event Происходит при клике на элемент.
  * @name Controls/_operationsPanel/OperationsPanel#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому произвели клик.
  * @param {Object} originalEvent Дескриптор исходного события.
  * @example
@@ -319,7 +319,7 @@ Object.defineProperty(OperationsPanel, 'defaultProps', {
 /*
  * @event Occurs when an item was clicked.
  * @name Controls/_operationsPanel/OperationsPanel#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Record} item Clicked item.
  * @param {Event} originalEvent Descriptor of the original event.
  * @example

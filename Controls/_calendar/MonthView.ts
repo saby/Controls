@@ -143,7 +143,7 @@ Object.defineProperty(MonthView, 'defaultProps', {
 /**
  * @event Происходит после клика по элементу дня в календаре.
  * @name Controls/_calendar/MonthView#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} item Дата элемента, по которому произвели клик.
- * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события onclick, при клике по дню месяца.
+ * @param {UICommon/Events:SyntheticEvent} event Дескриптор события onclick, при клике по дню месяца.
  */

@@ -23,6 +23,6 @@ export default class List extends Control<IControlOptions> {
 /**
  * @event Происходит при смене выбранной записи.
  * @name Controls/_masterDetail/List#selectedMasterValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Number} key Ключ выбранного элемента.
  */

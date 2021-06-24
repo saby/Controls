@@ -193,7 +193,7 @@ export default Paging;
  * @name Controls/_paging/Paging#onArrowClick
  * @remark
  * Событие происходит, когда опция showDigits установлена в значение true.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {ButtonName} btnName Имя нажатой кнопки.
  */
 
