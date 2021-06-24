@@ -3962,9 +3962,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
          */
         if (_private.needScrollPaging(this._options.navigation) &&
             (this._options.navigation.viewConfig.pagingMode === 'numbers' || !this._isPagingArrowClick)) {
-            scrollParams.scrollTop += (this._scrollController?.getPlaceholders().top || 0);
-            scrollParams.scrollHeight += (this._scrollController?.getPlaceholders().bottom +
-                this._scrollController?.getPlaceholders().top || 0);
+            scrollParams.scrollTop += (this._scrollController?.getPlaceholders()?.top || 0);
+            scrollParams.scrollHeight += (this._scrollController?.getPlaceholders()?.bottom +
+                this._scrollController?.getPlaceholders()?.top || 0);
         }
         this._isPagingArrowClick = false;
         return scrollParams;
