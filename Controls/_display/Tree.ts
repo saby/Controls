@@ -284,6 +284,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      */
     protected _$nodeFooterVisibilityCallback: TNodeFooterVisibilityCallback;
 
+    protected _$moreFontColorStyle: string;
+
     /**
      * Стратегия перетаскивания записей
      * @protected
@@ -508,6 +510,18 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     getHasMoreStorage(): Record<string, boolean> {
         return this._$hasMoreStorage;
+    }
+
+    getMoreFontColorStyle(): string {
+        return this._$moreFontColorStyle;
+    }
+
+    setMoreFontColorStyle(moreFontColorStyle: string): void {
+        if (this._$moreFontColorStyle !== moreFontColorStyle) {
+            this._$moreFontColorStyle = moreFontColorStyle;
+            this._updateItemsProperty('setMoreFontColorStyle', moreFontColorStyle, '[Controls/tree:TreeNodeFooterItem]')
+            this._nextVersion();
+        }
     }
 
     private _updateItemsHasMore(storage: Record<string, boolean>): void {
@@ -1291,5 +1305,6 @@ Object.assign(Tree.prototype, {
     _$nodeFooterTemplate: null,
     _$nodeFooterVisibilityCallback: null,
     _$nodeFooterTemplateMoreButton: null,
+    _$moreFontColorStyle: null,
     _root: null
 });
