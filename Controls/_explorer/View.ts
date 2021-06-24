@@ -213,6 +213,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     private _items: RecordSet;
     private _isGoingFront: boolean;
+    private _searchInitialBreadCrumbsMode: 'row' | 'cell';
     //endregion
 
     protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
@@ -936,6 +937,8 @@ export default class Explorer extends Control<IExplorerOptions> {
         } else {
             this._viewName = VIEW_TABLE_NAMES[viewMode];
         }
+
+        this._setInitBreadCrumbsMode();
         this._markerStrategy = MARKER_STRATEGY[viewMode];
         this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
         this._itemContainerGetter = ITEM_GETTER[viewMode];
@@ -1171,6 +1174,14 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (this._topRoot !== currentRoot) {
                 this._setRoot(this._topRoot, this._topRoot);
             }
+        }
+    }
+
+    private _setInitBreadCrumbsMode(): void {
+        if ('treeControl' in this._children && this._children.treeControl.isColumnScrollVisible()) {
+            this._searchInitialBreadCrumbsMode = 'cell';
+        } else {
+            this._searchInitialBreadCrumbsMode = undefined;
         }
     }
 
