@@ -1,9 +1,9 @@
 import {RegisterClass} from 'Controls/event';
 import {Model} from 'Types/entity';
-import {ISelectionObject, TKey} from 'Controls/interface';
+import {ISelectionObject, TKey, ISourceOptions, INavigationSourceConfig} from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
-import {error as dataSourceError} from 'Controls/dataSource';
+import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {object} from 'Types/util';
 import {merge} from 'Types/object';
 
@@ -20,11 +20,15 @@ interface ISelectedKeysCountByList {
     [key: string]: ISelectedKeyCountByList;
 }
 
-export interface IExecuteCommandParams {
+export interface IExecuteCommandParams extends ISourceOptions {
     target: SyntheticEvent;
     selection: ISelectionObject;
     item: Model;
     filter: Record<string, any>;
+    parentProperty?: string;
+    nodeProperty?: string;
+    navigation?: INavigationSourceConfig;
+    sourceController?: SourceController;
 }
 
 export default class OperationsController {
@@ -105,13 +109,18 @@ export default class OperationsController {
     executeAction(params: IExecuteCommandParams): Promise<void> | void {
         const actionName: string = object.getPropertyValue(params.item, 'actionName');
         if (actionName) {
-            if (ModulesLoader.isLoaded(actionName)) {
-                this._executeAction(params, ModulesLoader.loadSync(actionName));
-            } else {
-                ModulesLoader.loadAsync(actionName).then((actionModule) => {
-                    this._executeAction(params, actionModule);
-                });
-            }
+            ModulesLoader.loadAsync(actionName).then((actionModule) => {
+                const viewActionName = object.getPropertyValue(params.item, 'viewActionName');
+                const actionOptions = this._getActionOptions(params);
+                const actionClass = this._createAction(actionOptions, actionModule);
+                if (viewActionName) {
+                    ModulesLoader.loadAsync(viewActionName).then((viewActionModule) => {
+                        this._actionExecute(actionOptions, this._createAction({...actionOptions, action: actionClass}, viewActionModule));
+                    });
+                } else {
+                    this._actionExecute(actionOptions, actionClass);
+                }
+            });
         }
     }
 
@@ -199,19 +208,32 @@ export default class OperationsController {
         });
     }
 
-    protected _executeAction(actionParams: IExecuteCommandParams, actionModule: IAction): void {
-        const actionOptions = object.clone(object.getPropertyValue(actionParams.item, 'actionOptions')) || {};
-        merge(actionOptions, {
-            filter: actionParams.filter,
-            selection: actionParams.selection,
-            target: actionParams.target
-        });
-        const result = new actionModule(actionOptions).execute(actionOptions);
+    protected _actionExecute(actionOptions, action): void {
+        const result = action.execute(actionOptions);
         if (result instanceof Promise) {
             result.catch((error) => {
                 dataSourceError.process({error});
             });
         }
+    }
+
+    protected _createAction(actionParams: object, actionModule: IAction): IAction {
+        return new actionModule(actionParams);
+    }
+
+    private _getActionOptions(actionParams: IExecuteCommandParams): object {
+        const actionOptions = object.clone(object.getPropertyValue(actionParams.item, 'actionOptions')) || {};
+        merge(actionOptions, {
+            source: actionParams.source,
+            filter: actionParams.filter,
+            parentProperty: actionParams.parentProperty,
+            nodeProperty: actionParams.nodeProperty,
+            navigation: actionParams.navigation,
+            selection: actionParams.selection,
+            target: actionParams.target,
+            sourceController: actionParams.sourceController
+        });
+        return actionOptions;
     }
 
     private _getRegister(): RegisterClass {
