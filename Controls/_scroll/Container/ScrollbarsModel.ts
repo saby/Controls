@@ -72,13 +72,6 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         }
     }
 
-    serializeState(): ISerializeState {
-        return {
-            overflowHidden: this._overflowHidden,
-            styleHideScrollbar: this._styleHideScrollbar
-        };
-    }
-
     updateOptions(options: IScrollbarsOptions): void {
         for (let scrollbar of Object.keys(this._models)) {
             // Будем показывать скроллбар до тех пор, пока пользователь не воспользовался колесиком мышки, даже если
