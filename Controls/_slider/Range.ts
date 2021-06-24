@@ -276,14 +276,14 @@ Object.defineProperty(Range, 'defaultProps', {
 /**
  * @event Происходит при изменении начального значения слайдера.
  * @name Controls/_slider/Range#startValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Number} startValue Новое значение.
  */
 
 /**
  * @event Происходит при изменении конечного значения слайдера.
  * @name Controls/_slider/Range#endValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Number} endValue Новое значение.
  */
 

@@ -35,7 +35,7 @@ export interface ITag {
 /**
  * @event Происходит при клике на тег.
  * @name Controls/_input/interface/ITag#tagClick
- * @param {Vdom/Vdom:SyntheticEvent}} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent}} event Дескриптор события.
  * @param {SVGElement} tag Тег, по которому кликнули.
  * @remark Событие никогда не произойдет, если вы не укажете опцию {@link tagStyle}.
  * @demo Controls-demo/Input/TagEvents/Index
@@ -45,7 +45,7 @@ export interface ITag {
 /**
  * @event Происходит при наведении курсора мыши на тег.
  * @name Controls/_input/interface/ITag#tagHover
- * @param {Vdom/Vdom:SyntheticEvent}} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent}} event Дескриптор события.
  * @param {SVGElement} tag Тег, на который навели курсор мыши.
  * @remark Событие никогда не произойдет, если вы не укажете опцию {@link tagStyle}.
  * @demo Controls-demo/Input/TagEvents/Index

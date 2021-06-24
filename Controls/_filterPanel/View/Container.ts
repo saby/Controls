@@ -16,7 +16,7 @@ export default class Container extends Control<IControlOptions> {
     /**
      * @event Происходит при изменении элементов.
      * @name Controls/_filterPanel/View/Container#filterItemsChanged
-     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+     * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
      * @param {Object} items Новые элементы.
      */
     protected _sourceChanged(event: Event, items: object[]): void {

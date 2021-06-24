@@ -162,7 +162,7 @@ define('Controls/interface/IPromisedSelectable', [
 
    /**
     * @event Controls/interface/IPromisedSelectable#selectedKeysChanged Происходит при изменении {@link selectedKeys набора выбранных элементов} списка.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<Number|String>} keys Массив ключей выбранных элементов.
     * @param {Array.<Number|String>} added Массив ключей, добавленных в selectedKeys.
     * @param {Array.<Number|String>} deleted Массив ключей, удаленных из selectedKeys.
@@ -191,7 +191,7 @@ define('Controls/interface/IPromisedSelectable', [
    /*
     * @event Controls/interface/IPromisedSelectable#selectedKeysChanged Occurs when selection was changed.
     * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Array.<Number|String>} keys Array of selected items' keys.
     * @param {Array.<Number|String>} added Array of keys added to selectedKeys.
     * @param {Array.<Number|String>} deleted Array of keys deleted from selectedKeys.
@@ -219,7 +219,7 @@ define('Controls/interface/IPromisedSelectable', [
 
    /**
     * @event Controls/interface/IPromisedSelectable#excludedKeysChanged Происходит при изменении {@link excludedKeys набора исключенных из выбора элементов} списка.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<Number|String>} keys Набор ключей элементов, которые должны быть исключены из выборки.
     * @param {Array.<Number|String>} added Массив ключей, добавленных в excludedKeys.
     * @param {Array.<Number|String>} deleted Массив ключей, удаленных из excludedKeys.
@@ -250,7 +250,7 @@ define('Controls/interface/IPromisedSelectable', [
     * @event Controls/interface/IPromisedSelectable#excludedKeysChanged Occurs when selection was changed.
 
     * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Array.<Number|String>} keys Array of keys of items that should be excluded from the selection.
     * @param {Array.<Number|String>} added Array of keys added to excludedKeys.
     * @param {Array.<Number|String>} deleted Array of keys deleted from excludedKeys.
@@ -280,7 +280,7 @@ define('Controls/interface/IPromisedSelectable', [
 
    /**
     * @event Controls/interface/IPromisedSelectable#beforeSelectionChanged Происходит до изменения {@link selectedKeys списка выбранных элементов}.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
     * @param {Controls/_multiselection/interface#ISelectionDifference} selectionDiff Изменение в списке выбранных элементов по сравнению с текущим выбором.
     * @return {Controls/_interface/ISelectionObject} Список выбранных элементов
     * @remark

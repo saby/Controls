@@ -297,7 +297,7 @@ export = ComboBox;
 /**
  * @event Происходит при изменении отображаемого значения контрола.
  * @name Controls/_dropdown/ComboBox#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Отображаемое значение контрола.
  * @remark
  * Событие используется в качестве реакции на изменения, вносимые пользователем.
