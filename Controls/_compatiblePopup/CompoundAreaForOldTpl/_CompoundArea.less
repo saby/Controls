@@ -157,6 +157,15 @@ body:not(.rtl-Body) .controls-CompoundArea {
    height: 100%;
 }
 
+.ws-is-hover {
+   .controls-CompoundArea {
+      .controls-Button__close__icon_link:hover,
+      .controls-Button__close__icon_linkButton:hover {
+         fill: var(--icon-color_hovered_closeButton_link_compoundArea);
+      }
+   }
+}
+
 .controls-CompoundArea-close_button .controls-DialogTemplate__close_button:not(.controls-DialogTemplate__close_linkButton) {
    margin-top: var(--close-button_offset-top_stack);
 }
