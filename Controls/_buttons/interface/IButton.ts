@@ -24,42 +24,6 @@ export interface IButton extends IContrastBackground {
 }
 
 /**
- * @name Controls/_buttons/interface/IButton#contrastBackground
- * @cfg
- * @default false (Когда опция {@link Controls/buttons:Button#viewMode viewMode} установлена в значение functionalButton, то для опции contrastBackground значение по умолчанию - true.)
- * @remark
- * Опция используется для акцентирования внимания на кнопке, и ее визуального выделения относительно окружения.
- * @demo Controls-demo/Buttons/ContrastBackground/Index
- * @example
- * У кнопки контрастный фон.
- * <pre class="brush: html; highlight: [6]">
- * <!-- WML -->
- * <Controls.buttons:Button
- *    caption="Send document"
- *    buttonStyle="primary"
- *    viewMode="toolButton"
- *    contrastBackground="{{true}}" />
- * </pre>
- * @see style
- */
-
-/*
- * @name Controls/_buttons/interface/IButton#contrastBackground
- * @cfg
- * @default true
- * @example
- * Button has transparent background.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="toolButton" contrastBackground="{{false}}" inlineHeight="xl"/>
- * </pre>
- * Button hasn't transparent background.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="toolButton" />
- * </pre>
- * @see style
- */
-
-/**
  * @name Controls/_buttons/interface/IButton#buttonStyle
  * @cfg {Enum} Стиль отображения кнопки.
  * @variant primary
