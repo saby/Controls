@@ -740,7 +740,7 @@ const _private = {
         let
             loadedDataCount, allDataCount;
 
-        if (_private.isDemandNavigation(options.navigation) && self._hasMoreData(sourceController, 'down')) {
+        if (_private.isDemandNavigation(self._navigation) && self._hasMoreData(sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
         } else if (
             _private.shouldDrawCut(options.navigation,
@@ -1725,7 +1725,9 @@ const _private = {
         }
         if (changesType === 'collectionChanged' || newModelChanged) {
             // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
-            if (self._options.navigation && self._options.navigation.source) {
+            // Берем self._navigation вместо self._options.navigation,
+            // т.к. onCollectionChanged может сработать до Control::saveOptions и опции будут неактуальны
+            if (self._navigation && self._navigation.source) {
                 const itemsCount = self._listViewModel.getCount();
                 const moreMetaCount = _private.getAllDataCount(self);
 
@@ -2402,6 +2404,9 @@ const _private = {
     initializeNavigation(self, cfg) {
         self._needScrollCalculation = _private.needScrollCalculation(cfg.navigation);
         self._pagingNavigation = _private.isPagingNavigation(cfg.navigation);
+        // Кнопка Еще в футере рисуется по навигации, ее пересчет происходит и в onCollectionChanged,
+        // который может вызваться до Control::saveOptions и пересчет будет с устаревшей навигацией
+        self._navigation = cfg.navigation;
         if (!self._needScrollCalculation) {
             if (self._scrollPagingCtr) {
                 self._scrollPagingCtr.destroy();
