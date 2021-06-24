@@ -1199,6 +1199,8 @@ define([
                   })
                })
             };
+            // Проставляем в baseControl корректную навигацию
+            test.data[0]._navigation = test.data[1].navigation;
             lists.BaseControl._private.prepareFooter.apply(null, test.data);
             assert.equal(test.data[0]._shouldDrawFooter, test.result._shouldDrawFooter, 'Invalid prepare footer on step #' + index);
             assert.equal(test.data[0]._loadMoreCaption, test.result._loadMoreCaption, 'Invalid prepare footer on step #' + index);
