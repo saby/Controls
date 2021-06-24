@@ -30,7 +30,7 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
         });
         assert.match(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            createRegExpForTestMatchClass('controls-TreeGridView__footer__expanderPadding'));
+            createRegExpForTestMatchClass('controls-TreeGridView__expanderPadding'));
     });
 
     it('hasMultiSelectColumn() returns true, check first cell (checkbox cell)', () => {
@@ -60,7 +60,7 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
 
         assert.notMatch(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            createRegExpForTestMatchClass('controls-TreeGridView__footer__expanderPadding'));
+            createRegExpForTestMatchClass('controls-TreeGridView__expanderPadding'));
     });
 
     it('hasMultiSelectColumn() returns true, check second cell', () => {
@@ -90,7 +90,7 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
 
         assert.match(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            createRegExpForTestMatchClass('controls-TreeGridView__footer__expanderPadding'));
+            createRegExpForTestMatchClass('controls-TreeGridView__expanderPadding'));
     });
 
 });

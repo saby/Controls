@@ -21,6 +21,8 @@ import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
 import {CrudEntityKey} from 'Types/source';
 import {TGroupNodeVisibility} from '../interface/ITreeGrid';
+import TreeGridHeader from "Controls/_treeGrid/display/TreeGridHeader";
+import TreeGridTableHeader from "Controls/_treeGrid/display/TreeGridTableHeader";
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -275,25 +277,18 @@ export default class TreeGridCollection<
 
     // region HasNodeWithChildren
 
-    protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-        super._setHasNodeWithChildren(hasNodeWithChildren);
+    protected _setDisplayExpanderPadding(newValue: boolean) {
+        super._setDisplayExpanderPadding(newValue);
         if (this.getFooter()) {
-            this.getFooter().setHasNodeWithChildren(hasNodeWithChildren);
+            this.getFooter().setDisplayExpanderPadding(newValue);
+        }
+        if (this.getHeader()) {
+            this.getHeader().setDisplayExpanderPadding(newValue);
         }
     }
 
     // endregion HasNodeWithChildren
 
-    // region HasNode
-
-    protected _setHasNode(hasNode: boolean): void {
-        super._setHasNode(hasNode);
-        if (this.getFooter()) {
-            this.getFooter().setHasNode(hasNode);
-        }
-    }
-
-    // endregion HasNode
 
     // region itemsFactoryResolver
 
@@ -344,6 +339,15 @@ export default class TreeGridCollection<
             hasNodeWithChildren: this._hasNodeWithChildren,
             hasNode: this._hasNode
         });
+    }
+
+    getHeaderConstructor(): typeof TreeGridHeader {
+        return this.isFullGridSupport() ? TreeGridHeader : TreeGridTableHeader;
+    }
+
+    protected _initializeHeader(options: IOptions<S, T>): void {
+        options.expanderSize = this.getExpanderSize();
+        super._initializeHeader(options);
     }
 
     // TODO по идее нужно это добавлять в Tree,

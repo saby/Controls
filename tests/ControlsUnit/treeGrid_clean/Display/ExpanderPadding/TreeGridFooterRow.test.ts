@@ -13,10 +13,10 @@ const mockedOwner = {
     isStickyFooter: () => false
 } as any;
 
-describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterRow', () => {
-    it('setHasNodeWithChildren', () => {
+describe('Controls/treeGrid_clean/Display/ExpanderPadding/TreeGridFooterRow', () => {
+    it('setDisplayExpanderPadding', () => {
         const footerRow = new TreeGridFooterRow({
-            hasNodeWithChildren: false,
+            displayExpanderPadding: false,
             columns,
             owner: mockedOwner,
             footer: [
@@ -26,17 +26,17 @@ describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterRow'
             ]
         });
 
-        assert.isFalse(footerRow._$hasNodeWithChildren);
-        assert.isFalse(footerRow.getColumns()[0]._$hasNodeWithChildren);
+        assert.isFalse(footerRow._$displayExpanderPadding);
+        assert.isFalse(footerRow.getColumns()[0]._$displayExpanderPadding);
 
-        footerRow.setHasNodeWithChildren(true);
-        assert.isTrue(footerRow._$hasNodeWithChildren);
-        assert.isTrue(footerRow.getColumns()[0]._$hasNodeWithChildren);
+        footerRow.setDisplayExpanderPadding(true);
+        assert.isTrue(footerRow._$displayExpanderPadding);
+        assert.isTrue(footerRow.getColumns()[0]._$displayExpanderPadding);
     });
 
-    it('setHasNodeWithChildren when not created columns', () => {
+    it('setDisplayExpanderPadding when not created columns', () => {
         const footerRow = new TreeGridFooterRow({
-            hasNodeWithChildren: false,
+            displayExpanderPadding: false,
             columns,
             owner: mockedOwner,
             footer: [
@@ -46,6 +46,6 @@ describe('Controls/treeGrid_clean/Display/HasNodeWithChildren/TreeGridFooterRow'
             ]
         });
 
-        assert.doesNotThrow(footerRow.setHasNodeWithChildren.bind(footerRow, true));
+        assert.doesNotThrow(footerRow.setDisplayExpanderPadding.bind(footerRow, true));
     });
 });

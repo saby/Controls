@@ -65,11 +65,6 @@ export default class TreeItem<T extends Model = Model> extends mixin<
     protected _$hasChildrenProperty: string;
 
     /**
-     * Признак, означающий что в списке есть узел с детьми
-     */
-    protected _$hasNodeWithChildren: boolean;
-
-    /**
      * Признак, означающий что в узле можно еще подгрузить данные
      * @protected
      */
@@ -306,17 +301,6 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         return expanderSize || this._$owner.getExpanderSize();
     }
 
-    setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-        if (this._$hasNodeWithChildren !== hasNodeWithChildren) {
-            this._$hasNodeWithChildren = hasNodeWithChildren;
-            this._nextVersion();
-        }
-    }
-
-    hasNodeWithChildren(): boolean {
-        return this._$hasNodeWithChildren;
-    }
-
     shouldDisplayExpander(expanderIcon?: string, position: 'default'|'right' = 'default'): boolean {
         if (this.getExpanderIcon(expanderIcon) === 'none' || this.isNode() === null) {
             return false;
@@ -472,7 +456,6 @@ Object.assign(TreeItem.prototype, {
     _$hasChildrenByRecordSet: false,
     _$childrenProperty: '',
     _$hasChildrenProperty: '',
-    _$hasNodeWithChildren: true,
     _$hasMore: false,
     _instancePrefix: 'tree-item-'
 });
