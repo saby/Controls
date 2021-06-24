@@ -25,6 +25,7 @@ const JS_SELECTORS = {
 export {JS_SELECTORS};
 export {
     Controller,
+    TAsyncOperationResult,
     IBeforeBeginEditCallbackParams,
     IBeforeEndEditCallbackParams
 } from './_editInPlace/Controller';
