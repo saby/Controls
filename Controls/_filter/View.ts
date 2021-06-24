@@ -391,9 +391,8 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         if (!detection.isMobileIOS) {
             RegisterUtil(this, 'scroll', this._handleScroll.bind(this), {listenAll: true});
         }
-        let popupOptions = {
+        const popupOptions = {
             opener: this,
-            restrictiveContainer: '.sabyPage-MainLayout__rightPanel',
             templateOptions: {
                 items,
                 collapsedGroups: this._collapsedFilters,
@@ -406,6 +405,9 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 onResult: this._resultHandler.bind(this)
             }
         };
+        if (this._options.detailPanelOpenMode === 'stack') {
+            popupOptions.restrictiveContainer = '.sabyPage-MainLayout__rightPanel';
+        }
         Merge(popupOptions, panelPopupOptions);
         popupOptions.className += ` controls_popupTemplate_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
         this._getFilterPopupOpener().open(popupOptions);
