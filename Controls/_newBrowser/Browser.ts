@@ -272,7 +272,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                     if (!this._destroyed) {
                         this._loading = false;
                     }
-                });;
+                });
             }
             // Обязательно вызываем setFilter иначе фильтр в sourceController может
             // не обновиться при updateOptions. Потому что updateOptions сравнивает
@@ -321,7 +321,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         //region update master
         const newMasterVisibility = Browser.calcMasterVisibility({
             master: newOptions.master,
-            userViewMode: this._appliedViewMode,
+            userViewMode: this.viewMode,
             listConfiguration: this._listConfiguration
         });
         // Если видимость мастера не меняется, то меняем _masterRoot,
