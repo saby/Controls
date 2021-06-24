@@ -19,7 +19,6 @@ interface IOptions extends IControlOptions, IGridControl {
     backButtonIconStyle: string;
     backButtonFontColorStyle: string;
     viewMode?: TExplorerViewMode;
-    breadcrumbsNewIcon?: boolean;
 }
 
 function isItemsEqual(oldItems: Path, newItems: Path): boolean {
@@ -114,7 +113,6 @@ export default class PathController extends Control<IOptions> {
                     backButtonFontColorStyle: options.backButtonFontColorStyle,
                     displayProperty: options.displayProperty,
                     backButtonCaption: options.backButtonCaption,
-                    backButtonNewIcon: options.backButtonNewIcon,
                     items
                 },
 
