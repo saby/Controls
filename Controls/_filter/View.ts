@@ -393,7 +393,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         }
         let popupOptions = {
             opener: this,
-            restrictiveContainer: '.sabyPage-MainLayout__content',
+            restrictiveContainer: '.sabyPage-MainLayout__rightPanel',
             templateOptions: {
                 items,
                 collapsedGroups: this._collapsedFilters,
