@@ -78,4 +78,30 @@ describe('Controls/filterPanel:ViewModel', () => {
             assert.equal(item.textValue, 'New text owner');
         });
     });
+
+    describe('setEditingObject', () => {
+        const source = [
+            {
+                group: 'owners',
+                name: 'owner',
+                value: null,
+                textValue: 'Test owner',
+                resetValue: null
+            }
+        ];
+        const collapsedGroups = [];
+        const viewModel = new ViewModel({
+            source,
+            collapsedGroups
+        });
+
+        it('collapsed groups reseted', () => {
+            const editingObject = {
+                owner: null
+            };
+            viewModel.collapseGroup('owners');
+            viewModel.setEditingObject(editingObject);
+            assert.isEmpty(viewModel._collapsedGroups);
+        });
+    });
 });
