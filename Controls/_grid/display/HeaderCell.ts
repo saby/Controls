@@ -371,6 +371,16 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
         return paddingClasses;
     }
+
+    getRelativeCellWrapperClasses(): string {
+        let result = super.getRelativeCellWrapperClasses();
+
+        if (this._$column.isBreadCrumbs && this._$owner.hasMultiSelectColumn()) {
+            result += ' controls-Grid__cell_spacingBackButton_with_multiSelection';
+        }
+
+        return result;
+    }
 }
 
 Object.assign(HeaderCell.prototype, {
