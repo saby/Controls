@@ -84,7 +84,7 @@ describe('Controls/filterPanel:ViewModel', () => {
             {
                 group: 'owners',
                 name: 'owner',
-                value: 'Test owner',
+                value: null
                 textValue: 'Test owner',
                 resetValue: null
             }
@@ -99,8 +99,7 @@ describe('Controls/filterPanel:ViewModel', () => {
             const editingObject = {
                 owner: null
             };
-            viewModel._collapsedGroups = ['owners'];
-            viewModel._source[0].value = null;
+            viewModel.collapseGroup('owners');
             viewModel.setEditingObject(editingObject);
             assert.isEmpty(viewModel._collapsedGroups);
         });
