@@ -84,7 +84,7 @@ describe('Controls/filterPanel:ViewModel', () => {
             {
                 group: 'owners',
                 name: 'owner',
-                value: null
+                value: null,
                 textValue: 'Test owner',
                 resetValue: null
             }
