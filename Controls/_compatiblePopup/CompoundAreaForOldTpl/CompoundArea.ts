@@ -416,6 +416,12 @@ var CompoundArea = CompoundContainer.extend([
             });
          });
       });
+
+      const withoutHead = $('.controls-DialogTemplate .controls-DialogTemplate__close-button_without_head', this.getContainer());
+      if (withoutHead) {
+         withoutHead.addClass('controls_popupTemplate_theme-' + Controller.getPopupHeaderTheme());
+      }
+
    },
 
    _beforeUnmount: function() {
