@@ -213,12 +213,14 @@ class DialogController extends BaseController {
             if (propStorageId) {
                 getSettings([propStorageId]).then((storage) => {
                     if (storage && storage[propStorageId]) {
-                        item.popupOptions[verticalPositionProperty] =
-                            storage[propStorageId][verticalPositionProperty];
-                        item.popupOptions[horizontalPositionProperty] =
-                            storage[propStorageId][horizontalPositionProperty];
-                        // Если сохранена позиция, то считаем что окно уже перемещали.
-                        item.dragged = true;
+                        const vertical = storage[propStorageId][verticalPositionProperty];
+                        const horizontal = storage[propStorageId][horizontalPositionProperty];
+                        if (vertical !== undefined && horizontal !== undefined) {
+                            item.popupOptions[verticalPositionProperty] = vertical;
+                            item.popupOptions[horizontalPositionProperty] = horizontal;
+                            // Если сохранена позиция, то считаем что окно уже перемещали.
+                            item.dragged = true;
+                        }
                     }
                     resolve();
                 });
