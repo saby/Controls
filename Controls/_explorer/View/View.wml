@@ -1,6 +1,6 @@
 <div class="controls_list_theme-{{_options.theme}} controls-Explorer" on:keyDown="_onExternalKeyDown()">
    <Controls.list:DataContainer
-      attr:style="height: 100%;"
+      attr:class="controls-Explorer__wrapper"
       scope="{{_options}}"
       root="{{_getRoot(_options.root)}}"
       on:breadCrumbsItemsChanged="_onBreadcrumbsChanged()"
