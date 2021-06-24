@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__childWidth400">
     <Controls.treeGrid:View
             attr:class="controlsDemo__inline-flex"
-            keyProperty="key"
+            keyProperty="id"
             source="{{ _viewSource }}"
             columns="{{ _columns }}"
             parentProperty="parent"

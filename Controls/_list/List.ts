@@ -137,20 +137,6 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         return this._options.readOnly ? Promise.reject() : this._children.listControl.commitEdit();
     }
 
-    /**
-     * Замораживает hover подсветку строки для указанной записи
-     */
-    freezeHoveredItem(item: Model): void {
-        this._children.listControl.freezeHoveredItem(item);
-    }
-
-    /**
-     * Размораживает все ранее замороженные итемы
-     */
-    unfreezeHoveredItems(): void {
-        this._children.listControl.unfreezeHoveredItems();
-    }
-
     // region mover
 
     moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet> {

@@ -8,7 +8,7 @@
     />
     <div class="controlsDemo__wrapper">
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 multiSelectVisibility="{{_multiselect}}"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"/>

@@ -136,7 +136,7 @@ export default class Popup implements IPopupHelper {
      * @returns Промис с массивом загруженных зависимостей.
      * В случае ошибки загрузки промис завершится успешно с пустым массивом.
      */
-    private static preload(modules: string[], themes: string[]): Promise<(IPopupModule | void)[]> {
+    private static preload(modules: string[], themes: string[]): Promise<any[]> {
         return Promise.all([
             ...modules.map((module) => import(module)),
 

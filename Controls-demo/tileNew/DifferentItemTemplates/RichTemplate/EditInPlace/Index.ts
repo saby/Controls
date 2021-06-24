@@ -3,7 +3,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 import * as Template from 'wml!Controls-demo/tileNew/DifferentItemTemplates/RichTemplate/EditInPlace/EditInPlace';
 import {Gadgets} from 'Controls-demo/tileNew/DataHelpers/DataCatalog';
 import {HierarchicalMemory} from 'Types/source';
-import Images from 'Controls-demo/tileNew/DataHelpers/Images';
+import Images from 'Controls-demo/Tile/DataHelpers/Images';
 import 'css!Controls-demo/Controls-demo';
 const DATA_FOR_EDITING = [
     {

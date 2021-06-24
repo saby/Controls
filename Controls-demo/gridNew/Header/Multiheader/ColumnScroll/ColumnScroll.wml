@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__grid-header-multiHeader-base controlsDemo__height400 controlsDemo_widthFit">
    <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__inline-flex" scn="1" attr:style="width:90%">
    <Controls.grid:View
-           keyProperty="key"
+           keyProperty="id"
            source="{{_viewSource}}"
            stickyHeader="{{true}}"
            rowSeparatorVisibility="{{true}}"

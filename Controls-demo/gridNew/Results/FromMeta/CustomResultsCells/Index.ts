@@ -5,15 +5,15 @@ import * as defResTpl from 'wml!Controls-demo/gridNew/Results/FromMeta/CustomRes
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
+import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeaderCell[] = Countries.getHeader();
-    protected _columns: IColumn[] = Countries.getColumnsWithWidths().map((c, i) => ({
+    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths().map((c, i) => ({
         ...c,
         result: undefined,
         // tslint:disable-next-line
@@ -29,8 +29,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Countries.getData()
+            keyProperty: 'id',
+            data: getCountriesStats().getData()
         });
     }
 
@@ -56,8 +56,8 @@ export default class extends Control {
     private _setResultRow(): void {
         const items = this._children.grid.getItems();
         const results = items.getMetaData().results;
-        results.set('square', Countries.getResults().partial[this._partialResultsIndex]);
-        this._partialResultsIndex = ++this._partialResultsIndex % Countries.getResults().partial.length;
+        results.set('square', getCountriesStats().getResults().partial[this._partialResultsIndex]);
+        this._partialResultsIndex = ++this._partialResultsIndex % getCountriesStats().getResults().partial.length;
     }
 
     private _generateResults(items: RecordSet): Model {
@@ -74,13 +74,13 @@ export default class extends Control {
             ]
         });
 
-        const data = Countries.getResults().full[this._fullResultsIndex];
+        const data = getCountriesStats().getResults().full[this._fullResultsIndex];
 
         results.set('population', data.population);
         results.set('square', data.square);
         results.set('populationDensity', data.populationDensity);
 
-        this._fullResultsIndex = ++this._fullResultsIndex % Countries.getResults().full.length;
+        this._fullResultsIndex = ++this._fullResultsIndex % getCountriesStats().getResults().full.length;
         return results;
     }
 

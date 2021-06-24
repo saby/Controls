@@ -1,6 +1,6 @@
-<div class="controlsDemo__wrapper controlsDemo__flex">
+<div class="controlsDemo__wrapper">
     <Controls.treeGrid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
             parentProperty="parent"

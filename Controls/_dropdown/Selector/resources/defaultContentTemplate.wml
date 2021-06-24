@@ -1,7 +1,6 @@
 <div class="controls-Dropdown__wrapper
             {{fontSize ? 'controls-fontsize-' + fontSize : 'controls-Dropdown-fontsize' }}">
    <div class="controls-Dropdown__content-wrapper
-               {{(validationStatus === 'invalid' || validationStatus === 'invalidAccent') ? ' controls-invalid-container'}}
       {{!readOnly && (countItems === undefined || countItems > 1 || footerTemplate) ? 'controls-Dropdown__text_enabled ' +
       (style && !fontColorStyle ? 'controls-Dropdown__item_style-' + style : (isEmptyItem && !fontColorStyle ? 'controls-Dropdown__emptyItem'
          : 'controls-Dropdown__defaultItem controls-text-' + (fontColorStyle || 'link'))) + ' controls-Dropdown__item_style-' + style}}"
@@ -27,10 +26,5 @@
             <span class="controls-Dropdown__hasMoreText">{{hasMoreText}}</span>
          </div>
       </ws:else>
-
-      <ws:if data="{{(validationStatus === 'invalid' || validationStatus === 'invalidAccent') && !_options.readOnly}}">
-         <div class="{{'controls-invalid-border controls-' + validationStatus + '-border'}}"></div>
-      </ws:if>
-
    </div>
 </div>

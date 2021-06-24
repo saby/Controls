@@ -1,6 +1,5 @@
 <div class="controls-PropertyGrid__editor_checkbox_control ws-flexbox">
    <Controls.toggle:CheckboxGroup scope="{{_options}}"
-                                  attr:class="controls-Input_negativeOffset"
                                   bind:selectedKeys="_selectedKeys"
                                   on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
 </div>

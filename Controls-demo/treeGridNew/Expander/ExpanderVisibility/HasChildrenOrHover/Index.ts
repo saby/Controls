@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/Expander/ExpanderVisibility/HasChildrenOrHover/HasChildrenOrHover';
 import {CrudEntityKey, Memory} from 'Types/source';
-import {Gadgets} from "Controls-demo/treeGridNew/DemoHelpers/Data/Gadgets";
+import {Gadgets} from '../../../DemoHelpers/DataCatalog';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
@@ -10,8 +10,8 @@ export default class extends Control {
 
    protected _beforeMount(): void {
       this._viewSource = new Memory({
-         keyProperty: 'key',
-         data: Gadgets.getData(),
+         keyProperty: 'id',
+         data: Gadgets.getDataSet(),
          filter: () => true
       });
    }

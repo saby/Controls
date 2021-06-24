@@ -39,7 +39,7 @@ let _private = {
  * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
- * @ignoreoptions style
+ * @ignoreOptions style
  *
  *
  * @public
@@ -63,7 +63,7 @@ let _private = {
  * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
- * @ignoreoptions style
+ * @ignoreOptions style
  *
  *
  * @public

@@ -8,8 +8,7 @@ describe('Controls/grid_clean/Display/FooterRow', () => {
             hasColumnScroll: () => false,
             isFullGridSupport: () => true,
             hasMultiSelectColumn: () => false,
-            hasItemActionsSeparatedCell: () => false,
-            isStickyFooter: () => false
+            hasItemActionsSeparatedCell: () => false
         };
 
         const footerColumnsConfig = [{ startColumn: 1, endColumn: 3 }, { startColumn: 3, endColumn: 5 }, { startColumn: 5, endColumn: 6 }];

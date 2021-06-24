@@ -34,7 +34,6 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
     _componentDidMount(): void {
         GridView.superclass._componentDidMount.apply(this, arguments);
         this._columnScrollOnViewDidMount();
-        this._listModel.setColspanGroup(!this._options.columnScroll || !this.isColumnScrollVisible());
     },
 
     _applyChangedOptionsToModel(listModel, options, changes): void {

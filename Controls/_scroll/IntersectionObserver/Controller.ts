@@ -17,6 +17,8 @@ export interface IIntersectionObserverControllerOptions extends IControlOptions,
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
+ * @class Controls/_scroll/IntersectionObserver/Controller
+ * 
  * @author Красильников А.С.
  * @see Controls/_scroll/IntersectionObserver/Container
  * @demo Controls-demo/Scroll/IntersectionObserverController/Index

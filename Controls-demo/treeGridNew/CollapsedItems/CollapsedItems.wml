@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.treeGrid:View
             source="{{_viewSource}}"
-            keyProperty="key"
+            keyProperty="id"
             columns="{{_columns}}"
             parentProperty="Раздел"
             nodeProperty="Раздел@"

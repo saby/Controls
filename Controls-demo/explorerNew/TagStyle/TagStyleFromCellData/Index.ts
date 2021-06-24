@@ -82,11 +82,11 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * @private
      */
     protected _onTagHoverCustomHandler(
-        event: Event, item: Record, columnIndex: number, nativeEvent: Event
+        event: Event, item: CollectionItem<Record>, columnIndex: number, nativeEvent: Event
     ): void {
         this._currentColumnIndex = columnIndex;
         this._currentEvent = 'hover';
-        this._currentValue = item.get('title');
+        this._currentValue = item.getContents().get('title');
     }
 
     /**

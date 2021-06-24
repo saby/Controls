@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeFooter/ExpanderIconNone/ExpanderIconNone';
 import {HierarchicalMemory} from 'Types/source';
+import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -30,8 +30,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            keyProperty: 'key',
-            data: Flat.getData()
+            keyProperty: 'id',
+            data: Gadgets.getFlatData()
         });
     }
     protected _afterMount(): void {

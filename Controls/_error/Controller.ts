@@ -81,7 +81,7 @@ export function getPopupHelper(): IPopupHelper {
  * </pre>
  */
 export default class ErrorController {
-    private _controller: ParkingController<ViewConfig>;
+    private __controller: ParkingController<ViewConfig>;
     private _mode?: Mode;
 
     /**
@@ -89,15 +89,15 @@ export default class ErrorController {
      */
     constructor(options: Config, private _popupHelper: IPopupHelper = getPopupHelper()) {
         this._mode = options?.viewConfig?.mode;
-        this._controller = new ParkingController<ViewConfig>({
+        this.__controller = new ParkingController<ViewConfig>({
             configField: ErrorController.CONFIG_FIELD,
             ...options
         });
     }
 
     destroy(): void {
-        this._controller.destroy();
-        delete this._controller;
+        this.__controller.destroy();
+        delete this.__controller;
         delete this._popupHelper;
     }
 
@@ -107,7 +107,7 @@ export default class ErrorController {
      * @param isPostHandler Выполнять ли обработчик после обработчиков уровня приложения.
      */
     addHandler(handler: Handler, isPostHandler?: boolean): void {
-        this._controller.addHandler(handler, isPostHandler);
+        this.__controller.addHandler(handler, isPostHandler);
     }
 
     /**
@@ -116,7 +116,7 @@ export default class ErrorController {
      * @param isPostHandler Был ли обработчик добавлен для выполнения после обработчиков уровня приложения.
      */
     removeHandler(handler: Handler, isPostHandler?: boolean): void {
-        this._controller.removeHandler(handler, isPostHandler);
+        this.__controller.removeHandler(handler, isPostHandler);
     }
 
     /**
@@ -136,7 +136,7 @@ export default class ErrorController {
             return Promise.resolve();
         }
 
-        return this._controller.process(_config).then((handlerResult: ViewConfig | void) => {
+        return this.__controller.process(_config).then((handlerResult: ViewConfig | void) => {
             /**
              * Ошибка может быть уже обработана, если в соседние контролы прилетела одна ошибка от родителя.
              * Проверяем, обработана ли ошибка каким-то из контроллеров.
@@ -179,28 +179,6 @@ export default class ErrorController {
         });
     }
 
-    private _prepareConfig<T extends Error = Error>(config: HandlerConfig<T> | T): HandlerConfig<T> {
-        const mode = this._mode || Mode.dialog;
-
-        if (config instanceof Error) {
-            return {
-                error: config,
-                mode
-            };
-        }
-
-        const result = {
-            mode,
-            ...config
-        };
-
-        if (this._mode) {
-            result.mode = this._mode;
-        }
-
-        return result;
-    }
-
     /**
      * Поле ApplicationConfig, в котором содержатся названия модулей с обработчиками ошибок.
      */
@@ -234,6 +212,28 @@ export default class ErrorController {
             error.canceled ||
             error.isCanceled // PromiseCanceledError
         );
+    }
+
+    private _prepareConfig<T extends Error = Error>(config: HandlerConfig<T> | T): HandlerConfig<T> {
+        const mode = this._mode || Mode.dialog;
+
+        if (config instanceof Error) {
+            return {
+                error: config,
+                mode
+            };
+        }
+
+        const result = {
+            mode,
+            ...config
+        };
+
+        if (this._mode) {
+            result.mode = this._mode;
+        }
+
+        return result;
     }
 }
 

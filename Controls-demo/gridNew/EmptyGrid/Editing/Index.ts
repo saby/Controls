@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/EmptyGrid/Editing/Editing';
 import {Memory} from 'Types/source';
+import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
 import {Record as entityRecord} from 'Types/entity';
 import * as editingCell from 'wml!Controls-demo/gridNew/EmptyGrid/Editing/cellEditor';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -14,8 +14,8 @@ export default class extends Control {
     private _hasItems = false;
     private _isEditing = false;
 
-    protected _header: IHeaderCell[] = Countries.getHeader().slice(1);
-    protected _columns: IColumn[] = Countries.getColumnsWithFixedWidths().slice(1).map((c) => ({
+    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader().slice(1);
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithFixedWidths().slice(1).map((c) => ({
         ...c,
         template: editingCell
     }));
@@ -24,18 +24,18 @@ export default class extends Control {
         this._columns[0].width = '400px';
         this._columns[4].width = 'auto';
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: []
         });
     }
 
     protected _beginAdd() {
-        const key = this._fakeId++;
+        const id = this._fakeId++;
         this._children.grid.beginAdd({
             item: new entityRecord({
                 rawData: {
-                    key,
-                    number: key + 1,
+                    id,
+                    number: id + 1,
                     country: null,
                     capital: null,
                     population: null,

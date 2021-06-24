@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth1700">
     <Controls.treeGrid:View
         attr:class="demoTreeWithProto__treeGrid24"
-        keyProperty="key"
+        keyProperty="id"
         source="{{_viewSource}}"
         columns="{{_columns}}"
         parentProperty="parent"

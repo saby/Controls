@@ -12,7 +12,7 @@
     <!-- https://online.sbis.ru/opendoc.html?guid=138c14b7-d571-4e61-8177-cb0322763bff -->
     <Controls.scroll:Container>
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 name="grid"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"

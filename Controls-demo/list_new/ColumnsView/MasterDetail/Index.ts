@@ -33,16 +33,16 @@ export default class RenderDemo extends Control {
     protected _itemsMaster: RecordSet;
     protected _itemsDetail: RecordSet;
 
-    protected _dataArray: Array<{key: number, title: string, description: string}>;
+    protected _dataArray: Array<{id: number, title: string, description: string}>;
 
     _initSource(): void {
         this._detailSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: data.detail
         });
 
         this._masterSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: data.master
         });
     }
@@ -93,10 +93,10 @@ export default class RenderDemo extends Control {
         const items = entity.getItems();
 
         if (cInstance.instanceOfModule(entity, 'Controls-demo/DragNDrop/MasterDetail/TasksEntity')) {
-            targetId = target.get('key');
+            targetId = target.get('id');
             // tslint:disable-next-line
-            items.forEach((key: string | number): void => {
-                item = this._itemsDetail.getRecordById(key);
+            items.forEach((id: string | number): void => {
+                item = this._itemsDetail.getRecordById(id);
                 item.set('parent', targetId);
                 this._detailSource.update(item);
             }, this);

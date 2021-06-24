@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
     <Controls.grid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             itemActions="{{_itemActions}}"
             itemActionsPosition="custom"
@@ -20,7 +20,14 @@
                             <ws:contentTemplate>
                                 <div class="cloud controls-ListView__item_showActions controls-ListView__highlightOnHover_default_theme-default">
                                     <div class="cloud-content">
-                                        <div>country:&nbsp;{{ contentTemplate.item.getContents().get('country') }}</div>
+                                        <div>
+                                            <div>country:&nbsp;{{ contentTemplate.item.getContents().get('country') }}</div>
+                                            <div>capital:&nbsp;{{ contentTemplate.item.getContents().get('capital') }}</div>
+                                        </div>
+                                        <div>
+                                            <div>population:&nbsp;{{ contentTemplate.item.getContents().get('population') }}</div>
+                                            <div>square:&nbsp;{{ contentTemplate.item.getContents().get('square') }}</div>
+                                        </div>
                                     </div>
                                     <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="{{contentTemplate.itemActionsClass}}"/>
                                 </div>

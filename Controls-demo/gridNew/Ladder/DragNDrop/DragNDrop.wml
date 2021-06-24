@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:class="controlsDemo__height400">
-        <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="key">
+        <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
             <Controls.list:Container>
                 <Controls.grid:View
                         on:dragStart="_dragStart()"
@@ -9,8 +9,6 @@
                         itemActions="{{_itemActions}}"
                         itemsReadyCallback="{{_itemsReadyCallback}}"
                         itemsDragNDrop="{{true}}"
-                        multiSelectVisibility="visible"
-                        bind:selectedKeys="_selectedKeys"
                         columns="{{_columns}}"
                         ladderProperties="{{_ladderProperties}}">
                     <ws:draggingTemplate>

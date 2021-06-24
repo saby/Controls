@@ -1,14 +1,15 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
+import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
+import {getTagStyleData} from '../../DemoHelpers/DataCatalog';
+
 import * as template from 'wml!Controls-demo/gridNew/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
-import { TagStyle } from 'Controls-demo/gridNew/DemoHelpers/Data/TagStyle';
 
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
-    protected _columns = TagStyle.getColumns();
 
     // Номер выбранной колонки
     protected _currentColumnIndex: number = null;
@@ -20,9 +21,9 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _currentValue: string;
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
-        const data = TagStyle.getData();
+        const data = getTagStyleData().getData();
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
     }

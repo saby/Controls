@@ -26,7 +26,7 @@ define('Controls/interface/IGroupedGrid', [
     * @default undefined
     * @remark
     * Конфигурация визуального представления группировки задаётся в опции groupTemplate путём настройки шаблона группировки {@link Controls/grid:GroupTemplate}.
-    * @demo Controls-demo/gridNew/Grouped/Custom/Index
+    * @demo Controls-demo/grid/Grouped/Custom/Index
     * @see groupHistoryId
     * @see collapsedGroups
     * @see groupExpanded

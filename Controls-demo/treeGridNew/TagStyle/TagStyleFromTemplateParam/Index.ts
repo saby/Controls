@@ -3,9 +3,9 @@ import {Memory} from 'Types/source';
 import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
+import {Gadgets, IData} from '../../DemoHelpers/DataCatalog';
+
 import * as template from 'wml!Controls-demo/treeGridNew/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
-import {IData} from "Controls-demo/treeGridNew/DemoHelpers/Interface";
 
 const MAXITEM = 7;
 
@@ -28,7 +28,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         const data = this._getModifiedData().slice(0, MAXITEM);
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
     }
@@ -61,13 +61,13 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * @private
      */
     protected _onTagHoverCustomHandler(
-        event: Event, item: Record,
+        event: Event, item: CollectionItem<Record>,
         columnIndex: number,
         nativeEvent: Event
     ): void {
         this._currentColumnIndex = columnIndex;
         this._currentEvent = 'hover';
-        this._currentValue = item.get('title');
+        this._currentValue = item.getContents().get('title');
     }
 
     private _getModifiedData(): IData[] {
@@ -80,7 +80,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
             'warning',
             'secondary'
         ];
-        return Flat.getData().map((cur, i) => {
+        return Gadgets.getFlatData().map((cur, i) => {
             const index = i <= (styleVariants.length - 1) ? i : i % (styleVariants.length - 1);
             return {
                 ...cur,

@@ -1,8 +1,8 @@
-<div class="controlsDemo__wrapper ">
-    <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height200">
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
         <Controls.list:View source="{{_viewSource}}"
                             name="list"
-                            keyProperty="key"
+                            keyProperty="id"
                             navigation="{{_options.navigation}}"
                             scrollToAddedItem="{{false}}">
             <ws:virtualScrollConfig pageSize="{{20}}"/>

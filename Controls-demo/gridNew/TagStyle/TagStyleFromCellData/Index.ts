@@ -1,11 +1,12 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
+import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
+import {getTagStyleData} from '../../DemoHelpers/DataCatalog';
 import {IColumn} from 'Controls/grid';
 
 import * as template from 'wml!Controls-demo/gridNew/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
-import { TagStyle } from 'Controls-demo/gridNew/DemoHelpers/Data/TagStyle';
 
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -27,13 +28,13 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     constructor(cfg: IControlOptions) {
         super(cfg);
         this._tagStyleProperty = 'customProperty';
-        this._columns = TagStyle.getColumns();
+        this._columns = getTagStyleData().getColumns();
     }
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
-        const data = TagStyle.getData();
+        const data = getTagStyleData().getData();
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
     }

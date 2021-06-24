@@ -350,7 +350,7 @@ var CompoundArea = CompoundContainer.extend([
       this._options = cfg;
       this._enabled = cfg.hasOwnProperty('enabled') ? cfg.enabled : true;
 
-      this.getContainer().toggleClass('ws-float-area-has-close-button', false);
+      this.getContainer().toggleClass('ws-float-area-has-close-button', !Controller.getRightTemplate());
 
       var self = this;
 

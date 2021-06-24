@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:class="controlsDemo__height300">
-        <Controls.list:View keyProperty="key" source="{{_viewSource}}">
+        <Controls.list:View keyProperty="id" source="{{_viewSource}}">
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig direction="forward" pageSize="{{20}}" page="{{0}}" hasMore="{{false}}"/>
                 <ws:viewConfig pagingMode="basic"/>

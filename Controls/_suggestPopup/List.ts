@@ -111,6 +111,7 @@ const _private = {
  * </Controls.suggestPopup:ListContainer>
  * </pre>
  * @demo Controls-demo/LookupNew/Input/SuggestPopupOptions/Index
+ * @class Controls/_suggestPopup/List
  * @extends UI/Base:Control
  * @author Герасимов А.М.
  *

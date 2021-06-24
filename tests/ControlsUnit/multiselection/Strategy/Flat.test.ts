@@ -76,9 +76,9 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
 
       it('with limit', () => {
          let selection = { selected: [null], excluded: [2] };
-         selection = strategy.selectAll(selection, 3);
+         selection = strategy.selectAll(selection, 5);
          assert.deepEqual(selection.selected, [null]);
-         assert.deepEqual(selection.excluded, []);
+         assert.deepEqual(selection.excluded, [2]);
       });
    });
 

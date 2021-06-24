@@ -16,7 +16,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: getData()
         });
     }
@@ -24,15 +24,15 @@ export default class extends Control {
     protected _beginAdd(): void {
         this._children.list.beginAdd({
             item: new Model({
-                keyProperty: 'key',
-                rawData: {key: null, title: ''}
+                keyProperty: 'id',
+                rawData: {id: null, title: ''}
             })
         });
     }
 
     protected _onBeforeEndEdit(e, item, isAdd): void {
         if (isAdd && item.getKey() === null) {
-            item.set('key', ++this._fakeItemId);
+            item.set('id', ++this._fakeItemId);
         }
     }
 

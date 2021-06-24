@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Header/AddButton/AddButton';
 import {Memory} from 'Types/source';
+import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/gridNew/Header/AddButton/FirstHeaderCellTemplate';
 import 'wml!Controls-demo/gridNew/Header/AddButton/Cell';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 const MAXITEM = 10;
 
@@ -13,8 +13,8 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     private _gridCaption: string = 'Характеристики стран';
-    private _header: IHeaderCell[] = Countries.getHeader().slice(1);
-    protected _columns: IColumn[] = Countries.getColumnsWithWidths().slice(1);
+    private _header: IHeaderCell[] = getCountriesStats().getDefaultHeader().slice(1);
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths().slice(1);
 
     protected _beforeMount(): void {
 
@@ -31,8 +31,8 @@ export default class extends Control {
         };
 
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Countries.getData().slice(0, MAXITEM)
+            keyProperty: 'id',
+            data: getCountriesStats().getData().slice(0, MAXITEM)
         });
     }
 

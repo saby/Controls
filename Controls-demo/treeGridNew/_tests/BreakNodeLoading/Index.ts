@@ -1,7 +1,7 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import { HierarchicalMemory, DataSet, Query } from 'Types/source';
+import { Gadgets } from '../../DemoHelpers/DataCatalog';
 import * as Template from 'wml!Controls-demo/treeGridNew/_tests/BreakNodeLoading/BreakNodeLoading';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 class HierarchicalMemoryWithBreakNodeLoading extends HierarchicalMemory {
     protected _restoreLoadingFn: Function;
@@ -38,12 +38,12 @@ class HierarchicalMemoryWithBreakNodeLoading extends HierarchicalMemory {
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemoryWithBreakNodeLoading;
-    protected _columns: unknown[] = Flat.getColumns();
+    protected _columns: unknown[] = Gadgets.getGridColumnsForFlat();
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemoryWithBreakNodeLoading({
-            keyProperty: 'key',
-            data: Flat.getData(),
+            keyProperty: 'id',
+            data: Gadgets.getFlatData(),
             parentProperty: 'parent'
         });
     }

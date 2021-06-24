@@ -43,7 +43,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._dataLoadCallback = this.__dataLoadCallback.bind(this);
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: data.slice(0, 4),
             filter: (): boolean => true
         });
@@ -80,7 +80,7 @@ export default class extends Control {
 
     protected _reloadWithTwoGroups(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: data.slice(0, 7),
             filter: (): boolean => true
         });

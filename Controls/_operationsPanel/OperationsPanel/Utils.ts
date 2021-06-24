@@ -45,7 +45,6 @@ import {constants} from 'Env/Env';
                size: 'm',
                itemsSpacing: 'medium',
                theme,
-               direction: 'horizontal',
                buttonTemplate: getButtonTemplate(),
                buttonTemplateOptions,
                contentTemplate: _private.getContentTemplate(item, itemTemplate, itemTemplateProperty)

@@ -67,7 +67,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
             parentProperty: 'parent',
-            keyProperty: 'key',
+            keyProperty: 'id',
             data,
             filter: (): boolean => true
         });

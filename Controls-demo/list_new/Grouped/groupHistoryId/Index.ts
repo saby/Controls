@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/Grouped/groupHistoryId/groupHistoryId';
 import {Memory} from 'Types/source';
-import {getGroupedCatalog as getData} from '../../DemoHelpers/Data/Groups';
+import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
 
 // Патч нужен, чтобы демка не выдавала ошибки
 import '../../../Utils/WebApiScopePatch';
@@ -12,7 +12,7 @@ export default class extends Control {
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: boolean) {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: getData()
         });
     }

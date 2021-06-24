@@ -7,6 +7,7 @@
                             close="{{close}}"
                             theme="{{_headerTheme}}"
                             stackOptions="{{_options}}"
+                            _stackRightPanel="{{_stackRightPanel}}"
                             _maximizeButtonTitle="{{_maximizeButtonTitle}}"
                             changeMaximizedState="{{changeMaximizedState}}"
                             _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
@@ -18,13 +19,21 @@
                              on:click="changeMaximizedState()"
                              attr:title="{{_maximizeButtonTitle}}"></div>
                     </ws:if>
+                    <ws:if data="{{_options.closeButtonVisibility && !_stackRightPanel}}">
+                        <Controls._popupTemplate.CloseButton
+                           attr:class="controls-StackTemplate__close_button"
+                           attr:data-qa="controls-stack-Button__close"
+                           viewMode="{{_options.closeButtonViewMode}}"
+                           transparent="{{_options.closeButtonTransparent}}"
+                           on:click="close()"/>
+                    </ws:if>
                 </div>
             </ws:else>
 
             <div class="controls-StackTemplate__content-area">
                 <ws:partial template="{{_options.bodyContentTemplate}}"
                             scope="{{_options}}"
-                            hasRightTemplate="{{true}}"
+                            hasRightTemplate="{{!!_stackRightPanel}}"
                             bodyContentTemplate="{{null}}"
                             headerContentTemplate="{{null}}"
                             footerContentTemplate="{{null}}">  <!-- Опция с тем же названием есть на выпадающем списке.
@@ -42,9 +51,25 @@
                 </div>
             </ws:if>
         </div>
-
-        <ws:partial template="Controls/_popupTemplate/Stack/resources/RightPanel"
-                    toolbarContentTemplate="{{_options.toolbarContentTemplate}}"
-                    rightPanelOptions="{{_options.rightPanelOptions}}"/>
+        <ws:if data="{{_stackRightPanel}}">
+            <div class="controls-StackTemplate__rightPanel">
+                <Controls.buttons:Button
+                   attr:data-qa="controls-stack-Button__close"
+                   icon="icon-Close"
+                   iconStyle="label"
+                   buttonStyle="pale"
+                   iconSize="m"
+                   viewMode="functionalButton"
+                   inlineHeight="xl"
+                   tooltip="{[Закрыть]}"
+                   readOnly="{{false}}"
+                   attr:class="controls-stack-Button__close controls-stack-Button__rightPanel__close ws-flex-shrink-0"
+                   on:click="close()"
+                />
+                <Controls.Container.Async templateName="{{_stackRightPanel}}" templateOptions="{{_options.rightPanelOptions}}">
+                    <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
+                </Controls.Container.Async>
+            </div>
+        </ws:if>
     </div>
 </div>

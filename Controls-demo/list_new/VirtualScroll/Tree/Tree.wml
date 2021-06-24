@@ -9,10 +9,10 @@
                 source="{{_source}}"
                 parentProperty="parent"
                 nodeProperty="node"
-                keyProperty="key">
+                keyProperty="id">
             <ws:virtualScrollConfig pageSize="{{20}}"/>
             <ws:navigation source="position" view="infinity">
-                <ws:sourceConfig field="key" position="{{0}}" direction="forward" limit="{{20}}"/>
+                <ws:sourceConfig field="id" position="{{0}}" direction="forward" limit="{{20}}"/>
             </ws:navigation>
             <ws:columns>
                 <ws:Array>

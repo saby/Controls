@@ -17,8 +17,8 @@
             <Controls.decorator:Number value="{{ (gridColumn || colData).data }}"
                                        useGrouping="{{ true }}"
                                        fractionSize="{{ 2 }}"
-                                       fontWeight="{{fontWeight || 'bold'}}"
-                                       fontColorStyle="{{ fontColorStyle || 'secondary'}}"
+                                       attr:class="controls-fontweight-{{ fontWeight || 'bold' }}
+                                                   controls-text-{{ fontColorStyle || 'secondary' }}"
             />
         </ws:else>
         <ws:else>

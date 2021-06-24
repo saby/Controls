@@ -7,7 +7,7 @@
       bind:selectedKeys="_selectedKeys"
       tileMode="static"
       itemActions="{{_itemActions}}"
-      tileWidth="300"
+      tileWidth="410"
       imageProperty="image"
       keyProperty="id"
       source="{{_viewSource}}">

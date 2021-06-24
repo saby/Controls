@@ -1,7 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {groupConstants} from 'Controls/list';
-import {getGroupedCatalogForSwitchingGroup as getData} from '../../DemoHelpers/Data/HiddenGroup';
+import {getGroupedCatalogForSwitchingGroup as getData} from '../../data/HiddenGroup';
 import * as Template from 'wml!Controls-demo/list_new/Grouped/HiddenGroupSwitchingGroup/HiddenGroupSwitchingGroup';
 
 export default class extends Control<IControlOptions> {
@@ -17,7 +17,7 @@ export default class extends Control<IControlOptions> {
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: getData()
         });
     }

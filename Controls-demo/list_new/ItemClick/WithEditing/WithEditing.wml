@@ -9,7 +9,7 @@
     </div>
     <Controls.list:View
             attr:class="controlsDemo__margin-top"
-            keyProperty="key"
+            keyProperty="id"
             multiSelectVisibility="{{ _hasMultiSelect ? 'visible' : 'hidden'}}"
             source="{{_viewSource}}"
             itemActions="{{_itemActions}}"

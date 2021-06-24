@@ -5,7 +5,7 @@ import {generateData} from '../../../DemoHelpers/DataCatalog';
 
 interface IItem {
     title: string;
-    key: number | string;
+    id: number | string;
 }
 
 export default class extends Control {
@@ -18,14 +18,14 @@ export default class extends Control {
         return generateData({
             count: this._elementsCount,
             beforeCreateItemCallback: (item: IItem) => {
-                item.title = `Запись с идентификатором ${item.key} и каким то не очень длинным текстом`;
+                item.title = `Запись с идентификатором ${item.id} и каким то не очень длинным текстом`;
             }
         });
     }
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: this._dataArray
         });
     }
@@ -33,7 +33,7 @@ export default class extends Control {
     protected _onUpdateElementsCount() {
         this._elementsCount = this._elementsCount === 5 ? 6 : 5;
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: this._getData()
         });
     }

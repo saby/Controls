@@ -218,14 +218,14 @@ export interface IPropertyGrid {
 
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#itemActions
- * @cfg {Array.<Controls/itemActions:IItemAction>} Конфигурация опций записи.
+ * @cfg {Array.<ItemAction>} Конфигурация опций записи.
  * @demo Controls-demo/PropertyGridNew/ItemActions/Index
  */
 
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#itemActionVisibilityCallback
  * @cfg {function} Функция управления видимостью операций над записью.
- * @param {Controls/itemActions:IItemAction} action Объект с настройкой действия.
+ * @param {ItemAction} action Объект с настройкой действия.
  * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
  * @remark Если из функции возвращается true, то операция отображается.
  * @demo Controls-demo/PropertyGridNew/ItemActionVisibilityCallback/Index

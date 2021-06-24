@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__maxWidth200 controlsDemo_list-new_FooterTemplate">
-    <Controls.list:View source="{{_viewSource}}" keyProperty="key">
+    <Controls.list:View source="{{_viewSource}}" keyProperty="id">
         <ws:footerTemplate>
             <Controls.list:AddButton caption="Add record"/>
         </ws:footerTemplate>

@@ -6,19 +6,19 @@ import * as Template from 'wml!Controls-demo/list_new/MoveController/Base/Base';
 
 const data = [
    {
-      key: 0,
+      id: 0,
       title: 'Перемещение записей 1'
    },
    {
-      key: 1,
+      id: 1,
       title: 'Перемещение записей 2'
    },
    {
-      key: 2,
+      id: 2,
       title: 'Перемещение записей 3'
    },
    {
-      key: 3,
+      id: 3,
       title: 'Перемещение записей 4'
    }
 ];
@@ -33,7 +33,7 @@ export default class Mover extends Control<IControlOptions> {
 
    protected _beforeMount() {
       this._viewSource = new Memory({
-         keyProperty: 'key',
+         keyProperty: 'id',
          data
       });
 

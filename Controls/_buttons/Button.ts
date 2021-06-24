@@ -56,6 +56,10 @@ export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._contrastBackground = options.contrastBackground === undefined ?
         options.viewMode === 'functionalButton' : options.contrastBackground;
     this._viewMode = options.viewMode;
+    // todo временный костыль. Будет удален после https://online.sbis.ru/opendoc.html?guid=b10bc149-8b3a-42b6-a77a-ab021e132d99
+    if (this._viewMode === 'onlinePageHeader') {
+        this._viewMode = 'toolButton';
+    }
     this._height = options.inlineHeight ? options.inlineHeight : defaultHeight(this._viewMode);
     this._fontColorStyle = options.fontColorStyle ? options.fontColorStyle : defaultFontColorStyle(this._viewMode);
     this._fontSize = options.fontSize;
@@ -211,37 +215,21 @@ Object.defineProperty(Button, 'defaultProps', {
  * @default button
  * @demo Controls-demo/Buttons/ViewModes/Index
  * @example
- * Кнопка в режиме отображения "linkButton".
- * <pre class="brush: html; highlight: [5]">
- * <!-- WML -->
- * <Controls.buttons:Button
- *    caption="Send document"
- *    buttonStyle="primary"
- *    viewMode="linkButton"
- *    fontSize="3xl"/>
+ * Кнопка в режиме отображения 'linkButton'.
+ * <pre class="brush: html">
+ * <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="linkButton" fontSize="3xl"/>
  * </pre>
- * Кнопка в режиме отображения "toolButton".
- * <pre class="brush: html; highlight: [5]">
- * <!-- WML -->
- * <Controls.buttons:Button
- *    caption="Send document"
- *    buttonStyle="danger"
- *    viewMode="toolButton"/>
+ * Кнопка в режиме отображения 'toolButton'.
+ * <pre class="brush: html">
+ * <Controls.buttons:Button caption="Send document" buttonStyle="danger" viewMode="toolButton"/>
  * </pre>
- * Кнопка в режиме отображения "button".
- * <pre class="brush: html; highlight: [5]">
- * <!-- WML -->
- * <Controls.buttons:Button
- *    caption="Send document"
- *    buttonStyle="success"
- *    viewMode="button"/>
+ * Кнопка в режиме отображения 'button'.
+ * <pre class="brush: html">
+ * <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
  * </pre>
- * Кнопка в режиме отображения "link".
- * <pre class="brush: html; highlight: [4]">
- * <!-- WML -->
- * <Controls.buttons:Button
- *    caption="Send document"
- *    viewMode="link"/>
+ *  * Кнопка в режиме отображения 'link'.
+ * <pre class="brush: html">
+ * <Controls.buttons:Button caption="Send document" viewMode="link"/>
  * </pre>
  * @see Size
  */

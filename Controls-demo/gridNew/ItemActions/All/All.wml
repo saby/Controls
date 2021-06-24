@@ -2,7 +2,7 @@
     <div class="controlsDemo__wrapper controlsDemo__grid-itemActions-noHighlight-inside">
         <h3>Inside</h3>
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 itemActions="{{_itemActions}}"
@@ -13,7 +13,7 @@
     <div class="controlsDemo__wrapper controlsDemo__grid-itemActions-noHighlight-outside">
         <h3>Outside</h3>
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 itemActions="{{_itemActions}}"

@@ -4,13 +4,6 @@
          <Controls.buttons:Button caption="Закрыть {{_options.type  || ''}}" on:click="_close()"/>
       </div>
    </ws:headerContentTemplate>
-   <ws:toolbarContentTemplate>
-      <Controls.toolbars:View
-              source="{{_buttonsSource}}"
-              keyProperty="id"
-              direction="vertical"
-              on:itemClick="_itemClick()" />
-   </ws:toolbarContentTemplate>
    <ws:bodyContentTemplate>
       <div style="width: {{ _options.width || '700px'}}">
          <Controls.popup:Stack name="stack" template="Controls-demo/Popup/TestStack">

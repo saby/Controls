@@ -144,16 +144,7 @@ export interface IKeysDifference {
  * @author Панихин К.А.
  */
 export interface ISelectionDifference {
-   /**
-    * Изменения в выбранных элементах
-    * @typedef {IKeysDifference}
-    */
    selectedKeysDifference: IKeysDifference;
-
-   /**
-    * Изменения в исключенных элементах
-    * @typedef {IKeysDifference}
-    */
    excludedKeysDifference: IKeysDifference;
 }
 
@@ -165,3 +156,27 @@ export interface IEntryPathItem {
    id: CrudEntityKey;
    parent: CrudEntityKey;
 }
+
+/**
+ * Интерфейс описывающий опции для плоской стратегии множественного выбора
+ *
+ * @interface Controls/_multiselection/IFlatSelectionStrategy
+ * @public
+ * @author Панихин К.А.
+ */
+
+/**
+ * Интерфейс описывающий опции для контроллера множественного выбора
+ *
+ * @interface Controls/_multiselection/ISelectionController
+ * @public
+ * @author Панихин К.А.
+ */
+
+/**
+ * Интерфейс описывающий опции для деревянной стратегии множественного выбора
+ *
+ * @interface Controls/_multiselection/ITreeSelectionStrategy
+ * @public
+ * @author Панихин К.А.
+ */

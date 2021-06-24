@@ -5,7 +5,7 @@ import {generateData} from '../../DemoHelpers/DataCatalog';
 import {RecordSet} from 'Types/collection';
 
 interface IItem {
-    key: number;
+    id: number;
     title: string;
 }
 
@@ -19,12 +19,12 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: generateData<IItem>({
                 count: 20,
                 entityTemplate: {title: 'number'},
                 beforeCreateItemCallback: (item) => {
-                    item.title = `Запись #${item.key}`;
+                    item.title = `Запись #${item.id}`;
                 }
             })
         });

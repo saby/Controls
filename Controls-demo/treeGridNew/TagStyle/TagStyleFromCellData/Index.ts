@@ -4,9 +4,9 @@ import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 import {IColumn, TCellAlign} from 'Controls/grid';
 
+import {Gadgets, IData} from '../../DemoHelpers/DataCatalog';
+
 import * as template from 'wml!Controls-demo/treeGridNew/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
-import {IData} from "Controls-demo/treeGridNew/DemoHelpers/Interface";
 
 const MAXITEM = 7;
 
@@ -33,28 +33,13 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     constructor(cfg: IControlOptions) {
         super(cfg);
         this._tagStyleProperty = 'customProperty';
-        this._columns = [
-            {
-                displayProperty: 'title',
-                width: '200px'
-            },
-            {
-                displayProperty: 'rating',
-                width: '150px'
-            },
-            {
-                displayProperty: 'country',
-                width: '150px',
-                align: 'right' as TCellAlign,
-                tagStyleProperty: this._tagStyleProperty
-            }
-        ];
+        this._columns = this._getModifiedColumns();
     }
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         const data = this._getModifiedData().slice(0, MAXITEM);
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
     }
@@ -84,11 +69,33 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * @private
      */
     protected _onTagHoverCustomHandler(
-        event: Event, item: Record, columnIndex: number, nativeEvent: Event
+        event: Event, item: CollectionItem<Record>, columnIndex: number, nativeEvent: Event
     ): void {
         this._currentColumnIndex = columnIndex;
         this._currentEvent = 'hover';
-        this._currentValue = item.get('title');
+        this._currentValue = item.getContents().get('title');
+    }
+
+    /**
+     * Получаем список колонок с необходимыми настройками
+     * @private
+     */
+    private _getModifiedColumns(): IColumn[] {
+        return Gadgets.getColumnsForFlat().map((col) => {
+            col.width = '200px';
+            return col;
+        }).concat([
+            {
+                displayProperty: 'rating',
+                width: '150px'
+            },
+            {
+                displayProperty: 'country',
+                width: '150px',
+                align: 'right' as TCellAlign,
+                tagStyleProperty: this._tagStyleProperty
+            }
+        ] as IColumn[]);
     }
 
     private _getModifiedData(): IData[] {
@@ -101,7 +108,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
             'warning',
             'secondary'
         ];
-        return Flat.getData().map((cur, i) => {
+        return Gadgets.getFlatData().map((cur, i) => {
             const index = i <= (styleVariants.length - 1) ? i : i % (styleVariants.length - 1);
             return {
                 ...cur,

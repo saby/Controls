@@ -2,7 +2,7 @@
     <div class="controlsDemo__cell">
         <Controls.scroll:Container attr:style="width: 600px">
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
                     columnScroll="{{true}}"
@@ -19,7 +19,7 @@
     <div class="controlsDemo__cell">
         <Controls.scroll:Container attr:style="width: 600px">
             <Controls.grid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns2}}"
                     columnScroll="{{true}}"

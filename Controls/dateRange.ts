@@ -26,13 +26,9 @@ export {default as RangeShortSelectorConsumer} from './_dateRange/RangeShortSele
 export {IDateRangeSelectableOptions, IRangeSelectableOptions, TSelectionType} from 'Controls/_dateRange/interfaces/IDateRangeSelectable';
 export {IDateRangeOptions} from 'Controls/_dateRange/interfaces/IDateRange';
 import IDateRangeSelectable = require('Controls/_dateRange/interfaces/IDateRangeSelectable');
-import * as MonthCaptionTemplate from 'wml!Controls/_dateRange/DateSelector/monthCaptionTemplate';
 export {default as ICaptionFormatter} from 'Controls/_dateRange/interfaces/ICaptionFormatter';
 
-export {
-    IDateRangeSelectable,
-    MonthCaptionTemplate
-};
+export {IDateRangeSelectable};
 
 /**
  * Библиотека контролов, которые служат для отображения диапазона дат и выбора дат из выпадающей панели.

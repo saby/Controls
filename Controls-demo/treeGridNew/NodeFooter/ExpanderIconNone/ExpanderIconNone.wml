@@ -4,7 +4,7 @@
             <div class="controls-text-label">Все элементы дерева - узлы, иконка разворота скрыта. <br/>Конфигурация на контроле.</div>
 
             <Controls.treeGrid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     name="tree1"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
@@ -20,7 +20,7 @@
             <div class="controls-text-label">Все элементы дерева - узлы, иконка разворота скрыта. <br/>Конфигурация на шаблоне.</div>
 
             <Controls.treeGrid:View
-                    keyProperty="key"
+                    keyProperty="id"
                     name="tree2"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
@@ -44,7 +44,7 @@
         <div class="controls-text-label">Без иерархического оступа</div>
 
         <Controls.treeGrid:View
-                keyProperty="key"
+                keyProperty="id"
                 name="tree3"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
@@ -66,7 +66,7 @@
     <div class="controlsDemo__cell">
         <div class="controls-text-label">Нестандартный размер отступов от экспандера</div>
         <Controls.treeGrid:View
-                keyProperty="key"
+                keyProperty="id"
                 name="tree4"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"

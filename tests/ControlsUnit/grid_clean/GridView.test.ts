@@ -30,38 +30,6 @@ describe('Controls/grid_clean/GridView', () => {
             await gridView._beforeMount(gridOptions);
             assert.strictEqual(gridView.getListModel().getVersion(), 0, 'Version must be equals zero! No other variants!');
         });
-
-        it('componentDidMount: should forbid colspan groups if column scroll was shown.', async () => {
-            const collectionOptions = {
-                keyProperty: 'key',
-                columns: [{}],
-                collection: new RecordSet({
-                    rawData: [{key: 1, title: 'item_1'}],
-                    keyProperty: 'key'
-                })
-            };
-            const gridOptions = {
-                keyProperty: 'key',
-                columns: [{}],
-                itemPadding: {},
-                columnScroll: true,
-                listModel: new GridCollection(collectionOptions),
-            };
-            const gridView = new GridView(gridOptions);
-
-            // MOCK COLUMN SCROLL MIXIN. IT WORKS WITH DOM.
-            gridView._columnScrollOnViewBeforeMount = () => {};
-            gridView._columnScrollOnViewDidMount = () => {};
-            // EMULATE THAT COLUMN SCROLL NEEDED AND CREATED
-            gridView.isColumnScrollVisible = () => true;
-            // END MOCK
-
-            await gridView._beforeMount(gridOptions);
-            gridView.saveOptions(gridOptions);
-            assert.isTrue(gridView.getListModel().getColspanGroup());
-            gridView._componentDidMount();
-            assert.isFalse(gridView.getListModel().getColspanGroup());
-        });
     });
 
     describe('ColumnScroll', () => {

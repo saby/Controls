@@ -2,7 +2,7 @@
     <div class="controlsDemo__wrapper controlsDemo_wrapper-treeGrid-itemActions-noHighlight-inside demo-treeGridItemActions__inside">
         <h3>Inside</h3>
         <Controls.treeGrid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 parentProperty="parent"
@@ -16,7 +16,7 @@
     <div class="controlsDemo__wrappercontrolsDemo_wrapper-treeGrid-itemActions-noHighlight-inside demo-treeGridItemActions__outside">
         <h3>Outside</h3>
         <Controls.treeGrid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 parentProperty="parent"

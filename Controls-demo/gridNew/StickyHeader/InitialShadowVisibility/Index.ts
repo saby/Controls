@@ -20,7 +20,7 @@ export default class extends Control {
             return {...it, group: Math.round(index / 10)};
         });
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: this._dataArray
         });
         this._slowDownSource(this._viewSource, 2000);

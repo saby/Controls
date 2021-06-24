@@ -10,18 +10,18 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: [
                 {
-                    key: 1,
+                    id: 1,
                     title: 'Асинхронная обработка перед установкой маркера'
                 },
                 {
-                    key: 2,
+                    id: 2,
                     title: 'Асинхронная обработка перед установкой маркера'
                 },
                 {
-                    key: 3,
+                    id: 3,
                     title: 'Асинхронная обработка перед установкой маркера'
                 }
             ]

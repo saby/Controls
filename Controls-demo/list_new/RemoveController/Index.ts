@@ -11,37 +11,37 @@ import {IRemovableList} from 'Controls/list';
 import {RemoveDemoSource} from './RemoveDemoSource';
 import * as template from 'wml!Controls-demo/list_new/RemoveController/RemoveController';
 
-const data: Array<{key: number, title: string}> = [
+const data: Array<{id: number, title: string}> = [
    {
-      key: 0,
+      id: 0,
       title: 'Стандартное удаление записи'
    },
    {
-      key: 1,
+      id: 1,
       title: 'Стандартное удаление записи'
    },
    {
-      key: 2,
+      id: 2,
       title: 'Стандартное удаление записи'
    },
    {
-      key: 3,
+      id: 3,
       title: 'Стандартное удаление записи'
    },
    {
-      key: 4,
+      id: 4,
       title: 'Стандартное удаление записи'
    },
    {
-      key: 5,
+      id: 5,
       title: 'Удаление записи с вопросом'
    },
    {
-      key: 6,
+      id: 6,
       title: 'Удаление записи с ошибкой'
    },
    {
-      key: 7,
+      id: 7,
       title: 'Долгое удаление записи'
    }
 ];
@@ -57,7 +57,7 @@ export default class RemoveControllerDemo extends Control {
 
    protected _beforeMount(options?: {}, contexts?: object, receivedState?: void): Promise<void> | void {
       this._viewSource = new RemoveDemoSource({
-         keyProperty: 'key',
+         keyProperty: 'id',
          data: cClone(data)
       });
       const removeItemsOnDeleteKeyDown = this._removeItemsOnDeleteKeyDown.bind(this);

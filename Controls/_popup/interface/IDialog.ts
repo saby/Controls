@@ -30,7 +30,7 @@ export interface IDialogOpener extends IOpener {
 }
 
 /**
- * @typedef {Object} Controls/_popup/interface/IDialogOpener/IResizeDirection
+ * @typedef {Object} IResizeDirection
  * @property {String} vertical
  * @property {String} horizontal
  */
@@ -79,7 +79,7 @@ export interface IResizeDirection {
  */
 /**
  * @name Controls/_popup/interface/IDialogOpener#resizeDirection
- * @cfg {Controls/_popup/interface/IDialogOpener/IResizeDirection.typedef} Направление, в котором попап будет увеличиваться при динамическом изменении размеров контента.
+ * @cfg {IResizeDirection} Направление, в котором попап будет увеличиваться при динамическом изменении размеров контента.
  * В этом случае противоположная сторона будет зафиксирована и не изменит свою позицию относительно окна браузера.
  * @demo Controls-demo/Popup/Dialog/ResizeDirection/Index
  */

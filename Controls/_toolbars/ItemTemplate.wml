@@ -1,6 +1,6 @@
 <div class="controls-Toolbar__item
             controls-Toolbar__item{{buttonTemplateOptions.readOnly ? '_readOnly'}}
-            {{!isFirstItem ? 'controls-Toolbar__item_' + direction + '-spacing_' + itemsSpacing}}"
+            {{!isFirstItem ? 'controls-Toolbar__item_spacing_' + itemsSpacing}}"
      title="{{item.tooltip}}">
    <ws:partial template="{{buttonTemplate}}"
                scope="{{buttonTemplateOptions}}"

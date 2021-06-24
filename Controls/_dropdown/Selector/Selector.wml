@@ -7,7 +7,9 @@
                               on:mouseleave="_handleMouseLeave()"
                               on:keydown="_handleKeyDown()"
                               on:deactivated="_deactivated()"
-                              attr:class="controls-Dropdown">
+                              attr:class="controls-Dropdown
+                                         {{(_options.validationStatus === 'invalid' || _options.validationStatus === 'invalidAccent') && !_options.readOnly ?
+                                          'controls-Dropdown-validationStatus_invalid'}}">
     <ws:content>
         <ws:partial template="{{_options.contentTemplate || _defaultContentTemplate}}"
                     item="{{_item}}"
@@ -20,7 +22,6 @@
                     countItems="{{_countItems}}"
                     hasMoreText="{{_hasMoreText}}"
                     isEmptyItem="{{_isEmptyItem && !_options.multiSelect}}"
-                    validationStatus="{{_options.validationStatus}}"
                     readOnly="{{_options.readOnly}}"
                     footerTemplate="{{_options.footerTemplate || _options.footerContentTemplate}}"/>
     </ws:content>

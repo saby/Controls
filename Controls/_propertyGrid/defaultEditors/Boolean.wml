@@ -1,1 +1,1 @@
-<Controls.toggle:Checkbox attr:class="controls-Input_negativeOffset" on:valueChanged="_valueChanged()" value="{{value}}"></Controls.toggle:Checkbox>
+<Controls.toggle:Checkbox on:valueChanged="_valueChanged()" value="{{value}}"></Controls.toggle:Checkbox>

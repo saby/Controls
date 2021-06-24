@@ -1,11 +1,11 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <Controls.list:View
-            keyProperty="key"
+            keyProperty="id"
             name="list"
             source="{{_viewSource}}"
-            groupProperty="brand"
-            editingConfig="{{_editingConfig}}"
-            on:beforeBeginEdit="_onBeforeBeginEdit()">
+            on:beforeBeginEdit="_onBeforeBeginEdit()"
+            groupingKeyCallback="{{_groupingKeyCallback}}"
+            editingConfig="{{_editingConfig}}">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
@@ -18,7 +18,7 @@
             </ws:partial>
         </ws:itemTemplate>
         <ws:footerTemplate>
-            <Controls.list:AddButton caption="Add record to '{{_activeGroup}}'" on:click="_beginAdd()" attr:style="margin-right: 20px"/>
+            <Controls.list:AddButton caption="Add record" on:click="_beginAdd()" attr:style="margin-right: 20px"/>
             <Controls.buttons:Button on:click="_setPosition('top')"
                                      buttonStyle="{{ _addPosition === 'top' ? 'primary' : 'secondary' }}"
                                      caption="Add position: TOP" attr:style="margin-right: 10px"

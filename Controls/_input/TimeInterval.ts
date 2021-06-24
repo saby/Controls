@@ -17,11 +17,12 @@ type IOptions = IModelOptions;
  *
  * @class Controls/_input/TimeInterval
  * @extends Controls/_input/Base
+ * @ignoreOptions Controls/_input/Base#value
+ *
  * @mixes Controls/input:ITimeInterval
  *
- * @ignoreoptions Controls/input:Base#value
- * @ignoreoptions Controls/input:Base#placeholder
- * 
+ * @ignoreOptions Controls/_input/Base#placeholder
+ *
  * @public
  * @demo Controls-demo/Input/TimeInterval/Base/Index
  *

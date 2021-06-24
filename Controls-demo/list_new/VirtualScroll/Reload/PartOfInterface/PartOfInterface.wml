@@ -10,7 +10,7 @@
         <Controls.list:View
                 name="list"
                 source="{{_source}}"
-                keyProperty="key">
+                keyProperty="id">
         </Controls.list:View>
     </Controls.scroll:Container>
     <div class="demo-VirtualScroll__reloadList ws-link controlsDemo__mb1" on:click="_reloadList()">

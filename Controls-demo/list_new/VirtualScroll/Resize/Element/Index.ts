@@ -5,7 +5,7 @@ import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
 import 'Controls-demo/list_new/VirtualScroll/Resize/Element/ExpandingElement';
 
 interface IItem {
-    key: number;
+    id: number;
     title: string;
     template?: string;
 }
@@ -17,16 +17,16 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._source = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: generateData<IItem>({
                 count: 10,
                 entityTemplate: {title: 'number'},
                 beforeCreateItemCallback(item: IItem): void {
-                    if (item.key === 1) {
+                    if (item.id === 1) {
                         item.template = 'Controls-demo/list_new/VirtualScroll/Resize/Element/ExpandingElement';
                     }
 
-                    item.title = `Запись #${item.key}`;
+                    item.title = `Запись #${item.id}`;
                 }
             })
         });

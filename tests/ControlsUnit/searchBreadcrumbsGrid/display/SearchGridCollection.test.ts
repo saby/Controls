@@ -96,6 +96,13 @@ describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
       });
    });
 
+   describe('hasNodeWithChildren', () => {
+      it('always is false', () => {
+         assert.isNotOk(searchGridCollection.hasNodeWithChildren());
+         assert.isNotOk(searchGridCollection.at(1).hasNodeWithChildren());
+      });
+   });
+
    it('Should create results when root contains single item', () => {
       // При наличии в корне единственного узла (даже если он развернут и у него есть дочерние элементы) - не
       // должны создаваться results.

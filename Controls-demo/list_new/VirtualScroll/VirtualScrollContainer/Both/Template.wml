@@ -11,7 +11,7 @@
         <Controls.list:View
                 name="list"
                 source="{{_source}}"
-                keyProperty="key">
+                keyProperty="id">
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig page="{{0}}" pageSize="{{20}}" hasMore="{{false}}"/>
                 <ws:viewConfig pagingMode="edge"/>

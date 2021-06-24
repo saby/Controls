@@ -1,6 +1,6 @@
 <ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
     <ws:contentTemplate>
-        <ws:partial template="Controls/list:EditingTemplate" scope="{{ _options }}">
+        <ws:partial template="Controls/list:BaseEditingTemplate" scope="{{ _options }}">
             <ws:viewTemplate>{{ item.contents.get('invoice') }}</ws:viewTemplate>
             <ws:editorTemplate>
                 <div>
@@ -19,7 +19,7 @@
                                     selectedKey="{{selectedKey}}"
                                     on:selectedKeyChanged="onChange2()"
                                     contrastBackground="{{true}}"
-                                    keyProperty="key"
+                                    keyProperty="id"
                                     displayProperty="title"
                                     source="{{documentSignMemory}}"/>
                         </div>

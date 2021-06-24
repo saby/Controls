@@ -1,7 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
 
-import {getGroupedCatalog as getData} from '../../DemoHelpers/Data/Groups';
+import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
 
 import * as Template from 'wml!Controls-demo/list_new/Grouped/ContentTemplate/ContentTemplate';
 
@@ -11,7 +11,7 @@ export default class extends Control<IControlOptions> {
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: getData()
         });
     }

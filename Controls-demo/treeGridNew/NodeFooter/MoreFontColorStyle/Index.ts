@@ -1,14 +1,14 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeFooter/MoreFontColorStyle/MoreFontColorStyle';
 import {HierarchicalMemory} from 'Types/source';
+import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {IColumn} from 'Controls/grid';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[] = Flat.getColumns();
+    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
 
     private _expandedItems1 = [];
     private _expandedItems2 = [];
@@ -37,10 +37,10 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: [
                 {
-                    key: 1,
+                    id: 1,
                     title: 'Apple',
                     country: 'США',
                     rating: '8.5',
@@ -48,7 +48,7 @@ export default class extends Control {
                     type: true
                 },
                 {
-                    key: 11,
+                    id: 11,
                     title: 'Notebooks',
                     country: 'США',
                     rating: '8.5',
@@ -56,7 +56,7 @@ export default class extends Control {
                     type: false
                 },
                 {
-                    key: 12,
+                    id: 12,
                     title: 'IPhones',
                     country: 'США',
                     rating: '8.5',
@@ -64,7 +64,7 @@ export default class extends Control {
                     type: false
                 },
                 {
-                    key: 121,
+                    id: 121,
                     title: 'IPhone XS',
                     country: 'США',
                     rating: '8.5',
@@ -72,7 +72,7 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    key: 122,
+                    id: 122,
                     title: 'IPhone X',
                     country: 'США',
                     rating: '8.5',
@@ -80,7 +80,7 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    key: 123,
+                    id: 123,
                     title: 'IPhone XS Max',
                     country: 'США',
                     rating: '8.5',
@@ -88,7 +88,7 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    key: 124,
+                    id: 124,
                     title: 'IPhone 8',
                     country: 'США',
                     rating: '8.5',
@@ -96,7 +96,7 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    key: 13,
+                    id: 13,
                     title: 'iPad Air 2015',
                     country: 'США',
                     rating: '8.5',
@@ -104,7 +104,7 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    key: 14,
+                    id: 14,
                     title: 'iPad Air 2017',
                     country: 'США',
                     rating: '8.5',

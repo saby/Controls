@@ -10,7 +10,7 @@ import ComponentWrapper from './ComponentWrapper';
 import {Control as control} from 'UI/Base';
 import clone = require('Core/core-clone');
 import makeInstanceCompatible = require('Core/helpers/Hcontrol/makeInstanceCompatible');
-import { Synchronizer } from 'UI/Vdom'
+import Vdom = require('Vdom/Vdom');
 import Deferred = require('Core/Deferred');
 import {constants} from 'Env/Env';
 import {StackStrategy} from 'Controls/popupTemplate';
@@ -497,8 +497,50 @@ const moduleClass = CompoundControl.extend({
       this._isVDomTemplateMounted = true;
       this.getContainer().unbind('keydown', this._keydownHandler);
       if (this._vDomTemplate) {
-         Synchronizer.unMountControlFromDOM(this._vDomTemplate, this._vDomTemplate._container);
+         const
+            self = this,
+            Sync = Vdom.Synchronizer;
+
+         Sync.unMountControlFromDOM(this._vDomTemplate, this._vDomTemplate._container);
+
+         // Временное решение для очистки памяти. Вдомные контролы при вызове unMountControlFromDOM
+         // уничтожаются (destroy) синхронно, но удаляются из DOM через инферно асинхронно.
+         // При этом CompoundArea лежит внутри FloatArea на старой странице. Когда FloatArea
+         // уничтожается, она уничтожает CompoundArea, и чистит свой контейнер через remove.
+         // Соответственно инферно нечего удалять из DOM, так как удалены родители корневой
+         // vdom-ноды. Из-за этого не чистятся различные вдомные свойства контейнеров: controlNodes,
+         // eventProperties, ...
+         //
+         // У нас нет ссылок на эти элементы, но сборщик мусора хрома все равно не собирает их
+         // (либо профилировщик показывает, что они не собраны). Для того, чтобы этот мусор собрался,
+         // нужно почистить все добавленные vdom-ом свойства на элементах.
+         //
+         // Более правильное решение будет придумываться по ошибке:
+         // https://online.sbis.ru/opendoc.html?guid=37e1cf9f-913d-4c96-b73a-effc3a5fba92
+         setTimeout(function() {
+            self._clearVdomProperties(self._vDomTemplate._container);
+            self._vdomTemplate = null;
+         }, 3000);
       }
+   },
+   _clearVdomProperties(container) {
+      const children = (container[0] || container).getElementsByTagName('*');
+
+      for (let i = 0; i < children.length; i++) {
+         const c = children[i];
+
+         delete c.controlNodes;
+         delete c.eventProperties;
+         delete c.eventPropertiesCnt;
+         delete c.$EV;
+         delete c.$V;
+      }
+
+      delete container.controlNodes;
+      delete container.eventProperties;
+      delete container.eventPropertiesCnt;
+      delete container.$EV;
+      delete container.$V;
    },
 
    _forceUpdate() {

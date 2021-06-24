@@ -22,9 +22,12 @@ define(
          });
 
          it('getHistorySource isServerSide', function() {
+            var isServerSide = Env.constants.isServerSide;
+            Env.constants.isServerSide = true;
             var hSource = filter.HistoryUtils.getHistorySource({historyId: historyId});
             var hSource2 = filter.HistoryUtils.getHistorySource({historyId: historyId});
-            assert.isTrue(hSource === hSource2);
+            assert.isTrue(hSource !== hSource2);
+            Env.constants.isServerSide = isServerSide;
          });
 
          it('prependNewItems', function() {

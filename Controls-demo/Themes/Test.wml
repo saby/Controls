@@ -1,0 +1,14 @@
+<div class="ws-flexbox ws-flex-column">
+   <div class="ws-flexbox">
+      Введите название первой своей темы:
+      <Controls.input:Text name="myInputText1" bind:value="theme1"/>
+   </div>
+   <div class="ws-flexbox">
+      Введите название второй своей темы:
+      <Controls.input:Text name="myInputText2" bind:value="theme2"/>
+      <div on:click="changeTheme()">ВКЛЮЧИТЬ МОИ ТЕМЫ</div>
+   </div>
+
+   <div on:click="doReqList()">Сдеалть require(ListView)</div>
+
+</div>

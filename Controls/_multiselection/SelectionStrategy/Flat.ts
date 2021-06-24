@@ -56,7 +56,16 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
    }
 
    selectAll(selection: ISelection, limit?: number): ISelection {
-      return {selected: [ALL_SELECTION_VALUE], excluded: []};
+      const newSelection = {selected: [], excluded: []};
+
+      // если задан лимит, то важно сохранить исключенные записи,
+      // чтобы при отметке +10 записей, отметка началась с последней отмеченной записи
+      if (limit) {
+         newSelection.excluded = clone(selection.excluded);
+      }
+
+      newSelection.selected.push(ALL_SELECTION_VALUE);
+      return newSelection;
    }
 
    unselectAll(selection: ISelection): ISelection {

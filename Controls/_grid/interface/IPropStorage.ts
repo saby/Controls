@@ -7,7 +7,8 @@
 export interface IPropStorage {
    /**
     * @cfg {String} Уникальный идентификатор, по которому в хранилище данных будет сохранена конфигурация контрола.
-    * @remark В {@link /doc/platform/developmentapl/interface-development/controls/list/ списочных контролах}, в том числе {@link Controls/grid:SortingSelector}, такое хранилище используется для сохранения выбранной {@link /doc/platform/developmentapl/interface-development/controls/list/sorting/ сортировки}.
+    * @remark В списочных контролах такое хранилище используется для сохранения выбранной сортировки.
+    * Подробнее о настройке сортировки читайте {@link Controls/list:ISorting#sorting здесь}.
     */
    propStorageId?: string;
 }

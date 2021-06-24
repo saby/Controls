@@ -49,97 +49,6 @@ define(
                });
             });
          });
-
-         describe('keyDownHandler propagation', function() {
-            afterEach(function() {
-               sinon.restore();
-            });
-
-            it('shouldn\'t stopPropagation keyDown event if caret in the end of the line (press ArrowDown).', function () {
-               let event = new SyntheticEvent({
-                  ctrlKey: false,
-                  altKey: false,
-                  shiftKey: false,
-                  key: 'ArrowDown'
-               });
-               const stubPropagation = sinon.stub(event, 'stopPropagation');
-               ctrl._viewModel = {
-                  selection: {
-                     end: 0
-                  },
-                  displayValue: ''
-               };
-               sinon.stub(ctrl, '_isTextSelected').returns(false);
-
-               ctrl._keyDownHandler(event);
-               assert.isTrue(stubPropagation.notCalled);
-            });
-
-            it('should not stopPropagation keyDown event if caret in the start of the line (press ArrowUp).', function () {
-               let event = new SyntheticEvent({
-                  ctrlKey: false,
-                  altKey: false,
-                  shiftKey: false,
-                  key: 'ArrowUp'
-               });
-               const stubPropagation = sinon.stub(event, 'stopPropagation');
-               ctrl._viewModel = {
-                  selection: {
-                     start: 0
-                  },
-                  displayValue: ''
-               };
-               sinon.stub(ctrl, '_isTextSelected').returns(false);
-
-               ctrl._keyDownHandler(event);
-               assert.isTrue(stubPropagation.notCalled);
-            });
-
-            it('should stopPropagation keyDown event if caret in the center of the line (press ArrowDown).', function () {
-               let event = new SyntheticEvent({
-                  ctrlKey: false,
-                  altKey: false,
-                  shiftKey: false,
-                  key: 'ArrowDown'
-               });
-               const stubPropagation = sinon.stub(event, 'stopPropagation');
-               ctrl._options.newLineKey = 'Arrow';
-               ctrl._viewModel = {
-                  selection: {
-                     start: 2,
-                     end: 2
-                  },
-                  displayValue: ''
-               };
-               sinon.stub(ctrl, '_isTextSelected').returns(false);
-
-               ctrl._keyDownHandler(event);
-               assert.isTrue(stubPropagation.calledOnce);
-            });
-
-            it('should stopPropagation keyDown event if text selection (press ArrowDown).', function () {
-               let event = new SyntheticEvent({
-                  ctrlKey: false,
-                  altKey: false,
-                  shiftKey: false,
-                  key: 'ArrowDown'
-               });
-               const stubPropagation = sinon.stub(event, 'stopPropagation');
-               ctrl._options.newLineKey = 'Arrow';
-               ctrl._viewModel = {
-                  selection: {
-                     start: 1,
-                     end: 2
-                  },
-                  displayValue: ''
-               };
-               sinon.stub(ctrl, '_isTextSelected').returns(false);
-
-               ctrl._keyDownHandler(event);
-               assert.isTrue(stubPropagation.calledOnce);
-            });
-         });
-
          describe('Move to new line', function() {
             var event;
             var preventDefault = function() {
@@ -149,20 +58,8 @@ define(
 
             beforeEach(function() {
                ctrl.paste = ProxyCall.apply(ctrl.paste, 'paste', calls, true);
-               ctrl._viewModel = {
-                  selection: {
-                     end: 1,
-                     start: 0
-                  },
-                  displayValue: 'test'
-               };
-               sinon.stub(ctrl, '_isTextSelected').returns(true);
                preventDefault = ProxyCall.apply(preventDefault, 'preventDefault', calls, true);
                stopPropagation = ProxyCall.apply(stopPropagation, 'stopPropagation', calls, true);
-            });
-
-            afterEach(function() {
-               sinon.restore();
             });
 
             it('The option newLineKey is equal to enter. Press enter.', function() {

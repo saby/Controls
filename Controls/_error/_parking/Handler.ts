@@ -27,7 +27,7 @@ export interface ViewConfig<TOptions = object> { // tslint:disable-line:interfac
  * @public
  * @author Северьянов А.А.
  */
-export type Handler<TOptions = object> = (config: unknown) => ViewConfig<TOptions> | void;
+export type Handler<TOptions = object> = (config: any) => ViewConfig<TOptions> | void;
 
 /**
  * Обработчик парковочной

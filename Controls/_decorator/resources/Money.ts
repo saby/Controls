@@ -5,7 +5,6 @@ import {IFontWeightOptions} from 'Controls/_interface/IFontWeight';
 import {IFontSizeOptions} from 'Controls/_interface/IFontSize';
 import {ITooltipOptions} from 'Controls/_interface/ITooltip';
 import {INumberFormatOptions} from 'Controls/_interface/INumberFormat';
-import {IOnlyPositiveOptions} from 'Controls/_decorator/interfaces/IOnlyPositive';
 
 import {abbreviateNumber, correctNumberValue} from 'Controls/_decorator/resources/Formatter';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
@@ -23,19 +22,18 @@ type TAbbreviationType = 'long' | 'none';
 type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
 type TCurrencyPosition = 'right' | 'left';
 type TCurrencySize = '2xs' | 'xs' | 's' | 'm' | 'l';
-type TUnderline = 'hovered' | 'none';
-type TPrecision = 0 | 2;
 
 export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions,
-    IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions, IOnlyPositiveOptions {
+    IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
     value: TValue;
     abbreviationType?: TAbbreviationType;
     currency?: TCurrency;
     currencySize?: TCurrencySize;
     currencyPosition?: TCurrencyPosition;
-    underline?: TUnderline;
-    precision?: TPrecision;
 }
+
+const FRACTION_LENGTH: number = 2;
+const ZERO_FRACTION_PATH: string = '0'.repeat(FRACTION_LENGTH);
 
 export function calculateMainClass(underline: string, style: string): string {
     return 'controls-DecoratorMoney' + `${underline === 'hovered' ? ' controls-DecoratorMoney__underline' : ''}
@@ -102,18 +100,12 @@ export function calculateTooltip(formattedNumber: object, options: IMoneyOptions
     return formattedNumber.number;
 }
 
-export function isDisplayFractionPath(value: string, showEmptyDecimals: boolean, precision: number): boolean {
-    return (showEmptyDecimals || value !== '.00') && !!precision;
+export function isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
+    return showEmptyDecimals || value !== '.00';
 }
 
-export function calculateFormattedNumber(
-    value: TValue,
-    useGrouping: boolean,
-    abbreviationType: TAbbreviationType,
-    precision: number,
-    onlyPositive: boolean
-): string | IPaths {
-    const formattedValue = toFormat(toString(value, precision), precision);
+export function calculateFormattedNumber(value: TValue, useGrouping: boolean, abbreviationType: TAbbreviationType): string | IPaths {
+    const formattedValue = toFormat(toString(value));
 
     let [integer, fraction] = splitValueIntoParts(formattedValue);
 
@@ -123,7 +115,7 @@ export function calculateFormattedNumber(
         integer = useGrouping ? splitIntoTriads(integer) : integer;
     }
 
-    integer = correctNumberValue(integer, onlyPositive);
+    integer = correctNumberValue(integer);
 
     return {
         integer,
@@ -132,32 +124,26 @@ export function calculateFormattedNumber(
     };
 }
 
-function toFormat(value: string, precision: number): string {
+function toFormat(value: string): string {
     const dotPosition = value.indexOf('.');
 
     if (dotPosition === -1) {
-        return value + (precision ? '.00' : '');
-    }
-
-    if (!precision) {
-        return value.substr(0, dotPosition);
+        return value + `.${ZERO_FRACTION_PATH}`;
     }
 
     const fractionLength = value.length - dotPosition - 1;
-    if (fractionLength < precision) {
-        return value + '0'.repeat(precision - fractionLength);
-    }
-
-    if (fractionLength > precision) {
-        return value.substr(0, dotPosition + precision + 1);
+    if (fractionLength < FRACTION_LENGTH) {
+        return value + '0'.repeat(FRACTION_LENGTH - fractionLength);
+    } else if (fractionLength > FRACTION_LENGTH) {
+        return value.substr(0, dotPosition + FRACTION_LENGTH + 1);
     }
 
     return value;
 }
 
-function toString(value: TValue, precision: number): string {
+function toString(value: TValue): string {
     if (value === null) {
-        return '0' + (precision ? '.00' : '');
+        return '0.' + ZERO_FRACTION_PATH;
     }
     if (typeof value === 'number') {
         return numberToString(value);

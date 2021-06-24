@@ -1,12 +1,11 @@
 <div class="controlsDemo__wrapper">
     <Controls.treeGrid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
             parentProperty="parent"
-            nodeProperty="type"
-            colspanCallback="{{_colspanCallback}}"
-    >
+            colspanCallback="{{ _colspanCallback }}"
+            nodeProperty="type">
         <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}"/>
     </Controls.treeGrid:View>
 </div>

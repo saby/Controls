@@ -1,8 +1,3 @@
-/**
- * Модуль с функциями без классов.
- * @module
- */
-
 import cInstance = require('Core/core-instance');
 import {getDimensions} from 'Controls/sizeUtils';
 import {getGapFixSize, POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyBlock/Utils';
@@ -77,15 +72,23 @@ function getCenterOffset(parentElement: HTMLElement, element: HTMLElement): numb
 }
 
 /**
- * Позволяет проскроллить содержимое, находящееся внутри родительского скролл-контейнера, к выбранному элементу, сделав его видимым.
- * @param {HTMLElement} element DOM-элемент, к которому нужно проскроллить содержимое.
- * @param {boolean} toBottomOrPosition Определяет, должен ли быть виден нижний край контейнера. Допустимые значения: top, bottom, center.
+ * Тип данных для позиции к которой можно подскролить
+ * @typedef {string | } TPosition
+ * @variant top
+ * @variant center
+ * @variant bottom
+ */
+
+/**
+ * Модуль возвращает функцию, которая позволяет проскроллить содержимое, находящееся внутри родительского скролл-контейнера, к выбранному элементу, сделав его видимым.
+ * @param {HTMLElement} element DOM-элемент, к которому нужно проскроллить содержимое
+ * @param {boolean|TPosition} toBottomOrPosition определяет, должен ли быть виден нижний край контейнера
  * @param {boolean} force
- * * true - позволяет прокручивать элемент вверх/вниз в области прокрутки, безоговорочно.
- * * false - элемент будет прокручиваться только в случае, если он частично или полностью скрыт за пределами области прокрутки.
+ * @variant true позволяет прокручивать элемент вверх/вниз в области прокрутки, безоговорочно.
+ * @variant false элемент будет прокручиваться только в случае, если он частично или полностью скрыт за пределами области прокрутки.
  *
  * @example
- * <pre class="brush: js">
+ * <pre>
  * require(['Controls/Utils/scrollToElement'], function(scrollToElement) {
  *    class Component extends Control {
  *       _onClick() {
@@ -94,6 +97,9 @@ function getCenterOffset(parentElement: HTMLElement, element: HTMLElement): numb
  *    }
  * });
  * </pre>
+ * @class Controls/Utils/scrollToElement
+ * @public
+ * @author Красильников А.С.
  */
 
 export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boolean | SCROLL_POSITION, force?: Boolean): void {

@@ -1,4 +1,4 @@
-define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resources/Number'], function(Executor, Number) {
+define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resources/Number'], function (Executor, Number) {
    var filename = 'Controls/_decorator/Number';
    var thelpers = Executor.TClosure;
    var templateFunction = function Controls__decorator_Number_Number(data, attr, context, isVdom, sets, forceCompatible, generatorConfig) {
@@ -62,7 +62,6 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
  * @class Controls/_decorator/Number
  * @extends UI/Base:Control
  * @mixes Controls/decorator:INumber
- * @implements Controls/decorator:IOnlyPositive
  * @public
  * @demo Controls-demo/Decorator/Number/Index
  *
@@ -110,13 +109,6 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
  */
 
 /**
- * @name Controls/_decorator/INumber#underline
- * @cfg {Controls/_decorator/INumber/TUnderline.typedef} Вариант подчеркивания.
- * @default none
- * @demo Controls-demo/Decorator/Number/Underline/Index
- */
-
-/**
  * Тип данных для форматируемого значения
  * @typedef {string|number|null} Controls/_decorator/INumber/TValue
  */
@@ -126,13 +118,6 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
  * @typedef {string} Controls/_decorator/INumber/TAbbreviationType
  * @variant short
  * @variant long
- * @variant none
- */
-
-/**
- * Тип данных для подчеркивания
- * @typedef {string} Controls/_decorator/INumber/TUnderline
- * @variant hovered
  * @variant none
  */
 

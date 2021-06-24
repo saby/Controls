@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__inline-flex">
-        <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="key" bind:filter="_filter"
+        <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter"
                                      searchParam="country" minSearchLength="{{3}}">
             <div class="ws-fragment">
                 <Controls.search:InputContainer>
@@ -8,7 +8,7 @@
                 </Controls.search:InputContainer>
                 <Controls.list:Container>
                     <Controls.grid:View
-                            keyProperty="key"
+                            keyProperty="id"
                             source="{{_viewSource}}"
                             columns="{{_columns}}"/>
                 </Controls.list:Container>

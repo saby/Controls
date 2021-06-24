@@ -3,7 +3,6 @@ import {Model} from 'Types/entity';
 import {ISelectionObject, TKey} from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
-import {error as dataSourceError} from 'Controls/dataSource';
 import {object} from 'Types/util';
 import {merge} from 'Types/object';
 
@@ -206,12 +205,7 @@ export default class OperationsController {
             selection: actionParams.selection,
             target: actionParams.target
         });
-        const result = new actionModule(actionOptions).execute(actionOptions);
-        if (result instanceof Promise) {
-            result.catch((error) => {
-                dataSourceError.process({error});
-            });
-        }
+        new actionModule(actionOptions).execute(actionOptions);
     }
 
     private _getRegister(): RegisterClass {

@@ -11,7 +11,7 @@
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/Header/HeaderVisibility/DefaultAndResult/Index' }}">
-            <a href="{{content.href}}">Заголовок колонок не отображается + не отображается результат</a>
+            <a href="{{content.href}}">Заголовок колонок не отображается + отображается результат</a>
         </Router.router:Reference>
         <Controls-demo.gridNew.Header.HeaderVisibility.DefaultAndResult.Index/>
     </div>
@@ -28,7 +28,7 @@
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/Header/HeaderVisibility/VisibleAndResult/Index' }}">
-            <a href="{{content.href}}">Заголовок колонок отображается + не отображается результат</a>
+            <a href="{{content.href}}">Заголовок колонок отображается + отображается результат</a>
         </Router.router:Reference>
         <Controls-demo.gridNew.Header.HeaderVisibility.VisibleAndResult.Index/>
     </div>

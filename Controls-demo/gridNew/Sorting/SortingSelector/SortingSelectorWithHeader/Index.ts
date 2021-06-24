@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithHeader/SortingSelectorWithHeader';
 import {Memory} from 'Types/source';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
+import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -9,12 +9,12 @@ export default class extends Control {
     private _sorting: object[] = [];
     protected _viewSource: Memory;
     protected _menuHeader: string = 'Сортировать';
-    protected _columns: object[] = Countries.getColumnsWithWidths();
+    protected _columns: object[] = getCountriesStats().getColumnsWithWidths();
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Countries.getData()
+            keyProperty: 'id',
+            data: getCountriesStats().getData()
         });
 
         this._sortingParams = [

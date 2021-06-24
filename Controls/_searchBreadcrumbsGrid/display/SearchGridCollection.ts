@@ -6,8 +6,6 @@ import {ItemsFactory, itemsStrategy } from 'Controls/display';
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
 import {IOptions as ITreeGridOptions} from 'Controls/_treeGrid/display/TreeGridCollection';
 import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
-import Header from "Controls/_grid/display/Header";
-import TableHeader from "Controls/_grid/display/TableHeader";
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>> extends ITreeGridOptions<S, T> {
    breadCrumbsMode?: 'row' | 'cell';
@@ -37,10 +35,6 @@ export default
 
    protected _setupProjectionFilters(): void {
       // Результаты поиска нужно показывать без каких либо фильтров
-   }
-
-   getHeaderConstructor(): typeof Header {
-      return this.isFullGridSupport() ? Header : TableHeader;
    }
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
@@ -89,7 +83,10 @@ export default
    }
 
    protected _hasItemsToCreateResults(): boolean {
-      return this.getCollectionCount() > (this._$resultsVisibility === 'visible' ? 0 : 1);
+      if (this._$task1182250038) {
+         return this.getCollectionCount() > (this._$resultsVisibility === 'visible' ? 0 : 1);
+      }
+      return this.getCollectionCount() > 1;
    }
 
    protected _getItemsFactory(): ItemsFactory<T> {
@@ -118,11 +115,7 @@ export default
    protected _recountHasNodeWithChildren(): void {
       // В поисковой модели не нужно выставлять флаг hasNodeWithChildren, т.к. это нужно только для экспандера
       // а экспандер в моделе с хлебными крошками не отображается
-   }
-
-   protected _recountHasNode(): void {
-      // В поисковой модели не нужно выставлять флаг hasNode, т.к. это нужно только для экспандера
-      // а экспандер в моделе с хлебными крошками не отображается
+      this._setHasNodeWithChildren(false);
    }
 }
 

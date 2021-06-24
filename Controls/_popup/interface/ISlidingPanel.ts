@@ -51,16 +51,6 @@ export interface ISlidingPanel {
  */
 
 /**
- * @name Controls/_popup/interface/ISlidingPanel#slidingPanelOptions
- * @cfg {Controls/_popup/interface/ISlidingPanel/SlidingPanelOptions.typedef} Конфигурация окна на мобильном устройстве.
- */
-
-/**
- * @name Controls/_popup/interface/ISlidingPanel#dialogOptions
- * @cfg {Controls/_popup/interface/ISlidingPanel/DialogOptions.typedef} Конфигурация окна на настольном копьютере и планшете.
- */
-
-/**
  * @typedef {Object} Controls/_popup/interface/ISlidingPanel/DialogOptions
  * @description Настройки окна на настольном копьютере и планшете.
  * Подробнее:
@@ -98,7 +88,7 @@ export interface ISlidingPanel {
  */
 
 /**
- * Метод для закрытия окна-шторки.
+ * Метод для закрытия стекового окна.
  * @name Controls/_popup/interface/ISlidingPanel#close
  * @function
  * @example

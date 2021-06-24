@@ -3,7 +3,7 @@
         <div class="controls-text-label">default</div>
         <Controls.treeGrid:View
                 name="tree1"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems1"
@@ -16,7 +16,7 @@
         <div class="controls-text-label">moreFontColorStyle=link</div>
         <Controls.treeGrid:View
                 name="tree2"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems2"
@@ -30,7 +30,7 @@
         <div class="controls-text-label">moreFontColorStyle=primary</div>
         <Controls.treeGrid:View
                 name="tree3"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems3"
@@ -44,7 +44,7 @@
         <div class="controls-text-label">moreFontColorStyle=secondary</div>
         <Controls.treeGrid:View
                 name="tree4"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems4"
@@ -58,7 +58,7 @@
         <div class="controls-text-label">moreFontColorStyle=success</div>
         <Controls.treeGrid:View
                 name="tree5"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems5"
@@ -72,7 +72,7 @@
         <div class="controls-text-label">moreFontColorStyle=warning</div>
         <Controls.treeGrid:View
                 name="tree6"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems6"
@@ -86,7 +86,7 @@
         <div class="controls-text-label">moreFontColorStyle=danger</div>
         <Controls.treeGrid:View
                 name="tree7"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems7"
@@ -100,7 +100,7 @@
         <div class="controls-text-label">moreFontColorStyle=unaccented</div>
         <Controls.treeGrid:View
                 name="tree8"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems8"
@@ -114,7 +114,7 @@
         <div class="controls-text-label">moreFontColorStyle=label</div>
         <Controls.treeGrid:View
                 name="tree9"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems9"
@@ -128,7 +128,7 @@
         <div class="controls-text-label">moreFontColorStyle=info</div>
         <Controls.treeGrid:View
                 name="tree10"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems10"
@@ -142,7 +142,7 @@
         <div class="controls-text-label">moreFontColorStyle=default</div>
         <Controls.treeGrid:View
                 name="tree11"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 bind:expandedItems="_expandedItems11"

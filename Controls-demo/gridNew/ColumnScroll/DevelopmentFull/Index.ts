@@ -3,6 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/DevelopmentFul
 import * as NewColumnTemplate from 'wml!Controls-demo/gridNew/ColumnScroll/DevelopmentFull/NewColumnTemplate';
 import * as PopulationColumn from 'wml!Controls-demo/gridNew/ColumnScroll/DevelopmentFull/PopulationColumn';
 import {Memory} from 'Types/source';
+import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 import {SyntheticEvent} from 'UI/Vdom';
@@ -11,7 +12,6 @@ import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
 import {getActionsForContacts as getItemActions} from 'Controls-demo/list_new/DemoHelpers/ItemActionsCatalog';
-import {Countries} from "Controls-demo/gridNew/DemoHelpers/Data/Countries";
 
 const DEFAULT_HEADER = [
     { title: '#' },
@@ -34,7 +34,7 @@ export default class extends Control {
     private COLSPAN_HEADER = COLSPAN_HEADER;
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = Countries.getColumnsWithWidths();
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
     protected _header: IHeader[] = DEFAULT_HEADER;
     protected _itemActions: IItemAction[] = [];
 
@@ -57,13 +57,13 @@ export default class extends Control {
         this._columns[2].width = '1fr';
         this._columns[3].template = PopulationColumn;
         this._emptyViewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: []
         });
-        const data = Countries.getData();
+        const data = getCountriesStats().getData();
         data[2].show = true;
         this._notEmptyViewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
         this._viewSource = this._notEmptyViewSource;

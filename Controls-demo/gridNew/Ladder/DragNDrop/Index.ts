@@ -1,6 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Ladder/DragNDrop/DragNDrop';
 import {Memory} from 'Types/source';
+import {getTasks} from '../../DemoHelpers/DataCatalog';
 import * as Dnd from 'Controls/dragnDrop';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
@@ -9,7 +10,6 @@ import {RecordSet} from 'Types/collection';
 import {TItemsReadyCallback} from 'Controls-demo/types';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
 import {showType} from 'Controls/toolbars';
-import { Tasks } from 'Controls-demo/gridNew/DemoHelpers/Data/Tasks';
 
 interface INoStickyLadderColumn {
     template: string;
@@ -20,10 +20,9 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _itemsReadyCallback: TItemsReadyCallback = this._itemsReady.bind(this);
-    protected _columns: INoStickyLadderColumn[] = Tasks.getColumns();
+    protected _columns: INoStickyLadderColumn[] = getTasks().getColumns();
     private _itemsFirst: RecordSet = null;
     protected _ladderProperties: string[] = ['photo', 'date'];
-    private _selectedKeys: number[] = [];
     protected _itemActions: IItemAction = [{
         id: 1,
         icon: 'icon-Erase',
@@ -33,7 +32,7 @@ export default class extends Control {
         showType: showType.TOOLBAR,
         handler: function(item: Record): void {
             this._children.list.removeItems({
-                selected: [item.get('key')],
+                selected: [item.get('id')],
                 excluded: []
             }).then(() => {
                 this._children.list.reload();
@@ -43,8 +42,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Tasks.getData()
+            keyProperty: 'id',
+            data: getTasks().getData()
         });
     }
 

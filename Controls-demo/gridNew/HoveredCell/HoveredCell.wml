@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo-toolbar-panel">Ховер на колонке c id⇒{{_hoveredCell}}</div>
     <Controls.grid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             on:hoveredCellChanged="_hoveredCellChanged()"
             columns="{{_columns}}"/>

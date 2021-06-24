@@ -2,7 +2,7 @@
     <ws:bodyContentTemplate>
         <Controls.browser:Browser source="{{_options.source}}"
                                   filter="{{_filter}}"
-                                  keyProperty="key"
+                                  keyProperty="id"
                                   dataLoadCallback="{{_dataLoadCallback}}"
                                   searchParam="title">
             <div class="ControlsDemo-ExtendedMoveDialog__content">

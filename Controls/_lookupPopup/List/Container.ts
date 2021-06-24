@@ -264,20 +264,20 @@ Object.defineProperty(Container, 'defaultProps', {
 
 /**
  * @name Controls/_lookupPopup/List/Container#itemActions
- * @cfg {Array.<Controls/itemActions:IItemAction>} Массив конфигурационных объектов для кнопок, которые будут отображаться, когда пользователь наводит курсор на элемент.
+ * @cfg {Array.<ItemAction>} Массив конфигурационных объектов для кнопок, которые будут отображаться, когда пользователь наводит курсор на элемент.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Пример</a>.
  */
 
 /*
  * @name Controls/_lookupPopup/List/Container#itemActions
- * @cfg {Array.<Controls/itemActions:IItemAction>} Array of configuration objects for buttons which will be shown when the user hovers over an item.
+ * @cfg {Array.<ItemAction>} Array of configuration objects for buttons which will be shown when the user hovers over an item.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
  */
 
 /**
  * @name Controls/_lookupPopup/List/Container#itemActionVisibilityCallback
  * @cfg {function} Функция управления видимостью операций над записью.
- * @param {Controls/itemActions:IItemAction} action Объект с настройкой действия.
+ * @param {ItemAction} action Объект с настройкой действия.
  * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
  * @remark Если из функции возвращается true, то операция отображается.
  * @example
@@ -299,7 +299,7 @@ Object.defineProperty(Container, 'defaultProps', {
 /*
  * @name Controls/_lookupPopup/List/Container#itemActionVisibilityCallback
  * @cfg {function} item operation visibility filter function
- * @param {Controls/itemActions:IItemAction} action Object with configuration of an action.
+ * @param {ItemAction} action Object with configuration of an action.
  * @param {Types/entity:Model} item Instance of the item whose action is being processed.
  * @returns {Boolean} Determines whether the action should be rendered.
  * @example

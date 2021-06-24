@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-itemTemplate-noHighlights">
     <Controls.treeGrid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
             parentProperty="parent"

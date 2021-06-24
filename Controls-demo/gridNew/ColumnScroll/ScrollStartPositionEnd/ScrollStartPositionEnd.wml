@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:style="width: 600px; height: 400px">
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 header="{{_header}}"

@@ -17,7 +17,7 @@ export interface IParkingControllerOptions<TViewConfig = ViewConfig> {
  * Например, это может понадобиться для случая показа ошибки при разрыве соединения.
  * @param handlersField
  */
-export const loadHandlers = (handlersField: string): Promise<Handler>[] => {
+export const loadHandlers = (handlersField: string): Array<Promise<Handler>> => {
     return getApplicationHandlers(handlersField).map(getHandler);
 };
 
@@ -30,7 +30,7 @@ const log = (message: string) => {
 
 const getApplicationConfig = () => constants.ApplicationConfig || {};
 
-const getApplicationHandlers = (handlersField: string): (Handler | string)[] => {
+const getApplicationHandlers = (handlersField: string): Array<Handler | string> => {
     const applicationConfig = getApplicationConfig();
     const handlers = applicationConfig[handlersField];
     if (!Array.isArray(handlers)) {
@@ -74,7 +74,7 @@ export function callHandler<TArg, TResult>(
  * @param config
  */
 export function findTemplate<TConfig, TViewConfig extends ViewConfig = ViewConfig>(
-    [handler, ...otherHandlers]: (Handler | string)[],
+    [handler, ...otherHandlers]: Array<Handler | string>,
     config: TConfig
 ): Promise<TViewConfig | void> {
     if (!handler) {

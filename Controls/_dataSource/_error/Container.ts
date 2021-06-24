@@ -34,7 +34,7 @@ type Config<OptionsType = object> = ViewConfig<OptionsType> & {
      * @cfg {any} [template?]
      * @name Controls/dataSource/error/Container/Config#template
      */
-    template?: TemplateFunction;
+    template?: any;
 };
 
 const getTemplate = (template: string | Control): Promise<Control> => {

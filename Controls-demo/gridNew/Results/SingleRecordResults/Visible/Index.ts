@@ -1,15 +1,15 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
+import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
 import * as Template from 'wml!Controls-demo/gridNew/Results/SingleRecordResults/Visible/Visible';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeaderCell[] = Countries.getHeader();
-    protected _columns: IColumn[] = Countries.getColumnsWithWidths().map((col) => {
+    protected _header: IHeaderCell[] = getCountriesStats().getDefaultHeader();
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths().map((col) => {
         switch (col.displayProperty) {
             case 'population':
                 // tslint:disable-next-line
@@ -28,9 +28,9 @@ export default class extends Control {
     });
 
     protected _beforeMount(): void {
-        const data = Countries.getData();
+        const data = getCountriesStats().getData();
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: [data[0]]
         });
     }

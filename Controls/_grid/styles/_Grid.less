@@ -116,7 +116,6 @@
    display: flex;
    justify-content: flex-start;
    align-items: baseline; //baseline align by default;
-   background: inherit; //to fix https://online.sbis.ru/opendoc.html?guid=b825acd6-b5a7-42cb-9dcd-aa843e29a81a
 }
 
 .controls-Grid__sorting-button {
@@ -277,10 +276,6 @@
    text-overflow: ellipsis;
    white-space: nowrap;
    max-width: 100%;
-}
-
-.controls-Grid__cell_none {
-   word-break: break-word;
 }
 
 .controls-Grid__cell_tooltip_ellipsis {
@@ -805,10 +800,6 @@
 // Необходимая мера, т.к. иногда CSS от list прилетает позже и ломает высоту
 .controls-ListView__footer.controls-GridView__footer__itemActionsV_outside {
    min-height: var(--height_outside_itemActions);
-}
-
-.controls-GridView__footer__cell::before {
-   display: none;
 }
 
 .controls-GridView__checkbox {

@@ -547,8 +547,8 @@ export default class ColumnScrollController {
      * TODO: Отрефаткторить решение по доброске https://online.sbis.ru/opendoc.html?guid=bd2636ac-969f-4fda-be59-1b948deee523
      * @param element
      */
-    scrollToElementIfHidden(columnRect: DOMRect, immediate?: boolean): boolean {
-        return this._scrollToColumnRect(columnRect, immediate);
+    scrollToElementIfHidden(columnRect: DOMRect): boolean {
+        return this._scrollToColumnRect(columnRect);
     }
 
     /**
@@ -556,14 +556,14 @@ export default class ColumnScrollController {
      * @param columnRect
      * @private
      */
-    private _scrollToColumnRect(columnRect: DOMRect, immediate?: boolean): boolean {
+    private _scrollToColumnRect(columnRect: DOMRect): boolean {
         const scrollableRect = this._getScrollContainerRect();
 
         if (columnRect.right > scrollableRect.right) {
-            this._setScrollPosition(Math.min(this._scrollPosition + (columnRect.right - scrollableRect.right), this.getScrollLength()), immediate);
+            this._setScrollPosition(Math.min(this._scrollPosition + (columnRect.right - scrollableRect.right), this.getScrollLength()));
             return true;
         } else if (columnRect.left < scrollableRect.left) {
-            this._setScrollPosition(Math.max(0, this._scrollPosition - (scrollableRect.left - columnRect.left)), immediate);
+            this._setScrollPosition(Math.max(0, this._scrollPosition - (scrollableRect.left - columnRect.left)));
             return true;
         }
         return false;

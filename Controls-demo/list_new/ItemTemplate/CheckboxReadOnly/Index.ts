@@ -13,7 +13,7 @@ export default class extends Control {
         const data = getData();
 
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
     }

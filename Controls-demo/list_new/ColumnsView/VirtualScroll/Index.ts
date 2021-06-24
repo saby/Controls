@@ -16,21 +16,21 @@ export default class RenderDemo extends Control {
 
     protected _navigation: INavigationOptionValue<INavigationSourceConfig>;
 
-    protected _dataArray: Array<{key: number, title: string}>;
+    protected _dataArray: Array<{id: number, title: string}>;
 
     protected _virtualScrollConfig: IVirtualScrollConfig;
 
     protected _beforeMount(): void {
-        this._dataArray = generateData<{key: number, title: string}>({
+        this._dataArray = generateData<{id: number, title: string}>({
             count: NUMBER_OF_ITEMS,
             entityTemplate: {title: 'string'},
             beforeCreateItemCallback: (item) => {
-                item.title = `Запись с id="${item.key}". ${item.title}`;
+                item.title = `Запись с id="${item.id}". ${item.title}`;
             }
         });
         this._viewSource = new MemorySource({
             data: this._dataArray,
-            keyProperty: 'key'
+            keyProperty: 'id'
         });
         this._navigation = {
             source: 'page',

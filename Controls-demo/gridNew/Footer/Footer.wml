@@ -7,40 +7,4 @@
         </Router.router:Reference>
         <Controls-demo.gridNew.Footer.SeparatedFooter.Index/>
     </div>
-
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/Footer/TemplateOptions/Index' }}">
-            <a href="{{content.href}}">Опции шаблона колонок подвала</a>
-        </Router.router:Reference>
-        <Controls-demo.gridNew.Footer.TemplateOptions.Index/>
-    </div>
-
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/Footer/FooterTemplate/Index' }}">
-            <a href="{{content.href}}">Шаблон подвал таблицы</a>
-        </Router.router:Reference>
-        <Controls-demo.gridNew.Footer.FooterTemplate.Index/>
-    </div>
-
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/Footer/Footer/Index' }}">
-            <a href="{{content.href}}">Шаблон колонок подвала таблицы</a>
-        </Router.router:Reference>
-        <Controls-demo.gridNew.Footer.Footer.Index/>
-    </div>
-
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/Footer/Sticky/Index' }}">
-            <a href="{{content.href}}">Прилипание шаблона подвала таблицы</a>
-        </Router.router:Reference>
-        <Controls-demo.gridNew.Footer.Sticky.Index/>
-    </div>
 </div>

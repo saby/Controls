@@ -4,7 +4,7 @@
         _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
     </div>
     <Controls.treeGrid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
             multiSelectVisibility="hidden"

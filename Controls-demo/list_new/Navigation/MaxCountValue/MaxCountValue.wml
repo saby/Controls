@@ -4,7 +4,7 @@
     </div>
 
     <Controls.list:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             navigation="{{_navigation}}"
             attr:style="position: relative;">

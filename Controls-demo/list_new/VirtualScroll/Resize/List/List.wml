@@ -6,7 +6,7 @@
             attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
         <Controls.list:View
                 source="{{_source}}"
-                keyProperty="key"
+                keyProperty="id"
                 virtualScrollConfig="{{_virtualScrollConfig}}">
             <ws:navigation view="infinity"/>
         </Controls.list:View>

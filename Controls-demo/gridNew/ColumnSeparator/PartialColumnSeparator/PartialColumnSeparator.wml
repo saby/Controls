@@ -1,28 +1,47 @@
 <div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell controlsDemo__inline-block">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/ColumnSeparator/PartialColumnSeparator/VariantOne/Index' }}">
-            <a href="{{content.href}}">Разделители вокруг колонки "Характеристики"</a>
-        </Router.router:Reference>
-        <Controls-demo.gridNew.ColumnSeparator.PartialColumnSeparator.VariantOne.Index/>
+    <div class="controlsDemo__inline-block" style="max-width: 620px; margin-right: 20px; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">
+            <Controls.toggle:Checkbox bind:value="_rowSeparator1" caption="Show row separator"/>
+            <Controls.toggle:Checkbox bind:value="_columnSeparator1" on:valueChanged="_togglePartialColumnSeparator()"
+                                      caption="Show column separator"/>
+        </div>
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns1}}"
+                multiSelectVisibility="visible"
+                rowSeparatorSize="{{ _rowSeparator1 ? 's' }}"
+        />
     </div>
-
-    <div class="controlsDemo__cell controlsDemo__inline-block">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/ColumnSeparator/PartialColumnSeparator/VariantTwo/Index' }}">
-            <a href="{{content.href}}">Выключение правого разделителя у колонки "Площадь"</a>
-        </Router.router:Reference>
-        <Controls-demo.gridNew.ColumnSeparator.PartialColumnSeparator.VariantTwo.Index/>
+    <div class="controlsDemo__inline-block" style="max-width: 620px; margin-right: 20px; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">
+            <Controls.toggle:Checkbox bind:value="_rowSeparator2" caption="Show row separator"/>
+            <Controls.toggle:Checkbox bind:value="_columnSeparator2" caption="Show column separator"/>
+        </div>
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns2}}"
+                multiSelectVisibility="visible"
+                rowSeparatorSize="{{ _rowSeparator2 ? 's' }}"
+                columnSeparatorSize="{{ _columnSeparator2 ? 's' }}"
+        />
     </div>
-
-    <div class="controlsDemo__cell controlsDemo__inline-block">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/ColumnSeparator/PartialColumnSeparator/VariantThree/Index' }}">
-            <a href="{{content.href}}">Выключение левого разделителя у колонки "Население"</a>
-        </Router.router:Reference>
-        <Controls-demo.gridNew.ColumnSeparator.PartialColumnSeparator.VariantThree.Index/>
+    <div class="controlsDemo__inline-block" style="max-width: 620px; margin-right: 20px; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">
+            <Controls.toggle:Checkbox bind:value="_rowSeparator3" caption="Show row separator"/>
+            <Controls.toggle:Checkbox bind:value="_columnSeparator3" caption="Show column separator"/>
+        </div>
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns3}}"
+                multiSelectVisibility="visible"
+                rowSeparatorSize="{{ _rowSeparator3 ? 's' }}"
+                columnSeparatorSize="{{ _columnSeparator3 ? 's' }}">
+        </Controls.grid:View>
     </div>
 </div>

@@ -1,16 +1,16 @@
-<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}">
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{gridColumn}}">
 <ws:contentTemplate>
     <ws:partial template="Controls/list:EditingTemplate"
-                value="{{ item.contents.required }}"
+                value="{{ item.contents[column.config.displayProperty || 'title'] }}"
                 scope="{{ _options }}"
                 enabled="{{true}}">
         <ws:editorTemplate>
             <Controls.validate:InputContainer name="InputValidate">
                 <ws:validators>
-                    <ws:Function value="{{ item.contents.required }}">Controls/validate:isRequired</ws:Function>
+                    <ws:Function value="{{item.contents[column.config.displayProperty || 'title']}}">Controls/validate:isRequired</ws:Function>
                 </ws:validators>
                 <ws:content>
-                    <Controls.input:Text contrastBackground="{{true}}" bind:value="item.contents.required"
+                    <Controls.input:Text contrastBackground="{{true}}" bind:value="item.contents[column.config.displayProperty || 'title']"
                                          selectOnClick="{{ false }}" />
                 </ws:content>
             </Controls.validate:InputContainer>

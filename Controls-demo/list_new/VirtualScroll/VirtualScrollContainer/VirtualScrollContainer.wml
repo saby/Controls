@@ -2,16 +2,16 @@
     <Controls.scroll:Container
             attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
         <Controls.scroll:VirtualScrollContainer >
-            <div>
-                Контент, который расположен выше списка.
-                Он не должен отображаться, пока у списка есть данные наверху.
+            <div> 
+                Контент, который расположен выше списка. 
+                Он не должен отображаться, пока у списка есть данные наверху. 
                 Появляется только если отображается первая запись списка.
             </div>
         </Controls.scroll:VirtualScrollContainer>
         <Controls.list:View
                 name="list"
                 source="{{_source}}"
-                keyProperty="key">
+                keyProperty="id">
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig page="{{0}}" pageSize="{{20}}" hasMore="{{false}}"/>
                 <ws:viewConfig pagingMode="edge"/>

@@ -2,7 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
+import {Gadgets} from '../DemoHelpers/DataCatalog';
 
 interface IBaseIndexOptions extends IControlOptions {
     showTitle: boolean;
@@ -11,18 +11,14 @@ interface IBaseIndexOptions extends IControlOptions {
 export default class extends Control<IBaseIndexOptions> {
     protected _template: TemplateFunction;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = [
-        {
-            displayProperty: 'title'
-        }
-    ];
+    protected _columns: IColumn[] = Gadgets.getColumnsForFlat();
     protected _showTitle: boolean;
 
     protected _beforeMount(options?: IBaseIndexOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._showTitle = !options || options.showTitle !== false;
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Flat.getData()
+            keyProperty: 'id',
+            data: Gadgets.getFlatData()
         });
     }
 

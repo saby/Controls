@@ -10,16 +10,13 @@
                         searchValue="{{searchValue}}" />
          </ws:if>
          <ws:else>
-            <Controls.Container.Async templateName="Controls/breadcrumbs:ItemTemplate">
-               <ws:partial template="{{content.resolvedTemplate}}"
-                           scope="{{itemTemplate}}">
-                  <ws:contentTemplate>
-                     <ws:partial template="wml!Controls/_menu/Render/searchDecoratorTemplate"
-                                 item="{{itemTemplate.itemData.item}}"
-                                 searchValue="{{searchValue}}"/>
-                  </ws:contentTemplate>
-               </ws:partial>
-            </Controls.Container.Async>
+            <ws:partial template="Controls/breadcrumbs:ItemTemplate">
+               <ws:contentTemplate>
+                  <ws:partial template="wml!Controls/_menu/Render/searchDecoratorTemplate"
+                              searchValue="{{searchValue}}"
+                              item="{{contentTemplate.itemData.item}}" />
+               </ws:contentTemplate>
+            </ws:partial>
          </ws:else>
       </ws:itemTemplate>
    </ws:partial>

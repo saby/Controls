@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.list:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             itemTemplate="wml!Controls-demo/list_new/ItemTemplate/FromFile/TempItem"/>
 </div>

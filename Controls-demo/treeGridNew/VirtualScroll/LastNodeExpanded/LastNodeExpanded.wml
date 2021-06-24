@@ -6,7 +6,7 @@
         <Controls.treeGrid:View
                 name="list"
                 useTableInOldBrowsers="{{ true }}"
-                keyProperty="key"
+                keyProperty="id"
                 source="{{ _viewSource }}"
                 columns="{{ _columns }}"
                 parentProperty="parent"

@@ -3,7 +3,7 @@
     <Controls.scroll:Container attr:class="controlsDemo__height400">
         <Controls.list:HotKeysContainer>
             <Controls.list:View
-                    keyProperty="key"
+                    keyProperty="id"
                     attr:class="controlsDemo_line-height18"
                     moveMarkerOnScrollPaging="{{true}}"
                     source="{{_viewSource}}">

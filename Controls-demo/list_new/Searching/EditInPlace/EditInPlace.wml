@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.browser:Browser source="{{_viewSource}}" keyProperty="key" bind:filter="_filter"
+    <Controls.browser:Browser source="{{_viewSource}}" keyProperty="id" bind:filter="_filter"
                               searchParam="title" minSearchLength="{{3}}">
         <div class="ws-fragment">
             <Controls.search:InputContainer>
@@ -8,7 +8,7 @@
             <Controls.list:Container>
                 <Controls.list:View
                         name="list"
-                        keyProperty="key"
+                        keyProperty="id"
                         source="{{_viewSource}}"
                         displayProperty="title">
                     <ws:footerTemplate>

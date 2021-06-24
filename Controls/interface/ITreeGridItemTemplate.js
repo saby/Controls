@@ -35,7 +35,7 @@ define('Controls/interface/ITreeGridItemTemplate', [
     *    </ws:itemTemplate>
     * </Controls.treeGrid:View>
     * </pre>
-    * @demo Controls-demo/treeGridNew/ItemTemplate/NoHighlightOnHover/Index
+    * @demo Controls-demo/treeGrid/ItemTemplate/NoHighlightOnHover/Index
     * @see Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
     * @see Controls/treeGrid:ItemTemplate
     */
@@ -43,7 +43,7 @@ define('Controls/interface/ITreeGridItemTemplate', [
    /*
     * @name Controls/interface/ITreeGridItemTemplate#itemTemplate
     * @cfg {Function} Template for item render.
-    * @demo Controls-demo/treeGridNew/ItemTemplate/NoHighlightOnHover/Index
+    * @demo Controls-demo/treeGrid/ItemTemplate/NoHighlightOnHover/Index
     * @remark
     * Base itemTemplate for Controls.treeGrid:View: "Controls/treeGrid:ItemTemplate".
     * Inside the template scope, object itemData is available, allowing you to access the render data (for example: item, key, etc.).

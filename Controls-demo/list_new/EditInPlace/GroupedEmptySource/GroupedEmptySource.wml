@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <Controls.list:View
-            keyProperty="key"
+            keyProperty="id"
             name="list"
             source="{{_viewSource}}"
             groupingKeyCallback="{{_groupingKeyCallback}}"

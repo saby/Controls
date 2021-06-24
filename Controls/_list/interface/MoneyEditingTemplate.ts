@@ -4,12 +4,13 @@ import IEditingTemplateOptions from './EditingTemplate'
 /**
  * Шаблон для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} денежных полей в {@link /doc/platform/developmentapl/interface-development/controls/list/ списках}.
  * В режиме чтения выводит значение с помощью {@link Controls/decorator:Money}.
- *
+ * 
  * @class Controls/_list/interface/MoneyEditingTemplate
  * @mixes Controls/list:EditingTemplate
  * @mixes Controls/decorator:IMoney
  * @author Авраменко А.С.
  * @see Controls/list:View
+ * @see Controls/list:BaseEditingTemplate
  * @see Controls/list:EditingTemplate
  * @see Controls/list:NumberEditingTemplate
  * @example

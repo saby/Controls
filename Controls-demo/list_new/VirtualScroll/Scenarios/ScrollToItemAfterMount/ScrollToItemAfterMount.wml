@@ -3,7 +3,7 @@
     <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
         <Controls.list:View name="list"
                             source="{{_viewSource}}"
-                            keyProperty="key">
+                            keyProperty="id">
             <ws:virtualScrollConfig pageSize="{{100}}"/>
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig pageSize="{{100}}" page="{{0}}" hasMore="{{false}}"/>

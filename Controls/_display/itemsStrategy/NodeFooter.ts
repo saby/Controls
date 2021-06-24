@@ -195,8 +195,7 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
                     itemModule: options.itemModule || 'Controls/treeGrid:TreeGridNodeFooterRow',
                     contents: nodeFooterContent,
                     parent: item,
-                    hasMore: item.hasMoreStorage(),
-                    moreFontColorStyle: options.display.getMoreFontColorStyle()
+                    hasMore: item.hasMoreStorage()
                 });
                 options.nodeFooters.splice(index, 0, nodeFooter);
                 item.setNodeFooter(nodeFooter);

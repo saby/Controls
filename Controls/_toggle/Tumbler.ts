@@ -19,32 +19,6 @@ interface IBackgroundPositionData {
 interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
 
 /**
- * @name Controls/_toggle/Tumbler#keyProperty
- * @cfg {string} Имя свойства, содержащего информацию об идентификаторе текущего элемента.
- * @example
- * <pre class="brush: html">
- *      <!-- WML -->
- *      <Controls.toggle:Tumbler items="{{_items}}" keyProperty="id"/>
- * </pre>
- * <pre class="brush: js">
- *     // TypeScript
- *     new RecordSet({
-            rawData: [
-                {
-                   id: '1',
-                   caption: 'Название 1'
-                },
-                {
-                    id: '2',
-                    caption: 'Название 2'
-                }
-            ],
-            keyProperty: 'id'
-        });
- * </pre>
- */
-
-/**
  * @name Controls/_toggle/Tumbler#itemTemplate
  * @cfg {TemplateFunction|String} Шаблон элемента кнопочного переключателя.
  * @demo Controls-demo/toggle/Tumbler/ItemTemplate/Index

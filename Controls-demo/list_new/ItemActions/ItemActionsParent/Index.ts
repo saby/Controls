@@ -35,7 +35,7 @@ export default class extends Control {
             }
         ];
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: getContactsCatalog()
         });
     }

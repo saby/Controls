@@ -1395,7 +1395,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 && (expanderVisibility === 'hasChildren' && this._listViewModel.hasNodeWithChildren()
                 || expanderVisibility !== 'hasChildren' && this._listViewModel.hasNode());
             if (hasExpander) {
-                result += ` controls-TreeGridView__expanderPadding-${options.expanderSize || 'default'}`;
+                result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
             }
         }
 

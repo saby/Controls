@@ -58,7 +58,7 @@ export const TreeColumnsWithTemplate: IColumn[] = [
 
 export const TreeData = [
     {
-        key: 1,
+        id: 1,
         parent: null,
         'parent@': true,
         title: 'First Node',
@@ -67,7 +67,7 @@ export const TreeData = [
         count: '10'
     },
     {
-        key: 2,
+        id: 2,
         parent: null,
         'parent@': true,
         title: 'Second Node',
@@ -76,7 +76,7 @@ export const TreeData = [
         count: '30'
     },
     {
-        key: 3,
+        id: 3,
         parent: 2,
         'parent@': true,
         title: 'Third Node with veeeery long caption, so it fits only in two lines',
@@ -85,7 +85,7 @@ export const TreeData = [
         count: '10'
     },
     {
-        key: 4,
+        id: 4,
         parent: 3,
         'parent@': null,
         title: 'Fourth Node',
@@ -94,7 +94,7 @@ export const TreeData = [
         count: '30'
     },
     {
-        key: 5,
+        id: 5,
         parent: null,
         'parent@': null,
         title: 'Leaf 1',
@@ -103,7 +103,7 @@ export const TreeData = [
         count: '30'
     },
     {
-        key: 6,
+        id: 6,
         parent: 1,
         'parent@': null,
         title: 'Leaf 2',
@@ -112,7 +112,7 @@ export const TreeData = [
         count: '30'
     },
     {
-        key: 7,
+        id: 7,
         parent: 2,
         'parent@': null,
         title: 'Leaf 3',

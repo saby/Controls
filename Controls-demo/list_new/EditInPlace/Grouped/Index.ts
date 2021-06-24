@@ -2,26 +2,26 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/EditInPlace/Grouped/Grouped';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
-import {getEditableGroupedCatalog as getData} from '../../DemoHelpers/Data/Groups';
+import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
+import {groupConstants as constView} from 'Controls/list';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {IEditingConfig} from 'Controls/display';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
+    private _viewSource: Memory;
     private _fakeItemId: number;
-    private _activeGroup: string = 'Xiaomi';
-    protected _editingConfig: IEditingConfig = {
+    private _activeGroup: string;
+    private _editingConfig = {
         editOnClick: true,
         sequentialEditing: true,
         addPosition: 'top'
     };
-    protected _addPosition: string = 'top';
+    private _addPosition = 'top';
 
     protected _beforeMount(): void {
         const data = getData();
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data
         });
         this._fakeItemId = data.length;
@@ -32,23 +32,28 @@ export default class extends Control {
         this._editingConfig.addPosition = position;
     }
 
+    private _groupingKeyCallback(item: Model): string {
+        const groupId = item.get('brand');
+        return groupId === 'apple' ? constView.hiddenGroup : groupId;
+    }
+
     protected _onBeforeBeginEdit(
         e: SyntheticEvent<null>,
         options: { item?: Model },
         isAdd: boolean): Promise<{item: Model}> | void {
         if (!isAdd) {
-            this._activeGroup = options.item.get('brand');
+            this._activeGroup = this._groupingKeyCallback(options.item);
             return;
         }
     }
 
     protected _beginAdd(): void {
         const item = new Model({
-            keyProperty: 'key',
+            keyProperty: 'id',
             rawData: {
-                key: ++this._fakeItemId,
+                id: ++this._fakeItemId,
                 title: '',
-                brand:  this._activeGroup
+                brand:  this._activeGroup || 'asd'
             }
         });
         this._children.list.beginAdd({item});

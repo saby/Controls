@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/VirtualScroll/HasMoreMany/HasMoreMany';
 import {HierarchicalMemory as Memory} from 'Types/source';
+import {VirtualScrollHasMore} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { VirtualScrollHasMore } from 'Controls-demo/treeGridNew/DemoHelpers/Data/VirtualScrollHasMore';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -11,7 +11,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: VirtualScrollHasMore.getData()
         });
     }

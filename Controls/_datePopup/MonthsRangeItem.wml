@@ -36,12 +36,7 @@
                   on:click="_onMonthTitleClick(month)"
                   on:mouseenter="_onMonthTitleMouseEnter(month)"
                   on:mouseleave="_onMonthTitleMouseLeave(month)">
-                  <ws:if data="{{!!_options.monthCaptionTemplate}}">
-                     <ws:partial template="{{_options.monthCaptionTemplate}}" date="{{month}}" caption="{{_formatDate(month, 'MMMM')}}"/>
-                  </ws:if>
-                  <ws:else>
-                     {{ _formatDate(month, 'MMMM') }}
-                  </ws:else>
+                  {{ _formatDate(month, 'MMMM') }}
                </div>
                <div class="controls-PeriodDialog-MonthsRange__monthWrapper
                            {{_options.monthClickable && !_options.selectionProcessing ? ' controls-PeriodDialog-MonthsRange__monthWrapper_clickable controls-PeriodDialog-MonthsRange__monthWrapper_clickable'}}"

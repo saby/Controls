@@ -5,13 +5,10 @@ define('Controls-demo/Popup/TestStack',
       'Types/entity',
       'require',
       'Controls/popup',
-      'Types/source',
-      'Controls/toolbars',
       'wml!Controls-demo/Popup/resources/InfoboxTemplate'
    ],
-   function(Base, template, entity, require, popupLib, source, toolbars) {
+   function(Base, template, entity, require, popupLib) {
       'use strict';
-      var showType = toolbars.showType;
 
       var TestDialog = Base.Control.extend({
          _template: template,
@@ -19,65 +16,6 @@ define('Controls-demo/Popup/TestStack',
          _stack2: null,
          _indicatorId: null,
          _beforeMount: function() {
-            this._buttonsSource = new source.Memory({
-               keyProperty: 'id',
-               data: [{
-                  id: '1',
-                  icon: 'icon-Print',
-                  title: 'Распечатать',
-                  readOnly: false,
-                  viewMode: 'toolButton',
-                  '@parent': false,
-                  parent: null
-               }, {
-                  id: '2',
-                  viewMode: 'toolButton',
-                  icon: 'icon-Link',
-                  title: 'Скопировать в буфер',
-                  '@parent': false,
-                  parent: null
-               }, {
-                  id: '3',
-                  showType: showType.MENU,
-                  title: 'Прикрепить к',
-                  '@parent': false,
-                  parent: null
-               }, {
-                  id: '4',
-                  showType: showType.MENU,
-                  title: 'Проекту',
-                  '@parent': false,
-                  parent: '3'
-               }, {
-                  id: '5',
-                  showType: showType.MENU,
-                  title: 'Этапу',
-                  '@parent': false,
-                  parent: '3'
-               }, {
-                  id: '6',
-                  icon: 'icon-EmptyMessage',
-                  fontColorStyle: 'secondary',
-                  showHeader: true,
-                  viewMode: 'toolButton',
-                  contrastBackground: true,
-                  title: 'Обсудить',
-                  '@parent': true,
-                  parent: null
-               }, {
-                  id: '7',
-                  showType: showType.MENU,
-                  title: 'Видеозвонок',
-                  '@parent': false,
-                  parent: '6'
-               }, {
-                  id: '8',
-                  showType: showType.MENU,
-                  title: 'Сообщение',
-                  '@parent': false,
-                  parent: '6'
-               }]
-            });
             this._stack = new popupLib.StackOpener();
             this._stack2 = new popupLib.StackOpener();
          },
@@ -86,10 +24,6 @@ define('Controls-demo/Popup/TestStack',
          },
          _close: function() {
             this._notify('close', [], { bubbling: true });
-         },
-
-         _itemClick: function(event, item){
-            console.error(item);
          },
 
          _onClick: function() {

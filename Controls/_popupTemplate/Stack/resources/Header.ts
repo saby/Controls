@@ -10,6 +10,9 @@ class Header extends Control<IControlOptions> {
      * Закрыть всплывающее окно
      * @function Controls/_popupTemplate/Stack#close
      */
+    close(): void {
+        this._notify('close', [], {bubbling: true});
+    }
     changeMaximizedState(): void {
         /**
          * @event maximized

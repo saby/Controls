@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.list:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             multiSelectVisibility="visible"
             bind:selectedKeys="_selectedKeys"/>

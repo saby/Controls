@@ -52,6 +52,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/input:IValue
  * @mixes Controls/interface:IValidationStatus
  * @mixes Controls/input:IBorderVisibility
+ * @mixes Controls/input:IPadding
  *
  * @public
  * @author Герасимов А.М.
@@ -545,7 +546,7 @@ export default class Lookup extends BaseLookupInput {
 
 /**
  * @name Controls/_lookup/Lookup#toolbarItems
- * @cfg {Controls/toolbars:IToolbarSource/Item.typedef} Набор записей для дополнительных команд в правой части поля ввода.
+ * @cfg {Controls/interface:IItems.typedef} Набор записей для дополнительных команд в правой части поля ввода.
  * @demo Controls-demo/LookupNew/Input/ToolbarItems/Index
  */
 

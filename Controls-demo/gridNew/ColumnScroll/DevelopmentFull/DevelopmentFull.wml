@@ -83,11 +83,11 @@
     <Controls.event:Register name="resizeDetect" register="controlResize">
         <Controls.scroll:Container attr:class="controlsDemo__mr4"
                                    attr:style="width: {{ _containerWidth }}; max-height: 400px; border: 1px solid grey;">
-            <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="key">
+            <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
                 <div>
                     <Controls.list:Mover name="mover"/>
                     <Controls.grid:View
-                            keyProperty="key"
+                            keyProperty="id"
                             name="grid"
                             header="{{_header}}"
                             columns="{{_columns}}"

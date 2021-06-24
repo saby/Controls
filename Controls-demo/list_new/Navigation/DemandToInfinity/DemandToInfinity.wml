@@ -5,7 +5,7 @@
         </div>
         <Controls.scroll:Container class="controlsDemo__cell controlsDemo__height400">
             <Controls.list:View
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}">
                 <ws:navigation source="page" view="{{_view}}">
                     <ws:sourceConfig pageSize="{{3}}" page="{{0}}" hasMore="{{false}}"/>

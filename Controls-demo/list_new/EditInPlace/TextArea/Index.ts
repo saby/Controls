@@ -21,14 +21,14 @@ export default class extends Control {
             useTextArea: true,
             title: 'Here is textarea. Can save only by CTRL + ENTER.'
         };
-        this._viewSource = new Memory({ keyProperty: 'key', data });
+        this._viewSource = new Memory({ keyProperty: 'id', data });
     }
 
     protected _beginAdd(): void {
         this._children.list.beginAdd({
             item: new Model({
-                keyProperty: 'key',
-                rawData: {key: ++this._fakeItemId, title: ''}
+                keyProperty: 'id',
+                rawData: {id: ++this._fakeItemId, title: ''}
             })
         });
     }

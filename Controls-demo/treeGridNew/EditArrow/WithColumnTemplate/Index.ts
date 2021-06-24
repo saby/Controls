@@ -18,7 +18,7 @@ export default class WithColumnTemplate extends Control<IControlOptions> {
 
     __beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         this._source = new TreeMemory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             parentProperty: 'parent',
             filter: memorySourceFilter(),
             data: TreeData

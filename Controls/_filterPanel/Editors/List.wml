@@ -23,13 +23,11 @@
    <ws:if data="{{_options.selectorTemplate}}">
       <ws:partial template="listBase">
          <ws:footerTemplate>
-             <ws:partial template="Controls/grid:FooterTemplate">
-                 <div class="controls-EditorList__footer">
-                     <Controls.toggle:BigSeparator contrastBackground="{{false}}"
-                                                   iconSize="l"
-                                                   on:click="_handleFooterClick()"/>
-                 </div>
-             </ws:partial>
+            <div class="controls-EditorList__footer">
+               <Controls.toggle:BigSeparator contrastBackground="{{false}}"
+                                             iconSize="l"
+                                             on:click="_handleFooterClick()"/>
+            </div>
          </ws:footerTemplate>
       </ws:partial>
    </ws:if>

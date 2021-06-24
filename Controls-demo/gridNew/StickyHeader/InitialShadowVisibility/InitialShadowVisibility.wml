@@ -5,7 +5,7 @@
     <Controls.scroll:Container attr:class="controlsDemo__height400" attr:style="max-width: 1500px">
         <Controls.grid:View
                 name="list"
-                keyProperty="key"
+                keyProperty="id"
                 header="{{_header}}"
                 columns="{{_columns}}"
                 source="{{_viewSource}}"

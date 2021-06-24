@@ -19,9 +19,8 @@ import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
 import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
-import {IValidationStatusOptions} from 'Controls/interface';
 
-interface IInputOptions extends IBaseDropdownOptions, IValidationStatusOptions {
+interface IInputOptions extends IBaseDropdownOptions {
    maxVisibleItems?: number;
    fontColorStyle?: string;
    fontSize?: string;
@@ -311,7 +310,6 @@ export default class Selector extends BaseDropdown {
          iconSize: 's',
          emptyKey: null,
          maxVisibleItems: 1,
-         validationStatus: 'valid',
          closeMenuOnOutsideClick: true
       };
    }

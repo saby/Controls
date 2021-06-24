@@ -43,11 +43,7 @@ export interface IMoveControllerOptions {
     /**
      * @cfg {String} Имя поля, содержащего идентификатор родительского элемента.
      */
-    parentProperty?: string;
-    /**
-     * @cfg {String} Имя поля, содержащего идентификатор элемента.
-     */
-    keyProperty?: string;
+    parentProperty: string;
     /**
      * @cfg {Controls/popup:IBaseOpener} опции диалога перемещения
      */
@@ -55,7 +51,7 @@ export interface IMoveControllerOptions {
     /**
      * @cfg Array<{[columnName: string] Массив сортировок. Необходим при перемещении записей вверх/вниз
      */
-    sorting?: QueryOrderSelector;
+    sorting: QueryOrderSelector;
     /**
      * Стратегия поиска соседних записей
      */

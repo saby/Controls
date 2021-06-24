@@ -55,6 +55,7 @@ export default class Tree extends List implements ITree {
 
     static getOptionTypes(): object {
         return {
+            keyProperty: descriptor(String).required(),
             parentProperty: descriptor(String).required()
         };
     }

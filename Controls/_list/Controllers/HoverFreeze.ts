@@ -269,25 +269,17 @@ export default class HoverFreeze {
      */
     private _freezeHover(itemKey: CrudEntityKey, itemIndex: number, htmlNodeIndex: number): void {
         this._clearFreezeHoverTimeout();
-        const hoveredContainers = HoverFreeze.getHoveredItemContainers(
-            this._viewContainer,
-            htmlNodeIndex,
-            this._uniqueClass,
-            this._measurableContainerSelector
-        );
-
+        const hoveredContainers = this._getHoveredItemContainers(htmlNodeIndex);
         if (hoveredContainers.length) {
             // zero element in grid will be row itself; it doesn't have any background color, then lets take the last one
             const lastContainer = hoveredContainers[hoveredContainers.length - 1];
             const hoverBackgroundColor = getComputedStyle(lastContainer).backgroundColor;
 
             this._itemAreaRect = this._calculateItemAreaRect(hoveredContainers);
-            this._stylesContainer.innerHTML += HoverFreeze.getItemHoverFreezeStyles(
+            this._stylesContainer.innerHTML += HoverFreeze._getItemHoverFreezeStyles(
                 this._uniqueClass,
                 htmlNodeIndex,
-                hoverBackgroundColor
-            );
-
+                hoverBackgroundColor);
             if (this._freezeHoverCallback) {
                 this._freezeHoverCallback();
             }
@@ -296,6 +288,16 @@ export default class HoverFreeze {
             // Сбросили отложенный ховер
             this._delayedItemData = null;
         }
+    }
+
+    /**
+     * Получает из DOM контейнер текущей записи или контейнеры ячеек таблицы
+     * @param index
+     * @private
+     */
+    private _getHoveredItemContainers(index: number): NodeListOf<HTMLElement> {
+        const hoveredContainerSelector = this._getItemHoveredContainerSelector(this._uniqueClass, index);
+        return this._viewContainer.querySelectorAll(hoveredContainerSelector);
     }
 
     /**
@@ -332,38 +334,18 @@ export default class HoverFreeze {
     }
 
     /**
-     * Получает из DOM контейнер текущей записи или контейнеры ячеек таблицы
-     */
-    static getHoveredItemContainers(
-        viewContainer: HTMLElement,
-        index: number,
-        uniqueClass: string,
-        measurableContainerSelector: string
-    ): NodeListOf<HTMLElement> {
-
-        const hoveredContainerSelector = HoverFreeze.getItemHoveredContainerSelector(
-            uniqueClass,
-            index,
-            measurableContainerSelector
-        );
-
-        return viewContainer.querySelectorAll(hoveredContainerSelector);
-    }
-
-    /**
      * Селектор для выбора строки или ячеек.
      * Необходим для определения реального размера строки в таблицах и в списках.
      * Также необходим для выбора фона строки под курсором.
      * Тут нужно именно два селектора, т.к. в списках фон берётся из свойств самой записи,
      * а в гридах - из cell__content (контент ячейки)
+     * @param uniqueClass
+     * @param index
+     * @private
      */
-    static getItemHoveredContainerSelector(
-        uniqueClass: string,
-        index: number,
-        measurableContainerSelector: string
-    ): string {
-        return ` .${uniqueClass} .controls-ListView__itemV:nth-child(${index}) .${measurableContainerSelector}, ` +
-            ` .${uniqueClass} .controls-ListView__itemV:nth-child(${index})`;
+    private _getItemHoveredContainerSelector(uniqueClass: string, index: number): string {
+        return ` .${uniqueClass} .controls-ListView__itemV:nth-child(${index}) .${this._measurableContainerSelector}, ` +
+               ` .${uniqueClass} .controls-ListView__itemV:nth-child(${index})`;
     }
 
     /**
@@ -376,9 +358,9 @@ export default class HoverFreeze {
      * @param hoverBackgroundColor
      * @private
      */
-    static getItemHoverFreezeStyles(uniqueClass: string,
-                                    index: number,
-                                    hoverBackgroundColor: string): string {
+    private static _getItemHoverFreezeStyles(uniqueClass: string,
+                                             index: number,
+                                             hoverBackgroundColor: string): string {
         return `
               .${uniqueClass} .controls-ListView__itemV:nth-child(${index}),
               .${uniqueClass} .controls-Grid__row:nth-child(${index}) .controls-Grid__row-cell__content,

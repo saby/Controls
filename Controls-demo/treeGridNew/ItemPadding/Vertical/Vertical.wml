@@ -6,7 +6,7 @@
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m">
                 <div class="controls-text-label">Отступы соответствующие размеру S</div>
                 <Controls.treeGrid:View
-                        keyProperty="key"
+                        keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
                         parentProperty="parent"
@@ -18,7 +18,7 @@
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-l">
                 <div class="controls-text-label">Отступы соответствующие размеру L</div>
                 <Controls.treeGrid:View
-                        keyProperty="key"
+                        keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
                         parentProperty="parent"

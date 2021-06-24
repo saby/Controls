@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
     <div class="controlsDemo__cell controlsDemo__mr4">
         <Controls.list:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 itemActions="{{_itemActions}}"/>
     </div>

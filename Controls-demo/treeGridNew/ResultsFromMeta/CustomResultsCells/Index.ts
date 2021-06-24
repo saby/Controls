@@ -3,16 +3,16 @@ import * as Template from 'wml!Controls-demo/treeGridNew/ResultsFromMeta/CustomR
 import * as resTpl from 'wml!Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsCells/resultCell';
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
+import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {Model} from 'Types/entity';
 import { IColumn } from 'Controls/grid';
 import { IHeaderCell } from 'Controls/grid';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _header: IHeaderCell[] = Flat.getHeader();
-    protected _columns: IColumn[] = Flat.getColumns().map((c, i) => ({
+    protected _header: IHeaderCell[] = Gadgets.getHeaderForFlat();
+    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat().map((c, i) => ({
         ...c,
         result: undefined,
         resultTemplate: i === 1 ? resTpl : undefined
@@ -26,8 +26,8 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Flat.getData()
+            keyProperty: 'id',
+            data: Gadgets.getFlatData()
         });
     }
 
@@ -62,9 +62,9 @@ export default class extends Control {
             ]
         });
 
-        const data = Flat.getResults().full[this._fullResultsIndex];
+        const data = Gadgets.getResults().full[this._fullResultsIndex];
         results.set('rating', data.rating);
-        this._fullResultsIndex = ++this._fullResultsIndex % Flat.getResults().full.length;
+        this._fullResultsIndex = ++this._fullResultsIndex % Gadgets.getResults().full.length;
         return results;
     }
 

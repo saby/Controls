@@ -1,50 +1,20 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Columns/Align/Align';
 import {Memory} from 'Types/source';
+import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/grid';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
 
-    protected _columns: IColumn[] = [
-        {
-            displayProperty: 'number',
-            width: '40px',
-            align: 'right'
-        },
-        {
-            displayProperty: 'country',
-            width: '300px',
-            align: 'center'
-        },
-        {
-            displayProperty: 'capital',
-            width: '1fr',
-            align: 'left'
-        },
-        {
-            displayProperty: 'population',
-            width: '150px',
-            align: 'right'
-        },
-        {
-            displayProperty: 'square',
-            width: '150px',
-            align: 'left'
-        },
-        {
-            displayProperty: 'populationDensity',
-            width: 'max-content',
-            compatibleWidth: '60px'
-        }
-    ];
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithAlign();
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
-            data: Countries.getData().slice(0, 5)
+            keyProperty: 'id',
+            // tslint:disable-next-line
+            data: getCountriesStats().getData().slice(0, 5)
         });
     }
 

@@ -2,7 +2,7 @@
     <Controls.buttons:Button caption="Перезагрузить список с двумя группами" on:click="_reloadWithTwoGroups()"/>
     <Controls.treeGrid:View
             name="treeGrid"
-            keyProperty="key"
+            keyProperty="id"
             source="{{ _viewSource }}"
             parentProperty="parent"
             nodeProperty="type"

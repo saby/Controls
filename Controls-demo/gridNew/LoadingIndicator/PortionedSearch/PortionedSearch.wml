@@ -3,7 +3,7 @@
         <Controls.scroll:HotKeysContainer>
             <Controls.grid:View
                     name="view"
-                    keyProperty="key"
+                    keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
                     searchValue="{{_searchValue}}"

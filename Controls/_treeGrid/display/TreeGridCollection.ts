@@ -21,8 +21,6 @@ import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
 import {CrudEntityKey} from 'Types/source';
 import {TGroupNodeVisibility} from '../interface/ITreeGrid';
-import TreeGridHeader from "Controls/_treeGrid/display/TreeGridHeader";
-import TreeGridTableHeader from "Controls/_treeGrid/display/TreeGridTableHeader";
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -277,18 +275,14 @@ export default class TreeGridCollection<
 
     // region HasNodeWithChildren
 
-    protected _setDisplayExpanderPadding(newValue: boolean) {
-        super._setDisplayExpanderPadding(newValue);
+    protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
+        super._setHasNodeWithChildren(hasNodeWithChildren);
         if (this.getFooter()) {
-            this.getFooter().setDisplayExpanderPadding(newValue);
-        }
-        if (this.getHeader()) {
-            this.getHeader().setDisplayExpanderPadding(newValue);
+            this.getFooter().setHasNodeWithChildren(hasNodeWithChildren);
         }
     }
 
     // endregion HasNodeWithChildren
-
 
     // region itemsFactoryResolver
 
@@ -322,7 +316,10 @@ export default class TreeGridCollection<
 
     protected _hasItemsToCreateResults(): boolean {
         const rootItems = this.getChildrenByRecordSet(this.getRoot().getContents());
-        return rootItems.length > (this._$resultsVisibility === 'visible' ? 0 : 1);
+        if (this._$task1182250038) {
+            return rootItems.length > (this._$resultsVisibility === 'visible' ? 0 : 1);
+        }
+        return rootItems.length > 1;
     }
 
     protected _initializeFooter(options: IOptions<S, T>): TreeGridFooterRow<S> {
@@ -336,18 +333,8 @@ export default class TreeGridCollection<
             columns: options.footer,
             shouldAddFooterPadding: options.itemActionsPosition === 'outside',
             rowTemplate: options.footerTemplate,
-            hasNodeWithChildren: this._hasNodeWithChildren,
-            hasNode: this._hasNode
+            hasNodeWithChildren: this._hasNodeWithChildren
         });
-    }
-
-    getHeaderConstructor(): typeof TreeGridHeader {
-        return this.isFullGridSupport() ? TreeGridHeader : TreeGridTableHeader;
-    }
-
-    protected _initializeHeader(options: IOptions<S, T>): void {
-        options.expanderSize = this.getExpanderSize();
-        super._initializeHeader(options);
     }
 
     // TODO по идее нужно это добавлять в Tree,

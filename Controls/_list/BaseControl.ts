@@ -104,7 +104,9 @@ import { EdgeIntersectionObserver, getStickyHeadersHeight } from 'Controls/scrol
 import { ItemsEntity } from 'Controls/dragnDrop';
 import {ISiblingStrategy} from './interface/ISiblingStrategy';
 import {FlatSiblingStrategy} from './Strategies/FlatSiblingStrategy';
-import {Remove as RemoveAction, Move as MoveAction, IMoveActionOptions} from 'Controls/listActions';
+import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
+import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
+import {RemoveController} from './Controllers/RemoveController';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IMovableList} from './interface/IMovableList';
 import {saveConfig} from 'Controls/Application/SettingsController';
@@ -1967,6 +1969,9 @@ const _private = {
      */
     resolveItemContainer(self: BaseControl,
                          item: CollectionItem, clickEvent: SyntheticEvent, isMenuClick: boolean): HTMLElement {
+        // TODO: self._container может быть не HTMLElement, а jQuery-элементом,
+        //  убрать после https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
+        const container = self._container.get ? self._container.get(0) : self._container;
         if (isMenuClick) {
             return self._targetItem;
         }
@@ -1974,6 +1979,16 @@ const _private = {
         if (clickEvent && clickEvent.target) {
             return clickEvent.target.closest('.controls-ListView__itemV');
         }
+        // @TODO код ниже при скролле с группой будет давать неверный индекс. Его нужно будет выпилить в 4000.
+        // Т.к., например, breadcrumbs отсутствует в source, но иногда нам нужно получать его target
+        // логичнее использовать именно getIndex(), а не getSourceIndexByItem()
+        // кроме того, в старой модели в itemData.index записывается именно результат getIndex()
+        const itemIndex = self._listViewModel.getIndex(item);
+        const startIndex = self._listViewModel.getStartIndex();
+        return isMenuClick ? self._targetItem : Array.prototype.filter.call(
+            container.querySelector('.controls-ListView__itemV').parentNode.children,
+            (item: HTMLElement) => item.className.includes('controls-ListView__itemV')
+        )[itemIndex - startIndex];
     },
 
     /**
@@ -3168,23 +3183,10 @@ const _private = {
         return result;
     },
 
-    moveItem(self, selectedKey: CrudEntityKey, direction: 'up' | 'down'): Promise<void> {
-        const selection: ISelectionObject = {
-            selected: [selectedKey],
-            excluded: []
-        };
-        return _private.getMoveAction(self).execute({
-            selection,
-            providerName: 'Controls/listActions:MoveProviderDirection',
-            direction
-        }) as Promise<void>;
-    },
-
-    prepareMoveActionOptions(self, options: IList): IMoveActionOptions {
-        const controllerOptions: IMoveActionOptions = {
+    prepareMoverControllerOptions(self, options: IList): IMoveControllerOptions {
+        const controllerOptions: IMoveControllerOptions = {
             source: options.source,
             parentProperty: options.parentProperty,
-            keyProperty: self._keyProperty,
             sorting: options.sorting,
             siblingStrategy: self._getSiblingsStrategy()
         };
@@ -3206,21 +3208,18 @@ const _private = {
         return controllerOptions;
     },
 
-    getMoveAction(self): MoveAction {
-        return new MoveAction(_private.prepareMoveActionOptions(self, self._options));
+    getMoveController(self): MoveController {
+        if (!self._moveController) {
+            self._moveController = new MoveController(_private.prepareMoverControllerOptions(self, self._options));
+        }
+        return self._moveController;
     },
 
-    getRemoveAction(self, selection: ISelectionObject, providerName?: string): RemoveAction {
-        return new RemoveAction({
-            source: self._options.source,
-            filter: self._options.filter,
-            selection,
-            providerName
-        });
-    },
-
-    removeItems(self, selection: ISelectionObject, providerName?: string): RemoveAction {
-        return this.getRemoveAction(self, selection, providerName).execute();
+    getRemoveController(self): RemoveController {
+        if (!self._removeController) {
+            self._removeController = new RemoveController({source: self._options.source});
+        }
+        return self._removeController;
     },
 
     registerFormOperation(self): void {
@@ -3302,37 +3301,6 @@ const _private = {
         return !self.__error && self._listViewModel && self._options.itemActionsPosition === 'outside' &&
             ((self._options.itemActions && self._options.itemActions.length > 0) || self._options.itemActionsProperty) &&
             _private.isAllowedHoverFreeze(self);
-    },
-
-    freezeHoveredItem(self: BaseControl, item: CollectionItem<Model> & {dispItem: CollectionItem<Model>}): void {
-        const startIndex = self._listViewModel.getStartIndex();
-        const itemIndex = self._listViewModel.getIndex(item.dispItem || item);
-
-        const htmlNodeIndex = itemIndex - startIndex + 1;
-        const hoveredContainers = HoverFreeze.getHoveredItemContainers(
-            self._container,
-            htmlNodeIndex,
-            _private.getViewUniqueClass(self),
-            LIST_MEASURABLE_CONTAINER_SELECTOR
-        );
-
-        if (!hoveredContainers.length) {
-            return;
-        }
-
-        // zero element in grid will be row itself; it doesn't have any background color, then lets take the last one
-        const lastContainer = hoveredContainers[hoveredContainers.length - 1];
-        const hoverBackgroundColor = getComputedStyle(lastContainer).backgroundColor;
-
-        self._children.itemActionsOutsideStyle.innerHTML = HoverFreeze.getItemHoverFreezeStyles(
-            _private.getViewUniqueClass(self),
-            htmlNodeIndex,
-            hoverBackgroundColor
-        );
-    },
-
-    unfreezeHoveredItems(self: BaseControl): void {
-        self._children.itemActionsOutsideStyle.innerHTML = '';
     },
 
     initHoverFreezeController(self): void {
@@ -3544,6 +3512,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _draggedKey = null;
     _validateController = null;
 
+    // Контроллер для перемещения элементов из источника
+    _moveController = null;
+
+    // Контроллер для удаления элементов из источника
+    _removeController = null;
     _removedItems = [];
     _keyProperty = null;
 
@@ -3788,21 +3761,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._keyProperty = options.keyProperty ||
             (this._sourceController && this._sourceController.getKeyProperty()) ||
             options.items?.getKeyProperty();
-    }
-
-    /**
-     * Замораживает hover подсветку строки для указанной записи
-     */
-    freezeHoveredItem(item: Model): void {
-        const collectionItem = this._listViewModel.getItemBySourceItem(item);
-        _private.freezeHoveredItem(this, collectionItem);
-    }
-
-    /**
-     * Размораживает все ранее замороженные итемы
-     */
-    unfreezeHoveredItems(): void {
-        _private.unfreezeHoveredItems(this);
     }
 
     scrollMoveSyncHandler(params: IScrollParams): void {
@@ -4204,6 +4162,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._pagingVisible) {
                 this._pagingVisible = false;
             }
+        }
+
+        if (this._removeController) {
+            this._removeController.updateOptions({source: newOptions.source});
+        }
+
+        if (this._moveController) {
+            this._moveController.updateOptions(_private.prepareMoverControllerOptions(this, newOptions));
         }
 
         const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor ||
@@ -4616,7 +4582,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
-            this._notify('_removeDraggingTemplate', [], {bubbling: true});
         }
         if (this._finishScrollToEdgeOnDrawItems) {
             this._finishScrollToEdgeOnDrawItems = null;
@@ -6212,25 +6177,27 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // region move
 
     moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet> {
-        return _private.getMoveAction(this).execute({
-            selection,
-            filter: this._filter,
-            targetKey,
-            position,
-            providerName: 'Controls/listActions:MoveProvider'
-        }) as Promise<DataSet>;
+        return _private.getMoveController(this).move(selection, this._filter, targetKey, position) as Promise<DataSet>;
     }
 
     moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        return _private.moveItem(this, selectedKey, 'up');
+        const selection: ISelectionObject = {
+            selected: [selectedKey],
+            excluded: []
+        };
+        return _private.getMoveController(this).moveUp(selection) as Promise<void>;
     }
 
     moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        return _private.moveItem(this, selectedKey, 'down');
+        const selection: ISelectionObject = {
+            selected: [selectedKey],
+            excluded: []
+        };
+        return _private.getMoveController(this).moveDown(selection) as Promise<void>;
     }
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
-        return _private.getMoveAction(this).execute({selection, filter: this._options.filter});
+        return _private.getMoveController(this).moveWithDialog(selection, this._options.filter);
     }
 
     protected _getSiblingsStrategy(): ISiblingStrategy {
@@ -6243,12 +6210,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     // region remove
 
-    removeItems(selection: ISelectionObject): Promise<string | void> {
-        return _private.removeItems(this, selection, 'Controls/listActions:RemoveProvider')
+    removeItems(selection: ISelectionObject): Promise<void> {
+        return _private.getRemoveController(this).remove(selection, this._options.filter);
     }
 
-    removeItemsWithConfirmation(selection: ISelectionObject): Promise<string | void> {
-        return _private.removeItems(this, selection);
+    removeItemsWithConfirmation(selection: ISelectionObject): Promise<void> {
+        return _private.getRemoveController(this).removeWithConfirmation(selection, this._options.filter);
     }
 
     // endregion remove
@@ -7157,10 +7124,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return result;
     }
 
-    _dragNDropEnded(event: SyntheticEvent): void {
+    _dragNDropEnded(event): void {
         if (this._dndListController && this._dndListController.isDragging()) {
-            const dragObject = this._getDragObject(event.nativeEvent, this._startEvent);
-            this._notify('_documentDragEnd', [dragObject], {bubbling: true});
+            this._notify('_documentDragEnd', [this._getDragObject(event.nativeEvent, this._startEvent)], {bubbling: true});
         }
         if (this._startEvent && this._startEvent.target) {
             this._startEvent.target.classList.remove('controls-DragNDrop__dragTarget');

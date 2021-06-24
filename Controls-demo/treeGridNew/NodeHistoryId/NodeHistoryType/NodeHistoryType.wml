@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
     <Controls.list:DataContainer source="{{ _viewSource }}"
                                  root="{{null}}"
-                                 keyProperty="key"
+                                 keyProperty="id"
                                  parentProperty="parent"
                                  nodeProperty="type"
                                  nodeTypeProperty="nodeType"

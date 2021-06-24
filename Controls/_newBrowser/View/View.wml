@@ -56,7 +56,6 @@
                         on:afterEndEdit="_notifyHandler('afterEndEdit')"
                         on:dragStart="_notifyHandler('detailDragStart')"
                         on:dragEnd="_notifyHandler('detailDragEnd')"
-                        on:drawItems="_notifyHandler('drawItems')"
                         on:beforeItemsMove="_notifyHandler('detailBeforeItemsMove')"
                         dataLoadCallback="{{_onDetailDataLoadCallback}}"
                         searchValue="{{_options.searchValue}}"

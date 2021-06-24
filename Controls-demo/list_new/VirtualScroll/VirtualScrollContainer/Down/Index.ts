@@ -15,7 +15,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._source = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: generateData<IItem>({
                 count: 200,
                 entityTemplate: {title: 'number'},

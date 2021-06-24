@@ -7,12 +7,19 @@ import {factory as CollectionFactory} from 'Types/collection';
 import entity = require('Types/entity');
 import collection = require('Types/collection');
 import sourceLib = require('Types/source');
+import Env = require('Env/Env');
 import Di = require('Types/di');
 import coreInstance = require('Core/core-instance');
 import {TKey} from 'Controls/_filter/View/interface/IFilterItem';
-import {getStore} from 'Application/Env';
 
-const HISTORY_SOURCE_STORAGE_ID = 'CONTROLS_HISTORY_SOURCE_STORE';
+var HISTORY_SOURCE = {};
+
+function destroyHistorySource(historyId) {
+   HISTORY_SOURCE[historyId].destroy({}, {
+      '$_history': true
+   });
+   HISTORY_SOURCE[historyId] = null;
+}
 
 function createHistorySource(cfg) {
    var historySourceData = {
@@ -36,13 +43,12 @@ function createHistorySource(cfg) {
 }
 
 function getHistorySource(cfg) {
-   const store = getStore(HISTORY_SOURCE_STORAGE_ID);
-   let source = store.get(cfg.historyId);
-   if (!source) {
-      source = createHistorySource(cfg);
-      store.set(cfg.historyId, source);
+   if (Env.constants.isServerSide) {
+      return createHistorySource(cfg);
+   } else {
+      HISTORY_SOURCE[cfg.historyId] = HISTORY_SOURCE[cfg.historyId] || createHistorySource(cfg);
    }
-   return source;
+   return HISTORY_SOURCE[cfg.historyId];
 }
 
 function loadHistoryItems(historyConfig) {

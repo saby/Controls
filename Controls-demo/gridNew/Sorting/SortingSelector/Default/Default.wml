@@ -8,7 +8,7 @@
             bind:value="_sorting"/>
     <Controls.scroll:Container attr:class="controlsDemo__inline-flex">
         <Controls.grid:View
-                keyProperty="key"
+                keyProperty="id"
                 source="{{_viewSource}}"
                 header="{{_header}}"
                 columns="{{_columns}}"

@@ -1,9 +1,9 @@
 <div class="controlsDemo__wrapper controlsDemo__list_new-itemTepmlate-NoHighlightOnHover">
-    <Controls.list:View keyProperty="key"
+    <Controls.list:View keyProperty="id"
                         source="{{_viewSource}}">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate"
-                        marker="{{itemTemplate.item.contents.key !== 1}}"/>
+                        marker="{{itemTemplate.item.contents.id !== 1}}"/>
         </ws:itemTemplate>
     </Controls.list:View>
 </div>

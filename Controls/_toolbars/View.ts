@@ -79,13 +79,6 @@ export interface IMenuOptions {
      * @default medium
      */
     itemsSpacing: TItemsSpacing;
-     /**
-      * @name Controls/toolbars:IToolbar#direction
-      * @cfg {String} Расположение элементов в тулбаре
-      * @variant vertical
-      * @variant horizontal
-      */
-     direction: 'vertical' | 'horizontal';
     /**
      * @name Controls/toolbars:IToolbar#additionalProperty
      * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/item-config/#additional">здесь</a>.
@@ -99,14 +92,14 @@ export interface IMenuOptions {
     popupFooterTemplate?: String | Function;
     /**
      * @name Controls/toolbars:IToolbar#itemActions
-     * @cfg {Array<Controls/itemActions:IItemAction>} Конфигурация опций записи.
+     * @cfg {Array<ItemAction>} Конфигурация опций записи.
      * @demo Controls-demo/Toolbar/ItemActions/Index
      */
     itemActions?: IItemAction[];
     /**
      * @name Controls/toolbars:IToolbar#itemActionVisibilityCallback
      * @cfg {function} Функция управления видимостью операций над записью.
-     * @param {Controls/itemActions:IItemAction} action Объект с настройкой действия.
+     * @param {ItemAction} action Объект с настройкой действия.
      * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
      * @remark Если из функции возвращается true, то операция отображается.
      * @demo Controls-demo/Toolbar/ItemActions/Index
@@ -127,6 +120,7 @@ export interface IMenuOptions {
      */
     contrastBackground?: true;
 }
+
 
 /**
  * Интерфейс опций контрола {@link Controls/toolbars:View}.
@@ -679,7 +673,6 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             popupClassName: '',
             itemsSpacing: 'medium',
             iconSize: 'm',
-            direction: 'horizontal',
             itemTemplate: defaultItemTemplate,
             iconStyle: 'secondary'
         };

@@ -21,7 +21,7 @@ export default {
     _container: null,
     _indicator: null,
     _contentData: null,
-    _rightBottomTemplate: null,
+    _rightTemplate: null,
     _popupHeaderTheme: undefined,
     _theme: undefined,
     _popupSettingsController: undefined,
@@ -142,19 +142,11 @@ export default {
         return this._contentData;
     },
 
-    setRightPanelBottomTemplate(rightTemplate: string): void {
-        this._rightBottomTemplate = rightTemplate;
-    },
-
-    getRightPanelBottomTemplate(): string {
-        return this._rightBottomTemplate;
-    },
-
-    setRightTemplate(): void {
-        // удалить метод, сейчас в качестве заглушки
+    setRightTemplate(rightTemplate: string): void {
+        this._rightTemplate = rightTemplate;
     },
 
     getRightTemplate(): string {
-        // удалить метод, сейчас в качестве заглушки
+        return this._rightTemplate;
     }
 };

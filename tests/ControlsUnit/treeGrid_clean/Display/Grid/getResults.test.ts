@@ -36,6 +36,7 @@ describe('Controls/treeGrid_clean/Display/Grid/getResults', () => {
                 nodeProperty: 'type',
                 resultsVisibility: 'visible',
                 multiSelectVisibility: 'visible',
+                task1182250038: true,
                 columns: [{}],
                 expandedItems: [ null ],
                 root: null
@@ -44,7 +45,7 @@ describe('Controls/treeGrid_clean/Display/Grid/getResults', () => {
             assert.notExists(treeGridCollection.getResults());
         });
 
-        it('resultsVisibility=hasdata, should not create results when root contains single item', () => {
+        it('resultsVisibility=hasdata, should create results when root contains single item', () => {
             const treeGridCollection = new TreeGridCollection({
                 collection: new RecordSet({
                     rawData,
@@ -56,6 +57,7 @@ describe('Controls/treeGrid_clean/Display/Grid/getResults', () => {
                 nodeProperty: 'type',
                 resultsVisibility: 'hasdata',
                 multiSelectVisibility: 'visible',
+                task1182250038: true,
                 columns: [{}],
                 expandedItems: [ null ],
                 root: null,
@@ -77,6 +79,7 @@ describe('Controls/treeGrid_clean/Display/Grid/getResults', () => {
                 nodeProperty: 'type',
                 resultsVisibility: 'visible',
                 multiSelectVisibility: 'visible',
+                task1182250038: true,
                 columns: [{}],
                 expandedItems: [ null ],
                 root: null,

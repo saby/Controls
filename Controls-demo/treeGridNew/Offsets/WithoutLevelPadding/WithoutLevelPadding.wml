@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-offset-withoutLevelPadding">
     <Controls.treeGrid:View
-            keyProperty="key"
+            keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
             parentProperty="parent"

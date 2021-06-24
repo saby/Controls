@@ -25,9 +25,6 @@ var _private = {
         if (cfg.results) {
             Logger.warn('IList: Option "results" is deprecated and removed in 19.200. Use options "resultsPosition" and "resultsTemplate".', self);
         }
-        if (cfg.groupingKeyCallback) {
-            Logger.warn('IList: Option "groupingKeyCallback" is deprecated and removed soon. Use options "groupProperty".', self);
-        }
     },
 
     resizeNotifyOnListChanged: function(self) {

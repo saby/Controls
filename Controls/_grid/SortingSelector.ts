@@ -40,9 +40,8 @@ const iconSizeMap = {
  * @public
  * @implements Controls/interface:IFontColorStyle
  * @implements Controls/interface:IFontSize
- * @implements Controls/grid:IPropStorage
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/Default/Index
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/Icons/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
  * @author Авраменко А.С.
  */
 class SortingSelector extends Control<ISortingSelectorOptions> {
@@ -242,19 +241,17 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @property {String} title Подпись пункта меню, соответствующего данному полю.
  * @property {String} [icon=undefined] Имя иконки, которая отображается в меню рядом с подписью (см. свойство title), а также в заголовке выпадающего меню. Список иконок {@link /icons/ тут}.
  * @property {String} [iconSize=l] Размер иконки. Допустимые значения описаны {@link Controls/interface:IIconSize#iconSize здесь}.
- * @property {string} titleAsc Подсказка при наведении на стрелку сортировки по возрастанию.
- * @property {string} titleDesc Подсказка при наведении на стрелку сортировки по убыванию.
  */
 
 
 /**
  * @name Controls/_grid/SortingSelector#sortingParams
  * @cfg {Array.<Controls/_grid/SortingSelector/SortingParam.typedef>} Параметры сортировки.
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/Default/Index
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithReset/Index
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/Icons/Index
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/ArrowTitle/Index
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/SingleField/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithReset/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/ArrowTitle/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/SingleField/Index
  * @example
  * В опцию передается массив вида
  * <pre class="brush: js;">
@@ -355,7 +352,7 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @name Controls/grid:SortingSelector#header
  * @cfg {String} Заголовок для выпадающего списка сортировки.
  * @remark Если заголовок не требуется, опцию можно не указывать.
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithHeader/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithHeader/Index
  */
 
 /**

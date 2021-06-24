@@ -5,7 +5,7 @@ import {generateData} from '../../../DemoHelpers/DataCatalog';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 interface IItem {
-    key: number;
+    id: number;
     title: string;
 }
 
@@ -14,22 +14,22 @@ export default class extends Control {
     protected _viewSource: Memory;
 
     private dataArray: IItem[] = generateData<IItem>({
-        keyProperty: 'key',
+        keyProperty: 'id',
         count: 1000,
         beforeCreateItemCallback: (item: IItem) => {
-            item.title = `Запись с ключом ${item.key}.`;
+            item.title = `Запись с ключом ${item.id}.`;
         }
     });
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
-            keyProperty: 'key',
+            keyProperty: 'id',
             data: this.dataArray
         });
     }
 
-    protected _scrollToItem(event: SyntheticEvent, key: number): void {
-        this._children.list.scrollToItem(key, false, true);
+    protected _scrollToItem(event: SyntheticEvent, id: number): void {
+        this._children.list.scrollToItem(id, false, true);
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];

@@ -18,7 +18,7 @@ import Search from 'Controls/_search/Input/Search';
  * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
- * @ignoreoptions style
+ * @ignoreOptions style
  *
  *
  * @public
@@ -42,7 +42,7 @@ import Search from 'Controls/_search/Input/Search';
  * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
- * @ignoreoptions style
+ * @ignoreOptions style
  *
  *
  * @public

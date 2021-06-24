@@ -1,7 +1,0 @@
-<div class="controlsDemo__wrapper">
-    <Controls.dateRange:DateSelector bind:value="_value">
-        <ws:monthCaptionTemplate>
-            <ws:partial template="Controls/dateRange:MonthCaptionTemplate" icon="icon-Yes" iconStyle="{{_getIconStyle(monthCaptionTemplate.date)}}"/>
-        </ws:monthCaptionTemplate>
-    </Controls.dateRange:DateSelector>
-</div>

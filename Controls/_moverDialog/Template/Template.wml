@@ -4,7 +4,6 @@
                                 bind:filter="_filter"
                                 bind:root="_root"
                                 bind:expandedItems="_expandedItems"
-                                searchValue="{{_searchValue}}"
                                 navigation="{{_options.navigation}}"
                                 dataLoadCallback="{{_options.dataLoadCallback}}"
                                 keyProperty="{{_options.keyProperty}}"
@@ -12,9 +11,19 @@
                                 parentProperty="{{_options.parentProperty}}"
                                 displayProperty="{{_options.displayProperty}}">
             <div class="controls-MoveDialog__content">
-               <Controls.search:InputContainer attr:class="controls-MoveDialog__search" bind:inputSearchValue="_searchValue">
+               <Controls.search:InputContainer attr:class="controls-MoveDialog__search ">
                   <Controls.search:Input/>
                </Controls.search:InputContainer>
+               <ws:if data="{{_options.showRoot}}">
+                  <Controls.buttons:Button attr:class="controls-MoveDialog__root"
+                                           viewMode="link"
+                                           fontColorStyle="link"
+                                           caption="{[В корень]}"
+                                           on:click="_onItemActionsClick('move', _options.root)"
+                                           icon="icon-Undo2"
+                                           data-qa="controls-MoveDialog__root"
+                                           iconSize="s" iconStyle="secondary"/>
+               </ws:if>
                <Controls.scroll:Container attr:class="controls-MoveDialog__scroll">
                   <Controls.list:Container>
                      <Controls.explorer:View
@@ -26,7 +35,6 @@
                              on:beforeMarkedKeyChanged="_onBeforeMarkedKeyChanged()"
                              on:actionClick="_onItemActionsClick()"
                              on:itemClick="_onItemClick()"
-                             dataLoadCallback="{{ _dataLoadCallback }}"
                              nodeProperty="{{_options.nodeProperty}}"
                              hasChildrenProperty="{{_options.hasChildrenProperty}}"
                              itemsFilterMethod="{{_itemsFilterMethod}}"

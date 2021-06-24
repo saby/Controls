@@ -63,15 +63,23 @@ export class StackStrategy {
 
     private _getRightPosition(tCoords, isAboveMaximizePopup: boolean): number {
         if (isAboveMaximizePopup) {
-            return RIGHT_PANEL_WIDTH;
+            const rightTemplate = this._getRightTemplate();
+            if (rightTemplate) {
+                return RIGHT_PANEL_WIDTH;
+            }
+            return 0;
         }
         return tCoords.right;
+    }
+
+    private _getRightTemplate(): string {
+        return ManagerController.getRightTemplate();
     }
 
     private _getPanelWidth(item: IPopupItem, tCoords, maxPanelWidth: number): number {
         let panelWidth;
         const maxPanelWidthWithOffset = maxPanelWidth - tCoords.right;
-        const minRightSpace = RIGHT_PANEL_WIDTH;
+        const minRightSpace = this._getRightTemplate() ? RIGHT_PANEL_WIDTH : 0;
         let minWidth = parseInt(item.popupOptions.minWidth, 10);
         const maxWidth = parseInt(item.popupOptions.maxWidth, 10);
 

@@ -18,9 +18,8 @@ const mapBoolState = {true: false, false: true, null: true};
 
 /**
  * Контрол, позволяющий пользователю управлять параметром с двумя состояниями — включено и отключено.
- *
+ * 
  * @remark
- * Для того, чтобы убрать отступ у контролла, нужно навесить CSS-класс **controls-Input_negativeOffset**
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckbox%2FIndex демо-пример}
  * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_toggle.less переменные тем оформления}
@@ -32,7 +31,7 @@ const mapBoolState = {true: false, false: true, null: true};
  * @implements Controls/interface:IIcon
  * @implements Controls/interface:ITooltip
  * @implements Controls/interface:IValidationStatus
- *
+ * 
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/Checkbox/Base/Index
@@ -50,7 +49,7 @@ const mapBoolState = {true: false, false: true, null: true};
  * @implements Controls/interface:ITooltip
  * @implements Controls/interface:IIconStyle
  * @implements Controls/interface:IIconSize
- *
+ * 
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/Checkbox/Base/Index

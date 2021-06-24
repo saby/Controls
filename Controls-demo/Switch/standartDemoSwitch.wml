@@ -1,0 +1,92 @@
+<div>
+    <div class="demo__wrapper">
+        <div class="ControlsDemo-standartDemoSwitch_SingleSwitcher">
+            <h1>Switchers</h1>
+            <h2>Single switcher</h2>
+            <div class="demo__block ControlsDemo-standartDemoSwitch_SingleSwitch">
+                <Controls.toggle:Switch attr:class="demo__element ControlsDemo-standartDemoSwitch_SwitchOff" bind:value="value" caption="State"/>
+                <Controls.toggle:Switch attr:class="demo__element ControlsDemo-standartDemoSwitch_SwitchOn" bind:value="value1" captionPosition="left" caption="State"/>
+            </div>
+            <h2>Horizontal double switcher</h2>
+            <div class="demo__block ControlsDemo-standartDemoSwitch_HorizontalDoubleSwitch">
+                <Controls.toggle:DoubleSwitch attr:class="demo__element ControlsDemo-standartDemoSwitch_DoubleSwitchOff" bind:value="value2" captions="{{['Turned on', 'Turned off']}}"/>
+            </div>
+            <h2>Vertical double switcher</h2>
+            <div class="demo__block ControlsDemo-standartDemoSwitch_VerticalDoubleSwitch">
+                <Controls.toggle:DoubleSwitch attr:class="demo__element ControlsDemo-standartDemoSwitch_DoubleSwitchOn" bind:value="value3" orientation="vertical" captions="{{['Turned on', 'Turned off']}}" />
+            </div>
+        </div>
+        <div class="ControlsDemo-standartDemoSwitch_RadioGroups">
+            <h2>Horizontal radio group</h2>
+            <div class="demo__block ControlsDemo-standartDemoSwitch_HorizontalRadioBlock">
+                <Controls.toggle:RadioGroup
+                   attr:class="demo__element horizontal__element ControlsDemo-standartDemoSwitch_HorizontalRadio"
+                   on:selectedKeyChanged="changeKey(1)"
+                   keyProperty="id"
+                   selectedKey="{{_selectKey}}"
+                   source="{{_source}}"
+                   direction="horizontal"
+                   readOnly="{{false}}"/>
+            </div>
+            <h2>Vertical radio group</h2>
+			<div class="ControlsDemo-standartDemoSwitch_VerticalRadioBlock">
+				<div class="demo__block_inline">
+					<Controls.toggle:RadioGroup
+					   attr:class="demo__element vertical__element ControlsDemo-standartDemoSwitch_VerticalRadioLeft"
+					   on:selectedKeyChanged="changeKey(2)"
+					   keyProperty="id"
+					   selectedKey="{{_selectKey2}}"
+					   source="{{_source}}"
+					   direction="vertical"
+					   readOnly="{{false}}"/>
+				</div>
+				<div class="demo__block_inline">
+					<Controls.toggle:RadioGroup
+					   attr:class="demo__element vertical__element ControlsDemo-standartDemoSwitch_VerticalRadioRight"
+					   on:selectedKeyChanged="changeKey(3)"
+					   keyProperty="id"
+					   selectedKey="{{_selectKey3}}"
+					   source="{{_source}}"
+					   direction="vertical"
+					   readOnly="{{false}}"/>
+				</div>
+			</div>
+        </div>
+        <h2>readOnly state</h2>
+        <div class="demo__block">
+            <Controls.toggle:Switch attr:class="demo__element ControlsDemo-standartDemoSwitch_ReadOnlySwitchOff" readOnly="{{true}}" value="{{value4}}" caption="State"/>
+            <Controls.toggle:DoubleSwitch attr:class="demo__element ControlsDemo-standartDemoSwitch_ReadOnlyDoubleSwitchOn" readOnly="{{true}}" value="{{value5}}" captions="{{['Turned on', 'Turned off']}}"/>
+            <Controls.toggle:RadioGroup
+               attr:class="demo__element horizontal__element ControlsDemo-standartDemoSwitch_ReadOnlyRadioGroup"
+               keyProperty="id"
+               selectedKey="1"
+               source="{{_source}}"
+               direction="horizontal"
+               readOnly="{{true}}"/>
+        </div>
+    </div>
+    <div class="demo__block demo__block_center">
+        <h2>custom itemTemplate</h2>
+        <Controls.toggle:Switch attr:class="demo__element ControlsDemo-standartDemoSwitch_CustomSwitchOff" readOnly="{{false}}" bind:value="value6" caption="tmpl!Controls-demo/Switch/resources/customCaptionTemplate"/>
+        <Controls.toggle:RadioGroup
+           on:selectedKeyChanged="changeKey(4)"
+           attr:class="demo__element demo__element_width horizontal__element ControlsDemo-standartDemoSwitch_CustomRadioGroup"
+           keyProperty="id"
+           selectedKey="{{_selectKey4}}"
+           source="{{_sourceAdditional}}"
+           direction="vertical"
+           readOnly="{{false}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/toggle:ItemTemplate"
+                            attr:class="controls-RadioGroup_defaultItem_{{_options.direction}}"
+                            item="{{item}}"
+                            readOnly="{{readOnly}}"
+                            selected="{{selected}}">
+                    <ws:contentTemplate>
+                        <ws:partial template="tmpl!Controls-demo/Switch/resources/customContentTemplate"/>
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:itemTemplate>
+        </Controls.toggle:RadioGroup>
+    </div>
+</div>

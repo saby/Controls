@@ -31,4 +31,8 @@
         <div class="controls-text-label">fontSize=4xl</div>
         <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontSize="4xl" />
     </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">fontSize=5xl</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontSize="5xl" />
+    </div>
 </div>
