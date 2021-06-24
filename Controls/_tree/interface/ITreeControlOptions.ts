@@ -179,7 +179,8 @@ export interface ITreeControlOptions extends IControlOptions {
  * @name Controls/_tree/interface/ITreeControl#hasChildrenProperty
  * @cfg {String} Имя поля записи, в котором хранится информация о наличии дочерних элементов в узле {@link Controls/treeGrid:View дерева}.
  * @remark
- * Эта настройка используется для режимов отображения кнопки-экспандепа "hasChildren" и "hasChildrenOrHover" (см. {@link expanderVisibility}).
+ * Для работы данной опции необходимо установить опцию {@link expanderVisibility} в значение "haschildren" или "haschildrenorhover".
+
  */
 
 /*
