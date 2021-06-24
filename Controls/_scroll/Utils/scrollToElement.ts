@@ -10,10 +10,9 @@ enum SCROLL_POSITION {
    center = 'center',
 }
 
-function getScrollableParents(element: HTMLElement): HTMLElement[] {
-   let
-      scrollableParents: HTMLElement[] = [],
-      currentElement = element.parentElement;
+function getScrollableParents(element: HTMLElement, stickyHeaderElement: Element): HTMLElement[] {
+   let scrollableParents: HTMLElement[] = [];
+   let currentElement = element.parentElement;
 
    while (currentElement) {
       let currentStyle = window.getComputedStyle(currentElement);
@@ -21,7 +20,9 @@ function getScrollableParents(element: HTMLElement): HTMLElement[] {
       if ((currentStyle.overflowY === 'auto'
           || currentStyle.overflowY === 'scroll'
           //TODO fix for Container/Scroll, which has "overflow: hidden" in content block while mounting
-          || currentElement.className.indexOf('controls-Scroll__content_hidden') >= 0) && currentElement.scrollHeight > currentElement.clientHeight) {
+          || currentElement.className.indexOf('controls-Scroll__content_hidden') >= 0)
+          // Элемент может находиться в полупустом скролл контейнере, который находится в стики блоке.
+          && (currentElement.scrollHeight > currentElement.clientHeight || stickyHeaderElement)) {
          scrollableParents.push(currentElement);
       }
 
@@ -93,7 +94,10 @@ function getCenterOffset(parentElement: HTMLElement, element: HTMLElement): numb
 export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boolean | SCROLL_POSITION, force?: Boolean): void {
    // TODO: переделать аргумент toBottom в position https://online.sbis.ru/opendoc.html?guid=4693dfce-f11d-4792-b62d-9faf54564553
    const position: SCROLL_POSITION = toBottomOrPosition === true ? SCROLL_POSITION.bottom : toBottomOrPosition;
-   const scrollableParent = getScrollableParents(element);
+   const stickyHeaderClass = 'controls-StickyHeader';
+   // Элемент, к которому нужно подскролить, может находиться в стики блоке.
+   const outerStickyHeaderElement = element.closest(`.${stickyHeaderClass}`);
+   const scrollableParent = getScrollableParents(element, outerStickyHeaderElement);
    for (const parent of scrollableParent) {
       const
          elemToScroll = parent === document.documentElement ? document.body : parent,
@@ -105,11 +109,6 @@ export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boole
       // Рассматримается кейс: https://online.sbis.ru/opendoc.html?guid=cf7d3b3a-de34-43f2-ad80-d545d462602b, где все
       // StickyHeader'ы одной высоты и сменяются друг за другом.
       let innerStickyHeaderHeight;
-      const stickyHeaderClass = 'controls-StickyHeader';
-
-      // Элемент, к которому нужно подскролить, может находиться в стики блоке.
-      const outerStickyHeaderElement = element.closest(`.${stickyHeaderClass}`);
-
       if (element.classList.contains(stickyHeaderClass)) {
           innerStickyHeaderHeight = element.offsetHeight;
       } else {

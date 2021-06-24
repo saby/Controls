@@ -34,9 +34,24 @@ export default class CollectionItem<T> extends BaseCollectionItem<T> {
     getWrapperClasses(templateHighlightOnHover: boolean = true, theme?: 'string', cursor: string|boolean = 'pointer'): string {
         let result: string = super.getWrapperClasses.apply(this, arguments);
         result += ' controls-ColumnsView__itemV';
+
         if (cursor === true || cursor === 'pointer') {
             result += ' controls-ListView__itemV_cursor-pointer';
         }
+
+        // При днд отключаем стиль ховера, т.к. он тоже рисуется тенями
+        // и возможна путаница между dragged и hovered итемами
+        if (!this.getOwner().isDragging()) {
+            result += ' controls-ColumnsView__item_hovering';
+        }
+
+        if (this.isDragged()) {
+            result += ' controls-ColumnsView__item_dragging';
+        }
+        if (this.isDragTargetNode()) {
+            result += ' controls-ColumnsView__dragTargetNode';
+        }
+
         return result;
     }
 
