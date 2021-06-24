@@ -27,24 +27,16 @@ export default interface IApplication extends IHTML {
  * @cfg {Content} Позволяет описывать ссылки на дополнительные ресурсы, которые необходимы при загрузке страницы.
  * @example
  * <pre class="brush: html">
+ * <!-- WML -->
  * <ws:links>
  *     <ws:Array>
- *         <ws:Object rel="shortcut icon" href="{{_options.wsRoot}}img/themes/wi_scheme/favicon.ico?v=2" type="image/x-icon"/>
+ *         <ws:Object rel="shortcut icon" href="{{getResourceUrl('/cdn/SabyLogo/1.0.0/favicon.ico')}}" type="image/x-icon"/>
  *     </ws:Array>
  * </ws:links>
  * </pre>
- */
-
-/**
- * @name Controls/_interface/IApplication#meta
- * @cfg {Content} Позволяет описывать дополнительные метаданные страницы.
- * @example
- * <pre class="brush: html">
- * <ws:meta>
- *     <ws:Array>
- *         <ws:Object name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
- *     </ws:Array>
- * </ws:meta>
+ *
+ * <pre class="brush: js">
+ * // JavaScript
  * </pre>
  */
 
@@ -103,7 +95,6 @@ export type HeadJson = [string, Record<string, string>][];
 export interface IApplicationOptions extends IHTMLOptions {
     scripts?: Array<IAttributes>;
     links?: Array<IAttributes>;
-    meta?: Array<IAttributes>;
     headJson?: HeadJson;
     title?: string;
 }
