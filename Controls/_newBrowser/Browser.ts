@@ -605,7 +605,8 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     private _onDetailDataLoadCallback(items: RecordSet, direction: string, options: IOptions): void {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
-        if (direction && options.detail.imageProperty && !this._hasImageInItems) {
+        const rootChanged = this.root !== this._detailDataSource.sourceController.getRoot();
+        if (options.detail.imageProperty && (direction && !this._hasImageInItems || rootChanged)) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
             const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
             if (imageVisibility !== this._listCfg.getImageVisibility()) {
