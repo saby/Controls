@@ -4,11 +4,14 @@ import {ButtonTemplate} from 'Controls/buttons';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as template from 'wml!Controls/_toggle/ButtonGroup/ButtonGroup';
+import * as itemTemplate from 'wml!Controls/_toggle/ButtonGroup/itemTemplate';
+import {IItemTemplateOptions} from 'Controls/interface';
 import 'css!Controls/buttons';
 import 'css!Controls/toggle';
 import 'css!Controls/CommonClasses';
 
-export interface IChipsOptions extends IMultiSelectableOptions, IControlOptions, IItemsOptions<object> {
+export interface IChipsOptions extends IMultiSelectableOptions, IControlOptions, IItemsOptions<object>,
+    IItemTemplateOptions {
 }
 
 /**
@@ -53,6 +56,42 @@ export interface IChipsOptions extends IMultiSelectableOptions, IControlOptions,
  * @demo Controls-demo/toggle/Chips/displayProperty/Index
  */
 
+/**
+ * @name Controls/_toggle/Chips#itemTemplate
+ * @cfg {TemplateFunction|String} Шаблон элемента кнопочного переключателя.
+ * @demo Controls-demo/toggle/Chips/ItemTemplate/Index
+ *
+ * По умолчанию используется шаблон "Controls/toogle:chipsItemTemplate".
+ * Также есть базовый шаблон для отображения записей со счетчиком Controls/toggle:chipsItemCounterTemplate
+ *
+ * Шаблон chipsItemCounterTemplate поддерживает следующие параметры:
+ * - item {Types/entity:Record} — Отображаемый элемент;
+ * - counterProperty {string} — Имя свойства элемента, содержимое которого будет отображаться в счетчике.
+ *
+ * @example
+ * Отображение записей со счетчиками
+ * JS:
+ * <pre>
+ * this._items = new Memory({
+ *    keyProperty: 'key',
+ *    data: [
+ *       {key: 1, caption: 'Element 1', counter: 5},
+ *       {key: 2, caption: 'Element 2', counter: 3},
+ *       {key: 3, caption: 'Element 3', counter: 7}
+ *    ]
+ * });
+ * </pre>
+ *
+ * WML
+ * <pre>
+ *    <Controls.toggle:Chips items="{{_items}}" >
+ *       <ws:itemTemplate>
+ *          <ws:partial template="Controls/toggle:chipsItemCounterTemplate" scope="{{itemTemplate}}" />
+ *       </ws:itemTemplate>
+ *    </Controls.toggle:Chips>
+ * </pre>
+ */
+
 class Chips extends Control<IChipsOptions> {
     protected _template: TemplateFunction = template;
     protected _buttonTemplate: TemplateFunction = ButtonTemplate;
@@ -82,7 +121,8 @@ class Chips extends Control<IChipsOptions> {
 
     static getDefaultOptions(): IChipsOptions {
         return {
-            keyProperty: 'id'
+            keyProperty: 'id',
+            itemTemplate
         };
     }
 }

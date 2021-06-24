@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <Controls.toggle:Chips items="{{_items1}}" bind:selectedKeys="_selectedKeys1">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/toggle:chipsItemCounterTemplate" counterProperty="counter" scope="{{itemTemplate}}"/>
+            </ws:itemTemplate>
+        </Controls.toggle:Chips>
+    </div>
+</div>
