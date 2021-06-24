@@ -73,7 +73,7 @@ define('Controls/interface/IGroupedList', [
 
 /**
  * @event Controls/interface/IGroupedList#groupExpanded Происходит при развертывании {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы}.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} changes Идентификатор группы.
  * @demo Controls-demo/list_new/Grouped/OnGroupCollapsed/Index
  * @see groupCollapsed
@@ -83,7 +83,7 @@ define('Controls/interface/IGroupedList', [
 
 /**
  * @event Controls/interface/IGroupedList#groupCollapsed Происходит при сворачивании {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы}.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} changes Идентификатор группы.
  * @demo Controls-demo/list_new/Grouped/OnGroupCollapsed/Index
  * @see groupExpanded

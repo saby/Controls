@@ -634,7 +634,7 @@ export interface IGridControl extends IList {
 /**
  * @event Происходит при наведении курсора мыши на ячейку таблицы.
  * @name Controls/_interface/grid/IGridControl#hoveredCellChanged
- * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
+ * @param {UICommon/Events:SyntheticEvent} event Объект события.
  * @param {Types/entity:Record} item Элемент, на который навели курсор.
  * @param {HTMLElement} itemContainer Контейнер элемента, на который навели курсор.
  * @param {Number} columnIndex Индекс ячейки, на которую навели курсор.
@@ -644,7 +644,7 @@ export interface IGridControl extends IList {
 /**
  * @event Происходит при клике на "шеврон" элемента.
  * @name Controls/_interface/grid/IGridControl#editArrowClick
- * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
+ * @param {UICommon/Events:SyntheticEvent} event Объект события.
  * @param {Types/entity:Model} item Элемент, по которому произвели клик.
  */
 

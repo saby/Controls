@@ -708,7 +708,7 @@ Object.defineProperty(Toolbar, 'defaultProps', {
 /**
  * @event Происходит при клике по элементу.
  * @name Controls/_toolbars/View#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому производим клик.
  * @example
  * TMPL:

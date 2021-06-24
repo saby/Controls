@@ -1221,7 +1221,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 /**
  * @event Происходит при выборе элемента.
  * @name Controls/_menu/MenuControl#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Выбранный элемент.
  * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, подменю не закроется.
  * По умолчанию, когда выбран пункт с иерархией, подменю закрывается.

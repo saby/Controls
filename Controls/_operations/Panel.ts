@@ -75,14 +75,14 @@ export default class Panel extends Control<IControlOptions> {
 /**
  * @event Происходит после появления панели массовых операций на экране.
  * @name Controls/_operations/Panel#operationsPanelOpened
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 
 /**
  * @event Происходит при клике на элемент.
  * @name Controls/_operations/Panel#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому произвели клик.
  * @param {Object} nativeEvent Объект нативного события браузера
  * @param {Controls/interface:ISelectionObject} selection Объект, который содержит идентификаторы отмеченных и исключённых записей.
@@ -110,7 +110,7 @@ export default class Panel extends Control<IControlOptions> {
 /*
  * @event Occurs when an item was clicked.
  * @name Controls/_operations/Panel#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Record} item Clicked item.
  * @param {Event} originalEvent Descriptor of the original event.
  * @example

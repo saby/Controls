@@ -1487,6 +1487,6 @@ export default TreeControl;
 /**
  * @event Событие контрола.
  * @name Controls/_tree/TreeControl#expandedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Массив с идентификаторами развернутых элементов.
  */

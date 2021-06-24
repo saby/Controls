@@ -244,6 +244,9 @@ export default class _Controller implements IDropdownController {
    }
 
    openMenu(popupOptions?: object): Promise<any> {
+      if (this._options.reloadOnOpen) {
+         this._setItems(null);
+      }
       return this._open(popupOptions);
    }
 
@@ -290,7 +293,7 @@ export default class _Controller implements IDropdownController {
    }
 
    handleClose(): void {
-       if (this._items && !this._items.getCount() && this._options.searchParam || this._options.reloadOnOpen) {
+       if (this._items && !this._items.getCount() && this._options.searchParam) {
            this._setItems(null);
        }
        this._isOpened = false;
@@ -770,6 +773,6 @@ _Controller.getOptionTypes = function getOptionTypes() {
 /**
  * @event Происходит при изменении набора выбранных элементов.
  * @name Controls/_dropdown/_Controller#selectedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/collection:RecordSet} items Выбранные элементы.
  */
