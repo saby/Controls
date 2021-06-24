@@ -532,6 +532,11 @@ describe('Controls/_multiselection/Controller', () => {
             controllerWithReadonly.setSelection({selected: [], excluded: []});
             assert.isTrue(controllerWithReadonly.getLimit() === 0);
          });
+
+         it('not pass excluded', () => {
+            controller.setSelection({selected: [1]});
+            assert.deepEqual(controller.getSelection(), {selected: [1], excluded: []});
+         });
       });
    });
 

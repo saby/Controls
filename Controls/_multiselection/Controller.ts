@@ -85,6 +85,11 @@ export class Controller {
     * @void
     */
    setSelection(selection: ISelection): void {
+      // Прикладники могут задать только selectedKeys и чтобы не было ошибок инициализируем excluded пустым массивом
+      if (!selection.excluded) {
+         selection.excluded = [];
+      }
+
       // Если сбросили выбор, значит закончили "сессию" выбора и нас не интересует последнее изменение фильтра
       if (!selection.selected.length && !selection.excluded.length) {
          this._filterChanged = false;
