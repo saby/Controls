@@ -5,6 +5,7 @@ import {Control} from 'UI/Base';
 import Container from 'Controls/_popup/Manager/Container';
 import {IPopupItem, IPopupOptions, IPopupController} from 'Controls/_popup/interface/IPopup';
 import {getModuleByName, loadModule} from 'Controls/_popup/utils/moduleHelper';
+import {Logger} from 'UI/Utils';
 
 interface IContentData {
     left: number;
@@ -112,8 +113,18 @@ export default {
         return this._callManager('show', arguments);
     },
 
-    loadData(): Promise<unknown> {
-        return this._callManager('loadData', arguments);
+    loadData(dataLoaders: unknown[]): Promise<unknown> {
+        const loaderModule = this._callManager('getDataLoaderModule', arguments);
+        if (!loaderModule) {
+            const message = 'На приложении не задан загрузчик данных. Опция окна dataLoaders будет проигнорирована';
+            Logger.warn(message, this);
+            return undefined;
+        }
+        return new Promise((resolve, reject) => {
+            this._getModuleByModuleName(loaderModule, (DataLoader) => {
+                DataLoader.load(dataLoaders).then(resolve, reject);
+            });
+        });
     },
 
     isPopupCreating(id: string): boolean {
@@ -164,11 +175,11 @@ export default {
         const module = getModuleByName(moduleName);
         if (module) {
             callback(module);
-            return;
+        } else {
+            loadModule(moduleName).then((loadedModule) => {
+                callback(loadedModule);
+            });
         }
-        loadModule(moduleName).then((loadedModule) => {
-            callback(loadedModule);
-        });
     },
 
     getPageConfigLoaderModule(): string | void {

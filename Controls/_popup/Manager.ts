@@ -3,9 +3,7 @@ import Popup from 'Controls/_popup/Manager/Popup';
 import Container from 'Controls/_popup/Manager/Container';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {Logger} from 'UI/Utils';
-import * as Library from 'WasabyLoader/Library';
 import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
-import {getModuleByName, loadModule} from 'Controls/_popup/utils/moduleHelper';
 import {goUpByControlTree} from 'UI/Focus';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
@@ -106,28 +104,8 @@ class Manager {
         }
     }
 
-    loadData(dataLoaders): Promise<unknown> {
-        if (!this._dataLoaderModule) {
-            const message = 'На приложении не задан загрузчик данных. Опция окна dataLoaders будет проигнорирована';
-            Logger.warn(message, this);
-            return undefined;
-        }
-        return new Promise((resolve, reject) => {
-            this._getModuleByModuleName(this._dataLoaderModule, (DataLoader) => {
-                DataLoader.load(dataLoaders).then(resolve, reject);
-            });
-        });
-    }
-
-    private _getModuleByModuleName(moduleName: string, callback: Function): void {
-        const module = getModuleByName(moduleName);
-        if (module) {
-            callback(module);
-            return;
-        }
-        loadModule(moduleName).then((loadedModule) => {
-            callback(loadedModule);
-        });
+    getDataLoaderModule(): string {
+        return this._dataLoaderModule;
     }
 
     /**

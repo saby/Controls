@@ -49,31 +49,22 @@ export default class PageOpener extends Base<IPagePopupOptions> {
         super(popupCfg);
         this._opener = new OPENER_CLASS_BY_MODE[popupCfg.mode]();
     }
+
     open(popupOptions: IPagePopupOptions): unknown {
         const openConfig = {...this._options, ...popupOptions};
-        return this._getPageTemplateOptions(openConfig.pageId).then((config: object) => {
+        return ManagerController.getPageConfig(openConfig.pageId).then((pageData: object) => {
             const templateOptions = {
-                ...config,
+                ...pageData.templateOptions,
                 ...(openConfig?.templateOptions as object || {})
             };
             openConfig.template = 'Controls/popupTemplate:Page';
             openConfig.templateOptions = templateOptions;
+            openConfig.dataLoaders = pageData.loaders;
             return this._opener.open(openConfig);
         });
     }
 
     close(): void {
         this._opener.close();
-    }
-
-    private _getPageTemplateOptions(pageId: string): Promise<unknown> {
-        return ManagerController.getPageConfig(pageId).then((pageData) => {
-            return ManagerController.loadData(pageData.loaders || []).then((loaderResult: object) => {
-                return {
-                    ...pageData.templateOptions,
-                    ...loaderResult
-                };
-            });
-        });
     }
 }
