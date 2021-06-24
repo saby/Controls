@@ -1,8 +1,3 @@
-/**
- * Модуль с функциями без классов.
- * @module
- */
-
 import cInstance = require('Core/core-instance');
 import {getDimensions} from 'Controls/sizeUtils';
 import {getGapFixSize, POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyBlock/Utils';
