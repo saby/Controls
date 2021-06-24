@@ -61,7 +61,7 @@ define([
                   quarters: [{
                      name: 'I',
                      fullName: formatDate.date(new Date(year, 0, 1), 'QQQQr'),
-                     tooltip: formatDate.date(new Date(year, 0, 1), formatDate.date.FULL_QUATER),
+                     tooltip: formatDate.date(new Date(year, 0, 1), formatDate.date.FULL_QUARTER),
                      months: [{
                         date: new Date(year, 0, 1),
                         tooltip: formatDate.date(new Date(year, 0, 1), formatDate.date.FULL_MONTH)
@@ -76,7 +76,7 @@ define([
                   }, {
                      name: 'II',
                      fullName: formatDate.date(new Date(year, 3, 1), 'QQQQr'),
-                     tooltip: formatDate.date(new Date(year, 3, 1), formatDate.date.FULL_QUATER),
+                     tooltip: formatDate.date(new Date(year, 3, 1), formatDate.date.FULL_QUARTER),
                      months: [{
                         date: new Date(year, 3, 1),
                         tooltip: formatDate.date(new Date(year, 3, 1), formatDate.date.FULL_MONTH)
@@ -96,7 +96,7 @@ define([
                   quarters: [{
                      name: 'III',
                      fullName: formatDate.date(new Date(year, 6, 1), 'QQQQr'),
-                     tooltip: formatDate.date(new Date(year, 6, 1), formatDate.date.FULL_QUATER),
+                     tooltip: formatDate.date(new Date(year, 6, 1), formatDate.date.FULL_QUARTER),
                      months: [{
                         date: new Date(year, 6, 1),
                         tooltip: formatDate.date(new Date(year, 6, 1), formatDate.date.FULL_MONTH)
@@ -111,7 +111,7 @@ define([
                   }, {
                      name: 'IV',
                      fullName: formatDate.date(new Date(year, 9, 1), 'QQQQr'),
-                     tooltip: formatDate.date(new Date(year, 9, 1), formatDate.date.FULL_QUATER),
+                     tooltip: formatDate.date(new Date(year, 9, 1), formatDate.date.FULL_QUARTER),
                      months: [{
                         date: new Date(year, 9, 1),
                         tooltip: formatDate.date(new Date(year, 9, 1), formatDate.date.FULL_MONTH)

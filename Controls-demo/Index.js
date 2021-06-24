@@ -32,6 +32,10 @@ define('Controls-demo/Index', [
                      if (controlId.indexOf('master') > -1) {
                         storage[controlId] = undefined;
                      }
+                     if (controlId.indexOf('scrollContainerWheelEventHappened') > -1) {
+                        // Уберем скроллбар с демок
+                        storage[controlId] = true;
+                     }
                   }
                   return (new Deferred()).callback(storage);
                },

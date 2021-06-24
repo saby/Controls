@@ -241,7 +241,7 @@ define(
             assert.equal(config.templateOptions.__openerFromCfg, config.opener);
             assert.equal(config.templateOptions.newRecord, config.newRecord);
             assert.equal(config.templateOptions.linkedContext, config.linkedContext);
-            assert.equal(config.className, 'testClass ws-window ws-hidden');
+            assert.equal(config.className, 'testClass ws-window ws-hidden controls-Popup__border-radius');
             assert.isTrue(config.templateOptions.hideCross);
             assert.isTrue(config.templateOptions.maximize);
             assert.isFalse(config.templateOptions.autoShow);

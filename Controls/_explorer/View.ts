@@ -119,6 +119,7 @@ interface IExplorerOptions
      *  строки с хлебными крошками.
      */
     breadCrumbsMode?: 'row' | 'cell';
+    useColumns?: boolean;
 }
 
 interface IMarkedKeysStore {
@@ -208,6 +209,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     // Восстановленное значение курсора при возврате назад по хлебным крошкам
     private _restoredCursor: unknown;
     private _pendingViewMode: TExplorerViewMode;
+    private _columnsViewLoaded: boolean = false;
 
     private _items: RecordSet;
     private _isGoingFront: boolean;
@@ -267,6 +269,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _afterMount(): void {
         this._isMounted = true;
+        this._notify('register', ['rootChanged', this, this._setRootOnBreadCrumbsClick.bind(this)], {bubbling: true});
     }
 
     protected _beforeUpdate(cfg: IExplorerOptions): void {
@@ -279,7 +282,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // Т.к. у списка и таблицы заданы одинаковые коллекции, то изменение набора колонок
         // с прикладной стороны в режиме list не приводит к прокидыванию новых колонок в модель
         // и в итоге таблица разъезжается при переключении в режим таблицы
-        this._recreateCollection = this._needRecreateCollection(this._options.viewMode, cfg.viewMode);
+        this._recreateCollection = this._needRecreateCollection(this._options.viewMode, cfg.viewMode, cfg.useColumns);
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
@@ -388,6 +391,7 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _beforeUnmount(): void {
         this._unsubscribeOnCollectionChange();
+        this._notify('unregister', ['rootChanged', this], {bubbling: true});
     }
 
     protected _documentDragEnd(event: SyntheticEvent, dragObject: IDragObject): void {
@@ -578,7 +582,12 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     protected _onBreadCrumbsClick(event: SyntheticEvent, item: Model): void {
         const newRoot = item.getKey();
-        const rootChanged = this._setRoot(newRoot);
+        this._setRootOnBreadCrumbsClick(newRoot);
+
+    }
+
+    private _setRootOnBreadCrumbsClick(root: TKey): void {
+        const rootChanged = this._setRoot(root);
 
         // Если смену root отменили, то и делать ничего не надо, т.к.
         // остаемся в текущей папке
@@ -596,7 +605,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // цикле синхронизации если сверху был передан markedKey !== undefined. Т.к. в
         // BaseControl метод setMarkedKey проставляет маркер синхронно только если в опциях
         // не указан markedKey
-        const markedKey = this._restoredMarkedKeys[newRoot].markedKey;
+        const markedKey = this._restoredMarkedKeys[root]?.markedKey;
         if (markedKey) {
             this._potentialMarkedKey = markedKey;
             this._children.treeControl.setMarkedKey(markedKey);
@@ -616,7 +625,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // то нужно восстановить курсор что бы тот, кто грузит данные сверху выполнил запрос с
         // корректным значением курсора
         if (this._isCursorNavigation(this._options.navigation)) {
-            this._restoredCursor = this._restorePositionNavigation(newRoot);
+            this._restoredCursor = this._restorePositionNavigation(root);
         }
     }
 
@@ -828,7 +837,15 @@ export default class Explorer extends Control<IExplorerOptions> {
         this._restoredMarkedKeys = store;
     }
 
-    private _needRecreateCollection(oldViewMode: TExplorerViewMode, newViewMode: TExplorerViewMode): boolean {
+    private _needRecreateCollection(
+        oldViewMode: TExplorerViewMode,
+        newViewMode: TExplorerViewMode,
+        useColumns: boolean
+    ): boolean {
+        if (useColumns) {
+            return false;
+        }
+
         if (oldViewMode === 'list' && newViewMode === 'table') {
             return true;
         }
@@ -943,7 +960,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
-        } else if (viewMode === 'list' && cfg.useColumns) {
+        } else if (!this._columnsViewLoaded && viewMode === 'list' && cfg.useColumns) {
             this._setViewModePromise = this._loadColumnsViewMode().then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
@@ -1055,6 +1072,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             MARKER_STRATEGY.list = MultiColumnStrategy;
             ITEM_GETTER.list = columns.ItemContainerGetter;
             VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+            this._columnsViewLoaded = true;
         }).catch((err) => {
             Logger.error('Controls/_explorer/View: ' + err.message, this, err);
         });

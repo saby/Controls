@@ -213,12 +213,12 @@ export default class NavigationController {
         hierarchyRelation?: relation.Hierarchy
     ): TStoreNavigationState[] {
 
-        let updateResult: TStoreNavigationState[];
+        const updateResult: TStoreNavigationState[] = [];
         const metaMore = list.getMetaData().more;
         const calculator = this._getCalculator();
 
         if (metaMore instanceof RecordSet) {
-            updateResult = [];
+            const storesIds = [];
             metaMore.each((nav: NavigationRecord) => {
                 const metaMoreItem = nav.get('nav_result');
                 let storeId = nav.get('id');
@@ -239,15 +239,23 @@ export default class NavigationController {
                         direction,
                         hierarchyRelation?.getChildren(storeId, list) as Model[],
                         calculator.getAdditionalMeta(list, storeId as string)
-                    )
+                    ) as TStoreNavigationState
                 );
+                storesIds.push(storeId);
             });
+            this._deleteUnprocessedStores(storesIds);
         } else {
             // Если id не передан то берется стор для корневого раздела, для которого жесткий id = null
             const store = this._getStore(id);
-            updateResult = [
-                calculator.updateQueryProperties(store, list, metaMore, navigationConfig, direction)
-            ];
+            updateResult.push(
+                calculator.updateQueryProperties(
+                    store,
+                    list,
+                    metaMore,
+                    navigationConfig,
+                    direction
+                ) as TStoreNavigationState
+            );
         }
         return updateResult;
     }
@@ -299,6 +307,18 @@ export default class NavigationController {
         }
 
         this._navigationParamsChangedCallback = newOptions.navigationParamsChangedCallback;
+    }
+
+    private _deleteUnprocessedStores(processedStores: TKey[]): void {
+        const storesToDelete = [];
+        this._navigationStores.forEach(({id}) => {
+            if (!processedStores.includes(id)) {
+                storesToDelete.push(id);
+            }
+        });
+        storesToDelete.forEach((id) => {
+            this._navigationStores.removeAt(this._navigationStores.getIndexByValue('id', id));
+        });
     }
 
     private _getStore(id: TKey): INavigationStore {

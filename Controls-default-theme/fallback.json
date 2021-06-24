@@ -502,8 +502,10 @@
   "--icon-size_closeButton_link": "var(--icon-size_closeButton_toolButton)",
   "--icon_background-image_closeButton_toolButton": "url('../Controls-default-theme/img/DefaultCloseIcon.svg')",
   "--icon_hovered_background-image_closeButton_toolButton": "url('../Controls-default-theme/img/CloseIconHovered.svg')",
-  "--icon_background-image_closeButton_link": "url('../Controls-default-theme/img/LightCloseIcon.svg')",
-  "--icon_hovered_background-image_closeButton_link": "url('../Controls-default-theme/img/CloseIconHovered.svg')",
+  "--icon-color_closeButton_toolButton": "#587AB0",
+  "--icon-color_hovered_closeButton_toolButton": "var(--link_hover_text-color)",
+  "--icon-color_closeButton_link": "#8991A9",
+  "--icon-color_hovered_closeButton_link": "var(--link_hover_text-color)",
 
   "--border-thickness_closeButton_toolButton": "0",
   "--border-thickness_closeButton_functionalButton": "0",
@@ -692,7 +694,7 @@
   "--icon_l_height_headingBack": "14px",
   "--text-color_decoratorHighlight": "inherit",
   "--text_background-color_decoratorHighlight": "#FFFECE",
-
+  "--text_background-color_decoratorHighlight_dark": "#999",
   "--item_offset_s_toolbar": "var(--offset_m)",
   "--item_offset_l_toolbar": "var(--offset_l)",
   "--background-color_ToolbarBox": "#f8f8f8",
@@ -1600,6 +1602,7 @@
   "--monthview_weekend_text-color_monthSlider": "var(--primary_text-color)",
   "--monthview_otherday_text-color_monthSlider": "var(--monthview_item_text-color_monthSlider)",
   "--monthview_today_text-color_monthSlider": "#fff",
+  "--monthview_weekend_today_text-color_monthSlider": "var(--monthview_today_text-color_monthSlider)",
 
   "--box-shadow-size_datePicker": "0 0 6px 0",
   "--box-shadow-color_datePicker": "rgba(0, 0, 0, 0.45)",

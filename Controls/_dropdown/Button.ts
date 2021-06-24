@@ -254,7 +254,9 @@ export default class Button extends BaseDropdown {
     }
 
     protected _deactivated(): void {
-        this.closeMenu();
+        if (this._options.closeMenuOnOutsideClick) {
+            this.closeMenu();
+        }
     }
 
     protected _afterMount(options: IButtonOptions): void {
@@ -274,7 +276,8 @@ export default class Button extends BaseDropdown {
             iconStyle: 'secondary',
             contrastBackground: false,
             lazyItemsLoading: false,
-            isAutoItemClick: true
+            isAutoItemClick: true,
+            closeMenuOnOutsideClick: true
         };
     }
 }

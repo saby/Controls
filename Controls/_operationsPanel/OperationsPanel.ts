@@ -161,6 +161,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
    protected _beforeUnmount(): void {
       if (this._storeCallbackId) {
          Store.unsubscribe(this._storeCallbackId);
+         Store.dispatch('operationsPanelExpanded', false);
       }
       this._dialogOpener?.destroy();
    }
@@ -252,6 +253,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
             template: 'Controls/operationsPanel:Panel',
             opener: this,
             className: 'controls-operationPanel__offset',
+            propStorageId: this._options.propStorageId,
             target
          });
       });
