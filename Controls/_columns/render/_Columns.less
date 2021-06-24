@@ -31,8 +31,23 @@
    height: var(--height_itemActions_columns);
 }
 
-.controls-ColumnsView__itemV:hover {
+.controls-ColumnsView__item_hovering:hover {
    box-shadow: var(--item_shadow-size_columns) var(--item_hover_shadow-color_columns);
+}
+
+.controls-ColumnsView__item_dragging {
+   box-shadow: var(--item_dragging_shadow-size_columns) var(--item_dragging_shadow-color_columns);
+   opacity: var(--item_dragging_opacity_list);
+}
+
+.controls-ColumnsView__dragTargetNode::after {
+   content: '\200b';
+   border: var(--item_droppable_border_thickness_treeGrid) solid var(--item_droppable_border_color_treeGrid);
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
 }
 
 .controls-ColumnsView_column,
