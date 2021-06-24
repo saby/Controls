@@ -64,7 +64,6 @@ define(
             }),
             nodeProperty: 'node',
             itemTemplateProperty: 'itemTemplate'
-
          };
 
          let configLazyLoad = {
@@ -612,6 +611,16 @@ define(
             dropdownController._open().then(function() {
                assert.isFalse(menuSourceCreated);
             });
+         });
+
+         it('reloadOnOpen', () => {
+            let dropdownController = getDropdownController({...config});
+            dropdownController._items = itemsRecords.clone();
+            dropdownController._options.reloadOnOpen = true;
+
+            sandbox.replace(dropdownController, '_open', () => Promise.resolve());
+            dropdownController.openMenu();
+            assert.isNull(dropdownController._items);
          });
 
          it('_loadItemsTemplates', (done) => {
