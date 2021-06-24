@@ -883,9 +883,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         if (options.groupProperty) {
             this._$groupProperty = options.groupProperty;
-            this._$group = (item) => {
-                return item.get(this._$groupProperty);
-            };
+            this._$group = this._createGroupFunctor();
         }
 
         // Support of 'groupingKeyCallback' option
@@ -1681,14 +1679,19 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setGroupProperty(groupProperty: string): boolean {
         if (this._$groupProperty !== groupProperty) {
             this._$groupProperty = groupProperty;
-            const groupCallback = (item) => {
-                return item.get(this._$groupProperty);
-            };
+            const groupCallback = this._createGroupFunctor();
             this.setGroup(this._$groupProperty ? groupCallback : null);
             this._nextVersion();
             return true;
         }
         return false;
+    }
+
+    private _createGroupFunctor(): GroupFunction<S, T> {
+        return functor.Compute.create(
+            (item) => item.get(this._$groupProperty),
+            [this._$groupProperty]
+        );
     }
 
     getGroupProperty(): string {
