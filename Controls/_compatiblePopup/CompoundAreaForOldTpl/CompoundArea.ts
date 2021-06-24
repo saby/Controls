@@ -417,7 +417,10 @@ var CompoundArea = CompoundContainer.extend([
          });
       });
 
-      const withoutHead = $('.controls-DialogTemplate .controls-DialogTemplate__close-button_without_head', this.getContainer());
+      // Когда используется кастомная шапка, может возникнуть ситуация, когда иконка крестика почти совпадает с фоном шапки
+      // Поэтому навешиваем на кнопку закрытия класс с темой
+      // https://online.sbis.ru/opendoc.html?guid=b1dd3531-a18a-4ff5-85c7-edd6563d82e7
+      const withoutHead = $('.controls-DialogTemplate__close-button_without_head', this.getContainer());
       if (withoutHead) {
          withoutHead.addClass('controls_popupTemplate_theme-' + Controller.getPopupHeaderTheme());
       }
