@@ -60,7 +60,7 @@ import switchCircleTemplate = require('wml!Controls/_toggle/RadioGroup/resources
 import * as tumblerItemTemplate from 'wml!Controls/_toggle/Tumbler/itemTemplate';
 import * as tumblerItemCounterTemplate from 'wml!Controls/_toggle/Tumbler/itemCounterTemplate';
 import * as chipsItemTemplate from 'wml!Controls/_toggle/ButtonGroup/itemTemplate';
-import * as chipsItemCounterTemplate from 'wml!Controls/_toggle/BUttonGroup/itemCounterTemplate';
+import * as chipsItemCounterTemplate from 'wml!Controls/_toggle/ButtonGroup/itemCounterTemplate';
 
 export {
     ItemTemplate,
