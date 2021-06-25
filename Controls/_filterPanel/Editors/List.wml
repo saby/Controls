@@ -12,6 +12,7 @@
                        footerTemplate="{{footerTemplate}}"
                        multiSelectVisibility="onhover"
                        itemsReadyCallback="{{_itemsReadyCallback}}"
+                       attr:class="controls_toggle_theme-{{_options.theme}}"
                        on:itemClick="_handleItemClick()">
       <ws:multiSelectTemplate>
          <ws:partial template="{{_circleTemplate}}" style="{{_options.style}}" on:click="_handleCheckBoxClick()"/>
