@@ -36,6 +36,9 @@ export interface IDateOptions extends IControlOptions, IFontColorStyleOptions, I
     timeZoneOffset?: number;
 }
 
+// Необходимо использовать какую-то конкретную временную зону по умолчанию, чтобы не получать ситуаций расхождения дат на сервере и на клиенте
+const DEFAULT_MOSCOW_TIME_ZONE_OFFSET = -180;
+
 /**
  * Графический контрол, декорирующий дату таким образом, что она приводится к заданному формату.
  *
@@ -76,6 +79,12 @@ class DateDecorator extends Control<IDateOptions> implements IFontColorStyle, IF
 
     private _formatDate(options: IDateOptions): string {
         return date(options.value, options.format, options.timeZoneOffset);
+    }
+
+    static get defaultProps(): Partial<IDateOptions> {
+        return {
+            timeZoneOffset: DEFAULT_MOSCOW_TIME_ZONE_OFFSET
+        };
     }
 }
 
