@@ -67,7 +67,7 @@ export default class GroupCell<T>
         return 'display: contents;';
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+    getTemplate(): TemplateFunction|string {
         return this._$groupTemplate;
     }
 

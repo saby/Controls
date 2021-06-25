@@ -20,7 +20,7 @@
       </ws:else>
    </ws:if>
 
-   <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
+   <ws:partial template="{{ gridColumn.getTemplate() }}"
                scope="{{ gridColumn.config.templateOptions }}"
                attr:key="{{ gridColumn.getInstanceId() }}"
                item="{{ (item || itemData) }}"
@@ -44,13 +44,8 @@
                      if="{{ (item || itemData).shouldDrawLadderContent(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"
                      attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
       </ws:ladderWrapper>
-      <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
-                          key="{{ (item || itemData).key }}"
-                          checkboxReadOnly="{{ checkboxReadOnly }}"/>
       <ws:multiSelectTemplate>
-         <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ true }}">
-            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}" multiSelectClasses="{{item.getMultiSelectClasses()}}"/>
-         </ws:partial>
+         <ws:partial template="Controls/list:MultiSelectTemplate" item="{{ (item || itemData) }}"/>
       </ws:multiSelectTemplate>
       <ws:afterContentTemplate>
          <!-- Стрелка редактирования -->

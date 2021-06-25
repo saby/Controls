@@ -306,6 +306,11 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
                 this._notify('groupClick', [contents, e, dispItem], {bubbling: true});
                 return;
             }
+            if (e.target.closest('.js-controls-ListView__checkbox')) {
+                this._notify('checkBoxClick', [dispItem, e]);
+                e.stopPropagation();
+                return;
+            }
             this._notify('itemClick', [contents, e, this._getCellIndexByEventTarget(e)]);
         }
     },

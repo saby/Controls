@@ -81,7 +81,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return this._$shadowVisibility;
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
+    getTemplate(): TemplateFunction | string {
         return this._$column.template || this._defaultCellTemplate;
     }
 

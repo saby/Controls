@@ -3039,17 +3039,6 @@ define([
             lists.BaseControl._private.updateItemActions(ctrl, ctrl._options);
          });
 
-         it('should stop event propagation if target is checkbox', () => {
-            let stopPropagationCalled = false;
-            let event = {
-               stopPropagation: function() {
-                  stopPropagationCalled = true;
-               }
-            };
-            ctrl._onItemClick(event, ctrl._listViewModel.getCollection().at(2), originalEvent);
-            assert.isTrue(stopPropagationCalled);
-         });
-
          it('shouldnt stop event propagation if editing will start', () => {
             let stopPropagationCalled = false;
             let event = {
@@ -3068,7 +3057,9 @@ define([
          it('should call deactivateSwipe method', () => {
             let isDeactivateSwipeCalled = false;
             let event = {
-               stopPropagation: function() {}
+               stopPropagation: function() {},
+               isStopped: function() {},
+               isBubbling: function() {}
             };
             ctrl._itemActionsController.deactivateSwipe = () => {
                isDeactivateSwipeCalled = true;
@@ -7258,32 +7249,6 @@ define([
          });
 
          describe('_onItemClick', () => {
-            it('click on checkbox should not notify itemClick, but other clicks should', function() {
-               let isStopped = false;
-               let isCheckbox = false;
-
-               const e = {
-                  isStopped: () => isStopped,
-                  stopPropagation() { isStopped = true; },
-                  isBubbling: () => false
-               };
-
-               const originalEvent = {
-                  target: {
-                     closest: () => isCheckbox
-                  }
-               };
-
-               // click not on checkbox
-               baseControl._onItemClick(e, {}, originalEvent);
-               assert.isFalse(isStopped);
-
-               // click on checkbox
-               isCheckbox = true;
-               baseControl._onItemClick(e, {}, originalEvent);
-               assert.isTrue(isStopped);
-            });
-
             it('in list wit EIP itemClick should fire after beforeBeginEdit', () => {
                let isItemClickStopped = false;
                let firedEvents = [];
@@ -8516,7 +8481,7 @@ define([
             it('select', () => {
                const notifySpy = sinon.spy(baseControl, '_notify');
 
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
+               baseControl._onCheckBoxClick({ stopPropagation: () => {} }, baseControl._listViewModel.getItemBySourceKey(1) );
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });
@@ -8533,18 +8498,11 @@ define([
                };
 
                const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
+               baseControl._onCheckBoxClick({ stopPropagation: () => {} }, baseControl._listViewModel.getItemBySourceKey(1) );
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[2], [2], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
 
                baseControl._notify = oldNotify;
-            });
-
-            it('readonly checkbox', () => {
-               const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1), true );
-               assert.isFalse(notifySpy.withArgs('selectedKeysChanged').calledOnce);
-               assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });
 
             it('shift pressed', () => {
@@ -8552,7 +8510,8 @@ define([
                const event = {
                   nativeEvent: {
                      shiftKey: true
-                  }
+                  },
+                  stopPropagation: () => {}
                };
                baseControl._onCheckBoxClick(event, baseControl._listViewModel.getItemBySourceKey(1));
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
@@ -8684,7 +8643,7 @@ define([
                baseControl._beforeMount(newCfg);
 
                const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
+               baseControl._onCheckBoxClick({ stopPropagation: () => {} }, baseControl._listViewModel.getItemBySourceKey(1) );
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });

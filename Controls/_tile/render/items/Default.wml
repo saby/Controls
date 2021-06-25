@@ -15,20 +15,13 @@
          >
 
          <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
-                     template="{{ multiSelectTpl }}"
-                     attr:style="{{ (item || itemData).getMultiSelectStyles((item || itemData).getItemType(itemType, nodeContentTemplate)) }}">
-            <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
-         </ws:partial>
-
+                     template="Controls/list:MultiSelectTemplate"
+                     item="{{ item || itemData }}"
+                     attr:style="{{ (item || itemData).getMultiSelectStyles((item || itemData).getItemType(itemType, nodeContentTemplate)) }}"/>
 
          <ws:partial template="{{ (item || itemData).getContentTemplate((item || itemData).getItemType(itemType, nodeContentTemplate), contentTemplate, nodeContentTemplate) }}"
                      scope="{{_options}}"
                      itemType="{{ (item || itemData).getItemType(itemType, nodeContentTemplate) }}">
-            <ws:multiSelectTemplate>
-               <ws:partial template="{{ multiSelectTpl }}">
-                  <ws:templateOptions item="{{ (item || itemData) }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
-               </ws:partial>
-            </ws:multiSelectTemplate>
          </ws:partial>
 
          <ws:partial

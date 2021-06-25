@@ -1,0 +1,9 @@
+<ws:if data="{{item.isVisibleCheckbox()}}">
+  <Controls.Container.Async templateName="Controls/toggle:CheckboxMarker">
+      <ws:partial template="{{ content.resolvedTemplate }}"
+                  attr:class="{{ multiSelectClasses || item.getMultiSelectClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+                  triState="{{ triState }}"
+                  readOnly="{{ item.isReadonlyCheckbox() || checkboxReadOnly || false}}"
+                  value="{{ item.isSelected() }}"/>
+  </Controls.Container.Async>
+</ws:if>
