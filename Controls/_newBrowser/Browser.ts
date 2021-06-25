@@ -610,11 +610,17 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
             const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
             if (imageVisibility !== this._listCfg.getImageVisibility()) {
-                this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
                 this._listCfg.setImageVisibility(imageVisibility);
                 this._tileCfg.setImageVisibility(imageVisibility);
                 this._tableCfg.setImageVisibility(imageVisibility);
-            }
+                /*
+                    Восстанавливать скролл нужно только если фотки появились в текущем узле при подгрузке по скроллу
+                    Если видимость меняется при проваливании в папку, то скролл всегда будет в шапке списка.
+                */
+                if (imageVisibility === 'visible' && !rootChanged) {
+                    this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+                }
+             }
             return;
         } else if (!this._hasImageInItems) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
