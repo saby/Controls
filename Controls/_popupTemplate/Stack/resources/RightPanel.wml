@@ -17,6 +17,11 @@
     <ws:if data="{{_options.toolbarContentTemplate}}">
         <ws:partial template="{{_options.toolbarContentTemplate}}"/>
     </ws:if>
+    <ws:else data="{{ _options.toolbarConfig && _rightTopTemplate }}">
+         <Controls.Container.Async templateName="{{_rightTopTemplate}}">
+            <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}" toolbarConfig="{{_options.toolbarConfig}}"/>
+        </Controls.Container.Async>
+    </ws:else>
 
     <ws:if data="{{_rightBottomTemplate}}">
         <Controls.Container.Async templateName="{{_rightBottomTemplate}}" templateOptions="{{_options.rightPanelOptions}}">

@@ -6,9 +6,11 @@ import 'css!Controls/popupTemplate';
 export default class RightPanel extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _rightBottomTemplate: string;
+    protected _rightTopTemplate: string;
 
     protected _beforeMount(): void {
         this._rightBottomTemplate = ManagerController.getRightPanelBottomTemplate();
+        this._rightTopTemplate = ManagerController.getRightPanelTopTemplate();
     }
 
     protected _close(): void {

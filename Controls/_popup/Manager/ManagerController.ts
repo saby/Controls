@@ -160,8 +160,16 @@ export default {
         this._rightBottomTemplate = rightTemplate;
     },
 
+    setRightPanelTopTemplate(rightTopTemplate: string): void {
+        this._rightTopTemplate = rightTopTemplate;
+    },
+
     getRightPanelBottomTemplate(): string {
         return this._rightBottomTemplate;
+    },
+
+    getRightPanelTopTemplate(): string {
+        return this._rightTopTemplate;
     },
 
     setRightTemplate(): void {
