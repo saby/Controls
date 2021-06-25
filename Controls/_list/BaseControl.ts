@@ -5159,7 +5159,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.hideIndicator(this);
     }
 
-    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<any> {
         if (keepScroll) {
             this._keepScrollAfterReload = true;
         }
