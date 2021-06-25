@@ -241,7 +241,6 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * Если не задан пункт, сбрасывающий сортировку, то необходимо указать непустую конфигурацию сортировки в опции value.
  * @property {String} title Подпись пункта меню, соответствующего данному полю.
  * @property {String} [icon=undefined] Имя иконки, которая отображается в меню рядом с подписью (см. свойство title), а также в заголовке выпадающего меню. Список иконок {@link /icons/ тут}.
- * @property {String} [iconSize=l] Размер иконки. Допустимые значения описаны {@link Controls/interface:IIconSize#iconSize здесь}.
  * @property {string} titleAsc Подсказка при наведении на стрелку сортировки по возрастанию.
  * @property {string} titleDesc Подсказка при наведении на стрелку сортировки по убыванию.
  */
@@ -356,6 +355,15 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @cfg {String} Заголовок для выпадающего списка сортировки.
  * @remark Если заголовок не требуется, опцию можно не указывать.
  * @demo Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithHeader/Index
+ */
+
+/**
+ * @name Controls/grid:SortingSelector#viewMode
+ * @cfg {String} Режим отображения кнопки.
+ * @variant linkButton В виде кнопки-ссылки.
+ * @variant toolButton В виде кнопки для панели инструментов с круглым ховером.
+ * @default linkButton
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/ViewMode/Index
  */
 
 /**
