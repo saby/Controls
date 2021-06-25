@@ -6,7 +6,7 @@ import {ItemsFactory, itemsStrategy } from 'Controls/display';
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
 import {IOptions as ITreeGridOptions} from 'Controls/_treeGrid/display/TreeGridCollection';
 import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
-import {GridHeader, GridTableHeader} from "Controls/grid";
+import {GridHeader, GridTableHeader} from 'Controls/grid';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>> extends ITreeGridOptions<S, T> {
    breadCrumbsMode?: 'row' | 'cell';
