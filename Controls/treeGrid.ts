@@ -1,6 +1,7 @@
 /**
  * @library Controls/treeGrid
  * @includes IGroupNodeColumn Controls/_treeGrid/interface/IGroupNodeColumn
+ * @includes ITreeGridItemTemplate Controls/interface/ITreeGridItemTemplate
  * @public
  * @author Крайнов Д.О.
  */
