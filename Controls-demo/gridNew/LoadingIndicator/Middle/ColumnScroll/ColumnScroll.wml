@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__inline-flex"
+                               attr:style="width: 700px; height: 500px;">
+        <Controls.grid:View
+                name="list"
+                keyProperty="key"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns}}"
+                rowSeparatorSize="s"
+                columnScroll="{{true}}"/>
+    </Controls.scroll:Container>
+
+    <div class="controlsDemo__cell">
+        <Controls.buttons:Button caption="Reload list" on:click="_reloadList()"/>
+    </div>
+</div>

@@ -6757,12 +6757,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _shouldDisplayMiddleLoadingIndicator(): boolean {
-        // Также, не должно быть завязки на горизонтальный скролл.
-        // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
         // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayIndicator = this._loadingIndicatorState === 'all'
             || !!this._loadingIndicatorState && (!this._items || !this._items.getCount());
-        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator && !this._isColumnScrollVisible;
+        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator;
     }
 
     _shouldDisplayBottomLoadingIndicator(): boolean {
