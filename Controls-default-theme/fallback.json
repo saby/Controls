@@ -694,7 +694,7 @@
   "--icon_l_height_headingBack": "14px",
   "--text-color_decoratorHighlight": "inherit",
   "--text_background-color_decoratorHighlight": "#FFFECE",
-  "--text_background-color_decoratorHighlight_dark": "#999",
+  "--text_background-color_decoratorHighlight_dark": "#ccc",
   "--item_offset_s_toolbar": "var(--offset_m)",
   "--item_offset_l_toolbar": "var(--offset_l)",
   "--background-color_ToolbarBox": "#f8f8f8",
