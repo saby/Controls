@@ -71,7 +71,7 @@ import {
     CONSTANTS as EDIT_IN_PLACE_CONSTANTS,
     JS_SELECTORS,
     IBeforeBeginEditCallbackParams,
-    IBeforeEndEditCallbackParams
+    IBeforeEndEditCallbackParams, TAsyncOperationResult
 } from '../editInPlace';
 import {IEditableListOption} from './interface/IEditableList';
 
@@ -5161,7 +5161,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.hideIndicator(this);
     }
 
-    reload(keepScroll: boolean, sourceConfig: IBaseSourceConfig): Promise<any> {
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<any> {
         if (keepScroll) {
             this._keepScrollAfterReload = true;
         }
@@ -5739,7 +5739,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _cancelEdit(force: boolean = false): Promise<void | { canceled: true }> {
+    _cancelEdit(force: boolean = false): TAsyncOperationResult {
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
