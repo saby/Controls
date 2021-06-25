@@ -94,7 +94,7 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
         return `z-index: ${ this._$stickyHeaderZIndex + (this._$isFixed ? 2 : 0)};`;
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+    getTemplate(): TemplateFunction|string {
         return DEFAULT_CELL_TEMPLATE;
     }
 

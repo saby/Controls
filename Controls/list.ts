@@ -78,6 +78,9 @@ export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Cont
 import * as ForTemplate from 'wml!Controls/_list/Render/For';
 export {ForTemplate};
 
+import * as MultiSelectTemplate from 'wml!Controls/_list/Render/multiSelect';
+export { MultiSelectTemplate };
+
 import * as CharacteristicsTemplate from 'wml!Controls/_list/CharacteristicsTemplate/CharacteristicsTemplate';
 export {CharacteristicsTemplate};
 

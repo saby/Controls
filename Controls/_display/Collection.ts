@@ -674,6 +674,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$multiSelectPosition: 'default' | 'custom';
 
+    protected _$multiSelectTemplate: TemplateFunction | string;
+
     protected _$footerTemplate: TemplateFunction | string;
 
     protected _$stickyFooter: boolean;
@@ -2381,6 +2383,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     getMultiSelectPosition(): 'default' | 'custom' {
         return this._$multiSelectPosition;
+    }
+
+    getMultiSelectTemplate(): TemplateFunction | string {
+        return this._$multiSelectTemplate;
     }
 
     protected _setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
@@ -4091,6 +4097,7 @@ Object.assign(Collection.prototype, {
     _$itemActionsProperty: '',
     _$markerPosition: 'left',
     _$multiSelectAccessibilityProperty: '',
+    _$multiSelectTemplate: null,
     _$style: 'default',
     _$theme: 'default',
     _$hoverBackgroundStyle: 'default',

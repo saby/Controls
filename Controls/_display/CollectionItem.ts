@@ -63,6 +63,8 @@ export interface ICollectionItemCounters {
     [key: string]: number;
 }
 
+const DEFAULT_MULTI_SELECT_TEMPLATE = 'Controls/list:MultiSelectTemplate';
+
 const ITEMACTIONS_POSITION_CLASSES = {
     bottomRight: 'controls-itemActionsV_position_bottomRight',
     topRight: 'controls-itemActionsV_position_topRight'
@@ -922,6 +924,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     getMultiSelectVisibility(): string {
         return this._$multiSelectVisibility;
+    }
+
+    getMultiSelectTemplate(): TemplateFunction|string {
+        return this._$owner.getMultiSelectTemplate() || DEFAULT_MULTI_SELECT_TEMPLATE;
     }
 
     setMultiSelectVisibility(multiSelectVisibility: string): boolean {

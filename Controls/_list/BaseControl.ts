@@ -5123,9 +5123,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return (emptyTemplate || emptyTemplateColumns) && noEdit && notHasMore && (isLoading ? noData && noDataBeforeReload : noData);
     }
 
-    _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>, readOnly: boolean): void {
+    _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>): void {
+        e.stopPropagation();
+
         const contents = _private.getPlainItemContents(item);
         const key = contents.getKey();
+        const readOnly = item.isReadonlyCheckbox();
+
+        this._onLastMouseUpWasDrag = false;
 
         if (!readOnly) {
             const selectionController = _private.getSelectionController(this);
@@ -5393,8 +5398,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             e.stopPropagation();
             return;
         }
-        if (originalEvent.target.closest('.js-controls-ListView__checkbox') || this._onLastMouseUpWasDrag) {
-            // Если нажали на чекбокс, то это не считается нажатием на элемент. В этом случае работает событие checkboxClick
+
+        if (this._onLastMouseUpWasDrag) {
             // Если на mouseUp, предшествующий этому клику, еще работало перетаскивание, то мы не должны нотифаить itemClick
             this._onLastMouseUpWasDrag = false;
             e.stopPropagation();
