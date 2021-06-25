@@ -208,6 +208,13 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
 
    _updateStyles(options, newOption): void {
       this._fontColorStyle = newOption.fontColorStyle || this._defaultFontColorStyle;
+      if (newOption.readOnly) {
+         if (this._fontColorStyle === 'filterPanelItem' || this._fontColorStyle === 'filterItem') {
+            this._fontColorStyle = this._fontColorStyle + '_readOnly';
+         } else {
+            this._fontColorStyle = 'default';
+         }
+      }
       this._fontSize = newOption.fontSize || this._defaultFontSize;
       this._fontWeight = newOption.fontWeight || this._defaultFontWeight;
       let changed = false;
@@ -222,13 +229,6 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       if (changed) {
          if (this._viewMode !== 'label') {
             this._styleClass = '';
-            if (newOption.readOnly) {
-               if (this._fontColorStyle === 'filterPanelItem' || this._fontColorStyle === 'filterItem') {
-                  this._fontColorStyle = this._fontColorStyle + '_readOnly';
-               } else {
-                  this._fontColorStyle = 'default';
-               }
-            }
             if (newOption.clickable && !newOption.readOnly) {
                this._styleClass +=  ' controls-DateLinkView__style-clickable';
             }
