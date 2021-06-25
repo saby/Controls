@@ -1,19 +1,26 @@
-<ws:partial
-    attr:class="controls_list_theme-{{_options.theme}}"
-    template="{{_options.render || _render}}"
-    groupTemplate="{{_options.groupTemplate}}"
-    captionColumnOptions="{{_options.captionColumnOptions}}"
-    editorColumnOptions="{{_options.editorColumnOptions}}"
-    itemTemplate="{{_options.itemTemplate}}"
-    withoutLevelPadding="{{_options.withoutLevelPadding}}"
-    listModel="{{_listModel}}"
-    collapsedGroups="{{_collapsedGroups}}"
-    editingObject="{{_options.editingObject}}"
-    captionPosition="{{_options.captionPosition}}"
-    on:groupClick="_groupClick()"
-    on:propertyValueChanged="_propertyValueChanged()"
-    on:toggleEditor="_toggleEditor()"
-    on:hoveredItemChanged="_hoveredItemChanged()"
-    on:mouseenter="_mouseEnterHandler()"
-    on:itemActionMouseDown="_itemActionMouseDown()"
-/>
+<div class="controls-PropertyGrid
+            controls-PropertyGrid_theme-{{_options.theme}}
+            controls_list_theme-{{_options.theme}}
+            controls-PropertyGrid__itemsContainer_paddingTop-{{_options.itemsContainerPadding.top || 'm'}}
+            controls-PropertyGrid__itemsContainer_paddingBottom-{{_options.itemsContainerPadding.bottom || 'm'}}
+            controls-PropertyGrid__itemsContainer_paddingLeft-{{_options.itemsContainerPadding.left || 'm'}}
+            controls-PropertyGrid__itemsContainer_paddingRight-{{_options.itemsContainerPadding.right || 'm'}}">
+    <ws:partial
+        template="{{_options.render || _render}}"
+        groupTemplate="{{_options.groupTemplate}}"
+        captionColumnOptions="{{_options.captionColumnOptions}}"
+        editorColumnOptions="{{_options.editorColumnOptions}}"
+        itemTemplate="{{_options.itemTemplate}}"
+        withoutLevelPadding="{{_options.withoutLevelPadding}}"
+        listModel="{{_listModel}}"
+        collapsedGroups="{{_collapsedGroups}}"
+        editingObject="{{_options.editingObject}}"
+        captionPosition="{{_options.captionPosition}}"
+        on:groupClick="_groupClick()"
+        on:propertyValueChanged="_propertyValueChanged()"
+        on:toggleEditor="_toggleEditor()"
+        on:hoveredItemChanged="_hoveredItemChanged()"
+        on:mouseenter="_mouseEnterHandler()"
+        on:itemActionMouseDown="_itemActionMouseDown()"
+    />
+</div>
