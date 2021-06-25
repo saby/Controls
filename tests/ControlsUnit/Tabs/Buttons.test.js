@@ -190,13 +190,11 @@ define([
             tabs._children = {
                wrapper: {
                   scrollWidth: 200,
-                  clientWidth: 100
+                  clientWidth: 100,
+                  scrollTo: sinon.fake()
                },
                tab1: {
                   scrollIntoView: sinon.fake()
-               },
-               container: {
-                  scrollTo: sinon.fake()
                }
             }
          });
@@ -208,7 +206,7 @@ define([
 
          it('should scroll into view if selectedKey is changed', () => {
             tabs._afterRender({ selectedKey: 2 });
-            sinon.assert.calledOnce(tabs._children.container.scrollTo);
+            sinon.assert.calledOnce(tabs._children.wrapper.scrollTo);
          });
       });
 
