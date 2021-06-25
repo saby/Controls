@@ -1,9 +1,9 @@
 import { RecordSet } from 'Types/collection';
-import { Collection } from 'Controls/display';
-import { FlatStrategy } from 'Controls/listDragNDrop';
+import {Collection, groupConstants} from 'Controls/display';
+import {FlatStrategy} from 'Controls/listDragNDrop';
 import { assert } from 'chai';
 
-describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
+describe('Controls/_listDragNDrop/strategies/FlatStrategy', () => {
     const items = new RecordSet({
         rawData: [
             { id: 1 },
@@ -48,28 +48,78 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
         assert.deepEqual(newPosition, currentPosition);
     });
 
-    it('firstly move after group', () => {
-        const modelWithGroup = new Collection({
-            collection: items,
-            groupProperty: 'group'
-        });
-        const strategy = new FlatStrategy(modelWithGroup, model.getItemBySourceKey(0));
-
-        const targetItem = modelWithGroup.at(2);
-        const newPosition = strategy.calculatePosition({targetItem, currentPosition: null});
-        assert.deepEqual(
-           newPosition, {
-               dispItem: targetItem,
-               position: 'after',
-               index: 2
-        });
-    });
-
     it('move outside list', () => {
         const newPosition = strategy.calculatePosition({targetItem: null});
         assert.deepEqual(newPosition, {
             index: 1,
             dispItem: model.getItemBySourceKey(2)
         });
-    })
+    });
+
+    describe('right count position around group', () => {
+        let display;
+        beforeEach(() => {
+            const items = new RecordSet({
+                rawData: [
+                    {id: 1, group: groupConstants.hiddenGroup},
+                    {id: 2, group: groupConstants.hiddenGroup},
+                    {id: 3, group: 'group-1'},
+                    {id: 4, group: 'group-1'}
+                ],
+                keyProperty: 'id'
+            });
+            display = new Collection({
+                collection: items,
+                groupProperty: 'group'
+            });
+
+        });
+
+        it('firstly move after group', () => {
+            const modelWithGroup = new Collection({
+                collection: items,
+                groupProperty: 'group'
+            });
+            const strategy = new FlatStrategy(modelWithGroup, model.getItemBySourceKey(0));
+
+            const targetItem = modelWithGroup.at(2);
+            const newPosition = strategy.calculatePosition({targetItem, currentPosition: null});
+            assert.deepEqual(
+                newPosition,
+                {
+                    dispItem: targetItem,
+                    position: 'before',
+                    index: 2
+                }
+            );
+        });
+
+        it('move before group', () => {
+            const strategy = new FlatStrategy(display, display.getItemBySourceKey(3));
+            const targetItem = display.getItemBySourceKey('group-1');
+            const newPosition = strategy.calculatePosition({ targetItem });
+            assert.deepEqual(
+                newPosition,
+                {
+                    dispItem: targetItem,
+                    position: 'before',
+                    index: 3
+                }
+            );
+        });
+
+        it('move after group', () => {
+            const strategy = new FlatStrategy(display, display.getItemBySourceKey(2));
+            const targetItem = display.getItemBySourceKey('group-1');
+            const newPosition = strategy.calculatePosition({ targetItem });
+            assert.deepEqual(
+                newPosition,
+                {
+                    dispItem: targetItem,
+                    position: 'after',
+                    index: 3
+                }
+            );
+        });
+    });
 });
