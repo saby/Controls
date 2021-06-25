@@ -61,7 +61,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
 
     updateScrollbarsModels(options: IScrollbarsOptions): void {
-        const scrollOrientation = ContainerBase.getScrollOrientation(options).toLowerCase();
+        const scrollOrientation = options.scrollOrientation.toLowerCase();
         if (scrollOrientation.indexOf('vertical') !== -1) {
             if (!this._models.vertical) {
                 this._models.vertical = new ScrollbarModel(SCROLL_DIRECTION.VERTICAL, options);

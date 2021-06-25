@@ -190,7 +190,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // TODO: Логика инициализации для поддержки разных браузеров была скопирована почти полностью
         //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
         this._updateScrollContainerPaigingSccClass(options);
-        if (ContainerBase.getScrollOrientation(options) !== ContainerBase.getScrollOrientation(this._options)) {
+        if (options.scrollOrientation !== this._options.scrollOrientation) {
             this._scrollbars.updateScrollbarsModels(options);
         }
         this._scrollbars.updateOptions(options);
