@@ -93,8 +93,8 @@ export default class Flat<
 
     /**
      * Проверяем, что нужно менять позицию, если навели на группу.
-     * Позицию нужно поменять, только когда навели на последнюю группу
-     * Между свернутыми группа вставлять элемент не нужно
+     * Позицию нужно поменять, только когда навели на последнюю группу.
+     * Между свернутыми группами вставлять элемент не нужно.
      * @param targetIndex
      * @param position
      * @protected
@@ -109,11 +109,14 @@ export default class Flat<
         const correctExpandable = () => position === 'before' || position === 'after' && item.isExpanded();
         const inBounds = () => index > -1 || index < this._model.getCount();
 
+        // пробегаемся по группам, находящимся по порядку
         while (isGroup() && correctExpandable() && inBounds()) {
             index += offset;
             item = this._model.at(index);
         }
 
+        // если текущий индекс index равняется targetIndex, скорректированному по position,
+        // то значит навели на последнюю группу среди подряд идущих
         return (targetIndex + offset) === index;
     }
 }
