@@ -18,7 +18,7 @@ const ERROR_MSG = {
  * @typedef {Promise.<void | { canceled: true }>} TAsyncOperationResult
  * @description Тип возвращаемого значения из операций редактирования по месту.
  */
-type TAsyncOperationResult = Promise<void | { canceled: true }>;
+export type TAsyncOperationResult = Promise<void | { canceled: true }>;
 
 /**
  * @typedef {void|CONSTANTS.CANCEL|Promise.<void|{CONSTANTS.CANCEL}>} TBeforeCallbackBaseResult

@@ -36,6 +36,7 @@
                 </ws:if>
 
                 <ws:partial template="{{ gridColumn.getTemplate() }}"
+                            scope="{{ gridColumn.config.templateOptions }}"
                             attr:key="{{ gridColumn.getInstanceId() }}"
                             item="{{ (item || itemData) }}"
                             column="{{ gridColumn }}"

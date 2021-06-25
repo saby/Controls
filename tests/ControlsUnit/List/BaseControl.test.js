@@ -261,7 +261,7 @@ define([
          emptyList.setMetaData(metaMore);
          list.setMetaData(metaMore);
 
-         assert.isTrue(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, infinityNavigation));
+         assert.isFalse(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, infinityNavigation));
          assert.isTrue(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, maxCountNaviation));
 
          assert.isFalse(lists.BaseControl._private.needLoadNextPageAfterLoad(list, listViewModel, infinityNavigation));
@@ -271,6 +271,13 @@ define([
          itemsCount = 20;
          assert.isFalse(lists.BaseControl._private.needLoadNextPageAfterLoad(list, listViewModel, infinityNavigation));
          assert.isFalse(lists.BaseControl._private.needLoadNextPageAfterLoad(list, listViewModel, maxCountNaviation));
+
+         metaMore = {
+            more: true,
+            iterative: true
+         };
+         emptyList.setMetaData(metaMore);
+         assert.isTrue(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, infinityNavigation));
       });
 
       it('_private::checkLoadToDirectionCapability', () => {
@@ -688,7 +695,6 @@ define([
 
          loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
          await loadPromise;
-         assert.isFalse(ctrl._portionedSearchInProgress);
          assert.isNull(ctrl._showContinueSearchButtonDirection);
          assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: false });
       });
@@ -872,10 +878,6 @@ define([
             _options: {}
          };
 
-         baseControl._options.searchValue = 'test';
-         assert.ok(lists.BaseControl._private.isPortionedLoad(baseControl))
-
-         baseControl._options.searchValue = '';
          baseControl._items = null;
          assert.ok(!lists.BaseControl._private.isPortionedLoad(baseControl));
 
@@ -888,8 +890,10 @@ define([
          });
          assert.ok(!lists.BaseControl._private.isPortionedLoad(baseControl));
 
-         baseControl._options.searchValue = 'test';
-         assert.ok(!lists.BaseControl._private.isPortionedLoad(baseControl));
+         baseControl._items.setMetaData({
+            iterative: true
+         });
+         assert.ok(lists.BaseControl._private.isPortionedLoad(baseControl));
       });
 
 
@@ -4541,8 +4545,8 @@ define([
                return initTest({
                   multiSelectVisibility: 'hidden',
                   selectedKeysCount: null,
-                  selectedKeys: [],
-                  excludedKeys: [],
+                  selectedKeys: null,
+                  allowMultiSelect: false,
                   itemActions: [
                      {
                         id: 1,
@@ -6749,9 +6753,8 @@ define([
 
             let cfgClone = { ...cfg };
             await ctrl._reload(cfgClone);
-            await ctrl._sourceController._loadPromise.promise;
 
-            assert.equal(2, queryCallsCount);
+            assert.equal(1, queryCallsCount);
             assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0);
          });
          it('Navigation position', function() {

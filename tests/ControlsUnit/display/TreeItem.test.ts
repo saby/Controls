@@ -294,61 +294,88 @@ describe('Controls/_display/TreeItem', () => {
             CssClassesAssert.isSame(item.getLevelIndentClasses('xl', 'm', 'custom'), 'controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_xl');
         });
 
-        it('.getExpanderClasses()', () => {
-            const owner = {
-                getExpanderIcon: () => undefined,
-                getExpanderPosition: () => 'default',
-                getExpanderSize: () => undefined,
-                getTopPadding: () => 'default',
-                getBottomPadding: () => 'default'
-            };
-            let item = new TreeItem({ owner });
+        describe('.getExpanderClasses()', () => {
+            let owner;
 
-            CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_default-expander_size_default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
-            CssClassesAssert.isSame(item.getExpanderClasses('none'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_default-expander_size_default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_none_collapsed');
-            CssClassesAssert.isSame(item.getExpanderClasses('node'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_default-expander_size_default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_node_default_collapsed');
-            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_default-expander_size_default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
-            CssClassesAssert.isSame(item.getExpanderClasses('none', 's'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_default-expander_size_s js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_none_collapsed');
-            CssClassesAssert.isSame(item.getExpanderClasses('node', 'm'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_default-expander_size_m js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_node_default_collapsed');
-            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode', 'xl'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_default-expander_size_xl js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
-            item = new TreeItem({ owner, theme: 'custom', style: 'custom' });
-            CssClassesAssert.isSame(item.getExpanderClasses(undefined, undefined), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_custom-expander_size_default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
-            item.setExpanded(false, true);
-            item = new TreeItem({ owner, theme: 'default', style: 'default' });
-            CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_default-expander_size_default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
+            beforeEach(() => {
+                owner = {
+                    getExpanderIcon: () => undefined,
+                    getExpanderPosition: () => 'default',
+                    getExpanderSize: () => undefined,
+                    getTopPadding: () => 'default',
+                    getBottomPadding: () => 'default'
+                };
+            });
 
-            item.setExpanded(true, true);
-            owner.getExpanderPosition = () => 'custom';
-            CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('none'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_none_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('node'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_node_default_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('none', 's'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_none_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('node', 'm'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_node_default_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode', 'xl'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded');
-            item = new TreeItem({ owner, theme: 'custom', style: 'custom' });
-            CssClassesAssert.isSame(item.getExpanderClasses(undefined, undefined), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
-            item.setExpanded(false, true);
-            item = new TreeItem({ owner, theme: 'default', style: 'default' });
-            CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
+            it('default', () => {
+                let item = new TreeItem({ owner });
+                const classes = item.getExpanderClasses();
+                CssClassesAssert.include(classes, 'js-controls-Tree__row-expander');
+                CssClassesAssert.include(classes, 'js-controls-ListView__notEditable');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row_default-expander_size_default');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander__spacingTop_default');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander__spacingBottom_default');
+            });
 
-            item.setExpanded(true, true);
-            owner.getExpanderPosition = () => 'right';
-            CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('none'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_none_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('node'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_node_default_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('none', 's'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_none_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('node', 'm'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_node_default_expanded');
-            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode', 'xl'), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded');
-            item = new TreeItem({ owner, theme: 'custom', style: 'custom' });
-            CssClassesAssert.isSame(item.getExpanderClasses(undefined, undefined), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
-            item = new TreeItem({ owner, theme: 'default', style: 'default' });
-            item.setExpanded(false, true);
-            CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
+            it('is dragged', () => {
+                let item = new TreeItem({ owner, dragged: true });
+                const classes = item.getExpanderClasses();
+                CssClassesAssert.include(classes, 'controls-ListView__itemContent_dragging');
+            });
 
-            item.setDragged(true, true);
-            CssClassesAssert.isSame(item.getExpanderClasses(), 'js-controls-Tree__row-expander controls-TreeGrid__row-expander controls-ListView__itemContent_dragging controls-TreeGrid__row_expander_position_right js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default controls-TreeGrid__row-expander__spacingBottom_default controls-TreeGrid__row-expander_hiddenNode_default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed');
+            it('expanderPosition is right', () => {
+                owner.getExpanderPosition = () => 'right';
+                let item = new TreeItem({ owner });
+                const classes = item.getExpanderClasses();
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row_expander_position_right');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander_hiddenNode_default');
+            });
+
+            it('expanderPosition is right, style is master', () => {
+                owner.getExpanderPosition = () => 'right';
+                let item = new TreeItem({ owner, style: 'master' });
+                const classes = item.getExpanderClasses();
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row_expander_position_right');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander_hiddenNode_default');
+            });
+
+            it('set style', () => {
+                let item = new TreeItem({ owner, style: 'master' });
+                const classes = item.getExpanderClasses();
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row_master-expander_size_default');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander_hiddenNode_master');
+            });
+
+            it('pass icon', () => {
+                let item = new TreeItem({ owner });
+                const classes = item.getExpanderClasses('node');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander_node_default');
+            });
+
+            it('pass custom icon', () => {
+                let item = new TreeItem({ owner });
+                const classes = item.getExpanderClasses('arbuz');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander_arbuz');
+            });
+
+            it('pass custom icon', () => {
+                let item = new TreeItem({ owner });
+                const classes = item.getExpanderClasses('arbuz');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander_arbuz');
+            });
+
+            it('pass size', () => {
+                let item = new TreeItem({ owner });
+                const classes = item.getExpanderClasses('node', 's');
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row_default-expander_size_s');
+            });
+
+            it('count icon by node property', () => {
+                let item = new TreeItem({ owner, node: true });
+                const classes = item.getExpanderClasses();
+                CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander_node_default');
+            });
         });
     });
 

@@ -686,7 +686,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         return this._children.treeControl.commitEdit();
     }
 
-    reload(keepScroll: boolean, sourceConfig: IBaseSourceConfig): Promise<unknown> {
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
         return this._children.treeControl.reload(keepScroll, sourceConfig);
     }
 
