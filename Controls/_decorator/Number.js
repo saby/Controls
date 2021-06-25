@@ -10,7 +10,7 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
       var abbreviationType = data.abbreviationType || 'none';
       var stroked = data.stroked || false;
       var underline = data.underline || 'none';
-      var fontColorStyle = Number.calculateFontColorStyle(stroked, data) || 'default';
+      var fontColorStyle = Number.calculateFontColorStyle(stroked, data);
       var formattedNumber = Number.calculateFormattedNumber(
          data.value, useGrouping, roundMode, data.fractionSize, abbreviationType, showEmptyDecimals, data
       );

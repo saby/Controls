@@ -39,20 +39,14 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     private _container: HTMLElement;
     private _newPlaceholderSizes;
 
-    constructor(options: IScrollbarsOptions, receivedState?: ISerializeState) {
+    constructor(options: IScrollbarsOptions) {
         super(options);
 
         this._options = options;
         const scrollOrientationOption = ContainerBase.getScrollOrientation(options);
 
-        if (receivedState) {
-            this._overflowHidden = receivedState.overflowHidden;
-            this._styleHideScrollbar = receivedState.styleHideScrollbar ||
-                ScrollWidthUtil.calcStyleHideScrollbar(scrollOrientationOption);
-        } else {
-            this._overflowHidden = ScrollHeightFixUtil.calcHeightFix();
-            this._styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(scrollOrientationOption);
-        }
+        this._overflowHidden = ScrollHeightFixUtil.calcHeightFix();
+        this._styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(scrollOrientationOption);
 
         // На мобильных устройствах используется нативный скролл, на других платформенный.
         this._useNativeScrollbar = detection.isMobileIOS || detection.isMobileAndroid;
@@ -76,13 +70,6 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         } else {
             delete this._models.horizontal;
         }
-    }
-
-    serializeState(): ISerializeState {
-        return {
-            overflowHidden: this._overflowHidden,
-            styleHideScrollbar: this._styleHideScrollbar
-        };
     }
 
     updateOptions(options: IScrollbarsOptions): void {

@@ -71,8 +71,8 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
 
     protected _beforeMount(options: IPropertyGridOptions): void {
         this._collapsedGroups = this._getCollapsedGroups(options.collapsedGroups);
+        this._toggledEditors = this._getToggledEditors(options.source, options.keyProperty);
         this._listModel = this._getCollection(options);
-        this._toggledEditors = this._getToggledEditors(options.source, this._listModel.getKeyProperty());
         if (options.captionColumnOptions || options.editorColumnOptions) {
             this._render = gridRenderTemplate;
         }
@@ -83,8 +83,8 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             this._listModel.setEditingObject(newOptions.editingObject);
         }
         if (newOptions.source !== this._options.source) {
+            this._toggledEditors = this._getToggledEditors(newOptions.source, newOptions.keyProperty);
             this._listModel = this._getCollection(newOptions);
-            this._toggledEditors = this._getToggledEditors(newOptions.source, this._listModel.getKeyProperty());
         } else if (newOptions.itemPadding !== this._options.itemPadding) {
             this._listModel.setItemPadding(newOptions.itemPadding);
         }

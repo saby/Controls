@@ -687,7 +687,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         return this._children.treeControl.commitEdit();
     }
 
-    reload(keepScroll: boolean, sourceConfig: IBaseSourceConfig): Promise<unknown> {
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
         return this._children.treeControl.reload(keepScroll, sourceConfig);
     }
 
@@ -1432,5 +1432,5 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @event Происходит при клике на кнопку "Просмотр записи".
  * @name Controls/_explorer/View#arrowClick
  * @remark Кнопка отображается при наведении курсора на текущую папку хлебных крошек. Отображение кнопки "Просмотр записи" задаётся с помощью опции {@link Controls/_explorer/interface/IExplorer#showActionButton}. По умолчанию кнопка скрыта.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */

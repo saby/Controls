@@ -14,7 +14,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 /**
  * @event Происходит при изменении выбранного значения в списке.
  * @name Controls/_multiselection/Adapters/SingleSelection#selectedKeyChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {number|string} selectedKey Ключ выбранного элемента.
  */
 

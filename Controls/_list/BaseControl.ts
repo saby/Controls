@@ -71,7 +71,7 @@ import {
     CONSTANTS as EDIT_IN_PLACE_CONSTANTS,
     JS_SELECTORS,
     IBeforeBeginEditCallbackParams,
-    IBeforeEndEditCallbackParams
+    IBeforeEndEditCallbackParams, TAsyncOperationResult
 } from '../editInPlace';
 import {IEditableListOption} from './interface/IEditableList';
 
@@ -740,7 +740,7 @@ const _private = {
         let
             loadedDataCount, allDataCount;
 
-        if (_private.isDemandNavigation(options.navigation) && self._hasMoreData(sourceController, 'down')) {
+        if (_private.isDemandNavigation(self._navigation) && self._hasMoreData(sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
         } else if (
             _private.shouldDrawCut(options.navigation,
@@ -990,7 +990,7 @@ const _private = {
         if (navigation) {
             switch (navigation.view) {
                 case 'infinity':
-                    result = !loadedList || !loadedList.getCount();
+                    result = !loadedList || (!loadedList.getCount() && _private.isPortionedLoad(this, loadedList));
                     break;
                 case 'maxCount':
                     result = _private.needLoadByMaxCountNavigation(listViewModel, navigation);
@@ -1618,15 +1618,9 @@ const _private = {
         }
     },
 
-    isPortionedLoad(self, items?: RecordSet = self._items): boolean {
+    isPortionedLoad(self, items: RecordSet = self._items): boolean {
         const metaData = items && items.getMetaData();
-        const loadBySearchValue = !!self._options.searchValue;
-
-        // Если в мета данных явно передано iterative: false, то поиск не итеративный,
-        // даже если ищут через строку поиска
-        return metaData && metaData.hasOwnProperty(PORTIONED_LOAD_META_FIELD) ?
-            metaData[PORTIONED_LOAD_META_FIELD] :
-            loadBySearchValue;
+        return !!(metaData && metaData[PORTIONED_LOAD_META_FIELD]);
     },
 
     checkPortionedSearchByScrollTriggerVisibility(self, scrollTriggerVisibility: boolean): void {
@@ -1725,7 +1719,9 @@ const _private = {
         }
         if (changesType === 'collectionChanged' || newModelChanged) {
             // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
-            if (self._options.navigation && self._options.navigation.source) {
+            // Берем self._navigation вместо self._options.navigation,
+            // т.к. onCollectionChanged может сработать до Control::saveOptions и опции будут неактуальны
+            if (self._navigation && self._navigation.source) {
                 const itemsCount = self._listViewModel.getCount();
                 const moreMetaCount = _private.getAllDataCount(self);
 
@@ -2402,6 +2398,9 @@ const _private = {
     initializeNavigation(self, cfg) {
         self._needScrollCalculation = _private.needScrollCalculation(cfg.navigation);
         self._pagingNavigation = _private.isPagingNavigation(cfg.navigation);
+        // Кнопка Еще в футере рисуется по навигации, ее пересчет происходит и в onCollectionChanged,
+        // который может вызваться до Control::saveOptions и пересчет будет с устаревшей навигацией
+        self._navigation = cfg.navigation;
         if (!self._needScrollCalculation) {
             if (self._scrollPagingCtr) {
                 self._scrollPagingCtr.destroy();
@@ -2991,14 +2990,11 @@ const _private = {
      * Метод isItemsSelectionAllowed проверяет, возможно ли выделение в списке для обработки свайпа
      * Это необходимо для корректной работы выделения на Ipad'e
      * swipe влево по записи должен ставить чекбокс, даже если multiSelectVisibility: 'hidden'.
-     * Layout/Browser, когда в нём не предусмотрено массовое выделение (нет панели действий), опцию selectedKeysCount
-     * передаёт как undefined, поэтому считаем, что в таком случае выделения в списке нет, и swipe
-     * не должен ставить чекбокс
+     * Если передают selectedKeys, то точно ожидают, что выделение работает.
+     * Если работают без опции selectedKeys, то работа выделения задается опцией allowMultiSelect.
      */
-    isItemsSelectionAllowed(options: object): boolean {
-        return options.selectedKeysCount !== null ||
-               options.selectedKeys.length ||
-               options.multiSelectVisibility !== 'hidden';
+    isItemsSelectionAllowed(options: IBaseControlOptions): boolean {
+        return options.selectedKeys || options.allowMultiSelect;
     },
 
     /**
@@ -5159,7 +5155,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.hideIndicator(this);
     }
 
-    reload(keepScroll: boolean, sourceConfig: IBaseSourceConfig): Promise<any> {
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<any> {
         if (keepScroll) {
             this._keepScrollAfterReload = true;
         }
@@ -5737,7 +5733,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _cancelEdit(force: boolean = false): Promise<void | { canceled: true }> {
+    _cancelEdit(force: boolean = false): TAsyncOperationResult {
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
@@ -7224,6 +7220,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             uniqueKeys: true,
             multiSelectVisibility: 'hidden',
             multiSelectPosition: 'default',
+            allowMultiSelect: true,
             markerVisibility: 'onactivated',
             style: 'default',
             loadingIndicatorTemplate: 'Controls/list:LoadingIndicatorTemplate',

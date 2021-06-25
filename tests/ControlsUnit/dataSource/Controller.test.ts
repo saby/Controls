@@ -340,6 +340,7 @@ describe('Controls/dataSource:SourceController', () => {
             const controller = getController({...getControllerOptions(), navigation});
             const loadedItems = await controller.reload();
             ok((loadedItems as RecordSet).getCount() === pageSize);
+            ok(controller.hasMoreData('down'));
         });
 
         it('load with dataLoadCallback in options',  async () => {

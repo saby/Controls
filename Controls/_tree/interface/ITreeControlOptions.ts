@@ -370,7 +370,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @event Происходит после развертывания узла.
  * @name Controls/_tree/interface/ITreeControl#afterItemExpand
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Развёрнутый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
@@ -380,7 +380,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @event Происходит перед развертыванием узла.
  * @name Controls/_tree/interface/ITreeControl#beforeItemExpand
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Разворачиваемый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
@@ -390,7 +390,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @event Происходит перед развертыванием узла.
  * @name Controls/_tree/interface/ITreeControl#itemExpand
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Разворачиваемый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
@@ -400,7 +400,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @event Происходит после развертывания узла.
  * @name Controls/_tree/interface/ITreeControl#itemExpanded
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Развёрнутый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
@@ -410,14 +410,14 @@ export interface ITreeControlOptions extends IControlOptions {
 /*
  * @event Occurs after node expansion.
  * @name Controls/_tree/interface/ITreeControl#itemExpanded
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  * @param {Types/entity:Model} node Expanded node.
  */
 
 /**
  * @event Происходит после сворачивания узла.
  * @name Controls/_tree/interface/ITreeControl#afterItemCollapse
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Свёрнутый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
@@ -426,7 +426,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @event Происходит перед сворачиванием узла.
  * @name Controls/_tree/interface/ITreeControl#itemCollapse
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Сворачиваемый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
@@ -436,7 +436,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @event Происходит перед сворачиванием узла.
  * @name Controls/_tree/interface/ITreeControl#beforeItemCollapse
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Сворачиваемый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
@@ -446,7 +446,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @event Происходит после сворачивания узла.
  * @name Controls/_tree/interface/ITreeControl#itemCollapsed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Свёрнутый узел.
  * @remark
  * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
@@ -456,14 +456,14 @@ export interface ITreeControlOptions extends IControlOptions {
 /*
  * @event Occurs after node collapse.
  * @name Controls/_tree/interface/ITreeControl#itemCollapsed
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  * @param {Types/entity:Model} node Collapsed node.
  */
 
 /**
  * @event Происходит при изменении набора развернутых узлов.
  * @name Controls/_tree/interface/ITreeControl#expandedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Идентификаторы развернутых узлов.
  * @see collapsedItemsChanged
  */
@@ -471,7 +471,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @event Происходит при изменении набора свернутых узлов.
  * @name Controls/_tree/interface/ITreeControl#collapsedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Идентификаторы свернутых узлов.
  * @see expandedItemsChanged
  */

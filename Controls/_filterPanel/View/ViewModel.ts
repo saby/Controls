@@ -107,6 +107,14 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         });
     }
 
+    private _expandGroup(group: string): void {
+        this._collapsedGroups = this._collapsedGroups.slice();
+        if (this._collapsedGroups.length && this._collapsedGroups.includes(group)) {
+            this._collapsedGroups = this._collapsedGroups.filter((item) => group !== item);
+            this._nextVersion();
+        }
+    }
+
     getBasicFilterItems(): IFilterItem[] {
         return this._getItemsByViewMode('basic');
     }
@@ -123,6 +131,8 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
             this._setValueToSourceItem(item, editingItemProperty);
             if (editingItemProperty?.needCollapse) {
                 this.collapseGroup(item.group);
+            } else if (isEqual(item.value, item.resetValue)) {
+                this._expandGroup(item.group);
             }
             const newViewMode = editingItemProperty?.viewMode;
             const viewModeChanged = newViewMode && newViewMode !== item.viewMode;
@@ -208,11 +218,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._nextVersion();
     }
 
-    handleGroupClick(group: string, isResetClick: boolean): void {
-        this._collapsedGroups = this._collapsedGroups.slice();
-        if (this._collapsedGroups.length && this._collapsedGroups.includes(group)) {
-            this._collapsedGroups = this._collapsedGroups.filter((item) => group !== item);
-            this._nextVersion();
-        }
+    handleGroupClick(group: string): void {
+        this._expandGroup(group);
     }
 }

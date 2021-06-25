@@ -16,6 +16,8 @@ export interface IMoveProvider {
 
 export const CONTROLLER_MODULE_NAME = 'Controls/list:MoveController';
 
+const DIALOG_FILTER = {'Только узлы': true};
+
 /**
  * Стандартный провайдер "перемещения записей"
  * @author Крайнов Д.О.
@@ -38,7 +40,13 @@ export default class Move implements IAction, IMoveProvider {
     protected _createMoveController(moveController, meta: Partial<IMoveProviderOptions>): MoveController {
         this._moveController = new moveController({
             popupOptions: meta.popupOptions || {
-                template: 'Controls/moverDialog:Template'
+                template: 'Controls/moverDialog:Template',
+                templateOptions: {
+                    parentProperty: meta.parentProperty,
+                    nodeProperty: meta.nodeProperty,
+                    columns: meta.columns,
+                    filter: {...DIALOG_FILTER, ...meta.filter}
+                }
             },
             source: meta.source,
             keyProperty: meta.keyProperty,

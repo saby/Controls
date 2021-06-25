@@ -11,7 +11,7 @@ import {isEqual} from 'Types/object';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 
-import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
+import {Direction, IBaseSourceConfig, IHierarchyOptions, TKey} from 'Controls/interface';
 import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/list';
 import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
@@ -854,10 +854,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         this._forceUpdate();
     }
 
-    protected reload(keepScroll, sourceConfig) {
-        //deep reload is needed only if reload was called from public API.
-        //otherwise, option changing will work incorrect.
-        //option changing may be caused by search or filtering
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
+        // deep reload is needed only if reload was called from public API.
+        // otherwise, option changing will work incorrect.
+        // option changing may be caused by search or filtering
         this._deepReload = true;
         return super.reload(keepScroll, sourceConfig);
     }
@@ -1487,6 +1487,6 @@ export default TreeControl;
 /**
  * @event Событие контрола.
  * @name Controls/_tree/TreeControl#expandedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Массив с идентификаторами развернутых элементов.
  */
