@@ -252,6 +252,18 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
+ * @name Controls/_list/interface/IList#allowMultiSelect
+ * @cfg {boolean} Позволяет включать/выключать выделение в списке.
+ * @remark
+ * Если передана опция selectedKeys, то выделение включено независимо от данной опции.
+ * Рекомендуется использовать, если список ни при каких условиях не поддерживает выделение.
+ * Стандартный пример использования: отключить анимацию отметки записи на тач устройствах, если список не поддерживает выделение.
+ * @default true
+ * @see multiSelectVisibility
+ * @see multiSelectPosition
+ */
+
+/**
  * @event Происходит в момент, когда курсор оказывается над элементом списка.
  * @name Controls/_list/interface/IList#itemMouseEnter
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.

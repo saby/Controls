@@ -4550,8 +4550,8 @@ define([
                return initTest({
                   multiSelectVisibility: 'hidden',
                   selectedKeysCount: null,
-                  selectedKeys: [],
-                  excludedKeys: [],
+                  selectedKeys: null,
+                  allowMultiSelect: false,
                   itemActions: [
                      {
                         id: 1,

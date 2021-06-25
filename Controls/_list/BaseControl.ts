@@ -2996,14 +2996,11 @@ const _private = {
      * Метод isItemsSelectionAllowed проверяет, возможно ли выделение в списке для обработки свайпа
      * Это необходимо для корректной работы выделения на Ipad'e
      * swipe влево по записи должен ставить чекбокс, даже если multiSelectVisibility: 'hidden'.
-     * Layout/Browser, когда в нём не предусмотрено массовое выделение (нет панели действий), опцию selectedKeysCount
-     * передаёт как undefined, поэтому считаем, что в таком случае выделения в списке нет, и swipe
-     * не должен ставить чекбокс
+     * Если передают selectedKeys, то точно ожидают, что выделение работает.
+     * Если работают без опции selectedKeys, то работа выделения задается опцией allowMultiSelect.
      */
-    isItemsSelectionAllowed(options: object): boolean {
-        return options.selectedKeysCount !== null ||
-               options.selectedKeys.length ||
-               options.multiSelectVisibility !== 'hidden';
+    isItemsSelectionAllowed(options: IBaseControlOptions): boolean {
+        return options.selectedKeys || options.allowMultiSelect;
     },
 
     /**
@@ -7224,6 +7221,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             uniqueKeys: true,
             multiSelectVisibility: 'hidden',
             multiSelectPosition: 'default',
+            allowMultiSelect: true,
             markerVisibility: 'onactivated',
             style: 'default',
             loadingIndicatorTemplate: 'Controls/list:LoadingIndicatorTemplate',
