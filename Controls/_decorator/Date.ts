@@ -36,6 +36,7 @@ export interface IDateOptions extends IControlOptions, IFontColorStyleOptions, I
     timeZoneOffset?: number;
 }
 
+// Необходимо использовать какую-то конкретную временную зону по умолчанию, чтобы не получать ситуаций расхождения дат на сервере и на клиенте
 const DEFAULT_MOSCOW_TIME_ZONE_OFFSET = -180;
 
 /**
