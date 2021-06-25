@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/Scroll/StickyHeader/Mode/Template');
+import controlTemplate = require('wml!Controls-demo/Scroll/StickyBlock/Mode/Template');
 
 export default class MultiHeaderDemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -23,5 +23,5 @@ export default class MultiHeaderDemoControl extends Control<IControlOptions> {
         }
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Scroll/StickyHeader/Mode/Mode'];
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Scroll/StickyBlock/Mode/Mode'];
 }

@@ -43,19 +43,25 @@ define([
 
          describe('should set correct _canShadowVisible', () => {
             [{
-               position: 'top',
+               position: {
+                  vertical: 'top'
+               },
                top: false,
                bottom: true
             }, {
-               position: 'bottom',
+               position: {
+                  vertical: 'bottom'
+               },
                top: true,
                bottom: false
             }, {
-               position: 'topbottom',
+               position: {
+                  vertical: 'topBottom'
+               },
                top: true,
                bottom: true
             }].forEach((test) => {
-               it(test.position, function() {
+               it(test.position.vertical, function() {
                   const component = createComponent(StickyHeader, { position: test.position });
                   assert.strictEqual(component._canShadowVisible.top, test.top);
                   assert.strictEqual(component._canShadowVisible.bottom, test.bottom);
@@ -367,7 +373,9 @@ define([
 
          it('should return correct styles for Android.', function() {
             const fixedZIndex = 2;
-            const position = 'top';
+            const position = {
+               vertical: 'top'
+            };
             const
                component = createComponent(StickyHeader, { fixedZIndex, position });
             let style;
@@ -390,7 +398,9 @@ define([
 
          it('should return correct styles for container with border on mobile platforms.', function() {
             const fixedZIndex = 2;
-            const position = 'top';
+            const position = {
+               vertical: 'top'
+            };
             const
                component = createComponent(StickyHeader, { fixedZIndex, position });
             let style;
@@ -422,7 +432,7 @@ define([
                };
 
                component._model = {fixedPosition: 'top'};
-               assert.include(component._getStyle('topbottom', 2, undefined, -10), 'top: 5px;');
+               assert.include(component._getStyle({ vertical: 'topBottom' }, 2, undefined, -10), 'top: 5px;');
             });
          });
       });
@@ -746,45 +756,6 @@ define([
                };
                component._onScrollStateChanged(scrollState, oldScrollState);
                sinon.assert.called(updateStylesStub);
-            });
-         });
-      });
-
-      describe('getStickyPosition ', () => {
-         [{
-            position: 'top',
-            result: {
-               vertical: 'top'
-            }
-         }, {
-            position: 'bottom',
-            result: {
-               vertical: 'bottom'
-            }
-         }, {
-            position: 'topbottom',
-            result: {
-               vertical: 'topBottom'
-            }
-         }, {
-            position: 'left',
-            result: {
-               horizontal: 'left'
-            }
-         }, {
-            position: 'right',
-            result: {
-               horizontal: 'right'
-            }
-         }, {
-            position: 'leftright',
-            result: {
-               horizontal: 'leftRight'
-            }
-         }].forEach((test) => {
-            it('should return correct position', () => {
-               const result = StickyHeader.getStickyPosition(test);
-               assert.equal(JSON.stringify(result), JSON.stringify(test.result));
             });
          });
       });

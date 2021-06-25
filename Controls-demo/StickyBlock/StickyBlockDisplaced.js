@@ -1,15 +1,15 @@
-define('Controls-demo/StickyHeader/StickyHeaderDisplaced',
+define('Controls-demo/StickyBlock/StickyBlockDisplaced',
    [
       'UI/Base',
       'Controls/scroll',
-      'wml!Controls-demo/StickyHeader/StickyHeaderDisplaced',
+      'wml!Controls-demo/StickyBlock/StickyBlockDisplaced',
 
    ],
    function(Base, scrollLib, template) {
 
       'use strict';
 
-      var StickyHeader = Base.Control.extend({
+      var StickyBlock = Base.Control.extend({
          _template: template,
          _headerVisible: false,
          _headersHeight: 0,
@@ -23,8 +23,8 @@ define('Controls-demo/StickyHeader/StickyHeaderDisplaced',
          }
       });
 
-      StickyHeader._styles = ['Controls-demo/StickyHeader/StickyHeader'];
+      StickyBlock._styles = ['Controls-demo/StickyBlock/StickyBlock'];
 
-      return StickyHeader;
+      return StickyBlock;
    }
 );
