@@ -25,7 +25,7 @@
          </Controls.event:Register>
          <ws:if data="{{_canResizing}}">
             <Controls.dragnDrop:ResizingLine name="resizingLine"
-                                             attr:class="controls-MasterDetail_resizing-line controls-MasterDetail_resizing-line-{{_options.masterPosition}}"
+                                             attr:class="controls-MasterDetail_resizing-line {{_newDesign ? 'controls-MasterDetail_resizing-line-newDesign'}} controls-MasterDetail_resizing-line-{{_options.masterPosition}}"
                                              minOffset="{{_minOffset}}"
                                              maxOffset="{{_maxOffset}}"
                                              direction="{{ _options.masterPosition === 'left' ? 'direct' : 'reverse' }}"
