@@ -1563,6 +1563,7 @@ const _private = {
             searchResetCallback: () => {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButtonDirection = null;
+                _private.hideIndicator(self);
             },
             searchContinueCallback: () => {
                 const direction = self._hasMoreData(self._sourceController, 'up') ? 'up' : 'down';
