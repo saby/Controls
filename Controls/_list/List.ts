@@ -104,7 +104,7 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
         return 'Controls/display:Collection';
     }
 
-    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig) {
         return this._children.listControl.reload(keepScroll, sourceConfig);
     }
 
