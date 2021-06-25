@@ -246,6 +246,7 @@ export default class _Controller implements IDropdownController {
    openMenu(popupOptions?: object): Promise<any> {
       if (this._options.reloadOnOpen) {
          this._setItems(null);
+         this._loadDependsPromise = null;
       }
       return this._open(popupOptions);
    }
