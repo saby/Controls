@@ -74,9 +74,7 @@ export default class Flat<
         // Логика для свернутых групп
         if (targetItem['[Controls/_display/GroupItem]'] && targetIndex > 0) {
             const shouldChangePosition = this._shouldChangePosition(targetIndex, position);
-            if (shouldChangePosition) {
-                position = currentPosition && currentPosition.position === 'after' ? 'before' : 'after';
-            } else {
+            if (!shouldChangePosition) {
                 return currentPosition;
             }
         }
@@ -95,7 +93,7 @@ export default class Flat<
 
     /**
      * Проверяем, что нужно менять позицию, если навели на группу.
-     * Позицию нужно поменять, только когда навели после свернутых групп.
+     * Позицию нужно поменять, только когда навели на последнюю группу
      * Между свернутыми группа вставлять элемент не нужно
      * @param targetIndex
      * @param position
@@ -106,11 +104,16 @@ export default class Flat<
 
         let index = targetIndex;
         let item = this._model.at(index);
-        while (item && item['[Controls/_display/GroupItem]'] && !item.isExpanded() && (index > -1 || index < this._model.getCount())) {
+
+        const isGroup = () => item && item['[Controls/_display/GroupItem]'];
+        const correctExpandable = () => position === 'before' || position === 'after' && item.isExpanded();
+        const inBounds = () => index > -1 || index < this._model.getCount();
+
+        while (isGroup() && correctExpandable() && inBounds()) {
             index += offset;
             item = this._model.at(index);
         }
 
-        return targetIndex === index;
+        return (targetIndex + offset) === index;
     }
 }
