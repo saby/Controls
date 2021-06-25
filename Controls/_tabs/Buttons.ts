@@ -543,12 +543,12 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
      * @private
      */
     private _scrollToTab(key: string): void {
-
         if (this._children.wrapper.scrollWidth <= this._children.wrapper.clientWidth) {
             return;
         }
 
-        this._children[`tab${key}`].scrollIntoView();
+        const tabOffset = this._children[`tab${key}`].offsetLeft;
+        this._children.container.scrollTo(0, tabOffset);
     }
 
 
