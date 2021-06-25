@@ -1,7 +1,7 @@
 import {IOptions} from './IViewAction';
 import HierarchyRemoveStrategy from './Remove/HierarchyRemoveStrategy';
 
-export interface IRemoveOptions extends IOptions{
+export interface IRemoveOptions extends IOptions, IHierarchyRemoveStrategyOptions {
     strategy?: HierarchyRemoveStrategy;
 }
 

@@ -7,6 +7,7 @@ export interface IHierarchyRemoveStrategyOptions {
     parentProperty?: string;
     nodeProperty?: string;
     selection: ISelectionObject;
+    silent?: boolean;
 }
 
 export default class HierarchyRemoveStrategy {
@@ -22,29 +23,37 @@ export default class HierarchyRemoveStrategy {
         });
         const selected = options.selection.selected;
 
-        items.setEventRaising(false, true);
+        HierarchyRemoveStrategy._setEventRaising(false, items, options.silent);
         let item;
         selected.forEach((key) => {
             item = items.getRecordById(key);
             if (item) {
-                this._hierarchyRemove(items, options.selection.excluded, hierarchy, [item]);
+                this._hierarchyRemove(items, options.selection, hierarchy, [item]);
             }
         });
-        items.setEventRaising(true, true);
+        HierarchyRemoveStrategy._setEventRaising(true, items, options.silent);
     }
 
-    protected _hierarchyRemove(items: RecordSet, excluded, hierarchy: relation.Hierarchy, children) {
+    protected _hierarchyRemove(items: RecordSet, selection, hierarchy: relation.Hierarchy, children) {
         let key;
+        let isNode;
         children.forEach((item) => {
             key = item.getKey();
-            if (hierarchy.isNode(item) !== null) {
-                this._hierarchyRemove(items, excluded, hierarchy, hierarchy.getChildren(key, items));
-                if (!excluded.includes(key)) {
+            isNode = hierarchy.isNode(item);
+            if (isNode !== null && isNode !== undefined) {
+                this._hierarchyRemove(items, selection, hierarchy, hierarchy.getChildren(key, items));
+                if (!(selection.excluded.includes(key) && selection.selected.includes(key))) {
                     items.remove(item);
                 }
             } else {
                 items.remove(item);
             }
         });
+    }
+
+    private static _setEventRaising(enabled: boolean, items: RecordSet, silent: boolean) {
+        if (!silent) {
+            items.setEventRaising(enabled, true);
+        }
     }
 }
