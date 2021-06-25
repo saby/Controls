@@ -476,7 +476,7 @@ define(
                         position: defaultPosition
                      },
                      {
-                        controller: popupTemplate.StickyController,
+                        controller: popupTemplate.DialogController,
                         position: defaultPosition
                      }
                   ],
