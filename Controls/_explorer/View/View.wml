@@ -47,6 +47,7 @@
                                           backgroundStyle="{{ _backgroundStyle }}"
                                           headerVisibility="{{ _headerVisibility }}"
                                           root="{{content._options.root}}"
+                                          _initBreadCrumbsMode="{{_searchInitialBreadCrumbsMode}}"
                                           on:itemClick="_onItemClick()"
                                           on:itemMouseDown="_notifyHandler('itemMouseDown')"
                                           on:checkboxClick="_notifyHandler('checkboxClick')"

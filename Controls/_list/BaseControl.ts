@@ -7201,9 +7201,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return `controls__BaseControl__footer ${paddingClassName}`;
     }
 
+    // TODO: Должно переехать в GridControl, когда он появится.
     _onToggleHorizontalScroll(e, visibility: boolean): void {
-        // TODO: Должно переехать в GridControl, когда он появится.
         this._isColumnScrollVisible = visibility;
+    }
+
+    // TODO: Должно переехать в GridControl, когда он появится.
+    isColumnScrollVisible(): boolean {
+        return this._isColumnScrollVisible;
     }
 
     static getDefaultOptions(): Partial<IBaseControlOptions> {
