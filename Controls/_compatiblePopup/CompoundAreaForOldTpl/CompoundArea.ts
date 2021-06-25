@@ -420,7 +420,7 @@ var CompoundArea = CompoundContainer.extend([
       // В рознице для шапки используется отдельная тема.
       // В ситуации, когда крестик позиционируется вне шапки, задаем ему класс с переменными темы шапки
       // https://online.sbis.ru/opendoc.html?guid=b1dd3531-a18a-4ff5-85c7-edd6563d82e7
-      const closeButton = $('.controls-DialogTemplate__close-button_without_head controls-Button__close', this.getContainer());
+      const closeButton = $('.controls-DialogTemplate__close-button_without_head .controls-Button__close', this.getContainer());
       if (closeButton.length) {
          closeButton.removeClass('controls_popupTemplate_theme-' + this._options.theme);
          closeButton.addClass('controls_popupTemplate_theme-' + Controller.getPopupHeaderTheme());
