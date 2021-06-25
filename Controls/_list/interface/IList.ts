@@ -448,12 +448,11 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * Прокручивает список к указанному элементу.
  * @function Controls/_list/interface/IList#scrollToItem
  * @param {String|Number} key Идентификатор элемента коллекции, к которому происходит прокручивание.
- * @param {Boolean} [toBottom=false] Видимость нижнего края элемента. Для значения true нижний край отображается, а для false — скрыт.
- * @param {Boolean} [force=false] Прокрутить список к нижнему краю элемента.
- * Для значения true прокручивание работает, а для false — отключено.
- * **Примечание:** параметр можно использовать, когда toBottom установлен в значение true.
+ * @param {Boolean} [toBottom=false] Целевое положение элемента коллекции, к которому происходит прокручивание. Если true, то нижняя граница элемента будет (по возможности) совпадать с нижней границей контейнера. Если false, то совпадать будут верхние границы.
+ * @param {Boolean} [force=false] Форсированный подскролл. Если true, то подскролл произойдет в любом случае. Если false, то подскролл произойдет только в случае, когда элемент полностью или частично скрыт.
  * @demo Controls-demo/list_new/VirtualScroll/ConstantHeights/ScrollToItem/Index В следующем примере под списком находится кнопка, при клике по которой вызывается обработчик и метод scrollToItem().
  * @example
+ * Вызов следующего метода расположит целевой элемент у верхней границы вьюпорта.
  * <pre class="brush: js">
  * protected _scrollToItem(event: SyntheticEvent, id: number): void {
  *     this._children.list.scrollToItem(id, false, true);
