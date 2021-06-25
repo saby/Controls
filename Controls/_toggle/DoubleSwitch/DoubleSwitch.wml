@@ -29,7 +29,7 @@
    <ws:partial template="Text" _nextValue="{{false}}" _caption="{{_options.captions[1]}}" _value="{{!_options.value}}"/>
 </ws:template>
 
-<span class="controls-DoubleSwitch" title="{{_options.tooltip}}">
+<span class="controls_toggle_theme-{{_options.theme}} controls-DoubleSwitch" title="{{_options.tooltip}}">
    <span class="controls-DoubleSwitch__wrapper controls-DoubleSwitch__toggle_{{_options.orientation}}__wrapper">
        <ws:if data="{{_options.orientation === 'vertical'}}">
           <ws:partial template="VerticalSwitcher"/>

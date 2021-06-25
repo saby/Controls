@@ -1,4 +1,4 @@
-<div class="controls-ButtonGroup">
+<div class="controls_toggle_theme-{{_options.theme}} controls-ButtonGroup">
     <ws:template name="button">
         <ws:partial template="Controls/buttons:ButtonTemplate"
                     attr:class="controls-ButtonGroup__button"

@@ -1,4 +1,4 @@
-<div class="controls-Checkbox">
+<div class="controls_toggle_theme-{{_options.theme}} controls-Checkbox">
     <div class="controls-invalid-container">
         <div on:click="_clickHandler()"
              class="controls-Checkbox__wrapper

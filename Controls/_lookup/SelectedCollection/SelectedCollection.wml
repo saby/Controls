@@ -1,4 +1,4 @@
-<div class="controls-SelectedCollection__collection
+<div class="controls_lookup_theme-{{_options.theme}} controls-SelectedCollection__collection
             controls-SelectedCollection__collection_{{_options.itemsLayout !== 'oneRow' ? 'multiLine' : 'singleLine'}}
             controls-SelectedCollection__collection_{{_options.itemsLayout !== 'oneRow' ? 'multiLine' : 'singleLine'}}_fontSize-{{_options.fontSize || 'm'}}
             controls-SelectedCollection__collection-{{_options.itemsLayout}}"

@@ -1,4 +1,4 @@
-<div class="controls-FilterView controls-FilterView-{{_options.alignment}}
+<div class="controls_filter_theme-{{_options.theme}} controls-FilterView controls-FilterView-{{_options.alignment}}
             {{_options.readOnly ? 'controls-FilterView_readOnly'}}"
      on:mouseenter="_mouseEnterHandler()">
    <div class="controls-FilterView__wrapper">

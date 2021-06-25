@@ -1,4 +1,4 @@
-<div class="controls-BreadCrumbsMultiline">
+<div class="controls_breadcrumbs_theme-{{_options.theme}} controls-BreadCrumbsMultiline">
     <div class="controls-BreadCrumbsMultiline__wrapper">
         <ws:if data="{{_visibleItemsFirst}}">
             <Controls._breadcrumbs.View
