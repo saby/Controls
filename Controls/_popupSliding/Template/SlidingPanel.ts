@@ -113,7 +113,9 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         }
 
         // Чтобы во время свайпов на IOS Safari не драгался body
-        event.preventDefault();
+        if (event.nativeEvent.cancelable) {
+            event.preventDefault();
+        }
 
         // Если тач начался со скролла, то оффсет нужно начинать с того момента, как закончился скролл
         if (!this._currentTouchYPosition) {
