@@ -271,7 +271,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             isAdd: true,
             addPosition: options.addPosition,
             targetItem: options.targetItem,
-            columnIndex: this._options.mode === 'cell' ? options.columnIndex || 0 : undefined
+            columnIndex: this._options.mode === 'cell' ? (options.columnIndex || 0) : undefined
         });
     }
 
@@ -290,7 +290,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
     edit(userOptions: IBeginEditUserOptions = {}, options: { columnIndex?: number } = {}): TAsyncOperationResult {
         return this._endPreviousAndBeginEdit(userOptions, {
             ...options,
-            columnIndex: this._options.mode === 'cell' ? options.columnIndex || 0 : undefined
+            columnIndex: this._options.mode === 'cell' ? (options.columnIndex || 0) : undefined
         });
     }
 
