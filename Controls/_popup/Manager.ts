@@ -3,9 +3,7 @@ import Popup from 'Controls/_popup/Manager/Popup';
 import Container from 'Controls/_popup/Manager/Container';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {Logger} from 'UI/Utils';
-import * as Library from 'WasabyLoader/Library';
 import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
-import {getModuleByName} from 'Controls/_popup/utils/moduleHelper';
 import {goUpByControlTree} from 'UI/Focus';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
@@ -38,6 +36,8 @@ const SCROLL_DELAY = detection.isMobileIOS ? 100 : 10;
 class Manager {
     _contextIsTouch: boolean = false;
     _dataLoaderModule: string;
+    _popupPageConfigLoaderModule: string;
+    _popupPageTemplateModule: string;
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
@@ -104,22 +104,8 @@ class Manager {
         }
     }
 
-    loadData(dataLoaders): Promise<unknown> {
-        const Loader = getModuleByName(this._dataLoaderModule);
-        if (Loader) {
-            return Loader.load(dataLoaders);
-        }
-        if (!this._dataLoaderModule) {
-            const message = 'На приложении не задан загрузчик данных. Опция окна dataLoaders будет проигнорирована';
-            Logger.warn(message, this);
-            return undefined;
-        }
-
-        return new Promise((resolve) => {
-            Library.load(this._dataLoaderModule).then((DataLoader) => {
-               resolve(DataLoader.load(dataLoaders));
-           });
-        });
+    getDataLoaderModule(): string {
+        return this._dataLoaderModule;
     }
 
     /**
