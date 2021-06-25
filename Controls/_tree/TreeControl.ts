@@ -1454,14 +1454,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             Logger.error(`TreeControl: для корректной работы опцию ${optionName} необходимо задавать на Controls/list:DataContainer (Layout/browsers:Browser)`, this);
         };
 
-        if (options.parentProperty) {
-            if (sourceControllerState.parentProperty !== options.parentProperty) {
+        if (options.parentProperty && sourceControllerState.parentProperty !== options.parentProperty) {
                 logError('parentProperty');
-            }
-
-            if (options.root !== undefined && options.root !== sourceControllerState.root) {
-                logError('root');
-            }
         }
     }
 
