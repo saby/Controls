@@ -621,6 +621,7 @@ define(
             sandbox.replace(dropdownController, '_open', () => Promise.resolve());
             dropdownController.openMenu();
             assert.isNull(dropdownController._items);
+            assert.isNull(dropdownController._loadDependsPromise);
          });
 
          it('_loadItemsTemplates', (done) => {
