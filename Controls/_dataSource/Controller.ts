@@ -711,7 +711,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
         if (this._hasNavigationBySource()) {
             const isMultiNavigation = this._isMultiNavigation(navigationConfig, list);
-            const resetNavigation = this._deepReload || !direction && this._root === id;
+            const isRoot = this._root === id;
+            const resetNavigation = this._deepReload || !direction && isRoot;
             if (resetNavigation && (!isMultiNavigation || !this.getExpandedItems()?.length)) {
                 this._destroyNavigationController();
             }
@@ -724,28 +725,30 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                     id,
                     navigationConfig,
                     NAVIGATION_DIRECTION_COMPATIBILITY[direction],
-                    hierarchyRelation
+                    hierarchyRelation,
+                    isRoot
                 );
         }
     }
 
     private _prepareQueryParams(
-        queryParams: IQueryParams,
+        {filter, sorting, select}: IQueryParams,
         key: TKey,
         navigationSourceConfig: INavigationSourceConfig,
         direction: Direction
     ): IQueryParams|IQueryParams[] {
         const navigationController = this._getNavigationController(this._navigation);
         const userQueryParams = {
-            filter: queryParams.filter,
-            sorting: queryParams.sorting,
-            select: queryParams.select
+            filter,
+            sorting,
+            select
         };
         const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
+        const expandedItems = this.getExpandedItems();
         const isHierarchyQueryParamsNeeded =
             isMultiNavigation &&
             this.isDeepReload() &&
-            this._expandedItems?.length &&
+            expandedItems?.length &&
             !direction &&
             key === this._root;
         let resultQueryParams;
@@ -754,7 +757,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             resultQueryParams = navigationController.getQueryParamsForHierarchy(
                 userQueryParams,
                 navigationSourceConfig,
-                !isMultiNavigation
+                !isMultiNavigation,
+                filter[this.getParentProperty()]
             );
         }
 
