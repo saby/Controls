@@ -19,7 +19,7 @@
                             </div>
                             <Controls.lookupPopup:ListContainer multiSelect="{{_options.multiSelect ? 'visible'}}" keyProperty="{{_keyProperty}}">
                                 <Controls.list:Container>
-                                    <Controls.grid:View displayProperty="title" idProperty="{{_keyProperty}}" multiSelectVisibility="{{_options.multiSelect ? 'visible'}}" emptyTemplate="Не найдено">
+                                    <Controls.grid:View displayProperty="title" idProperty="{{_keyProperty}}" multiSelectVisibility="{{_options.multiSelect ? 'visible' : 'hidden'}}" emptyTemplate="Не найдено">
                                         <ws:columns>
                                             <ws:Array>
                                                 <ws:Object>

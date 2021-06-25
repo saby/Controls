@@ -59,7 +59,7 @@
                                     attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
                     </ws:ladderWrapper>
                     <ws:multiSelectTemplate>
-                        <ws:partial template="Controls/list:MultiSelectTemplate" item="{{ (item || itemData) }}"/>
+                       <Controls.list:MultiSelectTemplate item="{{ (item || itemData) }}" />
                     </ws:multiSelectTemplate>
                     <ws:afterContentTemplate>
                         <!-- Стрелка редактирования -->

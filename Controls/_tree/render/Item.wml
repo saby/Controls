@@ -33,7 +33,11 @@
                     searchValue="{{ searchValue }}"
                     highlightOnHover="{{ highlightOnHover }}"
                     itemActionsTemplate="{{ itemActionsTemplate }}"
-                    swipeTemplate="{{ swipeTemplate }}"/>
+                    swipeTemplate="{{ swipeTemplate }}">
+               <ws:multiSelectTemplate>
+                  <Controls.list:MultiSelectTemplate item="{{ (item || itemData) }}" />
+               </ws:multiSelectTemplate>
+            </ws:partial>
          </div>
       </ws:if>
       <ws:else>

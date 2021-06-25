@@ -15,8 +15,11 @@
                     searchValue="{{ searchValue }}"
                     highlightOnHover="{{ highlightOnHover }}"
                     itemActionsTemplate="{{ itemActionsTemplate }}"
-                    multiSelectTemplate="wml!Controls/_list/Render/multiSelect"
-                    swipeTemplate="{{ swipeTemplate }}"/>
+                    swipeTemplate="{{ swipeTemplate }}">
+                <ws:multiSelectTemplate>
+                    <ws:partial template="wml!Controls/_list/Render/multiSelect" item="{{ (item || itemData) }}"/>
+                </ws:multiSelectTemplate>
+            </ws:partial>
         </div>
     </ws:if>
     <ws:else>
