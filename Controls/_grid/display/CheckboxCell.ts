@@ -3,8 +3,6 @@ import { IMarkable } from 'Controls/display';
 import Cell from './Cell';
 import DataRow from './DataRow';
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/list:MultiSelectTemplate';
-
 export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, TOwner> implements IMarkable {
     readonly Markable: boolean = true;
 
@@ -53,7 +51,7 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
     }
 
     getTemplate(): TemplateFunction|string {
-        return DEFAULT_CELL_TEMPLATE;
+        return this.getOwner().getMultiSelectTemplate();
     }
 
     shouldDisplayMarker(marker: boolean): boolean {

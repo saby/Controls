@@ -3,7 +3,7 @@
       <div class="controls-ColumnsView__item_marker"></div>
    </ws:if>
    <ws:if data="{{ multiSelectVisibility !== 'hidden' }}">
-      <Controls.list:MultiSelectTemplate item="{{ item }}" />
+      <ws:partial template="{{ item.getMultiSelectTemplate() }}" item="{{ item }}" />
    </ws:if>
    <ws:if data="{{ contentTemplate }}">
       <div attr:class="{{ item.getContentClasses(theme) }}">
