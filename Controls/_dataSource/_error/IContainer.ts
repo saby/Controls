@@ -10,7 +10,7 @@ import { IControlOptions } from 'UI/Base';
 export interface IContainerConfig extends IControlOptions {
     /**
      * @name Controls/_dataSource/_error/Container#viewConfig
-     * @cfg Данные для отображения сообщения об ошибке.
+     * @cfg {Controls/error:ViewConfig} Данные для отображения сообщения об ошибке.
      */
     viewConfig?: ViewConfig;
 }
