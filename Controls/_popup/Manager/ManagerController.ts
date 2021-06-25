@@ -24,6 +24,7 @@ export default {
     _indicator: null,
     _contentData: null,
     _rightBottomTemplate: null,
+    _rightTopTemplate: null,
     _popupHeaderTheme: undefined,
     _theme: undefined,
     _popupSettingsController: undefined,
