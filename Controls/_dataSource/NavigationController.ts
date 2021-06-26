@@ -184,7 +184,7 @@ export default class NavigationController {
         this._navigationStores.each((storesItem) => {
             const store = storesItem.store;
 
-            if (!ids.length || ids.includes(storesItem.id)) {
+            if (!ids || !ids.length || ids.includes(storesItem.id)) {
                 addQueryParamsArray.push({
                     id: storesItem.id,
                     addParams: calculator.getQueryParams(
