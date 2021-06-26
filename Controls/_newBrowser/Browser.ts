@@ -621,18 +621,18 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                     this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
                 }
              }
-            return;
         } else if (!this._hasImageInItems) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
         }
-
         if (this._inputSearchString) {
             this._afterSearchDataLoaded();
         }
         this._search = null;
 
         this._masterMarkedKey = this.root;
-        this._processItemsMetadata(items);
+        if (!direction) {
+            this._processItemsMetadata(items);
+        }
     }
 
     /**
