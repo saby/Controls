@@ -55,4 +55,8 @@ export default class Global extends Control<IControlOptions> {
     protected _openDialogHandler(event, template, templateOptions, opener = null): Promise<unknown> {
         return this._globalController.openDialogHandler(event, template, templateOptions, opener);
     }
+
+    private _popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer): void {
+        this._globalController.popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
+    }
 }
