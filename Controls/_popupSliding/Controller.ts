@@ -121,12 +121,7 @@ class Controller extends BaseController {
         } = item.popupOptions;
         const heightOffset = positionOption === 'top' ? offset.y : -offset.y;
         const newHeight = item.dragStartHeight + heightOffset;
-        const isClosingSwipe = heightOffset < 0;
 
-        // При свайпе который уменьшает высоту на минимальной высоте закрываем попап
-        if (isClosingSwipe && newHeight < position.minHeight && isFirstDrag) {
-            PopupController.remove(item.id);
-        }
         position.height = newHeight;
         item.sizes.height = newHeight;
         item.position = SlidingPanelStrategy.getPosition(item);
@@ -134,7 +129,12 @@ class Controller extends BaseController {
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
     }
 
-    popupDragEnd(item: ISlidingPanelItem): void {
+    popupDragEnd(item: ISlidingPanelItem, hasContentToExpand: boolean): void {
+        if (item.position.height < SlidingPanelStrategy.getMinHeight(item)) {
+            PopupController.remove(item.id);
+        } else {
+            item.position = SlidingPanelStrategy.getPositionAfterDrag(item, hasContentToExpand);
+        }
         item.dragStartHeight = null;
     }
 
@@ -165,13 +165,13 @@ class Controller extends BaseController {
      * @private
      */
     private _getPopupTemplatePosition(item: ISlidingPanelItem): ISlidingPanelPopupOptions['slidingPanelOptions'] {
-        const {position, popupOptions} = item;
+        const {popupOptions: {slidingPanelOptions, desktopMode}} = item;
         return {
-            minHeight: position.minHeight,
-            maxHeight: position.maxHeight,
+            minHeight: SlidingPanelStrategy.getMinHeight(item),
+            maxHeight: SlidingPanelStrategy.getMaxHeight(item),
             height: this._getHeight(item),
-            position: popupOptions.slidingPanelOptions.position,
-            desktopMode: popupOptions.desktopMode
+            position: slidingPanelOptions.position,
+            desktopMode
         };
     }
 
