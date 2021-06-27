@@ -4,11 +4,12 @@
             <Controls.heading:Title scope="{{_options}}"
                                     readOnly="{{true}}"
                                     fontSize="m"
+                                    tooltip="{{_options.caption}}"
                                     attr:class="controls-PropertyGrid__editor_nodeCaption"/>
         </div>
     </ws:if>
     <ws:else>
-        <Controls.input:Label scope="{{_options}}"/>
+        <Controls.input:Label scope="{{_options}}" attr:title="{{_options.caption}}"/>
     </ws:else>
 </ws:template>
 
