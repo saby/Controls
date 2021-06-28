@@ -224,6 +224,13 @@ Object.defineProperty(ToggleButton, 'defaultProps', {
  */
 
 /**
+ * @name Controls/_toggle/Button#iconStyles
+ * @cfg {Array} Пара стилей для иконок.
+ * Первый стиль отображается, когда переключатель выключен.
+ * Второй стиль отображается, когда переключатель включен.
+ */
+
+/**
  * @name Controls/_toggle/Button#captions
  * @cfg {Array} Пара заголовков.
  * Первый заголовок отображается, когда переключатель в состоянии "включено".
