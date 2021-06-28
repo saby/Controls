@@ -72,6 +72,8 @@ export default class ScrollController {
     private _shadowVisibility: IShadowVisibility;
     private _resetInEnd: boolean;
 
+    private _collectionRenderedKeys: string[] = [];
+
     // Флаг, который необходимо включать, чтобы не реагировать на скроллы происходящие вследствие
     // подскроллов создаваемых самим контролом (scrollToItem, восстановление позиции скролла после перерисовок)
     private _fakeScroll: boolean;
@@ -315,7 +317,7 @@ export default class ScrollController {
                                         index,
                                         this._options.collection.getCount()
                                     );
-                                    this._setCollectionIndices(
+                                    const newCollectionRenderedKeys = this._setCollectionIndices(
                                         this._options.collection,
                                         rangeShiftResult.range,
                                         false,
@@ -329,9 +331,11 @@ export default class ScrollController {
                                         this.savePlaceholders(rangeShiftResult.placeholders);
                                         scrollCallback(index, {
                                             placeholders: rangeShiftResult.placeholders,
-                                                shadowVisibility: this._calcShadowVisibility(
+                                            shadowVisibility: this._calcShadowVisibility(
                                                 this._options.collection,
-                                                rangeShiftResult.range)
+                                                rangeShiftResult.range
+                                            ),
+                                            newCollectionRenderedKeys
                                         });
                                         resolve();
                                     };
@@ -395,7 +399,7 @@ export default class ScrollController {
                 count === undefined ?  options.collection.getCount() : count,
                 itemsHeights
             );
-            this._setCollectionIndices(
+            const newCollectionRenderedKeys = this._setCollectionIndices(
                 options.collection,
                 rangeShiftResult.range,
                 true,
@@ -403,6 +407,7 @@ export default class ScrollController {
             );
             this.savePlaceholders(rangeShiftResult.placeholders);
             return {
+                    newCollectionRenderedKeys,
                     placeholders: rangeShiftResult.placeholders,
                     scrollToActiveElement: options.activeElement !== undefined,
                     shadowVisibility: this._calcShadowVisibility(options.collection, rangeShiftResult.range)
@@ -431,10 +436,11 @@ export default class ScrollController {
         {start, stop}: IRange,
         force?: boolean,
         needScrollCalculation?: boolean
-    ): void {
+    ): void | string[] {
         if (needScrollCalculation) {
             let collectionStartIndex: number;
             let collectionStopIndex: number;
+            const newCollectionRenderedKeys: string[] = [];
 
             if (collection.getViewIterator) {
                 collectionStartIndex = VirtualScrollController.getStartIndex(
@@ -460,6 +466,16 @@ export default class ScrollController {
                 // что приводит к той же проблеме.
                 // Самый надежный вариант - не ставить в коллекцию stopIndex, который заведомо превышает ее размер.
                 collection.setIndexes(start, Math.min(stop, collection.getCount()));
+            }
+            if (this._options.notifyKeyOnRender) {
+                for (let i = start; i < stop; i++) {
+                    const collectionItemKey = collection.at(i)?.key;
+                    if (collectionItemKey && !this._collectionRenderedKeys.includes(collectionItemKey)) {
+                        this._collectionRenderedKeys.push(collectionItemKey);
+                        newCollectionRenderedKeys.push(collectionItemKey);
+                    }
+                }
+                return newCollectionRenderedKeys;
             }
         }
     }
@@ -515,14 +531,15 @@ export default class ScrollController {
     private virtualScrollPositionChanged(params: IScrollParams): IScrollControllerResult  {
         if (this._virtualScroll) {
             const rangeShiftResult = this._virtualScroll.shiftRangeToScrollPosition(params.scrollTop);
-            this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
-                this._options.needScrollCalculation);
+            const newCollectionRenderedKeys = this._setCollectionIndices(
+               this._options.collection, rangeShiftResult.range, false, this._options.needScrollCalculation);
             this._applyScrollTopCallback = params.applyScrollTopCallback;
             if (!this._isRendering && !this._virtualScroll.rangeChanged) {
                 this.completeVirtualScrollIfNeed();
             }
             this.savePlaceholders(rangeShiftResult.placeholders);
             return {
+                newCollectionRenderedKeys,
                 placeholders: rangeShiftResult.placeholders,
                 shadowVisibility: this._calcShadowVisibility(this._options.collection, rangeShiftResult.range)
             };
@@ -551,10 +568,12 @@ export default class ScrollController {
                 if (this._virtualScroll && !this._virtualScroll.rangeChanged) {
                     this._inertialScrolling.callAfterScrollStopped(() => {
                         const rangeShiftResult = this._virtualScroll.shiftRange(direction);
-                        this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
+                        const newCollectionRenderedKeys =
+                           this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
                             this._options.needScrollCalculation);
                         this.savePlaceholders(rangeShiftResult.placeholders);
                         resolve({
+                            newCollectionRenderedKeys,
                             placeholders: rangeShiftResult.placeholders,
                             shadowVisibility: this._calcShadowVisibility(
                                 this._options.collection,
@@ -621,7 +640,7 @@ export default class ScrollController {
     }
 
     handleMoveItems(addIndex: number, addedItems: object[], removeIndex: number, removedIitems: object[],  direction?: IDirection): IScrollControllerResult {
-        let result = {}
+        let result = {};
         if (!this._virtualScroll) {
             result = this._initVirtualScroll(
                 {...this._options, forceInitVirtualScroll: true},
@@ -636,11 +655,13 @@ export default class ScrollController {
             direction
         );
         const removeItemsResult = this._virtualScroll.removeItems(removeIndex, removedIitems.length);
-        this._setCollectionIndices(this._options.collection, removeItemsResult.range, false,
+        const newCollectionRenderedKeys =
+           this._setCollectionIndices(this._options.collection, removeItemsResult.range, false,
             this._options.needScrollCalculation);
         this.savePlaceholders(removeItemsResult.placeholders);
         return {
             ...result,
+            newCollectionRenderedKeys,
             placeholders: removeItemsResult.placeholders,
             shadowVisibility: this._calcShadowVisibility(this._options.collection, removeItemsResult.range)
         };
@@ -671,11 +692,13 @@ export default class ScrollController {
         if (shift && this._options.collection.getCount() - items.length >= this._options.virtualScrollConfig.pageSize) {
             rangeShiftResult = this._virtualScroll.shiftRange(direction);
         }
-        this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
+        const newCollectionRenderedKeys =
+           this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
             this._options.needScrollCalculation);
         this.savePlaceholders(rangeShiftResult.placeholders);
         return {
             ...result,
+            newCollectionRenderedKeys,
             placeholders: rangeShiftResult.placeholders,
             shadowVisibility: this._calcShadowVisibility(this._options.collection, rangeShiftResult.range)
         };

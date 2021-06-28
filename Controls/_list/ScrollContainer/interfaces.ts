@@ -18,6 +18,7 @@ export interface ITriggerOffset {
 }
 
 export interface IScrollControllerResult {
+    newCollectionRenderedKeys?: string[];
     placeholders?: IPlaceholders;
     triggerOffset?: ITriggerOffset;
     activeElement?: TItemKey;
