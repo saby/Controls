@@ -885,7 +885,7 @@ export default class Explorer extends Control<IExplorerOptions> {
      *    https://online.sbis.ru/doc/19106882-fada-47f7-96bd-516f9fb0522f
      */
     private _getHeaderVisibility(root: TKey, headerVisibility: string): string {
-        return root === null ? (headerVisibility || 'hasdata') : 'visible';
+        return root === (this._topRoot || null) ? (headerVisibility || 'hasdata') : 'visible';
     }
 
     private _itemsReadyCallbackFunc(items: RecordSet): void {
