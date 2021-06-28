@@ -582,7 +582,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (!item || !item['[Controls/_display/TreeItem]'] || direction !== 'down') {
             return false;
         }
-        const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
+        const hasMoreParentData = !!this._sourceController && this._sourceController.hasMoreData('down', parentKey);
         const hasNodeFooterTemplate: boolean = !!this._options.nodeFooterTemplate;
         return !hasMoreParentData && !hasNodeFooterTemplate && item.isNode() && item.isExpanded();
     }
@@ -594,7 +594,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      */
     private _loadNodeChildrenRecursive(item: TreeItem): Promise {
         const nodeKey = item.getContents().getKey();
-        const hasMoreData = this._sourceController.hasMoreData('down', nodeKey);
+        const hasMoreData = this._sourceController && this._sourceController.hasMoreData('down', nodeKey);
         if (hasMoreData) {
             // Вызов метода, который подгружает дочерние записи узла
             return _private.loadNodeChildren(this, nodeKey);
