@@ -43,7 +43,7 @@ describe('Controls/grid_clean/Display/header/HeaderCell/ColumnSeparatorSize', ()
         });
     }
 
-    beforeEach('', () => {
+    beforeEach(() => {
         hasMultiSelectColumn = false;
         stickyColumnsCount = 0;
         hasItemActionsSeparatedCell = false;
