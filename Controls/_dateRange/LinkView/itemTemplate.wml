@@ -12,8 +12,8 @@
 <ws:else>
 <span
         class="controls-DateLinkView__value controls-DateLinkView__value_fontWeight-{{ fontWeight }}
-                        {{_fontSize? 'controls-fontsize-' + fontSize}}
-                        {{_fontColorStyle? 'controls-text-' + fontColorStyle}}
+                        {{fontSize? 'controls-fontsize-' + fontSize}}
+                        {{fontColorStyle? 'controls-text-' + fontColorStyle}}
                         {{ styleClass }}">
     {{ caption }}
 </span>
