@@ -1,8 +1,6 @@
 <div attr:class="{{ item.getWrapperClasses(highlightOnHover, theme, cursor) }}">
    <ws:if data="{{ multiSelectVisibility !== 'hidden' }}">
-      <ws:partial template="{{ multiSelectTpl }}" attr:class="{{ item.getMultiSelectClasses(theme) }}">
-         <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
-      </ws:partial>
+      <Controls.list:MultiSelectTemplate item="{{ item }}" />
    </ws:if>
    <ws:if data="{{item.shouldDisplayMarker(marker) }}">
       <div class="{{item.getMarkerClasses(theme, '', markerClassName, itemPadding, markerPosition)}}"></div>

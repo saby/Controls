@@ -40,7 +40,7 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
     protected _monthViewModel: modelViewModel = modelViewModel;
     protected _SELECTION_VIEW_TYPES: string = SELECTION_VIEW_TYPES;
     protected _FULL_HALF_YEAR: string = formatDate.FULL_HALF_YEAR;
-    protected  _FULL_QUATER: string =  formatDate.FULL_QUATER;
+    protected  _FULL_QUARTER: string =  formatDate.FULL_QUARTER;
     protected _quarterHovered: boolean;
     protected _halfYearHovered: boolean;
     protected _selectionViewType: string;
@@ -203,9 +203,7 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
             this._options.selectionBaseValue, this._options.selectionHoveredValue) &&
             this._selectionViewType === SELECTION_VIEW_TYPES.months) {
             css.push('controls-PeriodDialog-MonthsRange__item-selected');
-            css.push('controls-PeriodDialog-MonthsRange__item-selected');
         } else {
-            css.push('controls-PeriodDialog-MonthsRange__item-unselected');
             css.push('controls-PeriodDialog-MonthsRange__item-unselected');
         }
 
@@ -232,6 +230,20 @@ export default class MonthsRangeItem extends Control<IMonthsRangeItemOptions> {
         }
 
         return css.join(' ');
+    }
+
+    protected _getItemDataQA(itemValue: Date): string {
+        let dataQA;
+        const startValue = this._options.startValue;
+        const endValue = this._options.endValue;
+        if (rangeSelectionUtils.isSelected(itemValue, startValue, endValue, this._options.selectionProcessing,
+            this._options.selectionBaseValue, this._options.selectionHoveredValue) &&
+            this._selectionViewType === SELECTION_VIEW_TYPES.months) {
+            dataQA = 'controls-PeriodDialog-MonthsRange__item-selected';
+        } else {
+            dataQA = 'controls-PeriodDialog-MonthsRange__item';
+        }
+        return dataQA;
     }
 
     private _calculateRangeSelectedCallback(startValue: Date, endValue: Date): Date[] {

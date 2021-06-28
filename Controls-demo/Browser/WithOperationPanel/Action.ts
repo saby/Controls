@@ -4,7 +4,7 @@ export default class {
     constructor(actionOptions: { name: string; }) {
         this._name  = actionOptions.name;
     }
-    execute(meta: Record<string, any>): void {
+    execute(meta: Record<string, any>): Promise<string> {
         const selectedKeys = meta.selection.selected;
         let message = '';
         if (!selectedKeys.length) {
@@ -16,5 +16,6 @@ export default class {
             message,
             type: 'ok'
         });
+        return Promise.resolve('reload');
     }
 }

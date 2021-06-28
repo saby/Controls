@@ -24,6 +24,32 @@ describe('Controls/filterPanel:ViewModel', () => {
         });
     });
 
+    describe('resetFilter', () => {
+        const source = [
+            {
+                group: 'owners',
+                name: 'owner',
+                value: 'Test owner',
+                textValue: 'Test owner',
+                resetValue: null,
+                viewMode: 'basic',
+                editorOptions: {
+                    extendedCaption: 'Owner'
+                }
+            }
+        ];
+        const collapsedGroups = [];
+        const viewModel = new ViewModel({
+            source,
+            collapsedGroups
+        });
+
+        it('view mode changed', () => {
+            viewModel.resetFilter();
+            assert.equal(viewModel._source[0].viewMode,  'extended');
+        });
+    });
+
     describe('setEditingObjectValue', () => {
         const source = [
             {
@@ -50,6 +76,32 @@ describe('Controls/filterPanel:ViewModel', () => {
             const item = viewModel._source[0];
             assert.equal(item.value, 'New owner');
             assert.equal(item.textValue, 'New text owner');
+        });
+    });
+
+    describe('setEditingObject', () => {
+        const source = [
+            {
+                group: 'owners',
+                name: 'owner',
+                value: null,
+                textValue: 'Test owner',
+                resetValue: null
+            }
+        ];
+        const collapsedGroups = [];
+        const viewModel = new ViewModel({
+            source,
+            collapsedGroups
+        });
+
+        it('collapsed groups reseted', () => {
+            const editingObject = {
+                owner: null
+            };
+            viewModel.collapseGroup('owners');
+            viewModel.setEditingObject(editingObject);
+            assert.isEmpty(viewModel._collapsedGroups);
         });
     });
 });

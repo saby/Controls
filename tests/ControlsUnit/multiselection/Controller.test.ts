@@ -154,6 +154,22 @@ describe('Controls/_multiselection/Controller', () => {
       });
    });
 
+   describe('increaseLimitByCount', () => {
+      it('limit is increased', () => {
+         controller.increaseLimitByCount(1);
+         assert.equal(controller.getLimit(), 1);
+
+         controller.increaseLimitByCount(1);
+         assert.equal(controller.getLimit(), 2);
+      });
+
+      it('update model', () => {
+         controller.setSelection({selected: [null], excluded: []});
+         controller.increaseLimitByCount(1);
+         assert.isTrue(model.getItemBySourceKey(1).isSelected());
+      });
+   });
+
    it('selectAll', () => {
       let result = controller.selectAll();
       assert.deepEqual(result, { selected: [null], excluded: [] });
@@ -172,36 +188,57 @@ describe('Controls/_multiselection/Controller', () => {
       assert.deepEqual(result, { selected: [null], excluded: [] });
    });
 
-   it('toggleAll', () => {
-      let result = controller.toggleAll();
-      assert.deepEqual(result, { selected: [null], excluded: [] });
-
-      controller.setSelection({ selected: [3], excluded: [] });
-      controller.updateOptions({
-         model,
-         strategy,
-         filter: {searchValue: 'a'},
-         strategyOptions: {
-            model
-         }
+   describe('toggleAll', () => {
+      it('default', () => {
+         const result = controller.toggleAll();
+         assert.deepEqual(result, { selected: [null], excluded: [] });
       });
 
-      result = controller.toggleAll();
-      assert.deepEqual(result, { selected: [null], excluded: [3] });
+      it('filter is changed', () => {
+         controller.setSelection({ selected: [3], excluded: [] });
+         controller.updateOptions({
+            model,
+            strategy,
+            filter: {searchValue: 'a'},
+            strategyOptions: {
+               model
+            }
+         });
 
-      controller.setSelection({ selected: [], excluded: [] });
-      controller.setSelection({ selected: [2222], excluded: [] });
-      controller.updateOptions({
-         model,
-         strategy,
-         filter: {searchValue: 'aф'},
-         strategyOptions: {
-            model
-         }
+         let result = controller.toggleAll();
+         assert.deepEqual(result, { selected: [null], excluded: [3] });
+
+         controller.setSelection({ selected: [], excluded: [] });
+         controller.setSelection({ selected: [2222], excluded: [] });
+         controller.updateOptions({
+            model,
+            strategy,
+            filter: {searchValue: 'aф'},
+            strategyOptions: {
+               model
+            }
+         });
+
+         result = controller.toggleAll();
+         assert.deepEqual(result, { selected: [null], excluded: [] });
       });
 
-      result = controller.toggleAll();
-      assert.deepEqual(result, { selected: [null], excluded: [] });
+      it('filter is changed and selected all items', () => {
+         // сценарий: нет выделения, сменили фильтр, выбрали все записи, нажали инвертировать
+         controller.setSelection({ selected: [], excluded: [] });
+         controller.updateOptions({
+            model,
+            strategy,
+            filter: {searchValue: 'a'},
+            strategyOptions: {
+               model
+            }
+         });
+
+         controller.setSelection({ selected: [null], excluded: [] });
+         const result = controller.toggleAll();
+         assert.deepEqual(result, { selected: [], excluded: [] });
+      });
    });
 
    it('unselectAll', () => {
@@ -494,6 +531,11 @@ describe('Controls/_multiselection/Controller', () => {
             controllerWithReadonly.setLimit(10);
             controllerWithReadonly.setSelection({selected: [], excluded: []});
             assert.isTrue(controllerWithReadonly.getLimit() === 0);
+         });
+
+         it('not pass excluded', () => {
+            controller.setSelection({selected: [1]});
+            assert.deepEqual(controller.getSelection(), {selected: [1], excluded: []});
          });
       });
    });

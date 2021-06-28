@@ -59,11 +59,15 @@ import CheckboxItemTemplate = require('wml!Controls/_toggle/CheckboxGroup/resour
 import switchCircleTemplate = require('wml!Controls/_toggle/RadioGroup/resources/RadioCircle/RadioCircle');
 import * as tumblerItemTemplate from 'wml!Controls/_toggle/Tumbler/itemTemplate';
 import * as tumblerItemCounterTemplate from 'wml!Controls/_toggle/Tumbler/itemCounterTemplate';
+import * as chipsItemTemplate from 'wml!Controls/_toggle/ButtonGroup/itemTemplate';
+import * as chipsItemCounterTemplate from 'wml!Controls/_toggle/ButtonGroup/itemCounterTemplate';
 
 export {
     ItemTemplate,
     CheckboxItemTemplate,
     switchCircleTemplate,
     tumblerItemTemplate,
-    tumblerItemCounterTemplate
+    tumblerItemCounterTemplate,
+    chipsItemTemplate,
+    chipsItemCounterTemplate
 };

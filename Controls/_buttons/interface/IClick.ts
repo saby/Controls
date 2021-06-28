@@ -1,7 +1,6 @@
 /**
  * Интерфейс для поддержки клика по элементу.
  *
- * @interface Controls/_buttons/interface/IClick
  * @public
  * @author Красильников А.С.
  */
@@ -22,17 +21,21 @@ export interface IClick {
  * @remark Если кнопка с readOnly установлена в true, то событие не всплывает.
  * @example
  * Кнопка со стилем 'primary', режимом отображения 'button' и иконкой 'icon-Send'. Если пользователь произведет клик по кнопке, произойдет отправка документа.
- * <pre>
- *    <Controls.buttons:Button on:click="_clickHandler()" icon="icon-Send" buttonStyle="primary" viewMode="button"/>
+ * <pre class="brush: html; highlight: [3]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    on:click="_clickHandler()"
+ *    icon="icon-Send"
+ *    buttonStyle="primary"
+ *    viewMode="button"/>
  * </pre>
- * <pre>
- *    class MyControl extends Control<IControlOptions> {
- *       ...
- *       _clickHandler(e) {
- *          this.sendDocument();
- *       }
- *       ...
+ * <pre class="brush: js;">
+ * // TypeScript
+ * class MyControl extends Control<IControlOptions> {
+ *    _clickHandler(e) {
+ *       this.sendDocument();
  *    }
+ * }
  * </pre>
  */
 

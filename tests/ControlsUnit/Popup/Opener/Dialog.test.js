@@ -163,6 +163,20 @@ define(
             assert.equal(position.width, 500);
          });
 
+         it('resetMargins', () => {
+            let windowData = {
+               width: 500,
+               height: 500,
+               topScroll: 0
+            };
+            let item = {
+               popupOptions: {},
+               targetCoords: {}
+            }
+            let position = DialogStrategy.getPosition(windowData, sizes, item);
+            assert.equal(position.margin, 0);
+         });
+
          it('dialog popupoptions sizes config', () => {
             let popupOptions = {
                maxWidth: 800,
@@ -420,6 +434,7 @@ define(
                   assert.strictEqual(item.position.left, 500);
                   assert.strictEqual(item.popupOptions.top, 200);
                   assert.strictEqual(item.popupOptions.left, 500);
+                  assert.strictEqual(item.dragged, true);
                   done();
                } catch (e) {
                   done(e);

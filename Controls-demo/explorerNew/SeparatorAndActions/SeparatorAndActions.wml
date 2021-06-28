@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper">
+    <Controls.browser:Browser
+            attr:class="controlsDemo__margin-top"
+            source="{{  _viewSource  }}"
+            keyProperty="id"
+            displayProperty="title"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            bind:searchValue="_searchValue"
+            searchParam="title"
+            header="{{ _header }}"
+            columns="{{ _columns  }}"
+            itemActionsPosition="outside">
+        <Controls.list:Container>
+            <Controls.explorer:View name="explorer" attr:class="demo-Explorer ControlsDemo-Explorer">
+                <ws:editingConfig editOnClick="{{ true }}" toolbarVisibility="{{ true }}"/>
+            </Controls.explorer:View>
+        </Controls.list:Container>
+    </Controls.browser:Browser>
+</div>
+

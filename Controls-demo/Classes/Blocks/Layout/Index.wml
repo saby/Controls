@@ -86,4 +86,25 @@
             </div>
         </div>
     </div>
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">Две колонки. Вторая объединена.</div>
+        <div class="controls__block-layout" style="height: 600px;">
+            <div class="ws-flexbox">
+                <div class="ws-flexbox ws-flex-column ws-flex-grow-1">
+                    <div class="controls__block-layout-item">
+                        <div class="controlsDemo-newBlocks__block">1</div>
+                    </div>
+                    <div class="controls__block-layout-item">
+                        <div class="controlsDemo-newBlocks__block">2</div>
+                    </div>
+                </div>
+                <div class="ws-flex-grow-1 ws-flexbox ws-flex-column">
+                    <div class="controls__block-layout-item ws-flex-grow-1">
+                        <div class="controlsDemo-newBlocks__block">3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

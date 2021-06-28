@@ -1,5 +1,6 @@
 <ws:if data="{{ date.getMonth() === 0 }}">
-    <div class="controls-PeriodDialog-DateRangeItem__months-nextyearBtn"
+    <div data-qa="controls-PeriodDialog-DateRangeItem__months-nextyearBtn"
+         class="controls-PeriodDialog-DateRangeItem__months-nextyearBtn"
          data-date="{{ date.getFullYear() }}">
         {{date.getFullYear()}}
     </div>

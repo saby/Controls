@@ -238,7 +238,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
    protected _deactivated(event: SyntheticEvent<Event>): void {
       // если фокус ушел в меню, не закрываем его
       // TODO https://online.sbis.ru/opendoc.html?guid=b34ba2ef-fec0-42df-87d8-77541ec82c34
-      if (!event.nativeEvent.relatedTarget?.closest('.controls-Menu__popup')) {
+      if (!event.nativeEvent.relatedTarget?.closest('.controls-Menu__popup') && this._options.closeMenuOnOutsideClick) {
          this.closeMenu();
       }
    }
@@ -278,7 +278,8 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
          fontColorStyle: 'default',
          tooltip: '',
          emptyKey: null,
-         contrastBackground: false
+         contrastBackground: false,
+         closeMenuOnOutsideClick: true
       };
    }
 }
@@ -296,7 +297,7 @@ export = ComboBox;
 /**
  * @event Происходит при изменении отображаемого значения контрола.
  * @name Controls/_dropdown/ComboBox#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Отображаемое значение контрола.
  * @remark
  * Событие используется в качестве реакции на изменения, вносимые пользователем.

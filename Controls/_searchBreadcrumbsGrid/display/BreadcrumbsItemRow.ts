@@ -175,6 +175,6 @@ Object.assign(BreadcrumbsItemRow.prototype, {
     _$cellTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
     _$last: null,
     _$colspanBreadcrumbs: true,
-    _$hasNodeWithChildren: false,
+    _$displayExpanderPadding: false,
     _$breadCrumbsMode: 'row'
 });

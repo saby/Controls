@@ -252,51 +252,63 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
+ * @name Controls/_list/interface/IList#allowMultiSelect
+ * @cfg {boolean} Позволяет включать/выключать выделение в списке.
+ * @remark
+ * Если передана опция selectedKeys, то выделение включено независимо от данной опции.
+ * Рекомендуется использовать, если список ни при каких условиях не поддерживает выделение.
+ * Стандартный пример использования: отключить анимацию отметки записи на тач устройствах, если список не поддерживает выделение.
+ * @default true
+ * @see multiSelectVisibility
+ * @see multiSelectPosition
+ */
+
+/**
  * @event Происходит в момент, когда курсор оказывается над элементом списка.
  * @name Controls/_list/interface/IList#itemMouseEnter
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Экземпляр записи, на которую был наведен курсор.
- * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Дескриптор события мыши.
+ * @param {UICommon/Events:SyntheticEvent} nativeEvent Дескриптор события мыши.
  */
 
 /*ENG
  * @event Occurs when the cursor is over the list item.
  * @name Controls/_list/interface/IList#itemMouseEnter
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} item Instance of the item that the cursor was over.
- * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Descriptor of the mouse event
+ * @param {UICommon/Events:SyntheticEvent} nativeEvent Descriptor of the mouse event
  */
 
 /**
  * @event Происходит в момент, когда курсор уходит за пределы элемента списка.
  * @name Controls/_list/interface/IList#itemMouseLeave
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Экземпляр записи, за пределы которой ушел курсор.
- * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Дескриптор события мыши.
+ * @param {UICommon/Events:SyntheticEvent} nativeEvent Дескриптор события мыши.
  */
 
 /*ENG
  * @event Occurs when the cursor leaves the list item.
  * @name Controls/_list/interface/IList#itemMouseLeave
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} item Instance of the item that the cursor was over.
- * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Descriptor of the mouse event
+ * @param {UICommon/Events:SyntheticEvent} nativeEvent Descriptor of the mouse event
  */
 
 /**
  * @event Происходит в момент, когда курсор двигается по элементам списка.
  * @name Controls/_list/interface/IList#itemMouseMove
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Экземпляр записи, по которой двигается курсор.
- * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Дескриптор события мыши.
+ * @param {UICommon/Events:SyntheticEvent} nativeEvent Дескриптор события мыши.
  */
 
 /*ENG
  * @event Occurs when the cursor moves over list items.
  * @name Controls/_list/interface/IList#itemMouseMove
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} item Instance of the item that the cursor is moving along.
- * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Descriptor of the mouse event
+ * @param {UICommon/Events:SyntheticEvent} nativeEvent Descriptor of the mouse event
  */
 
 /**
@@ -448,12 +460,11 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * Прокручивает список к указанному элементу.
  * @function Controls/_list/interface/IList#scrollToItem
  * @param {String|Number} key Идентификатор элемента коллекции, к которому происходит прокручивание.
- * @param {Boolean} [toBottom=false] Видимость нижнего края элемента. Для значения true нижний край отображается, а для false — скрыт.
- * @param {Boolean} [force=false] Прокрутить список к нижнему краю элемента.
- * Для значения true прокручивание работает, а для false — отключено.
- * **Примечание:** параметр можно использовать, когда toBottom установлен в значение true.
+ * @param {Boolean} [toBottom=false] Целевое положение элемента коллекции, к которому происходит прокручивание. Если true, то нижняя граница элемента будет (по возможности) совпадать с нижней границей контейнера. Если false, то совпадать будут верхние границы.
+ * @param {Boolean} [force=false] Форсированный подскролл. Если true, то подскролл произойдет в любом случае. Если false, то подскролл произойдет только в случае, когда элемент полностью или частично скрыт.
  * @demo Controls-demo/list_new/VirtualScroll/ConstantHeights/ScrollToItem/Index В следующем примере под списком находится кнопка, при клике по которой вызывается обработчик и метод scrollToItem().
  * @example
+ * Вызов следующего метода расположит целевой элемент у верхней границы вьюпорта.
  * <pre class="brush: js">
  * protected _scrollToItem(event: SyntheticEvent, id: number): void {
  *     this._children.list.scrollToItem(id, false, true);
@@ -482,7 +493,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @event Происходит в момент нажатия на кнопку мыши над элементом списка.
  * @name Controls/_list/interface/IList#itemMouseDown
- * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} event Дескриптор события.
  * @param {Types/entity:Record} item Элемент, над которым произошло нажатие на кнопку мыши.
  * @param {Object} nativeEvent Объект нативного события браузера.
  * @remark
@@ -495,7 +506,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @event Происходит при {@link /doc/platform/developmentapl/interface-development/controls/list/actions/swipe/ свайпе} на элементе списка.
  * @name Controls/_list/interface/IList#itemSwipe
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Экземпляр элемента списка, по которому производим свайп.
  * @param {Object} nativeEvent Объект нативного события браузера.
  * @remark
@@ -505,7 +516,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /*ENG
  * @event Occurs when list item is swiped.
  * @name Controls/_list/interface/IList#itemSwipe
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} item Instance of the swiped item.
  * @param {Object} nativeEvent Descriptor of the original event. It is useful if you want to get direction or target.
  * @remark
@@ -515,7 +526,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @event Происходит при наведении курсора мыши на элемент списка.
  * @name Controls/_list/interface/IList#hoveredItemChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Экземпляр элемента, на который наводим курсор.
  * @param {HTMLElement} itemContainer Контейнер элемента.
  */
@@ -523,7 +534,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @event Происходит при смене активного элемента в процессе скроллирования.
  * @name Controls/_list/interface/IList#activeElementChanged
- * @param {Vdom/Vdom:SyntheticEvent<Event>} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent<Event>} event Дескриптор события.
  * @param {String} key Ключ активного элемента.
  * @remark Активным элементом считается последний элемент, который находится выше середины вьюпорта.
  * Для высчитывания активного элемента в списочном контроле должен быть включен виртуальный скроллинг.
@@ -533,7 +544,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /*ENG
  * @event The event fires when the user hovers over a list item with a cursor.
  * @name Controls/_list/interface/IList#hoveredItemChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} item Instance of the item whose action was clicked.
  * @param {HTMLElement} itemContainer Container of the item.
  */
@@ -541,19 +552,19 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @event Происходит при отрисовке очередного набора данных.
  * @name Controls/_list/interface/IList#drawItems
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 /*ENG
  * @event Occurs when the next batch of data is drawn.
  * @name Controls/_list/interface/IList#drawItems
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  */
 
 /**
  * @event Происходит при активации элемента.
  * @name Controls/_list/interface/IList#itemActivate
- * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} event Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому кликнули.
  * @param {Object} nativeEvent Объект нативного события браузера.
  * @param {Number} columnIndex Индекс колонки, по которой кликнули. Параметр актуален только для {@link Controls/grid:View} и {@link Controls/treeGrid:View}.
@@ -623,6 +634,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация отступов внутри элементов списка.
  * @name Controls/_list/interface/IList#itemPadding
+ * @demo Controls-demo/gridNew/ItemPaddingNull/Index
  */
 
 /*ENG
@@ -728,6 +740,13 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
+ * @name Controls/_list/interface/IList#stickyFooter
+ * @description
+ * Закрепляет {@link /doc/platform/developmentapl/interface-development/controls/list/list/footer/ подвал} списка.
+ * @default false
+ */
+
+/**
  * @typedef {String} Controls/_list/interface/IList/ButtonName
  * @description Допустимые значения для аргумента события {@link Controls/list:IList#pagingArrowClick pagingArrowClick}.
  * @variant Begin Кнопка "В начало".
@@ -737,14 +756,14 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @event Происходит при клике по кнопкам перехода к первой и последней странице.
  * @name Controls/_list/interface/IList#pagingArrowClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Controls/_list/interface/IList/ButtonName.typedef} buttonName Кнопка, по которой кликнули.
  */
 
 /**
  * @event Происходит при изменении лимита при выборе записей пачками в ПМО.
  * @name Controls/_list/interface/IList#selectedLimitChanged
- * @param {Vdom/Vdom:SyntheticEvent<Event>} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent<Event>} event Дескриптор события.
  * @param {number} limit Лимит на количество записей.
  * @example
  * В следующем примере показано, как подписаться на событие изменения лимита и обработать его.

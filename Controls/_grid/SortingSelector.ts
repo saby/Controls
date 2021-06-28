@@ -41,8 +41,8 @@ const iconSizeMap = {
  * @implements Controls/interface:IFontColorStyle
  * @implements Controls/interface:IFontSize
  * @implements Controls/grid:IPropStorage
- * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
- * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/Default/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/Icons/Index
  * @author Авраменко А.С.
  */
 class SortingSelector extends Control<ISortingSelectorOptions> {
@@ -110,7 +110,8 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
 
                 this._selectedKeys = [this._currentParamName];
                 this._currentCaption = dataElem.title;
-                this._currentTitle = { ASC: dataElem.titleAsc, DESC: dataElem.titleDesc }[this._orders[key]];
+                this._currentTitle = { ASC: dataElem.titleAsc,
+                                       DESC: dataElem.titleDesc }[this._orders[key]] || dataElem.title;
                 if (dataElem.icon) {
                     this._nocaption = true;
                     this._arrowIconStyle = dataElem.iconStyle || 'secondary';
@@ -240,18 +241,19 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * Если не задан пункт, сбрасывающий сортировку, то необходимо указать непустую конфигурацию сортировки в опции value.
  * @property {String} title Подпись пункта меню, соответствующего данному полю.
  * @property {String} [icon=undefined] Имя иконки, которая отображается в меню рядом с подписью (см. свойство title), а также в заголовке выпадающего меню. Список иконок {@link /icons/ тут}.
- * @property {String} [iconSize=l] Размер иконки. Допустимые значения описаны {@link Controls/interface:IIconSize#iconSize здесь}.
+ * @property {string} titleAsc Подсказка при наведении на стрелку сортировки по возрастанию.
+ * @property {string} titleDesc Подсказка при наведении на стрелку сортировки по убыванию.
  */
 
 
 /**
  * @name Controls/_grid/SortingSelector#sortingParams
  * @cfg {Array.<Controls/_grid/SortingSelector/SortingParam.typedef>} Параметры сортировки.
- * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
- * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithReset/Index
- * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
- * @demo Controls-demo/grid/Sorting/SortingSelector/ArrowTitle/Index
- * @demo Controls-demo/grid/Sorting/SortingSelector/SingleField/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/Default/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithReset/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/Icons/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/ArrowTitle/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/SingleField/Index
  * @example
  * В опцию передается массив вида
  * <pre class="brush: js;">
@@ -313,7 +315,7 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * </pre>
  */
 /**
- * @name Controls/grid:SortingSelector#value
+ * @name Controls/_grid/SortingSelector#value
  * @cfg {Array.<Object>} Конфигурация сортировки.
  * @remark Если нет возможности сброса сортировки, то опция value должна содержать данные для сортировки.
  * @example
@@ -349,14 +351,23 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  */
 
 /**
- * @name Controls/grid:SortingSelector#header
+ * @name Controls/_grid/SortingSelector#header
  * @cfg {String} Заголовок для выпадающего списка сортировки.
  * @remark Если заголовок не требуется, опцию можно не указывать.
- * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithHeader/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithHeader/Index
  */
 
 /**
- * @name Controls/grid:SortingSelector#iconSize
+ * @name Controls/_grid/SortingSelector#viewMode
+ * @cfg {String} Режим отображения кнопки.
+ * @variant linkButton В виде кнопки-ссылки.
+ * @variant toolButton В виде кнопки для панели инструментов с круглым ховером.
+ * @default linkButton
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/ViewMode/Index
+ */
+
+/**
+ * @name Controls/_grid/SortingSelector#iconSize
  * @cfg {String} Размер иконки кнопки.
  * @variant s малый
  * @variant m средний
@@ -364,4 +375,12 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @remark Не влияет на размер иконок в меню, их размер фиксирован.
  * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconSize/Index
  */
+
+/**
+ * @event Происходит при изменении выбранной сортировки.
+ * @name Controls/_grid/SortingSelector#valueChanged
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Array.<Object>} value Новое значение.
+ */
+
 export default SortingSelector;

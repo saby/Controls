@@ -161,3 +161,14 @@
 .controls-Scroll__content_paging {
    padding-bottom: @item_height_paging + @padding-vertical_paging * 2;
 }
+
+// Класс для css теней скролл контейнера в мастере
+.controls-Scroll__background-Shadow_style-master_theme-@{themeName} {
+   background-image: linear-gradient(@master_item_background-color_list 25%, rgba(@master_item_background-color_list, 0)),
+   linear-gradient(rgba(@master_item_background-color_list, 0), @master_item_background-color_list 75%),
+   linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
+   linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
+   background-position: top, bottom, top, bottom;
+   background-repeat: no-repeat;
+   background-attachment: local, local, scroll, scroll;
+}

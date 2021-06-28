@@ -1,9 +1,9 @@
-<div class="controls-Search__button
+<div class="controls_search_theme-{{_options.theme}} controls-Search__button
                     controls-Search__button_{{options.readOnly ? 'readOnly' : 'enabled'}}
                     controls-Search__searchButton
                     controls-Search__searchButton_inlineheight-{{inlineHeight}}
                     controls-Search__searchButton_position-{{searchButtonAlign}}
-                    controls-Search__searchButton_color{{calculateState()}}
+                    {{searchButtonIconStyle ? 'controls-icon_style-' + searchButtonIconStyle : 'controls-Search__searchButton_color' + calculateState()}}
                     {{searchButtonAlign === 'right' ? 'icon-Search2' : 'icon-Search'}}"
      on:mousedown="_searchClick()"
      attr:ws-no-focus="true"></div>

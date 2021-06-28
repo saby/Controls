@@ -123,8 +123,11 @@ define([
 
          it('should\'t update marker model if selectedKey changed', function() {
             sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0, borderRightWidth: 0 });
+            tabs._wrapperIncludesTarget = () => true;
 
-            tabs._mouseEnterHandler();
+            tabs._mouseEnterHandler({
+               nativeEvent: {}
+            });
             assert.strictEqual(tabs._marker.getOffset(), 0);
 
             tabs._beforeUpdate({
@@ -133,6 +136,22 @@ define([
                keyProperty: 'id'
             });
             assert.strictEqual(tabs._marker.getOffset(), 20);
+            sinon.restore();
+         });
+
+         it('marker should be native after the mouseout event', function() {
+            sinon.stub(Marker.default, 'getComputedStyle').returns({ borderLeftWidth: 0, borderRightWidth: 0 });
+            tabs._wrapperIncludesTarget = () => true;
+
+            tabs._mouseEnterHandler({
+               nativeEvent: {}
+            });
+            assert.isTrue(tabs._isAnimatedMakerVisible);
+            tabs._wrapperIncludesTarget = () => false;
+            tabs._mouseOutHandler({
+               nativeEvent: {}
+            });
+            assert.isFalse(tabs._isAnimatedMakerVisible);
             sinon.restore();
          });
 
@@ -171,7 +190,8 @@ define([
             tabs._children = {
                wrapper: {
                   scrollWidth: 200,
-                  clientWidth: 100
+                  clientWidth: 100,
+                  scrollTo: sinon.fake()
                },
                tab1: {
                   scrollIntoView: sinon.fake()
@@ -186,7 +206,7 @@ define([
 
          it('should scroll into view if selectedKey is changed', () => {
             tabs._afterRender({ selectedKey: 2 });
-            sinon.assert.calledOnce(tabs._children.tab1.scrollIntoView);
+            sinon.assert.calledOnce(tabs._children.wrapper.scrollTo);
          });
       });
 

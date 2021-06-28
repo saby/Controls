@@ -26,7 +26,7 @@ define('Controls/interface/IGroupedGrid', [
     * @default undefined
     * @remark
     * Конфигурация визуального представления группировки задаётся в опции groupTemplate путём настройки шаблона группировки {@link Controls/grid:GroupTemplate}.
-    * @demo Controls-demo/grid/Grouped/Custom/Index
+    * @demo Controls-demo/gridNew/Grouped/Custom/Index
     * @see groupHistoryId
     * @see collapsedGroups
     * @see groupExpanded
@@ -52,7 +52,7 @@ define('Controls/interface/IGroupedGrid', [
 });
 /**
  * @event Controls/interface/IGroupedGrid#groupExpanded Происходит при развертывании {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы}.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} changes Идентификатор группы.
  * @see groupCollapsed
  * @remark
@@ -61,7 +61,7 @@ define('Controls/interface/IGroupedGrid', [
 
 /**
  * @event Controls/interface/IGroupedGrid#groupCollapsed Происходит при сворачивании {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы}.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} changes Идентификатор группы.
  * @see groupExpanded
  * @remark

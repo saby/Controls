@@ -25,27 +25,27 @@ class GlobalController {
         return requirejs.defined(ManagerWrapperControllerMod) ? requirejs(ManagerWrapperControllerMod).default : null;
     }
 
-    openInfoBoxHandler(event, config) {
+    openInfoBoxHandler(event, config, withDelay?: boolean) {
         this._activeInfobox = event.target;
         this._getPopupConfig(config);
-        this._infoBoxId = this.openInfoBox(config);
+        this._infoBoxId = this.openInfoBox(config, withDelay);
     }
 
-    openInfoBox(config) {
-        return InfoBox.openPopup(config);
+    openInfoBox(config, withDelay?: boolean) {
+        return InfoBox.openPopup(config, withDelay);
     }
 
-    closeInfoBox(delay) {
-        InfoBox.closePopup(delay);
+    closeInfoBox(withDelay?: boolean) {
+        InfoBox.closePopup(withDelay);
     }
 
-    closeInfoBoxHandler(event, delay) {
+    closeInfoBoxHandler(event, withDelay?: boolean) {
         // TODO: fixed by https://online.sbis.ru/doc/d7b89438-00b0-404f-b3d9-cc7e02e61bb3
         let activeInf = this._activeInfobox && this._activeInfobox.get ? this._activeInfobox.get(0) : this._activeInfobox;
         let eventTarget = event.target && event.target.get ? event.target.get(0) : event.target;
         if (activeInf === eventTarget) {
             this._activeInfobox = null;
-            this.closeInfoBox(delay);
+            this.closeInfoBox(withDelay);
         }
     }
 

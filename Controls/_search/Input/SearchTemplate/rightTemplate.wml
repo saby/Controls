@@ -1,4 +1,4 @@
-<div class="controls-Search__buttons">
+<div class="controls_search_theme-{{_options.theme}} controls-Search__buttons">
     <ws:if data="{{isVisibleReset()}}">
         <div title="{[Очистить результаты поиска]}"
              class="controls-Search__button
@@ -19,6 +19,7 @@
         <ws:partial template="wml!Controls/_search/Input/SearchTemplate/searchButton"
                     searchButtonAlign="{{options.searchButtonAlign}}"
                     inlineHeight="{{options.inlineHeight}}"
+                    searchButtonIconStyle="{{options.searchButtonIconStyle}}"
                     calculateState="{{calculateState}}"/>
     </ws:if>
 </div>

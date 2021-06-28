@@ -49,7 +49,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
             this._sourceController.setRoot(item.getKey());
             this._sourceController.reload();
         } else {
-            this._notify('rootChanged', [item.getKey()], {bubbling: true});
+            this._notify('breadCrumbsItemClick', [item.getKey()], {bubbling: true});
         }
     }
 

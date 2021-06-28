@@ -55,12 +55,14 @@ export default class View extends Control<IViewPanelOptions> {
         bottom: 'null'
     };
     protected _viewModel: ViewModel = null;
+    protected _applyButtonSticky: StickyOpener;
 
     protected _beforeMount(options: IViewPanelOptions): void {
+        this._applyButtonSticky = new StickyOpener();
         this._viewModel = new ViewModel({
             source: options.source,
             collapsedGroups: options.collapsedGroups,
-            filterViewMode: options.viewMode
+            applyButtonSticky: options.viewMode === 'default' && this._applyButtonSticky
         });
     }
 
@@ -68,7 +70,7 @@ export default class View extends Control<IViewPanelOptions> {
         this._viewModel.update({
             source: options.source,
             collapsedGroups: options.collapsedGroups,
-            filterViewMode: options.viewMode
+            applyButtonSticky: options.viewMode === 'default' && this._applyButtonSticky
         });
     }
 

@@ -1,6 +1,7 @@
 <ws:template name="listBase">
    <Controls.grid:View source="{{_options.source}}"
                        columns="{{_columns}}"
+                       filter="{{_filter}}"
                        keyProperty="{{_options.keyProperty}}"
                        selectedKeys="{{_selectedKeys}}"
                        scope="{{_options}}"
@@ -13,7 +14,9 @@
                        itemsReadyCallback="{{_itemsReadyCallback}}"
                        on:itemClick="_handleItemClick()">
       <ws:multiSelectTemplate>
-         <ws:partial template="{{_circleTemplate}}" style="{{_options.style}}" on:click="_handleCheckBoxClick()"/>
+         <ws:partial template="Controls/list:MultiSelectTemplate">
+            <ws:partial template="{{_circleTemplate}}" style="{{_options.style}}" on:click="_handleCheckBoxClick()"/>
+         </ws:partial>
       </ws:multiSelectTemplate>
    </Controls.grid:View>
 </ws:template>

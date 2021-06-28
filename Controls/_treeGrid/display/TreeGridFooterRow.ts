@@ -3,9 +3,9 @@ import TreeGridFooterCell from './TreeGridFooterCell';
 
 export default class TreeGridFooterRow extends GridFooterRow<any> {
    /**
-    * Признак, означающий что в списке есть узел с детьми
+    * Признак, означающий что нужно рисовать отступ вместо экспандеров
     */
-   protected _$hasNodeWithChildren: boolean;
+   protected _$displayExpanderPadding: boolean;
 
    getExpanderSize(): string {
       return this.getOwner().getExpanderSize();
@@ -23,35 +23,35 @@ export default class TreeGridFooterRow extends GridFooterRow<any> {
       return this.getOwner().getExpanderVisibility();
    }
 
-   // region HasNodeWithChildren
+   // region DisplayExpanderPadding
 
-   setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-      if (this._$hasNodeWithChildren !== hasNodeWithChildren) {
-         this._$hasNodeWithChildren = hasNodeWithChildren;
+   setDisplayExpanderPadding(displayExpanderPadding: boolean): void {
+      if (this._$displayExpanderPadding !== displayExpanderPadding) {
+         this._$displayExpanderPadding = displayExpanderPadding;
 
-         this._updateColumnsHasNodeWithChildren(hasNodeWithChildren);
+         this._updateColumnsDisplayExpanderPadding(displayExpanderPadding);
 
          this._nextVersion();
       }
    }
 
-   protected _updateColumnsHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-      // После пересчета hasNodeWithChildren _$columnItems могут быть не созданы, т.к. они создаются лениво
+   protected _updateColumnsDisplayExpanderPadding(displayExpanderPadding: boolean): void {
+      // После пересчета displayExpanderPadding _$columnItems могут быть не созданы, т.к. они создаются лениво
       if (this._$columnItems) {
          this._$columnItems.forEach((cell: TreeGridFooterCell) => {
             if (cell['[Controls/treeGrid:TreeGridFooterCell]']) {
-               cell.setHasNodeWithChildren(hasNodeWithChildren);
+               cell.setDisplayExpanderPadding(displayExpanderPadding);
             }
          });
       }
    }
 
-   // endregion HasNodeWithChildren
+   // endregion DisplayExpanderPadding
 
    getColumnsFactory(): (options: any) => TreeGridFooterCell {
       const superFactory = super.getColumnsFactory();
       return (options: any) => {
-         options.hasNodeWithChildren = this._$hasNodeWithChildren;
+         options.displayExpanderPadding = this._$displayExpanderPadding;
          return superFactory.call(this, options);
       };
    }
@@ -62,5 +62,5 @@ Object.assign(TreeGridFooterRow.prototype, {
    _moduleName: 'Controls/treeGrid:TreeGridFooterRow',
    _instancePrefix: 'tree-grid-footer-row-',
    _cellModule: 'Controls/treeGrid:TreeGridFooterCell',
-   _$hasNodeWithChildren: true
+   _$displayExpanderPadding: true
 });

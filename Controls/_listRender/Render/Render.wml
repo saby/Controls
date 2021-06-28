@@ -8,7 +8,6 @@
             style="{{_options.style}}"
 
             itemActionsPosition="{{ _options.itemActionsPosition }}"
-            multiSelectTpl="{{ _options.multiSelectTpl }}"
             itemTemplate="{{ _options.itemTemplate }}"
             groupTemplate="{{ _options.groupTemplate }}"
             menuIsShown="{{ _options.menuIsShown }}"

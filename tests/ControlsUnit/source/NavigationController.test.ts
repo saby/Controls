@@ -704,10 +704,14 @@ describe('Controls/_source/NavigationController', () => {
                     keyProperty: 'id'
                 });
 
-                const navigationRs = new RecordSet({
+                let navigationRs = new RecordSet({
                     rawData: [
                         {
                             id: 7,
+                            nav_result: true
+                        },
+                        {
+                            id: 1,
                             nav_result: true
                         }
                     ]
@@ -720,6 +724,21 @@ describe('Controls/_source/NavigationController', () => {
                 rs.setMetaData({more: navigationRs});
                 const params = nc.updateQueryProperties(rs, null, null, void 0, hierarchyRelation);
                 assert.deepEqual([4], params[0].forwardPosition, 'Wrong query properties');
+                assert.isTrue(nc.hasLoaded(7));
+                assert.isTrue(nc.hasLoaded(1));
+
+                navigationRs = new RecordSet({
+                    rawData: [
+                        {
+                            id: 1,
+                            nav_result: true
+                        }
+                    ]
+                });
+                rs.setMetaData({ more: navigationRs });
+                nc.updateQueryProperties(rs, null, null, void 0, hierarchyRelation);
+                assert.isFalse(nc.hasLoaded(7));
+                assert.isTrue(nc.hasLoaded(1));
             });
 
             it('updateQueryRange + edge forward position', () => {

@@ -157,6 +157,21 @@ define([
                assert.deepEqual(ViewInstance._toggledEditors, {stringField: false});
            });
 
+           it('toggled editors in collection after mount', () => {
+               const propertyGridSource = [...source];
+               const propertyGridEditingObject = {...editingObject};
+               source[0].toggleEditorButtonIcon = 'testIcon';
+               const pg = new propertyGridLib.PropertyGrid();
+               const options = {
+                   source: propertyGridSource,
+                   editingObject: propertyGridEditingObject,
+                   keyProperty: 'name'
+               };
+               pg._beforeMount(options);
+               pg.saveOptions(options);
+               assert.deepEqual(pg._listModel.getToggledEditors(), {stringField: false});
+           });
+
        });
 
       describe('itemActions', () => {

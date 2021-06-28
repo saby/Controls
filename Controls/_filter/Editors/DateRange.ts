@@ -90,7 +90,7 @@ Object.defineProperty(DateRangeEditor, 'defaultProps', {
 /**
  * @event Происходит при изменении выбранного значения.
  * @name Controls/_filter/Editors/DateRange#textValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} caption Строковое представление периода дат.
  */
 

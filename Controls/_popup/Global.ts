@@ -24,55 +24,39 @@ export default class Global extends Control<IControlOptions> {
         channelPopupManager.unsubscribe('managerPopupBeforeDestroyed', this._popupBeforeDestroyedHandler, this);
     }
 
-    protected _openInfoBoxHandler(event, config): void {
-        this._globalController.openInfoBoxHandler(event, config);
+    protected _openInfoBoxHandler(event, config, withDelay?: boolean): void {
+        this._globalController.openInfoBoxHandler(event, config, withDelay);
     }
 
-    protected _closeInfoBoxHandler(event, delay): void {
-        this._globalController.closeInfoBoxHandler(event, delay);
+    protected _closeInfoBoxHandler(event, withDelay?: boolean): void {
+        this._globalController.closeInfoBoxHandler(event, withDelay);
     }
 
-    _openInfoBox(config): void {
-        return this._globalController.openInfoBox(config);
-    }
-
-    _closeInfoBox(delay): void {
-        return this._globalController.closeInfoBox(delay);
-    }
-
-    _needCloseInfoBox(infobox, popup): boolean {
-        return this._globalController.needCloseInfoBox(infobox, popup);
-    }
-
-    _forceCloseInfoBoxHandler(): void {
+    protected _forceCloseInfoBoxHandler(): void {
         this._globalController.forceCloseInfoBoxHandler();
     }
 
-    _openPreviewerHandler(event, config, type): void {
+    protected _openPreviewerHandler(event, config, type): void {
         return this._globalController.openPreviewerHandler(event, config, type);
     }
 
-    _closePreviewerHandler(event, type): void {
+    protected _closePreviewerHandler(event, type): void {
         this._globalController.closePreviewerHandler(event, type);
     }
 
-    _cancelPreviewerHandler(event, action): void {
+    protected _cancelPreviewerHandler(event, action): void {
         this._globalController.cancelPreviewerHandler(event, action);
     }
 
-    _isPreviewerOpenedHandler(event): boolean {
+    protected _isPreviewerOpenedHandler(event): boolean {
         return this._globalController.isPreviewerOpenedHandler(event);
-    }
-
-    _popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer): void {
-        this._globalController.popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
     }
 
     protected _openDialogHandler(event, template, templateOptions, opener = null): Promise<unknown> {
         return this._globalController.openDialogHandler(event, template, templateOptions, opener);
     }
 
-    _onDialogClosed(): void {
-        this._globalController.onDialogClosed();
+    private _popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer): void {
+        this._globalController.popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
     }
 }

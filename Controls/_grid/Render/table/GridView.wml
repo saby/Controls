@@ -6,7 +6,7 @@
         <ws:partial template="wml!Controls/_grid/Render/table/Colgroup" colgroup="{{ _listModel.getColgroup() }}"/>
 
         <!-- Header -->
-        <ws:if data="{{ _listModel.getHeader() }}">
+        <Controls.scroll:VirtualScrollContainer if="{{ _listModel.getHeader() }}" position="top">
             <thead attr:name="header" class="{{ _listModel.getHeader().getBodyClasses() }}">
             <ws:for data="headerRow in _listModel.getHeader().getRows()">
                 <ws:partial template="{{ headerRow.getTemplate() }}"
@@ -15,10 +15,10 @@
                             backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
             </ws:for>
             </thead>
-        </ws:if>
+        </Controls.scroll:VirtualScrollContainer>
 
         <!-- Results (top) -->
-        <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">
+        <Controls.scroll:VirtualScrollContainer if="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}" position="top">
             <thead>
                 <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
                             attr:name="results"
@@ -26,7 +26,7 @@
                             style="{{ _options.style }}"
                             backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
             </thead>
-        </ws:if>
+        </Controls.scroll:VirtualScrollContainer>
 
         <!-- Items -->
         <tbody name="itemsContainer" class="controls-GridViewV__itemsContainer">
@@ -46,7 +46,6 @@
                 itemActionsTemplate="{{ _options.itemActionsTemplate }}"
                 itemActionsClass="{{ _options.itemActionsClass }}"
                 swipeTemplate="{{ _options.swipeTemplate }}"
-                multiSelectTpl="{{ _options.multiSelectTpl }}"
                 backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
                 tagTemplate="{{ _options.tagTemplate }}"
 
@@ -69,13 +68,13 @@
         </ws:if>
 
         <!-- Results (bottom) -->
-        <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}">
+        <Controls.scroll:VirtualScrollContainer if="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}" position="top">
             <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
                         attr:name="results"
                         item="{{ _listModel.getResults() }}"
                         style="{{ _options.style }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
-        </ws:if>
+        </Controls.scroll:VirtualScrollContainer>
 
         <!-- Footer -->
         <ws:if data="{{ _listModel.getFooter() }}">
@@ -94,6 +93,8 @@
      on:mouseenter="_onColumnScrollViewMouseEnter()"
      on:focusIn="_onFocusIn()"
      class="{{ _getGridViewWrapperClasses(_options) }}">
+
+    <style attr:name="redrawWrapperStyles" data-vdom-ignore="true"></style>
 
     <ws:if data="{{ _options.columnScroll }}">
         <Controls.columnScroll:StyleContainers name="columnScrollStyleContainers"/>

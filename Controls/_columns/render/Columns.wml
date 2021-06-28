@@ -16,7 +16,6 @@
                        itemActionsPosition="{{ _options.itemActionsPosition }}"
                        itemActionsTemplate="{{ _options.itemActionsTemplate }}"
                        swipeTemplate="{{ _options.swipeTemplate }}"
-                       multiSelectTpl="{{ _options.multiSelectTpl }}"
                        isAdd="{{ _options.isAdd }}"
                        itemTemplate="{{ _options.itemTemplate }}"/>
             </div>

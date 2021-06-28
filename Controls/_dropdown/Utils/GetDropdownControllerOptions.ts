@@ -43,6 +43,7 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         headerTemplate: options.headerTemplate,
         targetPoint: options.targetPoint,
         menuPopupOptions: options.menuPopupOptions,
+        closeMenuOnOutsideClick: options.closeMenuOnOutsideClick,
         additionalProperty: options.additionalProperty,
         groupingKeyCallback: options.groupingKeyCallback,
         parentProperty: options.parentProperty,

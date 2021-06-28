@@ -71,6 +71,6 @@ export interface IConfirmationFooter {
 /**
  * @event Происходит при клике по кнопке футера.
  * @name Controls/_popup/interface/IConfirmationFooter#result
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события
  * @param {Result} Результат
  */

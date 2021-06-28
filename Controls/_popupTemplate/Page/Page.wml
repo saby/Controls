@@ -1,0 +1,3 @@
+<Controls.Container.Async
+    templateName="{{ _pageTemplate }}"
+    templateOptions="{{ _options }}"/>

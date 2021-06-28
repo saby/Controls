@@ -76,7 +76,7 @@
             </Router.router:Reference>
          </div>
          <div>
-            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/grid/Index' }}">
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/gridNew/Index' }}">
                <a href="{{content.href}}">grid_new</a>
             </Router.router:Reference>
          </div>
@@ -86,7 +86,7 @@
             </Router.router:Reference>
          </div>
          <div>
-            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Tile/Index' }}">
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/tileNew/Index' }}">
                <a href="{{content.href}}">tile_new</a>
             </Router.router:Reference>
          </div>
@@ -241,11 +241,11 @@
       <div class="demo_controls_list_section">
          <div>
             <h1>Grid new</h1>
-            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/Index' }}">
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/gridNew/Index' }}">
                <a href="{{content.href}}">New grid demos</a>
             </Router.router:Reference>
             <hr/>
-            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/TagStyle/Index' }}">
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/gridNew/TagStyle/Index' }}">
                <a href="{{content.href}}">Применение tagStyle или tagStyleProperty к колонкам</a>
             </Router.router:Reference>
          </div>

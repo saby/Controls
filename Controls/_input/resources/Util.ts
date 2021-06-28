@@ -76,7 +76,7 @@ export function processKeydownEvent(event: SyntheticEvent<KeyboardEvent>, additi
     const processedKeys: string[] = [
         'End', 'Home', ' ', 'ArrowLeft', 'ArrowRight',
         // Поддержка значения key в IE
-        'Spacebar', 'Left', 'Right'
+        'Spacebar', 'Left', 'Right', 'Delete'
     ];
 
     if (additionalProcessedKeys) {

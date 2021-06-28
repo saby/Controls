@@ -219,7 +219,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
                 wrapperClasses += ' controls-Grid__header-cell_min-width';
             }
         } else {
-            wrapperClasses += ' controls-Grid__header-cell-checkbox_min-width';
+            wrapperClasses += ' controls-Grid__header-cell-checkbox controls-Grid__header-cell-checkbox_min-width';
         }
 
         if (this.contentOrientation.valign) {
@@ -370,6 +370,16 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         }
 
         return paddingClasses;
+    }
+
+    getRelativeCellWrapperClasses(): string {
+        let result = super.getRelativeCellWrapperClasses();
+
+        if (this._$column.isBreadCrumbs && this._$owner.hasMultiSelectColumn()) {
+            result += ' controls-Grid__cell_spacingBackButton_with_multiSelection';
+        }
+
+        return result;
     }
 }
 

@@ -415,8 +415,7 @@ export class Controller {
         return {
             source,
             footerItemData: {
-                item,
-                key: Controller._getItemContents(item).getKey()
+                item: Controller._getItemContents(item)
             },
             keyProperty: 'id',
             parentProperty: 'parent',
