@@ -8,10 +8,10 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import rk = require('i18n!Controls');
 import {TColumns} from 'Controls/grid';
-import {TKeysSelection} from 'Controls/interface';
+import {IHierarchy, TKeysSelection} from 'Controls/interface';
 import 'css!Controls/moverDialog';
 
-export interface IMoverDialogTemplateOptions extends IControlOptions {
+export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy {
     displayProperty: string;
     root?: string|number;
     searchParam: string;
@@ -88,6 +88,9 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         if (options.showRoot) {
             Logger.error('MoverDialog: Опция showRoot устарела и будет удалена в 5100. Необходимо использовать опцию rootVisible', this);
         }
+        if (!options.displayProperty) {
+            Logger.warn('MoverDialog: Для корректной работы хлебных крошек необходимо указать опцию displayProperty', this);
+        }
 
         if (options.rootVisible || options.showRoot) {
             if (!options.rootTitle) {
@@ -108,6 +111,12 @@ export default class extends Control<IMoverDialogTemplateOptions> {
     resetSearch(): void {
         this._searchValue = '';
         this._filter = this._options.filter || {};
+    }
+
+    protected _onSearchValueChanged(e: SyntheticEvent, value: string): void {
+        if (this._searchValue !== value) {
+            this._searchValue = value === undefined || value === null ? '' : value;
+        }
     }
 
     protected _itemsFilterMethod(items: Model | Model[]): boolean {
