@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {BaseControl} from 'Controls/list';
-import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
+import {IEditableList} from 'Controls/_list/interface/IEditableList';
 import {RecordSet} from 'Types/collection';
 import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import {NewSourceController} from 'Controls/dataSource';
@@ -1018,7 +1018,7 @@ describe('Controls/list_clean/BaseControl', () => {
     });
 
     describe('Edit in place', () => {
-        type TEditingConfig = IEditableListOption['editingConfig'];
+        type TEditingConfig = IEditableList['_options']['editingConfig'];
 
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
@@ -1108,7 +1108,7 @@ describe('Controls/list_clean/BaseControl', () => {
             });
 
             describe('autoAddByApplyButton setted', () => {
-                const options: IEditableListOption = {
+                const options: IEditableList['_options'] = {
                     editingConfig: {}
                 };
                 let editingConfig: TEditingConfig;

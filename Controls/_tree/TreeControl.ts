@@ -474,7 +474,7 @@ const _private = {
  * Hierarchical list control with custom item template. Can load data from data source.
  *
  * @class Controls/_tree/TreeControl
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/list:IEditableList
  * @mixes Controls/list:IMovableList
  * @extends Controls/_list/BaseControl
  *

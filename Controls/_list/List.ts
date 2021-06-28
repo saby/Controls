@@ -32,7 +32,7 @@ import {Model} from 'Types/entity';
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/list:IEditableList
  * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList
@@ -66,7 +66,7 @@ import {Model} from 'Types/entity';
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:ISorting
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/list:IEditableList
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/list:IClickableView

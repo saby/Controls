@@ -10,7 +10,7 @@ export interface IViewOptions {
 /**
  * Интерфейс для полей ввода с возможностью редактирования по месту.
  * @remark
- * Разница между этим интерфейсом и {@link Controls/interface/IEditableList} заключается в том,
+ * Разница между этим интерфейсом и {@link Controls/list:IEditableList} заключается в том,
  * что второй используется в списках, а первый вне их (например, на вкладках).
  *
  * @interface Controls/_editableArea/interface/IView

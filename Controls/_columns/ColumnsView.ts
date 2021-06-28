@@ -17,7 +17,7 @@
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/list:IEditableList
  * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList

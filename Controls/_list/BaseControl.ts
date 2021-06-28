@@ -183,13 +183,13 @@ const ITEM_ACTION_SELECTOR = '.js-controls-ItemActions__ItemAction';
 export const LIST_EDITING_CONSTANTS = {
     /**
      * С помощью этой константы можно отменить или пропустить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
-     * Для этого константу следует вернуть из обработчика события {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}.
+     * Для этого константу следует вернуть из обработчика события {@link Controls/list:IEditableList#beforeBeginEdit beforeBeginEdit}.
      * При последовательном редактировании записей (при переходе через Tab, Enter, Arrow Down и Up) возврат константы CANCEL приведет к отмене запуска
      * редактирования по месту и попытке старта редактирования следующей записи в направлении перехода.
      * В остальных случаях возврат константы CANCEL приведет к отмене запуска редактирования в списке.
      */
     /*
-     * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
+     * Constant that can be returned in {@link Controls/list:IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
      */
     CANCEL: EDIT_IN_PLACE_CONSTANTS.CANCEL
 };
@@ -3381,7 +3381,7 @@ const _private = {
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/list:IEditableList
  * @mixes Controls/_list/BaseControl/Styles
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions

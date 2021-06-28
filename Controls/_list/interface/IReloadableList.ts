@@ -17,7 +17,7 @@
  * @remark
  * При перезагрузке в фильтр уходит список развернутых узлов (с целью восстановить пользователю структуру, которая была до перезагрузки).
  * Принимает опционально конфигурацию источника данных для: {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor навигации по курсору}, {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page постраничной навигации}, если нужно перезагрузить список с навигацией, отличной от указанной в опциях контрола.
- * Если в списке было запущено {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}, то при вызове этого метода редактирование завершится без сохранения изменений (поведение аналогично вызову метода {@link Controls/interface:IEditableList#cancelEdit cancelEdit}).
+ * Если в списке было запущено {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}, то при вызове этого метода редактирование завершится без сохранения изменений (поведение аналогично вызову метода {@link Controls/list:IEditableList#cancelEdit cancelEdit}).
  * @function
  * @name Controls/_list/interface/IReloadableList#reload
  * @param {Boolean} [keepScroll=false] Сохранить ли позицию скролла после перезагрузки.
