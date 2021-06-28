@@ -43,6 +43,7 @@ export {default as DialogOpener} from './_popup/PopupHelper/Dialog';
 export {default as NotificationOpener} from './_popup/PopupHelper/Notification';
 export {default as SlidingPanelOpener} from './_popup/PopupHelper/SlidingPanel';
 export {default as PageOpener} from './_popup/PopupHelper/Page';
+export {default as PageController} from './_popup/Page/Controller';
 
 export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition, IEventHandlers, IPopupItemInfo} from './_popup/interface/IPopup';
 export {IBasePopupOptions, IBaseOpener} from './_popup/interface/IBaseOpener';
