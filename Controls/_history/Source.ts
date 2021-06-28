@@ -741,15 +741,3 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
 Object.assign(HistorySource.prototype, {
     _moduleName: 'Controls/history:Source'
 });
-
-import {SbisService} from 'Types/source';
-
-export class MySbisService extends SbisService {
-    constructor() {
-        super();
-    }
-}
-
-Object.assign(MySbisService.prototype, /** @lends Types/_source/SbisService.prototype */ {
-    _moduleName: 'Controls/history:MySbisService'
-});
