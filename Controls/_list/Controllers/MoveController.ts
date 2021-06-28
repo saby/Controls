@@ -150,6 +150,7 @@ export class MoveController {
      * @function Controls/_list/Controllers/MoveController#moveWithDialog
      * @param {Controls/interface:ISelectionObject} selection Элементы для перемещения.
      * @param {TFilterObject} filter дополнительный фильтр для перемещения в SbisService.
+     * @demo Controls-demo/treeGridNew/Mover/Base/Index
      * @see moveUp
      * @see moveDown
      * @see move
