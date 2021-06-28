@@ -211,8 +211,4 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      * @see template
      */
     templateOptions?: object;
-    /**
-     * @cfg {Boolean} Поле, для определения ячейки действий.
-     */
-    isActionCell?: boolean;
 }
