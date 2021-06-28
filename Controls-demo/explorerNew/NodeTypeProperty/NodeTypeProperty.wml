@@ -18,6 +18,7 @@
                         name="explorerView"
                         attr:class="demo-Explorer ControlsDemo-Explorer"
                         keyProperty="id"
+                        displayProperty="title"
                         itemActions="{{_itemActions}}"
                         colspanCallback="{{ _colspanCallback }}"
                         columns="{{_columns}}">

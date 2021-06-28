@@ -80,13 +80,7 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
     let breadCrumbs;
     const last = getNearestNode(item);
     const root = display && display.getRoot();
-    if (last && last['[Controls/treeGrid:TreeGridGroupDataRow]']) {
-        breadCrumbs = treeItemToBreadcrumbs.get(last);
-        if (!breadCrumbs) {
-            breadCrumbs = last;
-        }
-        treeItemToBreadcrumbs.set(last, breadCrumbs);
-    } else if (last && last !== root) {
+    if (last && last !== root) {
         breadCrumbs = treeItemToBreadcrumbs.get(last);
         if (!breadCrumbs) {
             // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
@@ -94,6 +88,8 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
                 breadCrumbs = display?.createBreadcrumbsItem({
                     contents: null,
                     last,
+                    // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
+                    parent: item.getParent()['[Controls/treeGrid:TreeGridGroupDataRow]'] ? item.getParent() : display.getRoot(),
                     multiSelectVisibility: display?.getMultiSelectVisibility(),
                     multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
                 });
@@ -306,8 +302,10 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
         items.forEach((item, index) => {
             let resultItem = item;
 
-            if (item && item['[Controls/_display/TreeItem]'] &&
-                        !item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+            if (item
+                && item['[Controls/_display/TreeItem]']
+                && !item['[Controls/treeGrid:TreeGridNodeFooterRow]']
+                && !item['[Controls/treeGrid:TreeGridGroupDataRow]']) {
                 if (item.isNode()) {
                     // Check if there is a special item within the breadcrumbs
                     if (
@@ -331,11 +329,10 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
                     // Look at the next item after current node
                     const next = items[index + 1];
                     const nextIsTreeItem = next && next['[Controls/_display/TreeItem]'];
-                    const itemIsGroupNode = item && item['[Controls/treeGrid:TreeGridGroupDataRow]'];
 
                     // Check that the next tree item is a node with bigger level.
                     // If it's not that means we've reached the end of current breadcrumbs.
-                    const isLastBreadcrumb = nextIsTreeItem && next.isNode() && !itemIsGroupNode ?
+                    const isLastBreadcrumb = nextIsTreeItem && next.isNode() ?
                         item.getLevel() >= next.getLevel() :
                         true;
 
@@ -437,9 +434,7 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
         // Expand breadcrumbs into flat array
         const resultItems: Array<T | BreadcrumbsItem<S> | SearchSeparator<S>> = [];
         sortedItems.forEach((item) => {
-            if (item['[Controls/_display/BreadcrumbsItem]'] ||
-                item['[Controls/_display/SearchSeparator]'] ||
-                item['[Controls/treeGrid:TreeGridGroupDataRow]']) {
+            if (item['[Controls/_display/BreadcrumbsItem]'] || item['[Controls/_display/SearchSeparator]']) {
                 resultItems.push(item);
                 const data = breadcrumbsToData.get(item);
                 if (data) {
