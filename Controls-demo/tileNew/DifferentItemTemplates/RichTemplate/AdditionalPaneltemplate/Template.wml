@@ -25,7 +25,7 @@
          imageCompressionCoefficient="{{itemTemplate.item.contents.imageCompressionCoefficient}}"
          imageEffect="gradient"
          scope="{{itemTemplate}}">
-         <ws:beforeItemActionsTemplate>
+         <ws:additionalPaneltemplate>
             <div class="controlsDemo-tile_AltAction"
                  title="{{itemTemplate.item.contents.love ? 'Из любимых' : 'В любимые'}}" on:click="_setLove(itemTemplate.item.contents, !(itemTemplate.item.contents.love))">
                <Controls.icon:Icon icon="{{itemTemplate.item.contents.love ? 'icon-Love' : 'icon-LoveNull'}}"
@@ -33,7 +33,7 @@
                                    iconStyle="label"
                />
             </div>
-         </ws:beforeItemActionsTemplate>
+         </ws:additionalPaneltemplate>
       </ws:partial>
    </ws:itemTemplate>
 </Controls.treeTile:View>

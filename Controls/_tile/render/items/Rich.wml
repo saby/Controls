@@ -5,6 +5,6 @@
             height="auto"
             imageProportionOnItem="{{imageProportion}}"
             scope="{{_options}}"
-            beforeItemActionsTemplate="{{beforeItemActionsTemplate}}"
+            additionalPaneltemplate="{{additionalPaneltemplate}}"
             itemType="rich"
             isEditing="{{item.isEditing()}}"/>

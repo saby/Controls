@@ -1,0 +1,1 @@
+C:/Users/vadim/Documents/GitHub/wasaby-controls_2200/node_modules/saby-typescript/wasabyGlobalTypings.d.ts
