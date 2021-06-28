@@ -156,9 +156,11 @@ const INVERTING_CONST = {
 
          const positionValue: number = position[isHorizontal ? 'left' : 'top'];
          const popupSize: number = popupCfg.sizes[isHorizontal ? 'width' : 'height'];
-         const windowSize: number = restrictiveContainerPosition ? restrictiveContainerCoord :
-             _private.getWindowSizes()[isHorizontal ? 'width' : 'height'];
-         let overflow = positionValue + taskBarKeyboardIosHeight + popupSize - windowSize - viewportOffset;
+         const windowSize = _private.getWindowSizes()[isHorizontal ? 'width' : 'height'];
+         // Размер restrictiveContainer не больше размера экрана
+         const containerSize: number = restrictiveContainerPosition ?
+             Math.min(restrictiveContainerCoord, windowSize) : windowSize;
+         let overflow = positionValue + taskBarKeyboardIosHeight + popupSize - containerSize - viewportOffset;
          if (_private.isIOS12()) {
             overflow -= targetCoords[isHorizontal ? 'leftScroll' : 'topScroll'];
          }
