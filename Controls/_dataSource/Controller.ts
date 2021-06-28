@@ -303,8 +303,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
     /**
      * Перезагружает данные из источника данных
-     * @param {SourceConfig} sourceConfig Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации),
-     * которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
+     * @param {SourceConfig} sourceConfig Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации), которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
      * @param {Boolean} isFirstLoad Флаг первичной загрузки.
      * @return {Types/collection:RecordSet}
      */
