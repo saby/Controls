@@ -12,7 +12,6 @@ import {IPropertyGridOptions} from 'Controls/_propertyGrid/IPropertyGrid';
 import {default as IPropertyGridItem} from './IProperty';
 import {
     PROPERTY_GROUP_FIELD,
-    PROPERTY_NAME_FIELD,
     PROPERTY_TOGGLE_BUTTON_ICON_FIELD
 } from './Constants';
 import {groupConstants as constView} from '../list';
@@ -326,6 +325,18 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
 
     static _theme: string[] = ['Controls/propertyGrid'];
 
+    static defaultProps: Partial<IPropertyGridOptions> = {
+        keyProperty: 'name',
+        groupProperty: PROPERTY_GROUP_FIELD,
+        withoutLevelPadding: true,
+        itemsContainerPadding: {
+            top: 'm',
+            bottom: 'm',
+            left: 'm',
+            right: 'm'
+        }
+    };
+
     static getDefaultPropertyGridItem(): IPropertyGridItem {
         return {
             name: undefined,
@@ -338,21 +349,4 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             propertyValue: undefined
         };
     }
-
-    static getDefaultOptions(): Partial<IPropertyGridOptions> {
-        return {
-            keyProperty: 'name',
-            groupProperty: PROPERTY_GROUP_FIELD,
-            withoutLevelPadding: true
-        };
-    }
 }
-
-Object.defineProperty(PropertyGridView, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
-
-   get(): object {
-      return PropertyGridView.getDefaultOptions();
-   }
-});
