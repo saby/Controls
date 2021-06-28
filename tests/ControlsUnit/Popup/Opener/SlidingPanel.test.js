@@ -368,8 +368,9 @@ define(
                      x: 0,
                      y: 10
                   });
-                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight - 10);
+                  Controller.popupDragEnd(item);
+                  assert.equal(height, item.popupOptions.slidingPanelOptions.heightList[0]);
                   sandbox.restore();
                });
 
@@ -399,8 +400,9 @@ define(
                   Controller.popupDragStart(item, {}, {
                      x: 0, y: 10
                   });
-                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight + 10);
+                  Controller.popupDragEnd(item);
+                  assert.equal(height, item.popupOptions.slidingPanelOptions.heightList[1]);
                   sandbox.restore();
                });
                it('double drag', () => {
@@ -429,8 +431,9 @@ define(
                      x: 0,
                      y: -20
                   });
-                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight + 20);
+                  Controller.popupDragEnd(item);
+                  assert.equal(height, item.popupOptions.slidingPanelOptions.heightList[1]);
                   sandbox.restore();
                });
                it('overflow max', () => {
@@ -526,8 +529,8 @@ define(
 
                   const item = getPopupItem();
                   const SlidingPanelStrategy = new StrategyConstructor();
-                  SlidingPanelStrategy._getWindowHeight = () => 300;
-                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 300);
+
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
 
                   item.position = SlidingPanelStrategy.getPosition(item);
 
@@ -551,6 +554,7 @@ define(
                   const heightList = item.popupOptions.slidingPanelOptions.heightList;
                   const minHeight = heightList[0];
                   const SlidingPanelStrategy = new StrategyConstructor();
+                  SlidingPanelStrategy._getWindowHeight = () => 900;
 
                   assert.equal(SlidingPanelStrategy.getMinHeight(item), minHeight);
 
@@ -565,6 +569,7 @@ define(
                   const heightList = item.popupOptions.slidingPanelOptions.heightList;
                   const maxHeight = heightList[heightList.length - 1];
                   const SlidingPanelStrategy = new StrategyConstructor();
+                  SlidingPanelStrategy._getWindowHeight = () => 900;
 
                   assert.equal(SlidingPanelStrategy.getMaxHeight(item), maxHeight);
 

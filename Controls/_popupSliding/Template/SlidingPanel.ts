@@ -255,6 +255,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     static getDefaultOptions(): Partial<ISlidingPanelTemplateOptions> {
         return {
             controlButtonVisibility: true,
+            userMoveLocked: false,
             slidingPanelOptions: {
                 height: undefined,
                 maxHeight: undefined,
