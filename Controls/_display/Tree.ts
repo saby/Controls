@@ -489,9 +489,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this._$nodeFooterVisibilityCallback !== callback) {
             this._$nodeFooterVisibilityCallback = callback;
 
-            const strategy = this.getStrategyInstance(NodeFooter) as any as NodeFooter;
-            strategy.setNodeFooterVisibilityCallback(callback);
-            this._reBuildNodeFooters(true);
+            // Нужно пересоздавать стратегию, чтобы Composer правильно запомнил опции для нее
+            this.reCreateStrategy(NodeFooter, { nodeFooterVisibilityCallback: callback });
 
             this._nextVersion();
         }
