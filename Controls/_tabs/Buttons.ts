@@ -90,7 +90,7 @@ const MARKER_ANIMATION_TIMEOUT: number = 100;
  * @cssModifier controls-Tabs__item-underline Позволяет добавить горизонтальный разделитель к прикладному контенту, чтобы расположить его перед вкладками.
  */
 
-class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems, ITabsTemplate {
+class TabsButtons extends Control<ITabsOptions, IReceivedState> implements ITabsButtons, IItems, ITabsTemplate {
     readonly '[Controls/_tabs/interface/ITabsButtons]': boolean = true;
     readonly '[Controls/_interface/IItems]': boolean = true;
     readonly '[Controls/_tabs/ITabsTemplate]': boolean = true;
@@ -172,12 +172,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (this._isUpdatedItems && this._marker.isInitialized()) {
             this._marker.reset();
             this._isUpdatedItems = false;
-        }
-    }
-
-    protected _afterRender(oldOptions: ITabsOptions): void {
-        if (this._options.selectedKey !== oldOptions.selectedKey) {
-            this._scrollToTab(this._options.selectedKey);
         }
     }
 
@@ -538,20 +532,14 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }, false);
     }
 
-    /**
-     * Подскрол к выбранной вкладке
-     * @param key
-     * @private
-     */
-    private _scrollToTab(key: string): void {
+    // Используется для подскролла табов в graphic:Layout.
+    getOffsetTab(key: string): number {
         if (this._children.wrapper.scrollWidth <= this._children.wrapper.clientWidth) {
             return;
         }
 
-        const tabOffset = this._children[`tab${key}`].offsetLeft;
-        this._children.wrapper.scrollTo(tabOffset, 0);
+        return this._children[`tab${key}`].offsetLeft;
     }
-
 
     static _prepareStyle(style: string): string {
         if (style === 'default') {
