@@ -1705,7 +1705,6 @@ describe('Controls/_itemActions/Controller', () => {
 
     });
 
-    // см. этот же тест в Collection.test.ts
     describe('setActiveItem(), getActiveItem()', () => {
         it('deactivates old active item', () => {
             const testingItem = collection.getItemBySourceKey(1);
