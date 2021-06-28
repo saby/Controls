@@ -187,8 +187,7 @@ const scrollToEnd = (self: TColumnScrollViewMixin) => {
 
 const scrollToColumnEdge = (self): void => {
     const oldScrollPosition = self._$columnScrollController.getScrollPosition();
-    self._$columnScrollController.scrollToColumnWithinContainer(getViewHeader(self));
-    const newScrollPosition = self._$columnScrollController.getScrollPosition();
+    const newScrollPosition = self._$columnScrollController.getScrollPositionWithinContainer(getViewHeader(self));
     if (oldScrollPosition !== newScrollPosition) {
         setScrollPosition(self, newScrollPosition);
     }
@@ -590,7 +589,10 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
                 return;
             }
             const newScrollPosition = this._$columnScrollController.scrollByWheel(e);
-            setScrollPosition(this, newScrollPosition);
+
+            if (this._$columnScrollController.getScrollPosition() !== newScrollPosition) {
+                setScrollPosition(this, newScrollPosition);
+            }
         }
     },
 
