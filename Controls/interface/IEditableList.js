@@ -516,6 +516,7 @@ define('Controls/interface/IEditableList', [
 
    /**
     * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
+    * Использование метода в списке режимом "только чтение" невозможно.
     * @function Controls/interface/IEditableList#beginEdit
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры редактирования.
     * @returns {Promise<void | Controls/interface/IEditableList/Canceled.typedef>}
@@ -576,6 +577,7 @@ define('Controls/interface/IEditableList', [
 
    /**
     * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ добавление по месту}.
+    * Использование метода в списке режимом "только чтение" невозможно.
     * @function Controls/interface/IEditableList#beginAdd
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры добавления.
     * @returns {Promise<void | Controls/interface/IEditableList/Canceled.typedef>}
@@ -637,6 +639,7 @@ define('Controls/interface/IEditableList', [
 
    /**
     * Завершает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} с сохранением введенных данных.
+    * Использование метода в списке режимом "только чтение" невозможно.
     * @function Controls/interface/IEditableList#commitEdit
     * @returns {Promise<void | Controls/interface/IEditableList/Canceled.typedef>}
     * @remark
@@ -687,6 +690,7 @@ define('Controls/interface/IEditableList', [
 
    /**
     * Завершает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} без сохранения введенных данных.
+    * Использование метода в списке режимом "только чтение" невозможно.
     * @function Controls/interface/IEditableList#cancelEdit
     * @returns {Promise<void | Controls/interface/IEditableList/Canceled.typedef>}
     * @remark

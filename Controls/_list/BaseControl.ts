@@ -113,6 +113,9 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 
 //#region Const
 
+const ERROR_MSG = {
+    CANT_USE_IN_READ_ONLY: (methodName: string): string => `List is in readOnly mode. Cant use ${methodName}() in readOnly!`
+};
 
 // = 28 + 6 + 6 см controls-BaseControl_paging-Padding_theme TODO не должно такого быть, он в разных темах разный
 const PAGING_PADDING = 40;
@@ -5654,9 +5657,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return _private.isEditing(this);
     }
 
+    private static _rejectEditInPlacePromise(fromWhatMethod: string): Promise<void> {
+        const msg = ERROR_MSG.CANT_USE_IN_READ_ONLY(fromWhatMethod);
+        Logger.warn(msg);
+        return Promise.reject(msg);
+    }
+
     beginEdit(userOptions: object): Promise<void | {canceled: true}> {
         if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
+            return BaseControl._rejectEditInPlacePromise('beginEdit');
         }
         return this._beginEdit(userOptions, {
             shouldActivateInput: userOptions?.shouldActivateInput
@@ -5665,7 +5674,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     beginAdd(userOptions: object): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
+            return BaseControl._rejectEditInPlacePromise('beginAdd');
         }
         return this._beginAdd(userOptions, {
             addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
@@ -5676,14 +5685,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     cancelEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
+            return BaseControl._rejectEditInPlacePromise('cancelEdit');
         }
         return this._cancelEdit();
     }
 
     commitEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
+            return BaseControl._rejectEditInPlacePromise('commitEdit');
         }
         return this._commitEdit();
     }
