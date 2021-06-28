@@ -77,7 +77,7 @@ class ListEditor extends BaseEditor {
         this._selectedKeys = options.propertyValue;
         this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
         this._itemsReadyCallback = this._handleItemsReadyCallback.bind(this);
-        this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
+        this._setFilter(null, options.filter, options.keyProperty);
         this._navigation = options.navigation;
     }
 
