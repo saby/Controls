@@ -41,25 +41,4 @@
                                                value="{{_value}}"
                                                fontSize="2xl" />
     </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label">fontSize=3xl</div>
-        <Controls.dateRange:LinkView bind:startValue="_startValue"
-                                               bind:endValue="_endValue"
-                                               value="{{_value}}"
-                                               fontSize="3xl" />
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label">fontSize=4xl</div>
-        <Controls.dateRange:LinkView bind:startValue="_startValue"
-                                               bind:endValue="_endValue"
-                                               value="{{_value}}"
-                                               fontSize="4xl" />
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label">fontSize=5xl</div>
-        <Controls.dateRange:LinkView bind:startValue="_startValue"
-                                               bind:endValue="_endValue"
-                                               value="{{_value}}"
-                                               fontSize="5xl" />
-    </div>
 </div>
