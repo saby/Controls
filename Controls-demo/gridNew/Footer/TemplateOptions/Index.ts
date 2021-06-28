@@ -4,6 +4,7 @@ import * as Template from 'wml!Controls-demo/gridNew/Footer/TemplateOptions/Inde
 import 'wml!Controls-demo/gridNew/Footer/TemplateOptions/FooterCellTemplate';
 import {Control, TemplateFunction} from 'UI/Base';
 import { IColumn } from 'Controls/grid';
+import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
 import {Memory} from 'Types/source';
 
 export default class extends Control {

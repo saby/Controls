@@ -817,6 +817,7 @@ define([
                   value: 100
                }
             ];
+            component._initialized = true;
             component._headers = [1];
             sandbox.stub(component, '_getHeaderFromNode').returns({index: 0});
             const stb = sandbox.stub(component, '_changeHeadersStackByHeader');

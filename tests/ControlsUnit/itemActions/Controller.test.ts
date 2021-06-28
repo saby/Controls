@@ -1700,12 +1700,11 @@ describe('Controls/_itemActions/Controller', () => {
             );
             assert.exists(config.templateOptions, 'Template options were not set');
             assert.exists(config.templateOptions.footerItemData);
-            assert.equal(config.templateOptions.footerItemData.item, item3);
+            assert.equal(config.templateOptions.footerItemData.item, item3.getContents());
         });
 
     });
 
-    // см. этот же тест в Collection.test.ts
     describe('setActiveItem(), getActiveItem()', () => {
         it('deactivates old active item', () => {
             const testingItem = collection.getItemBySourceKey(1);

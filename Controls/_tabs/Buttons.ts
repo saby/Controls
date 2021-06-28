@@ -188,8 +188,28 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         this._isUnmounted = true;
     }
 
-    protected _mouseEnterHandler(): void {
-        this._updateMarker();
+    protected _mouseEnterHandler(event: SyntheticEvent<MouseEvent>): void {
+        if (this._wrapperIncludesTarget(event.nativeEvent.target as HTMLElement)) {
+            this._updateMarker();
+        }
+    }
+
+    protected _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
+        if (
+            !this._isAnimationProcessing &&
+            this._animatedMarkerSelectedKey === this._options.selectedKey &&
+            !this._wrapperIncludesTarget(event.nativeEvent.relatedTarget as HTMLElement)
+        ) {
+            this._isAnimatedMakerVisible = false;
+        }
+    }
+
+    protected _wrapperIncludesTarget(target: HTMLElement): boolean {
+        let result: boolean = this._children.wrapper === target;
+        if (!result && target) {
+            result = !!target.closest('.controls-Tabs-wrapper');
+        }
+        return result;
     }
 
     protected _touchStartHandler(): void {
@@ -241,8 +261,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         // Не заускаем анимацию при переключении с группы вкладок слева на группу вкладок справа.
         if (changed && startAnimation && align && align === this._marker.getAlign() &&
                 this._options.animationMode !== ANIMATION_MODE.none) {
+            if (this._isAnimatedMakerVisible) {
+                this._isAnimationProcessing = true;
+            }
             this._isAnimatedMakerVisible = true;
-            this._isAnimationProcessing = true;
         }
     }
 
@@ -521,12 +543,12 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
      * @private
      */
     private _scrollToTab(key: string): void {
-
         if (this._children.wrapper.scrollWidth <= this._children.wrapper.clientWidth) {
             return;
         }
 
-        this._children[`tab${key}`].scrollIntoView();
+        const tabOffset = this._children[`tab${key}`].offsetLeft;
+        this._children.wrapper.scrollTo(tabOffset, 0);
     }
 
 

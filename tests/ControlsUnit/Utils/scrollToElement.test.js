@@ -64,7 +64,8 @@ define([
                      top: 15,
                      height: 150
                   };
-               }
+               },
+               closest: () => {}
             };
             scroll.scrollToElement(element);
             assert.equal(element.parentElement.scrollTop, 5);
@@ -97,7 +98,8 @@ define([
                      top: 15,
                      height: 150
                   };
-               }
+               },
+               closest: () => {}
             };
             scroll.scrollToElement(element, false, true);
             assert.equal(element.parentElement.scrollTop, 5);
@@ -130,7 +132,8 @@ define([
                      top: 200,
                      height: 10
                   };
-               }
+               },
+               closest: () => {}
             };
             scroll.scrollToElement(element, 'center');
             assert.equal(element.parentElement.scrollTop, 445);
@@ -163,7 +166,8 @@ define([
                      top: 15,
                      height: 150
                   };
-               }
+               },
+               closest: () => {}
             };
             scroll.scrollToElement(element, true);
             assert.equal(element.parentElement.scrollTop, 55);
@@ -246,7 +250,8 @@ define([
                      top: 15,
                      height: 150
                   };
-               }
+               },
+               closest: () => {}
             };
             scroll.scrollToElement(element, true);
             assert.equal(element.parentElement.scrollTop, 54);
@@ -267,7 +272,8 @@ define([
                         top: 15,
                         height: 150
                      };
-                  }
+                  },
+                  closest: () => {}
                };
                scroll.scrollToElement(element);
                assert.equal(element.parentElement.scrollTop, 15);
@@ -287,7 +293,8 @@ define([
                         height: 150
                      };
                   },
-                  className: ''
+                  className: '',
+                  closest: () => {}
                };
                scroll.scrollToElement(element, true);
                assert.equal(element.parentElement.scrollTop, 75);
@@ -307,11 +314,60 @@ define([
                         height: 150
                      };
                   },
-                  className: ''
+                  className: '',
+                  closest: () => {}
                };
                scroll.scrollToElement(element, true);
                assert.equal(element.parentElement.scrollTop, 75);
             });
+         });
+      });
+
+      describe('content in sticky block', function () {
+         it('should scroll only in sticky block container', function () {
+            mockDOM(15, 150);
+            var element = {
+               classList: {
+                  contains: () => false
+               },
+               querySelector: () => null,
+               parentElement: {
+                  overflowY: 'scroll',
+                  scrollHeight: 160,
+                  clientHeight: 150,
+                  top: 15,
+                  className: '',
+                  getBoundingClientRect: function() {
+                     return {
+                        top: this.top,
+                        height: this.clientHeight
+                     };
+                  },
+                  scrollTop: 0,
+                  closest: () => [],
+                  parentElement: {
+                     overflowY: 'scroll',
+                     scrollHeight: 160,
+                     clientHeight: 150,
+                     top: 15,
+                     className: '',
+                     getBoundingClientRect: function() {
+                        assert.isFalse(true);
+                     },
+                     scrollTop: 0,
+                     closest: () => {}
+                  }
+               },
+               getBoundingClientRect: function() {
+                  return {
+                     top: 10,
+                     height: 100
+                  };
+               },
+               closest: () => true
+            };
+            scroll.scrollToElement(element);
+            assert.equal(element.parentElement.scrollTop, -5);
          });
       });
 
@@ -343,7 +399,8 @@ define([
                      top: 10,
                      height: 100
                   };
-               }
+               },
+               closest: () => {}
             };
             scroll.scrollToElement(element);
             assert.equal(element.parentElement.scrollTop, -5);
@@ -376,7 +433,8 @@ define([
                      top: 10,
                      height: 100
                   };
-               }
+               },
+               closest: () => {}
             };
             scroll.scrollToElement(element, false, true);
             assert.equal(element.parentElement.scrollTop, -5);
@@ -409,7 +467,8 @@ define([
                      top: 10,
                      height: 100
                   };
-               }
+               },
+               closest: () => {}
             };
             scroll.scrollToElement(element, true);
             assert.equal(element.parentElement.scrollTop, -55);
@@ -430,7 +489,8 @@ define([
                         top: 10,
                         height: 100
                      };
-                  }
+                  },
+                  closest: () => {}
                };
                scroll.scrollToElement(element);
                assert.equal(element.parentElement.scrollTop, 10);
@@ -450,7 +510,8 @@ define([
                         top: 10,
                         height: 100
                      };
-                  }
+                  },
+                  closest: () => {}
                };
                scroll.scrollToElement(element, true);
                assert.equal(element.parentElement.scrollTop, -25);

@@ -31,5 +31,5 @@ export default class PrimaryAction extends Control<IControlOptions> {
 /**
  * @event Происходит при нажатии комбинации клавиш Ctrl + Enter и Сmd + Enter.
  * @name Controls/_form/PrimaryAction#triggered
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */

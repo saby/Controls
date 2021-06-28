@@ -91,7 +91,6 @@ define(
             assert.equal(newConfig.style, 'error');
             assert.equal(newConfig.position, 'tl');
             assert.equal(newConfig.template, popup.PreviewerTemplate);
-            assert.equal(newConfig.showDelay, 300, 'error showDelay');
          });
 
          it('PopupInfoBox: getDefaultOptions', () => {

@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">onlyPositive=true</div>
+        <Controls.decorator:Money value="{{_value}}" onlyPositive="{{ true }}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">onlyPositive=false</div>
+        <Controls.decorator:Money value="{{_value}}" onlyPositive="{{ false }}"/>
+    </div>
+</div>

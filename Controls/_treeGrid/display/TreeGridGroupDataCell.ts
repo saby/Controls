@@ -18,7 +18,7 @@ export default class TreeGridGroupDataCell<T extends Model>
         super(options);
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
+    getTemplate(): TemplateFunction | string {
         if (this._$column.groupNodeConfig) {
             return GROUP_CELL_TEMPLATE;
         }

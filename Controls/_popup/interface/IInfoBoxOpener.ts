@@ -22,8 +22,6 @@ export interface IInfoBoxPopupOptions extends IValidationStatusOptions, IControl
     floatCloseButton?: boolean;
     closeButtonVisibility?: boolean;
     closeOnOutsideClick?: boolean;
-    hideDelay?: number;
-    showDelay?: number;
     eventHandlers?: IEventHandlers;
     template?: Control<IControlOptions, unknown> | TemplateFunction | string;
     templateOptions?: any;

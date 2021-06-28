@@ -8,6 +8,5 @@
             itemActions="{{_itemActions}}"
             bind:selectedKeys="_selectedKeys"
             on:itemClick="_onItemClick()"
-            on:itemActivate="_onItemActivate()"
     />
 </div>

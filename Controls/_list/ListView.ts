@@ -275,6 +275,10 @@ var ListView = BaseControl.extend(
                     this._notify('groupClick', [groupItem, e, dispItem], {bubbling: true});
                     return;
                 }
+                if (e.target.closest('.js-controls-ListView__checkbox')) {
+                    this._notify('checkBoxClick', [dispItem, e]);
+                    return;
+                }
                 var item = dispItem.getContents();
                 this._notify('itemClick', [item, e]);
             }

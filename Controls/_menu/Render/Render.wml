@@ -1,7 +1,7 @@
 <ws:template name="itemTpl">
-   <ws:partial template="{{itemTemplate.item.getContents()[_options.itemTemplateProperty] || _options.itemTemplate}}"
-               itemData="{{_getItemData(itemTemplate.item)}}"
-               treeItem="{{itemTemplate.item}}"
+   <ws:partial template="{{item.getContents()[_options.itemTemplateProperty] || _options.itemTemplate}}"
+               itemData="{{_getItemData(item)}}"
+               treeItem="{{item}}"
                emptyText="{{_options.emptyText}}"
                nodeProperty="{{_options.nodeProperty}}"
                keyProperty="{{_options.keyProperty}}"
@@ -14,12 +14,12 @@
                multiLine="{{_options.multiLine}}"
                allowPin="{{_options.allowPin}}"
                historyRoot="{{_options.historyRoot}}"
-               scope="{{itemTemplate.item.contents['itemTemplateOptions']}}"
-               attr:data-qa="{{itemTemplate.item.getContents()[_options.nodeProperty] ? 'node' : 'leaf'}}"
-               item="{{_getItemData(itemTemplate.item)}}" />  <!-- https://online.sbis.ru/opendoc.html?guid=47950520-ef97-4302-8573-4b8495a3f0ee -->
-   <ws:if data="{{_options.allowPin && _isHistorySeparatorVisible(itemTemplate.item)}}">
+               scope="{{item.contents['itemTemplateOptions']}}"
+               attr:data-qa="{{item.getContents()[_options.nodeProperty] ? 'node' : 'leaf'}}"
+               item="{{_getItemData(item)}}" />  <!-- https://online.sbis.ru/opendoc.html?guid=47950520-ef97-4302-8573-4b8495a3f0ee -->
+   <ws:if data="{{_options.allowPin && _isHistorySeparatorVisible(item)}}">
       <div class="controls-Menu__group_separator-container"
-           attr:key="{{itemTemplate.item.getUid()}} + '_separator'" on:mouseenter="_separatorMouseEnter()">
+           attr:key="{{item.getUid()}} + '_separator'" on:mouseenter="_separatorMouseEnter()">
          <div class="controls-Menu__group_separator"></div>
       </div>
    </ws:if>
@@ -37,7 +37,16 @@
            on:itemActionMouseDown="_itemActionMouseDown()"
            on:itemClick="_itemClick()">
       <ws:itemTemplate>
-         <ws:partial template="itemTpl"/>
+         <ws:if data="{{!itemTemplate.item.contents['doNotSaveToHistory']}}">
+            <ws:partial template="itemTpl" item="{{itemTemplate.item}}"/>
+         </ws:if>
+         <ws:else>
+            <Controls.scroll:StickyBlock
+                    backgroundStyle="menuPopup"
+                    position="{{ {'vertical' : 'bottom'} }}">
+               <ws:partial template="itemTpl" item="{{itemTemplate.item}}"/>
+            </Controls.scroll:StickyBlock>
+         </ws:else>
       </ws:itemTemplate>
       <ws:multiSelectTpl>
          <ws:partial template="wml!Controls/_menu/Render/multiSelectTpl"

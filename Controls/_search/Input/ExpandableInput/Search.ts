@@ -3,6 +3,7 @@ import template = require('wml!Controls/_search/Input/ExpandableInput/Search');
 import {EventUtils} from 'UI/Events';
 import {ITextOptions, IBaseOptions} from 'Controls/input';
 import {IRenderOptions, IPaddingOptions, ITagOptions} from 'Controls/interface';
+import {Input} from 'Controls/search';
 import 'css!Controls/search';
 
 interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
@@ -25,9 +26,18 @@ export default class ExpandableInput extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;
    protected _tmplNotify: Function = EventUtils.tmplNotify;
    protected _needShowAnimation: boolean = false;
+   protected _children: {
+      searchInput: Input
+   };
 
    protected _beforeMount(options: IExpandableInputOptions): void {
       this._expanded = this._getExpanded(options.expanded);
+   }
+
+   reset(): void {
+      if (this._expanded) {
+         this._children.searchInput.reset();
+      }
    }
 
    protected _animationendHandler(): void {

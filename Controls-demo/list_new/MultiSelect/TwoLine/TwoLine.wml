@@ -6,12 +6,12 @@
             multiSelectPosition="custom"
             attr:style="display: inline-flex;"
             bind:selectedKeys="_selectedKeys">
-        <ws:itemPadding/>
+        <ws:itemPadding left="s"/>
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
                     <div>
-                        <div class="controlsDemo__flex">
+                        <div class="controlsDemo__flex demo-TwoLine__align-checkbox">
                             <div>17.05.18</div>
                             <div class="controlsDemo__ml1">Запрос котировок</div>
                         </div>

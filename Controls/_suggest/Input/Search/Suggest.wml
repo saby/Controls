@@ -38,6 +38,7 @@
             tooltip="{{_options.tooltip}}"
             searchButtonVisible="{{_options.searchButtonVisible}}"
             searchButtonAlign="{{_options.searchButtonAlign}}"
+            searchButtonIconStyle="{{_options.searchButtonIconStyle}}"
             leftFieldTemplate="{{_options.leftFieldTemplate}}"
             rightFieldTemplate="{{_options.rightFieldTemplate}}"
             on:searchClick="_searchClick()"

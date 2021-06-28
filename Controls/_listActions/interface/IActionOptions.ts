@@ -5,16 +5,16 @@ import {RecordSet} from 'Types/collection';
 
 export default interface IActionOptions {
     source: ICrud;
-    filter: object;
+    filter?: object;
     navigation?: INavigationOptionValue<unknown>;
     sorting?: unknown;
     parentProperty?: string;
     columns?: IColumn[];
-    selection: {
+    selection?: {
         selected: CrudEntityKey[];
         excluded: CrudEntityKey[];
     };
-    items: RecordSet;
+    items?: RecordSet;
     target?: HTMLElement;
 }
 

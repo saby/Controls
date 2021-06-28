@@ -198,7 +198,7 @@ export interface IHasMoreData {
  * @variant row - Редактирование всей строки таблицы
  * @variant cell - Редактирование отдельных ячеек таблицы
  * @default row
- * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+ * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  */
 
 /*
@@ -206,7 +206,7 @@ export interface IHasMoreData {
  * @variant row - Editing of whole row.
  * @variant cell - Editing of separated cell.
  * @default row
- * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+ * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  */
 type TEditingMode = 'cell' | 'row';
 
@@ -478,7 +478,7 @@ function groupingFilter(item: EntityModel,
  * @mixes Types/_entity/SerializableMixin
  * @mixes Types/_entity/VersionableMixin
  * @mixes Types/_collection/EventRaisingMixin
- * @ignoreMethods notifyItemChange
+ * @ignoremethods notifyItemChange
  * @public
  * @author Мальцев А.А.
  */
@@ -673,6 +673,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$multiSelectVisibility: string;
 
     protected _$multiSelectPosition: 'default' | 'custom';
+
+    protected _$multiSelectTemplate: TemplateFunction | string;
 
     protected _$footerTemplate: TemplateFunction | string;
 
@@ -883,9 +885,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         if (options.groupProperty) {
             this._$groupProperty = options.groupProperty;
-            this._$group = (item) => {
-                return item.get(this._$groupProperty);
-            };
+            this._$group = this._createGroupFunctor();
         }
 
         // Support of 'groupingKeyCallback' option
@@ -1681,14 +1681,19 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setGroupProperty(groupProperty: string): boolean {
         if (this._$groupProperty !== groupProperty) {
             this._$groupProperty = groupProperty;
-            const groupCallback = (item) => {
-                return item.get(this._$groupProperty);
-            };
+            const groupCallback = this._createGroupFunctor();
             this.setGroup(this._$groupProperty ? groupCallback : null);
             this._nextVersion();
             return true;
         }
         return false;
+    }
+
+    private _createGroupFunctor(): GroupFunction<S, T> {
+        return functor.Compute.create(
+            (item) => item.get(this._$groupProperty),
+            [this._$groupProperty]
+        );
     }
 
     getGroupProperty(): string {
@@ -2318,6 +2323,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$stickyHeader;
     }
 
+    isStickyFooter(): boolean {
+        return this._$stickyFooter;
+    }
+
     setRoundBorder(roundBorder: IRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
@@ -2374,6 +2383,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     getMultiSelectPosition(): 'default' | 'custom' {
         return this._$multiSelectPosition;
+    }
+
+    getMultiSelectTemplate(): TemplateFunction | string {
+        return this._$multiSelectTemplate;
     }
 
     protected _setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
@@ -3136,7 +3149,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                                    conditionProperty?: string,
                                    silent?: boolean): void {
         this._getItems().forEach((item: CollectionItem<S>) => {
-            if (!conditionProperty || item[conditionProperty]) {
+            // todo Разобраться, почему item === undefined по https://online.sbis.ru/opendoc.html?guid=9018fdea-5de1-4b89-9f48-fb8ded0673cd
+            if (item && (!conditionProperty || item[conditionProperty])) {
                 item[updateMethodName](newPropertyValue, silent);
             }
         });
@@ -3561,7 +3575,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             processedIndices.add(index);
             item = items[index];
             match = true;
-            if (item['[Controls/_display/GroupItem]']) {
+            if (item['[Controls/_display/SearchSeparator]']) {
+                changed = applyMatch(match, index) || changed;
+            } else if (item['[Controls/_display/GroupItem]']) {
                 // A new group begin, check match for previous
                 if (prevGroup) {
                     match = isMatch(prevGroup, prevGroupIndex, prevGroupPosition, prevGroupHasMembers);
@@ -3573,7 +3589,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 prevGroupIndex = index;
                 prevGroupPosition = position;
                 prevGroupHasMembers = false;
-            } else if (!(item['[Controls/_display/SearchSeparator]'])) {
+            } else {
                 // Check item match
                 match = isMatch(item, index, position);
                 changed = applyMatch(match, index) || changed;
@@ -4081,6 +4097,7 @@ Object.assign(Collection.prototype, {
     _$itemActionsProperty: '',
     _$markerPosition: 'left',
     _$multiSelectAccessibilityProperty: '',
+    _$multiSelectTemplate: null,
     _$style: 'default',
     _$theme: 'default',
     _$hoverBackgroundStyle: 'default',

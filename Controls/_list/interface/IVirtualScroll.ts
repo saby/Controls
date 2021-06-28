@@ -2,7 +2,6 @@ export type IDirection = 'up' | 'down';
 /**
  * Интерфейс для поддержки {@link /doc/platform/developmentapl/interface-development/controls/list/performance-optimization/virtual-scroll/ виртуального скроллирования} в списках.
  *
- * @interface Controls/_list/interface/IVirtualScrollConfig
  * @public
  * @author Авраменко А.С.
  */
@@ -37,7 +36,7 @@ export type IVirtualScrollMode = 'remove' | 'hide';
  * @property {number} pageSize Количество отображаемых элементов при инициализации списка.
  * @property {IVirtualScrollMode} [mode=remove] Режим управления элементами виртуального скроллинга.
  * @property {number} [viewportHeight=undefined] Высота контейнера со списком.
- * @property {number} [segmentSize] Количество подгружаемых элементов при скроллировании. По умолчанию равен четверти размера виртуальной страницы, который задан в опции pageSize.
+ * @property {number} [segmentSize=pageSize/4] Количество подгружаемых элементов при скроллировании. По умолчанию равен четверти размера виртуальной страницы, который задан в опции pageSize.
  * @property {string} [itemHeightProperty=undefined] Имя поля, которое содержит высоту элемента.
  */
 
@@ -61,4 +60,20 @@ export type IVirtualScrollMode = 'remove' | 'hide';
  * </pre>
  * @demo Controls-demo/list_new/VirtualScroll/ConstantHeights/Default/Index
  * @see Controls/interface:INavigation#navigation
+ */
+
+/**
+ * @event Происходит, когда в списке не отображается верхняя/нижняя часть списка из-за виртуального скролла, либо есть незагруженные данные сверху/снизу.
+ * @remark По этому событию скрывается контент {@link Controls/scroll:VirtualScrollContainer} с опцией position, соответствующей параметру в событии.
+ * @name Controls/_list/interface/IVirtualScrollConfig#enableVirtualNavigation
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
+ * @param {'top' | 'bottom'} position Положение, в котором будет скрыт контент Controls/scroll:VirtualScrollContainer.
+ */
+
+/**
+ * @event Происходит, когда в списке отображается верхняя/нижняя часть списка из-за виртуального скролла, нет незагруженных данных сверху/снизу.
+ * @remark По этому событию показывается контент {@link Controls/scroll:VirtualScrollContainer} с опцией position соответствующей параметру в событии.
+ * @name Controls/_list/interface/IVirtualScrollConfig#disableVirtualNavigation
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
+ * @param {'top' | 'bottom'} position Положение, в котором будет скрыт контент Controls/scroll:VirtualScrollContainer.
  */

@@ -624,7 +624,7 @@ export default ModuleComponent;
  * @event Происходит когда меняется год или месяц.
  * Т.е. когда год или месяц пересекают верхнюю границу.
  * @name Controls/_calendar/MonthList#positionChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {date} Date отображаемый в самом верху год или месяц.
  * @example
  * Обновляем заголовок в зависимости от отображаемого года.

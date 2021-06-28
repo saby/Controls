@@ -18,7 +18,7 @@ import Search from 'Controls/_search/Input/Search';
  * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
- * @ignoreOptions style
+ * @ignoreoptions style
  *
  *
  * @public
@@ -42,7 +42,7 @@ import Search from 'Controls/_search/Input/Search';
  * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
- * @ignoreOptions style
+ * @ignoreoptions style
  *
  *
  * @public
@@ -78,7 +78,7 @@ export default class WrappedSearch extends Control {
 /**
  * @event Происходит при нажатии на иконку поиска (лупы).
  * @name Controls/_suggest/Input/Search/Suggest#searchClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @remark Клик по иконке поиска закрывает автодополнение. Это поведение можно отменить, если из события вернуть false.
  * @example
  * * WML
@@ -102,14 +102,14 @@ export default class WrappedSearch extends Control {
 /**
  * @event Происходит при клике на кнопку поиска.
  * @name Controls/_search/Input/WrappedSearch#searchClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} nativeEvent Объект нативного события браузера.
  */
 
 /**
  * @event Происходит при клике на кнопку сброса.
  * @name Controls/_search/Input/WrappedSearch#resetClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 /*
@@ -140,6 +140,19 @@ export default class WrappedSearch extends Control {
 /*
  * @event Occurs when reset button is clicked.
  * @name Controls/_search/Input/WrappedSearch#resetClick
+ */
+
+/**
+ * @name Controls/_search/Input/WrappedSearch#searchButtonAlign
+ * @cfg {String} Определяет, с какой стороны расположена иконка лупы.
+ * @variant left Иконка лупы расположена слева.
+ * @variant right Иконка лупы расположена справа.
+ * @default right
+ */
+
+/**
+ * @name Controls/_search/Input/WrappedSearch#searchButtonIconStyle
+ * @cfg {String} Цвет иконки лупы. См. {@link Controls/interface:IIconStyle#iconStyle подробнее}.
  */
 
 /**

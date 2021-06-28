@@ -328,6 +328,15 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(selection.excluded, [null, 1, 3, 4, 5, 6, 7]);
       });
 
+      it('toggleAll after select all by one in root', () => {
+         let selection = { selected: [1, 2, 3, 4, 5, 6, 7], excluded: [] };
+
+         selection = strategy.toggleAll(selection);
+
+         assert.deepEqual(selection.selected, []);
+         assert.deepEqual(selection.excluded, []);
+      });
+
       it('selected not loaded item', () => {
          let selection = { selected: [20], excluded: [] };
          selection = strategy.toggleAll(selection, true);
@@ -586,6 +595,14 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(toArrayKeys(res.get(null)), []);
       });
 
+      it('with limit', () => {
+         const selection = { selected: [null], excluded: [null] };
+         let res = strategy.getSelectionForModel(selection, 3);
+         assert.deepEqual(toArrayKeys(res.get(true)), [1, 2, 3] );
+         assert.deepEqual(toArrayKeys(res.get(null)), []);
+         assert.deepEqual(toArrayKeys(res.get(false)), [4, 5, 6, 7]);
+      });
+
       it('search model', () => {
          const items = new RecordSet({
             rawData: [{
@@ -777,6 +794,12 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const selection = { selected: [2], excluded: [] };
          const res = strategy.getCount(selection, false);
          assert.equal(res, 3);
+      });
+
+      it('with limit', () => {
+         const selection = { selected: [null], excluded: [null] };
+         const count = strategy.getCount(selection, false, 5);
+         assert.equal(count, 5);
       });
    });
 

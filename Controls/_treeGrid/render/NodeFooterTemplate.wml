@@ -30,7 +30,7 @@
                         <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore js-controls-TreeGrid__nodeFooter__LoadMoreButton"
                                                  fontSize="xs"
                                                  viewMode="link"
-                                                 fontColorStyle="{{ item.getNode().moreFontColorStyle }}"
+                                                 fontColorStyle="{{ item.getMoreFontColorStyle() }}"
                                                  caption="{{rk('Еще') + '...'}}"
                                                  readOnly="{{false}}"/>
                     </ws:else>

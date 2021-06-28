@@ -11,6 +11,7 @@ export interface IOptions<T> extends ICellOptions<T> {
     contentStyle?: string;
     stickyProperty: string;
     stickyHeaderZIndex: number;
+    isPointerEventsDisabled?: boolean;
 }
 
 export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends DataCell<T, TOwner> {
@@ -20,6 +21,7 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
     protected _$contentStyle: string;
     protected _$stickyProperty: string;
     protected _$stickyHeaderZIndex: number;
+    protected _$isPointerEventsDisabled: boolean;
 
     constructor(options?: IOptions<T>) {
         super();
@@ -35,11 +37,13 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
 
     getStickyContentClasses(theme: string, cursor: string = 'pointer', templateHighlightOnHover: boolean = true): string {
         let contentClasses = 'controls-Grid__row-main_ladderWrapper';
+        if (this._$isPointerEventsDisabled) {
+            contentClasses += ' controls-Grid__ladder-cell__withoutPointerEvents';
+        }
         return contentClasses;
     }
 
     getContentClasses(theme: string, cursor: string = 'pointer', templateHighlightOnHover: boolean = true): string {
-        let contentClasses = 'controls-Grid__row-main_ladderWrapper';
         return '';
     }
 
@@ -48,6 +52,9 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
         let contentClasses = super.getContentClasses(theme, cursor, false);
         contentClasses += ' controls-Grid__row-ladder-cell__content';
         contentClasses += ` controls-Grid__row-ladder-cell__content_${topPadding}`;
+        if (this._$isPointerEventsDisabled) {
+            contentClasses += ' controls-Grid__ladder-cell__withoutPointerEvents';
+        }
         return contentClasses;
     }
 
@@ -87,7 +94,7 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
         return `z-index: ${ this._$stickyHeaderZIndex + (this._$isFixed ? 2 : 0)};`;
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+    getTemplate(): TemplateFunction|string {
         return DEFAULT_CELL_TEMPLATE;
     }
 
@@ -107,5 +114,6 @@ Object.assign(StickyLadderCell.prototype, {
     _$wrapperStyle: '',
     _$contentStyle: '',
     _$stickyProperty: '',
+    _$isPointerEventsDisabled: false,
     _$stickyHeaderZIndex: null
 });

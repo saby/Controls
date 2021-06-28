@@ -57,6 +57,7 @@
       left: 0;
       width: 100%;
       z-index: 1;
+      pointer-events: none;
    }
 }
 
@@ -70,6 +71,10 @@
    &:after {
       height: var(--marker_thickness-l_tabs);
    }
+}
+
+.ws-is-mobile-platform .controls-Tabs-wrapper {
+   overflow-x: auto;
 }
 
 .controls-Tabs {

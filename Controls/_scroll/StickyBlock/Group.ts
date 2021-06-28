@@ -388,7 +388,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 /**
  * @event Change the fixation state.
  * @name Controls/_scroll/StickyBlock/Group#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 

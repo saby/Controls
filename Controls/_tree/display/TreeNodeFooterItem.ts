@@ -9,6 +9,8 @@ export default class TreeNodeFooterItem extends TreeItem<null> {
     readonly SelectableItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
 
+    protected _$moreFontColorStyle: string;
+
     get node(): TreeItem<Model> {
         return this.getNode();
     }
@@ -48,6 +50,17 @@ export default class TreeNodeFooterItem extends TreeItem<null> {
         return this.hasMoreStorage() || !!content;
     }
 
+    getMoreFontColorStyle(): string {
+        return this._$moreFontColorStyle;
+    }
+
+    setMoreFontColorStyle(moreFontColorStyle: string): void {
+        if (this._$moreFontColorStyle !== moreFontColorStyle) {
+            this._$moreFontColorStyle = moreFontColorStyle;
+            this._nextVersion();
+        }
+    }
+
     protected _getLeftSpacingContentClasses(): string {
         if (this._isDefaultRenderMultiSelect()) {
             return ` controls-ListView__itemContent_withCheckboxes`;
@@ -60,5 +73,6 @@ export default class TreeNodeFooterItem extends TreeItem<null> {
 Object.assign(TreeNodeFooterItem.prototype, {
     '[Controls/tree:TreeNodeFooterItem]': true,
     _moduleName: 'Controls/tree:TreeNodeFooterItem',
-    _instancePrefix: 'tree-node-footer-item-'
+    _instancePrefix: 'tree-node-footer-item-',
+    _$moreFontColorStyle: null
 });

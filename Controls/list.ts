@@ -78,11 +78,14 @@ export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Cont
 import * as ForTemplate from 'wml!Controls/_list/Render/For';
 export {ForTemplate};
 
+import * as MultiSelectTemplate from 'wml!Controls/_list/Render/multiSelect';
+export { MultiSelectTemplate };
+
 import * as CharacteristicsTemplate from 'wml!Controls/_list/CharacteristicsTemplate/CharacteristicsTemplate';
 export {CharacteristicsTemplate};
 
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
-export {IMovableList, IMoveDialogTemplate, IMovableOptions} from 'Controls/_list/interface/IMovableList';
+export {IMovableList, IMoveDialogTemplate, IMovableOptions, TBeforeMoveCallback} from 'Controls/_list/interface/IMovableList';
 export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';

@@ -30,6 +30,30 @@ const GridViewTable = GridView.extend({
 
     _getGridViewStyles(): string {
         return '';
+    },
+
+    onViewResized(): void {
+        GridViewTable.superclass.onViewResized.apply(this, arguments);
+
+        // Обновление авто-высоты контента, в IE иначе не работает.
+        this._fixIETableCellAutoHeightBug();
+    },
+
+    _fixIETableCellAutoHeightBug(): void {
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        // Данная конструкция "пересчелкивает" высоту блока, довольно безопасно, без скачков.
+        // В IE td поддерживает position: relative лишь частично, который так нужен для
+        // позиционирования абсолютных частей элементов(actions, marker).
+        // Не поддерживается автовысота, она считается только когда действительно поменялась высота стилями.
+        window.requestAnimationFrame(() => {
+            this._children.redrawWrapperStyles.innerHTML = '.controls-Grid_table-layout .controls-Grid__row-cell__content { flex-basis: 100% }';
+            window.requestAnimationFrame(() => {
+                this._children.redrawWrapperStyles.innerHTML = '';
+            });
+        });
     }
 });
 

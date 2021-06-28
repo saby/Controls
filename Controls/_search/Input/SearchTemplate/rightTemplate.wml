@@ -19,6 +19,7 @@
         <ws:partial template="wml!Controls/_search/Input/SearchTemplate/searchButton"
                     searchButtonAlign="{{options.searchButtonAlign}}"
                     inlineHeight="{{options.inlineHeight}}"
+                    searchButtonIconStyle="{{options.searchButtonIconStyle}}"
                     calculateState="{{calculateState}}"/>
     </ws:if>
 </div>

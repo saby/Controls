@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">viewMode='linkButton'</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                viewMode="linkButton"
+                bind:value="_sorting">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">viewMode='toolButton'</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                viewMode="toolButton"
+                bind:value="_sorting">
+        </Controls.grid:SortingSelector>
+    </div>
+</div>

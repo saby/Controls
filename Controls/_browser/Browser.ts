@@ -116,6 +116,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     protected _groupHistoryId: string;
     private _errorRegister: RegisterClass;
+    private _rootChangedRegister: RegisterClass;
     private _storeCallbackIds: string[];
     private _storeCtxCallbackId: string;
 
@@ -263,10 +264,14 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     ): void {
         event.stopImmediatePropagation();
         this._getOperationsController().executeAction({
+            source: this._source,
             target: clickEvent,
             selection,
             item,
-            filter: this._filter
+            filter: this._filter,
+            parentProperty: this._getSourceController().getParentProperty(),
+            nodeProperty: this._options.nodeProperty,
+            sourceController: this._getSourceController()
         });
     }
 
@@ -356,7 +361,19 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         const sourceController = this._getSourceController(id);
-        const isChanged = sourceController.updateOptions({...newOptions, ...this._getSourceControllerOptions(newOptions)});
+        let source;
+        if (sourceChanged) {
+            source = newOptions.source;
+        } else if (sourceController.getSource() !== newOptions.source) {
+            source = this._getOriginalSource(newOptions);
+        } else {
+            source = newOptions.source;
+        }
+        const isChanged = sourceController.updateOptions({
+            ...newOptions,
+            ...this._getSourceControllerOptions(newOptions),
+            source
+        });
 
         if (searchValueOptionsChanged && searchValueChanged) {
             this._inputSearchValue = newOptions.searchValue;
@@ -457,6 +474,13 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         return this._errorRegister;
     }
 
+    private _getRootChangedRegister(): RegisterClass {
+        if (!this._rootChangedRegister) {
+            this._rootChangedRegister = new RegisterClass({register: 'rootChanged'});
+        }
+        return this._rootChangedRegister;
+    }
+
     private _setItemsAndUpdateContext(): void {
         this._updateItemsOnState();
         this._getSourceController().subscribe('rootChanged', this._rootChanged.bind(this));
@@ -522,6 +546,11 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._dataLoader.getFilterController()?.setFilter(filter);
         this._filter = filter;
         this._notify('filterChanged', [this._filter]);
+    }
+
+    protected _breadCrumbsItemClick(event: SyntheticEvent, root: Key): void {
+        this._rootChanged(event, root);
+        this._getRootChangedRegister().start(root);
     }
 
     protected _rootChanged(event: SyntheticEvent, root: Key, id?: string): void {
@@ -609,14 +638,16 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _registerHandler(event: Event, registerType: string,
-                               component: any, callback: Function, config: object): void {
+                               component: unknown, callback: Function, config: object): void {
         this._getErrorRegister().register(event, registerType, component, callback, config);
         this._getOperationsController().registerHandler(event, registerType, component, callback, config);
+        this._getRootChangedRegister().register(event, registerType, component, callback, config);
     }
 
-    protected _unregisterHandler(event: Event, registerType: string, component: any, config: object): void {
+    protected _unregisterHandler(event: Event, registerType: string, component: unknown, config: object): void {
         this._getErrorRegister().unregister(event, registerType, component, config);
         this._getOperationsController().unregisterHandler(event, registerType, component, config);
+        this._getRootChangedRegister().unregister(event, registerType, component, config);
     }
 
     protected _selectedTypeChangedHandler(event: SyntheticEvent<null>, typeName: string, limit?: number): void {
@@ -702,11 +733,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _getSourceControllerOptions(options: IListConfiguration): ISourceControllerOptions {
         const root = options.id ? options.root : this._root;
-        const source = options.id ? options.source : this._source;
         const filter = options.id ? options.filter : this._filter;
         return {
             filter,
-            source,
             navigationParamsChangedCallback: this._notifyNavigationParamsChanged,
             dataLoadErrback: this._dataLoadErrback,
             dataLoadCallback: this._dataLoadCallback,

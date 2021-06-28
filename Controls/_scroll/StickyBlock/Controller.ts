@@ -356,7 +356,8 @@ class StickyHeaderController {
         for (const entry of entries) {
             const header = this._getHeaderFromNode(entry.target);
             // В момент переключения по вкладкам в мастер детейле на ноде может не быть замаунчен стикиБлок
-            if (header) {
+            // Контроллер инициализируется при наведении мыши или когда заголовки зафиксированы.
+            if (header && this._initialized) {
                 const heightEntry = this._getElementHeightEntry(entry.target);
                 if (heightEntry) {
                     operation = this._getOperationForHeadersStack(entry.contentRect.height, heightEntry.value);
@@ -417,7 +418,7 @@ class StickyHeaderController {
     }
 
     /**
-     * @param {Vdom/Vdom:SyntheticEvent} event
+     * @param {UICommon/Events:SyntheticEvent} event
      * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} fixedHeaderData
      * @private
      */

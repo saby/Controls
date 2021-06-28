@@ -1,6 +1,6 @@
 import * as Deferred from 'Core/Deferred';
 import {StickyController} from 'Controls/_popupTemplate/Sticky/StickyController';
-import {IPopupItem} from 'Controls/popup';
+import {IPopupItem, Controller as ManagerController} from 'Controls/popup';
 import 'css!Controls/popupTemplate';
 
 class PreviewerController extends StickyController {
@@ -13,7 +13,7 @@ class PreviewerController extends StickyController {
          * Only one window can be opened.
          */
         if (!this._isLinkedPopup(item)) {
-            require('Controls/popup').Controller.remove(this._openedPopupIds[0]);
+            ManagerController.remove(this._openedPopupIds[0]);
         }
         this._openedPopupIds.push(item.id);
         return super.elementCreated.apply(this, arguments);
@@ -43,9 +43,16 @@ class PreviewerController extends StickyController {
         return isActive;
     }
 
-    private _isLinkedPopup(item: IPopupItem): boolean {
+    private _isLinkedPopup(previewerItem: IPopupItem): boolean {
+        let item = previewerItem;
+        const parents = [];
+        while (item && item.parentId) {
+            parents.push(item.parentId);
+            item = ManagerController.find(item.parentId);
+        }
         for (let i = 0; i < this._openedPopupIds.length; i++) {
-            if (this._openedPopupIds[i] === item.parentId) {
+            const previewerId = this._openedPopupIds[i];
+            if (parents.includes(previewerId)) {
                 return true;
             }
         }

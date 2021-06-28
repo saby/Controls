@@ -13,7 +13,6 @@
            backgroundStyle="{{ _options.backgroundStyle }}"
            style="{{ _options.style }}"
            theme="{{ _options.theme }}"
-           multiSelectTpl="{{ multiSelectTpl }}"
            tagTemplate="{{ tagTemplate }}"
            editArrowTemplate="{{ editArrowTemplate }}"
            stickyCallback="{{_options.stickyCallback}}"

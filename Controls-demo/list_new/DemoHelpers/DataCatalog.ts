@@ -9,6 +9,7 @@ function getFewCategories(): Array<{
     byDemand?: 'Popular' | 'Unpopular' | 'Hit!',
     tplPath?: string,
     cursor?: 'default' | 'pointer',
+    checkbox?: boolean
     hovered?: boolean
     value?: string
 }> {
@@ -20,6 +21,7 @@ function getFewCategories(): Array<{
             byDemand: 'Popular',
             tplPath: 'wml!Controls-demo/list_new/ItemTemplate/ItemTemplateProperty/itemTemplateNoHighlight',
             cursor: 'default',
+            checkbox: false,
             hovered: false,
             value: 'cursor - default, hovered - false'
         },
@@ -29,6 +31,7 @@ function getFewCategories(): Array<{
             byDemand: 'Unpopular',
             description: 'Tablets are great for playing games, reading, homework, keeping kids entertained in the back seat of the car',
             hovered: true,
+            checkbox: false,
             value: 'cursor - pointer, hovered - true'
         },
         {
@@ -39,6 +42,7 @@ function getFewCategories(): Array<{
             tplPath: 'wml!Controls-demo/list_new/ItemTemplate/ItemTemplateProperty/itemTemplateWithDescription',
             cursor: 'default',
             hovered: true,
+            checkbox: false,
             value: 'cursor - default, hovered - true'
         },
         {
@@ -48,6 +52,7 @@ function getFewCategories(): Array<{
             byDemand: 'Hit!',
             tplPath: 'wml!Controls-demo/list_new/ItemTemplate/ItemTemplateProperty/itemTemplateNoHighlight',
             hovered: false,
+            checkbox: false,
             value: 'cursor - pointer, hovered - false'
         },
         {
@@ -58,6 +63,7 @@ function getFewCategories(): Array<{
             tplPath: 'wml!Controls-demo/list_new/ItemTemplate/ItemTemplateProperty/itemTemplateWithDescription',
             cursor: 'default',
             hovered: false,
+            checkbox: false,
             value: 'cursor - default, hovered - false'
         }
     ];

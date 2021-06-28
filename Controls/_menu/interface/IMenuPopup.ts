@@ -1,11 +1,12 @@
 import {TemplateFunction} from 'UI/Base';
 import {ISearchOptions} from 'Controls/interface';
 import {IMenuControlOptions} from 'Controls/menu';
-import {CollectionItem} from 'Controls/display';
-import {Model, CrudEntityKey} from 'Types/entity';
+
+import {Model} from 'Types/entity';
+import {CrudEntityKey} from 'Types/source';
 
 export interface IFooterItemData {
-    item: CollectionItem<Model>;
+    item: Model;
     key: CrudEntityKey;
 }
 

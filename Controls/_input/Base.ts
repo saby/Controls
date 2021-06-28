@@ -259,7 +259,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
          * The state is not available until the control is mount to DOM. So hide the placeholder until then.
          */
         this._placeholderVisibility = (this._autoComplete === 'off' || this._hidePlaceholderUsingCSS) ?
-            PLACEHOLDER_VISIBILITY.EMPTY :
+            options.placeholderVisibility :
             PLACEHOLDER_VISIBILITY.HIDDEN;
     }
 
@@ -648,7 +648,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._updateSelectionByOptions(newOptions);
     }
 
-    private _getValue(options: IBaseInputOptions): string {
+    protected _getValue(options: IBaseInputOptions): string {
         if (options.hasOwnProperty('value')) {
             return options.value === undefined ? this._defaultValue : options.value;
         }

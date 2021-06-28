@@ -26,8 +26,6 @@
                 <Controls.list:HotKeysContainer>
                     <Controls.list:Container>
                         <Controls.treeGrid:View
-                                on:selectedKeysChanged="_selectedKeysChanged()"
-                                on:excludedKeysChanged="_excludedKeysChanged()"
                                 name="list"
                                 attr:class="demo-Grid__control"
                                 columns="{{_gridColumns}}">

@@ -938,10 +938,11 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             if (hasAdditional) {
                 this._visibleIds.splice(MAX_HISTORY_VISIBLE_ITEMS_COUNT);
             }
+
             fixedIds.forEach((fixedId) => {
-               if (!this._visibleIds.includes(fixedId)) {
-                   this._visibleIds.push(fixedId);
-               }
+                if (!this._visibleIds.includes(fixedId)) {
+                    this._visibleIds.push(fixedId);
+                }
             });
         }
         return hasAdditional;
@@ -991,7 +992,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 footerContentTemplate: this._options.nodeFooterTemplate,
                 footerItemData: {
                     key: root,
-                    item
+                    item: item.getContents()
                 },
                 closeButtonVisibility: false,
                 emptyText: null,
@@ -1220,7 +1221,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 /**
  * @event Происходит при выборе элемента.
  * @name Controls/_menu/MenuControl#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Выбранный элемент.
  * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, подменю не закроется.
  * По умолчанию, когда выбран пункт с иерархией, подменю закрывается.

@@ -46,7 +46,13 @@ import 'css!Controls/decorator';
             const decoratedLinkImage = decoratedLink.getElementsByTagName('img')[0].cloneNode(true);
             const span = document.createElement('span');
             span.innerHTML = decoratedLink.href;
-            decoratedLink.replaceChild(span, decoratedLinkImage);
+            // FIXME: код нерабочий, так как клонированная картинка однозначно не будет присутствовать в скопированном тексте
+            // Необходимо попробовать:
+            // 1. Удалить обработчик и смириться с тем, что в ворд будет вставляться картинка
+            // 2. Придумать, как сделать, чтобы в ворд ссылка вставлялась в виде текста
+            if (decoratedLink.contains(decoratedLinkImage)) {
+               decoratedLink.replaceChild(span, decoratedLinkImage);
+            }
          });
       }
    }

@@ -39,7 +39,7 @@ let _private = {
  * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
- * @ignoreOptions style
+ * @ignoreoptions style
  *
  *
  * @public
@@ -63,7 +63,7 @@ let _private = {
  * @mixes Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  *
- * @ignoreOptions style
+ * @ignoreoptions style
  *
  *
  * @public
@@ -264,7 +264,7 @@ Object.defineProperty(Search, 'defaultProps', {
 /**
  * @event Происходит при нажатии на иконку поиска (лупы).
  * @name Controls/_suggest/Input/Search/Suggest#searchClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @remark Клик по иконке поиска закрывает автодополнение. Это поведение можно отменить, если из события вернуть false.
  * @example
  * * WML
@@ -288,14 +288,14 @@ Object.defineProperty(Search, 'defaultProps', {
 /**
  * @event Происходит при клике на кнопку поиска.
  * @name Controls/_search/Input/Search#searchClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} nativeEvent Объект нативного события браузера.
  */
 
 /**
  * @event Происходит при клике на кнопку сброса.
  * @name Controls/_search/Input/Search#resetClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  */
 
 /*

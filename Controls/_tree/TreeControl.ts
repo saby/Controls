@@ -11,7 +11,7 @@ import {isEqual} from 'Types/object';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 
-import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
+import {Direction, IBaseSourceConfig, IHierarchyOptions, TKey} from 'Controls/interface';
 import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/list';
 import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
@@ -93,7 +93,7 @@ const _private = {
     },
 
     toggleExpanded(self: TreeControl, dispItem: TreeItem): Promise<unknown> {
-        if (self.getViewModel().SupportExpand === false) {
+        if (self._options.supportExpand === false || self.getViewModel().SupportExpand === false) {
             return Promise.resolve();
         }
 
@@ -239,7 +239,7 @@ const _private = {
         const hasMore = {};
 
         expandedItems.forEach((nodeKey) => {
-            hasMore[nodeKey] = sourceController.hasMoreData('down', nodeKey);
+            hasMore[nodeKey] = sourceController ? sourceController.hasMoreData('down', nodeKey) : false;
         });
 
         return hasMore;
@@ -497,6 +497,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     private _itemOnWhichStartCountDown = null;
     private _timeoutForExpandOnDrag = null;
     private _deepReload;
+    private _loadedRoot: TKey;
 
     _expandController: ExpandController;
     private _mouseDownExpanderKey: TKey;
@@ -694,7 +695,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             // При смене корне, не надо запрашивать все открытые папки,
             // т.к. их может не быть и мы загрузим много лишних данных.
             // Так же учитываем, что вместе со сменой root могут поменять и expandedItems - тогда не надо их сбрасывать.
-            if (isEqual(newOptions.expandedItems, this._options.expandedItems)) {
+            // Если данные для нового рута уже загружены, то выставлять флаг нет смысла, т.к. _afterReloadCallback
+            // уже отработал и флаг _needResetExpandedItems будет обработан и сброшен только при следующем релоаде
+            // списка и не факт что это будет актуально
+            if (
+                this._loadedRoot !== newOptions.root &&
+                isEqual(newOptions.expandedItems, this._options.expandedItems)
+            ) {
                 this._needResetExpandedItems = true;
             }
 
@@ -847,10 +854,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         this._forceUpdate();
     }
 
-    protected reload(keepScroll, sourceConfig) {
-        //deep reload is needed only if reload was called from public API.
-        //otherwise, option changing will work incorrect.
-        //option changing may be caused by search or filtering
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
+        // deep reload is needed only if reload was called from public API.
+        // otherwise, option changing will work incorrect.
+        // option changing may be caused by search or filtering
         this._deepReload = true;
         return super.reload(keepScroll, sourceConfig);
     }
@@ -998,7 +1005,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     _onViewKeyDown(event): void {
-        if (this._listViewModel.SupportExpand !== false) {
+        if (this._options.supportExpand !== false && this._listViewModel.SupportExpand !== false) {
             this._onTreeViewKeyDown(event);
         }
         if (!event.stopped && event._bubbling !== false) {
@@ -1048,6 +1055,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             if (viewModelRoot !== root) {
                 this._listViewModel.setRoot(root);
             }
+
+            this._loadedRoot = sourceController?.getRoot();
         }
         // reset deepReload after loading data (see reload method or constructor)
         this._deepReload = false;
@@ -1386,7 +1395,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 && (expanderVisibility === 'hasChildren' && this._listViewModel.hasNodeWithChildren()
                 || expanderVisibility !== 'hasChildren' && this._listViewModel.hasNode());
             if (hasExpander) {
-                result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
+                result += ` controls-TreeGridView__expanderPadding-${options.expanderSize || 'default'}`;
             }
         }
 
@@ -1456,7 +1465,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             selectAncestors: true,
             expanderPosition: 'default',
             selectionType: 'all',
-            markerMoveMode: 'all'
+            markerMoveMode: 'all',
+            supportExpand: true
         };
     }
 }
@@ -1477,6 +1487,6 @@ export default TreeControl;
 /**
  * @event Событие контрола.
  * @name Controls/_tree/TreeControl#expandedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Массив с идентификаторами развернутых элементов.
  */

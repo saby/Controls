@@ -39,6 +39,8 @@ export interface IPagingOptions extends IControlOptions {
  *
  * @mixes Controls/_paging/Paging/Styles
  * @mixes Controls/_paging/Paging/DigitButtons/Styles
+ * 
+ * @ignoreoptions readOnly
  *
  */
 class Paging extends Control<IPagingOptions> {
@@ -191,7 +193,7 @@ export default Paging;
  * @name Controls/_paging/Paging#onArrowClick
  * @remark
  * Событие происходит, когда опция showDigits установлена в значение true.
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {ButtonName} btnName Имя нажатой кнопки.
  */
 

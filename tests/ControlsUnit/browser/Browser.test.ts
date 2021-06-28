@@ -531,6 +531,11 @@ describe('Controls/browser:Browser', () => {
            });
             const browser = getBrowser(options);
             await browser._beforeMount(options);
+            browser.saveOptions(options);
+            assert.ok(browser._source === options.source);
+
+            await browser._beforeUpdate(options);
+            assert.ok(browser._getSourceController().getSource() === options.source);
             assert.ok(browser._source === options.source);
         });
 
@@ -555,6 +560,11 @@ describe('Controls/browser:Browser', () => {
             });
             const browser = getBrowser(options);
             await browser._beforeMount(options, {}, [receivedState]);
+            browser.saveOptions(options);
+            assert.ok(browser._source === source);
+
+            await browser._beforeUpdate(options);
+            assert.ok(browser._getSourceController().getSource() === source);
             assert.ok(browser._source === source);
         });
 
@@ -749,6 +759,37 @@ describe('Controls/browser:Browser', () => {
                 browser._beforeUpdate({...options, expandedItems: [1]});
                 assert.deepEqual(browser._getSourceController().getExpandedItems(), [1]);
             });
+
+            describe('listsOptions', () => {
+                it('prefetchProxy source in listsOptions', async () => {
+                    const browserOptions = getBrowserOptions();
+                    const source = new Memory();
+                    const prefetchSource = new PrefetchProxy({
+                        target: source,
+                        data: {
+                            query: new RecordSet({
+                                rawData: browserData
+                            })
+                        }
+                    });
+                    const listsOptions = [
+                        {
+                            id: 'list',
+                            ...browserOptions,
+                            source: prefetchSource
+                        }
+                    ];
+                    const options = {
+                        ...browserOptions,
+                        listsOptions
+                    };
+                    const browser = getBrowser(options);
+                    await browser._beforeMount(options, null, [{data: new RecordSet({rawData: browserData})}]);
+                    browser.saveOptions(options);
+                    await browser._beforeUpdate(options);
+                    assert.ok(browser._getSourceController().getState().source === source);
+                });
+            });
         });
 
         it('update source', async () => {
@@ -762,7 +803,6 @@ describe('Controls/browser:Browser', () => {
                 data: browserHierarchyData,
                 keyProperty: 'key'
             });
-            const browserItems = browser._items;
 
             await browser._beforeUpdate(options);
             assert.ok(browser._items.at(0).get('title') === 'Интерфейсный фреймворк');
@@ -831,6 +871,7 @@ describe('Controls/browser:Browser', () => {
             const browser = getBrowser();
 
             await browser._beforeMount(options);
+            browser.saveOptions(options);
 
             options = {...options};
             delete options.source;
