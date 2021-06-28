@@ -3049,6 +3049,12 @@ const _private = {
                         self._draggedKey = key;
                         self._startEvent = domEvent.nativeEvent;
 
+                        if (!dragStartResult.getItems().includes(self._draggedKey)) {
+                            Logger.error(
+                                'ItemsEntity должен содержать ключ записи, за которую начали перетаскивание.'
+                            );
+                        }
+
                         _private.clearSelectedText(self._startEvent);
                         if (self._startEvent && self._startEvent.target) {
                             self._startEvent.target.classList.add('controls-DragNDrop__dragTarget');
