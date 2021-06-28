@@ -1,12 +1,15 @@
 import {Control, IControlOptions} from 'UI/Base';
 import {Model} from 'Types/entity';
 import {ISingleSelectableOptions, IItemsOptions} from 'Controls/interface';
+import * as itemTemplate from 'wml!Controls/_toggle/ButtonGroup/itemTemplate';
+import {IItemTemplateOptions} from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import 'css!Controls/buttons';
 import 'css!Controls/toggle';
 import 'css!Controls/CommonClasses';
 
-export interface IButtonGroupOptions extends ISingleSelectableOptions, IControlOptions, IItemsOptions<object> {
+export interface IButtonGroupOptions extends ISingleSelectableOptions, IControlOptions, IItemsOptions<object>,
+    IItemTemplateOptions {
     allowEmptySelection?: boolean;
 }
 
@@ -54,7 +57,8 @@ class ButtonGroupBase extends Control<IButtonGroupOptions> {
     static getDefaultOptions(): IButtonGroupOptions {
         return {
             keyProperty: 'id',
-            allowEmptySelection: false
+            allowEmptySelection: false,
+            itemTemplate
         };
     }
 }

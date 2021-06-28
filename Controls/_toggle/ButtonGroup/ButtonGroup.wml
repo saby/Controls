@@ -9,8 +9,14 @@
                     _fontColorStyle="{{fontColorStyle}}"
                     _icon="{{itemData.get('icon')}}"
                     _iconSize="{{itemData.get('iconSize') || 's'}}"
-                    _iconStyle="{{_getIconStyle(itemData)}}"
-                    _caption="{{itemData.get(_options.displayProperty || 'title') ||  itemData.get('caption')}}"/>
+                    _iconStyle="{{_getIconStyle(itemData)}}">
+            <ws:_caption>
+                <ws:partial template="{{ _options.itemTemplate }}"
+                            item="{{itemData}}"
+                            displayProperty="{{ _options.displayProperty }}"
+                />
+            </ws:_caption>
+        </ws:partial>
     </ws:template>
 
     <div class="controls-ButtonGroup__wrapper">
