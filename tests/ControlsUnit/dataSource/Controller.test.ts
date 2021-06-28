@@ -507,8 +507,16 @@ describe('Controls/dataSource:SourceController', () => {
 
         it('updateOptions with navigationParamsChangedCallback',  async () => {
             let isNavigationParamsChangedCallbackCalled = false;
+            const navigation = getPagingNavigation();
             const controller = getController({
-                navigation: getPagingNavigation(),
+                navigation
+            });
+            await controller.reload();
+            ok(!isNavigationParamsChangedCallbackCalled);
+
+            controller.updateOptions({
+                ...getControllerOptions(),
+                navigation,
                 navigationParamsChangedCallback: () => {
                     isNavigationParamsChangedCallbackCalled = true;
                 }

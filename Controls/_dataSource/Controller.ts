@@ -450,7 +450,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         const dataLoadCallbackChanged =
             newOptions.dataLoadCallback !== undefined &&
             newOptions.dataLoadCallback !== this._options.dataLoadCallback;
-        this._resolveNavigationParamsChangedCallback(newOptions);
+
+        if (newOptions.navigationParamsChangedCallback !== this._options.navigationParamsChangedCallback) {
+            this._resolveNavigationParamsChangedCallback(newOptions);
+            this._navigationController?.updateOptions(this._getNavigationControllerOptions(newOptions.navigation));
+        }
 
         if (isFilterChanged) {
             this.setFilter(newOptions.filter);
@@ -763,12 +767,13 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
 
         if (!isHierarchyQueryParamsNeeded || !resultQueryParams || !resultQueryParams.length) {
+            const resetNavigationParams = !isMultiNavigation || key !== this._root || !!direction;
             resultQueryParams = navigationController.getQueryParams(
                 userQueryParams,
                 key,
                 navigationSourceConfig,
                 NAVIGATION_DIRECTION_COMPATIBILITY[direction],
-                !isMultiNavigation || key !== this._root
+                resetNavigationParams
             );
         }
 
