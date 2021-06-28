@@ -21,6 +21,6 @@
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">viewMode=linkButton, iconStyles</div>
-        <Controls.toggle:Button caption="Button" bind:value="_button6Value" viewMode="link" icons="{{['icon-ArrangeList03', 'icon-ArrangeList04']}}" iconStyles="{{['unaccented', 'secondary']}}"></Controls.toggle:Button>
+        <Controls.toggle:Button caption="Button" bind:value="_button6Value" viewMode="link" icons="{{['icon-ArrangeList03']}}" iconStyles="{{['secondary', 'unaccented']}}"></Controls.toggle:Button>
     </div>
 </div>
