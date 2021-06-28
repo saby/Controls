@@ -70,7 +70,6 @@ define([
                      test.options
                   );
                   assert.equal(component._styleClass, test.styleClass);
-                  assert.equal(component._valueEnabledClass, test.valueEnabledClass ? 'controls-DateLinkView__value-clickable' : '');
                });
             });
 
