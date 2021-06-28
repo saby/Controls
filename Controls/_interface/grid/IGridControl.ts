@@ -401,6 +401,7 @@ export interface IGridControl extends IList {
  * @description Значения для опции {@link rowSeparatorSize}.
  * @variant s Тонкая линия-разделитель.
  * @variant l Толстая линия-разделитель.
+ * @variant null Линия-разделитель не отображается.
  */
 
 /**
