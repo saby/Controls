@@ -40,7 +40,6 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
             'controls-Grid__row_undefined',
             'controls-ListView__itemV_cursor-pointer',
             'controls-ListView__item_showActions',
-            'controls-ListView__itemV_last',
             'controls-ListView__group'].join(' '));
     });
 });

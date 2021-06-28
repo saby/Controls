@@ -222,6 +222,13 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             wrapperClasses += ' controls-Grid__header-cell-checkbox controls-Grid__header-cell-checkbox_min-width';
         }
 
+        // @TODO rowSeparatorVisible + results not visible ?
+        const isMultiLineHeader = this._$owner.isMultiline();
+        const headerEndRow = this._$owner.getBounds().row.end;
+        if (isMultiLineHeader && this._$column.endRow === headerEndRow || !isMultiLineHeader) {
+            wrapperClasses += ' controls-Grid__cell_header-content_border-bottom';
+        }
+
         if (this.contentOrientation.valign) {
             wrapperClasses += ` controls-Grid__header-cell__content_valign-${this.contentOrientation.valign}`;
         }
@@ -248,12 +255,12 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     }
 
     protected _getContentSeparatorClasses(theme: string): string {
-        let headerEndRow = this._$owner.getBounds().row.end;
+        const headerEndRow = this._$owner.getBounds().row.end;
         const isMultiLineHeader = this._$owner.isMultiline();
         let classes = '';
         if (isMultiLineHeader) {
             if (this._$column.endRow !== headerEndRow && this._$column.endRow - this._$column.startRow === 1) {
-                classes += ` controls-Grid__cell_header-content_border-bottom`;
+                classes += ' controls-Grid__cell_header-content_border-bottom';
             }
         }
         return classes;
