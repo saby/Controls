@@ -305,7 +305,7 @@ export default class TileView extends ListView {
     }
 
     private _setHoveredItem(self: TileView, item: TileCollectionItem, event: SyntheticEvent): void {
-        if (!this._destroyed && this._listModel && !this._listModel.destroyed) {
+        if (this._destroyed || !this._listModel || this._listModel.destroyed) {
             return;
         }
 
