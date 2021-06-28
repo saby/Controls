@@ -21,8 +21,8 @@ import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
 import {CrudEntityKey} from 'Types/source';
 import {TGroupNodeVisibility} from '../interface/ITreeGrid';
-import TreeGridHeader from "Controls/_treeGrid/display/TreeGridHeader";
-import TreeGridTableHeader from "Controls/_treeGrid/display/TreeGridTableHeader";
+import TreeGridHeader from 'Controls/_treeGrid/display/TreeGridHeader';
+import TreeGridTableHeader from 'Controls/_treeGrid/display/TreeGridTableHeader';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -64,6 +64,10 @@ export default class TreeGridCollection<
         GridMixin.call(this, options);
 
         this._setupProjectionFilters();
+
+        this.appendStrategy(itemsStrategy.NodeFooter, {
+            nodeFooterVisibilityCallback: this._$nodeFooterVisibilityCallback
+        });
     }
 
     protected _setupProjectionFilters(): void {
@@ -348,20 +352,6 @@ export default class TreeGridCollection<
     protected _initializeHeader(options: IOptions<S, T>): void {
         options.expanderSize = this.getExpanderSize();
         super._initializeHeader(options);
-    }
-
-    // TODO по идее нужно это добавлять в Tree,
-    //  но т.к. Tree используется в старой модели, чтобы ничего не сломать, добавляю здесь
-    protected _createComposer(): itemsStrategy.Composer<any, TreeItem<any>> {
-        const composer = super._createComposer();
-
-        // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
-        composer.append(itemsStrategy.NodeFooter, {
-            display: this,
-            nodeFooterVisibilityCallback: this._$nodeFooterVisibilityCallback
-        });
-
-        return composer;
     }
 
     protected setMetaResults(metaResults: EntityModel) {
