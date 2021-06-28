@@ -19,7 +19,7 @@
                        leftFieldWrapper="{{_options.leftFieldWrapper}}"
                        rightFieldWrapper="{{_options.rightFieldWrapper}}">
    <ws:placeholder>
-      <ws:if data="{{_options.placeholder && !_options.readOnly}}">
+      <ws:if data="{{_options.placeholder}}">
          <ws:if data="{{_options.multiline}}">
             <!-- in multiline mode, placeholder is in one line -->
             <div attr:class="controls-Lookup__placeholderWrapper">
