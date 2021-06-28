@@ -720,112 +720,148 @@ export const Gadgets = {
         ];
     },
 
-   getSearchData(): IData[] {
-      return [
-         {
-            id: 1, parent: null, 'parent@': true, code: null, price: null, title: 'Комплектующие', image: null, SearchResult: false
-         },
-         {
-            id: 11, parent: 1, 'parent@': true, code: null, price: null, title: 'Жесткие диски', image: null, SearchResult: false
-         },
-         {
-            id: 111, parent: 11, 'parent@': true, code: null, price: null, title: 'SATA', image: null, SearchResult: false
-         },
-         {
-            id: 1111, parent: 111, 'parent@': null, code: 'ST1000NC001', price: 2800,
-            title: 'Жесткий диск Seagate Original SATA-III 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 1112, parent: 111, 'parent@': null, code: 'ST1100DX001', price: 3750,
-            title: 'Жесткий диск Seagate Original SATA-III 2Tb ST2000DX001 Desktop SSHD (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 1113, parent: 111, 'parent@': null, code: 'ST2300CD001', price: 6500,
-            title: 'Жесткий диск Seagate Original SATA-III 2Tb ST2000NC001 Constellation СS (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 112, parent: 11, 'parent@': true, code: null, price: null, title: 'SAS', image: null, SearchResult: false
-         },
-         {
-            id: 1121, parent: 112, 'parent@': null, code: 'ST1000NC001', price: 3600,
-            title: 'Жесткий диск Seagate Original SAS SATA-III 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 1122, parent: 112, 'parent@': null, code: 'ST1100DX001', price: 4870,
-            title: 'Жесткий диск Seagate Original SAS SATA-III 2Tb ST2000DX001 Desktop SSHD (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 1123, parent: 112, 'parent@': null, code: 'ST2300CD001', price: 5250,
-            title: 'Жесткий диск Seagate Original SAS SATA-III 2Tb ST2000NC001 Constellation СS (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 2, parent: null, 'parent@': true, code: null, price: null, title: 'Компьютеры', image: null, SearchResult: false
-         },
-         {
-            id: 21, parent: 2, 'parent@': true, code: null, price: null, title: 'Аксессуары', image: null, SearchResult: false
-         },
-         {
-            id: 211, parent: 21, 'parent@': true, code: null, price: null, title: 'Аксессуары для SATA', image: null, SearchResult: false
-         },
-         {
-            id: 3, parent: null, 'parent@': true, code: null, price: null, title: 'Комплектующие для настольных персональных компьютеров фирмы "Формоза компьютерс"', image: null, SearchResult: false
-         },
-         {
-            id: 31, parent: 3, 'parent@': true, code: null, price: null, title: 'Бывшие в употреблении', image: null, SearchResult: false
-         },
-         {
-            id: 311, parent: 31, 'parent@': true, code: null, price: null, title: 'Восстановленные детали', image: null, SearchResult: false
-         },
-         {
-            id: 3111, parent: 311, 'parent@': true, code: null, price: null, title: 'Жесткие диски SATA', image: null, SearchResult: false
-         },
-         {
-            id: 31111, parent: 3111, 'parent@': null, code: 'ST1000NC001', price: 2800,
-            title: 'Жесткий диск SATA-II 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 31112, parent: 3111, 'parent@': null, code: 'ST1100DX001', price: 3750,
-            title: 'Жесткий диск SATA-II 2Tb ST2000DX001 Desktop SSHD (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 31113, parent: 3111, 'parent@': null, code: 'ST2300CD001', price: 6500,
-            title: 'Жесткий диск SATA-II 2Tb ST2000NC001 Constellation СS (7200rpm) 64Mb 3.5',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 4, parent: null, 'parent@': true, code: null, price: null, title: 'Цифровое фото и видео', SearchResult: true, image: null
-         },
-         {
-            id: 41, parent: 4, 'parent@': true, code: null, price: null, title: 'Фотоаппараты', SearchResult: true, image: null
-         },
-         {
-            id: 411, parent: 41, 'parent@': true, code: null, price: null, title: 'Canon', image: null, SearchResult: false
-         },
-         {
-            id: 4111, parent: 411, 'parent@': null, code: 'FR-11434', price: 49500,
-            title: 'Canon EOS 7D Body SATA support',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 4112, parent: 411, 'parent@': null, code: 'FT-13453', price: 144180,
-            title: 'Canon EOS 5D Mark III Body SATA support',
-            image: explorerImages[0], SearchResult: false
-         },
-         {
-            id: 5, parent: null, 'parent@': null, code: 'FT-13352', price: 112360,
-            title: 'Canon EOS 5D Mark II Body SATA support',
-            image: explorerImages[0], SearchResult: false
-         }
-      ];
-   },
+    getSearchData(): IData[] {
+        return [
+            {
+                id: 1, parent: null, 'parent@': true, code: null, price: null, title: 'Комплектующие', image: null, SearchResult: false
+            },
+            {
+                id: 11, parent: 1, 'parent@': true, code: null, price: null, title: 'Жесткие диски', image: null, SearchResult: false
+            },
+            {
+                id: 111, parent: 11, 'parent@': true, code: null, price: null, title: 'SATA', image: null, SearchResult: false
+            },
+            {
+                id: 1111, parent: 111, 'parent@': null, code: 'ST1000NC001', price: 2800,
+                title: 'Жесткий диск Seagate Original SATA-III 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 1112, parent: 111, 'parent@': null, code: 'ST1100DX001', price: 3750,
+                title: 'Жесткий диск Seagate Original SATA-III 2Tb ST2000DX001 Desktop SSHD (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 1113, parent: 111, 'parent@': null, code: 'ST2300CD001', price: 6500,
+                title: 'Жесткий диск Seagate Original SATA-III 2Tb ST2000NC001 Constellation СS (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 112, parent: 11, 'parent@': true, code: null, price: null, title: 'SAS', image: null, SearchResult: false
+            },
+            {
+                id: 1121, parent: 112, 'parent@': null, code: 'ST1000NC001', price: 3600,
+                title: 'Жесткий диск Seagate Original SAS SATA-III 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 1122, parent: 112, 'parent@': null, code: 'ST1100DX001', price: 4870,
+                title: 'Жесткий диск Seagate Original SAS SATA-III 2Tb ST2000DX001 Desktop SSHD (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 1123, parent: 112, 'parent@': null, code: 'ST2300CD001', price: 5250,
+                title: 'Жесткий диск Seagate Original SAS SATA-III 2Tb ST2000NC001 Constellation СS (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 2, parent: null, 'parent@': true, code: null, price: null, title: 'Компьютеры', image: null, SearchResult: false
+            },
+            {
+                id: 21, parent: 2, 'parent@': true, code: null, price: null, title: 'Аксессуары', image: null, SearchResult: false
+            },
+            {
+                id: 211, parent: 21, 'parent@': true, code: null, price: null, title: 'Аксессуары для SATA', image: null, SearchResult: false
+            },
+            {
+                id: 3, parent: null, 'parent@': true, code: null, price: null, title: 'Комплектующие для настольных персональных компьютеров фирмы "Формоза компьютерс"', image: null, SearchResult: false
+            },
+            {
+                id: 31, parent: 3, 'parent@': true, code: null, price: null, title: 'Бывшие в употреблении', image: null, SearchResult: false
+            },
+            {
+                id: 311, parent: 31, 'parent@': true, code: null, price: null, title: 'Восстановленные детали', image: null, SearchResult: false
+            },
+            {
+                id: 3111, parent: 311, 'parent@': true, code: null, price: null, title: 'Жесткие диски SATA', image: null, SearchResult: false
+            },
+            {
+                id: 31111, parent: 3111, 'parent@': null, code: 'ST1000NC001', price: 2800,
+                title: 'Жесткий диск SATA-II 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 31112, parent: 3111, 'parent@': null, code: 'ST1100DX001', price: 3750,
+                title: 'Жесткий диск SATA-II 2Tb ST2000DX001 Desktop SSHD (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 31113, parent: 3111, 'parent@': null, code: 'ST2300CD001', price: 6500,
+                title: 'Жесткий диск SATA-II 2Tb ST2000NC001 Constellation СS (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 4, parent: null, 'parent@': true, code: null, price: null, title: 'Цифровое фото и видео', SearchResult: true, image: null
+            },
+            {
+                id: 41, parent: 4, 'parent@': true, code: null, price: null, title: 'Фотоаппараты', SearchResult: true, image: null
+            },
+            {
+                id: 411, parent: 41, 'parent@': true, code: null, price: null, title: 'Canon', image: null, SearchResult: false
+            },
+            {
+                id: 4111, parent: 411, 'parent@': null, code: 'FR-11434', price: 49500,
+                title: 'Canon EOS 7D Body SATA support',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 4112, parent: 411, 'parent@': null, code: 'FT-13453', price: 144180,
+                title: 'Canon EOS 5D Mark III Body SATA support',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 5, parent: null, 'parent@': null, code: 'FT-13352', price: 112360,
+                title: 'Canon EOS 5D Mark II Body SATA support',
+                image: explorerImages[0], SearchResult: false
+            }
+        ];
+    },
+    getSmallSearchData(): IData[] {
+        return [
+            {
+                id: 1, parent: null, 'parent@': true, code: null, price: null, title: 'Комплектующие', image: null, SearchResult: false
+            },
+            {
+                id: 11, parent: 1, 'parent@': true, code: null, price: null, title: 'Жесткие диски', image: null, SearchResult: false
+            },
+            {
+                id: 111, parent: 11, 'parent@': true, code: null, price: null, title: 'SATA', image: null, SearchResult: false
+            },
+            {
+                id: 1111, parent: 111, 'parent@': null, code: 'ST1000NC001', price: 2800,
+                title: 'Жесткий диск Seagate Original SATA-III 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 112, parent: 11, 'parent@': true, code: null, price: null, title: 'SAS', image: null, SearchResult: false
+            },
+            {
+                id: 1121, parent: 112, 'parent@': null, code: 'ST1000NC001', price: 3600,
+                title: 'Жесткий диск Seagate Original SAS SATA-III 1Tb ST1000NC001 Constellation СS (7200rpm) 64Mb 3.5',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 3, parent: null, 'parent@': null, code: 'FT-13352', price: 112360,
+                title: 'Canon EOS 5D Mark II Body SATA support',
+                image: explorerImages[0], SearchResult: false
+            },
+            {
+                id: 4, parent: null, 'parent@': null, code: 'ART-13352', price: 10160,
+                title: 'AMD hDISK I Body SATA support',
+                image: explorerImages[0], SearchResult: false
+            }
+        ];
+    },
    getSearchDataLongFolderName(): IData[] {
       return [
          {
@@ -923,6 +959,13 @@ export const Gadgets = {
             width: '150px'
          }
       ];
+   },
+   getSearchHeader(): IColumn[] {
+       return [
+           { title: 'Наименование' },
+           { title: 'Код' },
+           { title: 'Цена' }
+       ];
    },
    getSearchColumnsWithColumnScroll(): IColumn[] {
       return [

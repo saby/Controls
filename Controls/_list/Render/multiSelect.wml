@@ -1,7 +1,8 @@
 <ws:if data="{{item.isVisibleCheckbox()}}">
     <ws:if data="{{content}}">
         <ws:partial template="{{content}}"
-                    attr:class="{{ multiSelectClasses || item.getMultiSelectClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"triState="{{ true }}"
+                    attr:class="{{ multiSelectClasses || item.getMultiSelectClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+                    triState="{{ true }}"
                     readOnly="{{ item.isReadonlyCheckbox() || false}}"
                     value="{{ item.isSelected() }}"/>
     </ws:if>
