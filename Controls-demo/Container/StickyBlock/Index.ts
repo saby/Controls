@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/Container/StickyHeader/StickyHeader');
+import controlTemplate = require('wml!Controls-demo/Container/StickyBlock/StickyBlock');
 import {Memory} from 'Types/source';
 
 const VAT = 18;

@@ -1,13 +1,13 @@
-define('Controls-demo/Example/StickyHeader/NotificationCenter',
+define('Controls-demo/Example/StickyBlock/NotificationCenter',
    [
       'UI/Base',
       'Types/source',
-      'tmpl!Controls-demo/Example/StickyHeader/NotificationCenter/NotificationCenter',
+      'tmpl!Controls-demo/Example/StickyBlock/NotificationCenter/NotificationCenter',
 
       'Controls/heading',
-      'tmpl!Controls-demo/Example/StickyHeader/NotificationCenter/News',
-      'tmpl!Controls-demo/Example/StickyHeader/NotificationCenter/Employees',
-      'tmpl!Controls-demo/Example/StickyHeader/NotificationCenter/Violations',
+      'tmpl!Controls-demo/Example/StickyBlock/NotificationCenter/News',
+      'tmpl!Controls-demo/Example/StickyBlock/NotificationCenter/Employees',
+      'tmpl!Controls-demo/Example/StickyBlock/NotificationCenter/Violations',
    ],
    function(Base, source, template) {
 
@@ -166,8 +166,8 @@ define('Controls-demo/Example/StickyHeader/NotificationCenter',
             });
          }
       });
-   
-      ModuleClass._styles = ['Controls-demo/Example/StickyHeader/NotificationCenter/News', 'Controls-demo/Example/StickyHeader/NotificationCenter/Employees', 'Controls-demo/Example/StickyHeader/NotificationCenter/Violations', 'Controls-demo/Example/StickyHeader/NotificationCenter/NotificationCenter'];
+
+      ModuleClass._styles = ['Controls-demo/Example/StickyBlock/NotificationCenter/News', 'Controls-demo/Example/StickyBlock/NotificationCenter/Employees', 'Controls-demo/Example/StickyBlock/NotificationCenter/Violations', 'Controls-demo/Example/StickyBlock/NotificationCenter/NotificationCenter'];
 
       return ModuleClass;
 }

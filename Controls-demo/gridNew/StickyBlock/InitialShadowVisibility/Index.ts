@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/StickyHeader/InitialShadowVisibility/InitialShadowVisibility';
+import * as Template from 'wml!Controls-demo/gridNew/StickyBlock/InitialShadowVisibility/InitialShadowVisibility';
 import {Memory} from 'Types/source';
 import { generateData } from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
 
