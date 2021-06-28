@@ -100,6 +100,25 @@
    );
 }
 
+// В graphic:Layout используется картинка с затемнением снизу, из-за этого стандартные тени практически не видно.
+.headers-Layout__footer-tabs__root {
+   .controls-Scroll__shadow_left {
+      left: 0;
+      background: linear-gradient(to right, @shadow_start-color_tabs_scroll, @shadow_end-color_tabs_scroll);
+   }
+
+   .controls-Scroll__shadow_right {
+      right: 0;
+      background: linear-gradient(to left, @shadow_start-color_tabs_scroll, @shadow_end-color_tabs_scroll);
+   }
+
+   .controls-Scroll__shadow_vertical {
+      top: 0;
+      bottom: 0;
+      width: @shadow_width_tabs_scroll;
+   }
+}
+
 .controls-Scroll__shadow_left {
    left: 0;
    background: linear-gradient(
