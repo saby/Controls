@@ -32,7 +32,7 @@ const GLOBAL_CONTEXT_NAME = 'global';
 
 /**
  * Синглтон, в который можно поместить данные, необходимые для использования контролов, не имеющих общего родителя.
- * Подробнее о работе читайте {@Link /doc/platform/developmentapl/interface-development/application-configuration/create-page/store/ здесь}.
+ * Подробнее о работе читайте {@link /doc/platform/developmentapl/interface-development/application-configuration/create-page/store/ здесь}.
  * @author Сухоручкин А.С.
  * @public
  * @singleton
