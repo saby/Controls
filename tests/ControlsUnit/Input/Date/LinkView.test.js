@@ -70,7 +70,6 @@ define([
                      test.options
                   );
                   assert.equal(component._styleClass, test.styleClass);
-                  assert.equal(component._valueEnabledClass, test.valueEnabledClass ? 'controls-DateLinkView__value-clickable' : '');
                });
             });
 
@@ -145,7 +144,6 @@ define([
                      options = calendarTestUtils.prepareOptions(dateRange.LinkView, test.newOptions);
                   component._beforeUpdate(options);
                   assert.equal(component._styleClass, test.styleClass);
-                  assert.equal(component._valueEnabledClass, test.valueEnabledClass ? 'controls-DateLinkView__value-clickable' : '');
                });
             });
          });

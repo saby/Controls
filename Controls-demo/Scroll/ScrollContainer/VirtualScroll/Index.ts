@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Scroll/ScrollContainer/VirtualScroll/Template');
 import {Memory} from 'Types/source';
 import {generateData} from '../../../list_new/DemoHelpers/DataCatalog';
-import {getCountriesStats, countries} from '../../../gridNew/DemoHelpers/DataCatalog';
+import {Countries} from "Controls-demo/gridNew/DemoHelpers/Data/Countries";
 
 class DemoSource extends Memory {
     pending: Promise<any>;
@@ -20,7 +20,20 @@ class DemoSource extends Memory {
 export default class SlowVirtualScrollDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
     protected _viewSource: Memory;
-    protected _columns: object[] = getCountriesStats().getColumnsForVirtual();
+    protected _columns: object[] = [
+        {
+            displayProperty: 'number',
+            width: '40px'
+        },
+        {
+            displayProperty: 'country',
+            width: '200px'
+        },
+        {
+            displayProperty: 'capital',
+            width: '200px'
+        }
+    ];
     private _navigation: object = {};
     private count: number = 0;
     private _resolve = null;
@@ -31,7 +44,7 @@ export default class SlowVirtualScrollDemo extends Control<IControlOptions> {
         beforeCreateItemCallback: (item: any) => {
             item.capital = 'South';
             item.number = this.count + 1;
-            item.country = countries[this.count];
+            item.country = Countries.COUNTRIES[this.count];
             this.count++;
         }
     });

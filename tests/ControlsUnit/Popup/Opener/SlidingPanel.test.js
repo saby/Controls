@@ -24,9 +24,8 @@ define(
             popupOptions: {
                desktopMode: 'stack',
                slidingPanelOptions: {
-                  minHeight: 400,
-                  position: 'bottom',
-                  maxHeight: 800
+                  heightList: [400, 600, 800],
+                  position: 'bottom'
                }
             }
          };
@@ -41,7 +40,6 @@ define(
                const position = SlidingPanelStrategy.getPosition(item);
 
                assert.equal(position.height, 400);
-               assert.equal(position.minHeight, 400);
                assert.equal(position.maxHeight, 800);
             });
             it('with initial position', () => {
@@ -66,7 +64,6 @@ define(
                   const position = SlidingPanelStrategy.getPosition(item);
 
                   assert.equal(position.height, heightForOverflow);
-                  assert.equal(position.minHeight, heightForOverflow);
                   assert.equal(position.maxHeight, heightForOverflow);
                });
                it('minHeight < window height < maxHeight', () => {
@@ -77,20 +74,7 @@ define(
                   const position = SlidingPanelStrategy.getPosition(item);
 
                   assert.equal(position.height, 400);
-                  assert.equal(position.minHeight, 400);
                   assert.equal(position.maxHeight, heightForOverflow);
-               });
-               it('initial height < minHeight', () => {
-                  const SlidingPanelStrategy = new StrategyConstructor();
-                  const item = getPopupItem();
-                  item.position = {
-                     bottom: 0,
-                     height: 300
-                  };
-                  SlidingPanelStrategy._getWindowHeight = () => 900;
-                  const position = SlidingPanelStrategy.getPosition(item);
-
-                  assert.equal(position.height, position.minHeight);
                });
             });
             describe('position', () => {
@@ -324,7 +308,7 @@ define(
 
                   assert.equal(item.popupOptions.className.includes('controls-SlidingPanel__animation'), true);
                   assert.deepEqual(item.popupOptions.slidingPanelData, {
-                     minHeight: item.position.minHeight,
+                     minHeight: item.popupOptions.slidingPanelOptions.heightList[0],
                      maxHeight: item.position.maxHeight,
                      height: item.position.height,
                      position: item.popupOptions.slidingPanelOptions.position,
@@ -346,7 +330,7 @@ define(
                      true
                   );
                   assert.deepEqual(item.popupOptions.slidingPanelData, {
-                     minHeight: item.position.minHeight,
+                     minHeight: item.popupOptions.slidingPanelOptions.heightList[0],
                      maxHeight: item.position.maxHeight,
                      height: item.position.height,
                      position: item.popupOptions.slidingPanelOptions.position,
@@ -384,8 +368,9 @@ define(
                      x: 0,
                      y: 10
                   });
-                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight - 10);
+                  Controller.popupDragEnd(item);
+                  assert.equal(height, item.popupOptions.slidingPanelOptions.heightList[0]);
                   sandbox.restore();
                });
 
@@ -415,8 +400,9 @@ define(
                   Controller.popupDragStart(item, {}, {
                      x: 0, y: 10
                   });
-                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight + 10);
+                  Controller.popupDragEnd(item);
+                  assert.equal(height, item.popupOptions.slidingPanelOptions.heightList[1]);
                   sandbox.restore();
                });
                it('double drag', () => {
@@ -445,8 +431,9 @@ define(
                      x: 0,
                      y: -20
                   });
-                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight + 20);
+                  Controller.popupDragEnd(item);
+                  assert.equal(height, item.popupOptions.slidingPanelOptions.heightList[1]);
                   sandbox.restore();
                });
                it('overflow max', () => {
@@ -535,6 +522,61 @@ define(
                   Controller.popupDragEnd(item);
                   sinon.assert.notCalled(PopupController.remove);
                   sandbox.restore();
+               });
+               it('heightList when drag ended height should moved to closer height step', () => {
+                  const sandbox = sinon.sandbox.create();
+                  sandbox.stub(PopupController, 'remove').callsFake(() => null);
+
+                  const item = getPopupItem();
+                  const SlidingPanelStrategy = new StrategyConstructor();
+
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
+
+                  item.position = SlidingPanelStrategy.getPosition(item);
+
+                  const heightList = item.popupOptions.slidingPanelOptions.heightList;
+
+                  // closer to first step
+                  item.position.height = heightList[0] + 50;
+                  Controller.popupDragEnd(item);
+                  assert.equal(item.position.height, heightList[0]);
+
+                  // closer to second step
+                  item.position.height = heightList[1] - 50;
+                  Controller.popupDragEnd(item);
+                  assert.equal(item.position.height, heightList[1]);
+                  sandbox.restore();
+               });
+            });
+            describe('compatibility min/max height and heightList', () => {
+               it('minHeight', () => {
+                  const item = getPopupItem();
+                  const heightList = item.popupOptions.slidingPanelOptions.heightList;
+                  const minHeight = heightList[0];
+                  const SlidingPanelStrategy = new StrategyConstructor();
+                  SlidingPanelStrategy._getWindowHeight = () => 900;
+
+                  assert.equal(SlidingPanelStrategy.getMinHeight(item), minHeight);
+
+                  item.popupOptions.slidingPanelOptions.heightList = null;
+                  item.popupOptions.slidingPanelOptions.minHeight = minHeight;
+
+                  assert.equal(SlidingPanelStrategy.getMinHeight(item), minHeight);
+               });
+
+               it('maxHeight', () => {
+                  const item = getPopupItem();
+                  const heightList = item.popupOptions.slidingPanelOptions.heightList;
+                  const maxHeight = heightList[heightList.length - 1];
+                  const SlidingPanelStrategy = new StrategyConstructor();
+                  SlidingPanelStrategy._getWindowHeight = () => 900;
+
+                  assert.equal(SlidingPanelStrategy.getMaxHeight(item), maxHeight);
+
+                  item.popupOptions.slidingPanelOptions.heightList = null;
+                  item.popupOptions.slidingPanelOptions.maxHeight = maxHeight;
+
+                  assert.equal(SlidingPanelStrategy.getMaxHeight(item), maxHeight);
                });
             });
          });

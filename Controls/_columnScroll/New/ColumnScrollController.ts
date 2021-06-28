@@ -167,19 +167,7 @@ export default class ColumnScrollController {
         this._shadowState.end = (this._contentSize - this._containerSize - this._scrollPosition) >= 1;
     }
 
-    /**
-     * Метод, позворляющий проскроллить контент до края колонки внутри указанного HTML контейнера в зависимости от текущего направления скролла.
-     * Работает как с обычными колонками, так и с мультизаголовками.
-     * Для работы мультизаголовков пересечение с границей скроллируемой оболасти вычисляется для нескольких колонок.
-     * Затем из отфильтрованных колонок выбирается меньшая для перемещения к её границе, а не к границе colspan-колонки выше.
-     *
-     * Принцип работы:
-     * Если скроллим влево, то фильтруем колонки по принципу левая сторона за пределами scrollContainer, а правая в scrollContainer
-     * Если скроллим вправо, то фильтруем колонки по принципу правая сторона за пределами scrollContainer, а левая в scrollContainer
-     * После этого выбираем меньшую из отфильрованных и вызываем прокрутку области к этой колонке.
-     * @param container
-     */
-    scrollToColumnWithinContainer(container: HTMLElement): void {
+    getScrollPositionWithinContainer(container: HTMLElement): number {
         const scrollContainerRect = this._getScrollContainerRect();
         const scrollableColumns = this._getScrollableColumns(container);
         const scrollableColumnsSizes = scrollableColumns.map((column) => column.getBoundingClientRect());
@@ -197,7 +185,28 @@ export default class ColumnScrollController {
         ), {} as DOMRect);
 
         if (currentColumnRect) {
-            this._scrollToColumnRect(currentColumnRect);
+            return this._getScrollPositionToColumnRectEdge(currentColumnRect);
+        } else {
+            return this._scrollPosition;
+        }
+    }
+
+    /**
+     * Метод, позворляющий проскроллить контент до края колонки внутри указанного HTML контейнера в зависимости от текущего направления скролла.
+     * Работает как с обычными колонками, так и с мультизаголовками.
+     * Для работы мультизаголовков пересечение с границей скроллируемой оболасти вычисляется для нескольких колонок.
+     * Затем из отфильтрованных колонок выбирается меньшая для перемещения к её границе, а не к границе colspan-колонки выше.
+     *
+     * Принцип работы:
+     * Если скроллим влево, то фильтруем колонки по принципу левая сторона за пределами scrollContainer, а правая в scrollContainer
+     * Если скроллим вправо, то фильтруем колонки по принципу правая сторона за пределами scrollContainer, а левая в scrollContainer
+     * После этого выбираем меньшую из отфильрованных и вызываем прокрутку области к этой колонке.
+     * @param container
+     */
+    scrollToColumnWithinContainer(container: HTMLElement): void {
+        const newScrollPosition = this.getScrollPositionWithinContainer(container);
+        if (this._scrollPosition !== newScrollPosition) {
+            this.setScrollPosition(newScrollPosition);
         }
     }
 
@@ -513,9 +522,7 @@ export default class ColumnScrollController {
                 delta = this._calcWheelDelta(detection.firefox, nativeEvent.deltaY);
             }
             // Новая позиция скролла должна лежать в пределах допустимых значений (от 0 до максимальной, включительно).
-            const newPosition = Math.max(0, Math.min(this._scrollPosition + delta, maxPosition));
-
-            this._setScrollPosition(newPosition);
+            return Math.max(0, Math.min(this._scrollPosition + delta, maxPosition));
         }
         return this._scrollPosition;
     }
@@ -557,16 +564,25 @@ export default class ColumnScrollController {
      * @private
      */
     private _scrollToColumnRect(columnRect: DOMRect, immediate?: boolean): boolean {
+        const newScrollPosition = this._getScrollPositionToColumnRectEdge(columnRect);
+
+        if (this._scrollPosition !== newScrollPosition) {
+            this._setScrollPosition(newScrollPosition, immediate);
+            return true;
+        }
+
+        return false;
+    }
+
+    private _getScrollPositionToColumnRectEdge(columnRect: DOMRect): number {
         const scrollableRect = this._getScrollContainerRect();
 
         if (columnRect.right > scrollableRect.right) {
-            this._setScrollPosition(Math.min(this._scrollPosition + (columnRect.right - scrollableRect.right), this.getScrollLength()), immediate);
-            return true;
+            return Math.min(this._scrollPosition + (columnRect.right - scrollableRect.right), this.getScrollLength());
         } else if (columnRect.left < scrollableRect.left) {
-            this._setScrollPosition(Math.max(0, this._scrollPosition - (scrollableRect.left - columnRect.left)), immediate);
-            return true;
+            return Math.max(0, this._scrollPosition - (scrollableRect.left - columnRect.left));
         }
-        return false;
+        return this._scrollPosition;
     }
 
     /**

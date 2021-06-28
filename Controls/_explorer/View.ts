@@ -110,6 +110,7 @@ interface IExplorerOptions
     itemTemplate?: TemplateFunction;
     items?: RecordSet;
     itemOpenHandler?: Function;
+    searchValue?: string;
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
     expandByItemClick?: boolean;
@@ -152,6 +153,16 @@ export default class Explorer extends Control<IExplorerOptions> {
      * Прокидывается в TreeControl (BaseControl).
      */
     protected _recreateCollection: boolean = false;
+
+    /**
+     * Текущее применяемое значение строки поиска
+     */
+    protected _searchValue: string = '';
+    /**
+     * Новое значение строки поиска, которое будет применено после загрузки данных и
+     * смены viewMode
+     */
+    private _newSearchValue: string;
 
     /**
      * Текущая применяемая конфигурация колонок
@@ -243,6 +254,9 @@ export default class Explorer extends Control<IExplorerOptions> {
         if (cfg.columns) {
             this._columns = this._newColumns = cfg.columns;
         }
+        if (cfg.searchValue) {
+            this._searchValue = cfg.searchValue;
+        }
 
         this._itemActionsPosition = cfg.itemActionsPosition;
 
@@ -323,6 +337,10 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (cfg.columns !== this._options.columns) {
             this._newColumns = cfg.columns;
+        }
+
+        if (cfg.searchValue !== this._options.searchValue) {
+            this._newSearchValue = cfg.searchValue || '';
         }
 
         if (cfg.itemActionsPosition !== this._options.itemActionsPosition) {
@@ -1006,6 +1024,11 @@ export default class Explorer extends Control<IExplorerOptions> {
         if (this._newItemActionsPosition) {
             this._itemActionsPosition = this._newItemActionsPosition;
             this._newItemActionsPosition = null;
+        }
+
+        if (this._newSearchValue !== undefined) {
+            this._searchValue = this._newSearchValue;
+            this._newSearchValue = undefined;
         }
     }
 

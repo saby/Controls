@@ -1087,6 +1087,23 @@ describe('Controls/list_clean/BaseControl', () => {
             });
         });
 
+        describe('readOnly mode', () => {
+            beforeEach(() => {
+                baseControl.saveOptions({...baseControlCfg, readOnly: true});
+            });
+            describe('should reject promises of edit in place operations', () => {
+                ['beginEdit', 'beginAdd', 'cancelEdit', 'commitEdit'].forEach((methodName) => {
+                    it(methodName, () => {
+                        return baseControl[methodName]().catch(() => {
+                            return 'Rejected';
+                        }).then((result) => {
+                            assert.equal(result, 'Rejected');
+                        });
+                    });
+                });
+            });
+        });
+
         describe('editing config', () => {
             it('if autoAddByApplyButton not setted it should be the same as autoAdd', () => {
                 const options = {

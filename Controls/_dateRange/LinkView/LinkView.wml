@@ -10,36 +10,16 @@
         <span   data-qa="controls-DateLinkView__value-wrapper"
                 class="controls-DateLinkView__value-wrapper
                         {{_isMinWidth ? 'controls-DateLinkView__value-wrapper-minWidth'}}">
-           <ws:if data="{{ _viewMode == 'selector' }}">
-              <span
-                    class="controls-DateLinkView__value {{!_options.readOnly? 'controls-DateLinkView__value-' + _options.underline}}
-                    controls-DateLinkView__value_fontWeight-{{ _options.fontWeight }}
-                    {{_fontSize? 'controls-fontsize-' + _fontSize}}
-                    {{_fontColorStyle? 'controls-text-' + _fontColorStyle + ' controls-DateLinkView_text-' + _fontColorStyle + '-hover'}}
-                    {{ _styleClass }} {{ _valueEnabledClass }}"
-                    title="{{_options.tooltip}}"
-                    name="openPopupTarget"
-                    on:mousedown="_onClick()">
-                 {{ _caption }}
-              </span>
-           </ws:if>
-           <ws:else data="{{ _viewMode == 'link' }}">
-              <Controls.buttons:Button
-                    name="Link" caption="{{ _caption }}"
-                    fontColorStyle="{{_fontColorStyle}}"
-                    fontSize="{{_fontSize}}"
-                    viewMode="link"
-                    tootltip="{{_options.tooltip}}"
-                    on:mousedown="_onClick()"/>
-           </ws:else>
-           <ws:else>
-              <Controls.input:Label
-                    name="Link"
-                    caption="{{ _caption }}"
-                    underline="hovered"
-                    tootltip="{{_options.tooltip}}"
-                    on:mousedown="_onClick()"/>
-           </ws:else>
+            <ws:partial template="{{ _itemTemplate}}"
+                        fontSize="{{ _fontSize }}"
+                        fontWeight="{{ _fontWeight }}"
+                        fontColorStyle="{{ _fontColorStyle }}"
+                        readOnly="{{ _options.readOnly }}"
+                        tooltip="{{ _options.tooltip }}"
+                        styleClass="{{ _styleClass }}"
+                        caption="{{ _caption }}"
+                        on:mousedown="_onClick()"
+            />
             <ws:if data="{{ _resetButtonVisible || _clearButtonVisible }}">
                 <span class="controls-DateLinkView__resetButton
                         controls-icon controls-icon_style-unaccented
