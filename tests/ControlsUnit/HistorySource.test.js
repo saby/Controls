@@ -776,6 +776,15 @@ define(
                assert.isOk(configClone.source instanceof historyMod.Source);
             });
 
+            it('serialization with dataLoadCallback on state', function() {
+               const someConfig = {
+                  source: hSource
+               };
+               hSource.setDataLoadCallback(() => {});
+               const configClone = util.object.clone(someConfig);
+               assert.isOk(configClone.source instanceof historyMod.Source);
+            });
+
             it('unpin if not exist', () => {
                let source = new historyMod.Source({
                   originSource: new sourceLib.Memory({
