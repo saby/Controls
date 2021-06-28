@@ -611,6 +611,7 @@
   "--close-button_offset-top_stack": "5px",
   "--maximized-button_offset-top_stack": "7px",
   "--maximized-button_offset-right_stack": "var(--offset_s)",
+  "--close-button_hover_icon-color_stack": "var(--secondary_hover_icon-color)",
   "--resizingLine_mobile_offset-left_stack": "15px",
   "--resizingLine_mobile_thickness_stack": "25px",
   "--resizingLine_mobile_offset-left_masterDetail": "15px",
