@@ -14,6 +14,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from "Types/entity";
 import dateControlsUtils from "./Utils";
 import {Base as dateUtils} from 'Controls/dateUtils';
+import * as itemTemplate from 'wml!Controls/_dateRange/LinkView/itemTemplate';
 import 'css!Controls/dateRange';
 import 'css!Controls/CommonClasses';
 
@@ -44,12 +45,12 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * @default bold
  */
 class LinkView extends Control<ILinkViewControlOptions> implements IFontColorStyle {
-   _template: TemplateFunction = componentTmpl;
+   protected _template: TemplateFunction = componentTmpl;
+   protected _itemTemplate: TemplateFunction = itemTemplate;
 
    protected _rangeModel = null;
    protected _caption = '';
    protected _styleClass = null;
-   protected _valueEnabledClass = null;
    protected _viewMode = null;
    protected _fontColorStyle: string = null;
    protected _fontSize: string = null;
@@ -238,8 +239,6 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
          } else {
             this._styleClass = null;
          }
-
-         this._valueEnabledClass = newOption.clickable && !newOption.readOnly ? 'controls-DateLinkView__value-clickable' : '';
       }
    }
 }

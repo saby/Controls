@@ -1,0 +1,20 @@
+<ws:if data="{{ !readOnly }}">
+    <Controls.buttons:Button
+            attr:class="controls-DateLinkView__value_fontWeight-{{ fontWeight }}"
+            caption="{{ caption }}"
+            viewMode="link"
+            fontColorStyle="{{ fontColorStyle }}"
+            fontSize="{{ fontSize }}"
+            tootltip="{{ tooltip }}"
+            name="openPopupTarget"
+    />
+</ws:if>
+<ws:else>
+<span
+        class="controls-DateLinkView__value controls-DateLinkView__value_fontWeight-{{ fontWeight }}
+                        {{_fontSize? 'controls-fontsize-' + fontSize}}
+                        {{_fontColorStyle? 'controls-text-' + fontColorStyle}}
+                        {{ styleClass }}">
+    {{ caption }}
+</span>
+</ws:else>

@@ -2,27 +2,16 @@
     <div class="controls-RangeShortSelectorLink-wrapper">
         <span class="controls-RangeShortSelectorLink__value-wrapper
                         {{_isMinWidth ? 'controls-RangeShortSelectorLink__value-wrapper-minWidth'}}">
-            <ws:if data="{{ !_options.readOnly }}">
-                <Controls.buttons:Button
-                        attr:class="controls-DateLinkView__value_fontWeight-{{ _fontWeight }}"
-                        caption="{{ _caption }}"
-                        viewMode="link"
-                        fontColorStyle="{{ _fontColorStyle }}"
+            <ws:partial template="{{ _itemTemplate}}"
                         fontSize="{{ _fontSize }}"
-                        tootltip="{{_options.tooltip}}"
-                        name="openPopupTarget"
+                        fontWeight="{{ _fontWeight }}"
+                        fontColorStyle="{{ _fontColorStyle }}"
+                        readOnly="{{ _options.readOnly }}"
+                        tooltip="{{ _options.tooltip }}"
+                        styleClass="{{ _styleClass }}"
+                        caption="{{ _caption }}"
                         on:mousedown="_onClick()"
-                />
-            </ws:if>
-            <ws:else>
-                <span
-                        class="controls-RangeShortSelectorLink__value controls-DateLinkView__value_fontWeight-{{ _fontWeight }}
-                        {{_fontSize? 'controls-fontsize-' + _fontSize}}
-                        {{_fontColorStyle? 'controls-text-' + _fontColorStyle}}
-                        {{ _styleClass }} {{ _valueEnabledClass }}">
-                    {{ _caption }}
-                </span>
-            </ws:else>
+            />
         </span>
         <ws:if data="{{ _resetButtonVisible || _clearButtonVisible }}">
             <span class="controls-DateLinkView__resetButton
