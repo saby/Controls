@@ -11,16 +11,16 @@ function isItemInRoot(item) {
 }
 
 function getItemId(item) {
-    return item.get('id') + '';
+    return item.get('key') + '';
 }
 
 function getChildrenCount(id, items, excluded): number {
     let childCount = 0;
 
     items.each((item) => {
-        if (item.get('parent') === id && !isInExcluded(item.get('id'), excluded)) {
+        if (item.get('parent') === id && !isInExcluded(item.get('key'), excluded)) {
             if (isNode(item)) {
-                childCount += getChildrenCount(item.get('id'), items, excluded);
+                childCount += getChildrenCount(item.get('key'), items, excluded);
             } else {
                 childCount++;
             }
@@ -41,7 +41,7 @@ export default class extends Memory {
         const excluded = selection.get('excluded');
         const items = new RecordSet({
             rawData: this._$data,
-            keyProperty: 'id'
+            keyProperty: 'key'
         });
         let count = 0;
 
@@ -49,7 +49,7 @@ export default class extends Memory {
             marked = [];
             items.each((item) => {
                if (item.get('parent') === null) {
-                   marked.push(item.get('id') + '');
+                   marked.push(item.get('key') + '');
                }
             });
         }
