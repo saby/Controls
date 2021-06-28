@@ -888,9 +888,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 this._markerForRestoredScroll = this._potentialMarkedKey;
                 this._potentialMarkedKey = undefined;
             }
-            if (this._children.treeControl.isAllSelected()) {
-                this._children.treeControl.clearSelection();
-            }
 
             if (
                 this._isCursorNavigation(this._navigation) &&
