@@ -72,6 +72,11 @@ export default class SearchView extends TreeGridView {
    }
 
    protected _onItemClick(e: SyntheticEvent, item: SearchGridDataRow<Model>) {
+      if (e.target.closest('.js-controls-ListView__checkbox')) {
+         this._notify('checkBoxClick', [item, e]);
+         return;
+      }
+
       if (item['[Controls/_display/SearchSeparator]']) {
          e.stopPropagation();
          return;
