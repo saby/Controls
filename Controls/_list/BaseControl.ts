@@ -5653,7 +5653,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     private static _rejectEditInPlacePromise(fromWhatMethod: string): Promise<void> {
         const msg = ERROR_MSG.CANT_USE_IN_READ_ONLY(fromWhatMethod);
-        Logger.error(msg);
+        Logger.warn(msg);
         return Promise.reject(msg);
     }
 
