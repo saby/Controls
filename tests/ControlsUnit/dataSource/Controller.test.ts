@@ -165,6 +165,20 @@ describe('Controls/dataSource:SourceController', () => {
             ok(controllerState.root === null);
             ok(controllerState.keyProperty === 'testKeyProperty');
         });
+
+        it('without expandedItems in options', () => {
+            const controller = getControllerWithHierarchy();
+            controller.setExpandedItems(['testKey1']);
+            ok(!controller.getState().expandedItems);
+        });
+
+        it('expandedItems in options', () => {
+            const controller = getControllerWithHierarchy({
+                expandedItems: []
+            });
+            controller.setExpandedItems(['testKey1']);
+            deepStrictEqual(controller.getState().expandedItems, ['testKey1']);
+        });
     });
 
     describe('load', () => {
@@ -319,6 +333,17 @@ describe('Controls/dataSource:SourceController', () => {
             ok(controller.getItems().getCount() === allItemsCount);
         });
 
+        it('load with multiNavigation and parentProperty',  async () => {
+            const pageSize = 3;
+            const navigation = getPagingNavigation(false, pageSize);
+            navigation.sourceConfig.multiNavigation = true;
+            const controller = getControllerWithHierarchy({navigation});
+            const loadedItems = await controller.reload();
+            ok((loadedItems as RecordSet).getCount() === pageSize);
+            await controller.reload();
+            ok(controller.getItems().getCount() === pageSize);
+        });
+
         it('load with multiNavigation and without extendedItems',  async () => {
             const pageSize = 3;
             const navigation = getPagingNavigation(false, pageSize);
@@ -326,6 +351,7 @@ describe('Controls/dataSource:SourceController', () => {
             const controller = getController({...getControllerOptions(), navigation});
             const loadedItems = await controller.reload();
             ok((loadedItems as RecordSet).getCount() === pageSize);
+            ok(controller.hasMoreData('down'));
         });
 
         it('load with dataLoadCallback in options',  async () => {
@@ -481,8 +507,16 @@ describe('Controls/dataSource:SourceController', () => {
 
         it('updateOptions with navigationParamsChangedCallback',  async () => {
             let isNavigationParamsChangedCallbackCalled = false;
+            const navigation = getPagingNavigation();
             const controller = getController({
-                navigation: getPagingNavigation(),
+                navigation
+            });
+            await controller.reload();
+            ok(!isNavigationParamsChangedCallbackCalled);
+
+            controller.updateOptions({
+                ...getControllerOptions(),
+                navigation,
                 navigationParamsChangedCallback: () => {
                     isNavigationParamsChangedCallbackCalled = true;
                 }

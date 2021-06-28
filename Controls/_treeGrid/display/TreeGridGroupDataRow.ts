@@ -82,8 +82,11 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
 
     protected _initializeColumns(options?: IInitializeColumnsOptions): void {
         super._initializeColumns({
-            shouldAddMultiSelectCell: false,
-            shouldAddStickyLadderCells: false
+            shouldAddMultiSelectCell: true,
+            shouldAddStickyLadderCells: false,
+            extensionCellsConstructors: {
+                multiSelectCell: this.getColumnsFactory({column: {}})
+            }
         });
     }
 

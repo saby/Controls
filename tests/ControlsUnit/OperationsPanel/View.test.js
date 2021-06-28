@@ -92,14 +92,12 @@ define([
 
       describe('_beforeMount', function() {
 
-         it('several items', (done) => {
+         it('several items', async() => {
             assert.isFalse(instance._initialized);
-            instance._beforeMount(cfg).addCallback(function(items) {
-               assert.isFalse(instance._initialized);
-               assert.deepEqual(items.getRawData(), data);
-               assert.deepEqual(instance._items.getRawData(), data);
-               done();
-            });
+            const items = await instance._beforeMount(cfg);
+            assert.isFalse(instance._initialized);
+            assert.deepEqual(instance._items.getRawData(), data);
+            assert.ok(!items);
          });
 
          it('without items', () => {

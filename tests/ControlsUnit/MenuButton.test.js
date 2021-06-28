@@ -425,6 +425,7 @@ define(
          it('_deactivated', function() {
             let opened = true;
             menu._controller.closeMenu = () => { opened = false; };
+            menu._options.closeMenuOnOutsideClick = true;
             menu._deactivated();
             assert.isFalse(opened);
          });

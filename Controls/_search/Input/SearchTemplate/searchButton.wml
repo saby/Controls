@@ -3,7 +3,7 @@
                     controls-Search__searchButton
                     controls-Search__searchButton_inlineheight-{{inlineHeight}}
                     controls-Search__searchButton_position-{{searchButtonAlign}}
-                    controls-Search__searchButton_color{{calculateState()}}
+                    {{searchButtonIconStyle ? 'controls-icon_style-' + searchButtonIconStyle : 'controls-Search__searchButton_color' + calculateState()}}
                     {{searchButtonAlign === 'right' ? 'icon-Search2' : 'icon-Search'}}"
      on:mousedown="_searchClick()"
      attr:ws-no-focus="true"></div>

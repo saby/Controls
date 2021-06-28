@@ -2,7 +2,7 @@ import {Control, TemlateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_operationsPanel/Menu/Menu';
 import {Memory} from 'Types/source';
 import Store from 'Controls/Store';
-import {Button} from 'Controls/dropdown'
+import {Button} from 'Controls/dropdown';
 import {object} from 'Types/util';
 import 'css!Controls/operationsPanel';
 
@@ -11,13 +11,16 @@ interface IOperation {
     title: string;
     icon: string;
     iconStyle: string;
+    tooltip?: string;
     activateHandler: string;
+    iconSize: string;
 }
 
 const DEFAULT_OPERATIONS: IOperation[] = [{
     id: 'toggleAll',
     title: 'Инвертировать',
     icon: 'icon-Check2',
+    iconSize: 'm',
     iconStyle: '',
     activateHandler: 'Controls/operationsPanel:ActivateHandler'
 }];
@@ -35,6 +38,8 @@ export default class MassOperationMenu extends Control<IControlOptions> {
         const toolbarItems = object.clone(DEFAULT_OPERATIONS.concat(Store.getState().operationToolbarItems));
         toolbarItems.forEach((item) => {
             item.activateHandler = 'Controls/operationsPanel:ActivateHandler';
+            item.iconSize = 'm';
+            item.title = item.title || item.tooltip;
         });
         return new Memory({
             data: toolbarItems,
@@ -47,7 +52,7 @@ export default class MassOperationMenu extends Control<IControlOptions> {
         this._operationPanelItemsStoreId = Store.onPropertyChanged('operationToolbarItems', () => {
             this._source = this._getMenuSource();
         });
-        this._operationPanelOpenMenu = Store.declareCommand('openOperationMenu', () => {
+        this._operationPanelOpenMenu = Store.declareCommand('openOperationsMenu', () => {
             this._children.menu.openMenu();
         });
     }

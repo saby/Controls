@@ -9,11 +9,12 @@
       <Controls.heading:Title scope="{{_options}}"
                               readOnly="{{true}}"
                               fontSize="m"
+                              tooltip="{{_options.caption}}"
                               attr:class="controls-PropertyGrid__editor_nodeCaption"/>
     </div>
   </ws:if>
   <ws:else>
-    <Controls.input:Label scope="{{_options}}"/>
+    <Controls.input:Label scope="{{_options}}" attr:title="{{_options.caption}}"/>
   </ws:else>
 </ws:template>
 
@@ -37,7 +38,15 @@
                         scope="{{item.captionOptions}}"
                         attr:class="controls-PropertyGrid__editor-caption_theme-{{theme}}
                                     controls-PropertyGrid__gridLayout_editor-caption-baseline"
-                        attr:tabindex="-1"/>
+                        attr:tabindex="-1"
+            />
+            <ws:if data="{{!collectionItem.getEditorTemplateName() && collectionItem.shouldDisplayActions()}}">
+                <ws:if data="{{ !collectionItem.isSwiped() }}">
+                    <ws:partial
+                            attr:class="{{collectionItem.isHovered() ? 'controls-PropertyGrid__gridLayout_showActions'}}"
+                            template="{{ itemActionsTemplate }}" />
+                </ws:if>
+            </ws:if>
         </div>
     </ws:if>
     <ws:if data="{{collectionItem.getEditorTemplateName()}}">

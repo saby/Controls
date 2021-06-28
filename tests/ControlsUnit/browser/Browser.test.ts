@@ -531,6 +531,11 @@ describe('Controls/browser:Browser', () => {
            });
             const browser = getBrowser(options);
             await browser._beforeMount(options);
+            browser.saveOptions(options);
+            assert.ok(browser._source === options.source);
+
+            await browser._beforeUpdate(options);
+            assert.ok(browser._getSourceController().getSource() === options.source);
             assert.ok(browser._source === options.source);
         });
 
@@ -555,6 +560,11 @@ describe('Controls/browser:Browser', () => {
             });
             const browser = getBrowser(options);
             await browser._beforeMount(options, {}, [receivedState]);
+            browser.saveOptions(options);
+            assert.ok(browser._source === source);
+
+            await browser._beforeUpdate(options);
+            assert.ok(browser._getSourceController().getSource() === source);
             assert.ok(browser._source === source);
         });
 

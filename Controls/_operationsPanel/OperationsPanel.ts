@@ -44,7 +44,7 @@ import {DialogOpener} from 'Controls/popup';
  * @mixes Controls/interface:IHierarchy
  *
  * @private
- * @author Авраменко А.С.
+ * @author Герасимов А.М.
  * @demo Controls-demo/OperationsPanel/Panel
  *
  */
@@ -62,7 +62,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
       toolbarBlock: HTMLElement
    };
 
-   protected _loadData(source: Memory): Promise<RecordSet> | void {
+   protected _loadData(source: Memory): Promise<RecordSet|void> {
       let result;
       if (source) {
          result = source.query().then((dataSet) => {
@@ -94,7 +94,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
       }
    }
 
-   protected _loadDataCallback(data?: RecordSet, options?: IOperationsPanelOptions): RecordSet | void {
+   protected _loadDataCallback(data?: RecordSet|void, options?: IOperationsPanelOptions): RecordSet | void {
       if (!data) {
          this._setInitializedState(options);
       }
@@ -144,10 +144,9 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
       this._updateOperationPanelConfig(options);
       if (options.source) {
          Store.dispatch('operationToolbarItems', options.source.data);
-         result = this._loadData(options.source);
-         if (result instanceof Promise) {
-            result.then((data) => {this._loadDataCallback(data, options); });
-         }
+         result = this._loadData(options.source).then((data) => {
+            this._loadDataCallback(data, options);
+         });
       } else if (options.items) {
          this._resolveItems(options.items, options.keyProperty);
          this._loadDataCallback(this._items, options);
@@ -161,6 +160,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
    protected _beforeUnmount(): void {
       if (this._storeCallbackId) {
          Store.unsubscribe(this._storeCallbackId);
+         Store.dispatch('operationsPanelExpanded', false);
       }
       this._dialogOpener?.destroy();
    }
@@ -252,6 +252,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
             template: 'Controls/operationsPanel:Panel',
             opener: this,
             className: 'controls-operationPanel__offset',
+            propStorageId: this._options.propStorageId,
             target
          });
       });

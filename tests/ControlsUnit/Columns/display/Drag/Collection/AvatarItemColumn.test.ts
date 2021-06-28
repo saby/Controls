@@ -47,7 +47,8 @@ describe('Controls/columns/display/Drag/Collection/AvatarItemColumn', () => {
         });
         model = new Collection<Model, CollectionItem<Model>>({
             // @ts-ignore
-            collection: list
+            collection: list,
+            columnsCount: 2
         });
     });
 
@@ -57,6 +58,35 @@ describe('Controls/columns/display/Drag/Collection/AvatarItemColumn', () => {
         item.setColumn(1);
         model.setDraggedItems(model.getItemBySourceKey(3), [3]);
         const strategy = model.getStrategyInstance(ColumnsDrag);
+        assert.equal(strategy.avatarItem.getColumn(), 1);
+    });
+
+    it('not should set column if drag on folder', () => {
+        model.setDraggedItems(model.getItemBySourceKey(3), [3]);
+        const strategy = model.getStrategyInstance(ColumnsDrag);
+        assert.equal(strategy.avatarItem.getColumn(), 0);
+
+        const newPosition = {
+            dispItem: model.getItemBySourceKey(6),
+            index: 5,
+            position: 'on'
+        };
+        model.setDragPosition(newPosition);
+        assert.equal(strategy.avatarItem.getColumn(), 0);
+        assert.equal(newPosition.dispItem.getColumn(), 1);
+    });
+
+    it('should set column for avatar item if drag to another column', () => {
+        model.setDraggedItems(model.getItemBySourceKey(3), [3]);
+        const strategy = model.getStrategyInstance(ColumnsDrag);
+        assert.equal(strategy.avatarItem.getColumn(), 0);
+
+        const newPosition = {
+            dispItem: model.getItemBySourceKey(6),
+            index: 5,
+            position: 'before'
+        };
+        model.setDragPosition(newPosition);
         assert.equal(strategy.avatarItem.getColumn(), 1);
     });
 });

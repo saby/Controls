@@ -272,7 +272,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                     if (!this._destroyed) {
                         this._loading = false;
                     }
-                });;
+                });
             }
             // Обязательно вызываем setFilter иначе фильтр в sourceController может
             // не обновиться при updateOptions. Потому что updateOptions сравнивает
@@ -319,7 +319,11 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         //region update master
-        const newMasterVisibility = Browser.calcMasterVisibility(newOptions);
+        const newMasterVisibility = Browser.calcMasterVisibility({
+            master: newOptions.master,
+            userViewMode: this.viewMode,
+            listConfiguration: this._listConfiguration
+        });
         // Если видимость мастера не меняется, то меняем _masterRoot,
         // т.к. если он есть, то произойдет загрузка новых данных, а если нет,
         // то не произойдет, но _masterRoot будет актуальным
@@ -601,27 +605,34 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     private _onDetailDataLoadCallback(items: RecordSet, direction: string, options: IOptions): void {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
-        if (direction && options.detail.imageProperty && !this._hasImageInItems) {
+        const rootChanged = this.root !== this._detailDataSource.sourceController.getRoot();
+        if (options.detail.imageProperty && (direction && !this._hasImageInItems || rootChanged)) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
             const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
             if (imageVisibility !== this._listCfg.getImageVisibility()) {
-                this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
                 this._listCfg.setImageVisibility(imageVisibility);
                 this._tileCfg.setImageVisibility(imageVisibility);
                 this._tableCfg.setImageVisibility(imageVisibility);
-            }
-            return;
+                /*
+                    Восстанавливать скролл нужно только если фотки появились в текущем узле при подгрузке по скроллу
+                    Если видимость меняется при проваливании в папку, то скролл всегда будет в шапке списка.
+                */
+                if (imageVisibility === 'visible' && !rootChanged) {
+                    this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+                }
+             }
         } else if (!this._hasImageInItems) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
         }
-
         if (this._inputSearchString) {
             this._afterSearchDataLoaded();
         }
         this._search = null;
 
         this._masterMarkedKey = this.root;
-        this._processItemsMetadata(items);
+        if (!direction) {
+            this._processItemsMetadata(items);
+        }
     }
 
     /**
@@ -843,7 +854,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         'Controls/newBrowser'
     ];
 
-    static calcMasterVisibility(options: IOptions): MasterVisibilityEnum {
+    static calcMasterVisibility(options: Partial<IOptions>): MasterVisibilityEnum {
         if (options.master?.visibility) {
             return options.master.visibility;
         }

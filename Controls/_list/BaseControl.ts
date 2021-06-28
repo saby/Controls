@@ -596,7 +596,9 @@ const _private = {
             const scrollItemIndex = index - self._listViewModel.getStartIndex();
             const itemContainer = self._options.itemContainerGetter.getItemContainerByIndex(scrollItemIndex, itemsContainer, self._listViewModel);
 
-            if (itemContainer) {
+            const needScroll = !self._doNotScrollToFirtsItem || index !== 0;
+            self._doNotScrollToFirtsItem = false;
+            if (itemContainer && needScroll) {
                 self._notify('scrollToElement', [{
                     itemContainer, toBottom, force
                 }], {bubbling: true});
@@ -740,7 +742,7 @@ const _private = {
         let
             loadedDataCount, allDataCount;
 
-        if (_private.isDemandNavigation(options.navigation) && self._hasMoreData(sourceController, 'down')) {
+        if (_private.isDemandNavigation(self._navigation) && self._hasMoreData(sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
         } else if (
             _private.shouldDrawCut(options.navigation,
@@ -1717,6 +1719,7 @@ const _private = {
             }
             if (action === IObservable.ACTION_RESET) {
                 if (self._updatePagingOnResetItems) {
+                    self._knownPagesCount = INITIAL_PAGES_COUNT;
                     _private.updatePagingData(self, self._items.getMetaData().more, self._options);
                 }
                 self._updatePagingOnResetItems = true;
@@ -1724,7 +1727,9 @@ const _private = {
         }
         if (changesType === 'collectionChanged' || newModelChanged) {
             // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
-            if (self._options.navigation && self._options.navigation.source) {
+            // Берем self._navigation вместо self._options.navigation,
+            // т.к. onCollectionChanged может сработать до Control::saveOptions и опции будут неактуальны
+            if (self._navigation && self._navigation.source) {
                 const itemsCount = self._listViewModel.getCount();
                 const moreMetaCount = _private.getAllDataCount(self);
 
@@ -1743,11 +1748,6 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 _private.recountAttachIndicatorsAfterReload(self);
-            }
-
-            if (action === IObservable.ACTION_RESET) {
-                // Если перезагрузили список, то сбрасываем уже устаревшую видимость триггеров
-                self._loadTriggerVisibility = {};
             }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
@@ -2352,6 +2352,7 @@ const _private = {
         }
 
         if (this._isMounted && this._scrollController) {
+            _private.notifyVirtualNavigation(this, this._scrollController, this._sourceController);
             this.startBatchAdding(direction);
             return this._scrollController.getScrollStopPromise();
         }
@@ -2418,6 +2419,9 @@ const _private = {
     initializeNavigation(self, cfg) {
         self._needScrollCalculation = _private.needScrollCalculation(cfg.navigation);
         self._pagingNavigation = _private.isPagingNavigation(cfg.navigation);
+        // Кнопка Еще в футере рисуется по навигации, ее пересчет происходит и в onCollectionChanged,
+        // который может вызваться до Control::saveOptions и пересчет будет с устаревшей навигацией
+        self._navigation = cfg.navigation;
         if (!self._needScrollCalculation) {
             if (self._scrollPagingCtr) {
                 self._scrollPagingCtr.destroy();
@@ -2731,6 +2735,32 @@ const _private = {
 
     // endregion
 
+    notifyVirtualNavigation(self, scrollController: ScrollController, sourceController: SourceController): void {
+        let topEnabled = false;
+        let bottomEnabled = false;
+
+        if (sourceController) {
+            topEnabled = topEnabled || self._hasMoreData(self._sourceController, 'up');
+            bottomEnabled = bottomEnabled || self._hasMoreData(self._sourceController, 'down');
+        }
+        if (scrollController) {
+            topEnabled = topEnabled || scrollController.getShadowVisibility()?.up;
+            bottomEnabled = bottomEnabled || scrollController.getShadowVisibility()?.down;
+            topEnabled = topEnabled || scrollController.getPlaceholders()?.top;
+            bottomEnabled = bottomEnabled || scrollController.getPlaceholders()?.bottom;
+        }
+        if (topEnabled) {
+            self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
+        } else {
+            self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
+        }
+        if (bottomEnabled) {
+            self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
+        } else {
+            self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
+        }
+    },
+
     handleScrollControllerResult(self, result: IScrollControllerResult) {
         if (!result) {
             return;
@@ -2744,17 +2774,8 @@ const _private = {
             if (result.placeholders) {
                 self._notifyPlaceholdersChanged = () => {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
-                }
-                if (result.shadowVisibility?.up || result.placeholders.top > 0 || self._hasMoreData(self._sourceController, 'up')) {
-                    self._notify('enableVirtualNavigation', ['top'], { bubbling: true });
-                } else {
-                    self._notify('disableVirtualNavigation', ['top'], { bubbling: true });
-                }
-                if (result.shadowVisibility?.down || result.placeholders.bottom > 0 || self._hasMoreData(self._sourceController, 'down')) {
-                    self._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
-                } else {
-                    self._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
-                }
+                };
+                _private.notifyVirtualNavigation(self, self._scrollController, self._sourceController);
             }
             if (self._items && typeof self._items.getRecordById(result.activeElement || self._options.activeElement) !== 'undefined') {
                 // activeElement запишется в result только, когда он изменится
@@ -3178,8 +3199,13 @@ const _private = {
             if (options.moveDialogTemplate.templateName) {
                 controllerOptions.popupOptions = {
                     template: options.moveDialogTemplate.templateName,
-                    templateOptions: options.moveDialogTemplate.templateOptions
+                    templateOptions: options.moveDialogTemplate.templateOptions,
+                    beforeMoveCallback: options.moveDialogTemplate.beforeMoveCallback
                 };
+                const templateOptions = controllerOptions.popupOptions.templateOptions as IMoverDialogTemplateOptions;
+                if (templateOptions && !templateOptions.keyProperty) {
+                    templateOptions.keyProperty = options.keyProperty;
+                }
             } else {
                 Logger.error('Mover: Wrong type of moveDialogTemplate option, use object notation instead of template function', self);
             }
@@ -3899,9 +3925,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
          */
         if (_private.needScrollPaging(this._options.navigation) &&
             (this._options.navigation.viewConfig.pagingMode === 'numbers' || !this._isPagingArrowClick)) {
-            scrollParams.scrollTop += (this._scrollController?.getPlaceholders().top || 0);
-            scrollParams.scrollHeight += (this._scrollController?.getPlaceholders().bottom +
-                this._scrollController?.getPlaceholders().top || 0);
+            scrollParams.scrollTop += (this._scrollController?.getPlaceholders()?.top || 0);
+            scrollParams.scrollHeight += (this._scrollController?.getPlaceholders()?.bottom +
+                this._scrollController?.getPlaceholders()?.top || 0);
         }
         this._isPagingArrowClick = false;
         return scrollParams;
@@ -3926,16 +3952,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._useServerSideColumnScroll = false;
         }
 
-        if (this._hasMoreData(this._sourceController, 'up')) {
-            this._notify('enableVirtualNavigation', ['top'], { bubbling: true });
-        } else {
-            this._notify('disableVirtualNavigation', ['top'], { bubbling: true });
-        }
-        if (this._hasMoreData(this._sourceController, 'down')) {
-            this._notify('enableVirtualNavigation', ['bottom'], { bubbling: true });
-        } else {
-            this._notify('disableVirtualNavigation', ['bottom'], { bubbling: true });
-        }
+        _private.notifyVirtualNavigation(this, this._scrollController, this._sourceController);
 
         if (!this.__error) {
             this._registerObserver();
@@ -3951,6 +3968,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (this._scrollController) {
             if (this._options.activeElement) {
+
+                // Не нужно скроллить к первому активному элементу на маунте: его и так видно
+                // https://online.sbis.ru/opendoc.html?guid=8b6716c3-d188-465a-8f5c-b3e51cb0bdb2
+                this._doNotScrollToFirtsItem = true;
                 _private.scrollToItem(this, this._options.activeElement, false, true);
             }
 
@@ -4806,6 +4827,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._finishScrollToEdgeOnDrawItems = null;
         }
         this._notifyOnDrawItems();
+
+        //TODO: можно убрать после https://online.sbis.ru/opendoc.html?guid=2be6f8ad-2fc2-4ce5-80bf-6931d4663d64
+        if (_private.needScrollPaging(this._options.navigation)) {
+            if (this._scrollController && !this._scrollController.getParamsToRestoreScrollPosition()) {
+                _private.updateScrollPagingButtons(this, this._getScrollParams());
+            }
+        }
+
         if (this._callbackBeforePaint) {
             this._callbackBeforePaint.forEach((callback) => {
                 callback();
@@ -5592,7 +5621,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
-        return this._beginEdit(userOptions);
+        return this._beginEdit(userOptions, {
+            shouldActivateInput: userOptions?.shouldActivateInput
+        });
     }
 
     beginAdd(userOptions: object): Promise<void | { canceled: true }> {
@@ -5601,7 +5632,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
         return this._beginAdd(userOptions, {
             addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
-            targetItem: userOptions?.targetItem
+            targetItem: userOptions?.targetItem,
+            shouldActivateInput: userOptions?.shouldActivateInput
         });
     }
 
@@ -5652,10 +5684,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _beginAdd(options, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
+    _beginAdd(userOptions, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().add(options, {addPosition, targetItem, columnIndex}).then((addResult) => {
+        return this._getEditInPlaceController().add(userOptions, {addPosition, targetItem, columnIndex}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
             }

@@ -246,8 +246,15 @@
 }
 
 .controls-MonthViewVDOM__today {
-   color: var(--monthview_today_text-color_monthSlider);
    // Изолируем контекст наложения. Раньше стоял z-index: 0;. Но если в windows учтановить масшатб 150%,
    // то контекст не изолируется.
    transform: translateY(0);
+}
+
+.controls-MonthViewVDOM__workday-today {
+   color: var(--monthview_today_text-color_monthSlider);
+}
+
+.controls-MonthViewVDOM__weekend-today {
+   color: var(--monthview_weekend_today_text-color_monthSlider);
 }

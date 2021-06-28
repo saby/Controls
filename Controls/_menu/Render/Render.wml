@@ -42,6 +42,7 @@
          </ws:if>
          <ws:else>
             <Controls.scroll:StickyBlock
+                    backgroundStyle="menuPopup"
                     position="{{ {'vertical' : 'bottom'} }}">
                <ws:partial template="itemTpl" item="{{itemTemplate.item}}"/>
             </Controls.scroll:StickyBlock>

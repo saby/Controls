@@ -85,7 +85,7 @@ import * as CharacteristicsTemplate from 'wml!Controls/_list/CharacteristicsTemp
 export {CharacteristicsTemplate};
 
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
-export {IMovableList, IMoveDialogTemplate, IMovableOptions} from 'Controls/_list/interface/IMovableList';
+export {IMovableList, IMoveDialogTemplate, IMovableOptions, TBeforeMoveCallback} from 'Controls/_list/interface/IMovableList';
 export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
