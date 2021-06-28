@@ -1100,8 +1100,16 @@ define([
          });
 
          it('link with brackets', function() {
-            var parentNode = ['a', 'http://ci-fix-autotests.sbis.ru/job/(%D0%BF%D1%80%D0%B8%D0%B5%D0%BC%D0%BE%D1%87%D0%BD%D1%8B%D0%B5)%20fix-online-ext-autotest/job/(B%D0%B5)%20/'];
-            var goodResultNode = 'http://ci-fix-autotests.sbis.ru/job/(%D0%BF%D1%80%D0%B8%D0%B5%D0%BC%D0%BE%D1%87%D0%BD%D1%8B%D0%B5)%20fix-online-ext-autotest/job/(B%D0%B5)%20/';
+            var parentNode = ['p', 'http://ci-fix-autotests.sbis.ru/job/(%D0%BF%D1%80%D0%B8%D0%B5%D0%BC%D0%BE%D1%87%D0%BD%D1%8B%D0%B5)%20fix-online-ext-autotest/job/(B%D0%B5)%20/'];
+            var goodResultNode = [[], ['a',
+               {
+                  'class': 'asLink',
+                  rel: 'noreferrer noopener',
+                  href: 'http://ci-fix-autotests.sbis.ru/job/(%D0%BF%D1%80%D0%B8%D0%B5%D0%BC%D0%BE%D1%87%D0%BD%D1%8B%D0%B5)%20fix-online-ext-autotest/job/(B%D0%B5)%20/',
+                  target: '_blank'
+               },
+               'http://ci-fix-autotests.sbis.ru/job/(%D0%BF%D1%80%D0%B8%D0%B5%D0%BC%D0%BE%D1%87%D0%BD%D1%8B%D0%B5)%20fix-online-ext-autotest/job/(B%D0%B5)%20/'
+            ]];
             var checkResultNode = linkDecorateUtils.wrapLinksInString(parentNode[1], parentNode);
             assert.deepEqual(goodResultNode, checkResultNode);
          });
