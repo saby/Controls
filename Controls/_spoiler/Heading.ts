@@ -223,26 +223,26 @@ export default Heading;
 
 /**
  * @name Controls/_spoiler/Heading#fontWeight
- * @cfg {Enum} Начертание шрифта.
+ * @cfg {String} Начертание шрифта.
  * @variant bold
  * @variant default
  *
  * @remark
  * Когда опция не задана, то её значение определяется контролом в зависимости от состояния развернутости.
- * В развернутом состоянии это bold, а в свётнутом это default.
+ * В развернутом состоянии это "bold", а в свёрнутом — "default".
  *
  * @demo Controls-demo/Spoiler/Heading/FontWeight/Index
  * @see expanded
  */
 /**
  * @name Controls/_spoiler/Heading#fontColorStyle
- * @cfg {Enum} Стиль цвета текста и иконки контрола.
+ * @cfg {String} Стиль цвета текста и иконки контрола.
  * @variant label
  * @variant secondary
  *
  * @remark
  * Когда опция не задана, то её значение определяется контролом в зависимости от состояния развернутости.
- * В развернутом состоянии это secondary, а в свётнутом это label.
+ * В развернутом состоянии это "secondary", а в свёрнутом — "label".
  *
  * @demo Controls-demo/Spoiler/Heading/FontColorStyle/Index
  * @see expanded
