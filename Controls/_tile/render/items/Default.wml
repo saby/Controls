@@ -24,6 +24,10 @@
                      itemType="{{ (item || itemData).getItemType(itemType, nodeContentTemplate) }}">
          </ws:partial>
 
+         <div if="{{beforeItemActionsTemplate}}"
+              attr:class="controls-TileView__beforeItemActionsTemplate" >
+            <ws:partial template="{{beforeItemActionsTemplate}}"/>
+         </div>
          <ws:partial
             if="{{ (item || itemData).shouldDisplayItemActions((item || itemData).getItemType(itemType, nodeContentTemplate), itemActionsPosition, 'wrapper') }}"
             template="{{itemActionsTemplate}}"

@@ -1,0 +1,39 @@
+<Controls.treeTile:View
+   displayProperty="title"
+   parentProperty="parent"
+   nodeProperty="parent@"
+   multiSelectVisibility="visible"
+   bind:selectedKeys="_selectedKeys"
+   tileMode="static"
+   tileWidth="410"
+   itemActions="{{_itemActions}}"
+   imageProperty="image"
+   keyProperty="id"
+   menuIconSize="{{menuIconSize}}"
+   source="{{_viewSource}}">
+   <ws:itemTemplate>
+      <ws:partial
+         template="Controls/tile:RichTemplate"
+         border="{{false}}"
+         gradientColor="{{itemTemplate.item.contents.gradientColor}}"
+         titleLines="{{itemTemplate.item.contents.titleLines}}"
+         descriptionLines="{{itemTemplate.item.contents.titleLines}}"
+         imageSize="{{itemTemplate.item.contents.imageSize}}"
+         imageViewMode="{{itemTemplate.item.contents.imageViewMode}}"
+         imagePosition="{{itemTemplate.item.contents.imagePosition}}"
+         description="{{itemTemplate.item.contents.description}}"
+         imageCompressionCoefficient="{{itemTemplate.item.contents.imageCompressionCoefficient}}"
+         imageEffect="gradient"
+         scope="{{itemTemplate}}">
+         <ws:beforeItemActionsTemplate>
+            <div class="controlsDemo-tile_AltAction"
+                 title="{{itemTemplate.item.contents.love ? 'Из любимых' : 'В любимые'}}" on:click="_setLove(itemTemplate.item.contents, !(itemTemplate.item.contents.love))">
+               <Controls.icon:Icon icon="{{itemTemplate.item.contents.love ? 'icon-Love' : 'icon-LoveNull'}}"
+                                   iconSize="s"
+                                   iconStyle="label"
+               />
+            </div>
+         </ws:beforeItemActionsTemplate>
+      </ws:partial>
+   </ws:itemTemplate>
+</Controls.treeTile:View>
