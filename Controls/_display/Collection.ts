@@ -2852,7 +2852,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this.nextVersion();
     }
 
-    appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
+    appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object, withSession: boolean = true): void {
         const strategyOptions = { ...options, display: this };
 
         this._userStrategies.push({
@@ -2860,7 +2860,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options: strategyOptions
         });
 
-        const session = this._startUpdateSession();
+        const session = withSession && this._startUpdateSession();
         if (this._composer) {
             this._composer.append(strategy, strategyOptions);
             this._reBuild();
@@ -2874,12 +2874,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._composer.getInstance(strategy);
     }
 
-    removeStrategy(strategy: new() => IItemsStrategy<S, T>): void {
+    removeStrategy(strategy: new() => IItemsStrategy<S, T>, withSession: boolean = true): void {
         const idx = this._userStrategies.findIndex((us) => us.strategy === strategy);
         if (idx >= 0) {
             this._userStrategies.splice(idx, 1);
 
-            const session = this._startUpdateSession();
+            const session = withSession && this._startUpdateSession();
             if (this._composer) {
                 this._composer.remove(strategy);
                 this._reBuild();
@@ -2887,6 +2887,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._finishUpdateSession(session);
 
             this.nextVersion();
+        }
+    }
+
+    reCreateStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
+        const instance = this.getStrategyInstance(strategy);
+        if (instance) {
+            const session = this._startUpdateSession();
+            this.removeStrategy(strategy, false);
+            this.appendStrategy(strategy, options, false);
+            this._finishUpdateSession(session);
         }
     }
 
