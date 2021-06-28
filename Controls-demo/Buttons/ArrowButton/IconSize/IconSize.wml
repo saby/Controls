@@ -1,4 +1,4 @@
-<div class="controlsDemo__flexColumn controlsDemo__ml2">
+<div class="controlsDemo__flexColumn controlsDemo__ml2 controlsDemo_fixedWidth300">
     <div class="controlsDemo__cell">
         <div class="controls-text-label controlsDemo__maxWidth200">iconSize='2xs'</div>
         <Controls.buttons:ArrowButton iconSize="2xs" inlineHeight="l"/>
