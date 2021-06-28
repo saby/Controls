@@ -13,7 +13,11 @@ export default class SearchView extends TreeGridView {
 
    _beforeMount(options: any): Promise<void> {
       this._onBreadcrumbItemClick = this._onBreadcrumbItemClick.bind(this);
-      return super._beforeMount(options);
+
+      const baseResult = super._beforeMount(options);
+      this._listModel.setColspanBreadcrumbs(options.breadCrumbsMode === 'row');
+
+      return baseResult;
    }
 
    _beforeUpdate(newOptions: any): void {
