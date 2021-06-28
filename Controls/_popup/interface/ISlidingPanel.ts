@@ -19,6 +19,7 @@ export interface ISlidingPanelOptions {
     height?: number;
     desktopMode?: 'dialog' | 'stack';
     autoHeight?: boolean;
+    heightList?: number[];
 }
 
 export interface IDialogOptions {

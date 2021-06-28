@@ -37,5 +37,17 @@
       <Controls.input:Label caption="desktop popup width"/>
       <Controls.input:Number bind:value="_desktopWidth"/>
    </div>
+   <div class="ControlDemo__SlidingPanel-setting">
+      <Controls.input:Label caption="heightList"/>
+      <div class="ws-flexbox ws-flex-column">
+         <ws:for data="index in _stepsCount">
+            <Controls.input:Number
+                    attr:class="ControlDemo__SlidingPanel-setting"
+                    on:valueChanged="_heightListInputValueChanged(index)"
+                    value="{{ _heightList[index] }}"/>
+         </ws:for>
+      </div>
+      <Controls.buttons:Button caption="Добавить шаг" on:click="_addHeightListStep()"/>
+   </div>
    <Controls.buttons:Button caption="Открыть шторку" on:click="_openSlidingPanelHandler()"/>
 </div>

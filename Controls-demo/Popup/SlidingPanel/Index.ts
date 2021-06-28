@@ -14,6 +14,8 @@ class Index extends Control<IControlOptions> {
     protected _position: string[] = ['bottom'];
     protected _desktopMode: string[] = ['stack'];
     protected _desktopWidth: number = 900;
+    protected _stepsCount: number = 5;
+    protected _heightList: number = [400, 600, 800, 1000, 1200];
     protected _modal: boolean = false;
     protected _desktopModeSource: Memory = new Memory({
         keyProperty: 'id',
@@ -52,6 +54,15 @@ class Index extends Control<IControlOptions> {
         this._dialogOpener = new SlidingPanelOpener();
     }
 
+    protected _addHeightListStep(): void {
+        this._stepsCount++;
+    }
+
+    protected _heightListInputValueChanged(event: SyntheticEvent<InputEvent>, index: number, value: number): void {
+        this._heightList[index] = value;
+        this._forceUpdate();
+    }
+
     protected _openSlidingPanelHandler(event: Event, isInsideRestrictive: boolean): void {
         this._dialogOpener.open({
             template: 'Controls-demo/Popup/SlidingPanel/PopupTemplate',
@@ -61,7 +72,8 @@ class Index extends Control<IControlOptions> {
             slidingPanelOptions: {
                 minHeight: this._minHeight,
                 maxHeight: this._maxHeight,
-                position: this._position[0]
+                position: this._position[0],
+                heightList: this._heightList
             },
             dialogOptions: {
                 width: this._desktopWidth
