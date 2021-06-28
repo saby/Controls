@@ -549,7 +549,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
 
         const tabOffset = this._children[`tab${key}`].offsetLeft;
-        this._children.wrapper.scrollTo(tabOffset, 0);
+        this._children.scrollContainer.horizontalScrollTo(tabOffset);
     }
 
 

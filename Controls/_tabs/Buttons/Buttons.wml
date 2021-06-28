@@ -1,6 +1,5 @@
-<div class="controls-Tabs controls-Tabs_inlineHeight-{{_options.inlineHeight}}
-            {{_options.borderVisible ? 'controls-Tabs_border-' + _options.markerThickness}}" name="container">
-    <div class="controls-Tabs-wrapper {{!_options.canShrink ? controls-Tabs__scrollWrapper}}"
+<ws:template name="tabContent">
+    <div class="controls-Tabs-wrapper"
          name="wrapper"
          on:mouseenter="_mouseEnterHandler()"
          on:mouseout="_mouseOutHandler()"
@@ -23,14 +22,14 @@
                             {{_prepareItemMarkerClass(item)}}
                             {{_prepareItemTypeClass(item)}}">
                     <ws:partial
-                                class="{{_prepareItemSelectedClass(item)}}"
-                                template="{{ _getTemplate(_options.itemTemplate, item, _options.itemTemplateProperty) || _defaultItemTemplate}}"
-                                selected="{{item[_options.keyProperty] === _options.selectedKey}}"
-                                displayProperty="{{_options.displayProperty}}"
-                                keyProperty="{{_options.keyProperty}}"
-                                index="{{index}}"
-                                item="{{_items.at(index)}}"
-                                inlineHeight="{{_options.inlineHeight}}"/>
+                            class="{{_prepareItemSelectedClass(item)}}"
+                            template="{{ _getTemplate(_options.itemTemplate, item, _options.itemTemplateProperty) || _defaultItemTemplate}}"
+                            selected="{{item[_options.keyProperty] === _options.selectedKey}}"
+                            displayProperty="{{_options.displayProperty}}"
+                            keyProperty="{{_options.keyProperty}}"
+                            index="{{index}}"
+                            item="{{_items.at(index)}}"
+                            inlineHeight="{{_options.inlineHeight}}"/>
                 </div>
                 <ws:if data="{{ _getTemplate(_options.itemRightTemplate, item, _options.rightTemplateProperty) }}">
                     <ws:partial template="{{ _getTemplate(_options.itemRightTemplate, item, _options.rightTemplateProperty) }}"
@@ -48,10 +47,10 @@
                     </div>
                 </ws:if>
 
-    <!--            todo: https://online.sbis.ru/opendoc.html?guid=be4df8fc-5c9f-4cb0-b4aa-933bc3a326df-->
-    <!--            <ws:if data="{{item[_options.keyProperty] !== _options.selectedKey}}">-->
-    <!--                <div class="controls-Tabs__overlay" on:click="_onItemClick(item[_options.keyProperty])"></div>-->
-    <!--            </ws:if>-->
+                <!--            todo: https://online.sbis.ru/opendoc.html?guid=be4df8fc-5c9f-4cb0-b4aa-933bc3a326df-->
+                <!--            <ws:if data="{{item[_options.keyProperty] !== _options.selectedKey}}">-->
+                <!--                <div class="controls-Tabs__overlay" on:click="_onItemClick(item[_options.keyProperty])"></div>-->
+                <!--            </ws:if>-->
             </div>
         </ws:for>
         <div class="controls-Tabs__space
@@ -65,6 +64,18 @@
                 {{!(_marker.isInitialized() && _isBottomMarkerVisible() && _isAnimatedMakerVisible) ? 'ws-invisible'}}
                 {{_isAnimatedMakerVisible ? 'controls-Tabs__marker_animation'}}"
          style="width:{{_marker.getWidth()}}px; {{_marker.getAlign()}}: {{_marker.getOffset()}}px;"
-         on:transitionend="_transitionEndHandler()"></div>
+         on:transitionend="_transitionEndHandler()">
+    </div>
+</ws:template>
 
+<div class="controls-Tabs controls-Tabs_inlineHeight-{{_options.inlineHeight}}
+            {{_options.borderVisible ? 'controls-Tabs_border-' + _options.markerThickness}}" name="container">
+    <ws:if data="{{_options.canShrink}}">
+        <ws:partial template="tabContent"/>
+    </ws:if>
+    <ws:else>
+        <Controls.scroll:Container name="scrollContainer" shadowMode="js" scrollOrientation="horizontal">
+            <ws:partial template="tabContent"/>
+        </Controls.scroll:Container>
+    </ws:else>
 </div>
