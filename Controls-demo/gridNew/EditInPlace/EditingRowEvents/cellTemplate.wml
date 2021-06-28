@@ -1,0 +1,10 @@
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
+    <ws:contentTemplate>
+        <ws:partial template="Controls/list:EditingTemplate" scope="{{ _options }}">
+            <ws:viewTemplate>{{ item.contents.get('invoice') }}</ws:viewTemplate>
+            <ws:editorTemplate>
+                <div>Расширенное редактирование</div>
+            </ws:editorTemplate>
+        </ws:partial>
+    </ws:contentTemplate>
+</ws:partial>
