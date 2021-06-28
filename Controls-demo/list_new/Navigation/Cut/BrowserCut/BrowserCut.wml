@@ -1,0 +1,5 @@
+<Controls.browser:Browser
+    source="{{_source}}"
+    navigation="{{_navigation}}">
+    <Controls.list:View/>
+</Controls.browser:Browser>
