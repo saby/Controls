@@ -1,8 +1,13 @@
 <div class="controls-Tabs controls-Tabs_inlineHeight-{{_options.inlineHeight}}
-            {{_options.borderVisible ? 'controls-Tabs_border-' + _options.markerThickness}}">
-    <div class="controls-Tabs-wrapper" on:mouseenter="_mouseEnterHandler()" on:touchstart="_touchStartHandler()">
+            {{_options.borderVisible ? 'controls-Tabs_border-' + _options.markerThickness}}" name="container">
+    <div class="controls-Tabs-wrapper {{!_options.canShrink ? controls-Tabs__scrollWrapper}}"
+         name="wrapper"
+         on:mouseenter="_mouseEnterHandler()"
+         on:mouseout="_mouseOutHandler()"
+         on:touchstart="_touchStartHandler()">
         <ws:for data="index, item in _itemsArray">
-            <div attr:class="{{_prepareItemClass(item, index)}}"
+            <div name="tab{{item[_options.keyProperty]}}"
+                 attr:class="{{_prepareItemClass(item, index)}}"
                  attr:style="{{_prepareItemStyles(item, index)}}"
                  attr:title="{{ item[_options.displayProperty]}}"
                  on:mousedown="_onItemClick(item[_options.keyProperty])">
@@ -12,7 +17,7 @@
                                 index="{{index}}"
                                 item="{{_items.at(index)}}" />
                 </ws:if>
-                <div name="Tab{{index}}"
+                <div name="TabContent{{index}}"
                      class="controls-Tabs__itemClickableArea
                             controls-Tabs__itemClickableArea_inlineHeight-{{_options.inlineHeight}}
                             {{_prepareItemMarkerClass(item)}}

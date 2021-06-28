@@ -74,11 +74,11 @@ define([
          lv._notify = function(e, args) {
             notifyResult = args[0];
          };
-         lv._onItemClick({}, dispItem);
+         lv._onItemClick({ target: { closest: () => null } }, dispItem);
          assert.equal(notifyResult, dispItem.getContents(), 'Incorrect selected item before updating');
 
          notifyResult = null;
-         lv._onItemClick({ preventItemEvent: true }, dispItem);
+         lv._onItemClick({ target: { closest: () => null }, preventItemEvent: true }, dispItem);
          assert.isNull(notifyResult, '_onItemClick should ignore preventItemEvent events');
       });
 

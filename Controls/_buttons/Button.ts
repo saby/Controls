@@ -53,7 +53,8 @@ export function defaultFontColorStyle(viewMode: string): string {
 
 export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._buttonStyle = options.readOnly ? 'readonly' : options.buttonStyle;
-    this._contrastBackground = options.contrastBackground;
+    this._contrastBackground = options.contrastBackground === undefined ?
+        options.viewMode === 'functionalButton' : options.contrastBackground;
     this._viewMode = options.viewMode;
     this._height = options.inlineHeight ? options.inlineHeight : defaultHeight(this._viewMode);
     this._fontColorStyle = options.fontColorStyle ? options.fontColorStyle : defaultFontColorStyle(this._viewMode);
@@ -88,7 +89,6 @@ export function getDefaultOptions(): object {
         iconStyle: 'secondary',
         iconSize: 'm',
         captionPosition: 'right',
-        contrastBackground: false,
         fontSize: 'm',
         buttonStyle: 'secondary'
     };
@@ -211,21 +211,37 @@ Object.defineProperty(Button, 'defaultProps', {
  * @default button
  * @demo Controls-demo/Buttons/ViewModes/Index
  * @example
- * Кнопка в режиме отображения 'linkButton'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="linkButton" fontSize="3xl"/>
+ * Кнопка в режиме отображения "linkButton".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="primary"
+ *    viewMode="linkButton"
+ *    fontSize="3xl"/>
  * </pre>
- * Кнопка в режиме отображения 'toolButton'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="danger" viewMode="toolButton"/>
+ * Кнопка в режиме отображения "toolButton".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="danger"
+ *    viewMode="toolButton"/>
  * </pre>
- * Кнопка в режиме отображения 'button'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
+ * Кнопка в режиме отображения "button".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="success"
+ *    viewMode="button"/>
  * </pre>
- *  * Кнопка в режиме отображения 'link'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" viewMode="link"/>
+ * Кнопка в режиме отображения "link".
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    viewMode="link"/>
  * </pre>
  * @see Size
  */
@@ -278,6 +294,42 @@ Object.defineProperty(Button, 'defaultProps', {
  * <pre class="brush: html">
  * <Controls.buttons:Button icon="icon-Add" fontSize="xl" viewMode="button"/>
  * </pre>
+ */
+
+/**
+ * @name Controls/_buttons/Button#contrastBackground
+ * @cfg
+ * @default false (Когда опция {@link Controls/buttons:Button#viewMode viewMode} установлена в значение functionalButton, то для опции contrastBackground значение по умолчанию - true.)
+ * @remark
+ * Опция используется для акцентирования внимания на кнопке, и ее визуального выделения относительно окружения.
+ * @demo Controls-demo/Buttons/ContrastBackground/Index
+ * @example
+ * У кнопки контрастный фон.
+ * <pre class="brush: html; highlight: [6]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="primary"
+ *    viewMode="toolButton"
+ *    contrastBackground="{{true}}" />
+ * </pre>
+ * @see style
+ */
+
+/*
+ * @name Controls/_buttons/Button#contrastBackground
+ * @cfg
+ * @default true
+ * @example
+ * Button has transparent background.
+ * <pre>
+ *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="toolButton" contrastBackground="{{false}}" inlineHeight="xl"/>
+ * </pre>
+ * Button hasn't transparent background.
+ * <pre>
+ *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="toolButton" />
+ * </pre>
+ * @see style
  */
 
 export default Button;

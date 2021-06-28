@@ -16,7 +16,7 @@ export default class PropertyGridGroupItem<T> extends GroupItem<PropertyGridColl
         return toggleButtons;
     }
 
-    getItemTemplate(
+    getTemplate(
         itemTemplateProperty: string,
         userItemTemplate: TemplateFunction | string,
         userGroupTemplate?: TemplateFunction | string,
@@ -24,7 +24,7 @@ export default class PropertyGridGroupItem<T> extends GroupItem<PropertyGridColl
         if (this.getContents() === 'propertyGrid_toggleable_editors_group') {
             return editorsToggleTemplate;
         } else {
-            return super.getItemTemplate(itemTemplateProperty, userItemTemplate, userGroupTemplate);
+            return super.getTemplate(itemTemplateProperty, userItemTemplate, userGroupTemplate);
         }
     }
 

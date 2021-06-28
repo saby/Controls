@@ -1,4 +1,4 @@
-<div class="controls-Search__buttons">
+<div class="controls_search_theme-{{_options.theme}} controls-Search__buttons">
    <ws:if data="{{options.leftFieldTemplate}}">
       <ws:partial template="{{options.leftFieldTemplate}}" />
    </ws:if>
@@ -6,6 +6,7 @@
    <ws:if data="{{options.searchButtonAlign === 'left' && options.searchButtonVisible}}">
       <ws:partial template="wml!Controls/_search/Input/SearchTemplate/searchButton"
                   searchButtonAlign="{{options.searchButtonAlign}}"
+                  searchButtonIconStyle="{{options.searchButtonIconStyle}}"
                   inlineHeight="{{options.inlineHeight}}"
                   calculateState="{{calculateState}}"/>
    </ws:if>

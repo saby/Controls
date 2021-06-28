@@ -4,8 +4,9 @@ import readOnlyFieldTemplate = require('wml!Controls/_input/Money/ReadOnly');
 import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
 import {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
-import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
+import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/decorator';
 import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
+import {Formatter} from 'Controls/decorator';
 
 interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IFieldTemplateOptions {}
 
@@ -21,7 +22,7 @@ interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPo
  * @class Controls/_input/Money
  * @extends Controls/input:Base
  *
- * @mixes Controls/input:IOnlyPositive
+ * @mixes Controls/decorator:IOnlyPositive
  * @mixes Controls/input:INumberLength
  * @mixes Controls/input:IFieldTemplate
  *
@@ -36,7 +37,7 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
     protected _controlName: string = 'Money';
 
     readonly '[Controls/_input/interface/INumberLength]': boolean = true;
-    readonly '[Controls/_input/interface/IOnlyPositive]': boolean = true;
+    readonly '[Controls/_decorator/interfaces/IOnlyPositive]': boolean = true;
 
     protected _initProperties(options: IMoneyOptions): void {
         super._initProperties(options);
@@ -56,6 +57,12 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
             onlyPositive: options.onlyPositive
         };
     }
+    protected _beforeUpdate(newOptions: IMoneyOptions): void {
+        super._beforeUpdate(newOptions);
+        if (this._viewModel.displayValueBeforeUpdate === '' && newOptions.value === this._getValue(newOptions)) {
+            this._viewModel.displayValueBeforeUpdate = this._viewModel.displayValue;
+        }
+    }
 
     protected _getViewModelConstructor() {
         return ViewModel;
@@ -72,7 +79,7 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
     }
 
     private static integerPart(value: string, precision: number): string {
-        return value.substring(0, Money.calcStartFractionPart(value, precision));
+        return Formatter.correctNumberValue(value.substring(0, Money.calcStartFractionPart(value, precision)));
     }
 
     private static fractionPart(value: string, precision: number): string {

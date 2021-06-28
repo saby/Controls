@@ -39,7 +39,6 @@
 }
 
 .controls-FilterViewPanel__group-content {
-   cursor: pointer;
    color: var(--label_text-color);
    font-size: var(--font-size_m);
    overflow: hidden;
@@ -65,13 +64,6 @@
    flex-direction: row;
    height: var(--group_height_filterViewPanel);
    overflow: hidden;
-}
-
-.controls-FilterViewPanel__group:hover {
-   .controls-FilterViewPanel__groupExpander,
-   .controls-FilterViewPanel__group-content {
-      color: var(--link_hover_text-color);
-   }
 }
 
 .controls-FilterViewPanel__groupReset {
@@ -120,12 +112,20 @@
    cursor: pointer;
 }
 
+.controls-FilterViewPanel__group-result_wrapper-contrast {
+   background-color: var(--pale_border-color);
+}
+
 .controls-FilterViewPanel__group-result {
    font-size: var(--font-size_m);
 }
 
 .controls-FilterViewPanel__propertyGrid.controls-PropertyGrid {
    padding: var(--offset_m) 0;
+}
+
+.controls-FilterViewPanel__propertyGrid_viewMode-default.controls-PropertyGrid {
+   padding-bottom: 0;
 }
 
 .controls-FilterEditors__list-item {

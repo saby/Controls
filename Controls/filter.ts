@@ -2,13 +2,11 @@
  * Библиотека контролов, которые служат для <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/">организации фильтрации в списках</a>.
  * @library
  * @includes View Controls/_filter/View
+ * @includes IEditorOptions Controls/filter:EditorOptions
  * @includes ViewItemTemplate Controls/filter:ItemTemplate
  * @includes ViewContainer Controls/_filter/View/Container
- * @includes IFilterItem Controls/_filter/View/interface/IFilterItem
  * @includes IFastFilter Controls/_filter/View/interface/IFastFilter
  * @includes IFilterButton Controls/_filter/View/interface/IFilterButton
- * @includes IPrefetch Controls/_filter/IPrefetch
- * @includes DateRangeEditor Controls/_filter/Editors/DateRange
  * @public
  * @author Крайнов Д.О.
  */
@@ -17,14 +15,12 @@
  * filter library
  * @library
  * @includes View Controls/_filter/View
+ * @includes IEditorOptions Controls/filter:EditorOptions
  * @includes ViewItemTemplate Controls/filter:ItemTemplate
  * @includes ViewContainer Controls/_filter/View/Container
- * @includes IFilterItem Controls/_filter/View/interface/IFilterItem
  * @includes IFastFilter Controls/_filter/View/interface/IFastFilter
  * @includes IFilterButton Controls/_filter/View/interface/IFilterButton
- * @includes IPrefetch Controls/_filter/IPrefetch
  * @includes Prefetch Controls/_filter/Prefetch
- * @includes DateRangeEditor Controls/_filter/Editors/DateRange
  * @public
  * @author Крайнов Д.О.
  */

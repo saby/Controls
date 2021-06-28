@@ -50,8 +50,8 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         return '';
     }
 
-    getTemplate(multiSelectTemplate: TemplateFunction): TemplateFunction|string {
-        return multiSelectTemplate;
+    getTemplate(): TemplateFunction|string {
+        return this.getOwner().getMultiSelectTemplate();
     }
 
     shouldDisplayMarker(marker: boolean): boolean {
@@ -63,8 +63,8 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
     }
 
     // Only for partial grid support
-    getRelativeCellWrapperClasses(theme: string): string {
-        return super.getRelativeCellWrapperClasses(theme) + this._getCheckboxCellPaddingClasses();
+    getRelativeCellWrapperClasses(): string {
+        return super.getRelativeCellWrapperClasses() + this._getCheckboxCellPaddingClasses();
     }
 
     private _getCheckboxCellPaddingClasses(): string {

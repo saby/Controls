@@ -1,0 +1,8 @@
+<ws:partial template="wml!Controls/_toggle/ButtonGroup/itemTemplate" item="{{item}}">
+    <ws:contentTemplate>
+        <ws:partial template="{{contentTemplate.captionTemplate}}"/>
+        <ws:if data="{{item.get(counterProperty || 'counter')}}">
+            <span class="controls-ButtonGroup__button-counter {{ counterStyle ? 'controls-text-' + counterStyle }}">{{item.get(counterProperty || 'counter')}}</span>
+        </ws:if>
+    </ws:contentTemplate>
+</ws:partial>

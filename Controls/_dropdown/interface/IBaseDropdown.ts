@@ -17,6 +17,7 @@ export interface IBaseDropdownOptions extends IControlOptions, ISourceOptions,
     keyProperty: string;
     emptyText?: string;
     displayProperty: string;
+    closeMenuOnOutsideClick: boolean;
 }
 
 /**
@@ -168,9 +169,15 @@ export default interface IBaseDropdown {
  */
 
 /**
+ * @name Controls/_dropdown/interface/IBaseDropdown#closeMenuOnOutsideClick
+ * @cfg {Boolean} Определяет возможность закрытия меню по клику вне.
+ * @default true
+ */
+
+/**
  * @event Происходит при открытии выпадающего списка.
  * @name Controls/_dropdown/interface/IBaseDropdown#dropDownOpen
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
@@ -192,7 +199,7 @@ export default interface IBaseDropdown {
 /**
  * @event Происходит при закрытии выпадающего списка.
  * @name Controls/_dropdown/interface/IBaseDropdown#dropDownClose
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->

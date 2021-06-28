@@ -58,11 +58,11 @@ interface IResizeObserver {
  *
  * @public
  * @extends UI/Base:Control
- * @class Controls/_scroll/StickyBlock
  *
  * @mixes Control/interface:IBackgroundStyle
  *
  * @author Красильников А.С.
+ * @demo Controls-demo/Scroll/Container/StickyHeader/SomeSimpleHeaders/Index
  */
 
 /*
@@ -169,6 +169,10 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _syncDomOptimization: boolean = true;
 
+    get index(): number {
+        return this._index;
+    }
+
     constructor(cfg: IStickyHeaderOptions) {
         super(cfg);
         this._observeHandler = this._observeHandler.bind(this);
@@ -191,7 +195,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         // Несмотря на то, что _style === '', на дом элементе остаются стили от старого компонента.
         // Если стили остались, то чистим их.
         // TODO: После того как заменим инферно на реакт проблемы скорее не будет.
-        if (this._container.style.top || this._container.style.bottom) {
+        if (this._container.dataset?.stickyBlockNode) {
             this._container.style.top = '';
             this._container.style.bottom = '';
         }
@@ -250,6 +254,9 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     }
 
     protected _beforeUnmount(): void {
+        // Установим дата аттрибут, чтобы в будущем была возможность определить, был ли в этой ноде стики блок.
+        // Подробности в комментарии в _componentDidMount.
+        this._container.dataset?.stickyBlockNode = 'true';
         if (!this._isStickySupport || this._options.mode === MODE.notsticky) {
             return;
         }
@@ -676,8 +683,16 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         // Включаю оптимизацию для всех заголовков на ios, в 5100 проблем выявлено не было
         const isIosOptimizedMode = this._isMobileIOS && task1181007458 !== true;
         const stickyPosition = StickyBlock.getStickyPosition({position: positionFromOptions});
-        if (stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1 && this._stickyHeadersHeight.top !== null) {
-            top = this._stickyHeadersHeight.top;
+
+        const isStickedOnTop = stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1;
+        const isStickedOnBottom = stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1;
+        const isStickedOnLeft = stickyPosition.horizontal && stickyPosition.horizontal?.indexOf(POSITION.left) !== -1;
+        const isStickedOnRight = stickyPosition.horizontal && stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1;
+
+        if (isStickedOnTop) {
+            // После построения контролов на afterMount инициализируется контроллер, он проставит заголовкам
+            // top'ы. Установив изначально в стилях top: 0, мы избавимся от лишних синхранизаций в множестве мест.
+            top = this._stickyHeadersHeight.top || 0;
             if (offsetTop) {
                 top += offsetTop;
             }
@@ -685,18 +700,18 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             style += 'top: ' + (top - (checkOffset ? offset : 0)) + 'px;';
         }
 
-        if (stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
-            bottom = this._stickyHeadersHeight.bottom;
+        if (isStickedOnBottom) {
+            bottom = this._stickyHeadersHeight.bottom || 0;
             style += 'bottom: ' + (bottom - offset) + 'px;';
         }
 
-        if (stickyPosition.horizontal && stickyPosition.horizontal?.indexOf(POSITION.left) !== -1 && this._stickyHeadersHeight.left !== null) {
-            left = this._stickyHeadersHeight.left;
+        if (isStickedOnLeft) {
+            left = this._stickyHeadersHeight.left || 0;
             style += 'left: ' + (left) + 'px;';
         }
 
-        if (stickyPosition.horizontal && stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1 && this._stickyHeadersHeight.right !== null) {
-            right = this._stickyHeadersHeight.right;
+        if (isStickedOnRight) {
+            right = this._stickyHeadersHeight.right || 0;
             style += 'right: ' + (right) + 'px;';
         }
 
@@ -1102,14 +1117,14 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 /**
  * @event Происходит при изменении состояния фиксации.
  * @name Controls/_scroll/StickyBlock#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} event Дескриптор события.
  * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Информация о событии фиксации.
  */
 
 /*
  * @event Change the fixation state.
  * @name Controls/_scroll/StickyBlock#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 

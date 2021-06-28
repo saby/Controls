@@ -27,58 +27,6 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
                 }
             });
         });
-        it('should restore serialized state.', () => {
-            const
-                state = {
-                    overflowHidden: true,
-                    styleHideScrollbar: 'styleHideScrollbar'
-                },
-                model: ScrollbarsModel = new ScrollbarsModel({
-                    ...getScrollbarsDefaultOptions(),
-                    scrollMode: SCROLL_MODE.VERTICAL
-                }, state);
-
-            assert.isTrue(model._overflowHidden);
-            assert.strictEqual(model._styleHideScrollbar, state.styleHideScrollbar);
-        });
-    });
-
-    describe('scrollContainerStyles', () => {
-        const state = {
-            overflowHidden: true,
-            scrollContainerStyles: 'scrollContainerStyles',
-            styleHideScrollbar: 'styleHideScrollbar'
-        };
-        let model: ScrollbarsModel = new ScrollbarsModel({
-            ...getScrollbarsDefaultOptions(),
-            scrollMode: SCROLL_MODE.VERTICAL
-        }, state);
-
-        it('overflowHidden = true', () => {
-            assert.equal(model.scrollContainerStyles, '');
-        });
-
-        it('overflowHidden = false', () => {
-            state.overflowHidden = false;
-            model = new ScrollbarsModel({
-                ...getScrollbarsDefaultOptions(),
-                scrollMode: SCROLL_MODE.VERTICAL
-            }, state);
-           assert.equal(model.scrollContainerStyles, 'styleHideScrollbar');
-        });
-    });
-
-    describe('serializeState', () => {
-        it('should serialize state.', () => {
-            const model: ScrollbarsModel = new ScrollbarsModel({
-                ...getScrollbarsDefaultOptions(),
-                scrollMode: SCROLL_MODE.VERTICAL
-            });
-            assert.deepEqual(model.serializeState(), {
-                overflowHidden: false,
-                styleHideScrollbar: undefined
-            });
-        });
     });
 
     describe('updateScrollState', () => {
@@ -181,6 +129,41 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
             });
         });
 
+    });
+
+    describe('updateScrollbarsModels', () => {
+        it('should update _models if scrollOrientation changed', () => {
+            const
+                model: ScrollbarsModel = new ScrollbarsModel({
+                    ...getScrollbarsDefaultOptions(),
+                    scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL
+                });
+            assert.equal(Object.keys(model._models).length, 2);
+            model.updateScrollbarsModels({
+                ...getScrollbarsDefaultOptions(),
+                scrollOrientation: SCROLL_MODE.VERTICAL
+            });
+            assert.equal(Object.keys(model._models).length, 1);
+        });
+    });
+
+    describe('updateOptions', () => {
+        it('should set isVisible to true, if there was no wheel event', () => {
+            const
+                model: ScrollbarsModel = new ScrollbarsModel({
+                    ...getScrollbarsDefaultOptions(),
+                    scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL
+                });
+            model._models.vertical._canScroll = true;
+            model._models.horizontal._canScroll = true;
+            model.updateOptions({scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL, scrollbarVisible: false});
+            assert.isTrue(model._models.vertical.isVisible);
+            assert.isTrue(model._models.horizontal.isVisible);
+            ScrollbarsModel.wheelEventHappened = true;
+            model.updateOptions({scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL, scrollbarVisible: false});
+            assert.isFalse(model._models.vertical.isVisible);
+            assert.isFalse(model._models.horizontal.isVisible);
+        });
     });
 
 });

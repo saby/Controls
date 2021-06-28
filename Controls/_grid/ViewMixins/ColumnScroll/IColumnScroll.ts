@@ -44,7 +44,7 @@ interface IView extends Control<IViewOptions> {
 
     _getStickyLadderCellsCount: (options: IViewOptions) => number;
     _notify: (eventName: string, args?: unknown[], options?: {bubbling?: boolean}) => void
-    _listModel: DestroyableMixin & {
+    getListModel(): DestroyableMixin & {
         setStickyColumnsCount(stickyColumnsCount: number): void;
     };
 }

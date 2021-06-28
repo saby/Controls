@@ -34,7 +34,7 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
 /**
  * @event Происходит при завершении ввода (поле ввода периода потеряло фокус или пользователь нажал клавишу "Enter").
  * @name Controls/datePopup#inputCompleted
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} startValue Начальное значение периода.
  * @param {Date} endValue Конечное значение периода.
  * @param {String} displayedStartValue Текстовое значение начала периода.

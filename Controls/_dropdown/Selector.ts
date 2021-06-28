@@ -301,7 +301,9 @@ export default class Selector extends BaseDropdown {
    }
 
    protected _deactivated(): void {
-      this.closeMenu();
+      if (this._options.closeMenuOnOutsideClick) {
+         this.closeMenu();
+      }
    }
 
    static getDefaultOptions(): Partial<IInputOptions> {
@@ -309,7 +311,8 @@ export default class Selector extends BaseDropdown {
          iconSize: 's',
          emptyKey: null,
          maxVisibleItems: 1,
-         validationStatus: 'valid'
+         validationStatus: 'valid',
+         closeMenuOnOutsideClick: true
       };
    }
 }
@@ -479,7 +482,7 @@ export default class Selector extends BaseDropdown {
 /**
  * @event Происходит при изменении выбранных элементов.
  * @name Controls/_dropdown/Selector#selectedKeysChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} keys Набор ключей выбранных элементов.
  * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, выпадающий список не закроется.
  * По умолчанию, когда выбран пункт с иерархией, выпадающий список закрывается.

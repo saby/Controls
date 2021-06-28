@@ -95,24 +95,3 @@
    width: ~"calc(100% + 6px)";
 }
 
-& {
-   @sizes: xs, s, m, l, xl, 2xl, 3xl, 4xl, 5xl;
-   @countSupportLines: 10;
-
-   .for(@countSupportLines * length(@sizes), {
-      @lines: mod(@_i - 1, @countSupportLines) + 1;
-      @size: extract(@sizes, ceil(@_i / @countSupportLines));
-      // ei не умеет внутри calc вычислять calc
-      @sizeLines: ~"@{lines} * var(--line-height_@{size}_inputArea)";
-
-      .controls-Area__minHeight_countLines_@{lines}_size_@{size} {
-         min-height: calc(@sizeLines);
-      }
-      .controls-Area__scroll.controls-Area__minHeight_countLines_@{lines}_size_@{size}_indented {
-         min-height: calc((@sizeLines) + (2 * var(--padding-vertical_inputArea)));
-      }
-      .controls-Area__scroll.controls-Area__maxHeight_countLines_@{lines}_size_@{size}_indented {
-         max-height: calc((@sizeLines) + (2 * var(--padding-vertical_inputArea)));
-      }
-   });
-}

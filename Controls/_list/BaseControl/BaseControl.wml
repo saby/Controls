@@ -92,24 +92,22 @@
     </div>
 </ws:template>
 
-<ws:template name="multiSelectTplIf">
-    <ws:if data="{{_options.multiSelectVisibility}}">
-        <ws:partial template="wml!Controls/_list/BaseControl/multiSelect" scope="{{multiSelectTpl.templateOptions}}" multiSelectTemplate="{{_options.multiSelectTemplate}}" triState="{{true}}"/>
-    </ws:if>
-</ws:template>
-
 <ws:template name="emptyTemplateIf">
     <ws:if data="{{__needShowEmptyTemplate(_options.emptyTemplate, _listViewModel, _options.emptyTemplateColumns)}}">
         <div class="controls-BaseControl__emptyTemplate">
+          <div class="controls-BaseControl__emptyTemplate__contentWrapper">
             <!-- Прокидываем items и filter в emptyTemplate для правильной работы системы помощи.
                  Прокидывание будет убрано по задаче https://online.sbis.ru/opendoc.html?guid=e5ae488e-f7ef-47fa-bc15-c544369cec53-->
             <ws:partial template="{{_options.emptyTemplate}}" items="{{_items}}" filter="{{_options.filter}}"/>
+          </div>
         </div>
     </ws:if>
 </ws:template>
 
 <ws:template name="viewTpl">
-    <div class="controls-BaseControl__viewContainer" name="viewContainer">
+    <div class="controls-BaseControl__viewContainer
+                {{ __needShowEmptyTemplate(_options.emptyTemplate, _listViewModel, _options.emptyTemplateColumns) ? 'controls-BaseControl__viewContainer_empty' }}"
+         name="viewContainer">
         <ws:partial if="{{ _shouldDisplayMiddleLoadingIndicator() }}" template="loadingIndicator"/>
 
         <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? ' display: none;'}}"></div>
@@ -137,6 +135,7 @@
                 on:beforeSelectionChanged="_notifyHandler('beforeSelectionChanged')"
                 on:itemClick="_onItemClick()"
                 on:groupClick="_onGroupClick()"
+                on:checkBoxClick="_onCheckBoxClick()"
                 on:editArrowClick="_notifyHandler('editArrowClick')"
                 on:itemContextMenu="_onItemContextMenu()"
                 on:itemLongTap="_onItemLongTap()"
@@ -157,6 +156,8 @@
                 on:doScroll="_stopBubblingEvent()"
                 on:updatePlaceholdersSize="_stopBubblingEvent()"
                 on:saveScrollPosition="_stopBubblingEvent()"
+                on:enableVirtualNavigation="_stopBubblingEvent()"
+                on:disableVirtualNavigation="_stopBubblingEvent()"
                 on:restoreScrollPosition="_stopBubblingEvent()"
                 on:loadMore="_onClickMoreButton()"
                 on:toggleHorizontalScroll="_onToggleHorizontalScroll()"
@@ -180,9 +181,6 @@
             <ws:viewTemplate>
                 <ws:partial template="{{_options.viewName}}"/>
             </ws:viewTemplate>
-            <ws:multiSelectTpl>
-                <ws:partial template="multiSelectTplIf"/>
-            </ws:multiSelectTpl>
             <ws:emptyTemplate>
                 <ws:partial template="emptyTemplateIf"/>
             </ws:emptyTemplate>
@@ -235,9 +233,11 @@
             <!-- Не отображаем разделитель для ipad, так как из-за разделителя появляется пустая строка после последней записи.
             Вместо этого, задаем пэйджингу высоту как у разделителя.
             https://online.sbis.ru/opendoc.html?guid=aafcd848-43e0-4ac3-a4b8-cffff9f04be0 -->
-            <div if="{{ _isPagingPadding() }}" name="pagingPaddingContainer"
-                 class="controls_paging_theme-{{_options.theme}} controls-BaseControl_paging-Padding">
-            </div>
+            <Controls.scroll:VirtualScrollContainer if="{{ _isPagingPadding() }}" position="bottom">
+                <div name="pagingPaddingContainer"
+                     class="controls_paging_theme-{{_options.theme}} controls-BaseControl_paging-Padding">
+                </div>
+            </Controls.scroll:VirtualScrollContainer>
             <div class="controls-BaseControl__pagingContainer
     controls-BaseControl__pagingContainer_position-{{_options.navigation.viewConfig.pagingPosition === 'left' ? 'left' : 'right'}}
     {{!_isPagingPaddingFromOptions() ? ' controls-BaseControl-hide-paging-padding': ''}}">

@@ -3,11 +3,12 @@
         <ws:if data="{{_options.masterHeaderTemplate}}">
             <ws:partial template="{{_options.masterHeaderTemplate}}"/>
         </ws:if>
+        <!-- markedKey нужно менять прикладнику, т.к есть пункты, которые являются не рутом, а фильтром. Уйдет, когда фильтр будет в мастере -->
         <Controls.list:Container id="master">
             <Controls.explorer:View
                     scope="{{_masterExplorerOptions}}"
                     name="masterList"
-                    markedKey="{{_detailExplorerOptions.root}}"
+                    markedKey="{{_options.master.markedKey || _detailExplorerOptions.root}}"
                     style="master"
                     on:dragStart="_notifyHandler('masterDragStart')"
                     on:dragEnd="_notifyHandler('masterDragEnd')"
@@ -118,10 +119,11 @@
 <Controls.masterDetail:Base
         attr:class="controls-newBrowser"
         masterVisibility="{{_masterVisibility}}"
-        propStorageId="{{_basePropStorageId + 'masterWidth'}}"
+        propStorageId="{{_options.propStorageId}}"
         masterWidth="{{_options.master ? _options.master.width}}"
         masterMinWidth="{{_options.master ? _options.master.minWidth}}"
         masterMaxWidth="{{_options.master ? _options.master.maxWidth}}"
+        newDesign="{{_options.master.newDesign}}"
 >
 
     <ws:master>

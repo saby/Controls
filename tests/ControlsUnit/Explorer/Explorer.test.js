@@ -322,7 +322,8 @@ define([
             let resetExpandedItemsCalled = false;
             instance._children = {
                treeControl: {
-                  resetExpandedItems: () => resetExpandedItemsCalled = true
+                  resetExpandedItems: () => resetExpandedItemsCalled = true,
+                  isColumnScrollVisible: () => false
                }
             };
 
@@ -388,7 +389,8 @@ define([
             instance._beforeMount({});
             instance._children = {
                treeControl: {
-                  resetExpandedItems: () => null
+                  resetExpandedItems: () => null,
+                  isColumnScrollVisible: () => false
                }
             };
 
@@ -422,7 +424,8 @@ define([
             instance.saveOptions(cfg);
             instance._children = {
                treeControl: {
-                  resetExpandedItems: () => null
+                  resetExpandedItems: () => null,
+                  isColumnScrollVisible: () => false
                }
             };
             instance._setViewMode = (viewMode, cfg) => {

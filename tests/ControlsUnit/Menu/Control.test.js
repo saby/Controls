@@ -782,7 +782,7 @@ define(
             });
             expectedOptions.footerContentTemplate = defaultOptions.nodeFooterTemplate;
             expectedOptions.footerItemData = {
-               item,
+               item: item.getContents(),
                key: expectedOptions.root
             };
             expectedOptions.emptyText = null;

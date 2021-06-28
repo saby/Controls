@@ -34,7 +34,11 @@ export default class PortionedSearchSource {
             }
         }, delayTimer);
         loadDef.addCallback(() => {
-            return origQuery;
+            return origQuery.addCallback((dataSet) => {
+                const recordSet = dataSet.getAll();
+                recordSet.setMetaData({...recordSet.getMetaData(), iterative: true});
+                return recordSet;
+            });
         });
         return loadDef;
     }

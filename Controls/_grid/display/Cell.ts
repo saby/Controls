@@ -81,7 +81,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return this._$shadowVisibility;
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
+    getTemplate(): TemplateFunction | string {
         return this._$column.template || this._defaultCellTemplate;
     }
 
@@ -309,7 +309,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     }
 
     // Only for partial grid support
-    getRelativeCellWrapperClasses(theme: string): string {
+    getRelativeCellWrapperClasses(): string {
         const rowSeparatorSize = this._$rowSeparatorSize;
 
         // Единственная ячейка с данными сама формирует высоту строки и не нужно применять хак для растягивания контента ячеек по высоте ячеек.
@@ -319,6 +319,18 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return 'controls-Grid__table__relative-cell-wrapper ' +
             `controls-Grid__table__relative-cell-wrapper_rowSeparator-${rowSeparatorSize} ` +
             (shouldFixAlignment ? 'controls-Grid__table__relative-cell-wrapper_singleCell' : '');
+    }
+
+    // Only for partial grid support
+    getRelativeCellWrapperStyles(): string {
+        let styles = '';
+        if (this._$owner.hasColumnScroll() && this._$isFixed) {
+            const width = this.config.compatibleWidth || this.config.width || '';
+            if (width.endsWith('px')) {
+                styles += `max-width: ${width};`;
+            }
+        }
+        return styles;
     }
 
     getWrapperStyles(): string {

@@ -49,7 +49,7 @@ export interface IPropertyGrid {
 /**
  * @event Происходит при клике на элемент.
  * @name Controls/_propertyGrid/IPropertyGrid#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Controls/_propertyGrid/PropertyGridCollectionItem} item Элемент, по которому произвели клик.
  * @param {Object} originalEvent Дескриптор исходного события.
  */
@@ -57,7 +57,7 @@ export interface IPropertyGrid {
 /**
  * @event Происходит при изменении объекта, свойства которого являются значениями для редакторов.
  * @name Controls/_propertyGrid/IPropertyGrid#editingObjectChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object | Types/entity:Model} editingObject Объект, с обновленными значениями для редакторов.
  */
 
@@ -218,14 +218,14 @@ export interface IPropertyGrid {
 
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#itemActions
- * @cfg {Array.<ItemAction>} Конфигурация опций записи.
+ * @cfg {Array.<Controls/itemActions:IItemAction>} Конфигурация опций записи.
  * @demo Controls-demo/PropertyGridNew/ItemActions/Index
  */
 
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#itemActionVisibilityCallback
  * @cfg {function} Функция управления видимостью операций над записью.
- * @param {ItemAction} action Объект с настройкой действия.
+ * @param {Controls/itemActions:IItemAction} action Объект с настройкой действия.
  * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
  * @remark Если из функции возвращается true, то операция отображается.
  * @demo Controls-demo/PropertyGridNew/ItemActionVisibilityCallback/Index

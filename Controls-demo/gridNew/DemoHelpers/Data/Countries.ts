@@ -10,7 +10,7 @@ interface IResults {
 }
 
 export const Countries = {
-    getData: (): IData[] => [
+    getData: (count?: number): IData[] => [
         {
             key: 0,
             number: 1,
@@ -182,7 +182,7 @@ export const Countries = {
             square: 1285220,
             populationDensity: 21.73
         }
-    ],
+    ].slice(0, count || undefined),
     getHeader: (): IHeaderCell[] => [
         { caption: '#' },
         { caption: 'Страна' },
@@ -191,14 +191,14 @@ export const Countries = {
         { caption: 'Площадь км2' },
         { caption: 'Плотность населения чел/км2' }
     ],
-    getColumns: (): IColumn[] => [
+    getColumns: (count?: number): IColumn[] => [
         { displayProperty: 'number' },
-        { displayProperty: 'country' },
+        { displayProperty: 'country', displayType: 'string' },
         { displayProperty: 'capital' },
         { displayProperty: 'population' },
         { displayProperty: 'square' },
         { displayProperty: 'populationDensity' }
-    ],
+    ].slice(0, count || undefined),
     getResults: (): IResults => ({
         full: [
             {
@@ -219,7 +219,7 @@ export const Countries = {
         ],
         partial: [12345678910, 23456789101, 34567891012]
     }),
-    getColumnsWithFixedWidths: (): IColumn[] => [
+    getColumnsWithFixedWidths: (count?: number): IColumn[] => [
         {
             displayProperty: 'number',
             width: '30px'
@@ -244,8 +244,8 @@ export const Countries = {
             displayProperty: 'populationDensity',
             width: '120px'
         }
-    ],
-    getColumnsWithWidths: (): IColumnRes[] => [
+    ].slice(0, count || undefined),
+    getColumnsWithWidths: (setCompatibleWidths: boolean = true): IColumnRes[] => [
         {
             displayProperty: 'number',
             width: '40px'
@@ -257,28 +257,28 @@ export const Countries = {
         {
             displayProperty: 'capital',
             width: 'max-content',
-            compatibleWidth: '98px'
+            compatibleWidth: setCompatibleWidths ? '98px' : undefined
         },
         {
             displayProperty: 'population',
             width: 'max-content',
             result: 3956986345,
             resultTemplate: numberResultTpl,
-            compatibleWidth: '118px'
+            compatibleWidth: setCompatibleWidths ? '118px' : undefined
         },
         {
             displayProperty: 'square',
             width: 'max-content',
             result: 12423523,
             resultTemplate: numberResultTpl,
-            compatibleWidth: '156px'
+            compatibleWidth: setCompatibleWidths ? '156px' : undefined
         },
         {
             displayProperty: 'populationDensity',
             width: 'max-content',
             result: 5.8,
             resultTemplate: numberResultTpl,
-            compatibleWidth: '60px'
+            compatibleWidth: setCompatibleWidths ? '60px' : undefined
         }
     ],
     getLongHeader: (textOverflow): IHeaderCell[] => [

@@ -3,7 +3,7 @@ import {default as Base, IBaseInputOptions} from 'Controls/_input/Base';
 import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
 import {INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
-import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
+import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/decorator';
 import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
 
 interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IFieldTemplateOptions {
@@ -24,7 +24,7 @@ interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, I
  * @class Controls/_input/Number
  * @extends Controls/_input/Base
  *
- * @implements Controls/input:IOnlyPositive
+ * @implements Controls/decorator:IOnlyPositive
  * @implements Controls/interface:INumberFormat
  * @implements Controls/input:INumberLength
  * @implements Controls/input:IFieldTemplate
@@ -36,7 +36,7 @@ interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions, I
  */
 // TODO: https://online.sbis.ru/doc/f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
 class NumberInput extends Base<INumberInputOptions> implements IOnlyPositive {
-    readonly '[Controls/_input/interface/IOnlyPositive]': boolean = true;
+    readonly '[Controls/_decorator/interfaces/IOnlyPositive]': boolean = true;
     _defaultValue: number = 0;
     _inputMode: string = 'decimal';
     _controlName: string = 'Number';

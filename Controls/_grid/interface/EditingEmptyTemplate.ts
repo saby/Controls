@@ -19,9 +19,8 @@ interface IEmptyColumnColumns {
  * @class Controls/_grid/interface/EditingEmptyTemplate
  * @author Авраменко А.С.
  * @public
- * 
+ *
  * @see Controls/list:EditingTemplate
- * @see Controls/list:BaseEditingTemplate
  * @see Controls/list:MoneyEditingTemplate
  * @see Controls/list:NumberEditingTemplate
  *
@@ -46,7 +45,7 @@ interface IEmptyColumnColumns {
  *               <ws:Array>
  *                   <ws:Object startIndex="{{ 2 }}">
  *                       <ws:template>
- *                           <ws:partial template="Controls/list:BaseEditingTemplate" enabled="{{ true }}">
+ *                           <ws:partial template="Controls/list:EditingTemplate" enabled="{{ true }}">
  *                               <ws:viewTemplate>
  *                                   <div on:click="_beginAdd()">Введите наименование, штрих-код или артикул</div>
  *                               </ws:viewTemplate>
@@ -64,15 +63,15 @@ interface IEmptyColumnColumns {
  *     </ws:emptyTemplate>
  * </Controls.list:View>
  * </pre>
- * 
- * @demo Controls-demo/grid/EmptyGrid/Editing/Index
- * 
+ *
+ * @demo Controls-demo/gridNew/EmptyGrid/Editing/Index
+ *
  * @remark
  * Колонки могут быть растянуты и спозиционированы в таблице с помощью опций <b>startIndex</b> и <b>stopIndex</b>.
  * По-умолчанию колонки не растягиваются и идут по порядку, недостающее пространство будет автоматически дополнено.
  * Таким образом, не обязательно конфигурировать все колонки, ровно как и конфигурировать пустые колонки слева, если требуется
  * отображать колонки не с начала.
- * 
+ *
  */
 export default interface IEditingEmptyTemplateOptions {
     /**

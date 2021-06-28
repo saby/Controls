@@ -50,7 +50,6 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
  * @extends UI/Base:Control
- * @class Controls/_scroll/StickyBlock/Group
  * @author Красильников А.С.
  * @public
  */
@@ -389,7 +388,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 /**
  * @event Change the fixation state.
  * @name Controls/_scroll/StickyBlock/Group#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 

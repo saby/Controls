@@ -9,8 +9,8 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _columns: IColumn[];
-    private _selectedKeys: [];
-    private _excludedKeys: CrudEntityKey[];
+    private _selectedKeys: CrudEntityKey[] = [];
+    private _excludedKeys: CrudEntityKey[] = [];
 
     protected _beforeMount(): void {
         this._columns = [{
@@ -18,21 +18,9 @@ export default class extends Control {
             width: ''
         }];
         this._viewSource = new HierarchicalMemory({
+            parentProperty: 'parent',
             keyProperty: 'key',
-            data: Flat.getData(),
-            filter: (item, filter) => {
-                const parent = filter.hasOwnProperty('parent') ? filter.parent : null;
-                if (parent && parent.forEach) {
-                    for (let i = 0; i < parent.length; i++) {
-                        if (item.get('parent') === parent[i]) {
-                            return true;
-                        }
-                    }
-                    return false;
-                } else {
-                    return item.get('parent') === parent;
-                }
-            }
+            data: Flat.getData()
         });
     }
 

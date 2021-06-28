@@ -143,7 +143,7 @@ export interface IEditOpener {
 /**
  * @event Происходит перед синхронизацией с recordset.
  * @name Controls/_popup/interface/IEditOpener#beforeItemEndEdit
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} formControllerEvent Действие над записью, которое выполняется через formController: обновление существующей записи("update"), создание новой записи ("create") или удаление записи ("delete").
  * @param {Object} record Редактируемая записи.
  * @param {Controls/_popup/interface/IEditOpener/AdditionalData.typedef} additionalData Дополнительные данные, переданные из formController.

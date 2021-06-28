@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container name="container" attr:class="controlsDemo__height300 controlsDemo_fixedWidth300">
+        <Controls.scroll:StickyBlock mode="stackable" attr:style="top: -1px;" attr:class="{{ _hideHeader1 ? 'ws-hidden' }}">
+            <h3 class="controlsDemo__wrapper">Header №1</h3>
+        </Controls.scroll:StickyBlock>
+        <ws:if data="{{!_hideHeader2}}">
+            <Controls.scroll:StickyBlock mode="stackable">
+                <h3 class="controlsDemo__wrapper">Header №2</h3>
+            </Controls.scroll:StickyBlock>
+        </ws:if>
+        <Controls.scroll:StickyBlock mode="stackable" >
+            <h3 class="controlsDemo__wrapper">Header №3</h3>
+        </Controls.scroll:StickyBlock>
+        <div>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        </div>
+        <div>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        </div>
+        <div>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        </div>
+    </Controls.scroll:Container>
+    <Controls.buttons:Button data-qa="hider-button1" caption="{{_hideHeader1 ? 'Показать' : 'Скрыть'}} заголовок №1" on:click="_onClick1()"></Controls.buttons:Button>
+    <Controls.buttons:Button data-qa="hider-button2" caption="{{_hideHeader2 ? 'Показать' : 'Скрыть'}} заголовок №2" on:click="_onClick2()"></Controls.buttons:Button>
+</div>

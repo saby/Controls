@@ -297,9 +297,16 @@ export default class Collection<
     setDragPosition(position: IDragPosition<T>): void {
         if (position) {
             const strategy = this.getStrategyInstance(this._dragStrategy) as unknown as ColumnsDragStrategy<S>;
-            const avatarItem = strategy.avatarItem;
-            if (avatarItem.getColumn() !== position.dispItem.getColumn()) {
-                strategy.avatarItem.setColumn(position.dispItem.getColumn());
+
+            const newColumn = position.dispItem.getColumn();
+            const curColumn = strategy.avatarItem.getColumn();
+
+            if (position.position !== 'on' && curColumn !== newColumn) {
+                // применяем новый столбец к перетаскиваемому элементу
+                strategy.avatarItem.setColumn(newColumn);
+
+                // корректируем position.position, если сменился столбец, то позиция будет только before
+                position.position = 'before';
             }
         }
         super.setDragPosition(position);

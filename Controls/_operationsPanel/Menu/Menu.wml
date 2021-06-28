@@ -3,11 +3,12 @@
         keyProperty="id"
         source="{{_source}}"
         displayProperty="title"
-        iconSize="m"
+        iconSize="{{_options.iconSize}}"
         iconStyle="{{_options.iconStyle}}"
         viewMode="{{_options.viewMode}}"
         fontSize="m"
         buttonStyle="{{_options.buttonStyle}}"
+        closeMenuOnOutsideClick="{{false}}"
         dropdownClassName="controls-OperationsPanel__menu_popup"
         inlineHeight="{{_options.inlineHeight}}"
         lazyItemsLoading="{{true}}"
@@ -16,7 +17,8 @@
     <ws:headerTemplate>
         <invisible-node></invisible-node>
     </ws:headerTemplate>
-    <ws:menuPopupOptions>
+    <ws:menuPopupOptions
+        closeOnOutsideClick="{{false}}">
         <ws:templateOptions
                 backgroundStyle="operationsPanel"/>
     </ws:menuPopupOptions>

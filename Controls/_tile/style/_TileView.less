@@ -1,5 +1,9 @@
 @import "../../_scroll/Scroll/_contentEnvironmentZIndex";
 
+.controls-TileView_new {
+   height: 100%;
+}
+
 .controls-TileView {
    display: flex;
    flex-wrap: wrap;
@@ -1113,9 +1117,7 @@
    position: absolute;
    top: 0;
    left: calc(-1 * var(--itemActions_gradient_width_tile));
-
-   //dont use transparent because https://stackoverflow.com/questions/38391457/linear-gradient-to-transparent-bug-in-latest-safari
-   background: linear-gradient(to right, var(--hover_background-transparent-color), var(--item_caption_background-color_tile));
+   background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--item_caption_background-color_tile));
 }
 
 .controls-TileView__resizer {

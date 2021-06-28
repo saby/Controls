@@ -12,11 +12,12 @@ import {
    INavigationOptionValue,
    INavigationSourceConfig,
    TFilter,
-   TKey
+   TKey,
+   ISortingOptions
 } from 'Controls/interface';
 import { RecordSet } from 'Types/collection';
 
-export interface IContextOptionsValue {
+export interface IContextOptionsValue extends ISortingOptions {
    newLayout?: boolean; // до 3100 для OnlinePage/_base/View/Content.ts и Layout/_browsers/Browser/Tabs.ts
    items?: RecordSet;
    source?: unknown;
@@ -29,6 +30,7 @@ export interface IContextOptionsValue {
    listsExcludedKeys?: TKey[];
    contrastBackground?: boolean;
    newDesign?: boolean;
+   groupProperty?: string;
 }
 
 const Context = DataContext.extend({
@@ -42,6 +44,12 @@ const Context = DataContext.extend({
       this._$value = { ...options };
    },
    updateValue(options: IContextOptionsValue): void {
+      for (const i in options) {
+         if (options.hasOwnProperty(i)) {
+            // TODO: это для обратной совместимости, пока в остальных репах не перейду на Consumer
+            this[i] = options[i];
+         }
+      }
       this._$value = {
          ...this._$value,
          ...options

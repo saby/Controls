@@ -261,7 +261,7 @@ define([
          emptyList.setMetaData(metaMore);
          list.setMetaData(metaMore);
 
-         assert.isTrue(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, infinityNavigation));
+         assert.isFalse(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, infinityNavigation));
          assert.isTrue(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, maxCountNaviation));
 
          assert.isFalse(lists.BaseControl._private.needLoadNextPageAfterLoad(list, listViewModel, infinityNavigation));
@@ -271,6 +271,13 @@ define([
          itemsCount = 20;
          assert.isFalse(lists.BaseControl._private.needLoadNextPageAfterLoad(list, listViewModel, infinityNavigation));
          assert.isFalse(lists.BaseControl._private.needLoadNextPageAfterLoad(list, listViewModel, maxCountNaviation));
+
+         metaMore = {
+            more: true,
+            iterative: true
+         };
+         emptyList.setMetaData(metaMore);
+         assert.isTrue(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, infinityNavigation));
       });
 
       it('_private::checkLoadToDirectionCapability', () => {
@@ -688,7 +695,6 @@ define([
 
          loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
          await loadPromise;
-         assert.isFalse(ctrl._portionedSearchInProgress);
          assert.isNull(ctrl._showContinueSearchButtonDirection);
          assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: false });
       });
@@ -872,10 +878,6 @@ define([
             _options: {}
          };
 
-         baseControl._options.searchValue = 'test';
-         assert.ok(lists.BaseControl._private.isPortionedLoad(baseControl))
-
-         baseControl._options.searchValue = '';
          baseControl._items = null;
          assert.ok(!lists.BaseControl._private.isPortionedLoad(baseControl));
 
@@ -888,8 +890,10 @@ define([
          });
          assert.ok(!lists.BaseControl._private.isPortionedLoad(baseControl));
 
-         baseControl._options.searchValue = 'test';
-         assert.ok(!lists.BaseControl._private.isPortionedLoad(baseControl));
+         baseControl._items.setMetaData({
+            iterative: true
+         });
+         assert.ok(lists.BaseControl._private.isPortionedLoad(baseControl));
       });
 
 
@@ -1199,6 +1203,8 @@ define([
                   })
                })
             };
+            // Проставляем в baseControl корректную навигацию
+            test.data[0]._navigation = test.data[1].navigation;
             lists.BaseControl._private.prepareFooter.apply(null, test.data);
             assert.equal(test.data[0]._shouldDrawFooter, test.result._shouldDrawFooter, 'Invalid prepare footer on step #' + index);
             assert.equal(test.data[0]._loadMoreCaption, test.result._loadMoreCaption, 'Invalid prepare footer on step #' + index);
@@ -3037,17 +3043,6 @@ define([
             lists.BaseControl._private.updateItemActions(ctrl, ctrl._options);
          });
 
-         it('should stop event propagation if target is checkbox', () => {
-            let stopPropagationCalled = false;
-            let event = {
-               stopPropagation: function() {
-                  stopPropagationCalled = true;
-               }
-            };
-            ctrl._onItemClick(event, ctrl._listViewModel.getCollection().at(2), originalEvent);
-            assert.isTrue(stopPropagationCalled);
-         });
-
          it('shouldnt stop event propagation if editing will start', () => {
             let stopPropagationCalled = false;
             let event = {
@@ -3066,7 +3061,9 @@ define([
          it('should call deactivateSwipe method', () => {
             let isDeactivateSwipeCalled = false;
             let event = {
-               stopPropagation: function() {}
+               stopPropagation: function() {},
+               isStopped: function() {},
+               isBubbling: function() {}
             };
             ctrl._itemActionsController.deactivateSwipe = () => {
                isDeactivateSwipeCalled = true;
@@ -4548,8 +4545,8 @@ define([
                return initTest({
                   multiSelectVisibility: 'hidden',
                   selectedKeysCount: null,
-                  selectedKeys: [],
-                  excludedKeys: [],
+                  selectedKeys: null,
+                  allowMultiSelect: false,
                   itemActions: [
                      {
                         id: 1,
@@ -6541,6 +6538,34 @@ define([
             assert.isTrue(control._hideTopTrigger);
             assert.isTrue(control._resetTopTriggerOffset);
           });
+
+          describe('_getLoadingIndicatorClasses', () => {
+             it('portioned search', async() => {
+                const cfg = getCorrectBaseControlConfig({
+                   keyProperty: 'id',
+                   source: new sourceLib.Memory({
+                      keyProperty: 'id',
+                      data: [
+                         {
+                            id: 1,
+                            title: 'Первый'
+                         }
+                      ]
+                   }),
+                   viewModelConstructor: 'Controls/display:Collection',
+                });
+
+                const control = new lists.BaseControl();
+                control.saveOptions(cfg);
+                await control._beforeMount(cfg);
+
+                control._loadingIndicatorState = 'down';
+                control._portionedSearchInProgress = true;
+                assert.equal(control._getLoadingIndicatorClasses('down'), 'controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl__loadingIndicator_style-portionedSearch');
+
+                assert.equal(control._getLoadingIndicatorClasses('up'), 'controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-up controls-BaseControl__loadingIndicator__state-up-absolute');
+             });
+          });
        });
 
       describe('navigation', function() {
@@ -6728,9 +6753,8 @@ define([
 
             let cfgClone = { ...cfg };
             await ctrl._reload(cfgClone);
-            await ctrl._sourceController._loadPromise.promise;
 
-            assert.equal(2, queryCallsCount);
+            assert.equal(1, queryCallsCount);
             assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0);
          });
          it('Navigation position', function() {
@@ -7228,32 +7252,6 @@ define([
          });
 
          describe('_onItemClick', () => {
-            it('click on checkbox should not notify itemClick, but other clicks should', function() {
-               let isStopped = false;
-               let isCheckbox = false;
-
-               const e = {
-                  isStopped: () => isStopped,
-                  stopPropagation() { isStopped = true; },
-                  isBubbling: () => false
-               };
-
-               const originalEvent = {
-                  target: {
-                     closest: () => isCheckbox
-                  }
-               };
-
-               // click not on checkbox
-               baseControl._onItemClick(e, {}, originalEvent);
-               assert.isFalse(isStopped);
-
-               // click on checkbox
-               isCheckbox = true;
-               baseControl._onItemClick(e, {}, originalEvent);
-               assert.isTrue(isStopped);
-            });
-
             it('in list wit EIP itemClick should fire after beforeBeginEdit', () => {
                let isItemClickStopped = false;
                let firedEvents = [];
@@ -7858,24 +7856,25 @@ define([
             assert.isTrue(baseControl.getViewModel().isDragOutsideList());
             return timeout;
          });
+
+         it('_beforeUnmount should hide dragging template', () => {
+            baseControl._dragStart({ entity: new dragNDrop.ItemsEntity({items: [1]}) }, 1);
+            baseControl._container = {
+               removeEventListener: () => null
+            };
+            baseControl._beforeUnmount();
+            assert.isTrue(notifySpy.withArgs('_removeDraggingTemplate').called);
+         });
       });
 
       // region Move
 
-      describe('MoveController', () => {
-         const moveController = {
-            move: () => Promise.resolve(),
-            moveUp: () => Promise.resolve(),
-            moveDown: () => Promise.resolve(),
-            moveWithDialog: () => Promise.resolve(),
-            updateOptions: () => {}
-         };
+      describe('MoveAction', () => {
+         const moveAction = { execute: ({providerName}) => Promise.resolve(providerName) };
          let spyMove;
-         let spyMoveUp;
-         let spyMoveDown;
-         let spyMoveWithDialog;
          let cfg;
          let baseControl;
+         let sandbox;
 
          beforeEach(() => {
             const items = new collection.RecordSet({
@@ -7895,7 +7894,9 @@ define([
             baseControl = correctCreateBaseControl(cfg);
             baseControl.saveOptions(cfg);
             baseControl._beforeMount(cfg);
-            baseControl._moveController = moveController;
+
+            sandbox = sinon.createSandbox();
+            sandbox.replace(lists.BaseControl._private, 'getMoveAction', () => moveAction);
             baseControl._listViewModel._display = {
                getCollection: () => items,
                getItemBySourceItem: () => collectionItem,
@@ -7910,71 +7911,52 @@ define([
                getItemBySourceKey: () => collectionItem,
                isEditing: () => false
             };
-            spyMove = sinon.spy(moveController, 'move');
-            spyMoveUp = sinon.spy(moveController, 'moveUp');
-            spyMoveDown = sinon.spy(moveController, 'moveDown');
-            spyMoveWithDialog = sinon.spy(moveController, 'moveWithDialog');
+            spyMove = sinon.spy(moveAction, 'execute');
          });
 
          afterEach(() => {
             spyMove.restore();
-            spyMoveUp.restore();
-            spyMoveDown.restore();
-            spyMoveWithDialog.restore();
+            sandbox.restore();
          });
 
-         // moveItemUp вызывает moveController
-         it('moveItemUp() should call moveController', () => {
-            return baseControl.moveItemUp(2).then(() => {
-               sinon.assert.called(spyMoveUp);
-            });
-         });
-
-         // moveItemDown вызывает moveController
-         it('moveItemDown() should call moveController', () => {
-            return baseControl.moveItemDown(2).then(() => {
-               sinon.assert.called(spyMoveDown);
-            });
-         });
-
-         // moveItems вызывает moveController
-         it('moveItems() should call moveController', () => {
-            const selectionObject = {
-               selected: [2],
-               excluded: []
-            };
-            return baseControl.moveItems(selectionObject, 3, 'on').then(() => {
+         // moveItemUp вызывает moveAction
+         it('moveItemUp() should call moveAction', () => {
+            return baseControl.moveItemUp(2).then((providerName) => {
                sinon.assert.called(spyMove);
+               assert.equal(providerName, 'Controls/listActions:MoveProviderDirection');
             });
          });
 
-         // moveItemsWithDialog вызывает moveController
-         it('moveItemsWithDialog() should call moveController', () => {
+         // moveItemDown вызывает moveAction
+         it('moveItemDown() should call moveAction', () => {
+            return baseControl.moveItemDown(2).then((providerName) => {
+               sinon.assert.called(spyMove);
+               assert.equal(providerName, 'Controls/listActions:MoveProviderDirection');
+            });
+         });
+
+         // moveItems вызывает moveAction
+         it('moveItems() should call moveAction', () => {
             const selectionObject = {
                selected: [2],
                excluded: []
             };
-            return baseControl.moveItemsWithDialog(selectionObject, {anyFilter: 'anyVal'}).then(() => {
-               sinon.assert.called(spyMoveWithDialog);
+            return baseControl.moveItems(selectionObject, 3, 'on').then((providerName) => {
+               sinon.assert.called(spyMove);
+               assert.equal(providerName, 'Controls/listActions:MoveProvider');
             });
          });
 
-         // Работает даже после update
-         it('should also work after update', () => {
-            baseControl._beforeUpdate({
-               ...cfg,
-               moveDialogTemplate: {
-                  templateName: 'fakeTemplate',
-                  templateOptions: {
-                     containerWidth: 500
-                  }
-               }
+         // moveItemsWithDialog вызывает moveAction
+         it('moveItemsWithDialog() should call moveAction', () => {
+            const selectionObject = {
+               selected: [2],
+               excluded: []
+            };
+            return baseControl.moveItemsWithDialog(selectionObject, {anyFilter: 'anyVal'}).then((providerName) => {
+               sinon.assert.called(spyMove);
+               assert.isUndefined(providerName);
             });
-            const stubUpdateOptions = sinon.stub(moveController, 'updateOptions').callsFake((options) => {
-               assert(options.popupOptions.template, 'fakeTemplate');
-               assert(options.popupOptions.templateOptions.containerWidth, 500);
-            });
-            stubUpdateOptions.restore();
          });
       });
 
@@ -8502,7 +8484,7 @@ define([
             it('select', () => {
                const notifySpy = sinon.spy(baseControl, '_notify');
 
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
+               baseControl._onCheckBoxClick({ stopPropagation: () => {} }, baseControl._listViewModel.getItemBySourceKey(1) );
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });
@@ -8519,18 +8501,11 @@ define([
                };
 
                const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
+               baseControl._onCheckBoxClick({ stopPropagation: () => {} }, baseControl._listViewModel.getItemBySourceKey(1) );
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[2], [2], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
 
                baseControl._notify = oldNotify;
-            });
-
-            it('readonly checkbox', () => {
-               const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1), true );
-               assert.isFalse(notifySpy.withArgs('selectedKeysChanged').calledOnce);
-               assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });
 
             it('shift pressed', () => {
@@ -8538,7 +8513,8 @@ define([
                const event = {
                   nativeEvent: {
                      shiftKey: true
-                  }
+                  },
+                  stopPropagation: () => {}
                };
                baseControl._onCheckBoxClick(event, baseControl._listViewModel.getItemBySourceKey(1));
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
@@ -8670,7 +8646,7 @@ define([
                baseControl._beforeMount(newCfg);
 
                const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
+               baseControl._onCheckBoxClick({ stopPropagation: () => {} }, baseControl._listViewModel.getItemBySourceKey(1) );
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });

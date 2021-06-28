@@ -25,7 +25,7 @@ export const TILE_SIZES = {
             imageHeight: 180
         },
         vertical: {
-            width: 164,
+            width: 160,
             imageWidth: 300
         }
     },
@@ -45,7 +45,7 @@ export const TILE_SIZES = {
             imageHeight: 320
         },
         vertical: {
-            width: 256,
+            width: 240,
             imageWidth: 300
         }
     }

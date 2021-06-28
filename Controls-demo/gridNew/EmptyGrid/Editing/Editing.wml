@@ -19,7 +19,7 @@
                     <ws:Object startColumn="{{ 1 }}" endColumn="{{ 2 }}">
                         <ws:template>
                             <ws:partial template="Controls/grid:EmptyColumnTemplate">
-                                <ws:partial template="Controls/list:BaseEditingTemplate" enabled="{{ true }}">
+                                <ws:partial template="Controls/list:EditingTemplate" enabled="{{ true }}">
                                     <ws:viewTemplate>
                                         <div on:click="_beginAdd()">Введите наименование, штрих-код или артикул</div>
                                     </ws:viewTemplate>

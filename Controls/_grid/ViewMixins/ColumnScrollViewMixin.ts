@@ -5,12 +5,14 @@ import {
     DragScrollController
 } from 'Controls/columnScroll';
 import {_Options, SyntheticEvent} from 'UI/Vdom';
+import {Logger} from 'UI/Utils';
 
 const ERROR_MESSAGES = {
     MISSING_HEADER: 'Невозможно отобразить горизонтальны скролл без заголовков или результатов сверху!',
     HEADER_IS_EMPTY: 'Опция Controls/grid:View::header задана как пустой массив. Такое значение является неправльным. Горизонтальный скролл не может быть создан при такой конфигурации.',
     TOO_FREEZE: 'Внутренняя ошибка Controls.grid:View! Ошибка ColumnScroll::IFreezable. Количество разморозок обновления размеров не равно количеству заморозок!',
-    NEEDLESS_CONTROLLER_ALREADY_EXISTS: 'Внутренняя ошибка Controls.grid:View! Горизонтальный скролл только должен появиться, но контроллер уже создан!',
+    NEEDLESS_COLUMN_SCROLL_CONTROLLER_ALREADY_EXISTS: 'Внутренняя ошибка Controls.grid:View! Горизонтальный скролл только должен появиться, но контроллер уже создан!',
+    NEEDLESS_DRAG_SCROLL_CONTROLLER_ALREADY_EXISTS: 'Внутренняя ошибка Controls.grid:View! Возмодность скроллирования мышью только включилась, но контроллер уже создан!',
     CALLED_POSITION_CHANGE_HANDLER: 'Внутренняя ошибка Controls.grid:View! Обработчик перемещения скроллбара горизонтального скролла был вызван при разрушенном контроллере скрола!'
 };
 
@@ -23,11 +25,15 @@ const ERROR_MESSAGES = {
  * контейнера-обертки.
  *
  * Некоторые специфические кейсы:
+ *  - не задали колонки или задали как пустой массив. Не показываем скролл, не создаем и ничего не проверяем.
  *  - таблица пустая, отображается пустое представление, шапка скрыта. Не строим контроллер, но считаем размеры.
  *      Ширины всех колонок могут быть настроены в px и их сумма будет превышать ширину контейнера-обертки.
  *      В таком случае шаблон пустого списка будет растянут на ширину всех колонок и "уедет" вправо.
  *  - таблица пустая, отображается пустое представление, шапка показывается. Аналогично предыдущему пункту, плюс
  *      шапка тоже "уедет". Следовательно нужно не только создать, но и показать.
+ *  - в таблице 1 запись, шапка скрыта, результаты отобразаются в режиме 'hasData', > 1. Не показываем скролл, т.к.
+ *      не можем без заголовков, однако иногда это может вызывать ошибочное поведение. Решение одно, изменить режим
+ *      отображения результатов на 'visible'.
  *  FIXME: Поддержаны не все варианты. Возможно, при пустом представлении тоже нужно создавать контроллеры для
  *   консистентноси, он будет обновляться при изменении размеров, но сам скролл колонок будет скрыт.
  *
@@ -37,36 +43,50 @@ const ERROR_MESSAGES = {
  * @return {Boolean} Флаг, указывающий, можно ли строить горизонтальный скролл.
  */
 const canShowColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractViewOptions): boolean => {
+    // Нет колонок, горизонтальный скролл невозможен
+    if (!options.columns || !options.columns.length) {
+        return false;
+    }
+
     if (options.header instanceof Array && options.header.length === 0) {
-        throw Error(ERROR_MESSAGES.HEADER_IS_EMPTY);
+        Logger.error(ERROR_MESSAGES.HEADER_IS_EMPTY);
+        return false;
     }
 
     // TODO: Все пограничные случаи следует описать в аннотации метода.
+    const model = self.getListModel();
     return Boolean(
-        !self._listModel.destroyed && (
+        !model.destroyed && (
+            !!model.getHeader() || !!(model.getResults() && model.getResults().getResultsPosition() === 'top')
+        ) && (
             options.needShowEmptyTemplate ? (
                 options.headerVisibility === 'visible' ||
                 options.headerInEmptyListVisible === true
-            ) : !!self._listModel.getCount()
+            ) : !!model.getCount()
         )
     );
 };
 
 const getViewHeader = (self) => {
     let header;
-    if ('results' in self._children) {
-        header = self._children.results;
-    } else if ('header' in self._children) {
+    if ('header' in self._children) {
         header = self._children.header;
+    } else if ('results' in self._children) {
+        header = self._children.results;
     } else {
+        // Здесь не ошибка не должна обрабатываться, следует "жестко" упасть, т.к. отсутствие заголовков на
+        // этом этапе - внутренняя ошибка списка.
         throw Error(ERROR_MESSAGES.MISSING_HEADER);
     }
     return header;
 };
 
+const hasCheckboxColumn = (options: IAbstractViewOptions): boolean => {
+    return options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+};
+
 const isSizeAffectsOptionsChanged = (newOptions: IAbstractViewOptions, oldOptions: IAbstractViewOptions): boolean => {
     const changedOptions: Record<string, unknown> = _Options.getChangedOptions(newOptions, oldOptions);
-    const hasCheckboxColumn = (o) => o.multiSelectVisibility !== 'visible' && o.multiSelectPosition !== 'custom';
 
     return Boolean(
         changedOptions.hasOwnProperty('columns') ||
@@ -241,7 +261,8 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     _unFreezeColumnScroll(): void {
         this._$columnScrollFreezeCount--;
         if (this._$columnScrollFreezeCount < 0) {
-            throw Error(ERROR_MESSAGES.TOO_FREEZE);
+            Logger.error(ERROR_MESSAGES.TOO_FREEZE);
+            this._$columnScrollFreezeCount = 0;
         }
     },
     _isColumnScrollFrozen(): boolean {
@@ -336,7 +357,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         }
 
         if (this._options.stickyColumnsCount !== newOptions.stickyColumnsCount) {
-            this._listModel.setStickyColumnsCount(newOptions.stickyColumnsCount);
+            this.getListModel().setStickyColumnsCount(newOptions.stickyColumnsCount);
         }
     },
 
@@ -371,7 +392,8 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
             shouldCheckSizes = true;
             shouldResetColumnScroll = true;
             if (this._$columnScrollController) {
-                throw Error(ERROR_MESSAGES.NEEDLESS_CONTROLLER_ALREADY_EXISTS);
+                Logger.error(ERROR_MESSAGES.NEEDLESS_COLUMN_SCROLL_CONTROLLER_ALREADY_EXISTS);
+                destroyColumnScroll(this);
             }
         }
 
@@ -387,7 +409,8 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
         ) {
             shouldCreateDragScroll = true;
             if (this._$dragScrollController) {
-                throw Error(ERROR_MESSAGES.NEEDLESS_CONTROLLER_ALREADY_EXISTS);
+                Logger.error(ERROR_MESSAGES.NEEDLESS_DRAG_SCROLL_CONTROLLER_ALREADY_EXISTS);
+                destroyColumnScroll(this);
             }
         }
 
@@ -483,13 +506,16 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
     _getColumnScrollThumbStyles(options: IAbstractViewOptions): string {
         // TODO: Посмотреть на экшены, если не custom то добавить.
-        const hasMultiSelectColumn = options.multiSelectVisibility !== 'hidden'
-                                  && options.multiSelectPosition !== 'custom';
+        const hasMultiSelectColumn = hasCheckboxColumn(options);
         const hasItemActionsCell = this._columnScrollHasItemActionsCell(options);
         const stickyColumnsCount = this._getStickyLadderCellsCount(options);
 
+        // Пока обновление горизонтального скролла замороженно, актуальные колонки, по которым рисуется таблица
+        // находятся в модели, а не в опциях.
+        const columnsLength = (this._isColumnScrollFrozen() ? this.getListModel().getColumnsConfig() : options.columns).length;
+
         const startColumn = +hasMultiSelectColumn + stickyColumnsCount + (options.stickyColumnsCount || 1) + 1;
-        const endColumn = +hasMultiSelectColumn + +hasItemActionsCell + stickyColumnsCount + options.columns.length + 1;
+        const endColumn = +hasMultiSelectColumn + +hasItemActionsCell + stickyColumnsCount + columnsLength + 1;
 
         return `grid-column: ${startColumn} / ${endColumn};`;
     },

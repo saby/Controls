@@ -326,7 +326,7 @@ Object.defineProperty(Base, 'defaultProps', {
 /**
  * @event Происходит при изменении значения слайдера.
  * @name Controls/_slider/Base#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {number} value Новое значение.
  */
 export default Base;

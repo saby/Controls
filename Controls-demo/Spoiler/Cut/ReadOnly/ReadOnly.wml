@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo_fixedWidth800 controlsDemo__flex-jc-sa">
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-SpoilerReadOnly__false">
         <div class="controls-text-label">readOnly=false</div>
         <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" readOnly="{{ false }}">
             <ws:content>
@@ -7,7 +7,7 @@
             </ws:content>
         </Controls.spoiler:Cut>
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell  demo-SpoilerReadOnly__true">
         <div class="controls-text-label">readOnly=true</div>
         <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" readOnly="{{ true }}">
             <ws:content>

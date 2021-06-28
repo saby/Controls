@@ -7,7 +7,6 @@
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
- * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
@@ -27,7 +26,6 @@
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
- * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
@@ -47,10 +45,9 @@ import BaseAction from 'Controls/_list/BaseAction';
 import LoadingIndicatorTemplate = require('wml!Controls/_list/PortionedSearchTemplate');
 import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
 import {default as DataContainer, IDataOptions} from 'Controls/_list/Data';
-import EditingTemplate = require('wml!Controls/_list/EditInPlace/EditingTemplate');
-import BaseEditingTemplate = require('wml!Controls/_list/EditInPlace/baseEditingTemplate');
-import MoneyEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Money');
-import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/Number');
+import * as EditingTemplate from 'wml!Controls/_list/EditInPlace/EditingTemplate';
+import * as MoneyEditingTemplate from 'wml!Controls/_list/EditInPlace/decorated/Money';
+import * as NumberEditingTemplate from 'wml!Controls/_list/EditInPlace/decorated/Number';
 import FooterTemplate = require('wml!Controls/_list/ListView/Footer');
 
 import {default as ListControl, LIST_EDITING_CONSTANTS as editing} from 'Controls/_list/BaseControl';
@@ -81,11 +78,14 @@ export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Cont
 import * as ForTemplate from 'wml!Controls/_list/Render/For';
 export {ForTemplate};
 
+import * as MultiSelectTemplate from 'wml!Controls/_list/Render/multiSelect';
+export { MultiSelectTemplate };
+
 import * as CharacteristicsTemplate from 'wml!Controls/_list/CharacteristicsTemplate/CharacteristicsTemplate';
 export {CharacteristicsTemplate};
 
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
-export {IMovableList, IMoveDialogTemplate, IMovableOptions} from 'Controls/_list/interface/IMovableList';
+export {IMovableList, IMoveDialogTemplate, IMovableOptions, TBeforeMoveCallback} from 'Controls/_list/interface/IMovableList';
 export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
@@ -107,7 +107,8 @@ export {
     IDataOptions,
 
     EditingTemplate,
-    BaseEditingTemplate,
+    // TODO: Удалить по https://online.sbis.ru/opendoc.html?guid=d63d6b23-e271-4d0b-a015-1ad37408b76b
+    EditingTemplate as BaseEditingTemplate,
     MoneyEditingTemplate,
     NumberEditingTemplate,
     FooterTemplate,

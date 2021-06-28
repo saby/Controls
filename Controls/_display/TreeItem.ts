@@ -65,11 +65,6 @@ export default class TreeItem<T extends Model = Model> extends mixin<
     protected _$hasChildrenProperty: string;
 
     /**
-     * Признак, означающий что в списке есть узел с детьми
-     */
-    protected _$hasNodeWithChildren: boolean;
-
-    /**
      * Признак, означающий что в узле можно еще подгрузить данные
      * @protected
      */
@@ -306,17 +301,6 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         return expanderSize || this._$owner.getExpanderSize();
     }
 
-    setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-        if (this._$hasNodeWithChildren !== hasNodeWithChildren) {
-            this._$hasNodeWithChildren = hasNodeWithChildren;
-            this._nextVersion();
-        }
-    }
-
-    hasNodeWithChildren(): boolean {
-        return this._$hasNodeWithChildren;
-    }
-
     shouldDisplayExpander(expanderIcon?: string, position: 'default'|'right' = 'default'): boolean {
         if (this.getExpanderIcon(expanderIcon) === 'none' || this.isNode() === null) {
             return false;
@@ -380,6 +364,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         const expanderPosition = this._$owner.getExpanderPosition();
 
         let expanderClasses = 'js-controls-Tree__row-expander controls-TreeGrid__row-expander';
+        expanderClasses += ' js-controls-ListView__notEditable';
 
         if (this.isDragged()) {
             expanderClasses += ' controls-ListView__itemContent_dragging';
@@ -388,25 +373,21 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         if (expanderPosition === 'default') {
             expanderClasses += ` controls-TreeGrid__row_${this.getStyle()}-expander_size_${(expanderSize || 'default')} `;
         } else {
-            expanderClasses += ' controls-TreeGrid__row_expander_position_right ';
+            expanderClasses += ' controls-TreeGrid__row_expander_position_right';
         }
-        expanderClasses += 'js-controls-ListView__notEditable';
 
         expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${this.getOwner().getTopPadding()}`;
         expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${this.getOwner().getBottomPadding()}`;
 
         let expanderIconClass = '';
-        if (expanderIcon) {
+        const iconStyle = this.getStyle() === 'master' && expanderPosition !== 'right' ? 'master' : 'default';
+        const appliedIcon = expanderIcon && expanderIcon !== 'node' && expanderIcon !== 'hiddenNode';
+        if (appliedIcon) {
             expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;
-            expanderClasses += expanderIconClass;
-
-            // могут передать node или hiddenNode в этом случае добавляем наши классы для master/default
-            if ((expanderIcon === 'node') || (expanderIcon === 'hiddenNode') || (expanderIcon === 'emptyNode')) {
-                expanderIconClass += '_' + (this.getStyle() === 'master' ? 'master' : 'default');
-            }
         } else {
-            expanderIconClass = ' controls-TreeGrid__row-expander_' + (this.isNode() ? 'node_' : 'hiddenNode_')
-                + (this.getStyle() === 'master' ? 'master' : 'default');        }
+            let icon = expanderIcon || (this.isNode() ? 'node' : 'hiddenNode');
+            expanderIconClass = ` controls-TreeGrid__row-expander_${icon}_${iconStyle}`;
+        }
 
         expanderClasses += expanderIconClass;
 
@@ -472,7 +453,6 @@ Object.assign(TreeItem.prototype, {
     _$hasChildrenByRecordSet: false,
     _$childrenProperty: '',
     _$hasChildrenProperty: '',
-    _$hasNodeWithChildren: true,
     _$hasMore: false,
     _instancePrefix: 'tree-item-'
 });

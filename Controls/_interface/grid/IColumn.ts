@@ -131,7 +131,7 @@ export interface IColumn extends IColspanParams {
     width?: string;
     /**
      * @cfg {String} Имя поля, данные которого отображаются в колонке.
-     * @demo Controls-demo/grid/Columns/CellNoClickable/Index В демо-примере в конфигурации колонок заданы свойства displayProperty со значениями number, country и capital.
+     * @demo Controls-demo/gridNew/Columns/CellNoClickable/Index В демо-примере в конфигурации колонок заданы свойства displayProperty со значениями number, country и capital.
      * @example
      * <pre class="brush: html; highlight: [6,11,12]">
      * <Controls.grid:View
@@ -181,7 +181,7 @@ export interface IColumn extends IColspanParams {
      * @cfg {String} Ширина колонки в браузерах, не поддерживающих {@link https://developer.mozilla.org/ru/docs/web/css/css_grid_layout CSS Grid Layout}.
      * @remark
      * В качестве значения свойства можно указать только пиксели (px) или проценты (%). Если свойство не задано, применяется значение "auto".
-     * @demo Controls-demo/grid/Columns/CellNoClickable/Index В демо-примере в конфигурации третьей колонки свойство compatibleWidth установлено в значение 98px.
+     * @demo Controls-demo/gridNew/Columns/CellNoClickable/Index В демо-примере в конфигурации третьей колонки свойство compatibleWidth установлено в значение 98px.
      * @see width
      */
     compatibleWidth?: string;
@@ -198,11 +198,11 @@ export interface IColumn extends IColspanParams {
      *
      * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/ руководстве разработчика}.
      * @see Controls/grid:ColumnTemplate
-     * @demo Controls-demo/grid/Columns/Template/Index В демо-примере в конфигурации первой колонки задан пользовательский шаблон отображения ячейки. В конфигурации шаблона переопределён контент ячейки в опции contentTemplate.
+     * @demo Controls-demo/gridNew/Columns/Template/Index В демо-примере в конфигурации первой колонки задан пользовательский шаблон отображения ячейки. В конфигурации шаблона переопределён контент ячейки в опции contentTemplate.
      * @example
      * В следующем примере показано, что шаблон отображения ячейки колонки задаётся из отдельного WML-файла.
      * <pre class="brush: js">
-     * import * as countryRatingNumber from 'wml!Controls-demo/grid/resources/CellTemplates/CountryRatingNumber';
+     * import * as countryRatingNumber from 'wml!Controls-demo/gridNew/resources/CellTemplates/CountryRatingNumber';
      * ...
      * protected _columns: IColumn[] = [
      *     {
@@ -274,7 +274,7 @@ export interface IColumn extends IColspanParams {
     /**
      * @cfg {String|TemplateFunction} Шаблон отображения ячейки в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строке итогов}.
      * @default undefined
-     * @demo Controls-demo/grid/Results/FromMeta/CustomResultsCells/Index
+     * @demo Controls-demo/gridNew/Results/FromMeta/CustomResultsCells/Index
      * @markdown
      * @remark
      * Позволяет установить пользовательский шаблон отображения ячейки в строке итогов (именно шаблон, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ResultColumnTemplate}.
@@ -310,14 +310,14 @@ export interface IColumn extends IColspanParams {
     /**
      * @cfg {TCellAlign} Горизонтальное выравнивание для содержимого ячейки.
      * @default left
-     * @demo Controls-demo/grid/Columns/Align/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
+     * @demo Controls-demo/gridNew/Columns/Align/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
      * @see valign
      */
     align?: TCellAlign;
     /**
      * @cfg {TCellVerticalAlign} Вертикальное выравнивание для содержимого ячейки.
      * @default baseline
-     * @demo Controls-demo/grid/Columns/Valign/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
+     * @demo Controls-demo/gridNew/Columns/Valign/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
      * @remark
      * См. {@link https://developer.mozilla.org/ru/docs/Web/CSS/align-items align-items}.
      * @see align
@@ -328,15 +328,15 @@ export interface IColumn extends IColspanParams {
      * Прилипание работает только для первой колонки таблицы.
      * @remark Подробнее о настройке колонок с прилипанием читайте в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/sticky/ руководстве разработчика}.
      * @default undefined
-     * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultilineWithHeader/Index В демо-примере лесенка и прилипание данных работает для колонок "photo" и "time".
-     * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере отображение лесенкой включено для колонок "photo" (первая колонка) и "date" (последняя колонка). Прилипание данных работает для колонки photo.
+     * @demo Controls-demo/gridNew/LadderStickyMultiline/StickyMultilineWithHeader/Index В демо-примере лесенка и прилипание данных работает для колонок "photo" и "time".
+     * @demo Controls-demo/gridNew/Ladder/Sticky/Index В демо-примере отображение лесенкой включено для колонок "photo" (первая колонка) и "date" (последняя колонка). Прилипание данных работает для колонки photo.
      * @see Controls/grid:IGridControl#ladderProperties
      */
     stickyProperty?: string | string[];
     /**
      * @cfg {TOverflow} Как отображается текст, если он не умещается в ячейке.
      * @default none
-     * @demo Controls-demo/grid/Columns/TextOverflow/Ellipsis/Index В демо-примере для первой колонки свойство textOverflow установлено в значение ellipsis.
+     * @demo Controls-demo/gridNew/Columns/TextOverflow/Ellipsis/Index В демо-примере для первой колонки свойство textOverflow установлено в значение ellipsis.
      */
     textOverflow?: TOverflow;
     /**
@@ -364,7 +364,7 @@ export interface IColumn extends IColspanParams {
      *     </ws:columns>
      * </Controls.grid:View>
      * </pre>
-     * @demo Controls-demo/grid/ColumnSeparator/WithMultiHeader/Index В демо-примере ширина вертикальных разделителей колонок задана с размером "s".
+     * @demo Controls-demo/gridNew/ColumnSeparator/WithMultiHeader/Index В демо-примере ширина вертикальных разделителей колонок задана с размером "s".
      * @see Controls/list:IList#rowSeparatorSize
      * @see Controls/grid:IGridControl#columnSeparatorSize
      */
@@ -397,7 +397,7 @@ export interface IColumn extends IColspanParams {
      *     }
      * ]
      * </pre>
-     * @demo Controls-demo/grid/CellPadding/Index В демо-примере в конфигурации колонок заданы различные отступы для ячеек колонок.
+     * @demo Controls-demo/gridNew/CellPadding/Index В демо-примере в конфигурации колонок заданы различные отступы для ячеек колонок.
      * @see template
      */
     cellPadding?: ICellPadding;
