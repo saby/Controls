@@ -523,13 +523,10 @@ define('Controls/interface/IEditableList', [
     * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ панели действий элемента}.
     *
     * Promise разрешается после монтирования контрола в DOM.
-    * Возвращается {canceled: true} в случае отмены запуска редактирования по месту.
     *
     * Перед запуском редактирования по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
-    *
-    *
-    *
-    * Формат полей редактируемой записи может отличаться от формата полей Types/Collection:RecordSet, отображаемый списком. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/code/#begin-edit-format здесь}.
+    * 
+    * Формат полей редактируемой записи может отличаться от формата полей {@link Types/Collection:RecordSet}, отображаемый списком. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/code/#begin-edit-format здесь}.
     * @example
     * В следующем примере показано, как начать редактирование элемента.
     * <pre class="brush: html;">
@@ -584,7 +581,6 @@ define('Controls/interface/IEditableList', [
     * @returns {Promise<void | Controls/interface/IEditableList/Canceled.typedef>}
     * @remark
     * Promise разрешается после монтирования контрола в DOM.
-    * Возвращается {canceled: true} в случае отмены запуска добавления по месту.
     *
     * Перед запуском добавления по месту происходит событие {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}, а после запуска — {@link Controls/interface/IEditableList#afterBeginEdit afterBeginEdit}.
     *
@@ -642,13 +638,11 @@ define('Controls/interface/IEditableList', [
    /**
     * Завершает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} с сохранением введенных данных.
     * @function Controls/interface/IEditableList#commitEdit
-    * @returns {Promise<void | { canceled: true }>}
+    * @returns {Promise<void | Controls/interface/IEditableList/Canceled.typedef>}
     * @remark
     * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя, например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
     *
-    * Promise разрешается после монтирования контрола в DOM.
-    * При ошибке {@link /doc/platform/developmentapl/interface-development/forms-and-validation/validation/client-validate/ валидации} Promise возвращает { canceled: true }.
-    * Если редактирование успешно завершилось, то Promise ничего возвращает.
+    * Promise разрешается после монтирования контрола в DOM. Если редактирование успешно завершилось, то Promise ничего не возвращает.
     *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.
     * @example
@@ -699,7 +693,6 @@ define('Controls/interface/IEditableList', [
     * Используйте этот метод, когда вы хотите завершить редактирование или добавление в ответ на действия пользователя, например, когда пользователь нажимает на кнопку "Отмена".
     *
     * Promise разрешается после монтирования контрола в DOM.
-    * Возвращается {canceled: true} в случае отмены завершения редактирование/добавление по месту без сохранения введенных данных.
     *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.
     * @example
@@ -744,11 +737,13 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {Object} Controls/interface/IEditableList/Canceled
+    * @deacription Объект, который может возвращать Promise при вызове методов {@link beginAdd}, {@link beginEdit}, {@link cancelEdit} и {@link commitEdit}.
     * @property {Boolean} canceled Свойство установлено в значение true при отмене:
     *
     * * завершения редактирование/добавление по месту без сохранения введенных данных.
     * * запуска добавления по месту.
     * * запуска редактирования по месту.
+    * * при ошибке валидации.
     */
 
 });
