@@ -11,6 +11,7 @@ export interface ICutOptions extends ICutButton, IBackgroundStyleOptions, IExpan
     content: TemplateFunction | string;
     iconSize?: TIconSize;
     contrastBackground: boolean;
+    height?: number;
 }
 
 /**
@@ -86,6 +87,13 @@ export default interface ICut {
  * @remark
  * Указав значение null, контент не будет иметь ограничение.
  * @demo Controls-demo/Spoiler/Cut/Lines/Index
+ */
+
+/**
+ * @name Controls/_spoiler/interface/ICut#height
+ * @cfg {Number} Высота контента, после достижения которой он будет обрезан.
+ * @default undefined
+ * @demo Controls-demo/Spoiler/Cut/Height/Index
  */
 
 /**
