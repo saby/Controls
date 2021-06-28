@@ -66,7 +66,9 @@ export interface IChipsOptions extends IMultiSelectableOptions, IControlOptions,
  *
  * Шаблон chipsItemCounterTemplate поддерживает следующие параметры:
  * - item {Types/entity:Record} — Отображаемый элемент;
- * - counterProperty {string} — Имя свойства элемента, содержимое которого будет отображаться в счетчике.
+ * - counterProperty {string} — Имя свойства элемента, содержимое которого будет
+ * отображаться в счетчике. По умолчанию counter;
+ * - counterStyle {string} - Стиль цвета текста счетчика;
  *
  * @example
  * Отображение записей со счетчиками

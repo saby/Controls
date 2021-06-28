@@ -2,7 +2,7 @@
     <ws:contentTemplate>
         <ws:partial template="{{contentTemplate.captionTemplate}}"/>
         <ws:if data="{{item.get(counterProperty || 'counter')}}">
-            <span class="controls-ButtonGroup__button-counter {{ item.get('counterStyle') ? 'controls-text-' + item.get('counterStyle') }}">{{item.get(counterProperty || 'counter')}}</span>
+            <span class="controls-ButtonGroup__button-counter {{ counterStyle ? 'controls-text-' + counterStyle }}">{{item.get(counterProperty || 'counter')}}</span>
         </ws:if>
     </ws:contentTemplate>
 </ws:partial>

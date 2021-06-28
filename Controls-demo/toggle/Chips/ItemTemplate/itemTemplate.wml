@@ -6,4 +6,14 @@
             </ws:itemTemplate>
         </Controls.toggle:Chips>
     </div>
+    <div class="controlsDemo__cell">
+        <Controls.toggle:Chips items="{{_items1}}" bind:selectedKeys="_selectedKeys1">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/toggle:chipsItemCounterTemplate"
+                            counterStyle="{{ itemTemplate.item.get('color') }}"
+                            counterProperty="counter"
+                            scope="{{itemTemplate}}"/>
+            </ws:itemTemplate>
+        </Controls.toggle:Chips>
+    </div>
 </div>

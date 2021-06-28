@@ -13,20 +13,20 @@ export default class extends Control {
             rawData: [
                 {
                     id: '1',
-                    caption: 'counterStyle не задан',
+                    caption: 'Название 1',
                     counter: 5
                 },
                 {
                     id: '2',
-                    caption: 'counterStyle=danger',
+                    caption: 'Название 2',
                     counter: 10,
-                    counterStyle: 'danger'
+                    color: 'danger'
                 },
                 {
                     id: '3',
-                    caption: 'counterStyle=success',
+                    caption: 'Название 3',
                     counter: 20,
-                    counterStyle: 'info'
+                    color: 'info'
                 }
             ],
             keyProperty: 'id'
