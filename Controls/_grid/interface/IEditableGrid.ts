@@ -21,6 +21,15 @@ export interface IGridEditingConfig extends IEditingConfig {
     mode?: TEditingMode;
 }
 
+/**
+ * Интерфейс для {@link /doc/platform/developmentapl/interface-development/controls/list/ таблиц} с возможностью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
+ *
+ * @public
+ * @author Авраменко А.С.
+ * @see Controls/editableArea:View
+ * @remark
+ * Разница между этим интерфейсом и {@link Controls/editableArea:View Controls/editableArea:View} заключается в том, что первый используется в списках, а второй - вне их (например, на вкладках).
+ */
 export interface IEditableGrid extends IEditableList {
     _options: {
         editingConfig: IGridEditingConfig;

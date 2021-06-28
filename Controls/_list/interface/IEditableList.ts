@@ -41,6 +41,7 @@ export interface IEditableList {
 
     /**
      * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
+     * Использование метода в списке с режимом "только чтение" невозможно.
      * @function
      * @param {IItemEditOptions} options Параметры редактирования.
      * @returns {TAsyncOperationResult}
@@ -76,6 +77,7 @@ export interface IEditableList {
 
     /**
      * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ добавление по месту}.
+     * Использование метода в списке с режимом "только чтение" невозможно.
      * @function
      * @param {IItemAddOptions} options Параметры добавления.
      * @returns {TAsyncOperationResult}
@@ -114,6 +116,7 @@ export interface IEditableList {
 
     /**
      * Завершает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} с сохранением введенных данных.
+     * Использование метода в списке с режимом "только чтение" невозможно.
      * @function
      * @returns {TAsyncOperationResult}
      * @remark
@@ -142,6 +145,7 @@ export interface IEditableList {
 
     /**
      * Завершает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} без сохранения введенных данных.
+     * Использование метода в списке с режимом "только чтение" невозможно.
      * @function
      * @returns {TAsyncOperationResult}
      * @remark
