@@ -137,6 +137,6 @@ export {
 
 import {groupConstants, IHiddenGroupPosition} from './display';
 import {MultiSelectAccessibility} from './display';
-import {IItemPadding} from './display';
+import {IItemPadding, TRoundBorder} from './display';
 
-export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, MultiSelectAccessibility};
+export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, TRoundBorder, MultiSelectAccessibility};
