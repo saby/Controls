@@ -1652,7 +1652,9 @@ const _private = {
     },
 
     needScrollCalculation(navigationOpt) {
-        return navigationOpt && navigationOpt.view === 'infinity';
+        // Виртуальный скролл должен работать, даже если у списка не настроена навигация.
+        // https://online.sbis.ru/opendoc.html?guid=a83180cf-3e02-4d5d-b632-3d03442ceaa9
+        return !navigationOpt || (navigationOpt && navigationOpt.view === 'infinity');
     },
 
     needScrollPaging(navigationOpt) {
