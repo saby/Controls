@@ -64,6 +64,7 @@ import {IList} from './_list/interface/IList';
 import IListNavigation from './_list/interface/IListNavigation';
 import { CssClassList, createClassListCollection} from 'Controls/_list/resources/utils/CssClassList';
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {TCursor} from './_list/interface/BaseItemTemplate';
 
 import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 
@@ -130,7 +131,8 @@ export {
     IList,
     VirtualScroll,
     ScrollController,
-    IListNavigation
+    IListNavigation,
+    TCursor
 };
 
 import {groupConstants, IHiddenGroupPosition} from './display';
