@@ -13,6 +13,7 @@
 
 /**
  * Перезагружает данные из {@link /doc/platform/developmentapl/interface-development/controls/list/source/ источника данных}.
+ * @markdown
  * @remark
  * При перезагрузке в фильтр уходит список развернутых узлов (с целью восстановить пользователю структуру, которая была до перезагрузки).
  * Принимает опционально конфигурацию источника данных для: {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor навигации по курсору}, {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page постраничной навигации}, если нужно перезагрузить список с навигацией, отличной от указанной в опциях контрола.
@@ -20,8 +21,7 @@
  * @function
  * @name Controls/_list/interface/IReloadableList#reload
  * @param {Boolean} [keepScroll=false] Сохранить ли позицию скролла после перезагрузки.
- * @param {SourceConfig} [sourceConfig=undefined] Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации),
- * которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами.
+ * @param {SourceConfig} [sourceConfig=undefined] Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации), которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами.
  * По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
  * @returns {Promise<void>} Возвращает Promise, завершение которого означает окончание процесса перезагрузки.
  * @example
