@@ -2337,6 +2337,51 @@ describe('Controls/_display/Tree', () => {
            assert.isNotOk(tree.at(3));
        });
 
+       it('save new visibilityCallback, when start adding item', () => {
+           const rs = new RecordSet({
+               rawData: [
+                   {id: 1, node: true, pid: 0},
+                   {id: 2, node: true, pid: 0}
+               ],
+               keyProperty: 'id'
+           });
+           // TODO должно быть Tree, но нодФутеры пока что создаются только в treeGrid
+           const tree = new TreeGridCollection({
+               collection: rs,
+               root: {
+                   id: 0,
+                   title: 'Root'
+               },
+               keyProperty: 'id',
+               parentProperty: 'pid',
+               nodeProperty: 'node',
+               columns: [],
+               expandedItems: [null],
+               nodeFooterTemplate: () => '',
+               nodeFooterVisibilityCallback: (item: Model) => true
+           });
+
+           const newCallback = (item) => {
+               if (item.getKey() === 1) {
+                   return true;
+               }
+           };
+           tree.setNodeFooterVisibilityCallback(newCallback);
+
+           const addingItem = tree.createItem({
+               contents: new Model({
+                   rawData: {id: 3, node: null, pid: 0},
+                   keyProperty: 'id'
+               })
+           });
+           tree.setAddingItem(addingItem, {
+               position: 'top',
+               index: 3
+           });
+           // 4 элемента - это 2 узла, 1 футер и добавленная запись
+           assert.equal(tree.getItems().length, 4);
+       });
+
         it('when toggle node, recount only one node footer', () => {
             const rs = new RecordSet({
                 rawData: [

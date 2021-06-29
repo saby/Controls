@@ -62,6 +62,10 @@ export default class TreeGridCollection<
         GridMixin.call(this, options);
 
         this._setupProjectionFilters();
+
+        this.appendStrategy(itemsStrategy.NodeFooter, {
+            nodeFooterVisibilityCallback: this._$nodeFooterVisibilityCallback
+        });
     }
 
     protected _setupProjectionFilters(): void {
@@ -335,20 +339,6 @@ export default class TreeGridCollection<
             rowTemplate: options.footerTemplate,
             hasNodeWithChildren: this._hasNodeWithChildren
         });
-    }
-
-    // TODO по идее нужно это добавлять в Tree,
-    //  но т.к. Tree используется в старой модели, чтобы ничего не сломать, добавляю здесь
-    protected _createComposer(): itemsStrategy.Composer<any, TreeItem<any>> {
-        const composer = super._createComposer();
-
-        // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
-        composer.append(itemsStrategy.NodeFooter, {
-            display: this,
-            nodeFooterVisibilityCallback: this._$nodeFooterVisibilityCallback
-        });
-
-        return composer;
     }
 
     protected setMetaResults(metaResults: EntityModel) {

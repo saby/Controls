@@ -1565,6 +1565,7 @@ const _private = {
             searchResetCallback: () => {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButtonDirection = null;
+                _private.hideIndicator(self);
             },
             searchContinueCallback: () => {
                 const direction = self._hasMoreData(self._sourceController, 'up') ? 'up' : 'down';
@@ -3073,6 +3074,12 @@ const _private = {
                         self._draggedKey = key;
                         self._startEvent = domEvent.nativeEvent;
 
+                        if (!dragStartResult.getItems().includes(self._draggedKey)) {
+                            Logger.error(
+                                'ItemsEntity должен содержать ключ записи, за которую начали перетаскивание.'
+                            );
+                        }
+
                         _private.clearSelectedText(self._startEvent);
                         if (self._startEvent && self._startEvent.target) {
                             self._startEvent.target.classList.add('controls-DragNDrop__dragTarget');
@@ -4415,7 +4422,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 !this._sourceController.isLoading() &&
                 this._options.loading !== newOptions.loading;
 
-            if (searchValueChanged || this._loadedBySourceController) {
+            if (isPortionedLoad && (searchValueChanged || this._loadedBySourceController)) {
                 _private.getPortionedSearch(this).reset();
             }
             // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,

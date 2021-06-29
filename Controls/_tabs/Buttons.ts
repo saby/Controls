@@ -347,17 +347,18 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const align: string = itemAlign ? itemAlign : DEFAULT_ITEM_ALIGN;
 
         const isLastItem: boolean = order === this._lastRightOrder;
+        const shrinkClassPostfix = options.canShrink ? '' : '_padding';
 
         classes.push(`controls-Tabs__item_align_${align}`);
         if (order === 1 || isLastItem) {
             classes.push('controls-Tabs__item_extreme');
         }
         if (order === 1) {
-            classes.push('controls-Tabs__item_extreme_first');
+            classes.push(`controls-Tabs__item_extreme_first${shrinkClassPostfix}`);
         } else if (isLastItem) {
-            classes.push('controls-Tabs__item_extreme_last');
+            classes.push(`controls-Tabs__item_extreme_last${shrinkClassPostfix}`);
         } else {
-            classes.push('controls-Tabs__item_default');
+            classes.push(`controls-Tabs__item_default${shrinkClassPostfix}`);
         }
 
         const itemType: string = item.type;
