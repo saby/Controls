@@ -992,7 +992,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 footerContentTemplate: this._options.nodeFooterTemplate,
                 footerItemData: {
                     key: root,
-                    item
+                    item: item.getContents()
                 },
                 closeButtonVisibility: false,
                 emptyText: null,

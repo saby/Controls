@@ -64,6 +64,7 @@ import {IList} from './_list/interface/IList';
 import IListNavigation from './_list/interface/IListNavigation';
 import { CssClassList, createClassListCollection} from 'Controls/_list/resources/utils/CssClassList';
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {TCursor} from './_list/interface/BaseItemTemplate';
 
 import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 
@@ -77,6 +78,9 @@ export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Cont
 
 import * as ForTemplate from 'wml!Controls/_list/Render/For';
 export {ForTemplate};
+
+import * as MultiSelectTemplate from 'wml!Controls/_list/Render/multiSelect';
+export { MultiSelectTemplate };
 
 import * as CharacteristicsTemplate from 'wml!Controls/_list/CharacteristicsTemplate/CharacteristicsTemplate';
 export {CharacteristicsTemplate};
@@ -127,11 +131,12 @@ export {
     IList,
     VirtualScroll,
     ScrollController,
-    IListNavigation
+    IListNavigation,
+    TCursor
 };
 
 import {groupConstants, IHiddenGroupPosition} from './display';
 import {MultiSelectAccessibility} from './display';
-import {IItemPadding} from './display';
+import {IItemPadding, TRoundBorder} from './display';
 
-export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, MultiSelectAccessibility};
+export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, TRoundBorder, MultiSelectAccessibility};

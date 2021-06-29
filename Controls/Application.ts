@@ -539,14 +539,14 @@ export default class Application extends Control<IApplication> {
       this._globalPopup.popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
    }
 
-   protected _openInfoBoxHandler(event: SyntheticEvent<Event>, config): void {
-      this._globalPopup.openInfoBoxHandler(event, config);
+   protected _openInfoBoxHandler(event: SyntheticEvent<Event>, config, withDelay?: boolean): void {
+      this._globalPopup.openInfoBoxHandler(event, config, withDelay);
    }
    protected _openDialogHandler(event: SyntheticEvent<Event>, templ, templateOptions, opener): Promise<unknown> {
       return this._globalPopup.openDialogHandler(event, templ, templateOptions, opener);
    }
-   protected _closeInfoBoxHandler(event: SyntheticEvent<Event>, delay: number): void {
-      this._globalPopup.closeInfoBoxHandler(event, delay);
+   protected _closeInfoBoxHandler(event: SyntheticEvent<Event>, withDelay?: boolean): void {
+      this._globalPopup.closeInfoBoxHandler(event, withDelay);
    }
    protected _forceCloseInfoBoxHandler(): void {
       this._globalPopup.forceCloseInfoBoxHandler();

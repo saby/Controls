@@ -87,7 +87,7 @@ import {default as CollectionItem} from 'Controls/_display/CollectionItem';
 import BreadcrumbsItem from './_display/BreadcrumbsItem';
 export {BreadcrumbsItem};
 
-export {ANIMATION_STATE, IItemPadding} from './_display/interface/ICollection';
+export {ANIMATION_STATE, IItemPadding, TRoundBorder} from './_display/interface/ICollection';
 export {IEditableCollection} from './_display/interface/IEditableCollection';
 export {IEditableCollectionItem} from './_display/interface/IEditableCollectionItem';
 export {ICollectionItem} from './_display/interface/ICollectionItem';

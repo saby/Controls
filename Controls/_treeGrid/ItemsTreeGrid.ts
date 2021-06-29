@@ -17,13 +17,28 @@ export interface IItemsTreeGridOptions extends IItemsViewOptions, ITreeGridOptio
 
 /**
  * Контрол древовидной таблицы, который умеет работать без источника данных.
- * В качестве данных ожидает {@link RecordSet} переданный в опцию {@link IItemsTreeGridOptions.items}.
- * @mixes Controls/list:IItemsView
+ * В качестве данных ожидает {@link Types/collection:RecordSet} переданный в опцию
+ * {@link Controls/_list/IItemsView#items}.
+ *
  * @demo Controls-demo/treeGridNew/ItemsView/Base/Index
+ *
+ * @class Controls/treeGrid:ItemsView
+ * @extends Controls/grid:ItemsView
+ * @mixes Controls/list:IItemsView
+ * @mixes Controls/interface/IGroupedList
+ * @mixes Controls/list:IVirtualScrollConfig
+ * @mixes Controls/list:IList
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/marker:IMarkerList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/grid:IGridControl
+ * @mixes Controls/interface/IGridItemTemplate
+ * @mixes Controls/interface/IGroupedGrid
+ * @mixes Controls/interface/IGridItemTemplate
+ * @mixes Controls/interface:IHierarchy
  *
  * @public
  * @author Уфимцев Д.Ю.
- * @class Controls/treeGrid:ItemsView
  */
 export default class ItemsTreeGrid extends ItemsGrid<IItemsTreeGridOptions> implements ITreeGrid {
     //region override base template props

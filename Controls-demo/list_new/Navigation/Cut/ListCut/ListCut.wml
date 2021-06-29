@@ -1,0 +1,3 @@
+<Controls.list:View
+    source="{{_source}}"
+    navigation="{{_navigation}}"/>

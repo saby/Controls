@@ -17,34 +17,6 @@ var EMPTY_CAPTIONS = {
 export default {
     getDefaultOptions: function () {
         return {
-            /**
-             * @typedef {String} ViewMode
-             * @description Режим отображения контрола.
-             * @variant selector Режим отображения по умолчанию.
-             * @variant link Отображение контрола в виде кнопки-ссылки.
-             * @variant label Отображение контрола в виде метки.
-             */
-
-             /*
-              * @typedef {String} ViewMode
-              * @description Display view of control.
-              * @variant selector Control display as default style.
-              * @variant link Control display as link button.
-              * @variant label Control display as lable.
-              */
-
-            /**
-             * @name Controls/_dateRange/interfaces/ILinkView#viewMode
-             * @cfg {ViewMode} Режим отображения контрола.
-             * @demo Controls-demo/Input/Date/RangeLinkView
-             * @default selector
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#viewMode
-             * @demo Controls-demo/Input/Date/RangeLinkView
-             * @cfg {ViewMode} Display view of control.
-             */
             viewMode: 'selector',
 
             clickable: true,
@@ -82,11 +54,6 @@ export default {
 
     getOptionTypes: function () {
         return {
-            viewMode: descriptor(String).oneOf([
-               'selector',
-               'link',
-               'label'
-            ]),
             nextArrowVisibility: descriptor(Boolean),
             prevArrowVisibility: descriptor(Boolean),
             emptyCaption: descriptor(String)

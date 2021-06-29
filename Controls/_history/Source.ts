@@ -84,7 +84,10 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
     readonly '[Types/_source/ICrud]': boolean = true;
     protected _$history: IHistoryData = null;
     protected _$oldItems: any = null;
-    protected _$dataLoadCallback: any = null;
+    // Название состояния намеренно начинается не с _$,
+    // чтобы это состояние не сериализовывалось при передаче источника с сервера на клиент
+    // Прикладные программисты задают dataLoadCallback анонимной функцией, из-за этого сериализация падает
+    protected _dataLoadCallback: Function = null;
     protected _$parentProperty: string = null;
     protected _$nodeProperty: string = null;
     protected _$root: string = null;
@@ -628,8 +631,8 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
                 if (!isCancelled && data[1] && !this._isError(data[1])) {
                     // PrefetchProxy returns RecordSet
                     this._$oldItems = data[1].getAll ? data[1].getAll() : data[1];
-                    if (this._$dataLoadCallback) {
-                        this._$dataLoadCallback(this._$oldItems);
+                    if (this._dataLoadCallback) {
+                        this._dataLoadCallback(this._$oldItems);
                     }
 
                     // history service returns error
@@ -676,7 +679,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
     }
 
     setDataLoadCallback(dataLoadCallback: Function): void {
-        this._$dataLoadCallback = dataLoadCallback;
+        this._dataLoadCallback = dataLoadCallback;
     }
 
     resetHistoryFields(item: Model, keyProperty: string): Model {

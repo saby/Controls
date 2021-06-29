@@ -545,6 +545,15 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _createObserver(): void {
         const children = this._children;
+
+        // Если задали бордер на корне StickyBlock, то IntersectionObserver не вызывает коллбэк, когда прилипающий
+        // блок доходит до края. Фиксация не срабатывает. Будем добавлять дополнительный rootMargin в случае, если
+        // на корне контрола висит бордер.
+        const borderTop = this._getComputedStyle()['border-top-width'];
+        const borderBottom  = this._getComputedStyle()['border-bottom-width'];
+
+        const rootMarginTop = borderTop ? '-' + borderTop : '0px';
+        const rootMarginBottom = borderBottom ? '-' + borderBottom : '0px';
         this._observer = new IntersectionObserver(
             this._observeHandler,
             {
@@ -552,7 +561,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
                 // Рассширим область тслеживания по горизонтали чтобы ячейки за праделами вьюпорта сбоку не считались
                 // невидимыми если включен горизонтальный скролл в таблицах. Значение не влияет на производительнось.
                 // 20 000 должно хватить, но если повятся сценарии в которых этого значения мало, то можно увеличить.
-                rootMargin: '0px 20000px'
+                rootMargin: rootMarginTop + ' 20000px ' + rootMarginBottom + ' 20000px'
             }
         );
         this._observer.observe(children.observationTargetTop);

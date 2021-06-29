@@ -12,7 +12,6 @@
     endRow Порядковый номер строки, на которой заканчивается ячейка.
 
     Не сделано:
-    isActionCell Поле, для определения ячейки действий
     templateOptions Опции, передаваемые в шаблон ячейки заголовка.
 */
 import { IColspanParams } from './interface/IColumn';

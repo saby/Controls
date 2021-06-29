@@ -92,12 +92,6 @@
     </div>
 </ws:template>
 
-<ws:template name="multiSelectTplIf">
-    <ws:if data="{{_options.multiSelectVisibility}}">
-        <ws:partial template="wml!Controls/_list/BaseControl/multiSelect" scope="{{multiSelectTpl.templateOptions}}" multiSelectTemplate="{{_options.multiSelectTemplate}}" triState="{{true}}"/>
-    </ws:if>
-</ws:template>
-
 <ws:template name="emptyTemplateIf">
     <ws:if data="{{__needShowEmptyTemplate(_options.emptyTemplate, _listViewModel, _options.emptyTemplateColumns)}}">
         <div class="controls-BaseControl__emptyTemplate">
@@ -141,6 +135,7 @@
                 on:beforeSelectionChanged="_notifyHandler('beforeSelectionChanged')"
                 on:itemClick="_onItemClick()"
                 on:groupClick="_onGroupClick()"
+                on:checkBoxClick="_onCheckBoxClick()"
                 on:editArrowClick="_notifyHandler('editArrowClick')"
                 on:itemContextMenu="_onItemContextMenu()"
                 on:itemLongTap="_onItemLongTap()"
@@ -186,9 +181,6 @@
             <ws:viewTemplate>
                 <ws:partial template="{{_options.viewName}}"/>
             </ws:viewTemplate>
-            <ws:multiSelectTpl>
-                <ws:partial template="multiSelectTplIf"/>
-            </ws:multiSelectTpl>
             <ws:emptyTemplate>
                 <ws:partial template="emptyTemplateIf"/>
             </ws:emptyTemplate>

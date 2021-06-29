@@ -5,6 +5,14 @@ import { Model } from 'Types/entity';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
 import { IItemPadding } from 'Controls/display';
 
+type TPadding = 'null'|'m';
+interface IItemsContainerPadding {
+    left: TPadding;
+    right: TPadding;
+    top: TPadding;
+    bottom: TPadding;
+}
+
 export interface IPropertyGridColumnOptions {
     width: string;
     compatibleWidth: string;
@@ -25,6 +33,7 @@ export interface IPropertyGridOptions extends IControlOptions {
     captionColumnOptions?: IPropertyGridColumnOptions;
     itemPadding: IItemPadding;
     withoutLevelPadding?: boolean;
+    itemsContainerPadding?: IItemsContainerPadding;
 }
 
 /**
@@ -279,5 +288,27 @@ export interface IPropertyGrid {
  *         }
  *     ];
  * }
+ * </pre>
+ */
+
+/**
+ * @typedef {Object} ItemsContainerPadding
+ * @property {String} top Идентификатор операции над записью.
+ * @property {String} left Название операции операции над записью.
+ * @property {String} right Иконка операции операции над записью.
+ * @property {String} bottom Расположение операции операции над записью..
+ */
+
+/**
+ * @name Controls/_propertyGrid/IPropertyGrid#itemsContainerPadding
+ * @cfg {ItemsContainerPadding} Задаёт внешние отступы редактора свойств
+ * @see itemPadding
+ * @demo Controls-demo/PropertyGridNew/ItemsContainerPadding/Index
+ * @example
+ * <pre class="brush: html; highlight: [3]">
+ *    <Controls.propertyGrid:PropertyGrid>
+ *       <ws:itemsContainerPadding top="null" bottom="null" left="null" right="null"/>
+ *       ...
+ *    </Controls.propertyGrid:PropertyGrid>
  * </pre>
  */

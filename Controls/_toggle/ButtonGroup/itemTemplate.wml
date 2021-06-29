@@ -1,0 +1,17 @@
+<ws:template name="CaptionTemplate">
+    <span class="controls-ButtonGroup__button-caption">
+        {{ item.get(displayProperty || 'title') || item.get('caption') }}
+    </span>
+</ws:template>
+
+<ws:if data="{{contentTemplate}}">
+    <ws:partial template="{{contentTemplate}}" item="{{item}}">
+        <ws:captionTemplate>
+            <ws:partial template="CaptionTemplate"/>
+        </ws:captionTemplate>
+    </ws:partial>
+</ws:if>
+<ws:else>
+    <ws:partial template="CaptionTemplate"/>
+</ws:else>
+

@@ -113,6 +113,9 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 
 //#region Const
 
+const ERROR_MSG = {
+    CANT_USE_IN_READ_ONLY: (methodName: string): string => `List is in readOnly mode. Cant use ${methodName}() in readOnly!`
+};
 
 // = 28 + 6 + 6 см controls-BaseControl_paging-Padding_theme TODO не должно такого быть, он в разных темах разный
 const PAGING_PADDING = 40;
@@ -1563,6 +1566,7 @@ const _private = {
             searchResetCallback: () => {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButtonDirection = null;
+                _private.hideIndicator(self);
             },
             searchContinueCallback: () => {
                 const direction = self._hasMoreData(self._sourceController, 'up') ? 'up' : 'down';
@@ -3049,6 +3053,12 @@ const _private = {
                         self._draggedKey = key;
                         self._startEvent = domEvent.nativeEvent;
 
+                        if (!dragStartResult.getItems().includes(self._draggedKey)) {
+                            Logger.error(
+                                'ItemsEntity должен содержать ключ записи, за которую начали перетаскивание.'
+                            );
+                        }
+
                         _private.clearSelectedText(self._startEvent);
                         if (self._startEvent && self._startEvent.target) {
                             self._startEvent.target.classList.add('controls-DragNDrop__dragTarget');
@@ -4440,7 +4450,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 !this._sourceController.isLoading() &&
                 this._options.loading !== newOptions.loading;
 
-            if (searchValueChanged || this._loadedBySourceController) {
+            if (isPortionedLoad && (searchValueChanged || this._loadedBySourceController)) {
                 _private.getPortionedSearch(this).reset();
             }
             // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
@@ -5123,9 +5133,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return (emptyTemplate || emptyTemplateColumns) && noEdit && notHasMore && (isLoading ? noData && noDataBeforeReload : noData);
     }
 
-    _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>, readOnly: boolean): void {
+    _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>): void {
+        e.stopPropagation();
+
         const contents = _private.getPlainItemContents(item);
         const key = contents.getKey();
+        const readOnly = item.isReadonlyCheckbox();
+
+        this._onLastMouseUpWasDrag = false;
 
         if (!readOnly) {
             const selectionController = _private.getSelectionController(this);
@@ -5393,8 +5408,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             e.stopPropagation();
             return;
         }
-        if (originalEvent.target.closest('.js-controls-ListView__checkbox') || this._onLastMouseUpWasDrag) {
-            // Если нажали на чекбокс, то это не считается нажатием на элемент. В этом случае работает событие checkboxClick
+
+        if (this._onLastMouseUpWasDrag) {
             // Если на mouseUp, предшествующий этому клику, еще работало перетаскивание, то мы не должны нотифаить itemClick
             this._onLastMouseUpWasDrag = false;
             e.stopPropagation();
@@ -5643,9 +5658,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return _private.isEditing(this);
     }
 
+    private static _rejectEditInPlacePromise(fromWhatMethod: string): Promise<void> {
+        const msg = ERROR_MSG.CANT_USE_IN_READ_ONLY(fromWhatMethod);
+        Logger.warn(msg);
+        return Promise.reject(msg);
+    }
+
     beginEdit(userOptions: object): Promise<void | {canceled: true}> {
         if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
+            return BaseControl._rejectEditInPlacePromise('beginEdit');
         }
         return this._beginEdit(userOptions, {
             shouldActivateInput: userOptions?.shouldActivateInput
@@ -5654,7 +5675,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     beginAdd(userOptions: object): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
+            return BaseControl._rejectEditInPlacePromise('beginAdd');
         }
         return this._beginAdd(userOptions, {
             addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
@@ -5665,14 +5686,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     cancelEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
+            return BaseControl._rejectEditInPlacePromise('cancelEdit');
         }
         return this._cancelEdit();
     }
 
     commitEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
+            return BaseControl._rejectEditInPlacePromise('commitEdit');
         }
         return this._commitEdit();
     }

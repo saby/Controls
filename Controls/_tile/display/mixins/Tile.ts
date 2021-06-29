@@ -1,7 +1,7 @@
 import {Model} from 'Types/entity';
 import TileItem, { IOptions } from 'Controls/_tile/display/mixins/TileItem';
 import {isEqual} from 'Types/object';
-import { IViewIterator } from 'Controls/display';
+import { TRoundBorder, IViewIterator } from 'Controls/display';
 import {createPositionInBounds} from 'Controls/_tile/utils/createPosition';
 
 export const DEFAULT_TILE_HEIGHT = 200;
@@ -32,13 +32,6 @@ interface IItemPadding {
     top: string;
 }
 
-export interface IRoundBorder {
-    tl: string;
-    tr: string;
-    bl: string;
-    br: string;
-}
-
 export default abstract class Tile<
     S extends Model = Model,
     T extends TileItem = TileItem
@@ -59,7 +52,7 @@ export default abstract class Tile<
 
     protected _$itemsContainerPadding: IItemPadding;
 
-    protected _$roundBorder: IRoundBorder;
+    protected _$roundBorder: TRoundBorder;
 
     protected _$imageProperty: string;
 
@@ -222,11 +215,11 @@ export default abstract class Tile<
         return DEFAULT_COMPRESSION_COEFF;
     }
 
-    getRoundBorder(): IRoundBorder {
+    getRoundBorder(): TRoundBorder {
         return this._$roundBorder;
     }
 
-    setRoundBorder(roundBorder: IRoundBorder): void {
+    setRoundBorder(roundBorder: TRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
             this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');

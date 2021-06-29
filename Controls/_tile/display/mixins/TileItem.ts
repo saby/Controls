@@ -10,7 +10,7 @@ import * as MediumContent from 'wml!Controls/_tile/render/itemsContent/Medium';
 import * as PreviewContent from 'wml!Controls/_tile/render/itemsContent/Preview';
 import * as RichContent from 'wml!Controls/_tile/render/itemsContent/Rich';
 import Tile, {
-    DEFAULT_COMPRESSION_COEFF, DEFAULT_SCALE_COEFFICIENT, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH, IRoundBorder
+    DEFAULT_COMPRESSION_COEFF, DEFAULT_SCALE_COEFFICIENT, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH, TRoundBorder
 } from './Tile';
 import {itemTemplate} from "Controls/switchableArea";
 
@@ -58,7 +58,7 @@ export interface IOptions<S extends Model = Model> extends ICollectionItemOption
     tileHeight: number;
     tileWidth: number;
     tileWidthProperty: string;
-    roundBorder: IRoundBorder;
+    roundBorder: TRoundBorder;
     imageProperty: string;
     imageFit: string;
     imageHeightProperty: string;
@@ -79,7 +79,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     protected _$canShowActions: boolean;
 
-    protected _$roundBorder: IRoundBorder;
+    protected _$roundBorder: TRoundBorder;
 
     // region TileOptions
 
@@ -1173,7 +1173,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region RoundBorder
 
-    setRoundBorder(roundBorder: IRoundBorder): void {
+    setRoundBorder(roundBorder: TRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
             this._nextVersion();

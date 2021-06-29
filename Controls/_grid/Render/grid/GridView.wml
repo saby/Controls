@@ -51,7 +51,6 @@
                     itemActionsTemplate="{{ _options.itemActionsTemplate }}"
                     itemActionsClass="{{ _options.itemActionsClass }}"
                     swipeTemplate="{{ _options.swipeTemplate }}"
-                    multiSelectTpl="{{ _options.multiSelectTpl }}"
                     backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
                     tagTemplate="{{ _options.tagTemplate }}"
                     stickyCallback="{{_options.stickyCallback}}"

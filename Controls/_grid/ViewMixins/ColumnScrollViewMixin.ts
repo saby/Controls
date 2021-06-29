@@ -187,18 +187,21 @@ const scrollToEnd = (self: TColumnScrollViewMixin) => {
 
 const scrollToColumnEdge = (self): void => {
     const oldScrollPosition = self._$columnScrollController.getScrollPosition();
-    self._$columnScrollController.scrollToColumnWithinContainer(getViewHeader(self));
-    const newScrollPosition = self._$columnScrollController.getScrollPosition();
+    const newScrollPosition = self._$columnScrollController.getScrollPositionWithinContainer(getViewHeader(self));
     if (oldScrollPosition !== newScrollPosition) {
         setScrollPosition(self, newScrollPosition);
     }
 };
 
-const setScrollPosition = (self: TColumnScrollViewMixin, newPosition: number, immediate?: boolean): void => {
-    const correctedScrollPosition = self._$columnScrollController.setScrollPosition(newPosition, immediate);
-    self._children.horizontalScrollBar.setScrollPosition(correctedScrollPosition);
-    if (self._$dragScrollController) {
-        self._$dragScrollController.setScrollPosition(correctedScrollPosition);
+const setScrollPosition = (self: TColumnScrollViewMixin, position: number, immediate?: boolean): void => {
+    const oldScrollPosition = self._$columnScrollController.getScrollPosition();
+    const newPosition = self._$columnScrollController.setScrollPosition(position, immediate);
+    if (oldScrollPosition !== newPosition) {
+        self._children.horizontalScrollBar.setScrollPosition(newPosition);
+        if (self._$dragScrollController) {
+            self._$dragScrollController.setScrollPosition(newPosition);
+        }
+        self._notify('columnScroll', [newPosition], { bubbling: true });
     }
 };
 //#endregion
@@ -586,7 +589,10 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
                 return;
             }
             const newScrollPosition = this._$columnScrollController.scrollByWheel(e);
-            setScrollPosition(this, newScrollPosition);
+
+            if (this._$columnScrollController.getScrollPosition() !== newScrollPosition) {
+                setScrollPosition(this, newScrollPosition);
+            }
         }
     },
 

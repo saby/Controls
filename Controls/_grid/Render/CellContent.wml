@@ -12,6 +12,7 @@
                 itemActionsTemplate="{{ itemActionsTemplate }}"
                 itemActionsClass="{{ itemActionsClass }}"
                 ladderWrapper="{{ ladderWrapper }}"
+                multiSelectTemplate="{{ multiSelectTemplate }}"
                 editArrowTemplate="{{ editArrowTemplate }}"/>
 
     </ws:if>

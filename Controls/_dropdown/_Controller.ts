@@ -246,6 +246,7 @@ export default class _Controller implements IDropdownController {
    openMenu(popupOptions?: object): Promise<any> {
       if (this._options.reloadOnOpen) {
          this._setItems(null);
+         this._loadDependsPromise = null;
       }
       return this._open(popupOptions);
    }
@@ -450,7 +451,8 @@ export default class _Controller implements IDropdownController {
       }
       return sourcePromise.then((source) => {
          this._source = source;
-         if (isHistorySource(this._source) && options.historyRoot) {
+         if (isHistorySource(this._source)) {
+            this._dataLoadCallbackOnSource = true;
             this._source.setDataLoadCallback(options.dataLoadCallback);
          }
          this._filter = this._prepareFilterForQuery(options);
@@ -492,7 +494,7 @@ export default class _Controller implements IDropdownController {
    }
 
    private _resolveLoadedItems(options: IDropdownControllerOptions, items: RecordSet<Model>): RecordSet<Model> {
-      if (options.dataLoadCallback && !options.historyRoot) {
+      if (options.dataLoadCallback && !this._dataLoadCallbackOnSource) {
          options.dataLoadCallback(items);
       }
       if (this._selectedItems) {

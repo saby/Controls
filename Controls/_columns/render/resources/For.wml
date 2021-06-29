@@ -21,8 +21,6 @@
               on:mousemove="_onItemMouseMove(item)"
               on:mouseleave="_onItemMouseLeave(item)"
               on:wheel="_onItemWheel(item)"
-
-              multiSelectTpl="{{ multiSelectTpl }}"
               isAdd="{{ isAdd }}">
          <ws:itemActionsTemplate>
             <!-- We have to support setting of "itemActionsClass" option in BaseControl and while using Controls/list:ItemTemplate -->

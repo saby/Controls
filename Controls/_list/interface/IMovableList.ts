@@ -81,14 +81,7 @@ export interface IMovableList {
 }
 
 /**
- * Интерфейс опций контрола View, который обладает возможностью перемещения записей.
- * @interface Controls/_list/interface/IMovable
- * @public
- * @author Аверкиев П.А.
- */
-
-/**
- * @name Controls/_list/interface/IMovable#moveDialogTemplate
+ * @name Controls/_list/interface/IMovableList#moveDialogTemplate
  * @cfg {Controls/list:IMoveDialogTemplate} Шаблон диалогового окна выбора целевой записи для перемещения.
  * Рекомендуется использовать стандартный шаблон {@link Controls/moverDialog:Template}.
  * @see Controls/moverDialog:Template

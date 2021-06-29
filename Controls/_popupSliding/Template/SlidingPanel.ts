@@ -56,18 +56,18 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     }
 
     protected _isScrollAvailable({
-        slidingPanelOptions,
-        controlButtonVisibility
+        slidingPanelOptions
     }: ISlidingPanelTemplateOptions): boolean {
-        const scrollContentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
-        const controllerContainer = this._children.controlLine;
-        const controllerHeight = this._isPanelMounted && controlButtonVisibility ? controllerContainer.clientHeight : 0;
-        const contentHeight = scrollContentHeight + controllerHeight;
+        const contentHeight = this._getHeight();
         const hasMoreContent = this._scrollState ?
             this._scrollState.clientHeight < this._scrollState.scrollHeight : false;
 
         return slidingPanelOptions.height === slidingPanelOptions.maxHeight ||
             slidingPanelOptions.height === contentHeight && !hasMoreContent;
+    }
+
+    private _getHeight(): number {
+        return this._isPanelMounted ? this._container.clientHeight : 0;
     }
 
     protected _dragEndHandler(): void {
@@ -87,7 +87,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._scrollAvailable = this._isScrollAvailable(this._options);
     }
 
-    protected _getScrollAvailableHeight(): number {
+    protected _getCustomContentHeight(): number {
         return this._children.customContent.clientHeight;
     }
 
@@ -140,6 +140,14 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._notifyDragStart(this._touchDragOffset);
     }
 
+    protected _touchEndHandler(): void {
+        if (this._touchDragOffset) {
+            this._notifyDragEnd();
+            this._touchDragOffset = null;
+        }
+        this._startTouchYPosition = null;
+    }
+
     /**
      * Возвращает признак того, что свайп приведет к скроллу
      * Скроллим когда:
@@ -180,14 +188,6 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         return false;
     }
 
-    protected _touchEndHandler(): void {
-        if (this._touchDragOffset) {
-            this._notifyDragEnd();
-            this._touchDragOffset = null;
-        }
-        this._startTouchYPosition = null;
-    }
-
     private _notifyDragStart(offset: IDragObject['offset']): void {
 
         /* Запоминаем высоту скролла, чтобы при увеличении проверять на то,
@@ -195,13 +195,12 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         if (!this._dragStartHeightDimensions) {
             this._dragStartHeightDimensions = {
                 scrollHeight: this._children.customContentWrapper.clientHeight,
-                contentHeight: this._children.customContent.clientHeight
+                contentHeight: this._getCustomContentHeight()
             };
         }
         this._notify('popupDragStart', [
             this._getDragOffsetWithOverflowChecking(offset)
         ], {bubbling: true});
-
     }
 
     protected _notifyDragEnd(): void {
@@ -211,7 +210,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
     private _getDragOffsetWithOverflowChecking(dragOffset: IDragObject['offset']): IDragObject['offset'] {
         let offsetY = dragOffset.y;
-        const contentHeight = this._children.customContent.clientHeight;
+        const contentHeight = this._getCustomContentHeight();
 
         // В зависимости от позиции высоту шторки увеличивает либо положительный, либо отрицательный сдвиг по оси "y"
         const realHeightOffset = this._position === 'top' ? offsetY : -offsetY;
@@ -222,7 +221,10 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         const scrollContentOffset = contentHeight - startScrollHeight;
 
         // Если остаток доступного контента меньше сдвига, то сдвигаем на размер оставшегося контента
-        if (realHeightOffset > scrollContentOffset) {
+        if (
+            realHeightOffset > scrollContentOffset &&
+            this._getHeight() > this._options.slidingPanelOptions.minHeight
+        ) {
 
             /*
                 Если изначально контент меньше высоты шторки, и шторку пытаюстся развернуть,
@@ -253,6 +255,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     static getDefaultOptions(): Partial<ISlidingPanelTemplateOptions> {
         return {
             controlButtonVisibility: true,
+            userMoveLocked: false,
             slidingPanelOptions: {
                 height: undefined,
                 maxHeight: undefined,

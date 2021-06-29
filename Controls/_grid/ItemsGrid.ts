@@ -5,13 +5,27 @@ import {IItemsViewOptions, ItemsView as ListItemsView, ListControl as viewTempla
 
 /**
  * Контрол плоской таблицы, который умеет работать без источника данных.
- * В качестве данных ожидает {@link RecordSet} переданный в опцию {@link IItemsViewOptions.items}.
- * @mixes Controls/list:IItemsView
+ * В качестве данных ожидает {@link Types/collection:RecordSet} переданный в опцию
+ * {@link Controls/_list/IItemsView#items}.
+ *
  * @demo Controls-demo/gridNew/ItemsView/Base/Index
+ *
+ * @class Controls/grid:ItemsView
+ * @extends Controls/list:ItemsView
+ * @mixes Controls/list:IItemsView
+ * @mixes Controls/interface/IGroupedList
+ * @mixes Controls/list:IVirtualScrollConfig
+ * @mixes Controls/list:IList
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/marker:IMarkerList
+ * @mixes Controls/itemActions:IItemActions
+ * @mixes Controls/grid:IGridControl
+ * @mixes Controls/interface/IGridItemTemplate
+ * @mixes Controls/interface/IGroupedGrid
+ * @mixes Controls/interface/IGridItemTemplate
  *
  * @public
  * @author Уфимцев Д.Ю.
- * @class Controls/grid:ItemsView
  */
 export default class ItemsGrid<TOptions extends IItemsViewOptions = IItemsViewOptions> extends ListItemsView<TOptions> {
     //region override base template props

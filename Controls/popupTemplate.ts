@@ -18,6 +18,7 @@ export {default as DialogController} from 'Controls/_popupTemplate/Dialog/Opener
 
 export {default as Sticky} from 'Controls/_popupTemplate/Sticky';
 export {default as StickyController} from 'Controls/_popupTemplate/Sticky/StickyController';
+export {default as Page} from 'Controls/_popupTemplate/Page';
 
 export {Template as Confirmation, DialogTemplate as ConfirmationDialog } from 'Controls/popupConfirmation';
 

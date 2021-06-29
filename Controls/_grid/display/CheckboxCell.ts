@@ -50,8 +50,8 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         return '';
     }
 
-    getTemplate(multiSelectTemplate: TemplateFunction): TemplateFunction|string {
-        return multiSelectTemplate;
+    getTemplate(): TemplateFunction|string {
+        return this.getOwner().getMultiSelectTemplate();
     }
 
     shouldDisplayMarker(marker: boolean): boolean {

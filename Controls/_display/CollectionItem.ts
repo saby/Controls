@@ -20,7 +20,7 @@ import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from 
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 import Collection, {IEditingConfig} from 'Controls/_display/Collection';
 import IItemActionsItem from './interface/IItemActionsItem';
-import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
+import {TRoundBorder} from "Controls/_tile/display/mixins/Tile";
 import {isEqual} from "Types/object";
 
 export interface IOptions<T extends Model = Model> {
@@ -62,6 +62,8 @@ export interface ISerializableState<T extends Model = Model> extends IDefaultSer
 export interface ICollectionItemCounters {
     [key: string]: number;
 }
+
+const DEFAULT_MULTI_SELECT_TEMPLATE = 'Controls/list:MultiSelectTemplate';
 
 const ITEMACTIONS_POSITION_CLASSES = {
     bottomRight: 'controls-itemActionsV_position_bottomRight',
@@ -795,7 +797,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     // region RoundBorder
 
-    setRoundBorder(roundBorder: IRoundBorder): void {
+    setRoundBorder(roundBorder: TRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
             this._nextVersion();
@@ -922,6 +924,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     getMultiSelectVisibility(): string {
         return this._$multiSelectVisibility;
+    }
+
+    getMultiSelectTemplate(): TemplateFunction|string {
+        return this._$owner.getMultiSelectTemplate() || DEFAULT_MULTI_SELECT_TEMPLATE;
     }
 
     setMultiSelectVisibility(multiSelectVisibility: string): boolean {

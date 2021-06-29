@@ -174,7 +174,8 @@ export default class NavigationController {
 
     getQueryParamsForHierarchy(userQueryParams: IQueryParams,
                                navigationConfig?: INavigationSourceConfig,
-                               reset: boolean = true): IQueryParams[] {
+                               reset: boolean = true,
+                               ids: TKey[] = []): IQueryParams[] {
         const calculator = this._getCalculator();
         const navigationQueryConfig = navigationConfig || ({} as INavigationSourceConfig);
         const mainQueryParams = NavigationController._getMainQueryParams(userQueryParams);
@@ -182,15 +183,18 @@ export default class NavigationController {
         const addQueryParamsArray = [];
         this._navigationStores.each((storesItem) => {
             const store = storesItem.store;
-            addQueryParamsArray.push({
-                id: storesItem.id,
-                addParams: calculator.getQueryParams(
-                    store,
-                    navigationQueryConfig,
-                    undefined,
-                    this._navigationParamsChangedCallback,
-                    reset)
-            });
+
+            if (!ids || !ids.length || ids.includes(storesItem.id)) {
+                addQueryParamsArray.push({
+                    id: storesItem.id,
+                    addParams: calculator.getQueryParams(
+                        store,
+                        navigationQueryConfig,
+                        undefined,
+                        this._navigationParamsChangedCallback,
+                        reset)
+                });
+            }
         });
         return NavigationController._mergeParamsHierarchical(mainQueryParams, addQueryParamsArray);
     }
@@ -210,7 +214,8 @@ export default class NavigationController {
         id: TKey = null,
         navigationConfig?: IBaseSourceConfig,
         direction?: TNavigationDirection,
-        hierarchyRelation?: relation.Hierarchy
+        hierarchyRelation?: relation.Hierarchy,
+        resetNavigation: boolean = true
     ): TStoreNavigationState[] {
 
         const updateResult: TStoreNavigationState[] = [];
@@ -243,7 +248,9 @@ export default class NavigationController {
                 );
                 storesIds.push(storeId);
             });
-            this._deleteUnprocessedStores(storesIds);
+            if (resetNavigation) {
+                this._deleteUnprocessedStores(storesIds);
+            }
         } else {
             // Если id не передан то берется стор для корневого раздела, для которого жесткий id = null
             const store = this._getStore(id);

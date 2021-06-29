@@ -89,7 +89,7 @@ interface ISuggest {
        *    min-width: 300px;
        * }
        * </pre>
-       * <pre class="brush: css">
+       * <pre class="brush: html">
        * <!-- WML -->
        * <Controls.suggest:Input>
        *    <ws:suggestTemplate templateName="wml!SuggestTemplate">

@@ -2,37 +2,16 @@
     <div class="controls-RangeShortSelectorLink-wrapper">
         <span class="controls-RangeShortSelectorLink__value-wrapper
                         {{_isMinWidth ? 'controls-RangeShortSelectorLink__value-wrapper-minWidth'}}">
-           <ws:if data="{{ _viewMode == 'selector' }}">
-              <span
-                    class="controls-RangeShortSelectorLink__value {{!_options.readOnly? 'controls-RangeShortSelectorLink__value-' + _options.underline}}
-                    {{_fontSize? 'controls-fontsize-' + _fontSize}}
-                    {{_fontColorStyle ? ' controls-text-' + _fontColorStyle + ' controls-RangeShortSelectorLink_text-' + _fontColorStyle + '-hover'}}
-                    controls-RangeShortSelectorLink__value_fontWeight-{{ _options.fontWeight }}
-                    {{ _styleClass }} {{ _valueEnabledClass }}"
-                    name="openPopupTarget"
-                    title="{{_options.tooltip}}"
-                    on:mousedown="_onClick()">
-                 {{ _caption }}
-              </span>
-           </ws:if>
-           <ws:else data="{{ _viewMode == 'link' }}">
-              <Controls.buttons:Button
-                    name="Link" caption="{{ _caption }}"
-                    fontColorStyle="{{_fontColorStyle}}"
-                    attr:class="controls-RangeShortSelectorLink__value-viewMode-link"
-                    fontSize="{{_fontSize}}"
-                    viewMode="link"
-                    tootltip="{{_options.tooltip}}"
-                    on:mousedown="_onClick()"/>
-           </ws:else>
-           <ws:else>
-              <Controls.input:Label
-                    name="Link"
-                    caption="{{ _caption }}"
-                    underline="hovered"
-                    tootltip="{{_options.tooltip}}"
-                    on:mousedown="_onClick()"/>
-           </ws:else>
+            <ws:partial template="{{ _itemTemplate}}"
+                        fontSize="{{ _fontSize }}"
+                        fontWeight="{{ _fontWeight }}"
+                        fontColorStyle="{{ _fontColorStyle }}"
+                        readOnly="{{ _options.readOnly }}"
+                        tooltip="{{ _options.tooltip }}"
+                        styleClass="{{ _styleClass }}"
+                        caption="{{ _caption }}"
+                        on:mousedown="_onClick()"
+            />
         </span>
         <ws:if data="{{ _resetButtonVisible || _clearButtonVisible }}">
             <span class="controls-DateLinkView__resetButton

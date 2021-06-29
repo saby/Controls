@@ -36,7 +36,7 @@ import * as VirtualScrollController from './controllers/VirtualScroll';
 import { ICollection, ISourceCollection, IItemPadding } from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
-import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
+import {TRoundBorder} from "Controls/_display/interface/ICollection";
 import {Footer} from 'Controls/_display/Footer';
 
 // tslint:disable-next-line:ban-comma-operator
@@ -674,6 +674,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$multiSelectPosition: 'default' | 'custom';
 
+    protected _$multiSelectTemplate: TemplateFunction | string;
+
     protected _$footerTemplate: TemplateFunction | string;
 
     protected _$stickyFooter: boolean;
@@ -691,6 +693,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$topPadding: string;
 
     protected _$bottomPadding: string;
+    
+    protected _$roundBorder: TRoundBorder;
 
     protected _$emptyTemplate: TemplateFunction;
 
@@ -2323,7 +2327,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$stickyFooter;
     }
 
-    setRoundBorder(roundBorder: IRoundBorder): void {
+    setRoundBorder(roundBorder: TRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
             this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');
@@ -2379,6 +2383,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     getMultiSelectPosition(): 'default' | 'custom' {
         return this._$multiSelectPosition;
+    }
+
+    getMultiSelectTemplate(): TemplateFunction | string {
+        return this._$multiSelectTemplate;
     }
 
     protected _setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
@@ -2838,7 +2846,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this.nextVersion();
     }
 
-    appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
+    appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object, withSession: boolean = true): void {
         const strategyOptions = { ...options, display: this };
 
         this._userStrategies.push({
@@ -2846,7 +2854,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options: strategyOptions
         });
 
-        const session = this._startUpdateSession();
+        const session = withSession && this._startUpdateSession();
         if (this._composer) {
             this._composer.append(strategy, strategyOptions);
             this._reBuild();
@@ -2860,12 +2868,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._composer.getInstance(strategy);
     }
 
-    removeStrategy(strategy: new() => IItemsStrategy<S, T>): void {
+    removeStrategy(strategy: new() => IItemsStrategy<S, T>, withSession: boolean = true): void {
         const idx = this._userStrategies.findIndex((us) => us.strategy === strategy);
         if (idx >= 0) {
             this._userStrategies.splice(idx, 1);
 
-            const session = this._startUpdateSession();
+            const session = withSession && this._startUpdateSession();
             if (this._composer) {
                 this._composer.remove(strategy);
                 this._reBuild();
@@ -2873,6 +2881,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._finishUpdateSession(session);
 
             this.nextVersion();
+        }
+    }
+
+    reCreateStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
+        const instance = this.getStrategyInstance(strategy);
+        if (instance) {
+            const session = this._startUpdateSession();
+            this.removeStrategy(strategy, false);
+            this.appendStrategy(strategy, options, false);
+            this._finishUpdateSession(session);
         }
     }
 
@@ -4089,6 +4107,7 @@ Object.assign(Collection.prototype, {
     _$itemActionsProperty: '',
     _$markerPosition: 'left',
     _$multiSelectAccessibilityProperty: '',
+    _$multiSelectTemplate: null,
     _$style: 'default',
     _$theme: 'default',
     _$hoverBackgroundStyle: 'default',
