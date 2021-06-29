@@ -102,27 +102,8 @@
    //decorator
    --text_background-color_decoratorHighlight: #535c68;
 
-   //toggle
-   --border-color_switcher: #565e69;
-   --marker-box_border-color_checkbox: #999;
-   --marker-box_border-color_switcher: #999;
-   --readonly_marker-box_border-color_switcher: var(--readonly_color);
-   --secondary_toggled_background-color_toggleButton_pushButton: #383d44;
-   --secondary_contrast_hover_background-color_toggleButton_pushButton: var(--background-color);
-   --icon_container_background_color_BigSeparator: #383d44;
-   --readonly_marker-box_border-color_checkbox: var(--readonly_color);
-
    //blocks
    --separator_color_block: #535c68;
-
-   //FilterView
-   --reset-button_icon-color_filterView: #999;
-   --reset-button_color_filterPanel: var(--secondary_color);
-
-   //FilterViewPanel
-   --background-color_filterViewPanel: #30343b;
-   --heading_border_color_filterViewPanel: #6b6b6b;
-   --list-editor_color-hover_filterViewPanel: #464d57;
 
    //List
    --item_editing_background-color_list: #383D44;
@@ -154,9 +135,6 @@
    //loadingIndicator
    --content_background-color_loadingIndicator:                                   #383d44;
    --spinner_l_background-image_loadingIndicator:                                 url("img/loading.gif");
-
-   //lookup
-   --trigger_icon-color_lookupInput: var(--link_text-color);
 }
 
 .controls_list_theme-@{themeName} {
@@ -306,4 +284,35 @@
    //operations
    --background-color_operationsPanel: #30343b;
    --separator_color_operationsButton: #636c74;
+}
+
+.controls_filter_theme-@{themeName} {
+   //FilterView
+   --reset-button_icon-color_filterView: #999;
+   --reset-button_color_filterPanel: var(--secondary_color);
+   --item_color_filterView: var(--link_text-color);
+}
+
+.controls_filterPanel_theme-@{themeName} {
+   //FilterViewPanel
+   --background-color_filterViewPanel: #30343b;
+   --heading_border_color_filterViewPanel: #6b6b6b;
+   --list-editor_color-hover_filterViewPanel: #464d57;
+}
+
+.controls_lookup_theme-@{themeName} {
+   //lookup
+   --trigger_icon-color_lookupInput: var(--link_text-color);
+}
+
+.controls_toggle_theme-@{themeName} {
+   //toggle
+   --border-color_switcher: #565e69;
+   --marker-box_border-color_checkbox: #999;
+   --marker-box_border-color_switcher: #999;
+   --readonly_marker-box_border-color_switcher: var(--readonly_color);
+   --secondary_toggled_background-color_toggleButton_pushButton: #383d44;
+   --secondary_contrast_hover_background-color_toggleButton_pushButton: var(--background-color);
+   --icon_container_background_color_BigSeparator: #383d44;
+   --readonly_marker-box_border-color_checkbox: var(--readonly_color);
 }

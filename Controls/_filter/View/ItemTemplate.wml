@@ -4,7 +4,7 @@
                controls-FilterView__iconArrow_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}"></div>
 </ws:template>
 
-<div class="controls-FilterView__block
+<div class="controls_filter_theme-{{_options.theme}} controls-FilterView__block
    {{beforeContentTemplate === null ? 'controls-FilterView__block-withoutArrow' :
     'controls-FilterView__block-withArrow'}}">
 

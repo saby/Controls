@@ -1,4 +1,4 @@
-<div class="controls-EditorList__applyButton"
+<div class="controls_filterPanel_theme-{{_options.theme}} controls-EditorList__applyButton"
      on:mousedown="_handleClick()">
     <div class="controls-EditorList__applyButton-text">
         {{_applyCaption}}
