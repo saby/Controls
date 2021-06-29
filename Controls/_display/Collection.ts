@@ -860,8 +860,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
     protected _isDragOutsideList: boolean = false;
-    protected _firstItem: EntityModel;
-    protected _lastItem: EntityModel;
 
     // Фон застиканных записей и лесенки
     protected _$backgroundStyle?: string;
