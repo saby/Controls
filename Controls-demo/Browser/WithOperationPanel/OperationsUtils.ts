@@ -58,38 +58,21 @@ export function getPanelData() {
         },
         parent: null
     }, {
-        id: 'remove',
-        '@parent': false,
-        icon: 'icon-Erase',
-        title: 'Удалить',
-        actionName: 'Controls/listActions:Remove',
-        viewActionName: 'Controls/viewCommands:Remove',
-        parent: null
+        actionName: 'Controls/defaultActions:Remove'
     }, {
-        id: 'atomicRemove',
-        '@parent': false,
-        icon: 'icon-Erase',
-        title: 'Удалить синхронно',
-        actionName: 'Controls/listActions:Remove',
-        actionOptions: {
+        title: 'Sync del',
+        actionName: 'Controls/defaultActions:Remove',
+        commandOptions: {
             providerName: 'Controls/listActions:RemoveProvider'
         },
-        viewActionName: 'Controls/viewCommands:AtomicRemove',
-        parent: null
+        viewCommandName: 'Controls/viewCommands:AtomicRemove'
     }, {
-        id: 'Move',
-        '@parent': false,
-        icon: 'icon-Move',
-        title: 'Переместить с перезагрузкой списка',
-        actionName: 'Controls/listActions:Move',
-        actionOptions: {
+        actionName: 'Controls/defaultActions:Move',
+        commandOptions: {
             columns: [{
                 displayProperty: 'department'
-            }],
-            filter: {onlyFolders: true}
-        },
-        viewActionName: 'Controls/viewCommands:Reload',
-        parent: null
-    }
-    ];
+            }]
+        }
+
+    }];
 }

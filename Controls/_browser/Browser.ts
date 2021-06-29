@@ -38,6 +38,7 @@ import {DataLoader, IDataLoaderOptions, ILoadDataResult} from 'Controls/dataSour
 import {Logger} from 'UI/Utils';
 import {descriptor, Model} from 'Types/entity';
 import {loadAsync, isLoaded} from 'WasabyLoader/ModulesLoader';
+import {IBaseAction} from "Controls/_defaultActions/BaseAction";
 
 type Key = string|number|null;
 
@@ -259,17 +260,19 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     protected _operationPanelItemClick(
         event: SyntheticEvent,
-        item: Model,
-        clickEvent: SyntheticEvent,
-        selection: ISelectionObject
+        action: IBaseAction,
+        clickEvent: SyntheticEvent
     ): void {
         event.stopImmediatePropagation();
-        this._getOperationsController().executeAction({
+        action.execute({
             source: this._source,
             target: clickEvent,
-            selection,
-            item,
+            selection: {
+                selected: this._options.selectedKeys,
+                excluded: this._options.excludedKeys
+            },
             filter: this._filter,
+            keyProperty: this._getSourceController().getKeyProperty(),
             parentProperty: this._getSourceController().getParentProperty(),
             nodeProperty: this._options.nodeProperty,
             sourceController: this._getSourceController()

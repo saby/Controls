@@ -1,12 +1,13 @@
 import {IOptions} from './IViewAction';
 import RemoveStrategy from './Remove/HierarchyRemoveStrategy';
-import {TKeySelection} from 'Controls/interface';
+import {NewSourceController as SourceController} from 'Controls/dataSource';
+import {ISelectionObject, TKeySelection} from 'Controls/interface';
 import {ICrudPlus, QueryOrderSelector} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 
 interface IReloadOptions extends IOptions {
-    selectedKeys?: TKeySelection[];
+    selection?: ISelectionObject;
     source?: ICrudPlus;
     items: RecordSet;
     sorting?: QueryOrderSelector;
@@ -30,21 +31,29 @@ export default class Reload {
     execute(meta: Partial<IReloadOptions>): Promise<void> {
         const config = {...this._options, ...meta};
 
-        const executePromise = config.action ? config.action.execute(config) : Promise.resolve();
+        const executePromise = config.command ? config.command.execute(config) : Promise.resolve();
         return executePromise.then(() => {
-            this._reloadItems(config)
+            this._reloadItems(config);
         });
     }
 
     private _reloadItems(options: IReloadOptions): Promise<void> {
-        let selectedKeys = options.selectedKeys;
+        let selectedKeys = options.selection.selected;
         if (options.beforeLoadCallback) {
             selectedKeys = options.beforeLoadCallback(selectedKeys, options.items);
         }
 
         const filter = {};
         filter[options.keyProperty] = selectedKeys;
-        return options.sourceController.load(null, null, filter).then((items) => {
+        if (!options.items) {
+            options.items = options.sourceController.getItems();
+        }
+        const sourceController = new SourceController({
+            filter,
+            source: options.source,
+            keyProperty: this._options.keyProperty
+        });
+        return sourceController.load(null, null, filter).then((items) => {
            return this._processSelectedItems(options, items as RecordSet);
         });
     }
@@ -54,18 +63,40 @@ export default class Reload {
         let oldItem;
         let newItem;
         oldItems.setEventRaising(false, true);
-        options.selectedKeys.forEach((key) => {
+        options.selection.selected.forEach((key) => {
            oldItem = oldItems.getRecordById(key);
            newItem = selectedItems.getRecordById(key);
            if (oldItem && newItem) {
-               oldItem.merge(newItem);
+               this._merge(oldItems, oldItem, newItem, options);
            } else if (oldItem) {
                 this._removeItem(options, key);
-           } else {
+           } else if (newItem) {
                this._addItem(options, newItem)
            }
         });
         oldItems.setEventRaising(true, true);
+    }
+
+    private  _merge(oldItems: RecordSet, oldItem: Model, newItem: Model, options: IReloadOptions): void {
+        const oldParentId = oldItem.get(options.parentProperty);
+        const newParentId = newItem.get(options.parentProperty);
+
+        if (oldParentId !== newParentId) {
+            // Удаляем старую запись при перемещении всегда
+            oldItems.remove(oldItem);
+            if (options.sourceController.hasLoaded(newParentId)) {
+                // Добавляем новую только если узел уже был загружен
+                oldItems.add(newItem);
+                const entryPath = oldItems.getMetaData()?.ENTRY_PATH;
+                // После перемещения записи восстановим позицию в entryPath для selection'a
+                if (entryPath) {
+                    const currentPosition = entryPath.find((item) => item.id == newItem.getKey());
+                    currentPosition.parent = newParentId;
+                }
+            }
+        } else {
+            oldItem.merge(newItem);
+        }
     }
 
     private _removeItem(options: IReloadOptions, key: TKeySelection): void {

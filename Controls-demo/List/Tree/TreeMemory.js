@@ -24,19 +24,27 @@ define('Controls-demo/List/Tree/TreeMemory', [
                var itemKey = item.get('id');
                var folderId;
                var correct;
-               
-               if (filter['Раздел'] !== undefined && !(filter['Раздел'] instanceof Array)) {
-                  folderId = filter['Раздел'];
-               } else {
-                  folderId = null;
-               }
-               correct = item.get('Раздел') === folderId;
-               if (selection) {
-                  correct = itemIsSelected(self, itemKey, selection.get('marked'), selection.get('excluded'));
-               }
 
-               if (correct && filter.onlyFolders) {
-                  correct = item.get('Раздел@') === true;
+               if (filter['id']) {
+                  correct = filter['id'].includes(itemKey);
+               } else {
+                  if (filter['Раздел'] !== undefined && !(filter['Раздел'] instanceof Array)) {
+                     folderId = filter['Раздел'];
+                  } else {
+                     folderId = null;
+                  }
+                  if ((filter['Раздел'] instanceof Array) && filter['expanded'] === true) {
+                     correct = filter['Раздел'].includes(item.get('Раздел'));
+                  } else {
+                     correct = item.get('Раздел') === folderId;
+                  }
+                  if (selection) {
+                     correct = itemIsSelected(self, itemKey, selection.get('marked'), selection.get('excluded'));
+                  }
+
+                  if (correct && filter.onlyFolders) {
+                     correct = item.get('Раздел@') === true;
+                  }
                }
 
                return correct;

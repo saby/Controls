@@ -1,8 +1,11 @@
 import {Confirmation} from 'Controls/popup';
-export default class {
+import {BaseAction} from 'Controls/defaultActions';
+
+export default class extends BaseAction {
     protected _name: string = '';
-    constructor(actionOptions: { name: string; }) {
-        this._name  = actionOptions.name;
+    constructor(options) {
+        super(options);
+        this._name  = options.actionOptions.name;
     }
     execute(meta: Record<string, any>): Promise<string> {
         const selectedKeys = meta.selection.selected;

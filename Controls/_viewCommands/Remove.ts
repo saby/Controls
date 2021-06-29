@@ -1,7 +1,7 @@
 import {IOptions} from './IViewAction';
 import HierarchyRemoveStrategy from './Remove/HierarchyRemoveStrategy';
 
-export interface IRemoveOptions extends IOptions, IHierarchyRemoveStrategyOptions {
+export interface IRemoveOptions extends IOptions {
     strategy?: HierarchyRemoveStrategy;
 }
 
@@ -21,7 +21,7 @@ export default class {
 
     execute(meta: Partial<IRemoveOptions>): Promise<string | void> {
         const config = {...this._options, ...meta};
-        const executePromise = config.action ? config.action.execute(config) : Promise.resolve();
+        const executePromise = config.command ? config.command.execute(config) : Promise.resolve();
         return executePromise.then((result) => {
             if (result) {
                 this._options.strategy.remove(config.sourceController.getItems(), config);
