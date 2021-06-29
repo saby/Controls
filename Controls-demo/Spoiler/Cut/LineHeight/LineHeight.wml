@@ -1,6 +1,18 @@
 <div class="controlsDemo__wrapper controlDemo__RowWrapper">
    <div class="demo-SpoilerCut__column1">
       <div class="controlsDemo__cell">
+         <div class="controls-text-label">custom lineHeight = xxs.</div>
+         <Controls.spoiler:Cut attr:style="width: 200px;"
+                               lineHeight="xxs" lines="{{3}}">
+            <ws:content>
+               <div>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+                  maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+               </div>
+            </ws:content>
+         </Controls.spoiler:Cut>
+      </div>
+      <div class="controlsDemo__cell">
          <div class="controls-text-label">lineHeight = xs.</div>
          <Controls.spoiler:Cut attr:style="width: 200px;"
                                attr:class="controls-fontsize-xs"
