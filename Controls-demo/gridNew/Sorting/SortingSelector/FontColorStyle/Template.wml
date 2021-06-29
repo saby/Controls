@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper" controlsDemo_fixedWidth300">
+<div class="controlsDemo__wrapper" controlsDemo_fixedWidth300>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontColorStyle=link</div>
         <Controls.grid:SortingSelector
