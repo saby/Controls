@@ -62,7 +62,7 @@ export default interface ICut {
  */
 
 /**
- * @name Controls/_spoiler/interface/ICut#inlineHeight
+ * @name Controls/_spoiler/interface/ICut#lineHeight
  * @cfg {String} Высота контрола.
  * Высота строки
  * @variant xs
@@ -74,10 +74,41 @@ export default interface ICut {
  * @variant 3xl
  * @variant 4xl
  * @variant 5xl
+ * @variant Кастомное значение.
+ * @example
+ * В данном примере зададим lineHeight с кастомным значением.
+ * <pre class="brush: html">
+ * <Controls.spoiler:Cut lineHeight="xxs" lines="{{3}}">
+ *       <ws:content>
+ *          ...
+ *       </ws:content>
+ *  </Controls.spoiler:Cut>
+ * </pre>
+ * <pre class="brush: css">
+ * .controls-Cut_lineHeight-xxs {
+ *    line-height: 14px;
+ * }
+ * .controls-Cut_lineHeight-xxs_lines-3_maxHeight {
+ *    max-height: calc((3 + 1) * 14px);
+ * }
+ * .controls-Cut_lineHeight-xxs_lines-3_height {
+ *    margin-top: calc((3 + 1) * 14px);
+ * }
+ * .controls-CutButton__container_lineHeight-xxs {
+ *    height: 14px;
+ * }
+ * </pre>
  * @default m
  * @demo Controls-demo/Spoiler/Cut/LineHeight/Index
  * @remark
  * Высота строки задается константой из стандартного набора размеров, который определен для текущей темы оформления.
+ * В случае задания кастомного значения в lineHeight нужно описать следующие классы со свойствами:
+ * <ul>
+ *    <li>controls-Cut_lineHeight-{{lineHeight}} определить line-height</li>
+ *    <li>controls-Cut_lineHeight-{{lineHeight}}_lines-{{lines}}_maxHeight определить max-height</li>
+ *    <li>controls-Cut_lineHeight-{{lineHeight}}_lines-{{lines}}_height определить margin-top</li>
+ *    <li>controls-CutButton__container_lineHeight-{{lineHeight}} определить height</li>
+ * </ul>
  */
 
 /**
