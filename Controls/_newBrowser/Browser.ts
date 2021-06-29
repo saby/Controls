@@ -609,6 +609,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
         const rootChanged = this.root !== this._detailDataSource.sourceController.getRoot();
+        if (!direction) {
+            this._processItemsMetadata(items);
+        }
         if (options.detail.imageProperty && (!this._hasImageInItems || rootChanged)) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
             const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
@@ -633,9 +636,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._search = null;
 
         this._masterMarkedKey = this.root;
-        if (!direction) {
-            this._processItemsMetadata(items);
-        }
     }
 
     /**
