@@ -20,6 +20,7 @@ export interface ISlidingPanelOptions {
     desktopMode?: 'dialog' | 'stack';
     autoHeight?: boolean;
     heightList?: number[];
+    userMoveLocked?: boolean;
 }
 
 export interface IDialogOptions {
@@ -79,10 +80,15 @@ export interface ISlidingPanel {
  * @typedef {Object} Controls/_popup/interface/ISlidingPanel/SlidingPanelOptions
  * @description Настройки окна на мобильном устройстве.
  * @property {Boolean} modal
- * @property {Number} minHeight Минимально допустимая высота окна. С такой высотой она открывается.
+ * @property {Number} minHeight Минимально допустимая высота окна. С такой высотой оно открывается.
  * @property {Number} maxHeight Максимально допустимая высота окна.
  * @property {String} position Определяет с какой стороны отображается окно. (Варианты: 'top', 'bottom')
  * @property {Boolean} autoHeight Позволяет окну до начала изменения высоты с помощью свайпа принимать высоту по контенту.
+ * @property {Boolean} userMoveLocked Определяет возможность взаимодействия с окном через свайп.
+ * Если true, то окно невозмозможно двигать свайпом. Закрыть можно только программно.
+ * @property {Number[]} heightList Определяет список высот(якорей), которые может принимать окно при растягивании.
+ * Когда пользователь отпускает свайп после растягивания окна принимает высоту ближайшего по значению якоря.
+ * Для определения того, к какому якорю сейчас прикреплена шторка в шаблон попапа спускаются опции currentHeight и heightList
  */
 
 /**
