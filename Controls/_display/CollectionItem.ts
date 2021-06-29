@@ -195,6 +195,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _isLastItem: boolean;
 
+    protected _isFirstItem: boolean;
+
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
 
     readonly isAdd: boolean;
@@ -655,7 +657,12 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    resetIsLastItem(): void {
+    resetFirstItem(): void {
+        this._isFirstItem = undefined;
+        this._nextVersion();
+    }
+
+    resetLastItem(): void {
         this._isLastItem = undefined;
         this._nextVersion();
     }
@@ -666,6 +673,14 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             this._nextVersion();
         }
         return this._isLastItem;
+    }
+
+    isFirstItem(): boolean {
+        if (this._isFirstItem === undefined) {
+            this._isFirstItem = this.getOwner().isFirstItem(this);
+            this._nextVersion();
+        }
+        return this._isFirstItem;
     }
 
     // region Drag-n-drop
@@ -863,10 +878,16 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
         }
 
+        // Последнюю границу лучше задавать в зависимости от наличия подвала
         const navigation = this.getOwner().getNavigation();
         if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
             && this.isLastItem()) {
             contentClasses += ' controls-ListView__itemV_last';
+        }
+
+        // Верхнюю границу лучше задавать в зависимости от наличия заголовков/итогов
+        if (this.isFirstItem()) {
+            contentClasses += ' controls-ListView__itemV_first';
         }
 
         if (isAnimatedForSelection) {

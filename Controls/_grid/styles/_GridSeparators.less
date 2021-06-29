@@ -25,10 +25,8 @@
    border-top-color: var(--item_separator_l_color_list);
 }
 
-// Первая граница списка, самая верхняя
-.controls-Grid__row:first-child,
-.controls-Grid__row.controls-ListView__itemV_first,
-.controls-ListView__groupHidden + .controls-Grid__row {
+// Верхнюю границу лучше задавать в зависимости от наличия заголовков/итогов
+.controls-Grid__row.controls-ListView__itemV_first {
    .controls-Grid__rowSeparator_size-s {
       border-top-color: var(--item_edge_separator_s_color_list);
    }
@@ -38,9 +36,8 @@
    }
 }
 
-// Последняя граница списка, самая нижняя
-.controls-Grid__row.controls-ListView__itemV_last,
-.controls-Grid__row_last {
+// Последнюю границу лучше задавать в зависимости от наличия подвала
+.controls-Grid__row.controls-ListView__itemV_last {
    .controls-Grid__rowSeparator_size-s {
       border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
       min-height: calc(var(--cell_min-height_grid) + var(--item-separator_s_thickness_list));
@@ -57,7 +54,7 @@
 }
 
 // В таблицах IE(table-layout) функцию min-height выполняет height
-.controls-Grid_table-layout .controls-Grid__row_last {
+.controls-Grid_table-layout .controls-ListView__itemV_last {
    .controls-Grid__rowSeparator_size-s {
       height: calc(var(--cell_min-height_grid) + var(--item-separator_s_thickness_list));
    }

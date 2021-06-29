@@ -114,10 +114,17 @@ export default abstract class Row<T> {
         if (params.showItemActionsOnHover !== false) {
             itemClasses += ' controls-ListView__item_showActions';
         }
+
+        // Последнюю границу лучше задавать в зависимости от наличия подвала
         const navigation = this.getOwner().getNavigation();
         if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
             && this.isLastItem()) {
             itemClasses += ' controls-ListView__itemV_last';
+        }
+
+        // Верхнюю границу лучше задавать в зависимости от наличия заголовков/итогов
+        if (this.isFirstItem()) {
+            itemClasses += ' controls-ListView__itemV_first';
         }
 
         return itemClasses;
@@ -761,6 +768,8 @@ export default abstract class Row<T> {
 
     abstract isLastItem(): boolean;
 
+    abstract isFirstItem(): boolean;
+
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
 
     protected abstract _nextVersion(): void;
@@ -779,5 +788,5 @@ Object.assign(Row.prototype, {
     _$columnSeparatorSize: null,
     _$backgroundStyle: 'default',
     _$itemActionsPosition: 'inside',
-    _$editingColumnIndex: null,
+    _$editingColumnIndex: null
 });

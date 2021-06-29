@@ -370,7 +370,7 @@ function onCollectionChange<T>(
             break;
     }
 
-    this._resetLastItem();
+    this._resetEdgeItems();
     this._finishUpdateSession(session);
     this._nextVersion();
 }
@@ -693,7 +693,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$topPadding: string;
 
     protected _$bottomPadding: string;
-    
+
     protected _$roundBorder: TRoundBorder;
 
     protected _$emptyTemplate: TemplateFunction;
@@ -864,8 +864,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
     protected _isDragOutsideList: boolean = false;
-    protected _firstItem: EntityModel;
-    protected _lastItem: EntityModel;
 
     // Фон застиканных записей и лесенки
     protected _$backgroundStyle?: string;
@@ -2251,7 +2249,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this.removeStrategy(this._dragStrategy);
             this._reIndex();
             this._reFilter();
-            this._resetLastItem();
+            this._resetEdgeItems();
         }
     }
 
@@ -2550,12 +2548,19 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getCount() - 1 === this.getIndex(item);
     }
 
-    protected _resetLastItem(): void {
+    isFirstItem(item: CollectionItem): boolean {
+        return this.getIndex(item) === 0;
+    }
+
+    protected _resetEdgeItems(): void {
         this.each((item, index) => {
             // Обновляем версию в том случае ,если у элемента сохранённое состояние lastItem
             // или он реально последний в списке
             if (item.isLastItem() || this.isLastItem(item)) {
-                item.resetIsLastItem();
+                item.resetLastItem();
+            }
+            if (item.isFirstItem() || this.isFirstItem(item)) {
+                item.resetFirstItem();
             }
         });
     }
@@ -2567,7 +2572,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setHasMoreData(hasMoreData: IHasMoreData): void {
         if (!isEqual(this._$hasMoreData, hasMoreData)) {
             this._$hasMoreData = hasMoreData;
-            this._resetLastItem();
+            this._resetEdgeItems();
             this._nextVersion();
         }
     }
@@ -2800,13 +2805,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             addIndex: options.index,
             groupMethod: this.getGroup()
         }, GroupItemsStrategy);
-        this._resetLastItem();
+        this._resetEdgeItems();
     }
 
     resetAddingItem(): void {
         if (this.getStrategyInstance(AddStrategy)) {
             this.removeStrategy(AddStrategy);
-            this._resetLastItem();
+            this._resetEdgeItems();
         }
     }
 
