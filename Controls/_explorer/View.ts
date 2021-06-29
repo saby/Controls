@@ -26,8 +26,6 @@ import {
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
-import {SearchView, SearchViewTable} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView, TreeGridViewTable } from 'Controls/treeGrid';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
@@ -40,6 +38,7 @@ import { isFullGridSupport } from 'Controls/display';
 import PathController from 'Controls/_explorer/PathController';
 import {Object as EventObject} from 'Env/Event';
 import {IColumn, IGridControl, IHeaderCell} from 'Controls/grid';
+import AbstractStrategy from 'Controls/_marker/strategy/AbstractStrategy';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -52,14 +51,14 @@ const ITEM_TYPES = {
 const DEFAULT_VIEW_MODE = 'table';
 
 const VIEW_NAMES = {
-    search: SearchView,
+    search: null,
     tile: null,
-    table: TreeGridView,
+    table: null,
     list: ListView
 };
 
 const MARKER_STRATEGY = {
-    list: SingleColumnStrategy,
+    list: AbstractStrategy,
     tile: SingleColumnStrategy,
     table: SingleColumnStrategy
 };
@@ -69,9 +68,9 @@ const ITEM_GETTER = {
 };
 
 const VIEW_TABLE_NAMES = {
-    search: SearchViewTable,
+    search: null,
     tile: null,
-    table: TreeGridViewTable,
+    table: null,
     list: ListView
 };
 const VIEW_MODEL_CONSTRUCTORS = {
@@ -209,8 +208,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _markerForRestoredScroll: TKey;
     private _resetScrollAfterViewModeChange: boolean = false;
     private _isMounted: boolean = false;
-    // TODO: используется только в ф-ии _setViewMode, нет смысла хранить это промис
-    private _setViewModePromise: Promise<void>;
     private _restoredMarkedKeys: IMarkedKeysStore;
     private _potentialMarkedKey: TKey;
     private _newItemPadding: IItemPadding;
@@ -376,13 +373,15 @@ export default class Explorer extends Control<IExplorerOptions> {
             } else {
                 this._checkedChangeViewMode(cfg.viewMode, cfg);
             }
-        } else if (!isViewModeChanged &&
+        } else if (
+            !isViewModeChanged &&
             this._pendingViewMode &&
             cfg.viewMode === this._pendingViewMode &&
-            cfg.sourceController) {
+            cfg.sourceController
+        ) {
             // https://online.sbis.ru/opendoc.html?guid=7d20eb84-51d7-4012-8943-1d4aaabf7afe
             if (!VIEW_MODEL_CONSTRUCTORS[this._pendingViewMode]) {
-                this._loadTileViewMode(cfg).then(() => {
+                this._loadTileViewMode().then(() => {
                     this._setViewModeSync(this._pendingViewMode, cfg);
                 });
             } else {
@@ -678,6 +677,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         this._notifyHandler(e, 'arrowClick', item);
     }
 
+    //region proxy methods to TreeControl
     scrollToItem(key: string | number, toBottom?: boolean): void {
         this._children.treeControl.scrollToItem(key, toBottom);
     }
@@ -691,6 +691,21 @@ export default class Explorer extends Control<IExplorerOptions> {
         return treeControl.reloadItem.apply(treeControl, arguments);
     }
 
+    reload(keepScroll: boolean, sourceConfig: IBaseSourceConfig): Promise<unknown> {
+        return this._children.treeControl.reload(keepScroll, sourceConfig);
+    }
+
+    getItems(): RecordSet {
+        return this._children.treeControl.getItems();
+    }
+
+    // todo removed or documented by task:
+    // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac
+    toggleExpanded(id: TKey): unknown | Promise<unknown> {
+        return this._children.treeControl.toggleExpanded(id);
+    }
+
+    //region edit
     beginEdit(options: object): Promise<void | {canceled: true}> {
         return this._children.treeControl.beginEdit(options);
     }
@@ -706,20 +721,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     commitEdit(): Promise<void | { canceled: true }> {
         return this._children.treeControl.commitEdit();
     }
-
-    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
-        return this._children.treeControl.reload(keepScroll, sourceConfig);
-    }
-
-    getItems(): RecordSet {
-        return this._children.treeControl.getItems();
-    }
-
-    // todo removed or documented by task:
-    // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac
-    toggleExpanded(id: TKey): Promise<unknown> {
-        return this._children.treeControl.toggleExpanded(id);
-    }
+    //endregion
 
     // region mover
 
@@ -757,6 +759,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     _clearSelection(): void {
         this._children.treeControl.clearSelection();
     }
+    //endregion
 
     /**
      * Возвращает идентификатор текущего корневого узла
@@ -974,25 +977,26 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
+    /**
+     * Переключает режим отображения списка. Данная операция может быть асинхронной если
+     * модули для требуемого режима отображения еще не загружены.
+     */
     private _setViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): Promise<void> {
-        if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
-            this._updateRootOnViewModeChanged(viewMode, cfg);
-        }
+        this._updateRootForSearchViewMode(viewMode, cfg);
 
-        if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
-            this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
-                this._setViewModeSync(viewMode, cfg);
-            });
-        } else if (!this._columnsViewLoaded && viewMode === 'list' && cfg.useColumns) {
-            this._setViewModePromise = this._loadColumnsViewMode().then(() => {
-                this._setViewModeSync(viewMode, cfg);
-            });
-        } else {
-            this._setViewModePromise = Promise.resolve();
+        // Модули требуемого режима отображения загружены если уже имеется класс
+        // вьюшки и не используется список в режиме колонок или список в режиме
+        // колонок уже загружен.
+        // P.S. Список в режиме колонок перезатирает стандартную вью для обычного
+        // списка. Поэтому для него сделана доп. обработка.
+        if (VIEW_NAMES[viewMode] && (!cfg.useColumns || this._columnsViewLoaded)) {
             this._setViewModeSync(viewMode, cfg);
+            return Promise.resolve();
         }
 
-        return this._setViewModePromise;
+        return this
+            ._loadViewModules(viewMode, cfg.useColumns)
+            .then(() => this._setViewModeSync(viewMode, cfg));
     }
 
     private _applyNewVisualOptions(): void {
@@ -1081,30 +1085,73 @@ export default class Explorer extends Control<IExplorerOptions> {
         return itemFromRoot;
     }
 
-    private _loadTileViewMode(options: IExplorerOptions): Promise<void> {
-        return new Promise((resolve) => {
-            import('Controls/treeTile').then((tile) => {
+    //region lazy loading views modules
+    /**
+     * Выполняет загрузку модулей для указанного режима отображения
+     */
+    private _loadViewModules(viewMode: TExplorerViewMode, useColumns: boolean = false): Promise<void> {
+        if (useColumns && viewMode === 'list') {
+            return this._loadColumnsViewMode();
+        }
+
+        switch (viewMode) {
+            case 'tile': return this._loadTileViewMode();
+            case 'table': return this._loadTableView();
+            case 'search': return this._loadSearchView();
+        }
+
+        return Promise.resolve();
+    }
+
+    private _loadTileViewMode(): Promise<void> {
+        return import('Controls/treeTile')
+            .then((tile) => {
                 VIEW_NAMES.tile = tile.TreeTileView;
                 VIEW_TABLE_NAMES.tile = tile.TreeTileView;
                 VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
-                resolve();
-            }).catch((err) => {
+            })
+            .catch((err) => {
                 Logger.error('Controls/_explorer/View: ' + err.message, this, err);
             });
-        });
     }
 
     private _loadColumnsViewMode(): Promise<void> {
-        return import('Controls/columns').then((columns) => {
-            VIEW_NAMES.list = columns.ViewTemplate;
-            MARKER_STRATEGY.list = MultiColumnStrategy;
-            ITEM_GETTER.list = columns.ItemContainerGetter;
-            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
-            this._columnsViewLoaded = true;
-        }).catch((err) => {
-            Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-        });
+        return import('Controls/columns')
+            .then((columns) => {
+                this._columnsViewLoaded = true;
+
+                VIEW_NAMES.list = columns.ViewTemplate;
+                MARKER_STRATEGY.list = MultiColumnStrategy;
+                ITEM_GETTER.list = columns.ItemContainerGetter;
+                VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+            })
+            .catch((err) => {
+                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+            });
     }
+
+    private _loadTableView(): Promise<void> {
+        return import('Controls/treeGrid')
+            .then((treeGrid) => {
+                VIEW_NAMES.table = treeGrid.TreeGridView;
+                VIEW_TABLE_NAMES.table = treeGrid.TreeGridViewTable;
+            })
+            .catch((err) => {
+                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+            });
+    }
+
+    private _loadSearchView(): Promise<void> {
+        return import('Controls/searchBreadcrumbsGrid')
+            .then((search) => {
+                VIEW_NAMES.search = search.SearchView;
+                VIEW_TABLE_NAMES.search = search.SearchViewTable;
+            })
+            .catch((err) => {
+                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+            });
+    }
+    //endregion
 
     private _canStartDragNDropFunc(): boolean {
         return this._viewMode !== 'search';
@@ -1186,19 +1233,21 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     private _setPendingViewMode(viewMode: TExplorerViewMode, options: IExplorerOptions): void {
         this._pendingViewMode = viewMode;
-
-        if (viewMode === 'search') {
-            this._updateRootOnViewModeChanged(viewMode, options);
-        }
+        this._updateRootForSearchViewMode(viewMode, options);
     }
 
-    private _updateRootOnViewModeChanged(viewMode: string, options: IExplorerOptions): void {
-        if (viewMode === 'search' && options.searchStartingWith === 'root') {
-            const currentRoot = this._getRoot(options.root);
+    /**
+     * Меняет текущий root на корневой если переданные viewMode === 'search' и
+     * опция searchStartingWith === 'root'.
+     */
+    private _updateRootForSearchViewMode(viewMode: string, options: IExplorerOptions): void {
+        if (viewMode !== 'search' || options.searchStartingWith !== 'root') {
+            return;
+        }
 
-            if (this._topRoot !== currentRoot) {
-                this._setRoot(this._topRoot, this._topRoot);
-            }
+        const currentRoot = this._getRoot(options.root);
+        if (this._topRoot !== currentRoot) {
+            this._setRoot(this._topRoot, this._topRoot);
         }
     }
 

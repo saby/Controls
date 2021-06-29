@@ -862,7 +862,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return super.reload(keepScroll, sourceConfig);
     }
 
-    protected reloadItem(key, readMeta, direction): Promise<unknown> {
+    reloadItem(key, readMeta, direction): Promise<unknown> {
         let result;
 
         if (direction === 'depth') {
