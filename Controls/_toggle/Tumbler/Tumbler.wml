@@ -1,4 +1,4 @@
-<div class="controls-Tumbler">
+<div class="controls_toggle_theme-{{_options.theme}} controls-Tumbler">
     <div class="controls-Tumbler__wrapper" on:mouseenter="_mouseEnterHandler()" on:touchstart="_touchStartHandler()">
         <ws:for data="index, itemData in _options.items">
             <div class="controls-Tumbler__button

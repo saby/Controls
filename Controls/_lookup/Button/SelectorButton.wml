@@ -1,4 +1,4 @@
-<div class="controls-Selectorbutton{{_items.getCount() === 0 ? ' controls-Selectorbutton_empty'}}
+<div class="controls_lookup_theme-{{_options.theme}} controls-Selectorbutton{{_items.getCount() === 0 ? ' controls-Selectorbutton_empty'}}
             {{_options.validationStatus!== 'valid' ? ' controls-invalid-container'}}">
     <ws:if data="{{_items.getCount()}}">
         <Controls._lookup.SelectedCollection

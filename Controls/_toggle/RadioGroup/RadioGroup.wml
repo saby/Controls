@@ -1,4 +1,4 @@
-<div class="controls-GroupRadio controls-GroupRadio{{_options.readOnly ? '_disabled': '_enabled'}}">
+<div class="controls_toggle_theme-{{_options.theme}} controls-GroupRadio controls-GroupRadio{{_options.readOnly ? '_disabled': '_enabled'}}">
     <div class="controls-invalid-container">
         <div class="controls-RadioGroup__wrapper_{{_options.direction}}">
             <ws:for data="index, item in _items">

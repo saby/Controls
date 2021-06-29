@@ -1,4 +1,4 @@
-<div class="controls-FastFilter" name="fastFilter">
+<div class="controls_filter_theme-{{_options.theme}} controls-FastFilter" name="fastFilter">
    <ws:for data="index, item in _items">
       <ws:if data="{{_configs[index]._items && _configs[index]._items.getCount()}}">
          <div class="controls-FastFilter__wrapper
