@@ -43,6 +43,7 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IValue
+ * @mixes Controls/interface:ILookup
  *
  * @public
  * @author Герасимов А.М.

@@ -141,7 +141,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const hasBottomHeaders = (): boolean => {
             const headers = Object.values(this._stickyHeaderController._headers);
             for (let i = 0; i < headers.length; i++) {
-                const position = StickyBlock.getStickyPosition({position: headers[i].position});
+                const position = headers[i].position;
                 if (position?.vertical === POSITION.BOTTOM || position?.horizontal === POSITION.RIGHT) {
                     return true;
                 }
@@ -170,7 +170,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!this._paging) {
                 this._paging = new PagingModel();
             }
-            this._paging.isVisible = this._scrollModel.canVerticalScroll && ContainerBase.getScrollOrientation(this._options) !== 'none';
+            this._paging.isVisible = this._scrollModel.canVerticalScroll && this._options.scrollOrientation !== 'none';
             if (this._options.pagingMode !== options.pagingMode) {
                 this._paging.pagingMode = options.pagingMode;
             }
@@ -186,7 +186,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // TODO: Логика инициализации для поддержки разных браузеров была скопирована почти полностью
         //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
         this._updateScrollContainerPaigingSccClass(options);
-        if (ContainerBase.getScrollOrientation(options) !== ContainerBase.getScrollOrientation(this._options)) {
+        if (options.scrollOrientation !== this._options.scrollOrientation) {
             this._scrollbars.updateScrollbarsModels(options);
         }
         this._scrollbars.updateOptions(options);
