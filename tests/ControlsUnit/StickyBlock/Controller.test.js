@@ -44,7 +44,9 @@ define([
       },
       data = {
             id: 2,
-            position: 'top',
+            position: {
+                vertical: 'top'
+            },
             mode: 'stackable',
             inst: {
                getOffset: function() {
@@ -168,13 +170,19 @@ define([
          });
 
          [{
-            position: 'top'
+            position: {
+                vertical: 'top'
+            }
          }, {
-            position: 'bottom',
+            position: {
+                vertical: 'bottom'
+            }
          }, {
-            position: 'topbottom'
+            position: {
+                vertical: 'topBottom'
+            }
          }].forEach(function(test) {
-            it(`should register new header on position ${test.position}`, function() {
+            it(`should register new header on position ${test.position.vertical}`, function() {
                let
                   event = {
                      stopImmediatePropagation: sinon.fake()
@@ -184,24 +192,30 @@ define([
                sinon.stub(component, '_updateTopBottom');
                return component.registerHandler(event, data, true).then(function() {
                   assert.deepOwnInclude(component._headers[data.id], data);
-                  if (test.position === 'topbottom') {
+                  if (test.position.vertical === 'topBottom') {
                      assert.include(component._headersStack['top'], data.id);
                      assert.include(component._headersStack['bottom'], data.id);
                   } else {
-                     assert.include(component._headersStack[test.position], data.id);
+                     assert.include(component._headersStack[test.position.vertical], data.id);
                   }
                });
             });
          });
 
          [{
-            position: 'top'
+            position: {
+                vertical: 'top'
+            }
          }, {
-            position: 'bottom',
+            position: {
+                vertical: 'bottom'
+            }
          }, {
-            position: 'topbottom'
+            position: {
+                vertical: 'topBottom'
+            }
          }].forEach(function(test) {
-            it(`should put headers in delayedHeaders collection, after afterMount register on position ${test.position}`, function() {
+            it(`should put headers in delayedHeaders collection, after afterMount register on position ${test.position.vertical}`, function() {
                let
                   event = {
                      stopImmediatePropagation: sinon.fake()
@@ -219,11 +233,11 @@ define([
                      component.init(container);
                      Promise.resolve().then(() => {
                         assert.equal(component._delayedHeaders.length, 0);
-                        if (test.position === 'topbottom'){
+                        if (test.position.vertical === 'topBottom'){
                            assert.equal(component._headersStack['top'].length, 2);
                            assert.equal(component._headersStack['bottom'].length, 2);
                         } else{
-                           assert.equal(component._headersStack[test.position].length, 2);
+                           assert.equal(component._headersStack[test.position.vertical].length, 2);
                         }
                         resolve();
                      });
@@ -234,24 +248,32 @@ define([
          });
 
          [{
-            position: 'top',
+            position: {
+                vertical: 'top'
+            },
             result: true,
          }, {
-            position: 'bottom',
+            position: {
+                vertical: 'bottom'
+            },
             result: true,
          }, {
-            position: 'topbottom',
+            position: {
+                vertical: 'topBottom'
+            },
             result: true,
          }, {
             position: 'top',
             offset: 10,
             result: false,
          }, {
-            position: 'bottom',
+            position: {
+                vertical: 'bottom'
+            },
             offset: 10,
             result: false,
          }].forEach(function(test) {
-            it(`should set correct fixedInitially. position: ${test.position}`, function() {
+            it(`should set correct fixedInitially. position: ${test.position.vertical}`, function() {
                let
                   event = {
                      stopImmediatePropagation: sinon.fake()
@@ -271,13 +293,19 @@ define([
          });
 
          [{
-            position: 'top'
+            position: {
+               vertical: 'top'
+            }
          }, {
-            position: 'bottom',
+            position: {
+               vertical: 'bottom'
+            },
          }, {
-            position: 'topbottom'
+            position: {
+               vertical: 'topBottom'
+            }
          }].forEach(function(test) {
-            it(`should unregister deleted header on position ${test.position}`, function() {
+            it(`should unregister deleted header on position ${test.position.vertical}`, function() {
                sinon.stub(component, '_unobserveStickyHeader');
                let event = {
                      blockUpdate: false,
@@ -285,23 +313,23 @@ define([
                   },
                   data = getRegisterObject(test);
                component._headers[data.id] = data;
-               if (test.position === 'topbottom') {
+               if (test.position.vertical === 'topBottom') {
                   component._headersStack['top'].push(data.id);
                   component._headersStack['bottom'].push(data.id);
                   component._fixedHeadersStack['bottom'].push(data.id);
                } else {
-                  component._headersStack[test.position].push(data.id);
-                  component._fixedHeadersStack[test.position].push(data.id);
+                  component._headersStack[test.position.vertical].push(data.id);
+                  component._fixedHeadersStack[test.position.vertical].push(data.id);
                }
                return component.registerHandler(event, data, false).then(function() {
                   assert.isUndefined(component._headers[data.id]);
-                  if (test.position === 'topbottom') {
+                  if (test.position.vertical === 'topBottom') {
                      assert.notInclude(component._headersStack['top'], data.id);
                      assert.notInclude(component._headersStack['bottom'], data.id);
                      assert.notInclude(component._fixedHeadersStack['bottom'], data.id);
                   } else {
-                     assert.notInclude(component._headersStack[test.position], data.id);
-                     assert.notInclude(component._fixedHeadersStack[test.position], data.id);
+                     assert.notInclude(component._headersStack[test.position.vertical], data.id);
+                     assert.notInclude(component._fixedHeadersStack[test.position.vertical], data.id);
                   }
                });
             });
@@ -313,7 +341,7 @@ define([
                    blockUpdate: false,
                    stopImmediatePropagation: sinon.fake()
                 },
-                data = getRegisterObject({position: 'top'});
+                data = getRegisterObject({position: { vertical: 'top' }});
 
             component._headers[data.id] = data;
             component._delayedHeaders[0] = data;
@@ -334,7 +362,9 @@ define([
                const header = {
                   container,
                   id: index,
-                  position: 'top',
+                  position: {
+                      vertical:  'top'
+                  },
                   mode: 'stackable',
                   inst: {
                      getOffset: function() {
@@ -383,7 +413,7 @@ define([
          });
       });
 
-      describe('StickyHeader', function() {
+      describe('StickyBlock', function() {
          var event = {
             stopImmediatePropagation: function() {}
          };
@@ -598,7 +628,9 @@ define([
          it('should return the correct height after a new header is not at the very top has been registered and fixed.', function () {
             const data = {
                id: 2,
-               position: 'top',
+               position: {
+                   vertical: 'top'
+               },
                mode: 'stackable',
                inst: {
                   getOffset: function() {
@@ -666,7 +698,9 @@ define([
             component.init(container);
             const data = {
                id: 2,
-               position: 'top',
+               position: {
+                   vertical: 'top'
+               },
                mode: 'stackable',
                inst: {
                   getOffset: function() {
@@ -861,18 +895,22 @@ define([
             fixedHeaders: {
                top: ['header1']
             },
-            position: 'top',
+            position: {
+               vertical: 'top'
+            },
             resp: false
          }, {
             fixedHeaders: {
                top: ['header2']
             },
-            position: 'top',
+            position: {
+               vertical: 'top'
+            },
             resp: true
          }].forEach((test) => {
             it('should push new elements to array of heights', () => {
                component._fixedHeadersStack = test.fixedHeaders;
-               assert.strictEqual(component.hasShadowVisible(test.position), test.resp);
+               assert.strictEqual(component.hasShadowVisible(test.position.vertical), test.resp);
             });
          });
       });

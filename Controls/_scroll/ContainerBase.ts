@@ -113,8 +113,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
-        const scrollOrientation = ContainerBase.getScrollOrientation(options);
-        if (!this._isHorizontalScroll(scrollOrientation)) {
+        if (!this._isHorizontalScroll(options.scrollOrientation)) {
             this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
         }
         this._resizeObserverSupported = this._resizeObserver?.isResizeObserverSupported();
@@ -158,7 +157,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _afterMount(): void {
-        const scrollOrientation = ContainerBase.getScrollOrientation(this._options);
+        const scrollOrientation = this._options.scrollOrientation;
         if (!this._scrollModel) {
             this._createScrollModel();
         }
@@ -197,7 +196,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _beforeUpdate(options: IContainerBaseOptions) {
-        if (ContainerBase.getScrollOrientation(options) !== ContainerBase.getScrollOrientation(this._options)) {
+        if (options.scrollOrientation !== this._options.scrollOrientation) {
             this._scrollCssClass = this._getScrollContainerCssClass(options);
         }
     }
@@ -822,7 +821,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
-        switch (ContainerBase.getScrollOrientation(options)) {
+        switch (options.scrollOrientation) {
             case SCROLL_MODE.VERTICAL:
                 return 'controls-Scroll-ContainerBase__scroll_vertical';
             case SCROLL_MODE.HORIZONTAL:
@@ -1149,11 +1148,6 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (!event.propagating()) {
             return this._notify(eventName, args) || event.result;
         }
-    }
-
-    // TODO: Удалить после https://online.sbis.ru/opendoc.html?guid=a880359e-1c09-4a79-8284-c386920a20cf
-    static getScrollOrientation(options: IContainerBaseOptions): string {
-        return options.scrollMode || options.scrollOrientation;
     }
 
     static _theme: string[] = ['Controls/scroll'];

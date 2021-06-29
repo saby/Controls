@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/Scroll/StickyHeader/Controller/HeadersStack/Template');
+import controlTemplate = require('wml!Controls-demo/Scroll/StickyBlock/Controller/HeadersStack/Template');
 import 'css!Controls-demo/Controls-demo';
 
 export default class HeadersStack1 extends Control<IControlOptions> {
