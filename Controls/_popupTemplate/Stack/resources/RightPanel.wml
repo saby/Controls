@@ -1,26 +1,35 @@
 <div class="controls-StackTemplate__rightPanel">
-    <Controls.buttons:Button
-            attr:data-qa="controls-stack-Button__close"
-            icon="icon-Close"
-            iconStyle="label"
-            buttonStyle="pale"
-            iconSize="m"
-            viewMode="functionalButton"
-            inlineHeight="xl"
-            tooltip="{[Закрыть]}"
-            readOnly="{{false}}"
-            attr:class="controls-Button__close controls-stack-Button__close controls-StackTemplate__close_button
-                {{_options.closeButtonVisibility === false ? 'ws-invisible'}} controls-stack-Button__rightPanel__close ws-flex-shrink-0"
-            on:click="_close()"
-    />
+   <div class="ws-flexbox ws-flex-column ws-justify-content-between ws-flex-grow-0 ws-flex-shrink-0 controls-StackTemplate__rightPanel-wrapper">
+      <div class="ws-flexbox ws-flex-column ws-flex-shrink-0 ws-align-items-center">
+         <Controls.buttons:Button
+                  attr:data-qa="controls-stack-Button__close"
+                  icon="icon-Close"
+                  iconStyle="label"
+                  buttonStyle="pale"
+                  iconSize="m"
+                  viewMode="functionalButton"
+                  inlineHeight="xl"
+                  tooltip="{[Закрыть]}"
+                  readOnly="{{false}}"
+                  attr:class="controls-Button__close controls-stack-Button__close controls-StackTemplate__close_button
+                     {{_options.closeButtonVisibility === false ? 'ws-invisible'}} controls-stack-Button__rightPanel__close ws-flex-shrink-0"
+                  on:click="_close()"
+         />
 
-    <ws:if data="{{_options.toolbarContentTemplate}}">
-        <ws:partial template="{{_options.toolbarContentTemplate}}"/>
-    </ws:if>
+         <ws:if data="{{_options.toolbarContentTemplate}}">
+            <ws:partial template="{{_options.toolbarContentTemplate}}"/>
+         </ws:if>
+         <ws:else data="{{ _options.toolbarConfig && _rightTopTemplate }}">
+               <Controls.Container.Async templateName="{{_rightTopTemplate}}">
+                  <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}" toolbarConfig="{{_options.toolbarConfig}}"/>
+            </Controls.Container.Async>
+         </ws:else>
+      </div>
 
-    <ws:if data="{{_rightBottomTemplate}}">
-        <Controls.Container.Async templateName="{{_rightBottomTemplate}}" templateOptions="{{_options.rightPanelOptions}}">
-            <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
-        </Controls.Container.Async>
-    </ws:if>
+      <ws:if data="{{_rightBottomTemplate}}">
+         <Controls.Container.Async templateName="{{_rightBottomTemplate}}" templateOptions="{{_options.rightPanelOptions}}" attr:class="controls-padding_bottom-xs">
+               <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}"/>
+         </Controls.Container.Async>
+      </ws:if>
+   </div>
 </div>
