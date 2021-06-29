@@ -80,7 +80,7 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
     let breadCrumbs;
     const last = getNearestNode(item);
     const root = display && display.getRoot();
-    if (last && last !== root) {
+    if (last && last !== root && !last['[Controls/treeGrid:TreeGridGroupDataRow]']) {
         breadCrumbs = treeItemToBreadcrumbs.get(last);
         if (!breadCrumbs) {
             // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
