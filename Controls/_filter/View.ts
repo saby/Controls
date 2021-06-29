@@ -409,7 +409,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             popupOptions.restrictiveContainer = '.sabyPage-MainLayout__rightPanel';
         }
         Merge(popupOptions, panelPopupOptions);
-        popupOptions.className += ` controls_popupTemplate_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
+        popupOptions.className += ` controls_popupTemplate_theme-${this._options.theme} controls_filter_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
         this._getFilterPopupOpener().open(popupOptions);
     }
 

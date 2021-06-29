@@ -12,6 +12,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
+ * @includes IEditableList Controls/_list/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
@@ -31,6 +32,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
+ * @includes IEditableList Controls/_list/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
@@ -91,6 +93,7 @@ export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
+export * from 'Controls/_list/interface/IEditableList';
 
 export {default as ItemsView, IItemsViewOptions} from 'Controls/_list/ItemsView';
 

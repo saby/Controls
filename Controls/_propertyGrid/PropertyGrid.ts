@@ -36,7 +36,7 @@ type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem
  *
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends UI/Base:Control
- * @mixes Controls/propertyGrid:IPropertyGrid
+ * @mixes Controls/interface/IPropertyGrid
  * @demo Controls-demo/PropertyGridNew/Group/Expander/Index
  *
  * @public

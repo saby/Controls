@@ -95,6 +95,13 @@ type ISuggest = ISuggest & {
        */
       displayProperty: string;
    };
-}
+};
+
+/**
+ * @event Происходит при выборе элемента из автодополнения или окна выбора.
+ * @name Controls/_suggest/ISuggest#choose
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Types/entity:Model} item Выбранный элемент.
+ */
 
 export default ISuggest;

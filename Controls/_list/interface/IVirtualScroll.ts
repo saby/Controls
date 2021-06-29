@@ -62,18 +62,21 @@ export type IVirtualScrollMode = 'remove' | 'hide';
  * @see Controls/interface:INavigation#navigation
  */
 
+
 /**
- * @event Происходит, когда в списке не отображается верхняя/нижняя часть списка из-за виртуального скролла, либо есть незагруженные данные сверху/снизу.
+ * @event Происходит при использовании виртуального скролла, когда список находится в такой позиции, что сверху и снизу списка есть скрытые (или доступные для загрузки) элементы.
  * @remark По этому событию скрывается контент {@link Controls/scroll:VirtualScrollContainer} с опцией position, соответствующей параметру в событии.
  * @name Controls/_list/interface/IVirtualScrollConfig#enableVirtualNavigation
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {'top' | 'bottom'} position Положение, в котором будет скрыт контент Controls/scroll:VirtualScrollContainer.
+ * @see disableVirtualNavigation
  */
 
 /**
- * @event Происходит, когда в списке отображается верхняя/нижняя часть списка из-за виртуального скролла, нет незагруженных данных сверху/снизу.
+ * @event Происходит при использовании виртуального скролла, когда список находится в такой позиции, что сверху или снизу списка нет скрытых (или доступных для загрузки) элементов.
  * @remark По этому событию показывается контент {@link Controls/scroll:VirtualScrollContainer} с опцией position соответствующей параметру в событии.
  * @name Controls/_list/interface/IVirtualScrollConfig#disableVirtualNavigation
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {'top' | 'bottom'} position Положение, в котором будет скрыт контент Controls/scroll:VirtualScrollContainer.
+ * @see enableVirtualNavigation
  */

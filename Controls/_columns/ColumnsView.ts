@@ -17,7 +17,7 @@
  * @mixes Controls/interface:IFilterChanged
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/list:IEditableList
  * @mixes Controls/interface:ISorting
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface/IGroupedList
@@ -106,6 +106,13 @@
  * @typedef {String} Controls/columns:View/ColumnsMode
  * @variant auto Автоматическое распределение записей по колонкам.
  * @variant fixed Каждая запись располагается в заранее определенную колонку.
+ */
+
+ /**
+ * @name Controls/columns:View#columnProperty
+ * @cfg {String} Свойство элемента данных, содержащее индекс колонки (начиная с 0), 
+ * в которую будет распределен элемент при {@link columnsMode}: 'fixed'.
+ * @default column
  */
 
  /**

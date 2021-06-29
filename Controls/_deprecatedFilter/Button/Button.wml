@@ -1,4 +1,4 @@
-<div class="controls-FilterButton
+<div class="controls_filter_theme-{{_options.theme}} controls-FilterButton
    {{_isItemsChanged && _text ? ' controls-FilterButton__state_changed controls-FilterButton_' + _options.alignment + '__state_changed'}}"
      name="panelTarget">
    <div class="controls-FilterButton__wrapper">

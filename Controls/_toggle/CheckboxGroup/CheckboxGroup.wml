@@ -1,4 +1,4 @@
-<div class="controls-CheckboxGroup">
+<div class="controls_toggle_theme-{{_options.theme}} controls-CheckboxGroup">
    <ws:partial template="{{_groupTemplate}}"
                groupTemplate="{{_groupTemplate}}"
                itemTemplate="{{_options.itemTemplate}}"
