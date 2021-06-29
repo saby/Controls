@@ -4422,7 +4422,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 !this._sourceController.isLoading() &&
                 this._options.loading !== newOptions.loading;
 
-            if (isPortionedLoad && (searchValueChanged || this._loadedBySourceController)) {
+            if (searchValueChanged || this._loadedBySourceController) {
                 _private.getPortionedSearch(this).reset();
             }
             // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
