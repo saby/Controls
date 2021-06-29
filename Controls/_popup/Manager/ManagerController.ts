@@ -24,6 +24,7 @@ export default {
     _indicator: null,
     _contentData: null,
     _rightBottomTemplate: null,
+    _rightTopTemplate: null,
     _popupHeaderTheme: undefined,
     _theme: undefined,
     _popupSettingsController: undefined,
@@ -159,8 +160,16 @@ export default {
         this._rightBottomTemplate = rightTemplate;
     },
 
+    setRightPanelTopTemplate(rightTopTemplate: string): void {
+        this._rightTopTemplate = rightTopTemplate;
+    },
+
     getRightPanelBottomTemplate(): string {
         return this._rightBottomTemplate;
+    },
+
+    getRightPanelTopTemplate(): string {
+        return this._rightTopTemplate;
     },
 
     setRightTemplate(): void {

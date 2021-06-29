@@ -46,6 +46,7 @@
         <ws:partial template="Controls/_popupTemplate/Stack/resources/RightPanel"
                     closeButtonVisibility="{{_options.closeButtonVisibility}}"
                     toolbarContentTemplate="{{_options.toolbarContentTemplate}}"
+                    toolbarConfig="{{ _options.toolbarConfig }}"
                     rightPanelOptions="{{_options.rightPanelOptions}}"/>
     </div>
 </div>
