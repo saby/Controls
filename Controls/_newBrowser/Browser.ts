@@ -612,7 +612,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         if (options.detail.imageProperty && (!this._hasImageInItems || rootChanged)) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
             const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
-            if (imageVisibility !== this._listCfg.getImageVisibility()) {
+            if (imageVisibility !== this._listCfg?.getImageVisibility()) {
                 this._listCfg.setImageVisibility(imageVisibility);
                 this._tileCfg.setImageVisibility(imageVisibility);
                 this._tableCfg.setImageVisibility(imageVisibility);
@@ -729,6 +729,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             newColumns.forEach((column) => {
                 const templateOptions = column.templateOptions || {};
                 templateOptions.tableCfg = this._tableCfg;
+                column.templateOptions = templateOptions;
             });
         }
         return newColumns;
