@@ -401,7 +401,7 @@ class StickyHeaderController {
             this._headers[header.id].offset = {};
         } else if (operation === STACK_OPERATION.add) {
             const headerPosition = StickyBlock.getStickyPosition(this._headers[header.id]);
-            this._addToHeadersStack(header.id, headerPosition);
+            this._addToHeadersStack(header.id, headerPosition, true);
         }
     }
 
@@ -628,9 +628,10 @@ class StickyHeaderController {
      * @param position
      * @private
      */
-    private _getHeaderOffset(id: number, position: string) {
+    private _getHeaderOffset(id: number, position: string, needUpdateOffset = false) {
         const header = this._headers[id];
-        if (header.offset[position] === undefined) {
+        // Нужно пересчитать оффсет в случае, если после ресайза добавляются заголовки в headersStack.
+        if (header.offset[position] === undefined || needUpdateOffset) {
             header.offset[position] = this._getHeaderOffsetByContainer(this._container, id, position);
         }
         return header.offset[position];
@@ -651,11 +652,11 @@ class StickyHeaderController {
         }
     }
 
-    private _addToHeadersStack(id: number, headerPosition: POSITION): void {
+    private _addToHeadersStack(id: number, headerPosition: POSITION, needUpdateOffset = false): void {
         const addToHeadersStack = (position) => {
             const
                 headersStack = this._headersStack[position],
-                newHeaderOffset = this._getHeaderOffset(id, position),
+                newHeaderOffset = this._getHeaderOffset(id, position, needUpdateOffset),
                 headerContainerSizes = this._headers[id].inst.getHeaderContainer().getBoundingClientRect();
             let headerContainerSize;
             if (position === 'left' || position === 'right') {
