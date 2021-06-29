@@ -115,6 +115,7 @@ export default class View extends Control<IOptions, IReceivedState> {
     protected _masterDataSource: SourceController = null;
     protected _hasImageInItems: boolean = false;
     protected _itemToScroll: CrudEntityKey = null;
+    protected _contrastBackground: boolean = true;
 
     /**
      * Опции для Controls/explorer:View в master-колонке
@@ -265,6 +266,7 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._appliedViewMode = this.viewMode;
         this._updateMasterVisibility(options);
         this._updateDetailBgColor(options);
+        this._updateContrastBackground();
         this._notify('viewModeChanged', [this.viewMode]);
     }
 
@@ -382,6 +384,10 @@ export default class View extends Control<IOptions, IReceivedState> {
         } else {
             this._detailBgColor = options.detail.backgroundColor || '#ffffff';
         }
+    }
+
+    private _updateContrastBackground(): void {
+        this._contrastBackground = this.viewMode !== DetailViewMode.tile;
     }
     //endregion
 
