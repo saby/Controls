@@ -41,7 +41,7 @@
   "--primary_active_contrast_background-color": "#d6551f",
 
   "--secondary_color": "#587ab0",
-  "--secondary_text-color": "#153f6f",
+  "--secondary_text-color": "#313e78",
   "--secondary_hover_text-color": "#2f5b8e",
   "--secondary_icon-color": "#656c87",
   "--secondary_hover_icon-color": "#153f6f",
