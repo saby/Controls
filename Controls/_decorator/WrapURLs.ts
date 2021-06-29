@@ -160,7 +160,7 @@ class WrapURLs extends Control<IWrapURLsOptions, void> {
         // Бывают ситуации, когда не удается распарсить ссылку, если перед ней стоит знак препинания,
         // Поэтому отделяем возможную ссылку пробелом
         // https://online.sbis.ru/opendoc.html?guid=2229ac37-353c-4601-8056-d22c9ee0f919
-        const text = value.replace(/([\?.,])https/g, '$1 http');
+        const text = value.replace(/([\?.,])http/g, '$1 http');
         let exec: RegExpExecArray = WrapURLs.parseRegExp.exec(text);
 
         while (exec) {
