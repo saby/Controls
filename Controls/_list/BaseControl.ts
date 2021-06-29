@@ -146,7 +146,6 @@ const
         keyDownDel: constants.key.del
     };
 
-const ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET = 1;
 const INDICATOR_DELAY = 2000;
 const INITIAL_PAGES_COUNT = 1;
 const SET_MARKER_AFTER_SCROLL_DELAY = 100;
@@ -411,13 +410,23 @@ const _private = {
             return false;
         }
         const needAttachLoadTopTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'up');
+        let newAttachLoadTopTriggerToNull;
         if (needAttachLoadTopTriggerToNull && self._isMounted) {
-            self._attachLoadTopTriggerToNull = true;
+            newAttachLoadTopTriggerToNull = true;
             self._needScrollToFirstItem = true;
             self._scrollTop = 1;
         } else {
-            self._attachLoadTopTriggerToNull = false;
+            newAttachLoadTopTriggerToNull = false;
         }
+
+        if (newAttachLoadTopTriggerToNull !== self._attachLoadTopTriggerToNull) {
+            self._attachLoadTopTriggerToNull = newAttachLoadTopTriggerToNull;
+            // зовем _forceUpdate, чтобы произошла перерисовка и отрисовался индикатор
+            // индикатор всегда находится в доме, мы его тображаем с помощью стиля, который возвращает метод,
+            // поэтому перерисовка сама не позовется
+            self._forceUpdate();
+        }
+
         return needAttachLoadTopTriggerToNull;
     },
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
@@ -3434,12 +3443,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _attachLoadTopTriggerToNull = false;
     _attachLoadDownTriggerToNull = false;
-
-    // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
-    _attachedToNullLoadTopTriggerOffset = ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET;
     _hideTopTrigger = false;
     _resetTopTriggerOffset = false;
     _resetDownTriggerOffset = false;
+
     protected _listViewModel = null;
     _viewModelConstructor = null;
     protected _items: RecordSet;
@@ -6832,9 +6839,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             case 'up':
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     styles += 'display: none; ';
-                }
-                if (this._attachLoadTopTriggerToNull) {
-                    styles += `margin-bottom: -${this._attachedToNullLoadTopTriggerOffset}px;`;
                 }
                 break;
             case 'down':
