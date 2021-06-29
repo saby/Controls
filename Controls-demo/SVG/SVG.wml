@@ -1,3 +1,3 @@
 <svg>
-    <use xlink:href="../SVG/example.svg#circle"></use>
+    <use xlink:href="{{_circleUrl}}"></use>
 </svg>
