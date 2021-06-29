@@ -221,12 +221,11 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             wrapperClasses += ' controls-Grid__header-cell-checkbox controls-Grid__header-cell-checkbox_min-width';
         }
 
-        // @TODO добавить зависимость от resultsVisible ???
         if (this._$rowSeparatorSize !== 'null' && this._$rowSeparatorSize !== null) {
             const isMultiLineHeader = this._$owner.isMultiline();
             const headerEndRow = this._$owner.getBounds().row.end;
             if ((isMultiLineHeader && this._$column.endRow === headerEndRow) || !isMultiLineHeader) {
-                wrapperClasses += ' controls-Grid__cell_header_border-bottom';
+                wrapperClasses += ` controls-Grid__header__rowSeparator_size-${this._$rowSeparatorSize}`;
             }
         }
 

@@ -420,6 +420,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _initializeHeader(options: IOptions): void {
         const cOptions = {
             ...options,
+            rowSeparatorSize: this._resultsIsVisible() ? null : options.rowSeparatorSize,
             owner: this,
             header: options.header
         };

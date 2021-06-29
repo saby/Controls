@@ -13,12 +13,14 @@
 */
 
 // Сам сепаратор, его главный класс, дает границы.
+.controls-GridView__footer__rowSeparator_size-s,
 .controls-Grid__rowSeparator_size-s {
    border: 0 solid transparent;
    border-top-width: var(--item-separator_s_thickness_list);
    border-top-color: var(--item_separator_s_color_list);
 }
 
+.controls-GridView__footer__rowSeparator_size-l,
 .controls-Grid__rowSeparator_size-l {
    border: 0 solid transparent;
    border-top-width: var(--item-separator_l_thickness_list);
@@ -34,18 +36,6 @@
    }
 }
 
-// В таблицах IE(table-layout) функцию min-height выполняет height
-.controls-Grid_table-layout .controls-Grid__row_last {
-   .controls-Grid__rowSeparator_size-s {
-      height: calc(var(--cell_min-height_grid) + var(--item-separator_s_thickness_list));
-   }
-
-   .controls-Grid__rowSeparator_size-l {
-      height: calc(var(--cell_min-height_grid) + var(--item-separator_l_thickness_list));
-   }
-}
-
-
 // Разделители колонок
 .controls-Grid__columnSeparator_size-s {
    border-left-style: solid;
@@ -57,4 +47,20 @@
 // Чтобы крошка выглядела по стандарту, уберем на ней разделители колонок.
 .controls-Grid__row__searchBreadCrumbs_withoutColumnSeparator .controls-Grid__columnSeparator_size-s {
    border-left-width: 0;
+}
+
+// Разделители на шапке и итогах
+
+.controls-Grid__header__rowSeparator_size-s,
+.controls-Grid__results__rowSeparator_size-s {
+   border: 0 solid transparent;
+   border-bottom-width: var(--item-separator_s_thickness_list);
+   border-bottom-color: var(--item_separator_s_color_list);
+}
+
+.controls-Grid__header__rowSeparator_size-l,
+.controls-Grid__results__rowSeparator_size-l {
+   border: 0 solid transparent;
+   border-bottom-width: var(--item-separator_l_thickness_list);
+   border-bottom-color: var(--item_separator_l_color_list);
 }

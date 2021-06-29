@@ -23,7 +23,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
         }
 
         if (this._$rowSeparatorSize !== 'null' && this._$rowSeparatorSize !== null) {
-            wrapperClasses += ' controls-GridView__footer_border-top';
+            wrapperClasses += ` controls-Grid__footer__rowSeparator_size-${this._$rowSeparatorSize}`;
         }
 
         if (this._$shouldAddFooterPadding) {

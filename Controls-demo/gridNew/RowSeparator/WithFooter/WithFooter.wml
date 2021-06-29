@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper">
+    <Controls.grid:View
+            keyProperty="key"
+            source="{{_viewSource}}"
+            rowSeparatorSize="s"
+            columns="{{_columns}}">
+        <ws:footerTemplate>
+            <div>Подвал растянут</div>
+        </ws:footerTemplate>
+    </Controls.grid:View>
+</div>
