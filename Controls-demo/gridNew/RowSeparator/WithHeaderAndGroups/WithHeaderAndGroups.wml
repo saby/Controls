@@ -4,5 +4,6 @@
             source="{{_viewSource}}"
             header="{{_header}}"
             rowSeparatorSize="s"
+            groupProperty="group"
             columns="{{_columns}}"/>
 </div>

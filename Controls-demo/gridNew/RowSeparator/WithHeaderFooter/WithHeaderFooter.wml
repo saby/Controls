@@ -2,6 +2,7 @@
     <Controls.grid:View
             keyProperty="key"
             source="{{_viewSource}}"
+            header="{{_header}}"
             rowSeparatorSize="s"
             columns="{{_columns}}">
         <ws:footerTemplate>

@@ -1,19 +1,19 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/RowSeparator/WithHeader/WithHeader';
+import * as Template from 'wml!Controls-demo/gridNew/RowSeparator/WithHeaderAndGroups/WithHeaderAndGroups';
 import {Memory} from 'Types/source';
 import {IColumn, IHeaderCell} from 'Controls/grid';
-import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
+import { Tasks } from 'Controls-demo/gridNew/DemoHelpers/Data/Tasks';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = Countries.getColumnsWithFixedWidths();
-    protected _header: IHeaderCell[] = Countries.getHeader();
+    protected _columns: IColumn[] = Tasks.getDefaultColumns();
+    protected _header: IHeaderCell[] = Tasks.getHeader();
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'key',
-            data: Countries.getData()
+            data: Tasks.getData().slice(3)
         });
     }
 

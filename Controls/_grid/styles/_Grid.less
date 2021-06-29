@@ -156,6 +156,14 @@
    min-height: var(--results_cell_min-height_grid);
 }
 
+// Первая граница списка, самая верхняя
+.controls-Grid__row:first-child,
+.controls-ListView__groupHidden:first-child + .controls-Grid__row {
+   .controls-Grid__row-cell_default_min_height {
+      min-height: calc(var(--cell_min-height_grid) - 1)
+   }
+}
+
 .controls-Grid__row-result-cell__content-font-weight_default {
    font-weight: var(--font-weight);
 }
