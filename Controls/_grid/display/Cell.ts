@@ -446,7 +446,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         const rowSeparatorSize = this._$rowSeparatorSize;
         let classes = '';
 
-        if (rowSeparatorSize ) {
+        if (rowSeparatorSize) {
             classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
             classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}`;
         } else {

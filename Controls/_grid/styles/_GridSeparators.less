@@ -27,11 +27,8 @@
 
 // Первая граница списка, самая верхняя
 .controls-Grid__row:first-child,
-.controls-ListView__groupHidden + .controls-Grid__row {
-   .controls-Grid__rowSeparator_size-s {
-      border-top: none;
-   }
-
+.controls-ListView__groupHidden:first-child + .controls-Grid__row {
+   .controls-Grid__rowSeparator_size-s,
    .controls-Grid__rowSeparator_size-l {
       border-top: none;
    }

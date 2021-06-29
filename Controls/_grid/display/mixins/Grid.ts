@@ -57,6 +57,7 @@ export interface IOptions {
     sorting?: Array<{[p: string]: string}>;
     emptyTemplateColumns?: IEmptyTemplateColumn[];
     columnSeparatorSize?: TColumnSeparatorSize;
+    rowSeparatorSize?: string;
     multiSelectVisibility?: string;
     itemActionsPosition?: 'inside' | 'outside' | 'custom';
     backgroundStyle: string;
@@ -140,6 +141,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 columns: this._$columns,
                 backgroundStyle: this._$backgroundStyle,
                 columnSeparatorSize: this._$columnSeparatorSize,
+                rowSeparatorSize: this.getRowSeparatorSize(),
                 owner: this,
                 header: this._$header,
                 sorting: this._$sorting,

@@ -863,12 +863,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
             contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
         }
 
-        const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
-            && this.isLastItem()) {
-            contentClasses += ' controls-ListView__itemV_last';
-        }
-
         if (isAnimatedForSelection) {
             contentClasses += ' controls-ListView__item_rightSwipeAnimation';
         }

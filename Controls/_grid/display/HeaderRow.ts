@@ -112,6 +112,7 @@ export default class HeaderRow<T> extends Row<T> {
                     backgroundStyle: this._$backgroundStyle,
                     cellPadding: this._getCellPaddingForHeaderColumn(column, index),
                     columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, index),
+                    rowSeparatorSize: this._$rowSeparatorSize,
                     shadowVisibility: this.getShadowVisibility()
                 });
             });

@@ -818,14 +818,12 @@
    border-top-color: var(--item_separator_l_color_list);
 }
 
-// Последняя граница списка, самая нижняя
-.controls-ListView__itemV_last {
-   .controls-Grid__rowSeparator_size-s {
-      border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
-   }
-
+// Первая граница списка, самая верхняя
+.controls-ListView__itemV:first-child,
+.controls-ListView__groupHidden:first-child + .controls-ListView__itemV {
+   .controls-Grid__rowSeparator_size-s,
    .controls-Grid__rowSeparator_size-l {
-      border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
+      border-top: none;
    }
 }
 
