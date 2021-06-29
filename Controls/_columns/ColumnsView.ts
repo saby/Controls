@@ -109,6 +109,13 @@
  */
 
  /**
+ * @name Controls/columns:View#columnProperty
+ * @cfg {String} Свойство элемента данных, содержащее индекс колонки (начиная с 0), 
+ * в которую будет распределен элемент при {@link columnsMode}: 'fixed'.
+ * @default column
+ */
+
+ /**
  * @name Controls/columns:View#columnsMode
  * @cfg {Controls/columns:View/ColumnsMode.typedef} Режим распределения записей по колонкам.
  * @default auto
