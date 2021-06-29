@@ -31,6 +31,7 @@ describe('Controls/grid_clean/Display/header/HeaderRow', () => {
                         cellPadding: undefined,
                         backgroundStyle: 'custom',
                         columnSeparatorSize: null,
+                        rowSeparatorSize: null,
                         shadowVisibility: 'lastVisible'
                     };
 
