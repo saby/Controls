@@ -3,6 +3,7 @@
  * Компоненты для обработки и отображения ошибок.
  * {@link /doc/platform/developmentapl/interface-development/application-architecture/error-handling/}
  * @library Controls/dataSource:error
+ * @includes Controller Controls/_error/Controller
  * @includes Container Controls/_dataSource/_error/Container
  * @includes DataLoader Controls/_dataSource/_error/DataLoader
  * @includes Mode Controls/_dataSource/_error/Mode
