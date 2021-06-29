@@ -4422,7 +4422,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 !this._sourceController.isLoading() &&
                 this._options.loading !== newOptions.loading;
 
-            if (searchValueChanged || this._loadedBySourceController) {
+            if (searchValueChanged || this._loadedBySourceController && !this._sourceController.isLoading()) {
                 _private.getPortionedSearch(this).reset();
             }
             // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
@@ -6767,7 +6767,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getLoadingIndicatorClasses(state?: string): string {
         const hasItems = !!this._items && !!this._items.getCount();
-        const indicatorState = state || this._loadingIndicatorState;
+        const indicatorState = state ? state : 'all';
         return _private.getLoadingIndicatorClasses({
             hasItems,
             hasPaging: !!this._pagingVisible,
@@ -6783,7 +6783,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _getLoadingIndicatorStyles(state?: string): string {
         let styles = '';
 
-        const indicatorState = state || this._loadingIndicatorState;
+        const indicatorState = state ? state : 'all';
         switch (indicatorState) {
             case 'all':
                 if (this._loadingIndicatorContainerHeight) {
