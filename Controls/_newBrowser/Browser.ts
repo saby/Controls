@@ -263,9 +263,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
         const filterChanged = !isEqual(this._options.filter, newOptions.filter);
-        if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
-            this._createTemplateControllers(newOptions.listConfiguration, newOptions);
-        }
         if (!this._dataContext) {
             const isChanged = this._detailDataSource.updateOptions(detailOps) || filterChanged;
             if (isChanged) {
@@ -304,6 +301,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         this._detailExplorerOptions = detailOps;
         this._masterExplorerOptions = masterOps;
+        if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
+            this._createTemplateControllers(newOptions.listConfiguration, newOptions);
+        }
         const isDetailRootChanged = this.root !== this._detailExplorerOptions.root;
 
         this.root = this._detailExplorerOptions.root;
@@ -745,9 +745,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         this._userViewMode = options.userViewMode;
         this._appliedViewMode = options.userViewMode;
-        if (options.listConfiguration) {
-            this._createTemplateControllers(options.listConfiguration, options);
-        }
         // Если при инициализации указано плиточное представление,
         // значит шаблон и модель плитки уже загружены
         if (this.viewMode === DetailViewMode.tile) {
@@ -756,6 +753,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         //region update detail fields
         this._detailExplorerOptions = this._buildDetailExplorerOptions(options);
+        if (options.listConfiguration) {
+            this._createTemplateControllers(options.listConfiguration, options);
+        }
 
         this.root = this._detailExplorerOptions.root;
         this._detailDataSource = new DataSource(this._detailExplorerOptions);
