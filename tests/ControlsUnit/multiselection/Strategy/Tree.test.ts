@@ -9,6 +9,7 @@ import { RecordSet } from 'Types/collection';
 import { Tree, TreeItem } from 'Controls/display';
 import GroupItem from 'Controls/_display/GroupItem';
 import { SearchGridCollection } from 'Controls/searchBreadcrumbsGrid';
+import TreeGridCollection from "Controls/_treeGrid/display/TreeGridCollection";
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    const model = new Tree({
@@ -359,6 +360,41 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(selection.selected, [2]);
          assert.deepEqual(selection.excluded, [2, 3]);
          strategy.reset();
+      });
+
+      it('when selected childs in collapsed node', () => {
+         const model = new TreeGridCollection({
+            collection: new RecordSet({
+               keyProperty: ListData.KEY_PROPERTY,
+               rawData: ListData.getItems()
+            }),
+            root: null,
+            keyProperty: ListData.KEY_PROPERTY,
+            parentProperty: ListData.PARENT_PROPERTY,
+            nodeProperty: ListData.NODE_PROPERTY,
+            hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY,
+            columns: [],
+            expandedItems: [null],
+            collapsedItems: [null, 2]
+         });
+
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model,
+            selectionType: 'all',
+            recursiveSelection: false
+         });
+         let selection = { selected: [3, 4], excluded: [] };
+         selection = strategy.toggleAll(selection, false);
+
+         assert.deepEqual(selection.selected, [null]);
+         assert.deepEqual(selection.excluded, [null, 3, 4]);
+
+         selection = strategy.toggleAll(selection, false);
+         assert.deepEqual(selection.selected, [3, 4]);
+         assert.deepEqual(selection.excluded, []);
       });
    });
 
