@@ -6,7 +6,6 @@ import ViewModel from './Number/ViewModel';
 import {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
 import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
 import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
-import {Formatter} from 'Controls/decorator';
 
 interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IFieldTemplateOptions {}
 
@@ -79,7 +78,7 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
     }
 
     private static integerPart(value: string, precision: number): string {
-        return Formatter.correctNumberValue(value.substring(0, Money.calcStartFractionPart(value, precision)));
+        return value.substring(0, Money.calcStartFractionPart(value, precision));
     }
 
     private static fractionPart(value: string, precision: number): string {
