@@ -7,7 +7,11 @@ import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 export default class extends Control {
    protected _template: TemplateFunction = Template;
    protected _viewSource: Memory;
-   protected _columns: IColumn[] = Gadgets.getColumnsForFlat();
+   protected _columns: IColumn[] = [
+      {
+         displayProperty: 'title'
+      }
+   ];
    protected _expandedItems: CrudEntityKey[] = [1];
 
    protected _beforeMount(): void {

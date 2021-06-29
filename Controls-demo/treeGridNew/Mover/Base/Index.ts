@@ -20,7 +20,22 @@ export default class extends Control {
         this._viewSource = new HierarchicalMemory({
             parentProperty: 'parent',
             keyProperty: 'key',
-            data: Flat.getData()
+            data: Flat.getData(),
+            filter: (item, filter: {parent: Array<string| number>, title: string}) => {
+                const parent = filter.hasOwnProperty('parent') ? filter.parent : null;
+                if (parent && parent.forEach) {
+                    for (let i = 0; i < parent.length; i++) {
+                        if (item.get('parent') === parent[i]) {
+                            return true;
+                        }
+                    }
+                    return false;
+                } else if ('title' in filter && !!filter.title) {
+                    return item.get('title').toLowerCase().indexOf(filter.title.toLowerCase()) !== -1;
+                } else {
+                    return item.get('parent') === parent;
+                }
+            }
         });
     }
 

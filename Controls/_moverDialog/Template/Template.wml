@@ -12,7 +12,9 @@
                                 parentProperty="{{_options.parentProperty}}"
                                 displayProperty="{{_options.displayProperty}}">
             <div class="controls-MoveDialog__content">
-               <Controls.search:InputContainer attr:class="controls-MoveDialog__search" bind:inputSearchValue="_searchValue">
+               <Controls.search:InputContainer attr:class="controls-MoveDialog__search"
+                                               inputSearchValue="{{_searchValue}}"
+                                               on:inputSearchValueChanged="_onSearchValueChanged()">
                   <Controls.search:Input/>
                </Controls.search:InputContainer>
                <Controls.scroll:Container attr:class="controls-MoveDialog__scroll">
