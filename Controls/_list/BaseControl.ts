@@ -410,21 +410,12 @@ const _private = {
             return false;
         }
         const needAttachLoadTopTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'up');
-        let newAttachLoadTopTriggerToNull;
         if (needAttachLoadTopTriggerToNull && self._isMounted) {
-            newAttachLoadTopTriggerToNull = true;
+            self._attachLoadTopTriggerToNull = true;
             self._needScrollToFirstItem = true;
             self._scrollTop = 1;
         } else {
-            newAttachLoadTopTriggerToNull = false;
-        }
-
-        if (newAttachLoadTopTriggerToNull !== self._attachLoadTopTriggerToNull) {
-            self._attachLoadTopTriggerToNull = newAttachLoadTopTriggerToNull;
-            // зовем _forceUpdate, чтобы произошла перерисовка и отрисовался индикатор
-            // индикатор всегда находится в доме, мы его тображаем с помощью стиля, который возвращает метод,
-            // поэтому перерисовка сама не позовется
-            self._forceUpdate();
+            self._attachLoadTopTriggerToNull = false;
         }
 
         return needAttachLoadTopTriggerToNull;
@@ -4840,10 +4831,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._viewSize > this._viewportSize && _private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
                 // Ромашку нужно показать непосредственно перед скроллом к первому элементу
                 this.changeIndicatorStateHandler(true, 'up');
+                this._scrollToFirstItemIfNeed();
                 if (this._hideTopTrigger) {
                     this._hideTopTrigger = false;
                 }
-                this._scrollToFirstItemIfNeed();
             }
         }
         if (this._viewSize <= this._viewportSize && this._hideTopTrigger) {
