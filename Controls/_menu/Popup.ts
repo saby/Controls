@@ -287,7 +287,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         return ManagerController.getPopupHeaderTheme();
     }
 
-    static defaultProps = {
+    static defaultProps: Partial<IMenuPopupOptions> = {
         selectedKeys: [],
         backgroundStyle: 'default'
     }
