@@ -20,7 +20,7 @@
  * Если в списке было запущено {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}, то при вызове этого метода редактирование завершится без сохранения изменений (поведение аналогично вызову метода {@link Controls/list:IEditableList#cancelEdit cancelEdit}).
  * @function
  * @name Controls/_list/interface/IReloadableList#reload
- * @param {Boolean} [keepScroll=false] Сохранить ли позицию скролла после перезагрузки.
+ * @param {Boolean} [keepScroll=false] Сохранить ли позицию скролла после перезагрузки. Опция не работает для {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page навигации с фиксированным количеством загружаемых записей}.
  * @param {SourceConfig} [sourceConfig=undefined] Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации), которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами.
  * По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
  * @returns {Promise<void>} Возвращает Promise, завершение которого означает окончание процесса перезагрузки.
