@@ -22,6 +22,10 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
         }
 
+        if (this._$rowSeparatorSize !== 'null' && this._$rowSeparatorSize !== null) {
+            wrapperClasses += ' controls-GridView__footer_border-top';
+        }
+
         if (this._$shouldAddFooterPadding) {
             wrapperClasses += ' controls-GridView__footer__itemActionsV_outside';
         }

@@ -177,7 +177,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 footerTemplate: options.footerTemplate,
                 footer: options.footer,
                 backgroundStyle: this._$backgroundStyle,
-                columnSeparatorSize: this._$columnSeparatorSize
+                columnSeparatorSize: this._$columnSeparatorSize,
+                rowSeparatorSize: this.getRowSeparatorSize()
             });
         }
 
@@ -192,6 +193,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 resultsTemplate: this._$resultsTemplate,
                 backgroundStyle: this._$backgroundStyle,
                 columnSeparatorSize: this._$columnSeparatorSize,
+                rowSeparatorSize: this.getRowSeparatorSize(),
                 resultsColspanCallback: this._$resultsColspanCallback
             });
         }
@@ -442,6 +444,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             rowTemplateOptions: {},
             backgroundStyle: options.backgroundStyle,
             columnSeparatorSize: options.columnSeparatorSize,
+            rowSeparatorSize: options.rowSeparatorSize,
             shouldAddFooterPadding: options.itemActionsPosition === 'outside'
         });
     }
@@ -457,6 +460,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             metaResults: this.getMetaResults(),
             backgroundStyle: options.backgroundStyle,
             columnSeparatorSize: options.columnSeparatorSize,
+            rowSeparatorSize: options.rowSeparatorSize,
             colspanCallback: options.resultsColspanCallback
         });
     }

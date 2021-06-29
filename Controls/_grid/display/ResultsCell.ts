@@ -89,6 +89,10 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
 
         wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
 
+        if (this._$rowSeparatorSize !== 'null' && this._$rowSeparatorSize !== null) {
+            wrapperClasses += 'controls-Grid__results-cell_border-bottom';
+        }
+
         if (this._$column.align) {
             wrapperClasses += ` controls-Grid__row-cell__content_halign_${this._$column.align}`;
         }

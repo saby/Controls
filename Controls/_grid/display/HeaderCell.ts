@@ -226,7 +226,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             const isMultiLineHeader = this._$owner.isMultiline();
             const headerEndRow = this._$owner.getBounds().row.end;
             if ((isMultiLineHeader && this._$column.endRow === headerEndRow) || !isMultiLineHeader) {
-                wrapperClasses += ' controls-Grid__cell_header-content_border-bottom';
+                wrapperClasses += ' controls-Grid__cell_header_border-bottom';
             }
         }
 
