@@ -15,6 +15,7 @@
     <module id="37e402f1-2fb0-4b73-81c5-113cf94dbf1c" name="WasabyLoader"/>
     <module id="0641abed-e0fb-4f42-990c-4c24bdbd7555" name="DemoStand"/>
     <module id="4220f331-8217-437b-810c-8c4479323a27" name="EnvConfig"/>
+    <module id="a10cb1cb-b23d-4ef6-a757-4f7382e0e8d1" name="SbisEnvUI"/>
   </depends>
 
   <load_after/>
