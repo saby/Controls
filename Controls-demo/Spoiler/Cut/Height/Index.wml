@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">Контент не превышает 30px.</div>
+        <Controls.spoiler:Cut attr:style="width: 200px;" height="{{30}}">
+            <ws:content>
+                <div style="background-color: #0b0; height: 29px;">Блок с высотой 29px.</div>
+                <div style="background-color: #1b579d;">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+                </div>
+
+            </ws:content>
+        </Controls.spoiler:Cut>
+    </div>
+</div>
