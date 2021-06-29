@@ -3,33 +3,38 @@ import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {Source, Service} from 'Controls/history';
 
-const pinnedData = {
-    _type: 'recordset',
-    d: [],
-    s: [
-        {n: 'ObjectId', t: 'Строка'},
-        {n: 'ObjectData', t: 'Строка'},
-        {n: 'HistoryId', t: 'Строка'}
-    ]
-};
-const frequentData = {
-    _type: 'recordset',
-    d: [],
-    s: [
-        {n: 'ObjectId', t: 'Строка'},
-        {n: 'ObjectData', t: 'Строка'},
-        {n: 'HistoryId', t: 'Строка'}
-    ]
-};
-const recentData = {
-    _type: 'recordset',
-    d: [],
-    s: [
-        {n: 'ObjectId', t: 'Строка'},
-        {n: 'ObjectData', t: 'Строка'},
-        {n: 'HistoryId', t: 'Строка'}
-    ]
-};
+
+function getHistoryData() {
+    return {
+        pinned: {
+            _type: 'recordset',
+            d: [],
+            s: [
+                {n: 'ObjectId', t: 'Строка'},
+                {n: 'ObjectData', t: 'Строка'},
+                {n: 'HistoryId', t: 'Строка'}
+            ]
+        },
+        recent: {
+            _type: 'recordset',
+            d: [],
+            s: [
+                {n: 'ObjectId', t: 'Строка'},
+                {n: 'ObjectData', t: 'Строка'},
+                {n: 'HistoryId', t: 'Строка'}
+            ]
+        },
+        frequent: {
+            _type: 'recordset',
+            d: [],
+            s: [
+                {n: 'ObjectId', t: 'Строка'},
+                {n: 'ObjectData', t: 'Строка'},
+                {n: 'HistoryId', t: 'Строка'}
+            ]
+        }
+    }
+}
 
 export function getItems(): any[] {
     const hierarchyItems = [
@@ -84,7 +89,11 @@ class HistorySourceMenu extends Source {
     private _srcData: DataSet = null;
     constructor(config) {
         super(config);
-        this._srcData = this._createDataSet(frequentData, pinnedData, recentData);
+        const data = getHistoryData();
+        this._pinnedData = data.pinned;
+        this._recentData = data.recent;
+        this._frequentData = data.frequent;
+        this._srcData = this._createDataSet(this._frequentData, this._pinnedData, this._recentData);
         this._$parentProperty = 'parent';
         this._$originSource = new Memory({
             keyProperty: 'key',
@@ -127,7 +136,7 @@ class HistorySourceMenu extends Source {
             });
             recent.prepend([historyItem]);
         }
-        this._srcData = this._createDataSet(frequentData, pinned.getRawData(), recentData);
+        this._srcData = this._createDataSet(this._frequentData, pinned.getRawData(), this._recentData);
         return Promise.resolve();
     }
 

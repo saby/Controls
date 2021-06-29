@@ -12,4 +12,8 @@ function overrideOrigSourceMethod(): void {
     };
 }
 
-export {getItems, overrideOrigSourceMethod};
+function resetHistory() {
+    historySource = undefined;
+}
+
+export {getItems, overrideOrigSourceMethod, resetHistory};
