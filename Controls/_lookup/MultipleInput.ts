@@ -43,6 +43,7 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/interface:IFontColorStyle
  * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IValue
+ * @mixes Controls/interface:ILookup
  *
  * @public
  * @author Герасимов А.М.
@@ -123,7 +124,7 @@ export default class MultipleInput extends BaseLookupInput {
         if (!SHOW_SELECTOR_WIDTH) {
             // The template runs in isolation from the application, so the theme will not be inherited from Application.
             SHOW_SELECTOR_WIDTH = getWidth(showSelectorTemplate({theme: this._options.theme}));
-            OUTER_INDENT_INPUT = getWidth(inputRender());
+            OUTER_INDENT_INPUT = getWidth(inputRender({theme: this._options.theme}));
         }
     }
 

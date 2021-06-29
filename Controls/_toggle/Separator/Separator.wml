@@ -1,4 +1,4 @@
-<span on:click="_clickHandler()" class="controls-Separator__icon">
+<span on:click="_clickHandler()" class="controls_toggle_theme-{{_options.theme}} controls-Separator__icon">
     <span class="controls-Separator__wrapper controls-Separator__wrapper">
         <i attr:class="controls-icon controls-Separator__icon_style-{{_options.style}} {{_icon}} controls-icon controls-Separator__icon_size"
         ></i>

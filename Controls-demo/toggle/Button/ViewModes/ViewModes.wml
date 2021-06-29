@@ -19,4 +19,8 @@
         <div class="controls-text-label">viewMode=pushButton, contrastBackground=true</div>
         <Controls.toggle:Button bind:value="_button5Value" viewMode="pushButton" contrastBackground="{{true}}" icons="{{['icon-Italic']}}" inlineHeight="l" iconStyle="secondary" iconSize="m"></Controls.toggle:Button>
     </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">viewMode=linkButton, iconStyles</div>
+        <Controls.toggle:Button caption="Button" bind:value="_button6Value" viewMode="link" icons="{{['icon-ArrangeList03']}}" iconStyles="{{['secondary', 'unaccented']}}"></Controls.toggle:Button>
+    </div>
 </div>

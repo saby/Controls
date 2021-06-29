@@ -18,7 +18,7 @@
 </ws:template>
 
 <div on:click="_clickHandler()"
-     class="controls-BigSeparator
+     class="controls_toggle_theme-{{_options.theme}} controls-BigSeparator
             controls-BigSeparator-size-{{_options.iconSize}}
             controls-BigSeparator__{{_options.value ? 'expanded' : 'collapsed'}}">
     <div class="controls-BigSeparator-{{_options.readOnly ? 'readonly' : 'iconContainer'}}

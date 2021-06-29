@@ -1,1 +1,1 @@
-<div class="controls-InputBase__field controls-Lookup__fieldWrapper"></div>
+<div class="controls_lookup_theme-{{_options.theme}} controls-InputBase__field controls-Lookup__fieldWrapper"></div>

@@ -41,7 +41,7 @@
   "--primary_active_contrast_background-color": "#d6551f",
 
   "--secondary_color": "#587ab0",
-  "--secondary_text-color": "#153f6f",
+  "--secondary_text-color": "#313e78",
   "--secondary_hover_text-color": "#2f5b8e",
   "--secondary_icon-color": "#656c87",
   "--secondary_hover_icon-color": "#153f6f",
@@ -373,7 +373,7 @@
 
   "--secondary_toggled_border-thickness_toggleButton_button": "2px",
   "--primary_toggled_border-thickness_toggleButton_button": "2px",
-  "--secondary_toggled_border-color_toggleButton_toolButton": "var(--secondary_color)",
+  "--secondary_toggled_border-color_toggleButton_toolButton": "var(--secondary_icon-color)",
   "--secondary_toggled_border-color_toggleButton_pushButton": "var(--secondary_icon-color)",
   "--secondary_border-color_toggleButton_pushButton": "transparent",
 
@@ -611,6 +611,7 @@
   "--close-button_offset-top_stack": "5px",
   "--maximized-button_offset-top_stack": "7px",
   "--maximized-button_offset-right_stack": "var(--offset_s)",
+  "--close-button_hover_icon-color_stack": "var(--secondary_hover_icon-color)",
   "--resizingLine_mobile_offset-left_stack": "15px",
   "--resizingLine_mobile_thickness_stack": "25px",
   "--resizingLine_mobile_offset-left_masterDetail": "15px",

@@ -36,7 +36,7 @@ import * as VirtualScrollController from './controllers/VirtualScroll';
 import { ICollection, ISourceCollection, IItemPadding } from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
-import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
+import {TRoundBorder} from "Controls/_display/interface/ICollection";
 import {Footer} from 'Controls/_display/Footer';
 
 // tslint:disable-next-line:ban-comma-operator
@@ -693,6 +693,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$topPadding: string;
 
     protected _$bottomPadding: string;
+    
+    protected _$roundBorder: TRoundBorder;
 
     protected _$emptyTemplate: TemplateFunction;
 
@@ -2327,7 +2329,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$stickyFooter;
     }
 
-    setRoundBorder(roundBorder: IRoundBorder): void {
+    setRoundBorder(roundBorder: TRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
             this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');

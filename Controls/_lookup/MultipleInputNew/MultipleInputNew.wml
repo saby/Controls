@@ -1,4 +1,4 @@
-<div class="controls-MultipleInputNew controls-text-default_theme-{{_options.theme}} controls-text-default">
+<div class="controls_lookup_theme-{{_options.theme}} controls-MultipleInputNew controls-text-default_theme-{{_options.theme}} controls-text-default">
   <ws:for data="index,lookupOptions in _options.lookupsOptions">
      <Controls._lookup.BaseLookupInput scope="{{lookupOptions}}"
                                        on:activated="_lookupActivated()"

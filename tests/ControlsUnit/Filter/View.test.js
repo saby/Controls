@@ -365,7 +365,7 @@ define(
 
             view.openDetailPanel();
 
-            assert.equal(popupOptions.className, 'controls-FilterView-popup controls_popupTemplate_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
+            assert.equal(popupOptions.className, 'controls-FilterView-popup controls_popupTemplate_theme-default controls_filter_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
          });
 
          it('_openPanel', function(done) {
@@ -403,16 +403,16 @@ define(
             view._openPanel().then(() => {
                assert.strictEqual(popupOptions.template, 'panelTemplateName.wml');
                assert.strictEqual(popupOptions.templateOptions.items.getCount(), 2);
-               assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel__buttonTarget-popup controls_popupTemplate_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
+               assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel__buttonTarget-popup controls_popupTemplate_theme-default controls_filter_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
                assert.exists(view._configs.document);
                filterClassName = 'div_second_filter';
                view._openPanel(event, 'state').then(() => {
                   assert.strictEqual(popupOptions.target, 'div_state_filter');
-                  assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup controls_popupTemplate_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
+                  assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup controls_popupTemplate_theme-default controls_filter_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
                   view._children.state = null;
                   view._openPanel(event, 'state').then(() => {
                      assert.strictEqual(popupOptions.target, 'div_second_filter');
-                     assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup controls_popupTemplate_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
+                     assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup controls_popupTemplate_theme-default controls_filter_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
                      view._openPanel('click').then(() => {
                         assert.deepStrictEqual(popupOptions.target, 'filter_container');
                         view._configs.state.sourceController = {

@@ -33,7 +33,7 @@ import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
 import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 import {TreeControl} from 'Controls/tree';
-import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
+import {IEditableList} from 'Controls/_list/interface/IEditableList';
 import 'css!Controls/tile';
 import 'css!Controls/explorer';
 import { isFullGridSupport } from 'Controls/display';
@@ -88,13 +88,15 @@ const EXPLORER_CONSTANTS = {
     VIEW_MODEL_CONSTRUCTORS
 };
 
+type IEditableListOptions = IEditableList['_options'];
+
 interface IExplorerOptions
     extends
         IControlOptions,
         IHierarchyOptions,
         IDraggableOptions,
         IList,
-        IEditableListOption,
+        IEditableListOptions,
         INavigationOptions<IBasePageSourceConfig>,
         IGridControl,
         ISourceOptions,
@@ -1260,7 +1262,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/grid:IEditableGrid
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
@@ -1297,7 +1299,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/grid:IEditableGrid
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
