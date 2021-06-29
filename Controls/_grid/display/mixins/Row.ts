@@ -39,6 +39,7 @@ export interface IInitializeColumnsOptions {
 
 export interface IOptions<T> extends IBaseOptions<T> {
     columns: TColumns;
+    columnsConfig: TColumns;
     colspanCallback?: TColspanCallback;
     rowTemplate: TemplateFunction;
     rowTemplateOptions: object;
@@ -64,6 +65,7 @@ export default abstract class Row<T> {
     protected _$rowTemplate: TemplateFunction;
     protected _$rowTemplateOptions: object;
     protected _$columns: TColumns;
+    protected _$columnsConfig: TColumns;
     protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
     protected _$backgroundStyle: string;
     protected _savedColumns: TColumns;
@@ -486,6 +488,11 @@ export default abstract class Row<T> {
         return creatingColumnsParams.map((params) => factory(params));
     }
 
+    setColumnsConfig(newColumns: TColumns): void {
+        this._$columnsConfig = newColumns;
+        this._reinitializeColumns(true);
+    }
+
     setColumns(newColumns: TColumns): void {
         if (this._$rowTemplate) {
             // В данный момент строка выводит контент из rowTemplate. Он актуален, перестроение не требуется.
@@ -773,6 +780,7 @@ Object.assign(Row.prototype, {
     '[Controls/_display/grid/mixins/Row]': true,
     _cellModule: null,
     _$columns: null,
+    _$columnsConfig: null,
     _$rowTemplate: null,
     _$rowTemplateOptions: null,
     _$colspanCallback: null,

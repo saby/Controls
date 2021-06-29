@@ -1,6 +1,6 @@
 import { mixin } from 'Types/util';
 import { ITreeItemOptions, TreeItem, IItemPadding, TMarkerClassName, IGroupNode } from 'Controls/display';
-import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions} from 'Controls/grid';
+import {IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions, TColumns} from 'Controls/grid';
 import TreeGridCollection from './TreeGridCollection';
 import { IColumn, IInitializeColumnsOptions } from 'Controls/grid';
 import { Model } from 'Types/entity';
@@ -45,6 +45,11 @@ export default class TreeGridDataRow<T extends Model = Model>
     // TODO duplicate code with GridRow. Нужно придумать как от него избавиться.
     //  Проблема в том, что mixin не умеет объединять одинаковые методы, а логику Grid мы добавляем через mixin
     // region overrides
+
+    setColumnsConfig(newColumns: TColumns): void {
+        this._$columnsConfig = newColumns;
+        this.setColumns(newColumns);
+    }
 
     setMultiSelectVisibility(multiSelectVisibility: string): boolean {
         const isChangedMultiSelectVisibility = super.setMultiSelectVisibility(multiSelectVisibility);

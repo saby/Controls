@@ -6,7 +6,7 @@ import Row, {IOptions as IRowOptions} from './Row';
 import DataCell, { IOptions as IGridDataCellOptions } from './DataCell';
 import ILadderSupport from './interface/ILadderSupport';
 import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDisplaySearchValue';
-import { IColumn } from './interface/IColumn';
+import {IColumn, TColumns} from './interface/IColumn';
 import { Model } from 'Types/entity';
 
 export interface IOptions<T> extends IRowOptions<T>, IDisplaySearchValueOptions {
@@ -46,6 +46,11 @@ export default class DataRow<T extends Model> extends Row<T> implements
             searchValue: this._$searchValue,
             markerPosition: this.getMarkerPosition()
         };
+    }
+
+    setColumnsConfig(newColumns: TColumns): void {
+        this._$columnsConfig = newColumns;
+        this.setColumns(newColumns);
     }
 
     setSearchValue(searchValue: string): void {

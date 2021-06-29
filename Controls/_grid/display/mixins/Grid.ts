@@ -65,14 +65,8 @@ export interface IOptions {
 export default abstract class Grid<S, T extends GridRowMixin<S>> {
     readonly '[Controls/_display/grid/mixins/Grid]': boolean;
 
-    protected _$columns: TColumns;
-    protected _$colgroup: Colgroup<S>;
-    protected _$header: THeader;
-    protected _$headerModel: Header<S>;
     protected _$headerVisibility: THeaderVisibility;
     protected _$multiSelectVisibility: string;
-    protected _$footer: FooterRow<S>;
-    protected _$results: ResultsRow<S>;
     protected _$ladder: ILadderObject;
     protected _$ladderProperties: string[];
     protected _$stickyColumn: {};
@@ -86,15 +80,23 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$resultsTemplate: TemplateFunction;
     protected _$columnScroll: boolean;
     protected _$stickyColumnsCount: number;
-    protected _$emptyGridRow: EmptyRow<S>;
-    protected _$emptyTemplate: TemplateFunction;
     protected _$sorting: Array<{[p: string]: string}>;
-    protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
     protected _$colspanGroup: boolean;
     protected _$backgroundStyle: string;
 
-    protected _isFullGridSupport: boolean = isFullGridSupport();
+    protected _$columns: TColumns;
+    protected _$header: THeader;
+    protected _$emptyTemplate: TemplateFunction;
+    protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
+
+    // Модели частей таблицы
+    protected _colgroup: Colgroup<S>;
+    protected _headerModel: Header<S>;
     protected _footer: FooterRow<S>;
+    protected _results: ResultsRow<S>;
+    protected _emptyGridRow: EmptyRow<S>;
+
+    protected _isFullGridSupport: boolean = isFullGridSupport();
 
     protected constructor(options: IOptions) {
         const supportLadder = GridLadderUtil.isSupportLadder(this._$ladderProperties);
@@ -131,11 +133,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     getColgroup(): Colgroup<S> {
-        return this._$colgroup;
+        return this._colgroup;
     }
 
     getHeader(): Header<S> {
-        if (!this._$headerModel && this._headerIsVisible(this._$header)) {
+        if (!this._headerModel && this._headerIsVisible(this._$header)) {
             this._initializeHeader({
                 columns: this._$columns,
                 backgroundStyle: this._$backgroundStyle,
@@ -148,7 +150,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             } as IOptions);
         }
 
-        return this._$headerModel;
+        return this._headerModel;
     }
 
     hasHeader(): boolean {
@@ -156,7 +158,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     getEmptyGridRow(): EmptyRow<S> {
-        return this._$emptyGridRow;
+        return this._emptyGridRow;
     }
 
     setEmptyTemplateOptions(options: object): void {
@@ -183,7 +185,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     getResults(): ResultsRow<S> {
-        if (!this._$results && this._resultsIsVisible()) {
+        if (!this._results && this._resultsIsVisible()) {
             this._initializeResults({
                 columns: this._$columns,
                 multiSelectVisibility: this._$multiSelectVisibility,
@@ -193,7 +195,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 resultsColspanCallback: this._$resultsColspanCallback
             });
         }
-        return this._$results;
+        return this._results;
     }
 
     getResultsPosition(): TResultsPosition {
@@ -251,12 +253,12 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     setHeader(header: THeader): void {
         this._$header = header;
-        this._$headerModel = null;
+        this._headerModel = null;
     }
 
     setHeaderVisibility(headerVisibility: THeaderVisibility): void {
         this._$headerVisibility = headerVisibility;
-        this._$headerModel = null;
+        this._headerModel = null;
 
         this._nextVersion();
     }
@@ -265,7 +267,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$columns = newColumns;
         this._nextVersion();
         // Строки данных, группы
-        this._updateItemsProperty('setColumns', this._$columns);
+        this._updateItemsProperty('setColumnsConfig', this._$columns);
 
         // В столбцах может измениться stickyProperty, поэтому нужно пересчитать ladder
         // Проверка, что точно изменился stickyProperty, это не быстрая операция, т.к. columns - массив объектов
@@ -275,7 +277,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this._updateItemsLadder();
         }
 
-        [this.getColgroup(), this.getHeader(), this.getResults()].forEach((gridUnit) => {
+        this.getColgroup()?.setColumnsConfig(this._$columns);
+
+        [this.getHeader(), this.getResults()].forEach((gridUnit) => {
             gridUnit?.setColumns(newColumns);
         });
         // todo Переписать по: https://online.sbis.ru/opendoc.html?guid=d86329c7-5c85-4c7f-97c9-791502f6f1dd
@@ -336,7 +340,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _initializeEmptyRow(): void {
-        this._$emptyGridRow = new EmptyRow<S>({
+        this._emptyGridRow = new EmptyRow<S>({
             owner: this,
             columns: this._$emptyTemplateColumns,
             rowTemplate: this._$emptyTemplate,
@@ -348,8 +352,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     setEmptyTemplateColumns(emptyTemplateColumns): void {
         this._$emptyTemplateColumns = emptyTemplateColumns;
         this._nextVersion();
-        if (this._$emptyGridRow) {
-            this._$emptyGridRow.setColumns(emptyTemplateColumns);
+        if (this._emptyGridRow) {
+            this._emptyGridRow.setColumns(emptyTemplateColumns);
         } else {
             this._initializeEmptyRow();
         }
@@ -392,7 +396,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (this._$resultsPosition !== resultsPosition) {
             this._$resultsPosition = resultsPosition;
             if (!this._$resultsPosition) {
-                this._$results = null;
+                this._results = null;
             }
             this._nextVersion();
         }
@@ -420,7 +424,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             header: options.header
         };
         const headerConstructor = this.getHeaderConstructor();
-        this._$headerModel = new headerConstructor(cOptions);
+        this._headerModel = new headerConstructor(cOptions);
     }
 
     getHeaderConstructor(): typeof Header {
@@ -446,7 +450,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     protected _initializeResults(options: IOptions): void {
         const resultsRowClass = this.getResultsConstructor();
-        this._$results = new resultsRowClass({
+        this._results = new resultsRowClass({
             owner: this,
             multiSelectVisibility: options.multiSelectVisibility,
             columns: options.columns,
@@ -460,8 +464,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _initializeColgroup(options: IOptions): Colgroup<S> {
-        this._$colgroup = new Colgroup({
-            owner: this
+        this._colgroup = new Colgroup({
+            owner: this,
+            columnConfig: options.columns
         });
     }
 
@@ -487,8 +492,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     getRowIndex(row: GridRow<T>): number {
         const getHeaderOffset = () => {
-            if (this._$headerModel) {
-                const {start, end} = this._$headerModel.getBounds().row;
+            if (this._headerModel) {
+                const {start, end} = this._headerModel.getBounds().row;
                 return end - start;
             } else {
                 return 0;
@@ -496,7 +501,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         };
 
         if (row instanceof TableHeaderRow) {
-            return this._$headerModel.getRows().indexOf(row);
+            return this._headerModel.getRows().indexOf(row);
         } else if (row instanceof HeaderRow) {
             return 0;
         } else if (row instanceof this.getResultsConstructor()) {
@@ -507,13 +512,13 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             return index;
         } else if (row instanceof DataRow) {
             let index = getHeaderOffset() + this.getItems().indexOf(row);
-            if (this._$results) {
+            if (this._results) {
                 index++;
             }
             return index;
         } else if (row instanceof FooterRow) {
             let index = getHeaderOffset() + this.getCount();
-            if (this._$results) {
+            if (this._results) {
                 index++;
             }
             return index;
