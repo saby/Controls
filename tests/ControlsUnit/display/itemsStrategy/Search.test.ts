@@ -1,12 +1,42 @@
 import { assert } from 'chai';
 
-import IItemsStrategy from 'Controls/_display/IItemsStrategy';
-import { TreeItem } from 'Controls/display';
-import Tree from 'Controls/_display/Tree';
+import { TreeItem, Search as SearchCollection, Tree, IItemsStrategy, itemsStrategy, BreadcrumbsItem, SearchSeparator } from 'Controls/display';
 import { RecordSet } from 'Types/collection';
-import { Search } from 'Controls/_display/itemsStrategy';
-import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
-import SearchSeparator from 'Controls/_display/SearchSeparator';
+
+
+// Данные
+
+/* В виде иерархии
+    A
+    AA
+       AAA
+          AAAa
+          AAAb
+       AAB
+       AAC
+          AAACa
+       AAD
+    B
+    C
+    d
+    e
+ */
+
+/* В виде поиска
+    [A]
+    [A, AA, AAA]
+      AAAa
+      AAAb
+    [A, AA, AAB]
+    [A, AA, AAC]
+      AACa
+    [A, AA, AAD]
+    [B]
+    [C]
+    -----
+    d
+    e
+ */
 
 describe('Controls/_display/itemsStrategy/Search', () => {
     class StringContents {
@@ -63,11 +93,16 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
     let items: Array<TreeItem<string>>;
     let source: IItemsStrategy<any, TreeItem<string>>;
-    let strategy: Search<string>;
+    let strategy: itemsStrategy.Search<string>;
+    const display: SearchCollection = new SearchCollection({
+        collection: new RecordSet({}),
+        root: null
+    });
 
     beforeEach(() => {
         items = [];
         items[0] = new TreeItem({
+            parent: display.getRoot(),
             contents: 'A',
             node: true
         });
@@ -109,25 +144,28 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             node: true
         });
         items[9] = new TreeItem({
+            parent: display.getRoot(),
             contents: 'B',
             node: true
         });
         items[10] = new TreeItem({
+            parent: display.getRoot(),
             contents: 'C',
             node: true
         });
         items[11] = new TreeItem({
+            parent: display.getRoot(),
             contents: 'd'
         });
         items[12] = new TreeItem({
+            parent: display.getRoot(),
             contents: 'e'
         });
 
-        source = getSource(items);
-        strategy = new Search({
+        source = getSource(items, {display});
+        strategy = new itemsStrategy.Search({
             source,
-            searchSeparatorModule: 'Controls/display:SearchSeparator',
-            breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+            display,
             treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
         });
     });
@@ -146,10 +184,9 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
     describe('.items', () => {
         it('should group breadcrumbs nodes', () => {
-            const strategy = new Search<string | string[]>({
+            const strategy = new itemsStrategy.Search<string | string[]>({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -178,6 +215,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         it('should group only breadcrumbs nodes', () => {
             const items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: 'A',
                 node: true
             });
@@ -192,11 +230,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 node: true
             });
 
-            const source = getSource(items);
-            const strategy = new Search({
+            const source = getSource(items, {display});
+            const strategy = new itemsStrategy.Search({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -227,11 +264,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 node: true
             });
 
-            const source = getSource(items);
-            const strategy = new Search({
+            const source = getSource(items, {display});
+            const strategy = new itemsStrategy.Search({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -243,6 +279,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         it('should add breadcrumbs before a leaf which has different parent than previous leaf', () => {
             const items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: 'A',
                 node: true
             });
@@ -262,11 +299,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 node: false
             });
 
-            const source = getSource(items);
-            const strategy = new Search({
+            const source = getSource(items, {display});
+            const strategy = new itemsStrategy.Search({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -278,6 +314,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         it('should return valid items level for first item after breadcrumbs', () => {
             const items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: 'A',
                 node: true
             });
@@ -292,21 +329,21 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 node: false
             });
             items[3] = new TreeItem({
+                parent: display.getRoot(),
                 contents: 'b',
                 node: false
             });
 
-            const source = getSource(items);
-            const strategy = new Search({
+            const source = getSource(items, {display});
+            const strategy = new itemsStrategy.Search({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
 
-            assert.deepEqual(result, ['#A,AA:0', 'AAa:1', 'search-separator:0', 'b:0']);
+            assert.deepEqual(result, ['#A,AA:1', 'AAa:2', 'search-separator:0', 'b:1']);
         });
 
         it('return breadcrumbs as 1st level parent for leaves', () => {
@@ -319,24 +356,24 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             parents[6] = BreadcrumbsItem;
             parents[7] = BreadcrumbsItem;
             parents[8] = BreadcrumbsItem;
-            parents[9] = undefined;
-            parents[10] = undefined;
-            parents[11] = undefined;
-            parents[12] = undefined;
+            parents[9] = undefined; // separator
+            parents[10] = display.getRoot();
+            parents[11] = display.getRoot();
+            parents[12] = display.getRoot();
 
             const levels = [];
-            levels[1] = 1;
-            levels[2] = 1;
-            levels[3] = 1;
-            levels[4] = 1;
-            levels[5] = 1;
-            levels[6] = 1;
-            levels[7] = 1;
-            levels[8] = 1;
-            levels[9] = 0;
-            levels[10] = 0;
-            levels[11] = 0;
-            levels[12] = 0;
+            levels[1] = 2;
+            levels[2] = 2;
+            levels[3] = 2;
+            levels[4] = 2;
+            levels[5] = 2;
+            levels[6] = 2;
+            levels[7] = 2;
+            levels[8] = 2;
+            levels[9] = 0; // separator
+            levels[10] = 1;
+            levels[11] = 1;
+            levels[12] = 1;
 
             strategy.items.forEach((item, index) => {
                 if (item instanceof TreeItem) {
@@ -366,6 +403,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         it('shouldn place leaves before nodes for single breadcrumbs', () => {
             items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: 'A',
                 node: true
             });
@@ -387,22 +425,22 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 contents: 'e'
             });
 
-            source = getSource(items);
-            strategy = new Search({
+            source = getSource(items, {display});
+            strategy = new itemsStrategy.Search({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
 
-            assert.deepEqual(result, ['#A:0', 'b:1', 'e:1', '#A,C:0', 'd:1']);
+            assert.deepEqual(result, ['#A:1', 'b:2', 'e:2', '#A,C:1', 'd:2']);
         });
 
         it('should keep level for descendant of leaf', () => {
             items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: 'A',
                 node: true
             });
@@ -415,22 +453,22 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 contents: 'c'
             });
 
-            source = getSource(items);
-            strategy = new Search({
+            source = getSource(items, {display});
+            strategy = new itemsStrategy.Search({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
 
-            assert.deepEqual(result, ['#A:0', 'b:1', 'c:2']);
+            assert.deepEqual(result, ['#A:1', 'b:2', 'c:3']);
         });
 
         it('shouldn\'t return breadcrumbs finished with leaf', () => {
             items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: 'A',
                 node: true
             });
@@ -456,22 +494,22 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 contents: 'f'
             });
 
-            source = getSource(items);
-            strategy = new Search({
+            source = getSource(items, {display});
+            strategy = new itemsStrategy.Search({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
 
-            assert.deepEqual(result, ['#A:0', 'b:1', 'e:2', '#A,b,C:0', 'd:1', 'f:1']);
+            assert.deepEqual(result, ['#A:1', 'b:2', 'e:3', '#A,b,C:1', 'd:2', 'f:2']);
         });
 
         it('should organize dedicated breadcrumbs for first item', () => {
             const items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: new StringContents({id: 'A', break: true}),
                 node: true
             });
@@ -486,12 +524,11 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 node: true
             });
 
-            const source = getSource(items);
-            const strategy = new Search({
+            const source = getSource(items, {display});
+            const strategy = new itemsStrategy.Search({
                 dedicatedItemProperty: 'break',
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -506,6 +543,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         it('should organize dedicated breadcrumbs for inner item', () => {
             const items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: new StringContents({id: 'A', break: false}),
                 node: true
             });
@@ -520,12 +558,11 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 node: true
             });
 
-            const source = getSource(items);
-            const strategy = new Search({
+            const source = getSource(items, {display});
+            const strategy = new itemsStrategy.Search({
                 dedicatedItemProperty: 'break',
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -540,6 +577,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         it('should organize dedicated breadcrumbs for last item', () => {
             const items = [];
             items[0] = new TreeItem({
+                parent: display.getRoot(),
                 contents: new StringContents({id: 'A', break: false}),
                 node: true
             });
@@ -554,12 +592,11 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 node: true
             });
 
-            const source = getSource(items);
-            const strategy = new Search({
+            const source = getSource(items, {display});
+            const strategy = new itemsStrategy.Search({
                 dedicatedItemProperty: 'break',
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -610,11 +647,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
     describe('.splice()', () => {
         it('should add items', () => {
-            const source = getSource(items);
-            const strategy = new Search<string | string[]>({
+            const source = getSource(items, {display});
+            const strategy = new itemsStrategy.Search<string | string[]>({
                 source: source as any,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -653,10 +689,9 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         });
 
         it('should remove items', () => {
-            const strategy = new Search<string | string[]>({
+            const strategy = new itemsStrategy.Search<string | string[]>({
                 source,
-                searchSeparatorModule: 'Controls/display:SearchSeparator',
-                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                display,
                 treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
@@ -706,7 +741,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         });
     });
 
-    describe('right parent for items', () => {
+    it('right parent for items', () => {
         const recordSet = new RecordSet({
             rawData: [{
                 id: 1,
@@ -727,7 +762,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             keyProperty: 'id'
         });
 
-        const tree = new Tree({
+        const searchCollection = new SearchCollection({
             collection: recordSet,
             root: null,
             keyProperty: 'id',
@@ -736,15 +771,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             hasChildrenProperty: 'hasChildren'
         });
 
-        source = getSource(tree.getItems(), {display: tree});
-        strategy = new Search({
-            source,
-            searchSeparatorModule: 'Controls/display:SearchSeparator',
-            breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
-            treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
-        });
-
-        const items = strategy.items;
+        const items = searchCollection.getItems();
         assert.isTrue(items[0].getParent().isRoot());
         assert.equal(items[1].getParent(), items[0]);
         assert.instanceOf(items[2], SearchSeparator);
