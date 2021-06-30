@@ -245,6 +245,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 this._storeCallbackIds = this._createNewStoreObservers();
                 if (!options.hasOwnProperty('searchValue') && this._searchValue) {
                     this._setSearchValue('');
+                    this._getSearchControllerSync()?.reset(true);
                 }
             }, true);
         }
