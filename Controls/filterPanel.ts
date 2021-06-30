@@ -13,6 +13,8 @@ export {default as ViewModel} from './_filterPanel/View/ViewModel';
 export {default as BaseEditor} from './_filterPanel/BaseEditor';
 export {default as TextEditor} from './_filterPanel/Editors/Text';
 export {default as NumberRangeEditor} from './_filterPanel/Editors/NumberRange';
+export {default as DropdownEditor} from './_filterPanel/Editors/Dropdown';
+export {default as LookupEditor} from './_filterPanel/Editors/Lookup';
 export {default as ListEditor} from './_filterPanel/Editors/List';
 export {default as TumblerEditor} from './_filterPanel/Editors/Tumbler';
 export {default as Container} from './_filterPanel/View/Container';

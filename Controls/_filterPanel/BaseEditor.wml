@@ -1,9 +1,11 @@
 <ws:if data="{{_options.viewMode === 'basic'}}">
     <div class="controls-FilterViewPanel__baseEditor-container">
         <ws:partial template="{{_options.editorTemplate}}" scope="{{_options}}"/>
-        <Controls.icon:Icon icon="icon-CloseNew"
-                            attr:class="controls-FilterViewPanel__baseEditor-cross controls-FilterViewPanel__groupReset-icon"
-                            on:click="_handleCloseEditorClick()"/>
+        <ws:if data="{{_options.closeButtonVisibility !== 'hidden'}}">
+            <Controls.icon:Icon icon="icon-CloseNew"
+                                attr:class="controls-FilterViewPanel__baseEditor-cross controls-FilterViewPanel__groupReset-icon"
+                                on:click="_handleCloseEditorClick()"/>
+        </ws:if>
     </div>
 </ws:if>
 <ws:else>

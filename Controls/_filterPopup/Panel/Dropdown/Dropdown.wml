@@ -9,17 +9,17 @@
            on:dropDownClose="_dropDownClose()">
       <ws:contentTemplate>
          <ws:if data="{{_options.contentTemplate}}">
-            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="filter">
+            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="{{_options.style}}">
                <ws:contentTemplate>
                   <div class="controls-FilterDropdown__contentTemplate">
-                     <ws:partial template="{{_options.contentTemplate}}" class="controls-Dropdown__item_style-filter
-                      {{!contentTemplate.icon ? 'controls-FilterDropdown__content_text'}}"/>
+                     <ws:partial template="{{_options.contentTemplate}}"
+                                 class="controls-Dropdown__item_style-filter {{!contentTemplate.icon ? 'controls-FilterDropdown__content_text'}}"/>
                   </div>
                </ws:contentTemplate>
             </ws:partial>
          </ws:if>
          <ws:else>
-            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="filter"/>
+            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="{{_options.style}}"/>
          </ws:else>
       </ws:contentTemplate>
    </Controls.dropdown:Selector>
