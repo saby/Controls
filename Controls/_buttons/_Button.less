@@ -1,7 +1,3 @@
-.box-shadow_button() {
-   box-shadow: var(--box-shadow_contrast-button);
-}
-
 //common styles
 .controls-BaseButton {
    display: inline-block;
@@ -153,11 +149,18 @@
    user-select: none;
 }
 
-.controls-Button_button {
-   box-shadow: var(--box-shadow_button);
+.controls-Button_button_shadow-small {
+   box-shadow: var(--box-shadow_contrast_s_button);
 }
 
-.controls-Button_functionalButton.controls-Button_bg-contrast {
+.controls-Button_button_shadow-big {
+   box-shadow: var(--box-shadow_contrast-button);
+}
+
+.controls-Button_functionalButton_shadow-small {
+   box-shadow: var(--box-shadow_s_button_functionalButton);
+}
+.controls-Button_functionalButton_shadow-big {
    box-shadow: var(--box-shadow_button_functionalButton);
 }
 
@@ -336,10 +339,6 @@
 .controls-Button_functionalButton_style-pale {
    border-color: var(--pale_border-color);
    background-color: var(--pale_contrast_background-color);
-   box-shadow: none;
-   &.controls-Button_bg-contrast {
-      box-shadow: none;
-   }
 }
 
 .controls-Button_functionalButton_style-translucent > .controls-Button_functionalButton_style-pale,
@@ -351,10 +350,6 @@
 .controls-Button_functionalButton_style-readonly {
    border-color: var(--readonly_border-color_button_functionalButton);
    background-color: var(--readonly_background-color_button_functionalButton);
-   box-shadow: none;
-   &.controls-Button_bg-contrast {
-      box-shadow: none;
-   }
 }
 
 .ws-is-hover {
@@ -464,7 +459,6 @@
    .controls-Button_button_style-@{_item}.controls-Button_bg-contrast {
       background-color: ~"var(--@{_item}_contrast_background-color)";
       border-color: ~"var(--@{_item}_contrast_background-color)";
-      .box-shadow_button();
    }
 });
 
@@ -491,7 +485,6 @@
 .controls-Button_button_style-default.controls-Button_bg-contrast {
    border-color: var(--default_contrast_background-color_button);
    background-color: var(--default_contrast_background-color_button);
-   .box-shadow_button();
    .controls-Button__text_clickable_bg-contrast {
       color: var(--text-color_button);
    }

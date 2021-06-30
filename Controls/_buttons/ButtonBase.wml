@@ -56,6 +56,8 @@
                 {{_height ? ' controls-Button-inlineheight-' + _height}}
                 {{_height ? ' controls-Button_' + _viewMode + '_' + _height}}
                 controls-fontsize-{{_fontSize}}
-                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}"
+                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}
+                controls-Button_{{_viewMode}}_shadow-{{(_buttonStyle !== 'readonly' && _buttonStyle !== 'pale' && _contrastBackground === true) ?
+                ((_height && (_height !== 's' && _height !== 'm' && _height !== 'l' && _height !== 'default')) ? 'big' : 'small') : 'none'}}"
             attr:title="{{_options.tooltip}}"
 />
