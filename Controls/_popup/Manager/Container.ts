@@ -7,6 +7,7 @@ import Popup from 'Controls/_popup/Manager/Popup';
 import {PendingClass, IPendingConfig} from 'Controls/Pending';
 import * as template from 'wml!Controls/_popup/Manager/Container';
 import 'css!Controls/popup';
+import { SyntheticEvent } from 'UICommon/Events';
 
 // step zindex between popups.
 // It should be enough to place all the additional popups (menu, infobox, suggest) on the main popups (stack, window)
@@ -48,6 +49,10 @@ class Container extends Control<IControlOptions> {
     }
     protected _afterMount(): void {
         ManagerController.setContainer(this);
+    }
+
+    protected stop(event: SyntheticEvent<MouseEvent>): void {
+        event.stopPropagation();
     }
 
     protected _afterRender(): void {
