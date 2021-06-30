@@ -278,9 +278,14 @@ export class StickyController extends BaseController {
         return this.elementAfterUpdated(item, container);
     }
 
-    dragNDropOnPage(item): boolean {
+    dragNDropOnPage(item, container: HTMLDivElement): boolean {
         const hasChilds = !!item.childs.length;
-        return !item.isDragOnPopup && item.popupOptions.closeOnOutsideClick && !hasChilds;
+        const needClose = !item.isDragOnPopup && item.popupOptions.closeOnOutsideClick && !hasChilds;
+        if (needClose) {
+            return true;
+        }
+        // Если не закрылись, то зовем пересчет позиции, после драга таргет мог поменять позицию
+        this.prepareConfig(item, container);
     }
 
     getDefaultConfig(item) {
