@@ -32,7 +32,7 @@ describe('Controls/grid_clean/Display/Ladder/ResultsRow', () => {
                     getStickyLadder: () => ({
                         first: {ladderLength: 2}
                     }),
-                    getColumnsConfig: () => columns,
+                    getGridColumnsConfig: () => columns,
                     getStickyLadderProperties: () => ['first'],
                     isStickyHeader: () => false
                 }),

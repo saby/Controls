@@ -10,6 +10,7 @@ type TColgroupCells<T> = Array<ColgroupCell<T>>;
 
 export interface IOptions<T> {
     owner: Collection<T>;
+    gridColumnsConfig: TColumns;
 }
 
 export default class Colgroup<T> extends mixin<
@@ -21,11 +22,12 @@ export default class Colgroup<T> extends mixin<
 ) {
     protected _$owner: Collection<T>;
     protected _$cells: TColgroupCells<T>;
+    protected _$gridColumnsConfig: TColumns;
 
     constructor(options?: IOptions<T>) {
         super();
         OptionsToPropertyMixin.call(this, options);
-        this._$cells = this._prepareCells(this._$owner.getColumnsConfig());
+        this._$cells = this._prepareCells(this._$gridColumnsConfig);
     }
 
     getBodyClasses(): string {
@@ -54,11 +56,11 @@ export default class Colgroup<T> extends mixin<
     }
 
     reBuild(): void {
-        this._$cells = this._prepareCells(this._$owner.getColumnsConfig());
+        this._$cells = this._prepareCells(this._$gridColumnsConfig);
         this._nextVersion();
     }
 
-    setColumns(newColumns: TColumns): void {
+    setGridColumnsConfig(newColumns: TColumns): void {
         // TODO: Можно переделать на чесное обновление, не критично.
         this.reBuild();
     }
@@ -88,5 +90,6 @@ Object.assign(Colgroup.prototype, {
     '[Controls/_display/grid/Colgroup]': true,
     _moduleName: 'Controls/display:GridColgroup',
     _instancePrefix: 'grid-colgroup',
-    _$owner: null
+    _$owner: null,
+    _$gridColumnsConfig: null
 });

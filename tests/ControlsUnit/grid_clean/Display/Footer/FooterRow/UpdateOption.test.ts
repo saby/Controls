@@ -3,7 +3,7 @@ import { GridFooterRow } from 'Controls/grid';
 
 const columns = [ { displayProperty: 'col1' }, { displayProperty: 'col2' }, { displayProperty: 'col3' } ];
 const mockedOwner = {
-    getColumnsConfig: () => columns,
+    getGridColumnsConfig: () => columns,
     getStickyColumnsCount: () => 0,
     hasMultiSelectColumn: () => false,
     hasItemActionsSeparatedCell: () => false,
@@ -97,11 +97,11 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
         assert.strictEqual(footerColumns[1].getTemplate(), secondFooterCellTemplate);
     });
 
-    it('Initialize with footerTemplate and setColumns. Check colspan.', () => {
+    it('Initialize with footerTemplate and setColumnsConfig. Check colspan.', () => {
         const nextColumns = [ { displayProperty: 'col1' }, { displayProperty: 'col2' } ];
 
         const localMockedOwner = {
-            getColumnsConfig: () => columns,
+            getGridColumnsConfig: () => columns,
             getStickyColumnsCount: () => 0,
             hasMultiSelectColumn: () => false,
             hasItemActionsSeparatedCell: () => false,
@@ -118,8 +118,8 @@ describe('Controls/grid_clean/Display/Footer/FooterRow/UpdateOption', () => {
         let footerColumns = footerRow.getColumns();
         assert.strictEqual(footerColumns[0].getColspan(), 3);
 
-        localMockedOwner.getColumnsConfig = () => nextColumns;
-        footerRow.setColumns(nextColumns);
+        localMockedOwner.getGridColumnsConfig = () => nextColumns;
+        footerRow.setColumnsConfig(nextColumns);
 
         footerColumns = footerRow.getColumns();
         assert.strictEqual(footerColumns[0].getColspan(), 2);

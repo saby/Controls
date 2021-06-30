@@ -4,7 +4,7 @@ import TreeGridFooterRow from 'Controls/_treeGrid/display/TreeGridFooterRow';
 
 const columns = [ { displayProperty: 'col1' }, { displayProperty: 'col2' }, { displayProperty: 'col3' } ];
 const mockedOwner = {
-    getColumnsConfig: () => columns,
+    getGridColumnsConfig: () => columns,
     getStickyColumnsCount: () => 0,
     hasMultiSelectColumn: () => false,
     hasItemActionsSeparatedCell: () => true,

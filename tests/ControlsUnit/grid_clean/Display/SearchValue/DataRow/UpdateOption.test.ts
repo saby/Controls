@@ -46,7 +46,7 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
             contents: model,
             owner: {
                 getStickyColumnsCount: () => 0,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => false,
                 hasItemActionsSeparatedCell: () => false,
                 getItemEditorTemplate: () => {},
@@ -78,7 +78,7 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
             multiSelectVisibility: 'visible',
             owner: {
                 getStickyColumnsCount: () => 0,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => true,
                 hasItemActionsSeparatedCell: () => false,
                 getItemEditorTemplate: () => {},

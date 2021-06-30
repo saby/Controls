@@ -14,12 +14,10 @@ import Cell from './Cell';
 import HeaderCell from './HeaderCell';
 
 export interface IOptions<T> extends IRowOptions<T> {
-    header: THeader;
     headerModel: Header<T>;
 }
 
 export default class HeaderRow<T> extends Row<T> {
-    protected _$header: THeader;
     protected _$headerModel: Header<T>;
     protected _$sorting: Array<{[p: string]: string}>;
 
@@ -68,7 +66,7 @@ export default class HeaderRow<T> extends Row<T> {
 
     protected _processStickyLadderCells(): void {
         // todo Множественный stickyProperties можно поддержать здесь:
-        const stickyLadderProperties = this.getStickyLadderProperties(this._$columns[0]);
+        const stickyLadderProperties = this.getStickyLadderProperties(this._$columnsConfig[0]);
         const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
 
         if (stickyLadderCellsCount === 2) {
@@ -98,11 +96,11 @@ export default class HeaderRow<T> extends Row<T> {
     }
 
     protected _initializeColumns(): void {
-        if (this._$header) {
+        if (this._$columnsConfig) {
             this._$columnItems = [];
             const factory = this.getColumnsFactory();
             let totalColspan = 0;
-            this._$columnItems = this._$header.map((column, index) => {
+            this._$columnItems = this._$columnsConfig.map((column, index) => {
                 const isFixed = (this.isMultiline() ? (column.startColumn - 1) : totalColspan) < this.getStickyColumnsCount();
                 totalColspan += (column.endColumn - column.startColumn) || 1;
                 return factory({
@@ -147,14 +145,14 @@ export default class HeaderRow<T> extends Row<T> {
     }
 
     protected _getCellPaddingForHeaderColumn(headerColumn: IHeaderCell, columnIndex: number): ICellPadding {
-        const columns = this.getColumnsConfig();
+        const columns = this.getGridColumnsConfig();
         const headerColumnIndex =
             typeof headerColumn.startColumn !== 'undefined' ? headerColumn.startColumn - 1 : columnIndex;
         return columns[headerColumnIndex].cellPadding;
     }
 
     protected _updateSeparatorSizeInColumns(separatorName: 'Column'): void {
-        this._$header.forEach((column, columnIndex) => {
+        this._$columnsConfig.forEach((column, columnIndex) => {
             const multiSelectOffset = this.hasMultiSelectColumn() ? 1 : 0;
             const cell = this._$columnItems[columnIndex + multiSelectOffset];
             cell[`set${separatorName}SeparatorSize`](
@@ -172,12 +170,12 @@ export default class HeaderRow<T> extends Row<T> {
 
             const prevColumnIndex = columnIndex - (
                 (columnIndex > 1 &&
-                this._$header[columnIndex - 1].startColumn === column.startColumn &&
+                this._$columnsConfig[columnIndex - 1].startColumn === column.startColumn &&
                 column.startColumn !== undefined) ? 2 : 1);
 
             const previousColumn: IColumn = {
-                ...this._$header[prevColumnIndex],
-                columnSeparatorSize: this._getHeaderColumnSeparatorSize(this._$header[prevColumnIndex], prevColumnIndex)
+                ...this._$columnsConfig[prevColumnIndex],
+                columnSeparatorSize: this._getHeaderColumnSeparatorSize(this._$columnsConfig[prevColumnIndex], prevColumnIndex)
             } as IColumn;
 
             return this._resolveColumnSeparatorSize(currentColumn, previousColumn);
@@ -187,7 +185,7 @@ export default class HeaderRow<T> extends Row<T> {
 
     private _getHeaderColumnSeparatorSize(headerColumn: IHeaderCell, columnIndex: number): IColumnSeparatorSizeConfig {
         const columnSeparatorSize: IColumnSeparatorSizeConfig = {};
-        const columns = this.getColumnsConfig();
+        const columns = this.getGridColumnsConfig();
         const columnLeftIndex =
             typeof headerColumn.startColumn !== 'undefined' ? headerColumn.startColumn - 1 : columnIndex;
         const columnRightIndex =
@@ -227,7 +225,6 @@ Object.assign(HeaderRow.prototype, {
     _moduleName: 'Controls/grid:GridHeaderRow',
     _instancePrefix: 'grid-header-row-',
     _cellModule: 'Controls/grid:GridHeaderCell',
-    _$header: null,
     _$headerModel: null,
     _$sorting: null
 });
