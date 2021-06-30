@@ -4256,8 +4256,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._options.selectionViewMode === newOptions.selectionViewMode ||
                 newOptions.selectionViewMode !== 'selected';
             const isAllSelected = selectionController.isAllSelected(false, selectionController.getSelection(), this._options.root);
-            if ((filterChanged || this._options.root !== newOptions.root) && isAllSelected &&
-                allowClearSelectionBySelectionViewMode) {
+            if (filterChanged && isAllSelected && allowClearSelectionBySelectionViewMode) {
                 _private.changeSelection(this, { selected: [], excluded: [] });
             }
         }
