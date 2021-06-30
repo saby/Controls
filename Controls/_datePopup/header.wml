@@ -1,7 +1,7 @@
 <div class="controls-PeriodDialog__header controls_datePicker_theme-{{theme}} controls_theme-{{theme}}">
    <!--<div class="controls-PeriodDialog__stateButton-wrapper">-->
       <Controls._datePopup.fakeThemeLoader theme="{{theme}}"/>
-    <div if="{{monthStateEnabled && yearsStateEnabled}}"
+    <div if="{{monthStateEnabled}}"
          on:click="_toggleStateClick()"
          on:keyDown="_stateButtonKeyDownHandler()"
          tabindex="0"
@@ -12,7 +12,7 @@
                 controls-PeriodDialog_stateButton_icon {{ keyboardActive? 'controls-PeriodDialog_stateButton_icon_focus'}}">
             </span>
     </div>
-    <ws:if data="{{ selectionType === 'quantum' }}">
+    <ws:if data="{{ selectionType === 'quantum' || selectionType === 'workdays'}}">
         <div class="controls-PeriodDialog__header-period_link">
             <Controls.dateRange:LinkView
                     startValue="{{headerRangeModel.startValue}}"
