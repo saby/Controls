@@ -158,7 +158,7 @@ export default class SlidingPanel extends Base {
         if (heightList) {
             this._validateHeightList(heightList);
         } else if (!slidingPanelOptions.minHeight) {
-            Logger.error('Controls/popup:SlidingPanel: опция minHeight бязательна для заполнения');
+            Logger.error('Controls/popup:SlidingPanel: опция minHeight обязательна для заполнения');
         }
     }
 
