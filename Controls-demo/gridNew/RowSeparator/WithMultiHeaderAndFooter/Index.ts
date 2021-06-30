@@ -1,9 +1,9 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/RowSeparator/WithMultiHeader/WithMultiHeader';
+import * as Template from 'wml!Controls-demo/gridNew/RowSeparator/WithMultiHeaderAndFooter/WithMultiHeaderAndFooter';
 import {Memory} from 'Types/source';
 import {IColumn, IHeaderCell} from 'Controls/grid';
 import { Countries } from 'Controls-demo/gridNew/DemoHelpers/Data/Countries';
-import {MultiHeader} from 'Controls-demo/gridNew/DemoHelpers/Data/MultiHeader';
+import { MultiHeader } from 'Controls-demo/gridNew/DemoHelpers/Data/MultiHeader';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

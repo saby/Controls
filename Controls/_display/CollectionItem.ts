@@ -660,12 +660,12 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    resetFirstItem(): void {
+    resetIsFirstItem(): void {
         this._isFirstItem = undefined;
         this._nextVersion();
     }
 
-    resetLastItem(): void {
+    resetIsLastItem(): void {
         this._isLastItem = undefined;
         this._nextVersion();
     }

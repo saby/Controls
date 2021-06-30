@@ -2559,10 +2559,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             // Обновляем версию в том случае ,если у элемента сохранённое состояние lastItem
             // или он реально последний в списке
             if (item.isLastItem() || this.isLastItem(item)) {
-                item.resetLastItem();
+                item.resetIsLastItem();
             }
             if (item.isFirstItem() || this.isFirstItem(item)) {
-                item.resetFirstItem();
+                item.resetIsFirstItem();
             }
         });
     }
