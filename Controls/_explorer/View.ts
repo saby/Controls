@@ -1046,6 +1046,17 @@ export default class Explorer extends Control<IExplorerOptions> {
         return itemTemplate;
     }
 
+    protected _getEmptyTemplate(
+        viewMode: string,
+        emptyTemplate: TemplateFunction,
+        listEmptyTemplate: TemplateFunction
+    ) {
+        if (viewMode === 'list' && listEmptyTemplate) {
+            return listEmptyTemplate;
+        }
+        return emptyTemplate;
+    }
+
     /**
      * Возвращает идентификатор самого верхнего известного корневого узла.
      */
@@ -1402,6 +1413,26 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * </pre>
  * @see itemTemplate
  * @see itemTemplateProperty
+ */
+
+/**
+ * @name Controls/_explorer/View#listEmptyTemplate
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}, используемый в {@link Controls/_explorer/interface/IExplorer#viewMode режиме "Плоский список"}.
+ * @demo Controls-demo/list_new/EmptyList/Default/Index
+ * @default undefined
+ * @example
+ * <pre class="brush: html; highlight: [3-7]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
+ *     <ws:emptyTemplate>
+ *         <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
+ *             <ws:contentTemplate>Нет данных</ws:contentTemplate>
+ *         </ws:partial>
+ *     </ws:emptyTemplate>
+ * </Controls.list:View>
+ * </pre>
+ * @remark
+ * Пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/list:EmptyTemplate}.
  */
 
 /**

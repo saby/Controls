@@ -35,6 +35,7 @@
                                           actionAlignment="{{ _viewMode === 'tile' ? 'vertical' : _options.actionAlignment }}"
                                           actionCaptionPosition="{{ _viewMode === 'tile' ? 'none' : _options.actionCaptionPosition }}"
                                           itemTemplate="{{_getItemTemplate(_viewMode, _itemTemplate, _options.listItemTemplate, _options.tileItemTemplate)}}"
+                                          emptyTemplate="{{_getEmptyTemplate(_viewMode, _options.emptyTemplate, _options.listEmptyTemplate)}}"
                                           groupTemplate="{{_viewMode==='tile' ? _options.tileGroupTemplate : _groupTemplate}}"
                                           itemActionsPosition="{{_itemActionsPosition}}"
                                           disableVirtualScroll="{{_viewMode==='tile'}}"
