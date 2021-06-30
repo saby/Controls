@@ -48,7 +48,7 @@ export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPositio
 export {IBasePopupOptions, IBaseOpener} from './_popup/interface/IBaseOpener';
 export {IStackPopupOptions, IStackOpener} from './_popup/interface/IStack';
 export {IStickyPopupOptions, IStickyPosition, IStickyPositionOffset, IStickyOpener} from './_popup/interface/ISticky';
-export {IDialogPopupOptions, IDialogOpener} from './_popup/interface/IDialog';
+export {IDialogPopupOptions, IDialogOpener, IResizeDirection} from './_popup/interface/IDialog';
 export {IConfirmationOptions, IConfirmationOpener} from './_popup/interface/IConfirmation';
 export {INotificationPopupOptions, INotificationOpener} from './_popup/interface/INotification';
 export {IPreviewerOptions, IPreviewer} from './_popup/interface/IPreviewer';
