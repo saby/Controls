@@ -1,0 +1,28 @@
+<div class="controlsDemo__cell">
+  <div class="controlsDemo__default">
+      <Controls.browser:Browser
+          keyProperty="id"
+          source="{{_viewSource}}"
+          searchParam="title"
+          minSearchLength="{{3}}"
+          bind:filter="_filter"
+      >
+        <ws:navigation source="page" view="infinity">
+          <ws:sourceConfig pageSize="{{20}}" page="{{1}}" hasMore="{{false}}"/>
+        </ws:navigation>
+
+        <ws:content>
+          <div class="ws-fragment">
+            <Controls.search:InputContainer>
+              <Controls.search:Input/>
+            </Controls.search:InputContainer>
+            <Controls.list:Container>
+              <Controls.scroll:Container attr:class="controlsDemo__height400" attr:style="max-width: 700px">
+                <Controls.grid:View columns="{{_columns}}"/>
+              </Controls.scroll:Container>
+            </Controls.list:Container>
+          </div>
+        </ws:content>
+      </Controls.browser:Browser>
+  </div>
+</div>
