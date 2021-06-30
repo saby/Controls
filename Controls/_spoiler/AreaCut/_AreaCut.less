@@ -7,6 +7,13 @@
    position: relative;
 }
 
+.controls-AreaCut__shadow {
+   width: 100%;
+   position: absolute;
+   height: var(--shadow_thickness_AreaCut);
+   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--shadow-color_AreaCut) 100%);
+}
+
 .controls-AreaCut_active {
    .controls-CutButton__container_extended::before {
       content: "";
@@ -91,7 +98,7 @@
       @heightLines: calc((@lines + 1) * ~"var(@{lineHeightVariable})");
       @cutButtonTop: calc((@lines + 2) * ~"var(@{lineHeightVariable})"  + var(--border-thickness) + var(--padding-vertical_inputArea));
       .controls-AreaCut_lineHeight-@{lineHeight}_lines-@{lines}_maxHeight {
-         max-height: @heightLines;
+         max-height: calc(@heightLines - ~"var(@{lineHeightVariable})");
       }
       .controls-AreaCut_lineHeight-@{lineHeight}_lines-@{lines}_height {
          height: @heightLines;
@@ -104,11 +111,15 @@
    .for(@sizes, {
       @lineHeight: @{_item};
       @lineHeightVariable: "--line-height_@{lineHeight}_inputArea";
-      .controls-AreaCut__ellipsisWrapper_expanded_lineHeight-@{lineHeight} {
+      .controls-AreaCut__ellipsisWrapper_lineHeight-@{lineHeight} {
          bottom: calc(-1 * ~"var(@{lineHeightVariable})" + var(--border-thickness));
       }
-      .controls-AreaCut_expanded_lineHeight-@{lineHeight} {
+      .controls-AreaCut_lineHeight-@{lineHeight} {
          margin-bottom: ~"var(@{lineHeightVariable})";
+      }
+
+      .controls-AreaCut__shadow_lineHeight-@{lineHeight} {
+         bottom: ~"var(@{lineHeightVariable})";
       }
    });
 }
