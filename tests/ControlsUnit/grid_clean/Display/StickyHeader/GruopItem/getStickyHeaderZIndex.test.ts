@@ -11,7 +11,7 @@ describe('Controls/grid_clean/Display/StickyHeader/GroupItem/getStickyHeaderZInd
             owner: {
                 getStickyColumnsCount: () => 0,
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => [column],
+                getGridColumnsConfig: () => [column],
                 hasItemActionsSeparatedCell: () => false,
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',

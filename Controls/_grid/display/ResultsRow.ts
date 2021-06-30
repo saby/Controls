@@ -1,6 +1,6 @@
 import {Model as EntityModel} from 'Types/entity';
 import Row, {IOptions as IBaseRowOptions} from './Row';
-import {IColumn} from './interface/IColumn';
+import {IColumn, TColumns} from './interface/IColumn';
 import {TColspanCallback, TResultsColspanCallback} from './mixins/Grid';
 import ResultsCell from './ResultsCell';
 
@@ -22,6 +22,10 @@ class ResultsRow<T> extends Row<T> {
             ...options,
             colspanCallback: ResultsRow._convertColspanCallback(options.colspanCallback)
         });
+    }
+
+    setGridColumnsConfig(columns: TColumns): void {
+        this.setColumnsConfig(columns);
     }
 
     //region Overrides

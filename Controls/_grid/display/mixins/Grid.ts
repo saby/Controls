@@ -122,7 +122,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         }
     }
 
-    getColumnsConfig(): TColumns {
+    getGridColumnsConfig(): TColumns {
         return this._$columns;
     }
 
@@ -137,11 +137,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     getHeader(): Header<S> {
         if (!this._$headerModel && this._headerIsVisible(this._$header)) {
             this._initializeHeader({
+                header: this._$header,
                 columns: this._$columns,
                 backgroundStyle: this._$backgroundStyle,
                 columnSeparatorSize: this._$columnSeparatorSize,
-                owner: this,
-                header: this._$header,
                 sorting: this._$sorting,
                 multiSelectVisibility: this._$multiSelectVisibility,
                 hasMoreDataUp: this.hasMoreDataUp()
@@ -168,12 +167,13 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
         if (footerModel) {
             footerModel.setRowTemplate(options.footerTemplate);
-            footerModel.setColumns(options.footer);
+            footerModel.setColumnsConfig(options.footer);
         } else {
             this._footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
                 footerTemplate: options.footerTemplate,
                 footer: options.footer,
+                columns: options.columns,
                 backgroundStyle: this._$backgroundStyle,
                 columnSeparatorSize: this._$columnSeparatorSize
             });
@@ -265,7 +265,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$columns = newColumns;
         this._nextVersion();
         // Строки данных, группы
-        this._updateItemsProperty('setColumns', this._$columns);
+        this._updateItemsProperty('setGridColumnsConfig', this._$columns);
 
         // В столбцах может измениться stickyProperty, поэтому нужно пересчитать ladder
         // Проверка, что точно изменился stickyProperty, это не быстрая операция, т.к. columns - массив объектов
@@ -275,17 +275,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this._updateItemsLadder();
         }
 
-        [this.getColgroup(), this.getHeader(), this.getResults()].forEach((gridUnit) => {
-            gridUnit?.setColumns(newColumns);
+        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter(), this.getEmptyGridRow()].forEach((gridUnit) => {
+            gridUnit?.setGridColumnsConfig(newColumns);
         });
-        // todo Переписать по: https://online.sbis.ru/opendoc.html?guid=d86329c7-5c85-4c7f-97c9-791502f6f1dd
-        // Надо сделать так, чтобы у класса Row была опция columnsConfig и она всегда содержит оригинальную колонку,
-        // переданную в опции columns списка.
-        // Также у класса Row должна быть другая опция - columns. Это уже набор колонок, рассчитанный самой коллекцией.
-        // Например, задав columns=[{},{}] и footerTemplate=function(){}, то должен создаваться класс Row с опциями
-        // columnsConfig=[{}, {}] и columns=[{ template: function(){} }].
-        this.getFooter()?.resetColumns();
-        this.getEmptyGridRow()?.resetColumns();
     }
 
     setLadderProperties(ladderProperties: string[]) {
@@ -338,7 +330,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _initializeEmptyRow(): void {
         this._$emptyGridRow = new EmptyRow<S>({
             owner: this,
-            columns: this._$emptyTemplateColumns,
+            columnsConfig: this._$emptyTemplateColumns,
+            gridColumnsConfig: this._$columns,
             rowTemplate: this._$emptyTemplate,
             rowTemplateOptions: this._$emptyTemplateOptions,
             multiSelectVisibility: this._$multiSelectVisibility
@@ -349,7 +342,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$emptyTemplateColumns = emptyTemplateColumns;
         this._nextVersion();
         if (this._$emptyGridRow) {
-            this._$emptyGridRow.setColumns(emptyTemplateColumns);
+            this._$emptyGridRow.setColumnsConfig(emptyTemplateColumns);
         } else {
             this._initializeEmptyRow();
         }
@@ -417,7 +410,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         const cOptions = {
             ...options,
             owner: this,
-            header: options.header
+            columnsConfig: options.header,
+            gridColumnsConfig: options.columns
         };
         const headerConstructor = this.getHeaderConstructor();
         this._$headerModel = new headerConstructor(cOptions);
@@ -435,7 +429,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return new FooterRow({
             owner: this,
             multiSelectVisibility: options.multiSelectVisibility,
-            columns: options.footer,
+            gridColumnsConfig: options.columns,
+            columnsConfig: options.footer,
             rowTemplate: options.footerTemplate,
             rowTemplateOptions: {},
             backgroundStyle: options.backgroundStyle,
@@ -449,7 +444,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$results = new resultsRowClass({
             owner: this,
             multiSelectVisibility: options.multiSelectVisibility,
-            columns: options.columns,
+            columnsConfig: options.columns,
+            gridColumnsConfig: options.columns,
             rowTemplate: options.resultsTemplate,
             rowTemplateOptions: {},
             metaResults: this.getMetaResults(),
@@ -461,7 +457,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     protected _initializeColgroup(options: IOptions): Colgroup<S> {
         this._$colgroup = new Colgroup({
-            owner: this
+            owner: this,
+            gridColumnsConfig: options.columns
         });
     }
 
@@ -550,7 +547,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     hasItemActionsSeparatedCell(): boolean {
-        return !!this.getColumnsConfig() && this.hasColumnScroll() && this._$itemActionsPosition !== 'custom';
+        return !!this.getGridColumnsConfig() && this.hasColumnScroll() && this._$itemActionsPosition !== 'custom';
     }
 
     // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
