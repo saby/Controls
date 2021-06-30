@@ -772,7 +772,9 @@ define([
                id: 0
             };
             component._headers[0] = {
-               position: 'top'
+               position: {
+                  vertical: 'top'
+               }
             };
             component._changeHeadersStackByHeader(header, 'add');
             sinon.assert.calledOnce(stb);
