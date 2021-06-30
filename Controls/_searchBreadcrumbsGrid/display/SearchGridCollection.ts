@@ -1,13 +1,12 @@
 import { TreeGridCollection } from 'Controls/treeGrid';
-import {Model as EntityModel, Model} from 'Types/entity';
+import {Model} from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {ItemsFactory, itemsStrategy } from 'Controls/display';
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
 import {IOptions as ITreeGridOptions} from 'Controls/_treeGrid/display/TreeGridCollection';
 import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
-import Header from "Controls/_grid/display/Header";
-import TableHeader from "Controls/_grid/display/TableHeader";
+import {GridHeader, GridTableHeader} from 'Controls/grid';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>> extends ITreeGridOptions<S, T> {
    breadCrumbsMode?: 'row' | 'cell';
@@ -39,8 +38,8 @@ export default
       // Результаты поиска нужно показывать без каких либо фильтров
    }
 
-   getHeaderConstructor(): typeof Header {
-      return this.isFullGridSupport() ? Header : TableHeader;
+   getHeaderConstructor(): typeof GridHeader {
+      return this.isFullGridSupport() ? GridHeader : GridTableHeader;
    }
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {

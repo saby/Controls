@@ -109,6 +109,9 @@ class Controller extends BaseController {
     }
 
     popupDragStart(item: ISlidingPanelItem, container: HTMLDivElement, offset: IDragOffset): void {
+        if (item.popupOptions.slidingPanelOptions.userMoveLocked) {
+            return;
+        }
         const position = item.position;
         const isFirstDrag = !item.dragStartHeight;
 
@@ -129,11 +132,11 @@ class Controller extends BaseController {
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
     }
 
-    popupDragEnd(item: ISlidingPanelItem, hasContentToExpand: boolean): void {
+    popupDragEnd(item: ISlidingPanelItem): void {
         if (item.position.height < SlidingPanelStrategy.getMinHeight(item)) {
             PopupController.remove(item.id);
         } else {
-            item.position = SlidingPanelStrategy.getPositionAfterDrag(item, hasContentToExpand);
+            item.position = SlidingPanelStrategy.getPositionAfterDrag(item);
         }
         item.dragStartHeight = null;
     }

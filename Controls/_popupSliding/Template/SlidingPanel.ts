@@ -190,8 +190,10 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
     private _notifyDragStart(offset: IDragObject['offset']): void {
 
-        /* Запоминаем высоту скролла, чтобы при увеличении проверять на то,
-           что не увеличим шторку больше, чем есть контента */
+        /*
+           Запоминаем высоту скролла, чтобы при увеличении проверять на то,
+           что не увеличим шторку больше, чем есть контента
+        */
         if (!this._dragStartHeightDimensions) {
             this._dragStartHeightDimensions = {
                 scrollHeight: this._children.customContentWrapper.clientHeight,
@@ -255,7 +257,6 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     static getDefaultOptions(): Partial<ISlidingPanelTemplateOptions> {
         return {
             controlButtonVisibility: true,
-            userMoveLocked: false,
             slidingPanelOptions: {
                 height: undefined,
                 maxHeight: undefined,

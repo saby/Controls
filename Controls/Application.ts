@@ -1,5 +1,4 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import { PrefetchLinksStore } from 'UICommon/Deps';
 import { AppData } from 'UI/State';
 import * as template from 'wml!Controls/Application/Page';
 import {Body as PageBody, Head as PageHead} from 'Application/Page';
@@ -610,56 +609,6 @@ export default class Application extends Control<IApplication> {
 
    private static _isExist(value: unknown): boolean {
       return !!value;
-   }
-
-   /**
-    * Добавление ресурсов, которые необходимо вставить в head как <link rel="prefetch"/> или <link rel="preload"/>
-    * @param modules
-    * @param cfg настройки для ссылок
-    *             {
-    *                'prefetch': <boolean>,  // добавить prefetch-ссылку в head
-    *                'preload': <boolean>  // добавить preload-ссылку в head
-    *                'force': <boolean>  // по умолчанию ресурсы добавляются только на сервисе представления, но
-    *                                    // с этим параметром можно на это повлиять
-    *             }
-    * @private
-    */
-   private static _addHeadLinks(modules: string[], cfg: IHeadLinkConfig = {}): void {
-      if (!constants.isServerSide && !cfg.force) {
-         return;
-      }
-      if (!modules || !modules.length) {
-         return;
-      }
-
-      const pls = new PrefetchLinksStore();
-      if (cfg.prefetch) {
-         pls.addPrefetchModules(modules);
-      } else {
-         pls.addPreloadModules(modules);
-      }
-   }
-
-   /**
-    * Добавление ресурсов, которые необходимо вставить в head как <link rel="prefetch"/>
-    * По умолчанию ресурсы добавляются только на сервисе представления
-    * @param modules
-    * @param force
-    * @public
-    */
-   static addPrefetchModules(modules: string[], force: boolean): void {
-      Application._addHeadLinks(modules, { prefetch: true, force: !!force });
-   }
-
-   /**
-    * Добавление ресурсов, которые необходимо вставить в head как <link rel="preload"/>
-    * По умолчанию ресурсы добавляются только на сервисе представления
-    * @param modules
-    * @param force
-    * @public
-    */
-   static addPreloadModules(modules: string[], force: boolean): void {
-      Application._addHeadLinks(modules, { preload: true, force: !!force });
    }
 
    static getDefaultOptions(): object {

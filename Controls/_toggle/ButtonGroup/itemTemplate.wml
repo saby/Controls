@@ -5,7 +5,7 @@
 </ws:template>
 
 <ws:if data="{{contentTemplate}}">
-    <ws:partial template="{{contentTemplate}}" item="{{item}}">
+    <ws:partial template="{{contentTemplate}}" selected="{{ selected }}" item="{{item}}">
         <ws:captionTemplate>
             <ws:partial template="CaptionTemplate"/>
         </ws:captionTemplate>
