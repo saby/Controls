@@ -1,21 +1,21 @@
 <div class="controlsDemo__wrapper ws-flexbox">
-   <div class="controlsDemo__wrapper">
-      <div class="controls-text-label">popupBackgroundStyle=default</div>
-      <Controls.dropdown:Button
-              keyProperty="key"
-              caption="Create"
-              source="{{_source}}"
-              attr:class="controlsDemo-menuButton">
-      </Controls.dropdown:Button>
-   </div>
-   <div class="controlsDemo__wrapper">
-      <div class="controls-text-label">popupBackgroundStyle=custom</div>
-      <Controls.dropdown:Button
-              keyProperty="key"
-              caption="Create"
-              source="{{_source}}"
-              menuPopupOptions="{{menuPopupOptions}}"
-              attr:class="controlsDemo-menuButton">
-      </Controls.dropdown:Button>
-   </div>
+    <div class="controlsDemo__wrapper">
+        <div class="controls-text-label">popupBackgroundStyle=default</div>
+        <Controls.dropdown:Button
+            keyProperty="key"
+            caption="Create"
+            source="{{_source}}"
+            attr:class="controlsDemo-menuButton">
+        </Controls.dropdown:Button>
+    </div>
+    <div class="controlsDemo__wrapper">
+        <div class="controls-text-label">backgroundStyle=primary</div>
+        <Controls.dropdown:Button
+            keyProperty="key"
+            caption="Create"
+            source="{{_source}}"
+            menuPopupOptions="{{menuPopupOptions}}"
+            attr:class="controlsDemo-menuButton">
+        </Controls.dropdown:Button>
+    </div>
 </div>
