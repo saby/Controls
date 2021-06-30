@@ -703,9 +703,9 @@ describe('Controls/_multiselection/Controller', () => {
          const addedItems = [model.getItemBySourceKey(1), model.getItemBySourceKey(3)];
          controller.onCollectionAdd(addedItems);
 
-         assert.isTrue(model.getItemBySourceKey(1).isSelected());
+         assert.isNull(model.getItemBySourceKey(1).isSelected());
          assert.isFalse(model.getItemBySourceKey(2).isSelected());
-         assert.isTrue(model.getItemBySourceKey(3).isSelected());
+         assert.isNull(model.getItemBySourceKey(3).isSelected());
          assert.isFalse(model.getItemBySourceKey(4).isSelected());
       });
 
@@ -722,6 +722,125 @@ describe('Controls/_multiselection/Controller', () => {
          assert.isTrue(model.getItemBySourceKey(2).isSelected());
          assert.isNull(model.getItemBySourceKey(3).isSelected());
          assert.isTrue(model.getItemBySourceKey(4).isSelected());
+      });
+
+      it('select leaf by selected parent in breadcrumbs', () => {
+         /*
+            node-1
+               leaf-13
+            node-1, node-11
+               leaf-111
+            node-1, node-12
+               leaf-121
+            node-2
+               leaf-21
+          */
+         const items = new RecordSet({
+            rawData: [
+               {
+                  id: 1,
+                  parent: null,
+                  nodeType: true,
+                  title: 'node-1'
+               }, {
+                  id: 11,
+                  parent: 1,
+                  nodeType: true,
+                  title: 'node-11'
+               }, {
+                  id: 111,
+                  parent: 11,
+                  nodeType: null,
+                  title: 'leaf-111'
+               },
+               {
+                  id: 12,
+                  parent: 1,
+                  nodeType: true,
+                  title: 'node-12'
+               }, {
+                  id: 121,
+                  parent: 12,
+                  nodeType: null,
+                  title: 'leaf-121'
+               }, {
+                  id: 13,
+                  parent: 1,
+                  nodeType: null,
+                  title: 'leaf-13'
+               }, {
+                  id: 2,
+                  parent: null,
+                  nodeType: true,
+                  title: 'node-2'
+               }, {
+                  id: 21,
+                  parent: 2,
+                  nodeType: null,
+                  title: 'leaf-21'
+               }
+            ],
+            keyProperty: 'id'
+         });
+
+         model = new SearchGridCollection({
+            collection: items,
+            root: null,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'nodeType',
+            columns: [{}]
+         });
+
+         strategy = new TreeSelectionStrategy({
+            model,
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            selectionType: 'all'
+         });
+
+         controller = new SelectionController({
+            model,
+            strategy,
+            selectedKeys: [],
+            excludedKeys: [],
+            searchValue: 'aaa'
+         });
+
+         controller.setSelection({selected: [1], excluded: []});
+         // Проверяем что выбраны все хлебные крошки, у которых в пути есть 1 и все дети этих хлебных крошек
+         assert.isNull(model.getItemBySourceKey(1).isSelected());
+         assert.isTrue(model.getItemBySourceKey(13).isSelected());
+         assert.isNull(model.getItemBySourceKey(11).isSelected());
+         assert.isTrue(model.getItemBySourceKey(111).isSelected());
+         assert.isNull(model.getItemBySourceKey(12).isSelected());
+         assert.isTrue(model.getItemBySourceKey(121).isSelected());
+         assert.isFalse(model.getItemBySourceKey(2).isSelected());
+         assert.isFalse(model.getItemBySourceKey(21).isSelected());
+
+         controller.setSelection({selected: [2], excluded: []});
+         // Проверяем что выбраны все хлебные крошки, у которых в пути есть 2 и все дети этих хлебных крошек
+         assert.isFalse(model.getItemBySourceKey(1).isSelected());
+         assert.isFalse(model.getItemBySourceKey(13).isSelected());
+         assert.isFalse(model.getItemBySourceKey(11).isSelected());
+         assert.isFalse(model.getItemBySourceKey(111).isSelected());
+         assert.isFalse(model.getItemBySourceKey(12).isSelected());
+         assert.isFalse(model.getItemBySourceKey(121).isSelected());
+         assert.isNull(model.getItemBySourceKey(2).isSelected());
+         assert.isTrue(model.getItemBySourceKey(21).isSelected());
+
+         controller.setSelection({selected: [12], excluded: [1]});
+         // Проверяем что для выбранности каждый последующий элемент крошки имеет больший вес, то есть
+         // Крошка [1, 12]. 1 -исключена, но 12 - выбрана => крошка выбрана, т.к. выбрана папка на которую она указывает
+         assert.isFalse(model.getItemBySourceKey(1).isSelected());
+         assert.isFalse(model.getItemBySourceKey(13).isSelected());
+         assert.isFalse(model.getItemBySourceKey(11).isSelected());
+         assert.isFalse(model.getItemBySourceKey(111).isSelected());
+         assert.isNull(model.getItemBySourceKey(12).isSelected());
+         assert.isTrue(model.getItemBySourceKey(121).isSelected());
+         assert.isFalse(model.getItemBySourceKey(2).isSelected());
+         assert.isFalse(model.getItemBySourceKey(21).isSelected());
       });
    });
 });

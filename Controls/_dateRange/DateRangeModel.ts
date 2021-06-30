@@ -7,7 +7,7 @@ import CalendarUtils from './Utils';
 /**
  * Модель для контролов, предназначенных для ввода диапазона дат.
  * @class Controls/_dateRange/DateRangeModel
- * 
+ *
  * @author Красильников А.С.
  * @private
  */
@@ -115,7 +115,7 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
    },
 
    _getDisplayedRange(range, direction): [Date, Date] {
-      const nextRange = Range.shiftPeriod(range[0], range[1], direction);
+      const nextRange = Range.shiftPeriod(range[0], range[1], direction, this._options.selectionType);
       if (!this._options.displayedRanges) {
          return nextRange;
       }
@@ -203,6 +203,8 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
       if (this._hasRanges() && this._options.rangeSelectedCallback) {
          //Если заданы кванты вместе с rangeSelectedCallback, то мы должны сначала подстроить дату под них
          range = CalendarUtils.updateRangeByQuantum(this.startValue, this.startValue, this._options.ranges);
+      } else if (this._options.selectionType === 'workdays') {
+         range = CalendarUtils.updateRangeByWorkdays(this.startValue);
       } else {
          range = [this.startValue, this.endValue];
       }

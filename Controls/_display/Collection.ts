@@ -1273,7 +1273,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      * @param {Object} options Значения опций
      * @return {Controls/_display/CollectionItem}
      */
-    createItem(options: object): T {
+    createItem(options: ICollectionItemOptions): T {
         if (!this._itemsFactory) {
             this._itemsFactory = this._getItemsFactory().bind(this);
         }

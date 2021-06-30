@@ -862,6 +862,7 @@ const _private = {
                     _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
                     // После подгрузки элементов, не нужно скроллить
                     self._needScrollToFirstItem = false;
+                    self._hideTopTrigger = false;
                 } else if (direction === 'down') {
                     _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
                 }
@@ -6344,7 +6345,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.addShowActionsClass(this);
         }
 
-        // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
         if (this._dndListController && this._dndListController.isDragging()) {
             this._draggingItemMouseMove(itemData, nativeEvent);
         }
