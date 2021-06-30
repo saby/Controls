@@ -13,9 +13,7 @@ import {isEqual} from 'Types/object';
 import {EventUtils} from 'UI/Events';
 import {CrudEntityKey} from 'Types/source';
 import {View as ExplorerView} from 'Controls/explorer';
-import {
-    getListConfiguration
-} from 'Controls/_newBrowser/utils';
+import {getListConfiguration} from 'Controls/_newBrowser/utils';
 import * as ViewTemplate from 'wml!Controls/_newBrowser/View/View';
 import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/ListItemTemplate';
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
@@ -24,6 +22,7 @@ import {ContextOptions as dataContext} from 'Controls/context';
 import {default as TileController} from 'Controls/_newBrowser/TemplateControllers/Tile';
 import {default as ListController} from 'Controls/_newBrowser/TemplateControllers/List';
 import {default as TableController} from 'Controls/_newBrowser/TemplateControllers/Table';
+
 //endregion
 
 interface IReceivedState {
@@ -397,8 +396,10 @@ export default class View extends Control<IOptions, IReceivedState> {
 
     // нужно уметь реагировать на результат выполнения команд самостоятельно.
     reloadMaster(): Promise<RecordSet> {
-        const masterExplorer = this._children.masterList;
-        return masterExplorer.reload.apply(masterExplorer, arguments);
+        if (this._masterVisibility === MasterVisibilityEnum.visible) {
+            const masterExplorer = this._children.masterList;
+            return masterExplorer.reload.apply(masterExplorer, arguments);
+        }
     }
 
     reloadItem(): unknown {
