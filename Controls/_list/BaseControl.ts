@@ -861,6 +861,7 @@ const _private = {
                     _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
                     // После подгрузки элементов, не нужно скроллить
                     self._needScrollToFirstItem = false;
+                    self._hideTopTrigger = false;
                 } else if (direction === 'down') {
                     _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
                 }
