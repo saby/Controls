@@ -13,18 +13,18 @@ export default class extends Control {
             rawData: [
                 {
                     id: '1',
-                    caption: 'Название 1',
+                    caption: 'Кнопка',
                     counter: 5
                 },
                 {
                     id: '2',
-                    caption: 'Название 2',
+                    caption: 'Кнопка',
                     counter: 10,
                     color: 'danger'
                 },
                 {
                     id: '3',
-                    caption: 'Название 3',
+                    caption: 'Кнопка',
                     counter: 20,
                     color: 'info'
                 }

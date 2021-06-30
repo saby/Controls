@@ -1,4 +1,4 @@
-.icon-size(@size: @icon-size_s, @fontFamily: @icon_font-family_s) {
+.icon-size(@size: var(--icon-size_s), @fontFamily: var(--icon_font-family_s)) {
    font-size: @size !important;
    line-height: @size !important;
    width: @size;
@@ -6,14 +6,14 @@
    font-family: @fontFamily !important;
 }
 
-.icon-size-without-important(@size: @icon-size_s, @fontFamily: @icon_font-family_s) {
+.icon-size-without-important(@size: var(--icon-size_s), @fontFamily: var(--icon_font-family_s)) {
    font-size: @size;
    width: @size;
    height: @size;
    font-family: @fontFamily;
 }
 
-.icon-common(@font-size: @icon-size_s, @fontFamily: @icon_font-family_s) {
+.icon-common(@font-size: var(--icon-size_s), @fontFamily: var(--icon_font-family_s)) {
    font-size: @font-size;
    font-family: @fontFamily;
    speak: none;
@@ -24,21 +24,21 @@
    line-height: 1;
 }
 
-.icon(@size: @icon-size_s, @fontFamily: @icon_font-family_s) {
+.icon(@size: var(--icon-size_s), @fontFamily: var(--icon_font-family_s)) {
    .icon-common(@size, @fontFamily);
    width: @size;
    height: @size;
    display: inline-block;
 }
 
-.icon-with-size(@font-size: @icon-size_s, @fontFamily: @icon_font-family_s, @size: @icon-size_s) {
+.icon-with-size(@font-size: var(--icon-size_s), @fontFamily: var(--icon_font-family_s), @size: var(--icon-size_s)) {
    .icon-common(@font-size, @fontFamily);
    width: @size;
    height: @size;
    display: inline-flex;
 }
 
-.compatPlaceholder(@color: @placeholder-color_inputText) {
+.compatPlaceholder(@color: var(--placeholder-color_inputText)) {
    .user-select(none);
    position: absolute;
    top: 0;
