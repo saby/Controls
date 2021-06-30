@@ -247,6 +247,7 @@ export default class _Controller implements IDropdownController {
       if (this._options.reloadOnOpen) {
          this._setItems(null);
          this._loadDependsPromise = null;
+         this._sourceController = null;
       }
       return this._open(popupOptions);
    }
