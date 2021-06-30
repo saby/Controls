@@ -26,24 +26,24 @@ describe('Controls/grid_clean/Display/Ladder/UpdateOption', () => {
         collection = undefined;
     });
 
-    it('Initialize without ladder and set ladder', () => {
-        const gridCollection = new GridCollection({
-            collection,
-            keyProperty: 'key',
-            columns,
-            groupProperty: 'group'
-        });
-
-        // group initialized with colspan "1 / 2"
-        assert.strictEqual(gridCollection.at(0).getColumns()[0].getColspanStyles(), '');
-
-        // set ladder
-        gridCollection.setColumns([
-            { displayProperty: 'text', stickyProperty: 'ladder' }
-        ]);
-        gridCollection.setLadderProperties(['ladder']);
-
-        // group must recalculate with colspan "1 / 3"
-        assert.strictEqual(gridCollection.at(0).getColumns()[0].getColspanStyles(), 'grid-column: 1 / 3;');
-    });
+    // it('Initialize without ladder and set ladder', () => {
+    //     const gridCollection = new GridCollection({
+    //         collection,
+    //         keyProperty: 'key',
+    //         columns,
+    //         groupProperty: 'group'
+    //     });
+    //
+    //     // group initialized with colspan "1 / 2"
+    //     assert.strictEqual(gridCollection.at(0).getColumns()[0].getColspanStyles(), '');
+    //
+    //     // set ladder
+    //     gridCollection.setColumns([
+    //         { displayProperty: 'text', stickyProperty: 'ladder' }
+    //     ]);
+    //     gridCollection.setLadderProperties(['ladder']);
+    //
+    //     // group must recalculate with colspan "1 / 3"
+    //     assert.strictEqual(gridCollection.at(0).getColumns()[0].getColspanStyles(), 'grid-column: 1 / 3;');
+    // });
 });

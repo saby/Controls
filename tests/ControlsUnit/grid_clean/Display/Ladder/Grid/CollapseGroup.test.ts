@@ -25,70 +25,70 @@ describe('Controls/grid_clean/Display/Ladder/Grid/CollapseGroup' , () => {
     afterEach(() => {
         collection = undefined;
     });
-    it('should set ladder on correct items', () => {
-        const expectedLadderItems = [
-            {
-                columns: [{constructorName: 'GroupCell'}]
-            },
-            {
-                columns: [
-                    { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
-                    { constructorName: 'DataCell' }
-                ]
-            },
-            {
-                columns: [
-                    { constructorName: 'DataCell' }
-                ]
-            },
-            {
-                columns: [{constructorName: 'GroupCell'}]
-            },
-            {
-                columns: [
-                    { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
-                    { constructorName: 'DataCell' }
-                ]
-            },
-            {
-                columns: [
-                    { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
-                    { constructorName: 'DataCell' }
-                ]
-            }
-        ];
-        const expectedLaddersItemsAfterCollapseGroup = [
-            {
-                columns: [{constructorName: 'GroupCell'}]
-            },
-            {
-                columns: [{constructorName: 'GroupCell'}]
-            },
-            {
-                columns: [
-                    { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
-                    { constructorName: 'DataCell' }
-                ]
-            },
-            {
-                columns: [
-                    { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
-                    { constructorName: 'DataCell' }
-                ]
-            }
-        ];
-
-        const gridCollection = new GridCollection({
-            collection,
-            keyProperty: 'key',
-            columns,
-            groupProperty: 'group',
-            ladderProperties: ['ladder']
-        });
-        checkCollectionItems(gridCollection, expectedLadderItems);
-        gridCollection.setCollapsedGroups(['1']);
-        checkCollectionItems(gridCollection, expectedLaddersItemsAfterCollapseGroup);
-    });
+    // it('should set ladder on correct items', () => {
+    //     const expectedLadderItems = [
+    //         {
+    //             columns: [{constructorName: 'GroupCell'}]
+    //         },
+    //         {
+    //             columns: [
+    //                 { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+    //                 { constructorName: 'DataCell' }
+    //             ]
+    //         },
+    //         {
+    //             columns: [
+    //                 { constructorName: 'DataCell' }
+    //             ]
+    //         },
+    //         {
+    //             columns: [{constructorName: 'GroupCell'}]
+    //         },
+    //         {
+    //             columns: [
+    //                 { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
+    //                 { constructorName: 'DataCell' }
+    //             ]
+    //         },
+    //         {
+    //             columns: [
+    //                 { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
+    //                 { constructorName: 'DataCell' }
+    //             ]
+    //         }
+    //     ];
+    //     const expectedLaddersItemsAfterCollapseGroup = [
+    //         {
+    //             columns: [{constructorName: 'GroupCell'}]
+    //         },
+    //         {
+    //             columns: [{constructorName: 'GroupCell'}]
+    //         },
+    //         {
+    //             columns: [
+    //                 { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
+    //                 { constructorName: 'DataCell' }
+    //             ]
+    //         },
+    //         {
+    //             columns: [
+    //                 { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
+    //                 { constructorName: 'DataCell' }
+    //             ]
+    //         }
+    //     ];
+    //
+    //     const gridCollection = new GridCollection({
+    //         collection,
+    //         keyProperty: 'key',
+    //         columns,
+    //         groupProperty: 'group',
+    //         ladderProperties: ['ladder']
+    //     });
+    //     checkCollectionItems(gridCollection, expectedLadderItems);
+    //     gridCollection.setCollapsedGroups(['1']);
+    //     checkCollectionItems(gridCollection, expectedLaddersItemsAfterCollapseGroup);
+    // });
 });
 
 function checkCollectionItems(collection: GridCollection<any>, resultItems: any[]) {
