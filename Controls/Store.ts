@@ -6,7 +6,7 @@ interface IStore {
     onPropertyChanged: (propertyName: string, callback: (data: unknown) => void, isGlobal?: boolean) => string;
     unsubscribe: (id: string) => void;
     dispatch: (propertyName: string, data: unknown, isGlobal?: boolean) => void;
-    sendCommand: (commandName: string) => void;
+    sendCommand: (commandName: string, params?: unknown) => void;
     declareCommand: (commandName: string, callback: (data: unknown) => void, isGlobal?: boolean) => string;
 }
 
@@ -71,12 +71,12 @@ class Store implements IStore {
      * Вызывает все обработчики для команды в текущем контексте
      * @param commandName
      */
-    sendCommand(commandName: string): void {
+    sendCommand(commandName: string, params?: unknown): void {
         const state = Store._getState()[Store._getActiveContext()] || {};
 
         return state.hasOwnProperty(commandName) ?
-            this._notifySubscribers(commandName) :
-            this._notifySubscribers(commandName, true);
+            this._notifySubscribers(commandName, false, params) :
+            this._notifySubscribers(commandName, true, params);
     }
 
     /**
@@ -191,13 +191,14 @@ class Store implements IStore {
         }
     }
 
-    private _notifySubscribers(propertyName: string, isGlobal?: boolean): void {
+    private _notifySubscribers(propertyName: string, isGlobal?: boolean, params?: unknown): void {
         const state = Store._getState()[Store._getContextName(isGlobal)] || {};
 
         if (state['_' + propertyName]?.callbacks) {
             state['_' + propertyName].callbacks.forEach(
                 (callbackObject: IStateCallback) => {
-                    return callbackObject.callbackFn(state[propertyName]);
+                    // прикладной params может придти только с команды, поэтому посылаем его если есть.
+                    return callbackObject.callbackFn(params ? params : state[propertyName]);
                 }
             );
         }
