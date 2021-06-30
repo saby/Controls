@@ -143,5 +143,22 @@ define([
             });
          });
       });
+      describe('updateRangeByWorkdays', () => {
+         [{
+            date: new Date(2021, 5, 30),
+            result: [new Date(2021, 5, 28), new Date(2021, 6, 2)]
+         }, {
+            date: new Date(2021, 5, 29),
+            result: [new Date(2021, 5, 28), new Date(2021, 6, 2)]
+         }, {
+            date: new Date(2021, 4, 1),
+            result: [new Date(2021, 3, 26), new Date(2021, 3, 30)]
+         }].forEach((test, index) => {
+            it('should return correct period ' + index, () => {
+               const dateRangeResult = dateRange.Utils.updateRangeByWorkdays(test.date);
+               assert.deepEqual(dateRangeResult, test.result);
+            });
+         });
+      });
    });
 });
