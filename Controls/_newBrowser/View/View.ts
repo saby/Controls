@@ -382,7 +382,7 @@ export default class View extends Control<IOptions, IReceivedState> {
     }
 
     private _updateContrastBackground(): void {
-        this._contrastBackground = this.viewMode !== DetailViewMode.tile;
+        this._contrastBackground = this.viewMode !== DetailViewMode.tile && this.viewMode !== DetailViewMode.list;
     }
     //endregion
 
