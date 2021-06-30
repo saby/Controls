@@ -66,7 +66,7 @@ import {default as LogicEditor} from 'Controls/_propertyGrid/extendedEditors/Log
 import {default as TabbedView} from 'Controls/_propertyGrid/TabbedView';
 
 import IPropertyGrid = require("Controls/_propertyGrid/IPropertyGrid");
-import IEditor = require("Controls/_propertyGrid/IEditor");
+import {default as IEditor} from 'Controls/_propertyGrid/IEditor';
 import {default as IProperty} from 'Controls/_propertyGrid/IProperty';
 import GroupTemplate = require("wml!Controls/_propertyGrid/Render/resources/groupTemplate");
 import * as ItemTemplate from 'wml!Controls/_propertyGrid/Render/resources/itemTemplate';
