@@ -60,11 +60,12 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       const item = this._getItem(key);
       const cloneSelection = clone(selection);
 
-      if (!this._canBeSelected(item)) {
+      // Если не найден item, то считаем что он не загружен и будет работать соответствующая логика
+      if (item && !this._canBeSelected(item)) {
          return cloneSelection;
       }
 
-      if (!item || this._isNode(item)) {
+      if (item && this._isNode(item)) {
          this._selectNode(cloneSelection, item);
       } else {
          this._selectLeaf(cloneSelection, key);
@@ -134,7 +135,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
    toggleAll(selection: ISelection, hasMoreData: boolean): ISelection {
       // Если выбраны все дети в узле по одному, то при инвертировании должен получиться пустой selection
-      if (this.isAllSelected(selection, hasMoreData, this._model.getCount(), true)) {
+      if (this.isAllSelected(selection, hasMoreData, this._model.getCollection().getCount(), true)) {
          return {selected: [], excluded: []};
       }
 
