@@ -48,7 +48,7 @@ export default class GroupRow<T> extends mixin<
     protected _$colspanGroup: boolean;
 
     constructor(options?: IOptions<T>) {
-        super({...options, columns: options.owner.getGridColumnsConfig()});
+        super(options);
         ExpandableMixin.call(this);
     }
 
@@ -196,6 +196,5 @@ Object.assign(GroupRow.prototype, {
     _cellModule: 'Controls/grid:GridGroupCell',
     _instancePrefix: 'grid-group-item-',
     _$colspanGroup: true,
-    _$columnsConfig: null,
     _$metaResults: null
 });

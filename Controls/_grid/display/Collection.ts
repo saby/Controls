@@ -155,7 +155,9 @@ export default class Collection<
     getAdditionalGroupConstructorParams() {
         return {
             ...super.getAdditionalGroupConstructorParams(),
-            colspanGroup: this._$colspanGroup
+            colspanGroup: this._$colspanGroup,
+            gridColumnsConfig: this._$columns,
+            columnsConfig: this._$columns
         };
     }
 

@@ -250,7 +250,9 @@ export default class TreeGridCollection<
     getAdditionalGroupConstructorParams() {
         return {
             ...super.getAdditionalGroupConstructorParams(),
-            colspanGroup: this._$colspanGroup
+            colspanGroup: this._$colspanGroup,
+            gridColumnsConfig: this._$columns,
+            columnsConfig: this._$columns
         };
     }
 
@@ -338,7 +340,8 @@ export default class TreeGridCollection<
         return new TreeGridFooterRow({
             ...options,
             owner: this,
-            columns: options.footer,
+            columnsConfig: options.footer,
+            gridColumnsConfig: options.columns,
             shouldAddFooterPadding: options.itemActionsPosition === 'outside',
             rowTemplate: options.footerTemplate,
             hasNodeWithChildren: this._hasNodeWithChildren,

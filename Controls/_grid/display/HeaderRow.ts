@@ -66,7 +66,7 @@ export default class HeaderRow<T> extends Row<T> {
 
     protected _processStickyLadderCells(): void {
         // todo Множественный stickyProperties можно поддержать здесь:
-        const stickyLadderProperties = this.getStickyLadderProperties(this._$columnsConfig[0]);
+        const stickyLadderProperties = this.getStickyLadderProperties(this._$gridColumnsConfig[0]);
         const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
 
         if (stickyLadderCellsCount === 2) {
