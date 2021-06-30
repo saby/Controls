@@ -261,6 +261,7 @@ class Manager {
         // Подписка и на платформенное перемещение, и на нативное, т.к. перемещение файлов из ОС тоже нужно отследить.
         const handler = this.eventHandler.bind(this, 'pageDragnDropHandler');
         EventBus.channel('dragnDrop').subscribe('documentDragStart', handler);
+        EventBus.channel('dragnDrop').subscribe('documentDragEnd', handler);
         if (document) {
             document.addEventListener('dragenter', handler);
         }
@@ -901,9 +902,10 @@ class Manager {
         this._dragTimer = setTimeout(() => {
             this._dragTimer = null;
             this._popupItems.each((item) => {
-                if (item.controller.dragNDropOnPage(item)) {
+                if (item.controller.dragNDropOnPage(item, this._getItemContainer(item.id))) {
                     this.remove(item.id);
                 }
+                this._redrawItems();
             });
         }, delay);
     }
