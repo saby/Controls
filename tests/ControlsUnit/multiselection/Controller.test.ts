@@ -320,39 +320,55 @@ describe('Controls/_multiselection/Controller', () => {
       });
    });
 
-   it('onCollectionReset', () => {
-      const model = new Tree({
-         collection: new RecordSet({
+   describe('onCollectionReset', () => {
+      it('default', () => {
+         const model = new Tree({
+            collection: new RecordSet({
+               keyProperty: ListData.KEY_PROPERTY,
+               rawData: ListData.getItems()
+            }),
+            root: new Model({ rawData: { id: null }, keyProperty: ListData.KEY_PROPERTY }),
             keyProperty: ListData.KEY_PROPERTY,
-            rawData: ListData.getItems()
-         }),
-         root: new Model({ rawData: { id: null }, keyProperty: ListData.KEY_PROPERTY }),
-         keyProperty: ListData.KEY_PROPERTY,
-         parentProperty: ListData.PARENT_PROPERTY,
-         nodeProperty: ListData.NODE_PROPERTY,
-         hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY
+            parentProperty: ListData.PARENT_PROPERTY,
+            nodeProperty: ListData.NODE_PROPERTY,
+            hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY
+         });
+
+         strategy = new TreeSelectionStrategy({
+            model,
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            entryPath: [],
+            selectionType: 'all'
+         });
+
+         controller = new SelectionController({
+            model,
+            strategy,
+            selectedKeys: [1, 8],
+            excludedKeys: []
+         });
+
+         controller.onCollectionReset([{id: 8, parent: 6}]);
+
+         assert.isTrue(model.getItemBySourceKey(1).isSelected());
+         assert.isNull(model.getItemBySourceKey(6).isSelected());
       });
 
-      strategy = new TreeSelectionStrategy({
-         model,
-         selectDescendants: true,
-         selectAncestors: true,
-         rootId: null,
-         entryPath: [],
-         selectionType: 'all'
+      it('clear selection if selected all and filter changed', () => {
+         controller.setSelection({selected: [null], excluded: []});
+         controller.updateOptions({
+            model,
+            strategy,
+            filter: {searchValue: 'a'},
+            strategyOptions: {
+               model
+            }
+         });
+         const result = controller.onCollectionReset();
+         assert.deepEqual(result, {selected: [], excluded: []});
       });
-
-      controller = new SelectionController({
-         model,
-         strategy,
-         selectedKeys: [1, 8],
-         excludedKeys: []
-      });
-
-      controller.onCollectionReset([{id: 8, parent: 6}]);
-
-      assert.isTrue(model.getItemBySourceKey(1).isSelected());
-      assert.isNull(model.getItemBySourceKey(6).isSelected());
    });
 
    describe ('getCountOfSelected', () => {
