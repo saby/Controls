@@ -43,13 +43,13 @@ export default class Collection<
         const superResult = super.setEmptyTemplate(emptyTemplate);
         if (superResult) {
             if (this._$emptyTemplate) {
-                if (this._$emptyGridRow) {
-                    this._$emptyGridRow.setRowTemplate(this._$emptyTemplate);
+                if (this._emptyGridRow) {
+                    this._emptyGridRow.setRowTemplate(this._$emptyTemplate);
                 } else {
                     this._initializeEmptyRow();
                 }
             } else {
-                this._$emptyGridRow = undefined;
+                this._emptyGridRow = undefined;
             }
         }
         return superResult;
@@ -101,7 +101,7 @@ export default class Collection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsProperty('setColumns', this._$columns);
+        this._updateItemsProperty('setColumnsConfig', this._$columns);
     }
 
     protected _handleAfterCollectionChange(changedItems: T[] = [], changeAction?: string): void {
@@ -116,18 +116,18 @@ export default class Collection<
         // При headerVisibility === 'visible' вроде как пока не требуется перерисовывать заголовок, т.к.
         // он есть всегда. Но если потребуется, то нужно поправить это условие
         if (this._$headerVisibility === 'hasdata' && changeAction === IObservable.ACTION_RESET) {
-            this._$headerModel = null;
+            this._headerModel = null;
         }
 
         this._updateHasStickyGroup();
-        this._$results = null;
+        this._results = null;
     }
 
     protected _removeItems(start: number, count?: number): T[] {
         const result = super._removeItems(start, count);
 
-        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
-            this._$headerModel = null;
+        if (this._headerModel && !this._headerIsVisible(this._$header)) {
+            this._headerModel = null;
         }
 
         return result;
@@ -137,6 +137,7 @@ export default class Collection<
         const superFactory = super._getItemsFactory();
         return function CollectionItemsFactory(options?: IRowOptions<S>): T {
             options.columns = this._$columns;
+            options.columnsConfig = this._$columns;
             options.colspanCallback = this._$colspanCallback;
             options.columnSeparatorSize = this._$columnSeparatorSize;
             options.rowSeparatorSize = this._$rowSeparatorSize;
@@ -168,14 +169,14 @@ export default class Collection<
 
     protected setMetaResults(metaResults: EntityModel) {
         super.setMetaResults(metaResults);
-        this._$results?.setMetaResults(metaResults);
+        this._results?.setMetaResults(metaResults);
     }
 
     setEditing(editing: boolean): void {
         super.setEditing(editing);
 
-        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
-            this._$headerModel = null;
+        if (this._headerModel && !this._headerIsVisible(this._$header)) {
+            this._headerModel = null;
         }
         this._nextVersion();
     }

@@ -60,6 +60,12 @@ export default class Header<T> {
         });
     }
 
+    setColumnsConfig(newColumns: TColumns): void {
+        this._$rows.forEach((row) => {
+            row.setColumnsConfig(newColumns);
+        });
+    }
+
     setColumns(newColumns: TColumns): void {
         this._$rows.forEach((row) => {
             row.setColumns(newColumns);

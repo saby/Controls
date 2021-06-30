@@ -129,13 +129,13 @@ export default class TreeGridCollection<
         const superResult = super.setEmptyTemplate(emptyTemplate);
         if (superResult) {
             if (this._$emptyTemplate) {
-                if (this._$emptyGridRow) {
-                    this._$emptyGridRow.setRowTemplate(this._$emptyTemplate);
+                if (this._emptyGridRow) {
+                    this._emptyGridRow.setRowTemplate(this._$emptyTemplate);
                 } else {
                     this._initializeEmptyRow();
                 }
             } else {
-                this._$emptyGridRow = undefined;
+                this._emptyGridRow = undefined;
             }
         }
         return superResult;
@@ -170,7 +170,7 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
         }
         super._reBuild(reset);
-        this._$colgroup?.reBuild();
+        this._colgroup?.reBuild();
     }
 
     setIndexes(start: number, stop: number): void {
@@ -179,7 +179,7 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsProperty('setColumns', this._$columns);
+        this._updateItemsProperty('setColumnsConfig', this._$columns);
     }
 
     isLastItem(item: CollectionItem): boolean {
@@ -216,10 +216,10 @@ export default class TreeGridCollection<
         // При headerVisibility === 'visible' вроде как пока не требуется перерисовывать заголовок, т.к.
         // он есть всегда. Но если потребуется, то нужно поправить это условие
         if (this._$headerVisibility === 'hasdata' && changeAction === IObservable.ACTION_RESET) {
-            this._$headerModel = null;
+            this._headerModel = null;
         }
 
-        this._$results = null;
+        this._results = null;
     }
 
     protected _handleCollectionChangeAdd(): void {
@@ -257,8 +257,8 @@ export default class TreeGridCollection<
     setEditing(editing: boolean): void {
         super.setEditing(editing);
 
-        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
-            this._$headerModel = null;
+        if (this._headerModel && !this._headerIsVisible(this._$header)) {
+            this._headerModel = null;
         }
         this._nextVersion();
     }
@@ -270,11 +270,11 @@ export default class TreeGridCollection<
     protected _removeItems(start: number, count?: number): T[] {
         const result = super._removeItems(start, count);
 
-        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
-            this._$headerModel = null;
+        if (this._headerModel && !this._headerIsVisible(this._$header)) {
+            this._headerModel = null;
         }
 
-        return result;
+        return result as T[];
     }
 
     // endregion
@@ -356,7 +356,7 @@ export default class TreeGridCollection<
 
     protected setMetaResults(metaResults: EntityModel) {
         super.setMetaResults(metaResults);
-        this._$results?.setMetaResults(metaResults);
+        this._results?.setMetaResults(metaResults);
     }
 }
 
