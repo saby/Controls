@@ -4,7 +4,7 @@ import {IBackgroundStyle, IExpandable} from 'Controls/interface';
 import Util from './Util';
 import {ICutOptions} from './interface/ICut';
 import {detection} from 'Env/Env';
-import LINE_HEIGHT_FOR_IE from '../_input/Area/IECompatibleLineHeights';
+import {IECompatibleLineHeights} from 'Controls/input';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_spoiler/Cut/Cut';
@@ -28,7 +28,7 @@ class Cut extends Control<ICutOptions> implements IBackgroundStyle, IExpandable 
 
     protected _template: TemplateFunction = template;
     protected _isIE: boolean = detection.isIE11;
-    protected _lineHeightForIE: Record<string, number> = LINE_HEIGHT_FOR_IE;
+    protected _lineHeightForIE: Record<string, number> = IECompatibleLineHeights;
 
     readonly '[Controls/_interface/IBackgroundStyle]': boolean = true;
     readonly '[Controls/_toggle/interface/IExpandable]': boolean = true;
