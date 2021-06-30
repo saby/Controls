@@ -15,6 +15,7 @@
     </ws:bodyContentTemplate>
     <ws:footerContentTemplate>
         <Controls._popupConfirmation.Footer type="{{_options.type}}"
+                                            buttons="{{_options.buttons}}"
                                             yesCaption="{{_options.yesCaption}}"
                                             noCaption="{{_options.noCaption}}"
                                             cancelCaption="{{_options.cancelCaption}}"

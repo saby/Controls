@@ -1,53 +1,17 @@
 <div class="controls-ConfirmationDialog__buttonContainer">
-   <ws:if data="{{_options.type === 'ok'}}">
-      <div class="controls-ConfirmationDialog__button-standard">
-         <Controls.buttons:Button
-            attr:ws-autofocus="{{true}}"
-            buttonStyle="primary"
-            inlineHeight="confirmation"
-            fontSize="confirmation"
-            viewMode="button"
-            caption="{{_options.okCaption}}"
-            attr:class="controls-ConfirmationDialog__button controls-ConfirmationDialog__button-positive"
-            on:click="_tmplNotify('result')"/>
-      </div>
-   </ws:if>
-   <ws:else>
-      <div class="controls-ConfirmationDialog__button-{{_options.type === 'yesnocancel' ? 'mini' : 'standard'}}">
-         <Controls.buttons:Button
-            attr:ws-autofocus="{{true}}"
-            inlineHeight="confirmation"
-            fontSize="confirmation"
-            buttonStyle="{{_options.primaryAction === 'yes' ? 'primary' : 'secondary'}}"
-            viewMode="button"
-            caption="{{_options.yesCaption}}"
-            attr:class="controls-ConfirmationDialog__button controls-ConfirmationDialog__button-positive"
-            on:click="_tmplNotify('result', true)"
-         />
-      </div>
-      <div class="controls-ConfirmationDialog__button-{{_options.type === 'yesnocancel' ? 'mini' : 'standard'}}
-                  controls-ConfirmationDialog__no-cancel-button">
-         <Controls.buttons:Button
-            buttonStyle="{{_options.primaryAction === 'no' ? 'primary' : 'secondary'}}"
-            inlineHeight="confirmation"
-            caption="{{_options.noCaption}}"
-            fontSize="confirmation"
-            attr:class="controls-ConfirmationDialog__button controls-ConfirmationDialog__button-negative"
-            on:click="_tmplNotify('result', false)"
-         />
-      </div>
-      <ws:if data="{{_options.type === 'yesnocancel'}}">
-         <div class="controls-ConfirmationDialog__button-mini
-                     controls-ConfirmationDialog__no-cancel-button">
+   <ws:for data="index, button in _buttons">
+         <div class="controls-ConfirmationDialog__button-{{_buttons.length >= 3 ? 'mini' : 'standard'}}
+                    {{index > 0 ? 'controls-ConfirmationDialog__no-cancel-button'}}">
             <Controls.buttons:Button
-               buttonStyle="{{_options.primaryAction === 'cancel' ? 'primary' : 'secondary'}}"
-               inlineHeight="confirmation"
-               fontSize="confirmation"
-               caption="{{_options.cancelCaption}}"
-               attr:class="controls-ConfirmationDialog__button controls-ConfirmationDialog__button-cancel"
-               on:click="_tmplNotify('result')"
-            />
+                    buttonStyle="{{button.buttonStyle || (button.primary ? 'primary' : 'secondary')}}"
+                    inlineHeight="confirmation"
+                    fontSize="confirmation"
+                    viewMode="{{button.viewMode || 'button'}}"
+                    caption="{{button.caption}}"
+                    attr:ws-autofocus="{{button.primary}}"
+                    attr:data-qa="controls-ConfirmationDialog__button-{{button.value}}"
+                    attr:class="controls-ConfirmationDialog__button"
+                    on:click="_tmplNotify('result', button.value)"/>
          </div>
-      </ws:if>
-   </ws:else>
+   </ws:for>
 </div>
