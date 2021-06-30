@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui_module id="f6fdf353-3ab3-4dbb-8671-01c2b418bf0a" name="Controls" package="Платформа" responsible="Крайнов Д.О." required="1" version="1.00">
+<ui_module for_cdn="0" id="f6fdf353-3ab3-4dbb-8671-01c2b418bf0a" kaizen_zone="39622028" name="Controls" package="Платформа" required="1" responsible="Крайнов Д.О." version="1.01">
 
   <description>Готовый набор визуальных компонентов, отвечающих корпоративным стандартам. Позволяют быстро спроектировать визуальную составляющую веб-приложения.</description>
 
