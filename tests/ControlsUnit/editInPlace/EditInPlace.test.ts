@@ -498,6 +498,39 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 });
             });
         });
+
+        describe('cell editing mode', () => {
+
+            beforeEach(() => {
+                editInPlace.updateOptions({
+                    mode: 'cell'
+                });
+            });
+
+            it('column index missed. should use default', () => {
+                editInPlace.updateOptions({
+                    onBeforeBeginEdit: (options, isAdd, columnIndex) => {
+                        onBeforeBeginEditCalled = true;
+                        assert.equal(columnIndex, 0);
+                    }
+                });
+                return editInPlace.edit({item: items.at(0)}).then((res) => {
+                    assert.isTrue(onBeforeBeginEditCalled);
+                });
+            });
+
+            it('column index defined. should use it', () => {
+                editInPlace.updateOptions({
+                    onBeforeBeginEdit: (options, isAdd, columnIndex) => {
+                        onBeforeBeginEditCalled = true;
+                        assert.equal(columnIndex, 2);
+                    }
+                });
+                return editInPlace.edit({item: items.at(0)}, {columnIndex: 2}).then((res) => {
+                    assert.isTrue(onBeforeBeginEditCalled);
+                });
+            });
+        });
     });
 
     describe('add', () => {
@@ -884,6 +917,38 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             return editInPlace.add({item: newItem}).then(() => {
                 return editInPlace.cancel().then(() => {
                     assert.isTrue(onBeforeBeginEditCalled && onAfterBeginEditCalled && onBeforeEndEditCalled && onAfterEndEditCalled);
+                });
+            });
+        });
+
+        describe('cell editing mode', () => {
+            beforeEach(() => {
+                editInPlace.updateOptions({
+                    mode: 'cell'
+                });
+            });
+
+            it('column index missed. should use default', () => {
+                editInPlace.updateOptions({
+                    onBeforeBeginEdit: (options, isAdd, columnIndex) => {
+                        onBeforeBeginEditCalled = true;
+                        assert.equal(columnIndex, 0);
+                    }
+                });
+                return editInPlace.add({item: items.at(0)}).then((res) => {
+                    assert.isTrue(onBeforeBeginEditCalled);
+                });
+            });
+
+            it('column index defined. should use it', () => {
+                editInPlace.updateOptions({
+                    onBeforeBeginEdit: (options, isAdd, columnIndex) => {
+                        onBeforeBeginEditCalled = true;
+                        assert.equal(columnIndex, 2);
+                    }
+                });
+                return editInPlace.add({item: newItem}, {columnIndex: 2}).then((res) => {
+                    assert.isTrue(onBeforeBeginEditCalled);
                 });
             });
         });
