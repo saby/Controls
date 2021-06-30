@@ -816,7 +816,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         //endregion
 
         this._expandedItems = [...expandedKeys];
-        this._resetEdgeItems();
+        this._updateEdgeItemsSeparators();
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -843,7 +843,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 item.setExpanded(false);
             }
         });
-        this._resetEdgeItems();
+        this._updateEdgeItemsSeparators();
     }
 
     toggleExpanded(item: T): void {

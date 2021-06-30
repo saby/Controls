@@ -370,7 +370,7 @@ function onCollectionChange<T>(
             break;
     }
 
-    this._resetEdgeItems();
+    this._updateEdgeItemsSeparators();
     this._finishUpdateSession(session);
     this._nextVersion();
 }
@@ -870,6 +870,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     // Фон застиканных записей и лесенки
     protected _$backgroundStyle?: string;
 
+    private _firstItem: CollectionItem;
+
+    private _lastItem: CollectionItem;
+
     constructor(options: IOptions<S, T>) {
         super(options);
         SerializableMixin.call(this);
@@ -968,6 +972,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
 
         this._footer = this._initializeFooter(options);
+
+        this._updateEdgeItemsSeparators();
     }
 
     _initializeCollection(): void {
@@ -2251,7 +2257,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this.removeStrategy(this._dragStrategy);
             this._reIndex();
             this._reFilter();
-            this._resetEdgeItems();
+            this._updateEdgeItemsSeparators();
         }
     }
 
@@ -2546,25 +2552,40 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    isLastItem(item: CollectionItem): boolean {
-        return this.getCount() - 1 === this.getIndex(item);
+    protected _updateEdgeItemsSeparators(): void {
+        const oldFirstItem = this._firstItem;
+        const oldLastItem = this._lastItem;
+        const firstItem = this.getFirst();
+        const lastItem = this.getLast();
+        if (oldFirstItem !== firstItem) {
+            if (oldFirstItem) {
+                oldFirstItem.setTopSeparatorVisible(true);
+            }
+            if (firstItem) {
+                firstItem.setTopSeparatorVisible(this._isTopItemSeparatorVisible());
+            }
+            this._firstItem = firstItem;
+        }
+        if (oldLastItem !== lastItem) {
+            if (oldLastItem) {
+                oldLastItem.setBottomSeparatorVisible(true);
+            }
+            if (lastItem) {
+                lastItem.setBottomSeparatorVisible(this._isBottomItemSeparatorVisible());
+            }
+            this._lastItem = lastItem;
+        }
     }
 
-    isFirstItem(item: CollectionItem): boolean {
-        return this.getIndex(item) === 0;
+    protected _isTopItemSeparatorVisible(): boolean {
+        return !this._$newDesign || !!this.getFooter();
     }
 
-    protected _resetEdgeItems(): void {
-        this.each((item, index) => {
-            // Обновляем версию в том случае ,если у элемента сохранённое состояние lastItem
-            // или он реально последний в списке
-            if (item.isLastItem() || this.isLastItem(item)) {
-                item.resetIsLastItem();
-            }
-            if (item.isFirstItem() || this.isFirstItem(item)) {
-                item.resetIsFirstItem();
-            }
-        });
+    protected _isBottomItemSeparatorVisible(): boolean {
+        const navigation = this.getNavigation();
+        const isLastByNavigation = !navigation || navigation.view !== 'infinity' || !this.hasMoreData();
+        const isVisibleByNewDesign = !this._$newDesign || !!this.getFooter();
+        return isVisibleByNewDesign && isLastByNavigation;
     }
 
     getHasMoreData(): IHasMoreData {
@@ -2574,7 +2595,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setHasMoreData(hasMoreData: IHasMoreData): void {
         if (!isEqual(this._$hasMoreData, hasMoreData)) {
             this._$hasMoreData = hasMoreData;
-            this._resetEdgeItems();
+            this._updateEdgeItemsSeparators();
             this._nextVersion();
         }
     }
@@ -2807,13 +2828,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             addIndex: options.index,
             groupMethod: this.getGroup()
         }, GroupItemsStrategy);
-        this._resetEdgeItems();
+        this._updateEdgeItemsSeparators();
     }
 
     resetAddingItem(): void {
         if (this.getStrategyInstance(AddStrategy)) {
             this.removeStrategy(AddStrategy);
-            this._resetEdgeItems();
+            this._updateEdgeItemsSeparators();
         }
     }
 
@@ -3287,7 +3308,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.markerPosition = this._$markerPosition;
             options.roundBorder = this._$roundBorder;
             options.hasMoreDataUp = this.hasMoreDataUp();
-            options.newDesign = this._$newDesign;
+            options.isTopSeparatorVisible = true;
+            options.isBottomSeparatorVisible = false;
 
             return create(options.itemModule || this._itemModule, options);
         };

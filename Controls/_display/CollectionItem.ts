@@ -51,7 +51,8 @@ export interface IOptions<T extends Model = Model> {
     hasMoreDataUp?: boolean;
     isFirstStickedItem?: boolean;
     roundBorder?: object;
-    newDesign?: boolean;
+    isTopSeparatorVisible?: boolean;
+    isBottomSeparatorVisible?: boolean;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -181,8 +182,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _$isFirstStickedItem: boolean;
 
-    protected _$newDesign: boolean;
-
     protected _instancePrefix: string;
 
     /**
@@ -196,9 +195,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _counters: ICollectionItemCounters;
 
-    protected _isLastItem: boolean;
+    protected _$isBottomSeparatorVisible: boolean;
 
-    protected _isFirstItem: boolean;
+    protected _$isTopSeparatorVisible: boolean;
 
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
 
@@ -660,32 +659,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    resetIsFirstItem(): void {
-        this._isFirstItem = undefined;
-        this._nextVersion();
-    }
-
-    resetIsLastItem(): void {
-        this._isLastItem = undefined;
-        this._nextVersion();
-    }
-
-    isLastItem(): boolean {
-        if (this._isLastItem === undefined) {
-            this._isLastItem = this.getOwner().isLastItem(this);
-            this._nextVersion();
-        }
-        return this._isLastItem;
-    }
-
-    isFirstItem(): boolean {
-        if (this._isFirstItem === undefined) {
-            this._isFirstItem = this.getOwner().isFirstItem(this);
-            this._nextVersion();
-        }
-        return this._isFirstItem;
-    }
-
     // region Drag-n-drop
 
     setDragged(dragged: boolean, silent?: boolean): void {
@@ -792,29 +765,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if (backgroundColorStyle) {
             wrapperClasses += ` controls-ListView__item_background_${backgroundColorStyle}`;
         }
-        wrapperClasses += this._getEdgeItemClasses();
         if (templateHighlightOnHover && this.isActive()) {
             wrapperClasses += ' controls-ListView__item_active';
         }
         return wrapperClasses;
-    }
-
-    protected _getEdgeItemClasses(): string {
-        let classes = '';
-
-        // @FIXME Верхнюю границу нужно задавать в зависимости от наличия заголовков/итогов
-        if (this.isFirstItem()) {
-            classes += ' controls-ListView__itemV_first';
-        }
-
-        // @FIXME Последнюю границу нужно задавать в зависимости от наличия подвала
-        const navigation = this.getOwner().getNavigation();
-        const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
-            && this.isLastItem();
-        if (isLastItem) {
-            classes += ' controls-ListView__itemV_last';
-        }
-        return classes;
     }
 
     // Вроде как isLastRow лишняя проверка и она только для старой модели grid.
@@ -870,6 +824,16 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this.getOwner().getRowSeparatorSize();
     }
 
+    setBottomSeparatorVisible(state: boolean): void {
+        this._$isBottomSeparatorVisible = state;
+        this._nextVersion();
+    }
+
+    setTopSeparatorVisible(state: boolean): void {
+        this._$isTopSeparatorVisible = state;
+        this._nextVersion();
+    }
+
     getTheme(): string {
         return this._$theme;
     }
@@ -896,8 +860,12 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         let contentClasses = `controls-ListView__itemContent ${this._getSpacingClasses(theme, style)}`;
         contentClasses += ` controls-ListView__itemContent_${style}`;
 
-        if (rowSeparatorSize) {
+        if (rowSeparatorSize && this._$isTopSeparatorVisible) {
             contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
+        }
+
+        if (rowSeparatorSize && this._$isBottomSeparatorVisible) {
+            contentClasses += ` controls-ListView__rowSeparator_bottom_size-${rowSeparatorSize}`;
         }
 
         if (isAnimatedForSelection) {
@@ -1177,5 +1145,6 @@ Object.assign(CollectionItem.prototype, {
     _counters: null,
     _$editingColumnIndex: null,
     _$roundBorder: null,
-    _$newDesign: false
+    _$isBottomSeparatorVisible: false,
+    _$isTopSeparatorVisible: false
 });

@@ -25,8 +25,8 @@
    border-top-color: var(--item_separator_l_color_list);
 }
 
-// Верхнюю границу лучше задавать в зависимости от наличия заголовков/итогов
-.controls-Grid__row.controls-ListView__itemV_first {
+.controls-Grid__row:first-child,
+.controls-ListView__groupHidden + .controls-Grid__row {
    .controls-Grid__rowSeparator_size-s {
       border-top-color: var(--item_edge_separator_s_color_list);
    }
@@ -36,49 +36,24 @@
    }
 }
 
-// Последнюю границу лучше задавать в зависимости от наличия подвала
-.controls-Grid__row.controls-ListView__itemV_last {
-   .controls-Grid__rowSeparator_size-s {
-      border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
-      min-height: calc(var(--cell_min-height_grid) + var(--item-separator_s_thickness_list));
-   }
+.controls-Grid__rowSeparator_bottom_size-s {
+   border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
+   min-height: calc(var(--cell_min-height_grid) + var(--item-separator_s_thickness_list));
+}
 
-   .controls-Grid__rowSeparator_size-l {
-      border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
-      min-height: calc(var(--cell_min-height_grid) + var(--item-separator_l_thickness_list));
-   }
-
-   .controls-Grid__row-cell_small_min_height {
-      min-height: var(--offset_2xl);
-   }
+.controls-Grid__rowSeparator_bottom_size-l {
+   border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
+   min-height: calc(var(--cell_min-height_grid) + var(--item-separator_l_thickness_list));
 }
 
 // В таблицах IE(table-layout) функцию min-height выполняет height
-.controls-Grid_table-layout .controls-ListView__itemV_last {
-   .controls-Grid__rowSeparator_size-s {
+.controls-Grid_table-layout {
+   .controls-Grid__rowSeparator_bottom_size-s {
       height: calc(var(--cell_min-height_grid) + var(--item-separator_s_thickness_list));
    }
 
-   .controls-Grid__rowSeparator_size-l {
+   .controls-Grid__rowSeparator_bottom_size-l {
       height: calc(var(--cell_min-height_grid) + var(--item-separator_l_thickness_list));
-   }
-}
-
-.controls-MasterDetail_details-newDesign .controls-Grid__row.controls-ListView__itemV_last,
-.controls-master-template-newDesign .controls-Grid__row.controls-ListView__itemV_last {
-   .controls-Grid__rowSeparator_size-s,
-   .controls-Grid__rowSeparator_size-l {
-      border-bottom: none;
-      min-height: calc(var(--cell_min-height_grid));
-   }
-}
-
-.controls-MasterDetail_details-newDesign .controls-Grid__row.controls-ListView__itemV_first,
-.controls-master-template-newDesign .controls-Grid__row.controls-ListView__itemV_first {
-   .controls-Grid__rowSeparator_size-s,
-   .controls-Grid__rowSeparator_size-l {
-      border-top: none;
-      min-height: calc(var(--cell_min-height_grid));
    }
 }
 

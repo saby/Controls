@@ -819,7 +819,8 @@
 }
 
 // Верхнюю границу лучше задавать в зависимости от наличия заголовков/итогов
-.controls-ListView__itemV_first {
+.controls-ListView__itemV:first-child,
+.controls-ListView__groupHidden + .controls-ListView__itemV {
    .controls-ListView__rowSeparator_size-s {
       border-top-color: var(--item_edge_separator_s_color_list);
    }
@@ -829,20 +830,16 @@
    }
 }
 
-// скрыть разделитель перед первой строкой в группе
 .controls-ListView__group + .controls-ListView__itemV .controls-ListView__itemContent {
    border-top-color: transparent;
 }
 
-// Последнюю границу лучше задавать в зависимости от наличия подвала
-.controls-ListView__itemV_last {
-   .controls-ListView__rowSeparator_size-s {
-      border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
-   }
+.controls-ListView__rowSeparator_bottom_size-s {
+   border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
+}
 
-   .controls-ListView__rowSeparator_size-l {
-      border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
-   }
+.controls-ListView__rowSeparator_bottom_size-l {
+   border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
 }
 
 .controls-ListView__item_roundBorder_bottomLeft {
