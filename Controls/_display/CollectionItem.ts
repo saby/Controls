@@ -51,6 +51,7 @@ export interface IOptions<T extends Model = Model> {
     hasMoreDataUp?: boolean;
     isFirstStickedItem?: boolean;
     roundBorder?: object;
+    newDesign?: boolean;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -179,6 +180,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     protected _$hasMoreDataUp: boolean;
 
     protected _$isFirstStickedItem: boolean;
+
+    protected _$newDesign: boolean;
 
     protected _instancePrefix: string;
 
@@ -789,10 +792,29 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if (backgroundColorStyle) {
             wrapperClasses += ` controls-ListView__item_background_${backgroundColorStyle}`;
         }
+        wrapperClasses += this._getEdgeItemClasses();
         if (templateHighlightOnHover && this.isActive()) {
             wrapperClasses += ' controls-ListView__item_active';
         }
         return wrapperClasses;
+    }
+
+    protected _getEdgeItemClasses(): string {
+        let classes = '';
+
+        // @FIXME Верхнюю границу нужно задавать в зависимости от наличия заголовков/итогов
+        if (this.isFirstItem()) {
+            classes += ' controls-ListView__itemV_first';
+        }
+
+        // @FIXME Последнюю границу нужно задавать в зависимости от наличия подвала
+        const navigation = this.getOwner().getNavigation();
+        const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
+            && this.isLastItem();
+        if (isLastItem) {
+            classes += ' controls-ListView__itemV_last';
+        }
+        return classes;
     }
 
     // Вроде как isLastRow лишняя проверка и она только для старой модели grid.
@@ -876,18 +898,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
         if (rowSeparatorSize) {
             contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
-        }
-
-        // Последнюю границу лучше задавать в зависимости от наличия подвала
-        const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
-            && this.isLastItem()) {
-            contentClasses += ' controls-ListView__itemV_last';
-        }
-
-        // Верхнюю границу лучше задавать в зависимости от наличия заголовков/итогов
-        if (this.isFirstItem()) {
-            contentClasses += ' controls-ListView__itemV_first';
         }
 
         if (isAnimatedForSelection) {
@@ -1166,5 +1176,6 @@ Object.assign(CollectionItem.prototype, {
     _version: 0,
     _counters: null,
     _$editingColumnIndex: null,
-    _$roundBorder: null
+    _$roundBorder: null,
+    _$newDesign: false
 });

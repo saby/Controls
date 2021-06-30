@@ -860,6 +860,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$isEditing: boolean = false;
 
+    protected _$newDesign: false;
+
     protected _userStrategies: Array<IUserStrategy<S, T>>;
 
     protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
@@ -3285,6 +3287,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.markerPosition = this._$markerPosition;
             options.roundBorder = this._$roundBorder;
             options.hasMoreDataUp = this.hasMoreDataUp();
+            options.newDesign = this._$newDesign;
 
             return create(options.itemModule || this._itemModule, options);
         };
@@ -4143,5 +4146,6 @@ Object.assign(Collection.prototype, {
     _$emptyTemplateOptions: null,
     _$itemActionsPosition: 'inside',
     _$roundBorder: null,
+    _$newDesign: false,
     getIdProperty: Collection.prototype.getKeyProperty
 });

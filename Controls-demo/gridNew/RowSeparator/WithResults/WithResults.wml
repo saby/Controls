@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controls-MasterDetail_details-newDesign">
+    <Controls.grid:View
+            keyProperty="key"
+            source="{{_viewSource}}"
+            rowSeparatorSize="s"
+            columns="{{_columns}}"
+            resultsPosition="top"
+            newDesign="{{true}}"/>
+</div>
