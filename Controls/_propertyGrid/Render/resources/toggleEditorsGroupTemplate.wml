@@ -8,8 +8,7 @@
                                 fontColorStyle="primary"
                                 viewMode="pushButton"
                                 buttonStyle="secondary"
-                                contrastBackground="{{true}}"
-                                value="{{toggledEditors[toggleableItem.get('name')]}}"
+                                value="{{toggledEditors[toggleableItem.getId()]}}"
                                 on:valueChanged="_toggleEditor(toggleableItem)"
                                 attr:class="{{(index > 0 ? 'controls-PropertyGrid_toggleEditorButton_offset_theme-' + _options.theme)}}"/>
                 </Controls.Container.Async>
