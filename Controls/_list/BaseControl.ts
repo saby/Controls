@@ -146,7 +146,6 @@ const
         keyDownDel: constants.key.del
     };
 
-const ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET = 1;
 const INDICATOR_DELAY = 2000;
 const INITIAL_PAGES_COUNT = 1;
 const SET_MARKER_AFTER_SCROLL_DELAY = 100;
@@ -418,6 +417,7 @@ const _private = {
         } else {
             self._attachLoadTopTriggerToNull = false;
         }
+
         return needAttachLoadTopTriggerToNull;
     },
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
@@ -3434,12 +3434,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _attachLoadTopTriggerToNull = false;
     _attachLoadDownTriggerToNull = false;
-
-    // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
-    _attachedToNullLoadTopTriggerOffset = ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET;
     _hideTopTrigger = false;
     _resetTopTriggerOffset = false;
     _resetDownTriggerOffset = false;
+
     protected _listViewModel = null;
     _viewModelConstructor = null;
     protected _items: RecordSet;
@@ -4832,10 +4830,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._viewSize > this._viewportSize && _private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
                 // Ромашку нужно показать непосредственно перед скроллом к первому элементу
                 this.changeIndicatorStateHandler(true, 'up');
+                this._scrollToFirstItemIfNeed();
                 if (this._hideTopTrigger) {
                     this._hideTopTrigger = false;
                 }
-                this._scrollToFirstItemIfNeed();
             }
         }
         if (this._viewSize <= this._viewportSize && this._hideTopTrigger) {
@@ -6831,9 +6829,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             case 'up':
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     styles += 'display: none; ';
-                }
-                if (this._attachLoadTopTriggerToNull) {
-                    styles += `margin-bottom: -${this._attachedToNullLoadTopTriggerOffset}px;`;
                 }
                 break;
             case 'down':
