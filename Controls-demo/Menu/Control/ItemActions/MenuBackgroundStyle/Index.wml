@@ -6,6 +6,7 @@
             displayProperty="title"
             itemActions="{{_itemActions}}"
             attr:class="ControlsDemo-menuControl_minWidth"
+            backgroundStyle="primary"
         />
     </div>
 </div>
