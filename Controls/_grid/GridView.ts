@@ -42,7 +42,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
             // Если колонки изменились, например, их кол-во, а данные остались те же, то
             // то без перерисовки мы не можем корректно отобразить данные в новых колонках.
             // правка конфликтует с https://online.sbis.ru/opendoc.html?guid=a8429971-3a3c-44d0-8cca-098887c9c717
-            listModel.setColumns(options.columns, false);
+            listModel.setColumns(options.columns);
         }
 
         if (changes.includes('footer')) {

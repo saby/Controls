@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper controlDemo__grid-header-sticky">
+    <div class="controlsDemo__mb2">
+        <button on:click="_toggleFooter()" style="padding: 3px;">{{ _toggleFooterCaption }}</button>
+        <button on:click="_updateColumns()" style="padding: 3px;">Обновить grid:options.columns</button>
+    </div>
+
+    <Controls.scroll:Container attr:class="controlsDemo__height400">
+        <Controls.grid:View
+                keyProperty="key"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                footer="{{ _footer }}"
+                footerTemplate="{{ _footerTemplate }}"/>
+    </Controls.scroll:Container>
+</div>

@@ -66,14 +66,10 @@ export default abstract class Row<T> {
     protected _$columns: TColumns;
     protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
     protected _$backgroundStyle: string;
-    protected _savedColumns: TColumns;
+    protected _$columnsConfig: TColumns;
 
     protected constructor(options?: IOptions<T>) {
         if (this._$rowTemplate) {
-            if (options.columns) {
-                this._savedColumns = options.columns;
-            }
-
             this._$columns = [{
                 template: this._$rowTemplate,
                 templateOptions: this._$rowTemplateOptions
@@ -486,19 +482,25 @@ export default abstract class Row<T> {
         return creatingColumnsParams.map((params) => factory(params));
     }
 
-    setColumns(newColumns: TColumns): void {
+    setColumns(newColumns: TColumns, withReset: boolean = false): void {
+        let shouldReset = false;
         if (this._$rowTemplate) {
             // В данный момент строка выводит контент из rowTemplate. Он актуален, перестроение не требуется.
             // Однако, колонки сохраняются, чтобы при сбросе шаблона строки строка перерисовалась по ним.
-            if (this._savedColumns !== newColumns) {
-                this._savedColumns = newColumns;
-                this._reinitializeColumns(true);
+            if (this._$columnsConfig !== newColumns) {
+                this._$columnsConfig = newColumns;
+                shouldReset = true;
             }
         } else {
-            if (this._$columns !== newColumns) {
+            if (this._$columnsConfig !== newColumns) {
                 this._$columns = newColumns;
-                this._reinitializeColumns(true);
+                this._$columnsConfig = newColumns;
+                shouldReset = true;
             }
+        }
+
+        if (withReset || shouldReset) {
+            this._reinitializeColumns(true);
         }
     }
 
@@ -708,11 +710,7 @@ export default abstract class Row<T> {
 
     setRowTemplate(rowTemplate: TemplateFunction): void {
         if (rowTemplate) {
-            // Произошла установка шаблона стрки. Если строка рисовалась по колонкам, сохраним их,
-            // чтобы при сбросе шаблона строки вернуться к ним.
-            if (!this._$rowTemplate && this._$columns) {
-                this._savedColumns = this._$columns;
-            }
+            // Произошла установка шаблона стрки. Если строка рисовалась по колонкам, то они останутся d _$columnsConfig
             this._$rowTemplate = rowTemplate;
             this._$columns = [{
                 template: this._$rowTemplate,
@@ -720,7 +718,7 @@ export default abstract class Row<T> {
             }];
         } else if (this._$rowTemplate) {
             this._$rowTemplate = rowTemplate;
-            this._$columns = this._savedColumns ? this._savedColumns : null;
+            this._$columns = this._$columnsConfig ? this._$columnsConfig : null;
         } else {
             return;
         }
@@ -773,6 +771,7 @@ Object.assign(Row.prototype, {
     '[Controls/_display/grid/mixins/Row]': true,
     _cellModule: null,
     _$columns: null,
+    _$columnsConfig: null,
     _$rowTemplate: null,
     _$rowTemplateOptions: null,
     _$colspanCallback: null,

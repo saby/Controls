@@ -71,7 +71,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$headerModel: Header<S>;
     protected _$headerVisibility: THeaderVisibility;
     protected _$multiSelectVisibility: string;
-    protected _$footer: FooterRow<S>;
+    protected _$footer: TColumns;
     protected _$results: ResultsRow<S>;
     protected _$ladder: ILadderObject;
     protected _$ladderProperties: string[];
@@ -164,16 +164,18 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     setFooter(options: IOptions): void {
+        this._$footer = options.footer;
+
         const footerModel = this.getFooter();
 
         if (footerModel) {
             footerModel.setRowTemplate(options.footerTemplate);
-            footerModel.setColumns(options.footer);
+            footerModel.setColumns(this._$footer);
         } else {
             this._footer = this._initializeFooter({
                 multiSelectVisibility: this._$multiSelectVisibility,
                 footerTemplate: options.footerTemplate,
-                footer: options.footer,
+                footer: this._$footer,
                 backgroundStyle: this._$backgroundStyle,
                 columnSeparatorSize: this._$columnSeparatorSize
             });
@@ -278,14 +280,9 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         [this.getColgroup(), this.getHeader(), this.getResults()].forEach((gridUnit) => {
             gridUnit?.setColumns(newColumns);
         });
-        // todo Переписать по: https://online.sbis.ru/opendoc.html?guid=d86329c7-5c85-4c7f-97c9-791502f6f1dd
-        // Надо сделать так, чтобы у класса Row была опция columnsConfig и она всегда содержит оригинальную колонку,
-        // переданную в опции columns списка.
-        // Также у класса Row должна быть другая опция - columns. Это уже набор колонок, рассчитанный самой коллекцией.
-        // Например, задав columns=[{},{}] и footerTemplate=function(){}, то должен создаваться класс Row с опциями
-        // columnsConfig=[{}, {}] и columns=[{ template: function(){} }].
-        this.getFooter()?.resetColumns();
-        this.getEmptyGridRow()?.resetColumns();
+
+        this.getFooter()?.setColumns(this._$footer, true);
+        this.getEmptyGridRow()?.setColumns(this._$emptyTemplateColumns, true);
     }
 
     setLadderProperties(ladderProperties: string[]) {
@@ -436,6 +433,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             owner: this,
             multiSelectVisibility: options.multiSelectVisibility,
             columns: options.footer,
+            columnsConfig: options.footer,
             rowTemplate: options.footerTemplate,
             rowTemplateOptions: {},
             backgroundStyle: options.backgroundStyle,
@@ -593,6 +591,7 @@ Object.assign(Grid.prototype, {
     '[Controls/_display/grid/mixins/Grid]': true,
     _$columns: null,
     _$header: null,
+    _$footer: null,
     _$headerVisibility: 'hasdata',
     _$resultsVisibility: 'hasdata',
     _$resultsPosition: null,
