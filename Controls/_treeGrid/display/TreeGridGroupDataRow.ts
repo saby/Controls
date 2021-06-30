@@ -104,7 +104,7 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
 
 Object.assign(TreeGridGroupDataRow.prototype, {
     _cellModule: 'Controls/treeGrid:TreeGridGroupDataCell',
-    _moduleName: 'Controls/treeGrid:TreeGridDataRow',
+    _moduleName: 'Controls/treeGrid:TreeGridGroupDataRow',
     _$searchValue: '',
     _$isHiddenGroup: false,
     _instancePrefix: 'tree-grid-group-row-'
