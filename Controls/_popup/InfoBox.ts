@@ -22,7 +22,6 @@ import {detection} from 'Env/Env';
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
  *
- * @class Controls/_popup/InfoBox
  * @mixes Controls/popup:IInfoBox
  * @public
  * @author Красильников А.С.

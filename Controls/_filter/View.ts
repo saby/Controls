@@ -405,7 +405,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 onResult: this._resultHandler.bind(this)
             }
         };
-        if (this._options.detailPanelOpenMode === 'stack') {
+        if (this._options.detailPanelOpenMode === 'stack' && !this._container.closest('.controls-StackTemplate')) {
             popupOptions.restrictiveContainer = '.sabyPage-MainLayout__rightPanel';
         }
         Merge(popupOptions, panelPopupOptions);

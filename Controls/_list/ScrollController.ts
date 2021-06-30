@@ -724,7 +724,8 @@ export default class ScrollController {
         this._bottomTriggerOffset = Math.min((scrollHeight && viewportHeight ? Math.min(scrollHeight, viewportHeight) : 0) *
             (this._options.bottomTriggerOffsetCoefficient || DEFAULT_TRIGGER_OFFSET), maxBottomOffset);
 
-        const topTriggerOffset = resetTopTriggerOffset ? 0 : this._topTriggerOffset;
+        // Сбрасываем топ триггер в -1, чтобы триггер сразу же не сработал, раньше был паддинг в темплейте
+        const topTriggerOffset = resetTopTriggerOffset ? -1 : this._topTriggerOffset;
         const bottomTriggerOffset = resetDownTriggerOffset ? 0 : this._bottomTriggerOffset;
         return {top: topTriggerOffset, bottom: bottomTriggerOffset};
     }

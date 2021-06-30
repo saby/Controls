@@ -329,8 +329,15 @@ describe('Controls/dataSource:SourceController', () => {
 
             await controller.load('down');
             ok(controller.getItems().getCount() === allItemsCount);
+
             await controller.reload();
             ok(controller.getItems().getCount() === allItemsCount);
+
+            await controller.reload({
+                page: 0,
+                pageSize
+            });
+            ok(controller.getItems().getCount() === pageSize);
         });
 
         it('load with multiNavigation and parentProperty',  async () => {

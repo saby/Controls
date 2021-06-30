@@ -120,6 +120,7 @@ export default class Button extends BaseDropdown {
     }
 
     _beforeUnmount(): void {
+        super._beforeUnmount();
         this._calmTimer.stop();
     }
 

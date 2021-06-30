@@ -271,7 +271,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             isAdd: true,
             addPosition: options.addPosition,
             targetItem: options.targetItem,
-            columnIndex: options.columnIndex || 0
+            columnIndex: this._options.mode === 'cell' ? (options.columnIndex || 0) : undefined
         });
     }
 
@@ -288,7 +288,10 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      * @remark Запуск редактирования может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
     edit(userOptions: IBeginEditUserOptions = {}, options: { columnIndex?: number } = {}): TAsyncOperationResult {
-        return this._endPreviousAndBeginEdit(userOptions, options);
+        return this._endPreviousAndBeginEdit(userOptions, {
+            ...options,
+            columnIndex: this._options.mode === 'cell' ? (options.columnIndex || 0) : undefined
+        });
     }
 
     /**
@@ -457,7 +460,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
                 next = position === CONSTANTS.GOTONEXT ? this.getNextEditableItem(current) : this.getPrevEditableItem(current);
             } else {
                 next = current;
-                if ('columnIndex' in _options) {
+                if (typeof _options.columnIndex === 'number') {
                     const newColumnIndex = _options.columnIndex + (position === CONSTANTS.PREV_COLUMN ? -1 : 1);
                     if (newColumnIndex > this._options.collection.getColumnsConfig().length - 1) {
                         _options.columnIndex = 0;

@@ -124,6 +124,7 @@
         masterMinWidth="{{_options.master ? _options.master.minWidth}}"
         masterMaxWidth="{{_options.master ? _options.master.maxWidth}}"
         newDesign="{{_options.master.newDesign}}"
+        contrastBackground="{{_contrastBackground}}"
 >
 
     <ws:master>

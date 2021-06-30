@@ -102,6 +102,7 @@ interface IExplorerOptions
         ISourceOptions,
         IFilterOptions,
         ISortingOptions {
+    nodeTypeProperty: string;
     root?: TKey;
 
     viewMode?: TExplorerViewMode;
@@ -536,14 +537,16 @@ export default class Explorer extends Control<IExplorerOptions> {
         const shouldHandleClick = res !== false && !isNodeEditable();
 
         if (shouldHandleClick) {
-            const nodeType = item.get(this._options.nodeProperty);
+            const itemType = item.get(this._options.nodeProperty);
+            const isGroupNode = this._options.nodeTypeProperty ?
+                                item.get(this._options.nodeTypeProperty) === 'group' : false;
             const isSearchMode = this._viewMode === 'search';
 
             // Проваливание возможно только в узел (ITEM_TYPES.node).
             // Проваливание невозможно, если по клику следует развернуть узел/скрытый узел.
             if (
-                (!isSearchMode && this._options.expandByItemClick && nodeType !== ITEM_TYPES.leaf) ||
-                (nodeType !== ITEM_TYPES.node)
+                (!isSearchMode && this._options.expandByItemClick && itemType !== ITEM_TYPES.leaf) ||
+                (itemType !== ITEM_TYPES.node) || isGroupNode
             ) {
                 return res;
             }
@@ -909,9 +912,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 this._markerForRestoredScroll = this._potentialMarkedKey;
                 this._potentialMarkedKey = undefined;
             }
-            if (this._children.treeControl.isAllSelected()) {
-                this._children.treeControl.clearSelection();
-            }
 
             if (
                 this._isCursorNavigation(this._navigation) &&
@@ -1044,6 +1044,17 @@ export default class Explorer extends Control<IExplorerOptions> {
             return listItemTemplate || itemTemplate;
         }
         return itemTemplate;
+    }
+
+    protected _getEmptyTemplate(
+        viewMode: string,
+        emptyTemplate: TemplateFunction,
+        listEmptyTemplate: TemplateFunction
+    ) {
+        if (viewMode === 'list' && listEmptyTemplate) {
+            return listEmptyTemplate;
+        }
+        return emptyTemplate;
     }
 
     /**
@@ -1402,6 +1413,26 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * </pre>
  * @see itemTemplate
  * @see itemTemplateProperty
+ */
+
+/**
+ * @name Controls/_explorer/View#listEmptyTemplate
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}, используемый в {@link Controls/_explorer/interface/IExplorer#viewMode режиме "Плоский список"}.
+ * @demo Controls-demo/list_new/EmptyList/Default/Index
+ * @default undefined
+ * @example
+ * <pre class="brush: html; highlight: [3-7]">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_viewSource}}">
+ *     <ws:emptyTemplate>
+ *         <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
+ *             <ws:contentTemplate>Нет данных</ws:contentTemplate>
+ *         </ws:partial>
+ *     </ws:emptyTemplate>
+ * </Controls.list:View>
+ * </pre>
+ * @remark
+ * Пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/list:EmptyTemplate}.
  */
 
 /**

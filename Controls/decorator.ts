@@ -33,7 +33,6 @@ export {default as Phone, IPhoneOptions} from 'Controls/_decorator/Phone';
 export {default as WrapURLs, IWrapURLsOptions} from 'Controls/_decorator/WrapURLs';
 export {default as Highlight, SearchMode, IHighlightOptions} from 'Controls/_decorator/Highlight';
 export {default as MultilineText} from 'Controls/_decorator/MultilineText';
-export {default as IMask} from 'Controls/_decorator/resources/IMask';
 export {default as Date, IDateOptions} from 'Controls/_decorator/Date';
 export {Money, Number};
 export {IMoneyOptions} from 'Controls/_decorator/resources/Money';
