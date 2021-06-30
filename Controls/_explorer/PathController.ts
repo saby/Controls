@@ -6,7 +6,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_explorer/PathController/PathController';
-import { IGridControl, IHeaderCell } from 'Controls/interface';
+import { IGridControl, IHeaderCell } from 'Controls/grid';
 import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 
 interface IOptions extends IControlOptions, IGridControl {
