@@ -24,7 +24,7 @@ import {TRoundBorder} from "Controls/_tile/display/mixins/Tile";
 import {isEqual} from "Types/object";
 
 export interface IOptions<T extends Model = Model> {
-    itemModule: string;
+    itemModule?: string;
     contents?: T;
     selected?: boolean;
     marked?: boolean;
@@ -39,13 +39,13 @@ export interface IOptions<T extends Model = Model> {
     rowSeparatorSize?: string;
     backgroundStyle?: string;
     theme?: string;
-    style: string;
+    style?: string;
     searchValue?: string;
-    leftPadding: string;
-    rightPadding: string;
-    topPadding: string;
-    bottomPadding: string;
-    markerPosition: string;
+    leftPadding?: string;
+    rightPadding?: string;
+    topPadding?: string;
+    bottomPadding?: string;
+    markerPosition?: string;
     isLastItem?: boolean;
     isFirstItem?: boolean;
     hasMoreDataUp?: boolean;
