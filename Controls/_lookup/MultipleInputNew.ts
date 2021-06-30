@@ -31,6 +31,7 @@ type TLookupSizes = Record<string, number>;
  *
  * @class Controls/_lookup/MultipleInputNew
  * @extends UI/Base:Control
+ * @mixes Controls/interface:ILookup
  * @demo Controls-demo/Lookup/MultipleInputNew/MultipleInputNew
  *
  * @public
