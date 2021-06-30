@@ -155,7 +155,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     protected _contentMouseleaveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
             this._openCalmTimer.stop();
-            this._closeCalmTimer.start(300);
+            this._closeCalmTimer.start();
         }
     }
 
