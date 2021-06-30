@@ -561,11 +561,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     /**
      * Ищет последний элемент в дереве
      * @private
-     * @TODO Необходимо убрать условие с проверкой rootItems.at когда окончательно избавимся от старых моделей.
      */
     private _getLastItem(item: TreeItem): TreeItem {
         const rootItems = this._listViewModel.getChildren(item);
-        return rootItems.at ? rootItems.at(rootItems.getCount() - 1) : rootItems[rootItems.length - 1];
+        return rootItems.at(rootItems.getCount() - 1);
     }
 
     /**
@@ -647,11 +646,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (newOptions.nodeFooterTemplate !== this._options.nodeFooterTemplate) {
             viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
-        }
-
-        // TODO: Удалить #rea_1179794968
-        if (newOptions.expanderDisplayMode !== this._options.expanderDisplayMode) {
-            viewModel.setExpanderDisplayMode(newOptions.expanderDisplayMode);
         }
 
         if (newOptions.expanderVisibility !== this._options.expanderVisibility) {
@@ -1204,8 +1198,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             const model = this._listViewModel;
             const expanded = [key];
             const item = model.getItemBySourceKey(key);
-            // TODO после полного перехода на новую модель в getChildren передавать только элемент списка
-            //  https://online.sbis.ru/opendoc.html?guid=624e1380-3b9b-45dd-9825-a7188dd7c52e
             let curItem = model.getChildrenByRecordSet(item.getContents())[0];
             while (curItem && curItem.get(options.nodeProperty) !== null) {
                 expanded.push(curItem.getKey());
