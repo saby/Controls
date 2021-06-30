@@ -4,7 +4,7 @@ import {assert} from 'chai';
 describe('Controls/grid_clean/Display/FooterRow', () => {
     it('should not skip columns for colspan. All 3 colspaned columns in footer should be shown.', () => {
         const mockedCollection = {
-            getColumnsConfig: () => [{}, {}, {}, {}, {}],
+            getGridColumnsConfig: () => [{}, {}, {}, {}, {}],
             hasColumnScroll: () => false,
             isFullGridSupport: () => true,
             hasMultiSelectColumn: () => false,
@@ -23,7 +23,7 @@ describe('Controls/grid_clean/Display/FooterRow', () => {
         assert.equal(footerRow.getColumns()[1].getColumnConfig(), footerColumnsConfig[1]);
         assert.equal(footerRow.getColumns()[2].getColumnConfig(), footerColumnsConfig[2]);
 
-        footerRow.setColumns([{ startColumn: 1, endColumn: 6 }]);
+        footerRow.setColumnsConfig([{ startColumn: 1, endColumn: 6 }]);
         assert.equal(footerRow.getColumns().length, 1);
     });
 });

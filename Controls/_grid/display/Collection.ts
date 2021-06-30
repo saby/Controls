@@ -101,7 +101,7 @@ export default class Collection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsProperty('setColumns', this._$columns);
+        this._updateItemsProperty('setColumnsConfig', this._$columns);
     }
 
     protected _handleAfterCollectionChange(changedItems: T[] = [], changeAction?: string): void {
@@ -136,7 +136,8 @@ export default class Collection<
     protected _getItemsFactory(): ItemsFactory<T> {
         const superFactory = super._getItemsFactory();
         return function CollectionItemsFactory(options?: IRowOptions<S>): T {
-            options.columns = this._$columns;
+            options.columnsConfig = this._$columns;
+            options.gridColumnsConfig = this._$columns;
             options.colspanCallback = this._$colspanCallback;
             options.columnSeparatorSize = this._$columnSeparatorSize;
             options.rowSeparatorSize = this._$rowSeparatorSize;

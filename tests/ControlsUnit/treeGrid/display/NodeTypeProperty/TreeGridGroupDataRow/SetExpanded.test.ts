@@ -31,7 +31,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/SetExp
         columns,
         owner: {
             ...owner,
-            getColumnsConfig: () => columns
+            getGridColumnsConfig: () => columns
         }
     });
 

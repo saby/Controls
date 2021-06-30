@@ -511,7 +511,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
         // Пока обновление горизонтального скролла замороженно, актуальные колонки, по которым рисуется таблица
         // находятся в модели, а не в опциях.
-        const columnsLength = (this._isColumnScrollFrozen() ? this.getListModel().getColumnsConfig() : options.columns).length;
+        const columnsLength = (this._isColumnScrollFrozen() ? this.getListModel().getGridColumnsConfig() : options.columns).length;
 
         const startColumn = +hasMultiSelectColumn + stickyColumnsCount + (options.stickyColumnsCount || 1) + 1;
         const endColumn = +hasMultiSelectColumn + +hasItemActionsCell + stickyColumnsCount + columnsLength + 1;

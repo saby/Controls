@@ -27,14 +27,16 @@ describe('Controls/grid_clean/Display/columns/Row', () => {
         record = undefined;
     });
 
-    describe('.setColumns()', () => {
+    describe('.setColumnsConfig()', () => {
         it('[DATA] => [DATA]', () => {
+            const columnsConfig = [{displayProperty: 'before'}];
             const gridRow = new GridDataRow({
                 owner: {
                     ...mockedCollection,
-                    getColumnsConfig: () => [{displayProperty: 'before'}]
+                    getGridColumnsConfig: () => columnsConfig
                 },
-                columns: [{displayProperty: 'before'}],
+                columnsConfig: columnsConfig,
+                gridColumnsConfig: columnsConfig,
                 contents: record
             });
 
@@ -44,7 +46,7 @@ describe('Controls/grid_clean/Display/columns/Row', () => {
             assert.equal(gridRow.getVersion(), 0);
 
             // Устанавливаем новые колонки
-            gridRow.setColumns([{displayProperty: 'after'}]);
+            gridRow.setColumnsConfig([{displayProperty: 'after'}]);
 
             assert.isArray(gridRow.getColumns());
             assert.equal(gridRow.getColumns().length, 1);
@@ -53,33 +55,37 @@ describe('Controls/grid_clean/Display/columns/Row', () => {
         });
 
         it('[NULL] => [DATA]', () => {
+            const columnsConfig = [{displayProperty: 'before'}];
             const gridRow = new GridDataRow({
                 owner: {
                     ...mockedCollection,
-                    getColumnsConfig: () => [{displayProperty: 'before'}]
+                    getGridColumnsConfig: () => columnsConfig
                 },
-                columns: [{displayProperty: 'before'}],
+                gridColumnsConfig: columnsConfig,
+                columnsConfig: columnsConfig,
                 contents: record
             });
 
-            gridRow.setColumns(null);
+            gridRow.setColumnsConfig(null);
             assert.equal(gridRow.getVersion(), 1);
             assert.isUndefined(gridRow.getColumns());
 
             // Устанавливаем новые колонки
-            gridRow.setColumns([{displayProperty: 'after'}]);
+            gridRow.setColumnsConfig([{displayProperty: 'after'}]);
 
             assert.equal(gridRow.getVersion(), 2);
             assert.equal(gridRow.getColumns().length, 1);
         });
 
         it('[DATA] => [NULL]', () => {
+            const columnsConfig = [{displayProperty: 'before'}];
             const gridRow = new GridDataRow({
                 owner: {
                     ...mockedCollection,
-                    getColumnsConfig: () => [{displayProperty: 'before'}]
+                    getGridColumnsConfig: () => columnsConfig
                 },
-                columns: [{displayProperty: 'before'}],
+                columnsConfig: columnsConfig,
+                gridColumnsConfig: columnsConfig,
                 contents: record
             });
 
@@ -89,7 +95,7 @@ describe('Controls/grid_clean/Display/columns/Row', () => {
             assert.equal(gridRow.getVersion(), 0);
 
             // Устанавливаем новые колонки
-            gridRow.setColumns(null);
+            gridRow.setColumnsConfig(null);
 
             assert.equal(gridRow.getVersion(), 1);
             assert.isNull(gridRow.getColumns());

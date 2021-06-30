@@ -11,7 +11,7 @@ describe('Controls/grid_clean/Display/MultiHeader/TableHeaderRow/hasMultiselectC
     const mockedHeaderOwner = {
         getStickyColumnsCount: () => 0,
         hasMultiSelectColumn: () => hasMultiSelectColumn,
-        getColumnsConfig: () => columns,
+        getGridColumnsConfig: () => columns,
         getHeaderConfig: () => header,
         hasItemActionsSeparatedCell: () => false,
         getLeftPadding: () => 's',

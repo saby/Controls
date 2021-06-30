@@ -23,7 +23,7 @@ describe('Controls/grid_clean/Display/header/BackgroundColor/HeaderCell', () => 
         hasItemActionsSeparatedCell: () => {},
         getMultiSelectVisibility: () => 'hidden',
         isStickyHeader: () => true,
-        getColumnsConfig: () => ([column]),
+        getGridColumnsConfig: () => ([column]),
         getHeaderConfig: () => ([column]),
         hasColumnScroll: () => false
     } as undefined as GridHeaderRow<Model>;
