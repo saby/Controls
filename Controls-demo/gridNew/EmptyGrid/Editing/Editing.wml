@@ -8,7 +8,6 @@
                 name="grid"
                 keyProperty="key"
                 source="{{_viewSource}}"
-                useNewEmptyTemplate="{{ true }}"
                 multiSelectVisibility="visible"
                 on:afterBeginEdit="_onAfterBeginEnd()"
                 on:beforeEndEdit="_onBeforeEndEdit()"
