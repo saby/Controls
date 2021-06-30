@@ -80,7 +80,7 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
     let breadCrumbs;
     const last = getNearestNode(item);
     const root = display && display.getRoot();
-    if (last && last !== root) {
+    if (last && last !== root && !last['[Controls/treeGrid:TreeGridGroupDataRow]']) {
         breadCrumbs = treeItemToBreadcrumbs.get(last);
         if (!breadCrumbs) {
             // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
@@ -88,6 +88,8 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
                 breadCrumbs = display?.createBreadcrumbsItem({
                     contents: null,
                     last,
+                    // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
+                    parent: item.getParent()['[Controls/treeGrid:TreeGridGroupDataRow]'] ? item.getParent() : display.getRoot(),
                     multiSelectVisibility: display?.getMultiSelectVisibility(),
                     multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
                 });
@@ -300,7 +302,10 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
         items.forEach((item, index) => {
             let resultItem = item;
 
-            if (item && item['[Controls/_display/TreeItem]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+            if (item
+                && item['[Controls/_display/TreeItem]']
+                && !item['[Controls/treeGrid:TreeGridNodeFooterRow]']
+                && !item['[Controls/treeGrid:TreeGridGroupDataRow]']) {
                 if (item.isNode()) {
                     // Check if there is a special item within the breadcrumbs
                     if (

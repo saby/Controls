@@ -12,11 +12,15 @@
         </ws:if>
         <ws:if data="{{_options.lines !== null && (_firstEditPassed || _options.readOnly) }}">
             <div class="controls-AreaCut__ellipsisWrapper{{ _expanded ? '_expanded' }}
+            controls-AreaCut__ellipsisWrapper_lineHeight-{{ _options.lineHeight }}
+            controls-AreaCut__ellipsisWrapper_lineHeight-{{ _options.lineHeight }}_lines-{{ _options.lines }}
             controls-AreaCut__ellipsisWrapper_{{_expanded ? 'expanded' : 'notExpanded'}}_{{ _options.readOnly ? 'readOnly' : 'active' }}
             controls-AreaCut__ellipsisWrapper_{{ _expanded ? 'expanded' : 'notExpanded' }}_lineHeight-{{ _options.lineHeight }}
             controls-AreaCut__ellipsisWrapper{{ _expanded ? '_expanded_lineHeight-' +  _options.lineHeight + '_lines-' + _options.lines}}
                controls-AreaCut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height"
                  on:mousedown="_mousedownHandler()">
+                <div class="controls-AreaCut__shadow {{ _expanded ? 'ws-hidden' }}
+                                controls-AreaCut__shadow_lineHeight-{{ _options.lineHeight }}"></div>
                 <Controls._spoiler.CutButton
                         attr:class="controls-AreaCut__ellipsis
                      controls-AreaCut__ellipsis

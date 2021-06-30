@@ -60,6 +60,13 @@ class AreaCut extends Cut {
         event.preventDefault();
     }
 
+    protected _onExpandedChangedHandler(event: Event, expanded: boolean): void {
+        if (this._expanded !== expanded) {
+            this._expanded = expanded;
+            this._notify('expandedChanged', [this._expanded]);
+        }
+    }
+
     static getDefaultOptions(): object {
         return {
             lineHeight: 'm',

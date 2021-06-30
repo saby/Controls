@@ -100,6 +100,7 @@ interface IExplorerOptions
         ISourceOptions,
         IFilterOptions,
         ISortingOptions {
+    nodeTypeProperty: string;
     root?: TKey;
 
     viewMode?: TExplorerViewMode;
@@ -515,14 +516,16 @@ export default class Explorer extends Control<IExplorerOptions> {
         const shouldHandleClick = res !== false && !isNodeEditable();
 
         if (shouldHandleClick) {
-            const nodeType = item.get(this._options.nodeProperty);
+            const itemType = item.get(this._options.nodeProperty);
+            const isGroupNode = this._options.nodeTypeProperty ?
+                                item.get(this._options.nodeTypeProperty) === 'group' : false;
             const isSearchMode = this._viewMode === 'search';
 
             // Проваливание возможно только в узел (ITEM_TYPES.node).
             // Проваливание невозможно, если по клику следует развернуть узел/скрытый узел.
             if (
-                (!isSearchMode && this._options.expandByItemClick && nodeType !== ITEM_TYPES.leaf) ||
-                (nodeType !== ITEM_TYPES.node)
+                (!isSearchMode && this._options.expandByItemClick && itemType !== ITEM_TYPES.leaf) ||
+                (itemType !== ITEM_TYPES.node) || isGroupNode
             ) {
                 return res;
             }
@@ -887,9 +890,6 @@ export default class Explorer extends Control<IExplorerOptions> {
                 this._children.treeControl.setMarkedKey(this._potentialMarkedKey);
                 this._markerForRestoredScroll = this._potentialMarkedKey;
                 this._potentialMarkedKey = undefined;
-            }
-            if (this._children.treeControl.isAllSelected()) {
-                this._children.treeControl.clearSelection();
             }
 
             if (

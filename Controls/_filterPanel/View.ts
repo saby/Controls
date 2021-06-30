@@ -89,6 +89,8 @@ export default class View extends Control<IViewPanelOptions> {
         this._viewModel.setEditingObject(editingObject);
         if (this._options.viewMode === 'default') {
             this._notifyChanges();
+        } else {
+            this._notify('sourceChanged', [this._viewModel.getSource()]);
         }
     }
 

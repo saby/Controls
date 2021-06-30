@@ -15,6 +15,8 @@ import {IBrowserViewConfig, NodesPosition} from 'Controls/_newBrowser/interfaces
 import {default as ListController} from './TemplateControllers/List';
 import {default as TileController} from './TemplateControllers/Tile';
 import {default as TableController} from './TemplateControllers/Table';
+import {object} from 'Types/util';
+import {TColumns} from 'Controls/grid';
 import {isEqual} from 'Types/object';
 import {EventUtils} from 'UI/Events';
 import {
@@ -261,9 +263,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
         const filterChanged = !isEqual(this._options.filter, newOptions.filter);
-        if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
-            this._createTemplateControllers(newOptions.listConfiguration, newOptions);
-        }
         if (!this._dataContext) {
             const isChanged = this._detailDataSource.updateOptions(detailOps) || filterChanged;
             if (isChanged) {
@@ -302,6 +301,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         this._detailExplorerOptions = detailOps;
         this._masterExplorerOptions = masterOps;
+        if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
+            this._createTemplateControllers(newOptions.listConfiguration, newOptions);
+        }
         const isDetailRootChanged = this.root !== this._detailExplorerOptions.root;
 
         this.root = this._detailExplorerOptions.root;
@@ -463,6 +465,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         const masterRootChanged = roots?.masterRoot !== this._masterRoot;
 
         if (detailRootChanged) {
+            this._hasImageInItems = false;
             this._notify('rootChanged', [roots?.detailRoot, afterSearch]);
         }
 
@@ -606,10 +609,13 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
         const rootChanged = this.root !== this._detailDataSource.sourceController.getRoot();
-        if (options.detail.imageProperty && (direction && !this._hasImageInItems || rootChanged)) {
+        if (!direction) {
+            this._processItemsMetadata(items);
+        }
+        if (options.detail.imageProperty && (!this._hasImageInItems || rootChanged)) {
             this._hasImageInItems = this._hasImages(items, options.detail.imageProperty);
             const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
-            if (imageVisibility !== this._listCfg.getImageVisibility()) {
+            if (imageVisibility !== this._listCfg?.getImageVisibility()) {
                 this._listCfg.setImageVisibility(imageVisibility);
                 this._tileCfg.setImageVisibility(imageVisibility);
                 this._tableCfg.setImageVisibility(imageVisibility);
@@ -617,7 +623,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                     Восстанавливать скролл нужно только если фотки появились в текущем узле при подгрузке по скроллу
                     Если видимость меняется при проваливании в папку, то скролл всегда будет в шапке списка.
                 */
-                if (imageVisibility === 'visible' && !rootChanged) {
+                if (imageVisibility === 'visible' && !rootChanged && direction) {
                     this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
                 }
              }
@@ -630,9 +636,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._search = null;
 
         this._masterMarkedKey = this.root;
-        if (!direction) {
-            this._processItemsMetadata(items);
-        }
     }
 
     /**
@@ -713,6 +716,23 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             imageVisibility,
             browserOptions: options
         });
+        this._detailExplorerOptions = {
+            ...this._detailExplorerOptions,
+            columns: this._getPatchedColumns(this._detailExplorerOptions.columns)
+        };
+    }
+
+    protected _getPatchedColumns(columns: TColumns): TColumns {
+        let newColumns = columns;
+        if (columns) {
+            newColumns = object.clone(columns);
+            newColumns.forEach((column) => {
+                const templateOptions = column.templateOptions || {};
+                templateOptions.tableCfg = this._tableCfg;
+                column.templateOptions = templateOptions;
+            });
+        }
+        return newColumns;
     }
 
     //endregion
@@ -726,9 +746,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         this._userViewMode = options.userViewMode;
         this._appliedViewMode = options.userViewMode;
-        if (options.listConfiguration) {
-            this._createTemplateControllers(options.listConfiguration, options);
-        }
         // Если при инициализации указано плиточное представление,
         // значит шаблон и модель плитки уже загружены
         if (this.viewMode === DetailViewMode.tile) {
@@ -737,6 +754,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         //region update detail fields
         this._detailExplorerOptions = this._buildDetailExplorerOptions(options);
+        if (options.listConfiguration) {
+            this._createTemplateControllers(options.listConfiguration, options);
+        }
 
         this.root = this._detailExplorerOptions.root;
         this._detailDataSource = new DataSource(this._detailExplorerOptions);
@@ -785,6 +805,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      */
     private _buildDetailExplorerOptions(options: IOptions): IExplorerOptions {
         const compiledOptions = buildDetailOptions(options);
+        const columns = this._getPatchedColumns(compiledOptions.columns);
 
         return {
             // Дефолтные опции
@@ -792,7 +813,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
             // Пользовательские опции
             ...compiledOptions,
-
+            columns,
             itemTemplate: compiledOptions.itemTemplate || DefaultListItemTemplate,
             tileItemTemplate: compiledOptions.tileItemTemplate || DefaultTileItemTemplate,
 

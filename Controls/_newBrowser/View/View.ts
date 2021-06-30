@@ -73,6 +73,7 @@ export default class View extends Control<IOptions, IReceivedState> {
      * Регулирует видимость master-колонки
      */
     protected _masterVisibility: MasterVisibilityEnum;
+    protected _newMasterVisibility: MasterVisibilityEnum;
 
     /**
      * Текущий режим отображения списка в detail-колонке.
@@ -115,6 +116,7 @@ export default class View extends Control<IOptions, IReceivedState> {
     protected _masterDataSource: SourceController = null;
     protected _hasImageInItems: boolean = false;
     protected _itemToScroll: CrudEntityKey = null;
+    protected _contrastBackground: boolean = true;
 
     /**
      * Опции для Controls/explorer:View в master-колонке
@@ -178,7 +180,7 @@ export default class View extends Control<IOptions, IReceivedState> {
     }
 
     //region ⇑ events handlers
-    private _onDetailDataLoadCallback(items: RecordSet, direction: string): void {
+    private _onDetailDataLoadCallback(event: SyntheticEvent, items: RecordSet, direction: string): void {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
         if (direction && this._detailExplorerOptions.imageProperty && !this._hasImageInItems) {
@@ -194,12 +196,17 @@ export default class View extends Control<IOptions, IReceivedState> {
         } else if (!this._hasImageInItems) {
             this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
         }
+
+        if (this._newMasterVisibility) {
+            this._masterVisibility = this._newMasterVisibility;
+            this._newMasterVisibility = null;
+        }
         this._processItemsMetadata(items);
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
         this._dataContext = contexts.dataContext;
-        const isDetailRootChanged = this._detailExplorerOptions.root !== this._dataContext.listsConfigs.detail.root;
+        const isDetailRootChanged = this._dataContext.listsConfigs.detail.root !== this._detailDataSource.getRoot();
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
@@ -210,31 +217,19 @@ export default class View extends Control<IOptions, IReceivedState> {
 
         //region update master
         const newMasterVisibility = View.calcMasterVisibility(newOptions);
+        const masterVisibilityChanged = this._masterVisibility !== newMasterVisibility;
 
-
-        if (
-            this._masterVisibility === MasterVisibilityEnum.hidden &&
-            newMasterVisibility === MasterVisibilityEnum.visible
-        ) {
-            if (!isDetailRootChanged && this.viewMode !== DetailViewMode.tile) {
+        if (masterVisibilityChanged) {
+            if (isDetailRootChanged) {
+                this._newMasterVisibility = newMasterVisibility;
+            } else {
                 this._masterVisibility = newMasterVisibility;
             }
         }
-
-        // Если мастер есть и скрывается, то ничего не меняем, все изменения
-        // произойдут после загрузки данных в detail-список
-        if (
-            this._masterVisibility === MasterVisibilityEnum.visible &&
-            newMasterVisibility === MasterVisibilityEnum.hidden
-        ) {
-            if (!isDetailRootChanged && this.viewMode !== DetailViewMode.tile) {
-                this._masterVisibility = newMasterVisibility;
-            }
-        }
-        //endregion
     }
 
     protected _beforeUnmount(): void {
+        this._detailDataSource.unsubscribe('dataLoad', this._onDetailDataLoadCallback);
         this._detailDataSource.destroy();
         this._masterDataSource.destroy();
     }
@@ -265,6 +260,7 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._appliedViewMode = this.viewMode;
         this._updateMasterVisibility(options);
         this._updateDetailBgColor(options);
+        this._updateContrastBackground();
         this._notify('viewModeChanged', [this.viewMode]);
     }
 
@@ -349,6 +345,7 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._detailExplorerOptions = this._getListOptions(listsConfigs.detail, options.detail);
         this._masterExplorerOptions = this._getListOptions(listsConfigs.master, options.master);
         this._detailDataSource = listsConfigs.detail.sourceController;
+        this._detailDataSource.subscribe('dataLoad', this._onDetailDataLoadCallback);
         this._masterDataSource = listsConfigs.master.sourceController;
         if (options.listConfiguration) {
             this._createTemplateControllers(options.listConfiguration, options);
@@ -382,6 +379,10 @@ export default class View extends Control<IOptions, IReceivedState> {
         } else {
             this._detailBgColor = options.detail.backgroundColor || '#ffffff';
         }
+    }
+
+    private _updateContrastBackground(): void {
+        this._contrastBackground = this.viewMode !== DetailViewMode.tile;
     }
     //endregion
 
