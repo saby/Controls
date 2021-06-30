@@ -360,7 +360,7 @@ class StickyHeaderController {
             // Контроллер инициализируется при наведении мыши или когда заголовки зафиксированы.
             if (header && this._initialized) {
                 const heightEntry = this._getElementHeightEntry(entry.target);
-                const isDelayedHeader = this._delayedHeaders.some(header => header.id === header.index);
+                const isDelayedHeader = this._delayedHeaders.some(delayedHeader => delayedHeader.id === header.index);
                 // Не будем обрабатывать delayedHeader, т.к он обработается позже в _registerDelayed.
                 if (heightEntry && !isDelayedHeader) {
                     operation = this._getOperationForHeadersStack(entry.contentRect.height, heightEntry.value, header.index);
