@@ -7,6 +7,7 @@
                             close="{{close}}"
                             theme="{{_headerTheme}}"
                             stackOptions="{{_options}}"
+                            hasRightTemplate="{{true}}"
                             _maximizeButtonTitle="{{_maximizeButtonTitle}}"
                             changeMaximizedState="{{changeMaximizedState}}"
                             _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
@@ -36,6 +37,7 @@
                 <div class="controls-StackTemplate__bottomArea">
                     <ws:partial template="{{_options.footerContentTemplate}}"
                                 scope="{{_options}}"
+                                hasRightTemplate="{{true}}"
                                 bodyContentTemplate="{{null}}"
                                 headerContentTemplate="{{null}}"
                                 footerContentTemplate="{{null}}"/>
