@@ -11,6 +11,7 @@ export abstract class BaseEditor extends Control<IControlOptions> {
     protected _notifyPropertyValueChanged(value: object, needCollapse?: boolean): void {
         if (needCollapse || !this._options.applyButtonSticky) {
             this._hideApplyButton();
+            value.needCollapse = needCollapse;
             this._notify('propertyValueChanged', [value], {bubbling: true});
         } else {
             this._getApplyButtonSticky().open({
