@@ -11,7 +11,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}], keyProperty: 'id' });
             const collection = new Collection({
                 keyProperty: 'id',
-                collection: recordSet
+                collection: recordSet,
+                rowSeparatorSize: 's'
             });
             assert.isTrue(collection.at(1).isBottomSeparatorEnabled());
         });
@@ -25,7 +26,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}, {id: 3}, {id: 4}], keyProperty: 'id' });
             const collection = new Collection({
                 keyProperty: 'id',
-                collection: recordSet
+                collection: recordSet,
+                rowSeparatorSize: 's'
             });
 
             assert.isFalse(collection.getItemBySourceKey(3).isBottomSeparatorEnabled());
@@ -38,7 +40,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}, {id: 3}, {id: 4}], keyProperty: 'id' });
             const collection = new Collection({
                 keyProperty: 'id',
-                collection: recordSet
+                collection: recordSet,
+                rowSeparatorSize: 's'
             });
 
             const initialLastItem = collection.at(3);
@@ -55,7 +58,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}], keyProperty: 'id' });
             const collection = new Collection({
                 keyProperty: 'id',
-                collection: recordSet
+                collection: recordSet,
+                rowSeparatorSize: 's'
             });
 
             const item = new Model({
@@ -77,7 +81,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}], keyProperty: 'id' });
             const collection = new Collection({
                 keyProperty: 'id',
-                collection: recordSet
+                collection: recordSet,
+                rowSeparatorSize: 's'
             });
 
             assert.isTrue(collection.at(1).isBottomSeparatorEnabled());
@@ -93,7 +98,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}], keyProperty: 'id' });
             const collection = new Collection({
                 keyProperty: 'id',
-                collection: recordSet
+                collection: recordSet,
+                rowSeparatorSize: 's'
             });
 
             const initialLastItem = collection.getItemBySourceKey(2);
@@ -110,7 +116,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}], keyProperty: 'id' });
             const collection = new Collection({
                 keyProperty: 'id',
-                collection: recordSet
+                collection: recordSet,
+                rowSeparatorSize: 's'
             });
 
             assert.isTrue(collection.at(1).isBottomSeparatorEnabled());
@@ -127,7 +134,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
         const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}, {id: 3}, {id: 4}], keyProperty: 'id' });
         const collection = new Collection({
             keyProperty: 'id',
-            collection: recordSet
+            collection: recordSet,
+            rowSeparatorSize: 's'
         });
 
         const initialLastItem = collection.getItemBySourceKey(4);
@@ -164,7 +172,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const collection = new Collection({
                 keyProperty: 'id',
                 collection: recordSet,
-                groupProperty: 'group'
+                groupProperty: 'group',
+                rowSeparatorSize: 's'
             });
             assert.isTrue(collection.at(7).isBottomSeparatorEnabled());
         });
@@ -180,7 +189,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const collection = new Collection({
                 keyProperty: 'id',
                 collection: recordSet,
-                groupProperty: 'group'
+                groupProperty: 'group',
+                rowSeparatorSize: 's'
             });
             const itemAt5 = collection.at(5);
 
@@ -208,7 +218,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const collection = new Collection({
                 keyProperty: 'id',
                 collection: recordSet,
-                groupProperty: 'group'
+                groupProperty: 'group',
+                rowSeparatorSize: 's'
             });
             const initialLastItem = collection.getItemBySourceKey(4);
             assert.equal(initialLastItem, collection.at(5));
@@ -228,7 +239,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
         const recordSet = new RecordSet({ rawData: [{id: 1}, {id: 2}], keyProperty: 'id' });
         const collection = new Collection({
             keyProperty: 'id',
-            collection: recordSet
+            collection: recordSet,
+            rowSeparatorSize: 's'
         });
 
         const item = new Model({
