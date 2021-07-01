@@ -74,10 +74,10 @@ describe('Controls/itemActions/Controller/EditInPlace', () => {
             editingItem: collection.at(1)
         });
 
-        assert.equal(collection.at(0).getVersion(), 2);
+        assert.equal(collection.at(0).getVersion(), 3);
         assert.equal(collection.at(1).getVersion(), 2);
         assert.equal(collection.at(2).getVersion(), 1);
-        assert.equal(collection.at(3).getVersion(), 2);
+        assert.equal(collection.at(3).getVersion(), 3);
     });
 
     it('unset EIP, should update version only for editing item', () => {
@@ -92,10 +92,10 @@ describe('Controls/itemActions/Controller/EditInPlace', () => {
             collection
         });
 
-        assert.equal(collection.at(0).getVersion(), 2);
+        assert.equal(collection.at(0).getVersion(), 3);
         assert.equal(collection.at(1).getVersion(), 3);
         assert.equal(collection.at(2).getVersion(), 1);
-        assert.equal(collection.at(3).getVersion(), 2);
+        assert.equal(collection.at(3).getVersion(), 3);
     });
 
     it('set EIP, + change visibility, should update version only for editing item', () => {
@@ -108,10 +108,10 @@ describe('Controls/itemActions/Controller/EditInPlace', () => {
             collection
         });
 
-        assert.equal(collection.at(0).getVersion(), 2);
+        assert.equal(collection.at(0).getVersion(), 3);
         assert.equal(collection.at(1).getVersion(), 3);
         assert.equal(collection.at(2).getVersion(), 1);
-        assert.equal(collection.at(3).getVersion(), 2);
+        assert.equal(collection.at(3).getVersion(), 3);
     });
 
     it('change EIP record, should update version only for editing items', () => {
@@ -132,10 +132,10 @@ describe('Controls/itemActions/Controller/EditInPlace', () => {
             editingItem: collection.at(2)
         });
 
-        assert.equal(collection.at(0).getVersion(), 2);
+        assert.equal(collection.at(0).getVersion(), 3);
         assert.equal(collection.at(1).getVersion(), 3);
         assert.equal(collection.at(2).getVersion(), 2);
-        assert.equal(collection.at(3).getVersion(), 2);
+        assert.equal(collection.at(3).getVersion(), 3);
     });
 
     it ('set EIP + editingItem changed, should not update actionsTemplateConfig on model', () => {

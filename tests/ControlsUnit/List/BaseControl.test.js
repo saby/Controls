@@ -8108,7 +8108,7 @@ define([
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(3).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(3).getVersion(), 2);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(3).getVersion(), 3);
             });
 
             it('to prev', function() {
@@ -8121,7 +8121,7 @@ define([
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
                assert.equal(baseControl.getViewModel().getItemBySourceKey(2).getVersion(), 2);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-               assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 4);
+               assert.equal(baseControl.getViewModel().getItemBySourceKey(1).getVersion(), 5);
             });
 
             it('empty list', () => {
