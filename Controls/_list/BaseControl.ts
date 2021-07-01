@@ -6807,7 +6807,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getLoadingIndicatorClasses(state?: string): string {
         const hasItems = !!this._items && !!this._items.getCount();
-        const indicatorState = state ? state : 'all';
+        let indicatorState = state ? state : 'all';
+        if (!state && this._portionedSearchInProgress) {
+            indicatorState = this._loadingIndicatorState;
+        }
         return _private.getLoadingIndicatorClasses({
             hasItems,
             hasPaging: !!this._pagingVisible,
@@ -6823,7 +6826,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _getLoadingIndicatorStyles(state?: string): string {
         let styles = '';
 
-        const indicatorState = state ? state : 'all';
+        let indicatorState = state ? state : 'all';
+        if (!state && this._portionedSearchInProgress) {
+            indicatorState = this._loadingIndicatorState;
+        }
         switch (indicatorState) {
             case 'all':
                 if (this._loadingIndicatorContainerHeight) {
