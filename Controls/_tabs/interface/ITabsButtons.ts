@@ -18,6 +18,19 @@ import {RecordSet} from 'Types/collection';
  * Может принимать числовое значение(в пикселях) или в процентах(Например: '20%')
  * При задании фиксированной ширины задание minWidth и maxWidth не имеет смысла, т.к. ширина зафиксируется.
  * @property {Boolean} [item.isMainTab] Определяет, является ли вкладка главной. Главная вкладка визуально выделяется относительно других вкладок. Поддерживается визуальное оформление только для первой вкладки слева.
+ * @property {String} [item.icon] Название иконки. {@link Controls/_tabs/ITabsTemplate#itemTemplate Для настройки смотри пример}
+ * @property {String} [item.iconStyle] Стиль отображения иконки. {@link Controls/_tabs/ITabsTemplate#itemTemplate Для настройки смотри пример}
+ * @property {Number} [item.mainCounter] Значение счетчика. {@link Controls/_tabs/ITabsTemplate#itemTemplate Для настройки смотри пример}
+ * @property {Number} [item.mainCounterStyle] Стиль отображения счетчика. {@link Controls/_tabs/ITabsTemplate#itemTemplate Для настройки смотри пример}
+ * @property {String} [item.caption] Подпись вкладки. {@link Controls/_tabs/ITabsTemplate#itemTemplate Для настройки смотри пример}
+ * @property {Controls/_tabs/interface/ITabsButtons/image.typedef} [item.image] Конфигурация для отображения картинки. {@link Controls/_tabs/ITabsTemplate#itemTemplate Для настройки смотри пример}
+ */
+
+/**
+ * @typedef {Object} Controls/_tabs/interface/ITabsButtons/image
+ * @property {String} [image.src] Url картинки.
+ * @property {Number} [image.srcSet] Значение аттрибута srcset.
+ * @property {String} [image.tooltip] Значение тултипа.
  */
 
 export interface ITabButtonItem {
@@ -27,6 +40,12 @@ export interface ITabButtonItem {
     minWidth?: string | number;
     width?: string | number;
     maxWidth?: string | number;
+    icon?: string;
+    iconStyle?: string;
+    mainCounter?: string;
+    mainCounterStyle?: string;
+    caption?: string;
+    image?: object;
     [key: string]: any;
 }
 /**
