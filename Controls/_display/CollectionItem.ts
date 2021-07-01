@@ -47,6 +47,8 @@ export interface IOptions<T extends Model = Model> {
     topPadding?: string;
     bottomPadding?: string;
     markerPosition?: string;
+    isLastItem?: boolean;
+    isFirstItem?: boolean;
     hasMoreDataUp?: boolean;
     isFirstStickedItem?: boolean;
     roundBorder?: object;
@@ -198,6 +200,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     protected _$isBottomSeparatorVisible: boolean;
 
     protected _$isTopSeparatorVisible: boolean;
+
+    protected _$isFirstItem: boolean;
+
+    protected _$isLastItem: boolean;
 
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
 
@@ -841,6 +847,24 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this._$isTopSeparatorVisible;
     }
 
+    setFirstItem(state: boolean): void {
+        this._$isFirstItem = state;
+        this._nextVersion();
+    }
+
+    getFirstItem(): boolean {
+        return this._$isFirstItem;
+    }
+
+    setLastItem(state: boolean): void {
+        this._$isLastItem = state;
+        this._nextVersion();
+    }
+
+    getLastItem(): boolean {
+        return this._$isLastItem;
+    }
+
     getTheme(): string {
         return this._$theme;
     }
@@ -1153,5 +1177,7 @@ Object.assign(CollectionItem.prototype, {
     _$editingColumnIndex: null,
     _$roundBorder: null,
     _$isBottomSeparatorVisible: false,
-    _$isTopSeparatorVisible: false
+    _$isTopSeparatorVisible: false,
+    _$isFirstItem: false,
+    _$isLastItem: false
 });

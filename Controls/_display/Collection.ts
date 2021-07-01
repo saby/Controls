@@ -2567,18 +2567,22 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         if (oldFirstItem !== firstItem) {
             if (oldFirstItem) {
                 oldFirstItem.setTopSeparatorVisible(true);
+                oldFirstItem.setFirstItem(false);
             }
             if (firstItem) {
                 firstItem.setTopSeparatorVisible(this._isTopItemSeparatorVisible());
+                firstItem.setFirstItem(true);
             }
             this._firstItem = firstItem;
         }
         if (oldLastItem !== lastItem) {
             if (oldLastItem) {
                 oldLastItem.setBottomSeparatorVisible(false);
+                oldLastItem.setLastItem(false);
             }
             if (lastItem) {
                 lastItem.setBottomSeparatorVisible(this._isBottomItemSeparatorVisible());
+                lastItem.setLastItem(true);
             }
             this._lastItem = lastItem;
         }
@@ -3318,6 +3322,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.hasMoreDataUp = this.hasMoreDataUp();
             options.isTopSeparatorVisible = true;
             options.isBottomSeparatorVisible = false;
+            options.isFirstItem = false;
+            options.isLastItem = false;
 
             return create(options.itemModule || this._itemModule, options);
         };
