@@ -80,6 +80,7 @@ export {ExpandableMixin, IExpandableMixinOptions};
 
 export {default as IMarkable, TMarkerClassName} from './_display/interface/IMarkable';
 export {default as ISelectableItem} from './_display/interface/ISelectableItem';
+export {default as IEnumerableItem} from './_display/interface/IEnumerableItem';
 
 export {default as IGroupNode} from './_display/interface/IGroupNode';
 

@@ -39,6 +39,8 @@ export interface IOptions<T> extends IColspanParams {
     shadowVisibility?: string;
     rowSeparatorSize?: string;
     isFirstDataCell?: boolean;
+    isTopSeparatorVisible: boolean;
+    isBottomSeparatorVisible: boolean;
 }
 
 export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
@@ -71,6 +73,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$isSticked: boolean;
     protected _$backgroundStyle: string;
     protected _$shadowVisibility?: string;
+    protected _$isTopSeparatorVisible?: string;
+    protected _$isBottomSeparatorVisible?: string;
 
     constructor(options?: IOptions<T>) {
         super();
@@ -447,9 +451,16 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         let classes = '';
 
         if (rowSeparatorSize) {
-            classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
-            classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}`;
-        } else {
+            if (this._$isTopSeparatorVisible) {
+                classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
+                classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}`;
+            }
+
+            if (this._$isBottomSeparatorVisible) {
+                classes += ` controls-Grid__rowSeparator_bottom_size-${rowSeparatorSize}`;
+            }
+        }
+        if (!rowSeparatorSize || !this._$isTopSeparatorVisible) {
             // Вспомогательные классы, вешаются на ячейку. Обеспечивают отсутствие "скачков" при смене rowSeparatorSize.
             classes += ' controls-Grid__no-rowSeparator';
             classes += ' controls-Grid__row-cell_withRowSeparator_size-null';
@@ -641,5 +652,7 @@ Object.assign(Cell.prototype, {
     _$isSingleColspanedCell: null,
     _$isActsAsRowTemplate: null,
     _$isLadderCell: null,
-    _$isHiddenForLadder: null
+    _$isHiddenForLadder: null,
+    _$isTopSeparatorVisible: false,
+    _$isBottomSeparatorVisible: false
 });

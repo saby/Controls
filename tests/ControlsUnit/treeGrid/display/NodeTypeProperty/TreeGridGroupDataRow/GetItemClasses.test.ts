@@ -11,8 +11,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
         getCount: () => 1,
         getRootLevel: () => 0,
         getCollectionCount: () => 1,
-        getSourceIndexByItem: () => 0,
-        isLastItem: () => true
+        getSourceIndexByItem: () => 0
     } as undefined as TreeGridCollection<any>;
 
     groupRow = new TreeGridGroupDataRow({
@@ -29,7 +28,6 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
         columns: [
             { width: '100px' }
         ],
-        isLastItem: true,
         owner
     });
 
@@ -40,7 +38,6 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
             'controls-Grid__row_undefined',
             'controls-ListView__itemV_cursor-pointer',
             'controls-ListView__item_showActions',
-            'controls-ListView__itemV_last',
             'controls-ListView__group'].join(' '));
     });
 });

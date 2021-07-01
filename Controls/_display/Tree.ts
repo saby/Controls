@@ -688,6 +688,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._reBuildNodeFooters(true);
         this._reIndex();
         this._reAnalize();
+        this._updateEdgeItemsSeparators();
     }
 
     /**
@@ -816,7 +817,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         //endregion
 
         this._expandedItems = [...expandedKeys];
-        this._resetLastItem();
+        this._updateEdgeItemsSeparators();
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -843,7 +844,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 item.setExpanded(false);
             }
         });
-        this._resetLastItem();
+        this._updateEdgeItemsSeparators();
     }
 
     toggleExpanded(item: T): void {
@@ -878,6 +879,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     // endregion Expanded/Collapsed
+
+    getFirst();
+    getLast();
 
     // endregion
 
@@ -1144,8 +1148,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             nearbyItem = enumerator.getCurrent();
 
             // если мы пришли сюда, когда в enumerator ещё ничего нет, то nearbyItem будет undefined
-            // если nearbyItem не может быть выделен, то он и не может стать текущим
-            if (!!nearbyItem && !nearbyItem.SelectableItem) {
+            if (!!nearbyItem && !nearbyItem.EnumerableItem) {
                 nearbyItem = undefined;
                 continue;
             }

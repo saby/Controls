@@ -22,6 +22,7 @@ import Collection, {IEditingConfig} from 'Controls/_display/Collection';
 import IItemActionsItem from './interface/IItemActionsItem';
 import {TRoundBorder} from "Controls/_tile/display/mixins/Tile";
 import {isEqual} from "Types/object";
+import IEnumerableItem from './interface/IEnumerableItem';
 
 export interface IOptions<T extends Model = Model> {
     itemModule?: string;
@@ -46,11 +47,11 @@ export interface IOptions<T extends Model = Model> {
     topPadding?: string;
     bottomPadding?: string;
     markerPosition?: string;
-    isLastItem?: boolean;
-    isFirstItem?: boolean;
     hasMoreDataUp?: boolean;
     isFirstStickedItem?: boolean;
     roundBorder?: object;
+    isTopSeparatorVisible?: boolean;
+    isBottomSeparatorVisible?: boolean;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -92,13 +93,14 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     InstantiableMixin,
     SerializableMixin,
     ItemCompatibilityListViewModel
-) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable, IItemActionsItem {
+) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable, IItemActionsItem, IEnumerableItem {
 
     // region IInstantiable
 
     readonly '[Types/_entity/IInstantiable]': boolean;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
+    readonly EnumerableItem: boolean = true;
     readonly DraggableItem: boolean = true;
     readonly ItemActionsItem: boolean = true;
     readonly DisplaySearchValue: boolean = true;
@@ -193,7 +195,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _counters: ICollectionItemCounters;
 
-    protected _isLastItem: boolean;
+    protected _$isBottomSeparatorVisible: boolean;
+
+    protected _$isTopSeparatorVisible: boolean;
 
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
 
@@ -655,19 +659,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    resetIsLastItem(): void {
-        this._isLastItem = undefined;
-        this._nextVersion();
-    }
-
-    isLastItem(): boolean {
-        if (this._isLastItem === undefined) {
-            this._isLastItem = this.getOwner().isLastItem(this);
-            this._nextVersion();
-        }
-        return this._isLastItem;
-    }
-
     // region Drag-n-drop
 
     setDragged(dragged: boolean, silent?: boolean): void {
@@ -786,11 +777,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     // + здесь же, возможно, стоит вызывать описанный ниже метод getItemActionPositionClasses.
     getItemActionClasses(itemActionsPosition: string): string {
         let itemActionClasses = `controls-itemActionsV_${itemActionsPosition}`;
-        const rowSeparatorSize = this.getRowSeparatorSize();
-        const isLastRow = this.isLastItem();
+        const rowSeparatorSize = this.getBottomSeparatorVisible() && this.getRowSeparatorSize();
         if (itemActionsPosition === 'outside') {
             itemActionClasses += ' controls-itemActionsV__outside_bottom_size-' +
-                (isLastRow && rowSeparatorSize ? rowSeparatorSize : 'default');
+                (rowSeparatorSize ? rowSeparatorSize : 'default');
         }
         return itemActionClasses;
     }
@@ -833,6 +823,24 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this.getOwner().getRowSeparatorSize();
     }
 
+    setBottomSeparatorVisible(state: boolean): void {
+        this._$isBottomSeparatorVisible = state;
+        this._nextVersion();
+    }
+
+    getBottomSeparatorVisible(): boolean {
+        return this._$isBottomSeparatorVisible;
+    }
+
+    setTopSeparatorVisible(state: boolean): void {
+        this._$isTopSeparatorVisible = state;
+        this._nextVersion();
+    }
+
+    getTopSeparatorVisible(): boolean {
+        return this._$isTopSeparatorVisible;
+    }
+
     getTheme(): string {
         return this._$theme;
     }
@@ -859,14 +867,12 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         let contentClasses = `controls-ListView__itemContent ${this._getSpacingClasses(theme, style)}`;
         contentClasses += ` controls-ListView__itemContent_${style}`;
 
-        if (rowSeparatorSize) {
+        if (rowSeparatorSize && this._$isTopSeparatorVisible) {
             contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
         }
 
-        const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
-            && this.isLastItem()) {
-            contentClasses += ' controls-ListView__itemV_last';
+        if (rowSeparatorSize && this._$isBottomSeparatorVisible) {
+            contentClasses += ` controls-ListView__rowSeparator_bottom_size-${rowSeparatorSize}`;
         }
 
         if (isAnimatedForSelection) {
@@ -1145,5 +1151,7 @@ Object.assign(CollectionItem.prototype, {
     _version: 0,
     _counters: null,
     _$editingColumnIndex: null,
-    _$roundBorder: null
+    _$roundBorder: null,
+    _$isBottomSeparatorVisible: false,
+    _$isTopSeparatorVisible: false
 });

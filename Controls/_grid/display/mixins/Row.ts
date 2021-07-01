@@ -66,6 +66,8 @@ export default abstract class Row<T> {
     protected _$columns: TColumns;
     protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
     protected _$backgroundStyle: string;
+    protected _$isBottomSeparatorVisible: boolean;
+    protected _$isTopSeparatorVisible: boolean;
     protected _savedColumns: TColumns;
 
     protected constructor(options?: IOptions<T>) {
@@ -102,7 +104,19 @@ export default abstract class Row<T> {
         const stickyVerticalPosition = stickyCallback ? 'top' : 'topBottom';
         return {
             vertical: stickyVerticalPosition
-        }
+        };
+    }
+
+    setBottomSeparatorVisible(state: boolean): void {
+        this._$isBottomSeparatorVisible = state;
+        this._reinitializeColumns();
+        this._nextVersion();
+    }
+
+    setTopSeparatorVisible(state: boolean): void {
+        this._$isTopSeparatorVisible = state;
+        this._reinitializeColumns();
+        this._nextVersion();
     }
 
     //region Аспект "Стилевое оформление. Классы и стили строки"
@@ -113,11 +127,6 @@ export default abstract class Row<T> {
 
         if (params.showItemActionsOnHover !== false) {
             itemClasses += ' controls-ListView__item_showActions';
-        }
-        const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
-            && this.isLastItem()) {
-            itemClasses += ' controls-ListView__itemV_last';
         }
 
         return itemClasses;
@@ -519,7 +528,9 @@ export default abstract class Row<T> {
             columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, columnIndex),
             backgroundStyle: this._$backgroundStyle,
             isSticked: this.isSticked(),
-            shadowVisibility: this.getShadowVisibility()
+            shadowVisibility: this.getShadowVisibility(),
+            isTopSeparatorVisible: this._$isTopSeparatorVisible,
+            isBottomSeparatorVisible: this._$isBottomSeparatorVisible
         };
     }
 
@@ -759,8 +770,6 @@ export default abstract class Row<T> {
 
     abstract getShadowVisibility(): string;
 
-    abstract isLastItem(): boolean;
-
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
 
     protected abstract _nextVersion(): void;
@@ -779,5 +788,7 @@ Object.assign(Row.prototype, {
     _$columnSeparatorSize: null,
     _$backgroundStyle: 'default',
     _$itemActionsPosition: 'inside',
-    _$editingColumnIndex: null,
+    _$isBottomSeparatorVisible: false,
+    _$isTopSeparatorVisible: false,
+    _$editingColumnIndex: null
 });

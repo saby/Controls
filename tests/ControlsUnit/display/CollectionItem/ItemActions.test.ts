@@ -4,17 +4,18 @@ import {Model} from 'Types/entity';
 
 describe('Controls/display/CollectionItem/ItemActions', () => {
     let rowSeparatorSize;
-    let isLastItem;
+    let bottomSeparatorVisible;
 
     const owner = {
         getRowSeparatorSize: () => rowSeparatorSize,
-        isLastItem: () => isLastItem
+        getBottomSeparatorVisible: () => bottomSeparatorVisible
     };
 
     function getItem(options?: object): CollectionItem {
         return new CollectionItem({
             owner,
             ...options,
+            isBottomSeparatorVisible: bottomSeparatorVisible,
             contents: new Model({
                 keyProperty: 'key',
                 rawData: {
@@ -26,35 +27,35 @@ describe('Controls/display/CollectionItem/ItemActions', () => {
 
     beforeEach(() => {
         rowSeparatorSize = null;
-        isLastItem = false;
+        bottomSeparatorVisible = false;
     });
 
     describe('getItemActionClasses', () => {
-        it('itemActionsPosition=outside, rowSeparatorSize=s, isLastItem=true', () => {
+        it('itemActionsPosition=outside, rowSeparatorSize=s, bottomSeparatorVisible=true', () => {
             rowSeparatorSize = 's';
-            isLastItem = true;
+            bottomSeparatorVisible = true;
             const classes = getItem().getItemActionClasses('outside');
             CssClassesAssert.include(classes, 'controls-itemActionsV__outside_bottom_size-s');
         });
 
-        it('itemActionsPosition=inside, rowSeparatorSize=s, isLastItem=true', () => {
+        it('itemActionsPosition=inside, rowSeparatorSize=s, bottomSeparatorVisible=true', () => {
             rowSeparatorSize = 's';
-            isLastItem = true;
+            bottomSeparatorVisible = true;
             const classes = getItem().getItemActionClasses('inside');
             CssClassesAssert.notInclude(classes, 'controls-itemActionsV__outside_bottom_size-s');
             CssClassesAssert.notInclude(classes, 'controls-itemActionsV__outside_bottom_size-default');
         });
 
-        it('itemActionsPosition=outside, rowSeparatorSize=s, isLastItem=false', () => {
+        it('itemActionsPosition=outside, rowSeparatorSize=s, bottomSeparatorVisible=false', () => {
             rowSeparatorSize = 's';
-            isLastItem = false;
+            bottomSeparatorVisible = false;
             const classes = getItem().getItemActionClasses('outside');
             CssClassesAssert.notInclude(classes, 'controls-itemActionsV__outside_bottom_size-s');
             CssClassesAssert.include(classes, 'controls-itemActionsV__outside_bottom_size-default');
         });
 
-        it('itemActionsPosition=outside, rowSeparatorSize=null, isLastItem=true', () => {
-            isLastItem = true;
+        it('itemActionsPosition=outside, rowSeparatorSize=null, bottomSeparatorVisible=true', () => {
+            bottomSeparatorVisible = true;
             const classes = getItem().getItemActionClasses('outside');
             CssClassesAssert.notInclude(classes, 'controls-itemActionsV__outside_bottom_size-s');
             CssClassesAssert.include(classes, 'controls-itemActionsV__outside_bottom_size-default');

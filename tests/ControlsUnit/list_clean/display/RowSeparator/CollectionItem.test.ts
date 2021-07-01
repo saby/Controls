@@ -13,7 +13,7 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
                 keyProperty: 'id',
                 collection: recordSet
             });
-            assert.isTrue(collection.at(1).isLastItem());
+            assert.isTrue(collection.at(1).getBottomSeparatorVisible());
         });
     });
 
@@ -28,9 +28,9 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
                 collection: recordSet
             });
 
-            assert.isFalse(collection.getItemBySourceKey(3).isLastItem());
+            assert.isFalse(collection.getItemBySourceKey(3).getBottomSeparatorVisible());
             recordSet.removeAt(3);
-            assert.isTrue(collection.getItemBySourceKey(3).isLastItem());
+            assert.isTrue(collection.getItemBySourceKey(3).getBottomSeparatorVisible());
         });
 
         // 5. move (recordset)
@@ -42,12 +42,12 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             });
 
             const initialLastItem = collection.at(3);
-            assert.isTrue(initialLastItem.isLastItem());
+            assert.isTrue(initialLastItem.getBottomSeparatorVisible());
 
             recordSet.move(3, 1);
 
-            assert.isFalse(initialLastItem.isLastItem());
-            assert.isTrue(collection.at(3).isLastItem());
+            assert.isFalse(initialLastItem.getBottomSeparatorVisible());
+            assert.isTrue(collection.at(3).getBottomSeparatorVisible());
         });
 
         // 6. add (recordset)
@@ -64,12 +64,12 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             });
 
             const initialLastItem = collection.at(1);
-            assert.isTrue(initialLastItem.isLastItem());
+            assert.isTrue(initialLastItem.getBottomSeparatorVisible());
 
             recordSet.add(item, 2);
 
-            assert.isFalse(initialLastItem.isLastItem());
-            assert.isTrue(collection.at(2).isLastItem());
+            assert.isFalse(initialLastItem.getBottomSeparatorVisible());
+            assert.isTrue(collection.at(2).getBottomSeparatorVisible());
         });
 
         // 2.1 Записи добавились через merge
@@ -80,12 +80,12 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
                 collection: recordSet
             });
 
-            assert.isTrue(collection.at(1).isLastItem());
+            assert.isTrue(collection.at(1).getBottomSeparatorVisible());
 
             recordSet.merge(new RecordSet({ rawData: [{id: 3}, {id: 4}], keyProperty: 'id' }), {remove: false, inject: true });
 
-            assert.isFalse(collection.at(1).isLastItem());
-            assert.isTrue(collection.at(3).isLastItem());
+            assert.isFalse(collection.at(1).getBottomSeparatorVisible());
+            assert.isTrue(collection.at(3).getBottomSeparatorVisible());
         });
 
         // 2.2 Записи добавились через assign
@@ -97,12 +97,12 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             });
 
             const initialLastItem = collection.getItemBySourceKey(2);
-            assert.isTrue(initialLastItem.isLastItem());
+            assert.isTrue(initialLastItem.getBottomSeparatorVisible());
 
             recordSet.assign(new RecordSet({ rawData: [{id: 3}, {id: 4}], keyProperty: 'id' }));
 
             assert.notEqual(collection.getItemBySourceKey(2), initialLastItem);
-            assert.isTrue(collection.getItemBySourceKey(4).isLastItem());
+            assert.isTrue(collection.getItemBySourceKey(4).getBottomSeparatorVisible());
         });
 
         // 2.3 Записи добавились через append
@@ -113,12 +113,12 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
                 collection: recordSet
             });
 
-            assert.isTrue(collection.at(1).isLastItem());
+            assert.isTrue(collection.at(1).getBottomSeparatorVisible());
 
             recordSet.append(new RecordSet({ rawData: [{id: 3}, {id: 4}], keyProperty: 'id' }));
 
-            assert.isFalse(collection.at(1).isLastItem());
-            assert.isTrue(collection.at(3).isLastItem());
+            assert.isFalse(collection.at(1).getBottomSeparatorVisible());
+            assert.isTrue(collection.at(3).getBottomSeparatorVisible());
         });
     });
 
@@ -133,7 +133,7 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
         const initialLastItem = collection.getItemBySourceKey(4);
         const record = recordSet.getRecordById(4);
 
-        assert.isTrue(initialLastItem.isLastItem());
+        assert.isTrue(initialLastItem.getBottomSeparatorVisible());
 
         collection.setDraggedItems(initialLastItem, [4]);
         collection.setDragPosition({
@@ -145,8 +145,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
         recordSet.remove(record);
         collection.resetDraggedItems();
 
-        assert.isFalse(collection.getItemBySourceKey(4).isLastItem());
-        assert.isTrue(collection.at(3).isLastItem());
+        assert.isFalse(collection.getItemBySourceKey(4).getBottomSeparatorVisible());
+        assert.isTrue(collection.at(3).getBottomSeparatorVisible());
     });
 
     describe('With groups', () => {
@@ -166,7 +166,7 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
                 collection: recordSet,
                 groupProperty: 'group'
             });
-            assert.isTrue(collection.at(7).isLastItem());
+            assert.isTrue(collection.at(7).getBottomSeparatorVisible());
         });
 
         // 9.1 Добавили записи в RS
@@ -184,7 +184,7 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             });
             const itemAt5 = collection.at(5);
 
-            assert.isTrue(itemAt5.isLastItem());
+            assert.isTrue(itemAt5.getBottomSeparatorVisible());
 
             const item = new Model({
                 rawData: {id: 3, group: 'g2'},
@@ -193,8 +193,8 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
 
             recordSet.add(item, 4);
 
-            assert.isFalse(itemAt5.isLastItem());
-            assert.isTrue(collection.at(6).isLastItem());
+            assert.isFalse(itemAt5.getBottomSeparatorVisible());
+            assert.isTrue(collection.at(6).getBottomSeparatorVisible());
         });
 
         // 10. Смена groupProperty
@@ -213,12 +213,13 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
             const initialLastItem = collection.getItemBySourceKey(4);
             assert.equal(initialLastItem, collection.at(5));
 
-            assert.isTrue(initialLastItem.isLastItem());
+            assert.isTrue(initialLastItem.getBottomSeparatorVisible());
 
             collection.setGroupProperty('group2');
 
             assert.notEqual(initialLastItem, collection.at(5));
-            assert.isTrue(collection.getItemBySourceKey(4).isLastItem());
+            assert.isTrue(collection.getItemBySourceKey(3).getBottomSeparatorVisible());
+            assert.isFalse(initialLastItem.getBottomSeparatorVisible());
         });
     });
 
@@ -245,12 +246,12 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
 
         const initialLastItem = collection.getItemBySourceKey(2);
 
-        assert.isTrue(initialLastItem.isLastItem());
+        assert.isTrue(initialLastItem.getBottomSeparatorVisible());
 
         newItem.setEditing(true, item, false);
         collection.setAddingItem(newItem, {position: 'bottom'});
 
-        assert.isFalse(collection.getItemBySourceKey(2).isLastItem());
-        assert.isTrue(newItem.isLastItem());
+        assert.isFalse(collection.getItemBySourceKey(2).getBottomSeparatorVisible());
+        assert.isTrue(newItem.getBottomSeparatorVisible());
     });
 });

@@ -18,6 +18,7 @@ import ResultsRow, { TResultsPosition } from '../ResultsRow';
 import GridRowMixin from './Row';
 import EmptyRow from '../EmptyRow';
 import { EnumeratorCallback } from 'Types/collection';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 type THeaderVisibility = 'visible' | 'hasdata';
 type TResultsVisibility = 'visible' | 'hasdata';
@@ -92,6 +93,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$emptyTemplateColumns: IEmptyTemplateColumn[];
     protected _$colspanGroup: boolean;
     protected _$backgroundStyle: string;
+    protected _$newDesign: boolean;
 
     protected _isFullGridSupport: boolean = isFullGridSupport();
     protected _footer: FooterRow<S>;
@@ -240,6 +242,20 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         let emptyTemplateClasses = 'controls-GridView__emptyTemplate js-controls-GridView__emptyTemplate';
         emptyTemplateClasses += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
         return emptyTemplateClasses;
+    }
+
+    protected _isTopItemSeparatorVisible(): boolean {
+        const isVisibleByHeaderOrFooter = (
+            this._headerIsVisible(this._$header) || this._resultsIsVisible() || !!this.getFooter());
+        return !this._$newDesign || (this._$newDesign && isVisibleByHeaderOrFooter);
+    }
+
+    protected _isBottomItemSeparatorVisible(): boolean {
+        const navigation = this.getNavigation();
+        const isVisibleByHeaderOrFooter = (
+            this._headerIsVisible(this._$header) || this._resultsIsVisible() || !!this.getFooter());
+        const isVisibleByNewDesign = !this._$newDesign || (this._$newDesign && isVisibleByHeaderOrFooter);
+        return isVisibleByNewDesign && (!navigation || navigation.view !== 'infinity' || !this.hasMoreData());
     }
 
     getStickyColumn(): GridLadderUtil.IStickyColumn {
@@ -578,6 +594,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     abstract getCollection(): IBaseCollection<S, T>;
     abstract getFooter(): FooterRow<S>;
     abstract each(callback: EnumeratorCallback<T>, context?: object): void;
+    abstract getNavigation(): INavigationOptionValue<INavigationSourceConfig>;
 
     protected abstract _nextVersion(): void;
     protected abstract _getItems(): T[];
