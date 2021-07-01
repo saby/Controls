@@ -2561,42 +2561,45 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     protected _updateEdgeItemsSeparators(silent?: boolean): void {
-        const oldFirstItem = this._firstItem;
-        const oldLastItem = this._lastItem;
-        const firstItem = this.getFirst();
-        const lastItem = this.getLast();
-
         const navigation = this.getNavigation();
         const noMoreNavigation = !navigation || navigation.view !== 'infinity' || !this.hasMoreData();
+
+        const oldFirstItem = this._firstItem;
+        const firstItem = this.getFirst();
         if (oldFirstItem !== firstItem) {
-            if (oldFirstItem) {
-                oldFirstItem.setTopSeparatorEnabled(true, silent);
-
-                // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
-                oldFirstItem.setFirstItem(false, silent);
-            }
-            if (firstItem) {
-                firstItem.setTopSeparatorEnabled(noMoreNavigation && this._isRowSeparatorsEnabled(), silent);
-
-                // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
-                firstItem.setFirstItem(noMoreNavigation, silent);
-            }
+            this._updateFirstItemSeparator(oldFirstItem, false, silent);
+            this._updateFirstItemSeparator(firstItem, true, silent);
             this._firstItem = firstItem;
         }
+
+        const oldLastItem = this._lastItem;
+        const lastItem = this.getLast();
         if (oldLastItem !== lastItem) {
-            if (oldLastItem) {
-                oldLastItem.setBottomSeparatorEnabled(false, silent);
-
-                // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
-                oldLastItem.setLastItem(false, silent);
-            }
-            if (lastItem) {
-                lastItem.setBottomSeparatorEnabled(noMoreNavigation && this._isRowSeparatorsEnabled(), silent);
-
-                // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
-                lastItem.setLastItem(noMoreNavigation, silent);
-            }
+            this._updateLastItemSeparator(oldLastItem, false, silent);
+            this._updateLastItemSeparator(lastItem, noMoreNavigation, silent);
             this._lastItem = lastItem;
+        }
+    }
+
+    private _updateLastItemSeparator(item: CollectionItem, state: boolean, silent?: boolean): void {
+        if (item) {
+            if (this._$rowSeparatorSize && this._$rowSeparatorSize !== 'null') {
+                item.setBottomSeparatorEnabled(state && this._isRowSeparatorsEnabled(), silent);
+            }
+
+            // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+            item.setLastItem(state, silent);
+        }
+    }
+
+    private _updateFirstItemSeparator(item: CollectionItem, state: boolean, silent?: boolean): void {
+        if (item) {
+            if (this._$rowSeparatorSize && this._$rowSeparatorSize !== 'null') {
+                item.setTopSeparatorEnabled(state && this._isRowSeparatorsEnabled(), silent);
+            }
+
+            // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+            item.setFirstItem(state, silent);
         }
     }
 
