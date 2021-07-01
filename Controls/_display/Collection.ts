@@ -973,7 +973,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         this._footer = this._initializeFooter(options);
 
-        this._updateEdgeItemsSeparators(true);
+        this._updateEdgeItemsSeparators(true, true);
     }
 
     _initializeCollection(): void {
@@ -2358,7 +2358,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setRowSeparatorSize(rowSeparatorSize: string): void {
         this._$rowSeparatorSize = rowSeparatorSize;
         this._nextVersion();
-        this._updateEdgeItemsSeparators(true);
+        this._updateEdgeItemsSeparators(true, true);
         this._updateItemsProperty('setRowSeparatorSize', this._$rowSeparatorSize);
     }
 
@@ -2561,21 +2561,25 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    protected _updateEdgeItemsSeparators(silent?: boolean): void {
+    protected _updateEdgeItemsSeparators(force?: boolean, silent?: boolean): void {
         const navigation = this.getNavigation();
         const noMoreNavigation = !navigation || navigation.view !== 'infinity' || !this.hasMoreData();
 
         const oldFirstItem = this._firstItem;
         const firstItem = this.getFirst();
-        this._updateFirstItemSeparator(oldFirstItem, false, silent);
-        this._updateFirstItemSeparator(firstItem, true, silent);
-        this._firstItem = firstItem;
+        if (firstItem !== oldFirstItem || force) {
+            this._updateFirstItemSeparator(oldFirstItem, false, silent);
+            this._updateFirstItemSeparator(firstItem, true, silent);
+            this._firstItem = firstItem;
+        }
 
         const oldLastItem = this._lastItem;
         const lastItem = this.getLast();
-        this._updateLastItemSeparator(oldLastItem, false, silent);
-        this._updateLastItemSeparator(lastItem, noMoreNavigation, silent);
-        this._lastItem = lastItem;
+        if (lastItem !== oldLastItem || force) {
+            this._updateLastItemSeparator(oldLastItem, false, silent);
+            this._updateLastItemSeparator(lastItem, noMoreNavigation, silent);
+            this._lastItem = lastItem;
+        }
     }
 
     private _updateLastItemSeparator(item: CollectionItem, state: boolean, silent?: boolean): void {

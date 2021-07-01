@@ -851,6 +851,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
     }
 
+    isTopSeparatorEnabled(): boolean {
+        return this._$isTopSeparatorEnabled;
+    }
+
     // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
     setFirstItem(state: boolean, silent?: boolean): void {
         if (this._$isFirstItem !== state) {
