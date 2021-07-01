@@ -244,18 +244,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return emptyTemplateClasses;
     }
 
-    protected _isTopItemSeparatorVisible(): boolean {
+    protected _isRowSeparatorsEnabled(): boolean {
         const isVisibleByHeaderOrFooter = (
             this._headerIsVisible(this._$header) || this._resultsIsVisible() || !!this.getFooter());
         return !this._$newDesign || (this._$newDesign && isVisibleByHeaderOrFooter);
-    }
-
-    protected _isBottomItemSeparatorVisible(): boolean {
-        const navigation = this.getNavigation();
-        const isVisibleByHeaderOrFooter = (
-            this._headerIsVisible(this._$header) || this._resultsIsVisible() || !!this.getFooter());
-        const isVisibleByNewDesign = !this._$newDesign || (this._$newDesign && isVisibleByHeaderOrFooter);
-        return isVisibleByNewDesign && (!navigation || navigation.view !== 'infinity' || !this.hasMoreData());
     }
 
     getStickyColumn(): GridLadderUtil.IStickyColumn {

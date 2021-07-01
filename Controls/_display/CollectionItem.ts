@@ -52,8 +52,8 @@ export interface IOptions<T extends Model = Model> {
     hasMoreDataUp?: boolean;
     isFirstStickedItem?: boolean;
     roundBorder?: object;
-    isTopSeparatorVisible?: boolean;
-    isBottomSeparatorVisible?: boolean;
+    isTopSeparatorEnabled?: boolean;
+    isBottomSeparatorEnabled?: boolean;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -197,9 +197,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _counters: ICollectionItemCounters;
 
-    protected _$isBottomSeparatorVisible: boolean;
+    protected _$isBottomSeparatorEnabled: boolean;
 
-    protected _$isTopSeparatorVisible: boolean;
+    protected _$isTopSeparatorEnabled: boolean;
 
     protected _$isFirstItem: boolean;
 
@@ -783,7 +783,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     // + здесь же, возможно, стоит вызывать описанный ниже метод getItemActionPositionClasses.
     getItemActionClasses(itemActionsPosition: string): string {
         let itemActionClasses = `controls-itemActionsV_${itemActionsPosition}`;
-        const rowSeparatorSize = this.getBottomSeparatorVisible() && this.getRowSeparatorSize();
+        const rowSeparatorSize = this.isBottomSeparatorEnabled() && this.getRowSeparatorSize();
         if (itemActionsPosition === 'outside') {
             itemActionClasses += ' controls-itemActionsV__outside_bottom_size-' +
                 (rowSeparatorSize ? rowSeparatorSize : 'default');
@@ -829,38 +829,46 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this.getOwner().getRowSeparatorSize();
     }
 
-    setBottomSeparatorVisible(state: boolean): void {
-        this._$isBottomSeparatorVisible = state;
-        this._nextVersion();
+    setBottomSeparatorEnabled(state: boolean, silent?: boolean): void {
+        this._$isBottomSeparatorEnabled = state;
+        if (!silent) {
+            this._nextVersion();
+        }
     }
 
-    getBottomSeparatorVisible(): boolean {
-        return this._$isBottomSeparatorVisible;
+    isBottomSeparatorEnabled(): boolean {
+        return this._$isBottomSeparatorEnabled;
     }
 
-    setTopSeparatorVisible(state: boolean): void {
-        this._$isTopSeparatorVisible = state;
-        this._nextVersion();
+    setTopSeparatorEnabled(state: boolean, silent?: boolean): void {
+        this._$isTopSeparatorEnabled = state;
+        if (!silent) {
+            this._nextVersion();
+        }
     }
 
-    getTopSeparatorVisible(): boolean {
-        return this._$isTopSeparatorVisible;
-    }
-
-    setFirstItem(state: boolean): void {
+    // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+    setFirstItem(state: boolean, silent?: boolean): void {
         this._$isFirstItem = state;
-        this._nextVersion();
+        if (!silent) {
+            this._nextVersion();
+        }
     }
 
+    // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
     isFirstItem(): boolean {
         return this._$isFirstItem;
     }
 
-    setLastItem(state: boolean): void {
+    // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+    setLastItem(state: boolean, silent?: boolean): void {
         this._$isLastItem = state;
-        this._nextVersion();
+        if (!silent) {
+            this._nextVersion();
+        }
     }
 
+    // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
     isLastItem(): boolean {
         return this._$isLastItem;
     }
@@ -891,11 +899,11 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         let contentClasses = `controls-ListView__itemContent ${this._getSpacingClasses(theme, style)}`;
         contentClasses += ` controls-ListView__itemContent_${style}`;
 
-        if (rowSeparatorSize && this._$isTopSeparatorVisible) {
+        if (rowSeparatorSize && this._$isTopSeparatorEnabled) {
             contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
         }
 
-        if (rowSeparatorSize && this._$isBottomSeparatorVisible) {
+        if (rowSeparatorSize && this._$isBottomSeparatorEnabled) {
             contentClasses += ` controls-ListView__rowSeparator_bottom_size-${rowSeparatorSize}`;
         }
 
@@ -1176,8 +1184,8 @@ Object.assign(CollectionItem.prototype, {
     _counters: null,
     _$editingColumnIndex: null,
     _$roundBorder: null,
-    _$isBottomSeparatorVisible: false,
-    _$isTopSeparatorVisible: false,
+    _$isBottomSeparatorEnabled: false,
+    _$isTopSeparatorEnabled: false,
     _$isFirstItem: false,
     _$isLastItem: false
 });

@@ -8,14 +8,14 @@ describe('Controls/display/CollectionItem/ItemActions', () => {
 
     const owner = {
         getRowSeparatorSize: () => rowSeparatorSize,
-        getBottomSeparatorVisible: () => bottomSeparatorVisible
+        isBottomSeparatorEnabled: () => bottomSeparatorVisible
     };
 
     function getItem(options?: object): CollectionItem {
         return new CollectionItem({
             owner,
             ...options,
-            isBottomSeparatorVisible: bottomSeparatorVisible,
+            isBottomSeparatorEnabled: bottomSeparatorVisible,
             contents: new Model({
                 keyProperty: 'key',
                 rawData: {

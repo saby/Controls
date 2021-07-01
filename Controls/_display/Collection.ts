@@ -370,7 +370,7 @@ function onCollectionChange<T>(
             break;
     }
 
-    this._updateEdgeItemsSeparators();
+    this._updateEdgeItemsSeparators(true);
     this._finishUpdateSession(session);
     this._nextVersion();
 }
@@ -1333,6 +1333,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             );
         }
 
+        enumerator.reset();
         return item;
     }
 
@@ -1363,6 +1364,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             );
         }
 
+        enumerator.reset();
         return item;
     }
 
@@ -2558,46 +2560,48 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    protected _updateEdgeItemsSeparators(): void {
+    protected _updateEdgeItemsSeparators(silent?: boolean): void {
         const oldFirstItem = this._firstItem;
         const oldLastItem = this._lastItem;
-        const enumerator = this._getUtilityEnumerator();
         const firstItem = this.getFirst();
         const lastItem = this.getLast();
+
+        const navigation = this.getNavigation();
+        const noMoreNavigation = !navigation || navigation.view !== 'infinity' || !this.hasMoreData();
         if (oldFirstItem !== firstItem) {
             if (oldFirstItem) {
-                oldFirstItem.setTopSeparatorVisible(true);
-                oldFirstItem.setFirstItem(false);
+                oldFirstItem.setTopSeparatorEnabled(true, silent);
+
+                // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+                oldFirstItem.setFirstItem(false, silent);
             }
             if (firstItem) {
-                firstItem.setTopSeparatorVisible(this._isTopItemSeparatorVisible());
-                firstItem.setFirstItem(true);
+                firstItem.setTopSeparatorEnabled(noMoreNavigation && this._isRowSeparatorsEnabled(), silent);
+
+                // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+                firstItem.setFirstItem(noMoreNavigation, silent);
             }
             this._firstItem = firstItem;
         }
         if (oldLastItem !== lastItem) {
             if (oldLastItem) {
-                oldLastItem.setBottomSeparatorVisible(false);
-                oldLastItem.setLastItem(false);
+                oldLastItem.setBottomSeparatorEnabled(false, silent);
+
+                // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+                oldLastItem.setLastItem(false, silent);
             }
             if (lastItem) {
-                lastItem.setBottomSeparatorVisible(this._isBottomItemSeparatorVisible());
-                lastItem.setLastItem(true);
+                lastItem.setBottomSeparatorEnabled(noMoreNavigation && this._isRowSeparatorsEnabled(), silent);
+
+                // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+                lastItem.setLastItem(noMoreNavigation, silent);
             }
             this._lastItem = lastItem;
         }
-        enumerator.reset();
     }
 
-    protected _isTopItemSeparatorVisible(): boolean {
+    protected _isRowSeparatorsEnabled(): boolean {
         return !this._$newDesign || !!this.getFooter();
-    }
-
-    protected _isBottomItemSeparatorVisible(): boolean {
-        const navigation = this.getNavigation();
-        const isLastByNavigation = !navigation || navigation.view !== 'infinity' || !this.hasMoreData();
-        const isVisibleByNewDesign = !this._$newDesign || !!this.getFooter();
-        return isVisibleByNewDesign && isLastByNavigation;
     }
 
     getHasMoreData(): IHasMoreData {
@@ -3320,8 +3324,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.markerPosition = this._$markerPosition;
             options.roundBorder = this._$roundBorder;
             options.hasMoreDataUp = this.hasMoreDataUp();
-            options.isTopSeparatorVisible = true;
-            options.isBottomSeparatorVisible = false;
+            options.isTopSeparatorEnabled = true;
+            options.isBottomSeparatorEnabled = false;
             options.isFirstItem = false;
             options.isLastItem = false;
 
@@ -3450,6 +3454,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             }
             break;
         }
+        enumerator.reset();
 
         return nearbyItem;
     }

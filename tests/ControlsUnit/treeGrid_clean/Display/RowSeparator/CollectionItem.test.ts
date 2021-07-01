@@ -52,7 +52,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
         }];
         it('getLastItem', () => {
             const tree = getTreeGrid(getItems(data));
-            assert.isTrue(tree.at(1).getBottomSeparatorVisible());
+            assert.isTrue(tree.at(1).isBottomSeparatorEnabled());
         });
     });
 
@@ -81,7 +81,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
         }];
         it('getLastItem', () => {
             const tree = getTreeGrid(getItems(data));
-            assert.isTrue(tree.at(1).getBottomSeparatorVisible());
+            assert.isTrue(tree.at(1).isBottomSeparatorEnabled());
         });
     });
 
@@ -112,7 +112,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
             const tree = getTreeGrid(getItems(data), {
                 expandedItems: [2]
             });
-            assert.isTrue(tree.at(2).getBottomSeparatorVisible());
+            assert.isTrue(tree.at(2).isBottomSeparatorEnabled());
         });
     });
 
@@ -138,7 +138,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
             const tree = getTreeGrid(getItems(data), {
                 expandedItems: [2]
             });
-            assert.isTrue(tree.at(1).getBottomSeparatorVisible());
+            assert.isTrue(tree.at(1).isBottomSeparatorEnabled());
         });
     });
 
@@ -169,7 +169,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
             const tree = getTreeGrid(getItems(data), {
                 expandedItems: [2]
             });
-            assert.isTrue(tree.at(2).getBottomSeparatorVisible());
+            assert.isTrue(tree.at(2).isBottomSeparatorEnabled());
         });
     });
 
@@ -197,24 +197,24 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
         it('RecordSet + move', () => {
             const initialLastItem = collection.at(4);
 
-            assert.isTrue(initialLastItem.getBottomSeparatorVisible());
+            assert.isTrue(initialLastItem.isBottomSeparatorEnabled());
 
             recordSet.move(4, 3);
 
-            assert.isFalse(initialLastItem.getBottomSeparatorVisible());
-            assert.isTrue(collection.at(4).getBottomSeparatorVisible());
+            assert.isFalse(initialLastItem.isBottomSeparatorEnabled());
+            assert.isTrue(collection.at(4).isBottomSeparatorEnabled());
         });
 
         // 7. change parent (recordset)
         it('RecordSet + parent', () => {
             const initialLastItem = collection.at(4);
 
-            assert.isTrue(initialLastItem.getBottomSeparatorVisible());
+            assert.isTrue(initialLastItem.isBottomSeparatorEnabled());
 
             recordSet.at(4).set('pid', 1);
 
-            assert.isFalse(initialLastItem.getBottomSeparatorVisible());
-            assert.isTrue(collection.at(4).getBottomSeparatorVisible());
+            assert.isFalse(initialLastItem.isBottomSeparatorEnabled());
+            assert.isTrue(collection.at(4).isBottomSeparatorEnabled());
         });
     });
 
@@ -244,9 +244,9 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
         const tree = getTreeGrid(getItems(data), {
             expandedItems: [2]
         });
-        assert.isTrue(tree.at(2).getBottomSeparatorVisible());
+        assert.isTrue(tree.at(2).isBottomSeparatorEnabled());
         tree.setRoot(1);
-        assert.isTrue(tree.at(0).getBottomSeparatorVisible());
+        assert.isTrue(tree.at(0).isBottomSeparatorEnabled());
     });
 
     // 8. DragAndDrop
@@ -266,7 +266,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
         const initialLastItem = collection.at(4);
         const record = recordSet.getRecordById(5);
 
-        assert.isTrue(initialLastItem.getBottomSeparatorVisible());
+        assert.isTrue(initialLastItem.isBottomSeparatorEnabled());
 
         collection.setDraggedItems(initialLastItem, [5]);
         collection.setDragPosition({
@@ -280,8 +280,8 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
         recordSet.remove(record);
         collection.resetDraggedItems();
 
-        assert.isFalse(initialLastItem.getBottomSeparatorVisible());
-        assert.isTrue(collection.at(4).getBottomSeparatorVisible());
+        assert.isFalse(initialLastItem.isBottomSeparatorEnabled());
+        assert.isTrue(collection.at(4).isBottomSeparatorEnabled());
     });
 
     describe('With groups', () => {
@@ -300,7 +300,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
                 groupProperty: 'group',
                 expandedItems: [1, 3]
             });
-            assert.isTrue(collection.at(7).getBottomSeparatorVisible());
+            assert.isTrue(collection.at(7).isBottomSeparatorEnabled());
         });
 
         // 9.1 Добавили записи в RS
@@ -319,7 +319,7 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
 
             const initialLastItem = collection.at(5);
 
-            assert.isTrue(initialLastItem.getBottomSeparatorVisible());
+            assert.isTrue(initialLastItem.isBottomSeparatorEnabled());
 
             const item = new Model({
                 rawData: {id: 5, pid: 3, node: null, group: 'g2'},
@@ -328,8 +328,8 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
 
             recordSet.add(item, 4);
 
-            assert.isFalse(initialLastItem.getBottomSeparatorVisible());
-            assert.isTrue(collection.at(6).getBottomSeparatorVisible());
+            assert.isFalse(initialLastItem.isBottomSeparatorEnabled());
+            assert.isTrue(collection.at(6).isBottomSeparatorEnabled());
         });
 
         // 10. Смена groupProperty с пересортировкой возможна только со сменой parent,
@@ -367,12 +367,12 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
 
         const initialLastItem = collection.at(4);
 
-        assert.isTrue(initialLastItem.getBottomSeparatorVisible());
+        assert.isTrue(initialLastItem.isBottomSeparatorEnabled());
 
         newItem.setEditing(true, item, false);
         collection.setAddingItem(newItem, {position: 'bottom'});
 
-        assert.isFalse(initialLastItem.getBottomSeparatorVisible());
-        assert.isTrue(newItem.getBottomSeparatorVisible());
+        assert.isFalse(initialLastItem.isBottomSeparatorEnabled());
+        assert.isTrue(newItem.isBottomSeparatorEnabled());
     });
 });

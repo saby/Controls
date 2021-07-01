@@ -66,8 +66,8 @@ export default abstract class Row<T> {
     protected _$columns: TColumns;
     protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
     protected _$backgroundStyle: string;
-    protected _$isBottomSeparatorVisible: boolean;
-    protected _$isTopSeparatorVisible: boolean;
+    protected _$isBottomSeparatorEnabled: boolean;
+    protected _$isTopSeparatorEnabled: boolean;
     protected _savedColumns: TColumns;
 
     protected constructor(options?: IOptions<T>) {
@@ -107,14 +107,16 @@ export default abstract class Row<T> {
         };
     }
 
-    setBottomSeparatorVisible(state: boolean): void {
-        this._$isBottomSeparatorVisible = state;
+    // @TODO https://online.sbis.ru/opendoc.html?guid=907731fd-b8a8-4b58-8958-61b5c8090188
+    setBottomSeparatorEnabled(state: boolean): void {
+        this._$isBottomSeparatorEnabled = state;
         this._reinitializeColumns();
         this._nextVersion();
     }
 
-    setTopSeparatorVisible(state: boolean): void {
-        this._$isTopSeparatorVisible = state;
+    // @TODO https://online.sbis.ru/opendoc.html?guid=907731fd-b8a8-4b58-8958-61b5c8090188
+    setTopSeparatorEnabled(state: boolean): void {
+        this._$isTopSeparatorEnabled = state;
         this._reinitializeColumns();
         this._nextVersion();
     }
@@ -529,8 +531,8 @@ export default abstract class Row<T> {
             backgroundStyle: this._$backgroundStyle,
             isSticked: this.isSticked(),
             shadowVisibility: this.getShadowVisibility(),
-            isTopSeparatorVisible: this._$isTopSeparatorVisible,
-            isBottomSeparatorVisible: this._$isBottomSeparatorVisible
+            isTopSeparatorEnabled: this._$isTopSeparatorEnabled,
+            isBottomSeparatorEnabled: this._$isBottomSeparatorEnabled
         };
     }
 
@@ -788,7 +790,7 @@ Object.assign(Row.prototype, {
     _$columnSeparatorSize: null,
     _$backgroundStyle: 'default',
     _$itemActionsPosition: 'inside',
-    _$isBottomSeparatorVisible: false,
-    _$isTopSeparatorVisible: false,
+    _$isBottomSeparatorEnabled: false,
+    _$isTopSeparatorEnabled: false,
     _$editingColumnIndex: null
 });
