@@ -64,7 +64,7 @@ class Store implements IStore {
      */
     dispatch(propertyName: string, data: unknown, isGlobal?: boolean): void {
         this._setValue(propertyName, data, isGlobal);
-        this._notifySubscribers(propertyName, isGlobal);
+        this._notifySubscribers(propertyName, undefined, isGlobal);
     }
 
     /**
@@ -75,8 +75,8 @@ class Store implements IStore {
         const state = Store._getState()[Store._getActiveContext()] || {};
 
         return state.hasOwnProperty(commandName) ?
-            this._notifySubscribers(commandName, false, params) :
-            this._notifySubscribers(commandName, true, params);
+            this._notifySubscribers(commandName, params, false) :
+            this._notifySubscribers(commandName, params, true);
     }
 
     /**
@@ -117,7 +117,7 @@ class Store implements IStore {
             }
             Store._setActiveContext(contextName);
 
-            this._notifySubscribers('_contextName', true);
+            this._notifySubscribers('_contextName', undefined, true);
         }
     }
 
@@ -191,14 +191,14 @@ class Store implements IStore {
         }
     }
 
-    private _notifySubscribers(propertyName: string, isGlobal?: boolean, params?: unknown): void {
+    private _notifySubscribers(propertyName: string, params?: unknown, isGlobal?: boolean): void {
         const state = Store._getState()[Store._getContextName(isGlobal)] || {};
 
         if (state['_' + propertyName]?.callbacks) {
             state['_' + propertyName].callbacks.forEach(
                 (callbackObject: IStateCallback) => {
                     // прикладной params может придти только с команды, поэтому посылаем его если есть.
-                    return callbackObject.callbackFn(params ? params : state[propertyName]);
+                    return callbackObject.callbackFn(params !== undefined ? params : state[propertyName]);
                 }
             );
         }
