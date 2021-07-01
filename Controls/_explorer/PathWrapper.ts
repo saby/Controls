@@ -1,6 +1,6 @@
 import {EventUtils} from 'UI/Events';
 import {Path} from 'Controls/_dataSource/calculatePath';
-import {IHeaderCell} from 'Controls/_interface/grid/IHeaderCell';
+import {IHeaderCell} from 'Controls/grid';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // tslint:disable-next-line:ban-ts-ignore

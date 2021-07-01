@@ -4,8 +4,7 @@ import {TemplateFunction} from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {TreeChildren} from 'Controls/display';
 import SearchGridCollection from './SearchGridCollection';
-import {GridDataRow, TColspanCallbackResult} from 'Controls/grid';
-import {IColumn} from 'Controls/interface';
+import {GridDataRow, TColspanCallbackResult, IColumn} from 'Controls/grid';
 import {IOptions as IBreadcrumbsItemCellOptions} from './BreadcrumbsItemCell';
 
 export interface IOptions<T extends Model> {

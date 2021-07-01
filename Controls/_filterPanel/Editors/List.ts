@@ -16,7 +16,7 @@ import {
     ISelectorDialogOptions
 } from 'Controls/interface';
 import {IList} from 'Controls/list';
-import {IColumn} from 'Controls/interface';
+import {IColumn} from 'Controls/grid';
 import {List, RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
