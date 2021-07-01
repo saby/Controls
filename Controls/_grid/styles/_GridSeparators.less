@@ -38,12 +38,27 @@
 
 .controls-Grid__rowSeparator_bottom_size-s {
    border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
-   min-height: calc(var(--cell_min-height_grid) + var(--item-separator_s_thickness_list));
 }
 
 .controls-Grid__rowSeparator_bottom_size-l {
    border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
-   min-height: calc(var(--cell_min-height_grid) + var(--item-separator_l_thickness_list));
+}
+
+.controls-Grid__row-cell_default_min_height {
+   &.controls-Grid__rowSeparator_bottom_size-s {
+      min-height: calc(var(--cell_min-height_grid) + var(--item-separator_s_thickness_list));
+   }
+
+   &.controls-Grid__rowSeparator_bottom_size-l {
+      min-height: calc(var(--cell_min-height_grid) + var(--item-separator_l_thickness_list));
+   }
+}
+
+.controls-Grid__row-cell_small_min_height {
+   &.controls-Grid__rowSeparator_bottom_size-l,
+   &.controls-Grid__rowSeparator_bottom_size-s {
+      min-height: var(--offset_2xl);
+   }
 }
 
 // В таблицах IE(table-layout) функцию min-height выполняет height
