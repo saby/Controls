@@ -62,9 +62,9 @@ describe('Controls/marker/Controller', () => {
          assert.isFalse(newModel.getItemBySourceKey(3).isMarked());
 
          assert.equal(newModel.getVersion(), 1);
-         assert.equal(newModel.getItemBySourceKey(1).getVersion(), 2);
+         assert.equal(newModel.getItemBySourceKey(1).getVersion(), 3);
          assert.equal(newModel.getItemBySourceKey(2).getVersion(), 0);
-         assert.equal(newModel.getItemBySourceKey(3).getVersion(), 1);
+         assert.equal(newModel.getItemBySourceKey(3).getVersion(), 2);
       });
 
       it('change markerVisibility to hidden', () => {
@@ -92,8 +92,8 @@ describe('Controls/marker/Controller', () => {
 
          assert.equal(model.getVersion(), 2);
 
-         assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 2);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 2);
          assert.isFalse(model.getItemBySourceKey(1).isMarked());
 
          controller.setMarkedKey(1);
@@ -104,9 +104,9 @@ describe('Controls/marker/Controller', () => {
 
          // Проверяем что версия изменилась один раз для маркера
          assert.equal(model.getVersion(), 3);
-         assert.equal(model.getItemBySourceKey(1).getVersion(), 2);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 3);
          assert.equal(model.getItemBySourceKey(2).getVersion(), 0);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 2);
       });
 
       it('another key', () => {
@@ -120,9 +120,9 @@ describe('Controls/marker/Controller', () => {
 
          // Проверяем что версия изменилась один раз
          assert.equal(model.getVersion(), 1);
-         assert.equal(model.getItemBySourceKey(1).getVersion(), 2);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 3);
          assert.equal(model.getItemBySourceKey(2).getVersion(), 0);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 2);
 
          controller.setMarkedKey(2);
          assert.isFalse(model.getItemBySourceKey(1).isMarked());
@@ -130,9 +130,9 @@ describe('Controls/marker/Controller', () => {
 
          // Проверяем что версия изменилась один раз
          assert.equal(model.getVersion(), 3);
-         assert.equal(model.getItemBySourceKey(1).getVersion(), 3);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 4);
          assert.equal(model.getItemBySourceKey(2).getVersion(), 1);
-         assert.equal(model.getItemBySourceKey(3).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 2);
       });
    });
 
