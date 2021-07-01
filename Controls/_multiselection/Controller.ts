@@ -326,7 +326,7 @@ export class Controller {
     * @return {ISelection|void}
     */
    onCollectionReset(entryPath: IEntryPathItem[]): ISelection|void {
-      if (this._filterChanged && this.isAllSelected()) {
+      if (this._filterChanged && this.isAllSelected(false)) {
          return { selected: [], excluded: [] };
       }
 
