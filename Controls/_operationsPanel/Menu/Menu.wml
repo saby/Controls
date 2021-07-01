@@ -23,6 +23,7 @@
     <ws:menuPopupOptions
         closeOnOutsideClick="{{false}}">
         <ws:templateOptions
+                closeButtonVisibility="{{true}}"
                 backgroundStyle="operationsPanel"/>
     </ws:menuPopupOptions>
 </Controls.dropdown:Button>
