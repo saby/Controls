@@ -852,7 +852,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    getFirstItem(): boolean {
+    isFirstItem(): boolean {
         return this._$isFirstItem;
     }
 
@@ -861,7 +861,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._nextVersion();
     }
 
-    getLastItem(): boolean {
+    isLastItem(): boolean {
         return this._$isLastItem;
     }
 
