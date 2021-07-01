@@ -19,7 +19,7 @@
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Menu/Control/ItemActions/MenuBackgroundStyle/Index' }}">
-            <a href="{{content.href}}">ItemActions, backgroundStyle = primary, hoverBackgroundStyle=danger</a>
+            <a href="{{content.href}}">ItemActions, backgroundStyle = primary, hoverBackgroundStyle = danger</a>
         </Router.router:Reference>
         <Controls-demo.Menu.Control.ItemActions.MenuBackgroundStyle.Index/>
     </div>
