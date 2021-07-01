@@ -1,5 +1,6 @@
 <ws:template name="menuRowTemplate">
-<div attr:class="controls-Menu__row
+<div attr:class="controls-menu_backgroundStyle-hover-{{_options.hoverBackgroundStyle}}
+                 controls-Menu__row
                  controls-ListView__itemV js-controls-ListView__measurableContainer
                  {{itemData.itemClassList}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}">

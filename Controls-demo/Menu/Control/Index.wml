@@ -77,7 +77,7 @@
                                   app="{{ 'Controls-demo/Menu/Control/ItemActions/Index' }}">
             <a href="{{content.href}}">ItemActions</a>
          </Router.router:Reference>
-         <Controls-demo.Menu.Control.GroupProperty.Index/>
+         <Controls-demo.Menu.Control.ItemActions.Index/>
    </div>
    <div class="controlsDemo__cell">
          <Router.router:Reference attr:class="controls-text-label"

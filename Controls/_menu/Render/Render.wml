@@ -4,6 +4,7 @@
                treeItem="{{itemTemplate.item}}"
                emptyText="{{_options.emptyText}}"
                nodeProperty="{{_options.nodeProperty}}"
+               hoverBackgroundStyle="{{_options.hoverBackgroundStyle}}"
                keyProperty="{{_options.keyProperty}}"
                displayProperty="{{_options.displayProperty}}"
                searchValue="{{_options.searchValue}}"
