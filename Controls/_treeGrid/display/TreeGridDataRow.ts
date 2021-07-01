@@ -21,6 +21,7 @@ export default class TreeGridDataRow<T extends Model = Model>
     readonly DisplaySearchValue: boolean = true;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
+    readonly EnumerableItem: boolean = true;
     readonly LadderSupport: boolean = true;
     readonly DraggableItem: boolean = true;
     protected _$searchValue: string;

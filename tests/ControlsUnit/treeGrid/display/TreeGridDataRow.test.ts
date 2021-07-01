@@ -31,11 +31,12 @@ describe('Controls/treeGrid/Display/TreeGridDataRow', () => {
                 hasChildrenProperty: 'hasChildren',
                 columns: [{width: '1px'}],
                 expandedItems: [null],
+                rowSeparatorSize: 's',
                 nodeFooterTemplate: () => ''
             });
             // Длина всех элементов в коллекции = 4 (Две ноды и к ним два футера)
             assert.equal(treeGridCollection.getItems().length, 4);
-            assert.isTrue(treeGridCollection.isLastItem(treeGridCollection.at(1) as TreeGridDataRow));
+            assert.isTrue(treeGridCollection.at(1).isBottomSeparatorEnabled());
         });
 
         it('should return the last item', () => {
@@ -61,11 +62,12 @@ describe('Controls/treeGrid/Display/TreeGridDataRow', () => {
                 parentProperty: 'parent',
                 nodeProperty: 'node',
                 columns: [{width: '1px'}],
-                expandedItems: [null]
+                expandedItems: [null],
+                rowSeparatorSize: 's'
             });
             // Длина всех элементов в коллекции = 4 (Две ноды и к ним два футера)
             assert.equal(treeGridCollection.getItems().length, 2);
-            assert.isTrue(treeGridCollection.isLastItem(treeGridCollection.at(1) as TreeGridDataRow));
+            assert.isTrue(treeGridCollection.at(1).isBottomSeparatorEnabled());
         });
     });
 

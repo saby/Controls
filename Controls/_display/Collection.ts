@@ -370,7 +370,7 @@ function onCollectionChange<T>(
             break;
     }
 
-    this._resetLastItem();
+    this._updateEdgeItemsSeparators();
     this._finishUpdateSession(session);
     this._nextVersion();
 }
@@ -693,7 +693,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$topPadding: string;
 
     protected _$bottomPadding: string;
-    
+
     protected _$roundBorder: TRoundBorder;
 
     protected _$emptyTemplate: TemplateFunction;
@@ -860,15 +860,19 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$isEditing: boolean = false;
 
+    protected _$newDesign: false;
+
     protected _userStrategies: Array<IUserStrategy<S, T>>;
 
     protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
     protected _isDragOutsideList: boolean = false;
-    protected _firstItem: EntityModel;
-    protected _lastItem: EntityModel;
 
     // Фон застиканных записей и лесенки
     protected _$backgroundStyle?: string;
+
+    private _firstItem: CollectionItem;
+
+    private _lastItem: CollectionItem;
 
     constructor(options: IOptions<S, T>) {
         super(options);
@@ -968,6 +972,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
 
         this._footer = this._initializeFooter(options);
+
+        this._updateEdgeItemsSeparators(true, true);
     }
 
     _initializeCollection(): void {
@@ -1311,11 +1317,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      */
     getFirst(): T {
         const enumerator = this._getUtilityEnumerator();
+        if (enumerator.getCount() === 0) {
+            return;
+        }
         enumerator.setPosition(0);
 
         const item = enumerator.getCurrent();
 
-        if (item['[Controls/_display/GroupItem]']) {
+        if (!(item as CollectionItem).EnumerableItem) {
             return this._getNearbyItem(
                 enumerator,
                 item,
@@ -1324,6 +1333,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             );
         }
 
+        enumerator.reset();
         return item;
     }
 
@@ -1333,6 +1343,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      */
     getLast(): T {
         const enumerator = this._getUtilityEnumerator();
+        if (enumerator.getCount() === 0) {
+            return;
+        }
         const lastIndex = enumerator.getCount() - 1;
 
         if (lastIndex === -1) {
@@ -1342,15 +1355,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         enumerator.setPosition(lastIndex);
         const item = enumerator.getCurrent();
 
-        if (item['[Controls/_display/GroupItem]']) {
+        if (!(item as CollectionItem).EnumerableItem) {
             return this._getNearbyItem(
                 enumerator,
-                undefined,
+                item,
                 false,
                 true
             );
         }
 
+        enumerator.reset();
         return item;
     }
 
@@ -2251,7 +2265,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this.removeStrategy(this._dragStrategy);
             this._reIndex();
             this._reFilter();
-            this._resetLastItem();
+            this._updateEdgeItemsSeparators();
         }
     }
 
@@ -2344,6 +2358,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setRowSeparatorSize(rowSeparatorSize: string): void {
         this._$rowSeparatorSize = rowSeparatorSize;
         this._nextVersion();
+        this._updateEdgeItemsSeparators(true, true);
         this._updateItemsProperty('setRowSeparatorSize', this._$rowSeparatorSize);
     }
 
@@ -2546,18 +2561,51 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    isLastItem(item: CollectionItem): boolean {
-        return this.getCount() - 1 === this.getIndex(item);
+    protected _updateEdgeItemsSeparators(force?: boolean, silent?: boolean): void {
+        const navigation = this.getNavigation();
+        const noMoreNavigation = !navigation || navigation.view !== 'infinity' || !this.hasMoreData();
+
+        const oldFirstItem = this._firstItem;
+        const firstItem = this.getFirst();
+        if (firstItem !== oldFirstItem || force) {
+            this._updateFirstItemSeparator(oldFirstItem, false, silent);
+            this._updateFirstItemSeparator(firstItem, true, silent);
+            this._firstItem = firstItem;
+        }
+
+        const oldLastItem = this._lastItem;
+        const lastItem = this.getLast();
+        if (lastItem !== oldLastItem || force) {
+            this._updateLastItemSeparator(oldLastItem, false, silent);
+            this._updateLastItemSeparator(lastItem, noMoreNavigation, silent);
+            this._lastItem = lastItem;
+        }
     }
 
-    protected _resetLastItem(): void {
-        this.each((item, index) => {
-            // Обновляем версию в том случае ,если у элемента сохранённое состояние lastItem
-            // или он реально последний в списке
-            if (item.isLastItem() || this.isLastItem(item)) {
-                item.resetIsLastItem();
+    private _updateLastItemSeparator(item: CollectionItem, state: boolean, silent?: boolean): void {
+        if (item) {
+            if (this._$rowSeparatorSize && this._$rowSeparatorSize !== 'null') {
+                item.setBottomSeparatorEnabled(state && this._isRowSeparatorsEnabled(), silent);
             }
-        });
+
+            // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+            item.setLastItem(state, silent);
+        }
+    }
+
+    private _updateFirstItemSeparator(item: CollectionItem, state: boolean, silent?: boolean): void {
+        if (item) {
+            if (this._$rowSeparatorSize && this._$rowSeparatorSize !== 'null') {
+                item.setTopSeparatorEnabled(state && this._isRowSeparatorsEnabled(), silent);
+            }
+
+            // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+            item.setFirstItem(state, silent);
+        }
+    }
+
+    protected _isRowSeparatorsEnabled(): boolean {
+        return !this._$newDesign || !!this.getFooter();
     }
 
     getHasMoreData(): IHasMoreData {
@@ -2567,7 +2615,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setHasMoreData(hasMoreData: IHasMoreData): void {
         if (!isEqual(this._$hasMoreData, hasMoreData)) {
             this._$hasMoreData = hasMoreData;
-            this._resetLastItem();
+            this._updateEdgeItemsSeparators();
             this._nextVersion();
         }
     }
@@ -2800,13 +2848,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             addIndex: options.index,
             groupMethod: this.getGroup()
         }, GroupItemsStrategy);
-        this._resetLastItem();
+        this._updateEdgeItemsSeparators();
     }
 
     resetAddingItem(): void {
         if (this.getStrategyInstance(AddStrategy)) {
             this.removeStrategy(AddStrategy);
-            this._resetLastItem();
+            this._updateEdgeItemsSeparators();
         }
     }
 
@@ -3280,6 +3328,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.markerPosition = this._$markerPosition;
             options.roundBorder = this._$roundBorder;
             options.hasMoreDataUp = this.hasMoreDataUp();
+            options.isTopSeparatorEnabled = true;
+            options.isBottomSeparatorEnabled = false;
+            options.isFirstItem = false;
+            options.isLastItem = false;
 
             return create(options.itemModule || this._itemModule, options);
         };
@@ -3385,14 +3437,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      * @param enumerator Энумератор элементов
      * @param item Элемент проекции относительно которого искать
      * @param isNext Следующий или предыдущий элемент
-     * @param [skipGroups=false] Пропускать группы
+     * @param [skipNonEnumerable=false] Пропускать элементы, которые не должны перечисляться (группы, сепараторы, футеры нод)
      * @protected
      */
     protected _getNearbyItem(
         enumerator: CollectionEnumerator<T>,
         item: T,
         isNext: boolean,
-        skipGroups?: boolean
+        skipNonEnumerable?: boolean
     ): T {
         const method = isNext ? 'moveNext' : 'movePrevious';
         let nearbyItem;
@@ -3400,12 +3452,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         enumerator.setCurrent(item);
         while (enumerator[method]()) {
             nearbyItem = enumerator.getCurrent();
-            if (skipGroups && nearbyItem['[Controls/_display/GroupItem]']) {
+            if (skipNonEnumerable && !nearbyItem.EnumerableItem) {
                 nearbyItem = undefined;
                 continue;
             }
             break;
         }
+        enumerator.reset();
 
         return nearbyItem;
     }
@@ -4054,6 +4107,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
         // тоже должны перерисоваться при изменении видимости чекбоксов
         this._updateItemsProperty('setMultiSelectVisibility', this._$multiSelectVisibility, 'setMultiSelectVisibility');
+        this._updateEdgeItemsSeparators();
     }
 
     protected _handleAfterCollectionItemChange(item: T, index: number, properties?: object): void {}
@@ -4138,5 +4192,6 @@ Object.assign(Collection.prototype, {
     _$emptyTemplateOptions: null,
     _$itemActionsPosition: 'inside',
     _$roundBorder: null,
+    _$newDesign: false,
     getIdProperty: Collection.prototype.getKeyProperty
 });

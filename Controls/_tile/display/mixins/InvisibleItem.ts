@@ -1,6 +1,7 @@
 export default abstract class InvisibleItem {
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly EnumerableItem: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
     readonly DisplaySearchValue: boolean = false;
