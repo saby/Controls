@@ -2,10 +2,14 @@ export default abstract class GroupCell<T> {
     readonly '[Controls/_display/grid/mixins/GroupCell]': boolean;
 
     getContentTextClasses(separatorVisibility: boolean,
-                          textAlign: 'right' | 'left'): string {
-        let classes = 'controls-ListView__groupContent-text ' +
-            'controls-ListView__groupContent-text_default';
-
+                          textAlign: 'right' | 'left',
+                          fontSize: string): string {
+        let classes = 'controls-ListView__groupContent-text';
+        if (fontSize) {
+            classes = ` controls-fontsize-${fontSize}`;
+        } else {
+            classes = ' controls-ListView__groupContent-text_default';
+        }
         classes += ` controls-ListView__groupContent_${textAlign || 'center'}`;
 
         if (separatorVisibility === false) {
