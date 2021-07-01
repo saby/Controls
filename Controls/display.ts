@@ -86,6 +86,8 @@ export {default as IGroupNode} from './_display/interface/IGroupNode';
 import {default as CollectionItem} from 'Controls/_display/CollectionItem';
 import BreadcrumbsItem from './_display/BreadcrumbsItem';
 export {BreadcrumbsItem};
+import SearchSeparator from './_display/SearchSeparator';
+export {SearchSeparator};
 
 export {ANIMATION_STATE, IItemPadding, TRoundBorder} from './_display/interface/ICollection';
 export {IEditableCollection} from './_display/interface/IEditableCollection';

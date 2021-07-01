@@ -12,7 +12,7 @@
                 controls-PeriodDialog_stateButton_icon {{ keyboardActive? 'controls-PeriodDialog_stateButton_icon_focus'}}">
             </span>
     </div>
-    <ws:if data="{{ selectionType === 'quantum' }}">
+    <ws:if data="{{ selectionType === 'quantum' || selectionType === 'workdays'}}">
         <div class="controls-PeriodDialog__header-period_link">
             <Controls.dateRange:LinkView
                     startValue="{{headerRangeModel.startValue}}"

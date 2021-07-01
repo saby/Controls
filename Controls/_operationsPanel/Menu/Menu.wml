@@ -9,8 +9,11 @@
         fontSize="m"
         buttonStyle="{{_options.buttonStyle}}"
         closeMenuOnOutsideClick="{{false}}"
+        reloadOnOpen="{{true}}"
+        on:dropDownClose="_close()"
         dropdownClassName="controls-OperationsPanel__menu_popup"
         inlineHeight="{{_options.inlineHeight}}"
+        on:menuItemActivate="_menuItemClick()"
         lazyItemsLoading="{{true}}"
         caption=""
         icon="icon-SettingsNew">

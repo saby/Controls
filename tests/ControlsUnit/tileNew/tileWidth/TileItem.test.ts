@@ -21,7 +21,7 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
                 assert.equal(item.getTileWidth(), 160);
 
                 item = new TileCollectionItem({tileWidth: 200, contents, tileWidthProperty: 'width', tileSize: 's'});
-                assert.equal(item.getTileWidth(undefined, 'left', 'ellipsis'), 300);
+                assert.equal(item.getTileWidth(undefined, 'left', 'ellipsis'), 320);
             });
         });
 

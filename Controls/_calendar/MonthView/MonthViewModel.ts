@@ -22,9 +22,12 @@ export default class MonthViewModel extends VersionableMixin {
         // Нет необходимости каждый раз обовлять стили месяца при наведении,
         // если хавер работает только по одной ячейке дня, а не по нескольким.
         const isQuantumSelection = cfg.selectionType === 'quantum' && cfg.ranges;
+        let isSingleDayQuantum;
         if (isQuantumSelection) {
-            const isSingleDayQuantum = 'days' in cfg.ranges && cfg.ranges.days.indexOf(1) !== -1;
-            this._singleDayHover = isSingleDayQuantum;
+            isSingleDayQuantum = 'days' in cfg.ranges && cfg.ranges.days.indexOf(1) !== -1;
+        }
+        if (cfg.selectionType === 'workdays' || isQuantumSelection && !isSingleDayQuantum) {
+            this._singleDayHover = false;
         }
 
         this._state = this._normalizeState(cfg);
