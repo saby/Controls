@@ -10,7 +10,8 @@ const selectionTypes = {
     range: 'range',
     single: 'single',
     quantum: 'quantum',
-    disable: 'disable'
+    disable: 'disable',
+    workdays: 'workdays'
 };
 
 export default {
@@ -25,11 +26,13 @@ export default {
              * @variant range Выделение произвольного диапазона.
              * @variant single Выделение одного элемента.
              * @variant disable Выбора диапазона отключен.
+             * @variant workdays Выбор рабочей недели
              */
             /**
              * @name Controls/_dateRange/interfaces/IRangeSelectable#selectionType
              * @cfg {SelectionType} Определяет режим выделения диапазона.
              * @default range
+             * @demo Controls-demo/dateRange/RangeSelector/SelectionType/Workday/Index
              */
             selectionType: 'range'
         };

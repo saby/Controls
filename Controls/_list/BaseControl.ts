@@ -862,6 +862,7 @@ const _private = {
                     _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
                     // После подгрузки элементов, не нужно скроллить
                     self._needScrollToFirstItem = false;
+                    self._hideTopTrigger = false;
                 } else if (direction === 'down') {
                     _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
                 }
@@ -6142,6 +6143,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (this._mouseDownItemKey === key) {
+            if (domEvent.nativeEvent.button === 1) {
+                const url = itemData.item.get('url');
+                if (url) {
+                    window.open(url);
+                }
+            }
+
             // TODO избавиться по задаче https://online.sbis.ru/opendoc.html?guid=7f63bbd1-3cb9-411b-81d7-b578d27bf289
             // Ключ перетаскиваемой записи мы запоминаем на mouseDown, но днд начнется только после смещения на 4px и не факт, что он вообще начнется
             // Если сработал mouseUp, то днд точно не сработает и draggedKey нам уже не нужен
@@ -6344,7 +6352,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.addShowActionsClass(this);
         }
 
-        // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
         if (this._dndListController && this._dndListController.isDragging()) {
             this._draggingItemMouseMove(itemData, nativeEvent);
         }
@@ -6800,7 +6807,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getLoadingIndicatorClasses(state?: string): string {
         const hasItems = !!this._items && !!this._items.getCount();
-        const indicatorState = state ? state : 'all';
+        let indicatorState = state ? state : 'all';
+        if (!state && this._portionedSearchInProgress) {
+            indicatorState = this._loadingIndicatorState;
+        }
         return _private.getLoadingIndicatorClasses({
             hasItems,
             hasPaging: !!this._pagingVisible,
@@ -6816,7 +6826,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _getLoadingIndicatorStyles(state?: string): string {
         let styles = '';
 
-        const indicatorState = state ? state : 'all';
+        let indicatorState = state ? state : 'all';
+        if (!state && this._portionedSearchInProgress) {
+            indicatorState = this._loadingIndicatorState;
+        }
         switch (indicatorState) {
             case 'all':
                 if (this._loadingIndicatorContainerHeight) {

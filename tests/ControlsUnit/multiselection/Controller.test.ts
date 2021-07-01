@@ -369,6 +369,21 @@ describe('Controls/_multiselection/Controller', () => {
          const result = controller.onCollectionReset();
          assert.deepEqual(result, {selected: [], excluded: []});
       });
+
+      it('not clear selection if selected all by every item and filter changed', () => {
+         controller.setSelection({selected: [1, 2, 3], excluded: []});
+         controller.updateOptions({
+            model,
+            strategy,
+            filter: {searchValue: 'a'},
+            strategyOptions: {
+               model
+            }
+         });
+         const result = controller.onCollectionReset();
+         // метод ничего не вернул => selection не пересчитался
+         assert.isUndefined(result);
+      });
    });
 
    describe ('getCountOfSelected', () => {

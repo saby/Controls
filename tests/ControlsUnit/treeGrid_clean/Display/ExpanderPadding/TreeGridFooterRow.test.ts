@@ -4,7 +4,7 @@ import TreeGridFooterRow from 'Controls/_treeGrid/display/TreeGridFooterRow';
 
 const columns = [ { displayProperty: 'col1' }, { displayProperty: 'col2' }, { displayProperty: 'col3' } ];
 const mockedOwner = {
-    getColumnsConfig: () => columns,
+    getGridColumnsConfig: () => columns,
     getStickyColumnsCount: () => 0,
     hasMultiSelectColumn: () => false,
     hasItemActionsSeparatedCell: () => true,
@@ -17,9 +17,9 @@ describe('Controls/treeGrid_clean/Display/ExpanderPadding/TreeGridFooterRow', ()
     it('setDisplayExpanderPadding', () => {
         const footerRow = new TreeGridFooterRow({
             displayExpanderPadding: false,
-            columns,
+            gridColumnsConfig: columns,
             owner: mockedOwner,
-            footer: [
+            columnsConfig: [
                 { startColumn: 1, endColumn: 3 },
                 { startColumn: 3, endColumn: 4 },
                 { startColumn: 4, endColumn: 7 }
@@ -37,9 +37,9 @@ describe('Controls/treeGrid_clean/Display/ExpanderPadding/TreeGridFooterRow', ()
     it('setDisplayExpanderPadding when not created columns', () => {
         const footerRow = new TreeGridFooterRow({
             displayExpanderPadding: false,
-            columns,
+            gridColumnsConfig: columns,
             owner: mockedOwner,
-            footer: [
+            columnsConfig: [
                 { startColumn: 1, endColumn: 3 },
                 { startColumn: 3, endColumn: 4 },
                 { startColumn: 4, endColumn: 7 }

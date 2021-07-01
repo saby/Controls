@@ -10,7 +10,7 @@ describe('Controls/grid_clean/Display/StickyHeader/GroupCell/getZIndex', () => {
         const gridGroupCell = new GridGroupCell({
             owner: {
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => [column],
+                getGridColumnsConfig: () => [column],
                 getColumnIndex: () => 0,
                 isStickyHeader: () => true,
                 getMultiSelectVisibility: () => 'hidden',

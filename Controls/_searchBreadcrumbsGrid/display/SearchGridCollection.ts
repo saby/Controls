@@ -128,9 +128,8 @@ export default
       const composer = super._createComposer();
 
       composer.append(itemsStrategy.Search, {
+         display: this,
          dedicatedItemProperty: this._$dedicatedItemProperty,
-         searchSeparatorModule: 'Controls/searchBreadcrumbsGrid:SearchSeparatorRow',
-         breadcrumbsItemModule: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemRow',
          treeItemDecoratorModule: 'Controls/searchBreadcrumbsGrid:TreeGridItemDecorator'
       });
 

@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo-RageLink__componentWrap controlsDemo-RangeLink_capture">
+        <Controls.dateRange:DateRangeContextProvider attr:class="controlsDemo__flex controlsDemo-DateRangeContextProvider_default">
+            <div>
+                <Controls.dateRange:ArrowButtonConsumer direction="left"/>
+                <Controls.dateRange:RangeSelectorConsumer
+                        bind:startValue="_startValue"
+                        bind:endValue="_endValue"
+                        selectionType="workdays"
+                />
+                <Controls.dateRange:ArrowButtonConsumer direction="right"/>
+            </div>
+        </Controls.dateRange:DateRangeContextProvider>
+    </div>
+</div>
