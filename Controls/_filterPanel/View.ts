@@ -6,10 +6,15 @@ import {GroupItem} from 'Controls/display';
 import {IFilterItem} from 'Controls/filter';
 import {IItemPadding} from 'Controls/display';
 import {Model} from 'Types/entity';
-import ApplyButton from 'Controls/_filterPanel/View/ApplyButton';
 import 'css!Controls/filterPanel';
 import {default as ViewModel} from './View/ViewModel';
 import {StickyOpener} from 'Controls/popup';
+import find = require('Core/helpers/Object/find');
+import chain = require('Types/chain');
+import Utils = require('Types/util');
+import {HistoryUtils} from 'Controls/filter';
+import {factory, List, RecordSet} from 'Types/collection';
+import {isEqual} from 'Types/object';
 
 /**
  * Контрол "Панель фильтра с набираемыми параметрами".
@@ -49,6 +54,8 @@ interface IViewPanelOptions {
     viewMode: string;
 }
 
+const getPropValue = Utils.object.getPropertyValue.bind(Utils);
+
 export default class View extends Control<IViewPanelOptions> {
     protected _template: TemplateFunction = template;
     protected _itemPadding: IItemPadding = {
@@ -56,22 +63,54 @@ export default class View extends Control<IViewPanelOptions> {
     };
     protected _viewModel: ViewModel = null;
     protected _applyButtonSticky: StickyOpener;
+    protected _historyItems: RecordSet | List<IFilterItem[]>;
 
-    protected _beforeMount(options: IViewPanelOptions): void {
+    protected _beforeMount(options: IViewPanelOptions): Promise<RecordSet | List<IFilterItem[]>> {
         this._applyButtonSticky = new StickyOpener();
         this._viewModel = new ViewModel({
             source: options.source,
             collapsedGroups: options.collapsedGroups,
             applyButtonSticky: options.viewMode === 'default' && this._applyButtonSticky
         });
+        return this._loadHistoryItems(options.historyId);
     }
 
-    protected _beforeUpdate(options: IViewPanelOptions): void {
+    protected _beforeUpdate(options: IViewPanelOptions): void | Promise<RecordSet | List<IFilterItem[]>> {
         this._viewModel.update({
             source: options.source,
             collapsedGroups: options.collapsedGroups,
             applyButtonSticky: options.viewMode === 'default' && this._applyButtonSticky
         });
+        if (options.historyId !== this._options.historyId) {
+            return this._loadHistoryItems(options.historyId);
+        }
+    }
+
+    protected _onPinClick(event: Event, item: Model): void {
+        const historySource = this._getHistorySource();
+        historySource.update(item, {
+            $_pinned: !item.get('pinned')
+        });
+        this._historyItems = this._filterHistoryItems(historySource.getItems());
+    }
+
+    protected _handleHistoryItemClick(event: SyntheticEvent, filter: IFilterItem): void {
+        const historyObject = this._getHistoryObject(filter);
+        chain.factory(historyObject).each((elem) => {
+            const name = getPropValue(elem, 'name');
+            const textValue = getPropValue(elem, 'textValue');
+            const value = getPropValue(elem, 'value');
+            const needCollapse = getPropValue(elem, 'needCollapse');
+            const editorValue = {
+                value,
+                textValue,
+                needCollapse
+            };
+            this._viewModel.setEditingObjectValue(name, editorValue);
+        });
+        if (this._options.viewMode === 'default') {
+            this._notifyChanges();
+        }
     }
 
     protected _resetFilter(): void {
@@ -119,6 +158,81 @@ export default class View extends Control<IViewPanelOptions> {
         }], {bubbling: true});
         this._notify('filterChanged', [this._viewModel.getEditingObject()]);
         this._notify('sourceChanged', [this._viewModel.getSource()]);
+    }
+
+    private _getHistorySource(): Model {
+        return HistoryUtils.getHistorySource({ historyId: this._options.historyId });
+    }
+
+    private _getHistoryObject(filterItem: IFilterItem): object {
+        return this._getHistorySource().getDataObject(filterItem);
+    }
+
+    private _getItemText(filterItem: IFilterItem): string {
+        const historyObject = this._getHistoryObject(filterItem);
+        const textArr = [];
+        chain.factory(historyObject).each((elem) => {
+            const sourceItem = this._viewModel.getSourceItemByName(getPropValue(elem, 'name'));
+            const value = getPropValue(elem, 'value');
+            const textValue = getPropValue(elem, 'textValue');
+            const visibility = getPropValue(elem, 'visibility');
+
+            if (!isEqual(value, getPropValue(sourceItem, 'textValue')) && (visibility === undefined || visibility) && textValue) {
+                textArr.push(textValue);
+            }
+        });
+        return textArr.join(', ');
+    }
+
+    private _loadHistoryItems(historyId: string) {
+        if (historyId) {
+            const config = {
+                historyId,
+                recent: 'MAX_HISTORY'
+            };
+            return HistoryUtils.loadHistoryItems(config).then(
+                (items) => {
+                    this._historyItems = this._filterHistoryItems(items);
+                    return this._historyItems;
+                }, () => {
+                    this._historyItems = new List({ items: [] });
+                });
+        }
+    }
+
+    private _filterHistoryItems(items: RecordSet): RecordSet {
+        let result;
+        if (items) {
+            result = chain.factory(items).filter((item) => {
+                let validResult = false;
+
+                const objectData = JSON.parse(item.get('ObjectData'));
+                if (objectData) {
+                    const history = objectData.items || objectData;
+
+                    for (let i = 0, length = history.length; i < length; i++) {
+                        const textValue = getPropValue(history[i], 'textValue');
+                        const value = getPropValue(history[i], 'value');
+
+                        // 0 and false is valid
+                        if (textValue !== '' && textValue !== undefined && textValue !== null) {
+                            const originalItem = this._viewModel.getSourceItemByName(getPropValue(history[i], 'name'));
+                            const hasResetValue = originalItem && originalItem.hasOwnProperty('resetValue');
+
+                            if (!hasResetValue || hasResetValue && !isEqual(value, getPropValue(originalItem, 'resetValue'))) {
+                                validResult = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                return validResult;
+            }).value(factory.recordSet, {adapter: items.getAdapter()});
+        } else {
+            result = items;
+        }
+
+        return result;
     }
 }
 

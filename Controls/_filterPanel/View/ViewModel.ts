@@ -99,6 +99,9 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         if (editorValue?.textValue !== undefined) {
             item.textValue = editorValue.textValue;
         }
+        if (editorValue?.needCollapse !== undefined) {
+            item.needCollapse = editorValue.needCollapse;
+        }
     }
 
     private _resetSourceViewMode(): void {
@@ -159,6 +162,9 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
             item.viewMode = 'basic';
         }
         this._setValueToSourceItem(item, editorValue);
+        if (item.needCollapse) {
+            this.collapseGroup(item.group);
+        }
         this._source = this._getSource(source);
         this._nextVersion();
     }
@@ -220,5 +226,11 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     handleGroupClick(group: string): void {
         this._expandGroup(group);
+    }
+
+    getSourceItemByName(name: string): IFilterItem {
+        return this._source.find((item) => {
+            return item.name === name;
+        });
     }
 }
