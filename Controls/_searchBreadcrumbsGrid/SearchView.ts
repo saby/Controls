@@ -14,8 +14,8 @@ export default class SearchView extends TreeGridView {
    _beforeMount(options: any): Promise<void> {
       this._onBreadcrumbItemClick = this._onBreadcrumbItemClick.bind(this);
       const superMountResult = super._beforeMount(options);
-      if (options._initBreadCrumbsMode === 'cell') {
-          this._listModel.setColspanBreadcrumbs(false);
+      if (options.breadCrumbsMode === 'cell' || options._initBreadCrumbsMode === 'cell') {
+         this._listModel.setColspanBreadcrumbs(false);
       }
       return superMountResult;
    }
