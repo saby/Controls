@@ -109,13 +109,13 @@ describe('Controls/grid_clean/GridView', () => {
             };
         });
 
-        it('should contain class for item actions padding when everything fine', async () => {
+        xit('should contain class for item actions padding when everything fine', async () => {
             const grid = await getGridView();
             const classes = grid._getGridViewClasses(options);
             assert.include(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
         });
 
-        it('should contain class for item actions padding when results exists and position = \'top\'', async () => {
+        xit('should contain class for item actions padding when results exists and position = \'top\'', async () => {
             resultsPosition = 'top';
             fakeResults = {};
             const grid = await getGridView();
