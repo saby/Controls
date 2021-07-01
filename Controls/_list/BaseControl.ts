@@ -738,17 +738,19 @@ const _private = {
                     (hasMoreData || expanded && items && items.getCount() > (navigation.sourceConfig.pageSize));
     },
 
-    prepareFooter(self, options, sourceController: SourceController): void {
-        let
-            loadedDataCount, allDataCount;
-
+    prepareFooter(self: BaseControl, options: IBaseControlOptions, sourceController: SourceController): void {
+        // Если подгрузка данных осуществляется кликом по кнопке "Еще..." и есть что загружать, то рисуем эту кнопку
+        // всегда кроме случая когда задана группировка и все группы свернуты
         if (_private.isDemandNavigation(self._navigation) && self._hasMoreData(sourceController, 'down')) {
-            self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
+            self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ?
+                !self._listViewModel.isAllGroupsCollapsed()
+                : true;
         } else if (
             _private.shouldDrawCut(options.navigation,
                                    self._items,
                                    self._hasMoreData(sourceController, 'down'),
-                                   self._expanded)) {
+                                   self._expanded)
+        ) {
             self._shouldDrawCut = true;
         } else {
             self._shouldDrawFooter = false;
@@ -756,6 +758,8 @@ const _private = {
         }
 
         if (self._shouldDrawFooter) {
+            let loadedDataCount = 0;
+
             if (self._listViewModel) {
                 // Единственный способ однозначно понять, что выводится дерево - проверить что список строится
                 // по проекци для дерева.
@@ -764,11 +768,9 @@ const _private = {
                 loadedDataCount = display && display['[Controls/_display/Tree]'] ?
                     display.getChildren(display.getRoot()).getCount() :
                     self._items.getCount();
-            } else {
-                loadedDataCount = 0;
             }
 
-            allDataCount = _private.getAllDataCount(self);
+            const allDataCount = _private.getAllDataCount(self);
             if (typeof loadedDataCount === 'number' && typeof allDataCount === 'number') {
                 self._loadMoreCaption = allDataCount - loadedDataCount;
                 if (self._loadMoreCaption === 0) {
@@ -778,6 +780,8 @@ const _private = {
                 self._loadMoreCaption = '...';
             }
         }
+
+        self._onFooterPrepared(options);
     },
 
     loadToDirection(self, direction, receivedFilter) {
@@ -2296,16 +2300,20 @@ const _private = {
         }
     },
 
-    needBottomPadding(options, listViewModel) {
-        const isEditing = !!listViewModel?.isEditing();
+    needBottomPadding(self: BaseControl, options: IBaseControlOptions): boolean {
+        const listViewModel = self._listViewModel;
 
+        const isEditing = !!listViewModel?.isEditing();
         const hasVisibleItems = !!listViewModel?.getCount();
+        const footer = listViewModel?.getFooter();
+        const results = typeof listViewModel?.getResults === 'function' ? listViewModel.getResults() : false;
 
         return (
             (hasVisibleItems || isEditing) &&
             options.itemActionsPosition === 'outside' &&
-            !options.footerTemplate &&
-            options.resultsPosition !== 'bottom'
+            !footer &&
+            (!results || listViewModel?.getResultsPosition() !== 'bottom') &&
+            !self._shouldDrawFooter
         );
     },
 
@@ -3738,7 +3746,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.setHasMoreData(self._listViewModel, _private.getHasMoreData(self), true);
 
             self._items = self._listViewModel.getCollection();
-            self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
+            self._needBottomPadding = _private.needBottomPadding(self, newOptions);
             if (self._pagingNavigation) {
                 const hasMoreData = self._items.getMetaData().more;
                 _private.updatePagingData(self, hasMoreData, newOptions);
@@ -4339,7 +4347,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.createScrollController(this, newOptions);
         }
 
-        this._needBottomPadding = _private.needBottomPadding(newOptions, this._listViewModel);
+        this._needBottomPadding = _private.needBottomPadding(this, newOptions);
 
         const shouldProcessMarker = newOptions.markerVisibility === 'visible'
             || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined || this._modelRecreated;
@@ -7181,6 +7189,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         return `controls__BaseControl__footer ${paddingClassName}`;
+    }
+
+    /**
+     * Ф-ия вызывается после того как были обновлены значения флагов, идентифицирующих
+     * нужно или нет показывать кнопку "Еще..." или "•••" (cut)
+     */
+    _onFooterPrepared(options: IBaseControlOptions): void {
+        // После обновления данных футера нужно обновить _needBottomPadding,
+        // который прокидывается во view
+        this._needBottomPadding = _private.needBottomPadding(this, options);
     }
 
     _onToggleHorizontalScroll(e, visibility: boolean): void {
