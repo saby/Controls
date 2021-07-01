@@ -48,7 +48,7 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
 
         if (colspan !== false) {
             let start = 1;
-            let end = this.getOwner().getColumnsConfig().length + 1;
+            let end = this.getOwner().getGridColumnsConfig().length + 1;
 
             if (this.getOwner().hasMultiSelectColumn()) {
                 start += 1;

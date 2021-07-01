@@ -10,7 +10,7 @@ describe('Controls/grid_clean/Display/Ladder/HeaderCell/getWrapperClasses', () =
         const gridHeaderCell = new GridHeaderCell({
             owner: {
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => [column],
+                getGridColumnsConfig: () => [column],
                 getHeaderConfig: () => [headerColumn],
                 getColumnIndex: () => 0,
                 isMultiline: () => false,

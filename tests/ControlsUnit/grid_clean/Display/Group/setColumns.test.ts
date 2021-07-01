@@ -41,7 +41,7 @@ describe('Controls/grid_clean/Display/Group/setColumns', () => {
         ];
         gridCollection.setColumns(newColumns);
         gridCollection.each((item) => {
-            assert.equal(item.getColumnsConfig(), newColumns);
+            assert.equal(item.getGridColumnsConfig(), newColumns);
         });
     });
 });

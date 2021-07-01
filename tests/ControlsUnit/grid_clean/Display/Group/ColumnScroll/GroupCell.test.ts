@@ -6,8 +6,10 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
     let getStickyColumnsCount: number;
     let hasColumnsScroll: boolean;
 
+    const gridColumnsConfig = [{}, {}, {}, {}, {}];
+
     const mockedCollection: GridCollection<any> = {
-        getColumnsConfig: () => [{}, {}, {}, {}, {}],
+        getGridColumnsConfig: () => gridColumnsConfig,
         getStickyColumnsCount: () => getStickyColumnsCount,
         isFullGridSupport: () => true,
         hasMultiSelectColumn: () => false,
@@ -37,7 +39,8 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
     it('split group on two parts for column scroll: fixed and scrollable', () => {
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig(),
+            columnsConfig: gridColumnsConfig,
+            gridColumnsConfig: gridColumnsConfig,
             colspanGroup: false
         });
 
@@ -56,7 +59,8 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
     it('has correct getColspanStyles for columns when no column', () => {
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig(),
+            columnsConfig: gridColumnsConfig,
+            gridColumnsConfig: gridColumnsConfig,
             colspanGroup: false
         });
 
@@ -72,7 +76,8 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
         hasColumnsScroll = false;
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig()
+            columnsConfig: gridColumnsConfig,
+            gridColumnsConfig: gridColumnsConfig,
         });
 
         const columns = groupRow.getColumns();
@@ -84,7 +89,8 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
     it('getContentClasses should not return classes for padding between columns', () => {
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig(),
+            columnsConfig: gridColumnsConfig,
+            gridColumnsConfig: gridColumnsConfig,
             colspanGroup: false
         });
 
@@ -101,7 +107,8 @@ describe('Controls/grid_clean/Display/Group/ColumnScroll/GroupCell', () => {
     it ('setColspanGroup', () => {
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig(),
+            columnsConfig: gridColumnsConfig,
+            gridColumnsConfig: gridColumnsConfig,
             colspanGroup: true
         });
 

@@ -6,7 +6,7 @@ import Row, {IOptions as IRowOptions} from './Row';
 import DataCell, { IOptions as IGridDataCellOptions } from './DataCell';
 import ILadderSupport from './interface/ILadderSupport';
 import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDisplaySearchValue';
-import { IColumn } from './interface/IColumn';
+import { IColumn, TColumns } from './interface/IColumn';
 import { Model } from 'Types/entity';
 
 export interface IOptions<T> extends IRowOptions<T>, IDisplaySearchValueOptions {
@@ -38,6 +38,10 @@ export default class DataRow<T extends Model> extends Row<T> implements
     getTemplate(itemTemplateProperty: string, userTemplate: TemplateFunction|string): TemplateFunction|string {
         const templateFromProperty = itemTemplateProperty ? this.getContents().get(itemTemplateProperty) : '';
         return templateFromProperty || userTemplate || this.getDefaultTemplate();
+    }
+
+    setGridColumnsConfig(columns: TColumns): void {
+        this.setColumnsConfig(columns);
     }
 
     protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<IGridDataCellOptions<T>> {

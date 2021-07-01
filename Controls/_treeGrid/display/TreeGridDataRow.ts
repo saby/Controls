@@ -1,6 +1,6 @@
 import { mixin } from 'Types/util';
 import { ITreeItemOptions, TreeItem, IItemPadding, TMarkerClassName, IGroupNode } from 'Controls/display';
-import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions} from 'Controls/grid';
+import {IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions, TColumns} from 'Controls/grid';
 import TreeGridCollection from './TreeGridCollection';
 import { IColumn, IInitializeColumnsOptions } from 'Controls/grid';
 import { Model } from 'Types/entity';
@@ -29,6 +29,10 @@ export default class TreeGridDataRow<T extends Model = Model>
     constructor(options: IOptions<T>) {
         super(options);
         GridRowMixin.call(this, options);
+    }
+
+    setGridColumnsConfig(columns: TColumns): void {
+        this.setColumnsConfig(columns);
     }
 
     // region Expander

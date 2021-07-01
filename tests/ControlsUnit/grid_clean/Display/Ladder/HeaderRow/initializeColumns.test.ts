@@ -9,7 +9,7 @@ describe('Controls/grid_clean/Display/Ladder/HeaderRow/initializeColumns', () =>
         const mockedHeaderOwner = {
             getStickyColumnsCount: () => 0,
             hasMultiSelectColumn: () => false,
-            getColumnsConfig: () => columns,
+            getGridColumnsConfig: () => columns,
             getHeaderConfig: () => header,
             hasItemActionsSeparatedCell: () => false,
             getLeftPadding: () => 's',
@@ -27,9 +27,9 @@ describe('Controls/grid_clean/Display/Ladder/HeaderRow/initializeColumns', () =>
         it('single sticky property', () => {
             columns = [{stickyProperty: ['first']}, {}, {}];
             const headerRow = new GridHeaderRow({
-                header,
+                columnsConfig: header,
                 headerModel: mockedHeaderModel,
-                columns,
+                gridColumnsConfig: columns,
                 owner: mockedHeaderOwner
             });
             assert.equal(headerRow.getColumns()[0].shadowVisibility, 'hidden');
@@ -37,9 +37,9 @@ describe('Controls/grid_clean/Display/Ladder/HeaderRow/initializeColumns', () =>
         it('two sticky properties', () => {
             columns = [{stickyProperty: ['first', 'second']}, {}, {}];
             const headerRow = new GridHeaderRow({
-                header,
+                columnsConfig: header,
                 headerModel: mockedHeaderModel,
-                columns,
+                gridColumnsConfig: columns,
                 owner: mockedHeaderOwner
             });
             assert.equal(headerRow.getColumns()[0].shadowVisibility, 'hidden');

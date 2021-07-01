@@ -48,7 +48,7 @@ export default class GroupRow<T> extends mixin<
     protected _$colspanGroup: boolean;
 
     constructor(options?: IOptions<T>) {
-        super({...options, columns: options.owner.getColumnsConfig()});
+        super(options);
         ExpandableMixin.call(this);
     }
 
@@ -153,9 +153,9 @@ export default class GroupRow<T> extends mixin<
         // TODO: Перевезти на базовый механизм, аналогично подвалу, результатам и пустому представлению.
         //  Все методы уже есть для этого
 
-        if (this._$columns) {
+        if (this._$columnsConfig) {
             this._$columnItems = this._prepareColumnItems(
-                this._$columns,
+                this._$columnsConfig,
                 this.getColumnsFactory(),
                 true,
                 true,
@@ -178,7 +178,7 @@ export default class GroupRow<T> extends mixin<
     protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<IGroupCellOptions<T>> {
         return {
             ...super._getColumnFactoryParams(column, columnIndex),
-            columnsLength: this._$columns.length,
+            columnsLength: this._$columnsConfig.length,
             column: {},
             contents: this.getContents(),
 			zIndex: this.getStickyHeaderZIndex(),
@@ -196,6 +196,5 @@ Object.assign(GroupRow.prototype, {
     _cellModule: 'Controls/grid:GridGroupCell',
     _instancePrefix: 'grid-group-item-',
     _$colspanGroup: true,
-    _$columns: null,
     _$metaResults: null
 });

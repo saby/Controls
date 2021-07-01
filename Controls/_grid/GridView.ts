@@ -181,7 +181,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
     _getGridTemplateColumns(options): string {
         // todo Вынести расчёт на viewModel: https://online.sbis.ru/opendoc.html?guid=09307163-7edb-4423-999d-525271e05586
         // тогда метод можно покрыть нормально юнитом и проблемы с актуализацией колонок на самом grid-элементе не будет
-        const columns = this._listModel ? this._listModel.getColumnsConfig() : options.columns;
+        const columns = this._listModel ? this._listModel.getGridColumnsConfig() : options.columns;
         const hasMultiSelect = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
 
         if (!options.columns) {
