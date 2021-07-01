@@ -7,7 +7,6 @@ import {IFilterItem} from 'Controls/filter';
 import {Model} from 'Types/entity';
 import {default as ViewModel} from './View/ViewModel';
 import {StickyOpener} from 'Controls/popup';
-import {List, RecordSet} from 'Types/collection';
 import 'css!Controls/filterPanel';
 
 /**
@@ -55,7 +54,6 @@ export default class View extends Control<IViewPanelOptions> {
     };
     protected _viewModel: ViewModel = null;
     protected _applyButtonSticky: StickyOpener;
-    protected _historyItems: RecordSet | List<IFilterItem[]>;
 
     protected _beforeMount(options: IViewPanelOptions): void {
         this._applyButtonSticky = new StickyOpener();
