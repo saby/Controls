@@ -1,4 +1,4 @@
-import { assert } from 'chai';
+\import { assert } from 'chai';
 
 import { Model } from 'Types/entity';
 import { IColumn } from 'Controls/grid';
@@ -87,30 +87,40 @@ describe('Controls/grid/Display/Group/GridMixin', () => {
 
     describe('getContentTextClasses', () => {
         it('should contain placeholder class when no separator and textAlign === right', () => {
-            const classes = getGroupCell().getContentTextClasses(false, 'right');
+            const classes = getGroupCell().getContentTextClasses(false, 'right', 's');
             CssClassesAssert.include(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
         });
 
         it('should contain placeholder class when no separator', () => {
-            const classes = getGroupCell().getContentTextClasses(false, 'left');
+            const classes = getGroupCell().getContentTextClasses(false, 'left', 's');
             CssClassesAssert.include(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
         });
 
         it('should contain align class', () => {
             let classes: string;
-            classes = getGroupCell().getContentTextClasses(false, 'left');
+            classes = getGroupCell().getContentTextClasses(false, 'left', 's');
             CssClassesAssert.include(classes, ['controls-ListView__groupContent_left']);
 
-            classes = getGroupCell().getContentTextClasses(false, 'right');
+            classes = getGroupCell().getContentTextClasses(false, 'right', 's');
             CssClassesAssert.include(classes, ['controls-ListView__groupContent_right']);
 
-            classes = getGroupCell().getContentTextClasses(false, undefined);
+            classes = getGroupCell().getContentTextClasses(false, undefined, 's');
             CssClassesAssert.include(classes, ['controls-ListView__groupContent_center']);
         });
 
         it('should NOT contain placeholder class when separator and textAlign === right', () => {
-            const classes = getGroupCell().getContentTextClasses(true, 'right');
+            const classes = getGroupCell().getContentTextClasses(true, 'right', 's');
             CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent-withoutGroupSeparator']);
+        });
+
+        it('should contain fontSize class when fontSize=s', () => {
+            const classes = getGroupCell().getContentTextClasses(false, 'right', 's');
+            CssClassesAssert.include(classes, ['controls-fontsize-s']);
+        });
+
+        it('should contain default fontSize class when fontSize=undefined', () => {
+            const classes = getGroupCell().getContentTextClasses(false, 'right', undefined);
+            CssClassesAssert.include(classes, ['controls-ListView__groupContent-text_default']);
         });
     });
 });
