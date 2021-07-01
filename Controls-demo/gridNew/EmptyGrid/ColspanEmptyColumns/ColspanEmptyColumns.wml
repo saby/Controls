@@ -1,0 +1,52 @@
+<div class="controlsDemo__wrapper">
+
+    <!-- Необязательно оборачивать список в скролл контейнер. -->
+    <!-- Здесь это сделано для месного решения этих ошибок со stickyHeader. -->
+    <!-- https://online.sbis.ru/opendoc.html?guid=64a425b7-4a53-4bb1-932e-2899ffe5fd98 -->
+    <!-- https://online.sbis.ru/opendoc.html?guid=138c14b7-d571-4e61-8177-cb0322763bff -->
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">Без чекбоксов</div>
+        <Controls.scroll:Container>
+            <Controls.grid:View
+                    keyProperty="key"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}">
+                <ws:emptyTemplateColumns>
+                    <ws:Array>
+                        <ws:Object startColumn="{{ 1 }}" endColumn="{{ _columns.length + 1 }}">
+                            <ws:template>
+                                <ws:partial template="Controls/grid:EmptyColumnTemplate">
+                                    <div style="background-color: #fff; width: 100%;">Редактор</div>
+                                </ws:partial>
+                            </ws:template>
+                        </ws:Object>
+                    </ws:Array>
+                </ws:emptyTemplateColumns>
+            </Controls.grid:View>
+        </Controls.scroll:Container>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">С чекбоксами</div>
+        <Controls.scroll:Container>
+            <Controls.grid:View
+                    keyProperty="key"
+                    multiSelectVisibility="visible"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}">
+                <ws:emptyTemplateColumns>
+                    <ws:Array>
+                        <ws:Object startColumn="{{ 1 }}" endColumn="{{ _columns.length + 1 }}">
+                            <ws:template>
+                                <ws:partial template="Controls/grid:EmptyColumnTemplate">
+                                    <div style="background-color: #fff; width: 100%;">Редактор</div>
+                                </ws:partial>
+                            </ws:template>
+                        </ws:Object>
+                    </ws:Array>
+                </ws:emptyTemplateColumns>
+            </Controls.grid:View>
+        </Controls.scroll:Container>
+    </div>
+</div>
