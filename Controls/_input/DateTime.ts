@@ -164,6 +164,7 @@ class DateTime extends Control<IDateBaseOptions> {
                 let localDate = new this._dateConstructor(this._model.value);
                 localDate.setDate(this._model.value.getDate() + delta);
                 this._model.value = localDate;
+                this._notify('inputCompleted', [this._model.value, this._model.textValue]);
             }
         }
     }
