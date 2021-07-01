@@ -830,9 +830,11 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     setBottomSeparatorEnabled(state: boolean, silent?: boolean): void {
-        this._$isBottomSeparatorEnabled = state;
-        if (!silent) {
-            this._nextVersion();
+        if (this._$isBottomSeparatorEnabled !== state) {
+            this._$isBottomSeparatorEnabled = state;
+            if (!silent) {
+                this._nextVersion();
+            }
         }
     }
 
@@ -841,17 +843,21 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     }
 
     setTopSeparatorEnabled(state: boolean, silent?: boolean): void {
-        this._$isTopSeparatorEnabled = state;
-        if (!silent) {
-            this._nextVersion();
+        if (this._$isTopSeparatorEnabled !== state) {
+            this._$isTopSeparatorEnabled = state;
+            if (!silent) {
+                this._nextVersion();
+            }
         }
     }
 
     // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
     setFirstItem(state: boolean, silent?: boolean): void {
-        this._$isFirstItem = state;
-        if (!silent) {
-            this._nextVersion();
+        if (this._$isFirstItem !== state) {
+            this._$isFirstItem = state;
+            if (!silent) {
+                this._nextVersion();
+            }
         }
     }
 
@@ -862,9 +868,11 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
     setLastItem(state: boolean, silent?: boolean): void {
-        this._$isLastItem = state;
-        if (!silent) {
-            this._nextVersion();
+        if (this._$isLastItem !== state) {
+            this._$isLastItem = state;
+            if (!silent) {
+                this._nextVersion();
+            }
         }
     }
 

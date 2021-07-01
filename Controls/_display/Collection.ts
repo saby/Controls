@@ -2567,19 +2567,15 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         const oldFirstItem = this._firstItem;
         const firstItem = this.getFirst();
-        if (oldFirstItem !== firstItem) {
-            this._updateFirstItemSeparator(oldFirstItem, false, silent);
-            this._updateFirstItemSeparator(firstItem, true, silent);
-            this._firstItem = firstItem;
-        }
+        this._updateFirstItemSeparator(oldFirstItem, false, silent);
+        this._updateFirstItemSeparator(firstItem, true, silent);
+        this._firstItem = firstItem;
 
         const oldLastItem = this._lastItem;
         const lastItem = this.getLast();
-        if (oldLastItem !== lastItem) {
-            this._updateLastItemSeparator(oldLastItem, false, silent);
-            this._updateLastItemSeparator(lastItem, noMoreNavigation, silent);
-            this._lastItem = lastItem;
-        }
+        this._updateLastItemSeparator(oldLastItem, false, silent);
+        this._updateLastItemSeparator(lastItem, noMoreNavigation, silent);
+        this._lastItem = lastItem;
     }
 
     private _updateLastItemSeparator(item: CollectionItem, state: boolean, silent?: boolean): void {
