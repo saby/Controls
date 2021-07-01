@@ -1177,7 +1177,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             moreButtonCaption: rk('Еще') + '...',
             groupTemplate,
             itemPadding: {},
-            markerVisibility: 'onactivated'
+            markerVisibility: 'onactivated',
+            backgroundStyle: 'default',
+            hoverBackgroundStyle: 'default'
         };
     }
 }
