@@ -370,7 +370,7 @@ function onCollectionChange<T>(
             break;
     }
 
-    this._updateEdgeItemsSeparators(true);
+    this._updateEdgeItemsSeparators();
     this._finishUpdateSession(session);
     this._nextVersion();
 }
@@ -973,7 +973,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         this._footer = this._initializeFooter(options);
 
-        this._updateEdgeItemsSeparators();
+        this._updateEdgeItemsSeparators(true);
     }
 
     _initializeCollection(): void {
