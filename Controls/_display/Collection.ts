@@ -2358,6 +2358,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setRowSeparatorSize(rowSeparatorSize: string): void {
         this._$rowSeparatorSize = rowSeparatorSize;
         this._nextVersion();
+        this._updateEdgeItemsSeparators(true);
         this._updateItemsProperty('setRowSeparatorSize', this._$rowSeparatorSize);
     }
 
