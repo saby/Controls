@@ -3423,7 +3423,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      * @param enumerator Энумератор элементов
      * @param item Элемент проекции относительно которого искать
      * @param isNext Следующий или предыдущий элемент
-     * @param [skipNonEnumerable=false] Пропускать группы
+     * @param [skipNonEnumerable=false] Пропускать элементы, которые не должны перечисляться (группы, сепараторы, футеры нод)
      * @protected
      */
     protected _getNearbyItem(

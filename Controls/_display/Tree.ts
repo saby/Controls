@@ -880,9 +880,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // endregion Expanded/Collapsed
 
-    getFirst();
-    getLast();
-
     // endregion
 
     // region Protected methods
