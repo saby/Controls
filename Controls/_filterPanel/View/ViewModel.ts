@@ -227,10 +227,4 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
     handleGroupClick(group: string): void {
         this._expandGroup(group);
     }
-
-    getSourceItemByName(name: string): IFilterItem {
-        return this._source.find((item) => {
-            return item.name === name;
-        });
-    }
 }
