@@ -23,7 +23,7 @@
                     {{item.position.invisible ? 'ws-invisible'}}
                     {{item.position.hidden ? 'ws-hidden'}}"
                                             attr:style="z-index: {{item.currentZIndex}};
-                    position: {{item.position.position !== undefined ? item.position.position : 'absolute'}};
+                    position: {{item.position.position !== undefined ? item.position.position : 'fixed'}};
                     left: {{item.position.left === undefined ? 'auto' : item.position.left + 'px'}};
                     right: {{item.position.right === undefined ? 'auto' : item.position.right + 'px'}};
                     top: {{item.position.top === undefined ? 'auto': item.position.top + 'px'}};
