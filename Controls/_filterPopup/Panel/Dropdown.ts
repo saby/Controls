@@ -52,8 +52,7 @@ class FilterDropdown extends Control<IControlOptions> {
 
       static getDefaultOptions(): object {
          return {
-            displayProperty: 'title',
-            style: 'filter'
+            displayProperty: 'title'
          };
       }
    }

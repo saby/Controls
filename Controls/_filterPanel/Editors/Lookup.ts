@@ -6,6 +6,7 @@ import {Selector} from 'Controls/lookup';
 import 'css!Controls/filterPanel';
 import * as rk from 'i18n!Controls';
 import {Model} from 'Types/entity';
+import showSelector from 'Controls/_lookup/showSelector';
 
 interface ILookupOptions extends IControlOptions {
     propertyValue: number[] | string[];
@@ -76,13 +77,15 @@ class LookupEditor extends BaseEditor implements ILookup {
                 }
             }
         };
-        if (this._children.lookupEditor) {
-            this._children.lookupEditor.showSelector(popupOptions);
-        }
+        showSelector(this, popupOptions, this._options.multiSelect);
     }
 
     protected _handleTextValueChanged(event: SyntheticEvent, value: string): void {
         this._textValue = value;
+    }
+
+    protected _closeHandler(): void {
+        //
     }
 
     private _getShowSelectorCaption(values: number[] | string [], maxVisibleItems): string {

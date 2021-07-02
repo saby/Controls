@@ -6,7 +6,6 @@
                               fontColorStyle="default"
                               selectedKeys="{{_options.propertyValue}}"
                               style="filterPanel"
-                              readOnly="{{readOnly}}"
                               on:textValueChanged="_handleTextValueChanged()">
         <ws:itemTemplate>
             <ws:partial template="Controls/lookup:ItemTemplate"
@@ -37,7 +36,4 @@
             </Controls.Container.Async>
         </ws:else>
     </ws:editorTemplate>
-    <ws:extendedCaptionTemplate>
-        <ws:partial template="lookupEditor" readOnly="{{true}}"/>
-    </ws:extendedCaptionTemplate>
 </Controls._filterPanel.BaseEditor>

@@ -23,7 +23,7 @@ function getPopupOptions(self): IStackPopupOptions | IDialogPopupOptions {
 
 function getTemplateOptions(self, multiSelect) {
     return {
-        selectedItems: self._lookupController.getItems().clone(),
+        selectedItems: self._lookupController?.getItems().clone(),
         multiSelect: multiSelect,
         handlers: {
             onSelectComplete: function (event, result) {
