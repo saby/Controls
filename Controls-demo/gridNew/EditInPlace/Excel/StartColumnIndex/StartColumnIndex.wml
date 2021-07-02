@@ -1,0 +1,31 @@
+<div class="controlsDemo__cell">
+    <Controls.grid:View
+            attr:class="controlsDemo__inline-flex"
+            name="grid"
+            keyProperty="key"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            rowSeparatorSize="s"
+            columnSeparatorSize="s"
+            on:beforeBeginEdit="_onBeforeBeginEdit()">
+        <ws:editingConfig>
+            <ws:Object mode="cell" editOnClick="{{true}}"/>
+        </ws:editingConfig>
+        <ws:footerTemplate>
+            <ws:partial template="Controls/grid:FooterTemplate">
+                <ws:contentTemplate>
+                    <div>
+                        <a href="#"
+                           class="controls-text-link controlsDemo-beginEdit-grid-excel-editing"
+                           on:click="_beginEdit()">Начать редактирование третей ячейке второй записи</a>
+                    </div>
+                    <div>
+                        <a href="#"
+                           class="controls-text-link controlsDemo-beginAdd-grid-excel-editing"
+                           on:click="_addRecord()">Начать добавление записи, редактирование начнется с последней ячейки</a>
+                    </div>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:footerTemplate>
+    </Controls.grid:View>
+</div>
