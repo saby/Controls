@@ -6,16 +6,21 @@ import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
 import getRecordSet from 'ControlsUnit/searchBreadcrumbsGrid/display/getRecordSet';
 import { IOptions } from 'Controls/_searchBreadcrumbsGrid/display/SearchGridCollection';
 
-describe('Controls/_searchBreadcrumbsGrid/SearchViewTable', () => {
+describe('Controls/_searchBreadcrumbsGrid/SearchView', () => {
     //region utils
+    /**
+     * Создает инстанс контрола SearchView с тестовой коллекцией внутри
+     */
     function createSearchView(cfg: IOptions<Model, TreeGridDataRow<Model>>): SearchView {
         const searchView = new SearchView();
         const collection = createCollectionForTest(cfg);
 
-        searchView._beforeUpdate({
+        const options = {
             listModel: collection,
             ...cfg
-        });
+        };
+        searchView.saveOptions(options);
+        searchView._beforeMount(options);
 
         return searchView;
     }
