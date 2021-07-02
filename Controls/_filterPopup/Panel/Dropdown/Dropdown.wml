@@ -12,7 +12,8 @@
             <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="filter">
                <ws:contentTemplate>
                   <div class="controls-FilterDropdown__contentTemplate">
-                     <ws:partial template="{{_options.contentTemplate}}" class="controls-Dropdown__item_style-filter {{!contentTemplate.icon ? 'controls-FilterDropdown__content_text'}}"/>
+                     <ws:partial template="{{_options.contentTemplate}}" class="controls-Dropdown__item_style-filter
+                      {{!contentTemplate.icon ? 'controls-FilterDropdown__content_text'}}"/>
                   </div>
                </ws:contentTemplate>
             </ws:partial>
