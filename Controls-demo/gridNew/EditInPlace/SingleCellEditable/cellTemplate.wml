@@ -7,7 +7,7 @@
                 <Controls.input:Text
  contrastBackground="{{true}}"                        attr:class="js-controls-Grid__editInPlace__input-1"
                         bind:value="item.contents[column.config.displayProperty || 'title']"
-                        borderVisibility="{{ false }}"/>
+                        borderVisibility="hidden"/>
             </ws:editorTemplate>
         </ws:partial>
     </ws:contentTemplate>
