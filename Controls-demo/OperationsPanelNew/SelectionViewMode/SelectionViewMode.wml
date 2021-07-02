@@ -1,11 +1,17 @@
 <div class="controlsDemo__wrapper controlsDemo__maxWidth500">
-   <Controls.operations:Panel
-         bind:selectionViewMode="_selectionViewMode"
-         bind:selectedKeys="_selectedKeys"
-         bind:excludedKeys="_excludedKeys"
-         parentProperty="parent"
-         nodeProperty="@parent"
-         keyProperty="id"
-         source="{{_panelSource}}"
-         on:selectedTypeChanged="_selectedTypeChangedHandler()"/>
+   <Controls.browser:Browser source="{{_viewSource}}"
+                             nodeProperty="Раздел@"
+                             parentProperty="Раздел"
+                             keyProperty="id"
+                             bind:selectionViewMode="_selectionViewMode"
+                             bind:selectedKeys="_selectedKeys"
+                             bind:excludedKeys="_excludedKeys">
+      <div>
+         <Controls.operations:Panel source="{{null}}"/>
+         <Controls.list:Container>
+            <Controls.explorer:View displayProperty="department" columns="{{_gridColumns}}" multiSelectVisibility="{{'visible'}}"/>
+         </Controls.list:Container>
+      </div>
+   </Controls.browser:Browser>
+
 </div>
