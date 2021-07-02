@@ -116,12 +116,6 @@ const _private = {
     },
 
     updateStickyPosition(item, position, targetCoords): void {
-        const xxx = item.popupOptions.opener._options.diffPositionXXXYYY;
-        if (item.position && xxx) {
-            item.position.left -= xxx.left;
-            item.position.top -= xxx.top;
-        }
-
         const newStickyPosition = {
             targetPoint: position.targetPoint,
             direction: position.direction,

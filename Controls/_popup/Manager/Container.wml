@@ -4,26 +4,25 @@
      on:cancelFinishingPending="_cancelFinishingPendingHandler()">
     <ws:for data="index, item in _popupItems">
         <ws:if data="{{item.id === _overlayId}}">
-            <UI.Base:WasabyPortal on:click="stop()" portalContainer="{{ item.popupOptions.opener._container }}">
+            <UI.Base:WasabyPortal on:click="stop()" portalContainer="{{ item.popupOptions && item.popupOptions.opener && item.popupOptions.opener._container }}">
                 <div class="controls-Container__overlay"
                     on:mousedown="_overlayClickHandler(item)"
                     style="z-index: {{item.currentZIndex}};">
                 </div>
             </UI.Base:WasabyPortal>
         </ws:if>
-        <UI.Base:WasabyPortal on:click="stop()" portalContainer="{{ item.popupOptions.opener._container }}">
+        <UI.Base:WasabyPortal on:click="stop()" portalContainer="{{ item.popupOptions && item.popupOptions.opener && item.popupOptions.opener._container }}">
             <Controls._popup.Manager.Popup id="{{item.id}}" __key="{{item.id}}" attr:key="{{item.id}}"
-                                           name="{{item.id}}"
-                                           theme="{{_options.theme}}"
-                                           diffPositionXXXYYY="{{ item.position }}"
-                                           on:keydown="_keyDownHandler()"
-                                           on:activated="_popupActivated(item.id)"
-                                           attr:class="
+                                        name="{{item.id}}"
+                                        theme="{{_options.theme}}"
+                                        on:keydown="_keyDownHandler()"
+                                        on:activated="_popupActivated(item.id)"
+                                        attr:class="
                     {{_popupItems.getCount() - 1 === index ? 'controls-Scroll_webkitOverflowScrollingTouch'}}
                     {{item.popupOptions.className}}
                     {{item.position.invisible ? 'ws-invisible'}}
                     {{item.position.hidden ? 'ws-hidden'}}"
-                                           attr:style="z-index: {{item.currentZIndex}};
+                                            attr:style="z-index: {{item.currentZIndex}};
                     position: {{item.position.position !== undefined ? item.position.position : 'absolute'}};
                     left: {{item.position.left === undefined ? 'auto' : item.position.left + 'px'}};
                     right: {{item.position.right === undefined ? 'auto' : item.position.right + 'px'}};
@@ -36,8 +35,8 @@
                     min-height: {{item.position.minHeight !== undefined ? item.position.minHeight + 'px'}};
                     height: {{item.position.height === undefined ? 'auto': item.position.height + 'px'}};
                     margin: {{item.position.margin !== undefined ? item.position.margin + 'px'}};"
-                                           scope="{{item.popupOptions}}"
-                                           position="{{item.position}}"
+                                        scope="{{item.popupOptions}}"
+                                        position="{{item.position}}"
             />
         </UI.Base:WasabyPortal>
     </ws:for>
