@@ -694,7 +694,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                }
             }
          });
-      } else if (!node || this._hasChildren(node)) {
+      } else if (this._hasChildren(node)) {
          selectedChildrenCount = null;
       }
 
