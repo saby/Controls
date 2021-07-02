@@ -11,6 +11,11 @@
 <ws:else>
     <div class="controls-FilterViewPanel__additional-editor"
          on:click="_extendedCaptionClick()">
-        {{_options.extendedCaption}}
+        <ws:if data="{{_options.extendedCaptionTemplate}}">
+            <ws:partial template="{{_options.extendedCaptionTemplate}}" caption="{{_options.extendedCaption}}" scope="{{_options}}"/>
+        </ws:if>
+        <ws:else>
+            {{_options.extendedCaption}}
+        </ws:else>
     </div>
 </ws:else>

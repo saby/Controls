@@ -35,7 +35,7 @@ class DropdownEditor extends BaseEditor implements IDropdown {
     }
 
     protected _extendedCaptionClickHandler(): void {
-        this._notifyPropertyValueChanged(this._options.propertyValue);
+        this._notifyPropertyValueChanged(this._options.value);
     }
 
     private _handleTextValueChanged(event: SyntheticEvent, value: string): void {

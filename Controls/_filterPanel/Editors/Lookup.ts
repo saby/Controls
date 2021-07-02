@@ -5,6 +5,7 @@ import {BaseEditor} from 'Controls/_filterPanel/Editors/Base';
 import {Selector} from 'Controls/lookup';
 import 'css!Controls/filterPanel';
 import * as rk from 'i18n!Controls';
+import {Model} from 'Types/entity';
 
 interface ILookupOptions extends IControlOptions {
     propertyValue: number[] | string[];
@@ -58,8 +59,21 @@ class LookupEditor extends BaseEditor implements ILookup {
         this._showSelectorCaption = this._getShowSelectorCaption(value);
     }
 
-    protected _extendedCaptionClickHandler(): void {
-        this._notifyPropertyValueChanged(this._options.propertyValue);
+    protected _extendedCaptionClickHandler(event: SyntheticEvent): void {
+        const popupOptions = {
+            eventHandlers: {
+                onResult: (result: Model[]) => {
+                    const selectedKeys = [];
+                    result.forEach((item) => {
+                        selectedKeys.push(item.get(this._options.keyProperty));
+                    });
+                    this._handleSelectedKeysChanged(event, selectedKeys);
+                }
+            }
+        };
+        if (this._children.lookupEditor) {
+            this._children.lookupEditor.showSelector(popupOptions);
+        }
     }
 
     protected _handleTextValueChanged(event: SyntheticEvent, value: string): void {

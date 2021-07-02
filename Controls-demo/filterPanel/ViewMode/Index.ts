@@ -63,7 +63,7 @@ export default class extends Control {
                     keyProperty: 'id',
                     extendedCaption: 'Должность',
                     multiSelect: true,
-                    maxVisibleItems: 3,
+                    maxVisibleItems: 2,
                     selectorTemplate: {
                         templateName: 'Controls-demo/filterPanel/resources/MultiSelectStackTemplate/StackTemplate',
                         templateOptions: {items: [

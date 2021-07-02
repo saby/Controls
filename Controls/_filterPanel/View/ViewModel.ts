@@ -160,6 +160,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         }
         this._setValueToSourceItem(item, editorValue);
         this._source = this._getSource(source);
+        this._editingObject = this._getEditingObjectBySource(this._source);
         this._nextVersion();
     }
 

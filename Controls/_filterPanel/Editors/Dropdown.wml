@@ -1,23 +1,12 @@
-<ws:template name="dropdownEditor">
-    <Controls.filterPopup:Dropdown scope="{{_options}}"
-                                   selectedKeys="{{_options.propertyValue}}"
-                                   style="filterPanel"
-                                   on:textValueChanged="_handleTextValueChanged()"/>
-</ws:template>
 <Controls._filterPanel.BaseEditor scope="{{_options}}"
                                   on:extendedCaptionClick="_extendedCaptionClickHandler()"
                                   extendedCaption="{{_options.extendedCaption}}">
-<ws:editorTemplate>
-    <ws:if data="{{_options.multiSelect}}">
-        <ws:partial name="dropdownEditor" on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
-    </ws:if>
-    <ws:else>
-        <Controls.Container.Async templateName="Controls/multiselection:SingleSelection">
-            <ws:partial template="{{content.resolvedTemplate}}"
-                        on:selectedKeyChanged="_handleSelectedKeyChanged()">
-                <ws:partial name="dropdownEditor"/>
-            </ws:partial>
-        </Controls.Container.Async>
-    </ws:else>
-</ws:editorTemplate>
+    <ws:editorTemplate>
+        <Controls.dropdown:Selector scope="{{_options}}"
+                                    fontColorStyle="default"
+                                    selectedKeys="{{_options.propertyValue}}"
+                                    style="filterPanel"
+                                    on:textValueChanged="_handleTextValueChanged()"
+                                    on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
+    </ws:editorTemplate>
 </Controls._filterPanel.BaseEditor>
