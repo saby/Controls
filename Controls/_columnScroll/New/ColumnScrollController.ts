@@ -547,8 +547,8 @@ export default class ColumnScrollController {
      * TODO: Отрефаткторить решение по доброске https://online.sbis.ru/opendoc.html?guid=bd2636ac-969f-4fda-be59-1b948deee523
      * @param element
      */
-    scrollToElementIfHidden(columnRect: DOMRect): boolean {
-        return this._scrollToColumnRect(columnRect);
+    scrollToElementIfHidden(columnRect: DOMRect, immediate?: boolean): boolean {
+        return this._scrollToColumnRect(columnRect, immediate);
     }
 
     /**
@@ -556,14 +556,20 @@ export default class ColumnScrollController {
      * @param columnRect
      * @private
      */
-    private _scrollToColumnRect(columnRect: DOMRect): boolean {
+    private _scrollToColumnRect(columnRect: DOMRect, immediate?: boolean): boolean {
         const scrollableRect = this._getScrollContainerRect();
 
+        // Граница ячейки за пределами видимой скроллируемой области.
+        // Величина смещения может быть дробной, нужно по максимуму сдвинуть скролл в ту сторону.
+        // Для этого округляем в соответствующую направлению скролла
+        // сторону (у ячейкислева в меньшую, справа в большую, а у скроллконтейнера наоборот).
         if (columnRect.right > scrollableRect.right) {
-            this._setScrollPosition(Math.min(this._scrollPosition + (columnRect.right - scrollableRect.right), this.getScrollLength()));
+            const newScrollPosition = this._scrollPosition + (Math.round(columnRect.right) - Math.floor(scrollableRect.right));
+            this._setScrollPosition(Math.min(newScrollPosition, this.getScrollLength()), immediate);
             return true;
         } else if (columnRect.left < scrollableRect.left) {
-            this._setScrollPosition(Math.max(0, this._scrollPosition - (scrollableRect.left - columnRect.left)));
+            const newScrollPosition = this._scrollPosition - (Math.floor(scrollableRect.left) - Math.round(columnRect.left));
+            this._setScrollPosition(Math.max(0, newScrollPosition), immediate);
             return true;
         }
         return false;
