@@ -1657,7 +1657,9 @@ const _private = {
     },
 
     needScrollCalculation(navigationOpt) {
-        return navigationOpt && navigationOpt.view === 'infinity';
+        // Виртуальный скролл должен работать, даже если у списка не настроена навигация.
+        // https://online.sbis.ru/opendoc.html?guid=a83180cf-3e02-4d5d-b632-3d03442ceaa9
+        return !navigationOpt || (navigationOpt && navigationOpt.view === 'infinity');
     },
 
     needScrollPaging(navigationOpt) {
@@ -4928,7 +4930,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     protected _shiftToDirection(direction): Promise {
         let resolver;
         const shiftPromise = new Promise((res) => { resolver = res; });
-        this._handleLoadToDirection = this._sourceController.hasMoreData(direction);
+        this._handleLoadToDirection = !!this._sourceController && this._sourceController.hasMoreData(direction);
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (this._destroyed) {
                 return;

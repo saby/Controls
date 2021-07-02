@@ -27,7 +27,7 @@ export default class extends Control {
 
     protected _reloadList(): void {
         // tslint:disable-next-line
-        this._children.list.reload();
+        this._children.list.reload(true);
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
