@@ -8,6 +8,8 @@
                                 fontColorStyle="primary"
                                 viewMode="pushButton"
                                 buttonStyle="secondary"
+                                inlineHeight="m"
+                                iconSize="s"
                                 value="{{toggledEditors[toggleableItem.getId()]}}"
                                 on:valueChanged="_toggleEditor(toggleableItem)"
                                 attr:class="{{(index > 0 ? 'controls-PropertyGrid_toggleEditorButton_offset_theme-' + _options.theme)}}"/>
