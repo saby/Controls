@@ -828,6 +828,12 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const count = strategy.getCount(selection, false, 5);
          assert.equal(count, 5);
       });
+
+      it('selected not loaded item', () => {
+         const selection = { selected: [20], excluded: [] };
+         const count = strategyWithDescendantsAndAncestors.getCount(selection, false);
+         assert.isNull(count);
+      });
    });
 
    describe('cases of go inside node and out it', () => {
