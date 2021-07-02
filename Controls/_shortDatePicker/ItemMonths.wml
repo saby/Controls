@@ -8,6 +8,7 @@
             <ws:for data="quarter in halfYear.quarters">
                 <ws:for data="month in quarter.months">
                     <ws:partial
+                            attr:class="controls-PeriodLiteDialog-item__month-caption"
                             on:click="_onMonthClick(month.date)"
                             template="{{monthTemplate}}"
                             month="{{month}}"
