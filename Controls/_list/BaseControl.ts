@@ -56,7 +56,8 @@ import {
     IShownItemAction,
     TItemActionShowType,
     ItemActionsTemplate,
-    SwipeActionsTemplate
+    SwipeActionsTemplate,
+    IItemActionsOptions
 } from 'Controls/itemActions';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
@@ -2300,7 +2301,7 @@ const _private = {
         }
     },
 
-    needBottomPadding(self: BaseControl, options: IBaseControlOptions): boolean {
+    needBottomPadding(self: BaseControl, options: IItemActionsOptions): boolean {
         const listViewModel = self._listViewModel;
 
         const isEditing = !!listViewModel?.isEditing();
@@ -3383,7 +3384,7 @@ const _private = {
  * @author Авраменко А.С.
  */
 
-export interface IBaseControlOptions extends IControlOptions {
+export interface IBaseControlOptions extends IControlOptions, IItemActionsOptions {
     keyProperty: string;
     viewModelConstructor: string;
     navigation?: INavigationOptionValue<INavigationSourceConfig>;
@@ -7206,6 +7207,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._isColumnScrollVisible = visibility;
     }
 
+    static _private: typeof _private = _private;
+
     static getDefaultOptions(): Partial<IBaseControlOptions> {
         return {
             attachLoadTopTriggerToNull: true,
@@ -7228,12 +7231,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
             stickyHeader: true,
-            stickyColumnsCount: 1,
+            stickyColumnsCount: 1
         };
     }
 }
-
-BaseControl._private = _private;
 
 Object.defineProperty(BaseControl, 'defaultProps', {
     enumerable: true,
