@@ -646,7 +646,8 @@ define([
                   height: 10,
                   resetSticky: sinon.fake(),
                   restoreSticky: sinon.fake(),
-                  updateShadowVisibility: sinon.fake()
+                  updateShadowVisibility: sinon.fake(),
+                  offsetTop: 0
                },
                container: {
                   getBoundingClientRect() {
@@ -694,7 +695,7 @@ define([
             });
          });
 
-         it('should return the correct height after a new stackable header has been registered and fixed.', function () {
+         it('should return the correct height after a new header with offsetTop has been registered and fixed.', function () {
             component.init(container);
             const data = {
                id: 2,
@@ -733,12 +734,12 @@ define([
                   height: 10,
                   shadowVisible: true
                });
-               assert.equal(component.getHeadersHeight('top'), 300);
-               assert.equal(component.getHeadersHeight('bottom'), 0);
-               assert.equal(component.getHeadersHeight('top', 'allFixed'), 300);
-               assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0);
-               assert.equal(component.getHeadersHeight('top', 'fixed'), 300);
-               assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0);
+               assert.equal(component.getHeadersHeight('top'), 170, 'top');
+               assert.equal(component.getHeadersHeight('bottom'), 0, 'bottom');
+               assert.equal(component.getHeadersHeight('top', 'allFixed'), 170, 'top allFixed');
+               assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0, 'bottom allFixed');
+               assert.equal(component.getHeadersHeight('top', 'fixed'), 170, 'top fixed');
+               assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0, 'bottom fixed');
             });
          });
       });
