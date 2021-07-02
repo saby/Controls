@@ -2,7 +2,7 @@ import {TemplateFunction} from 'UI/Base';
 import {Model} from 'Types/entity';
 import {object} from 'Types/util';
 import {isEqual} from 'Types/object';
-import {ICollectionItemOptions} from 'Controls/display';
+import {ICollectionItemOptions, TRoundBorder} from 'Controls/display';
 import {getImageClasses, getImageRestrictions, getImageSize, getImageUrl} from 'Controls/_tile/utils/imageUtil';
 import * as ImageTemplate from 'wml!Controls/_tile/render/Image';
 import * as DefaultContent from 'wml!Controls/_tile/render/itemsContent/Default';
@@ -10,13 +10,29 @@ import * as MediumContent from 'wml!Controls/_tile/render/itemsContent/Medium';
 import * as PreviewContent from 'wml!Controls/_tile/render/itemsContent/Preview';
 import * as RichContent from 'wml!Controls/_tile/render/itemsContent/Rich';
 import Tile, {
-    DEFAULT_COMPRESSION_COEFF, DEFAULT_SCALE_COEFFICIENT, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH, TRoundBorder
+    DEFAULT_COMPRESSION_COEFF,
+    DEFAULT_SCALE_COEFFICIENT,
+    DEFAULT_TILE_HEIGHT,
+    DEFAULT_TILE_WIDTH, TImageFit,
+    TImageUrlResolver, TTileMode, TTileScalingMode, TTileSize
 } from './Tile';
-import {itemTemplate} from "Controls/switchableArea";
+import { TItemActionsPosition } from 'Controls/itemActions';
+import {TBackgroundColorStyle, TCursor } from 'Controls/list';
 
 const DEFAULT_WIDTH_PROPORTION = 1;
 
 export type TTileItem = 'default'|'invisible'|'medium'|'preview'|'rich'|'small';
+export type TImageViewMode = 'rectangle'|'circle'|'ellipse'|'none';
+export type TImagePosition = 'top'|'left'|'right';
+export type TShadowVisibility = 'visible'|'hidden'|'onhover';
+export type TItemActionsPlace = 'wrapper'|'title';
+export type TImageSize = 's'|'m'|'l';
+export type TImageAlign = 'top'|'center';
+export type TImageEffect = 'none'|'gradient';
+export type TTitleStyle = 'light'|'dark'|'accent'|'onhover'|'partial';
+export type TGradientPlace = 'image'|'title';
+export type TGradientType = 'dark'|'light'|'custom';
+export type TFooterPlace = 'wrapper'|'content';
 
 export const TILE_SIZES = {
     s: {
@@ -52,18 +68,18 @@ export const TILE_SIZES = {
 };
 
 export interface IOptions<S extends Model = Model> extends ICollectionItemOptions<S> {
-    tileSize: 's' | 'm' | 'l';
-    tileMode: string;
-    tileScalingMode: string;
+    tileSize: TTileSize;
+    tileMode: TTileMode;
+    tileScalingMode: TTileScalingMode;
     tileHeight: number;
     tileWidth: number;
     tileWidthProperty: string;
     roundBorder: TRoundBorder;
     imageProperty: string;
-    imageFit: string;
+    imageFit: TImageFit;
     imageHeightProperty: string;
     imageWidthProperty: string;
-    imageUrlResolver: Function;
+    imageUrlResolver: TImageUrlResolver;
 }
 
 interface ITileSize {
@@ -72,6 +88,10 @@ interface ITileSize {
     imageWidth?: number;
 }
 
+/**
+ * Миксин, который содержит логику отображения элемента в виде плитки.
+ * @author Панихин К.А.
+ */
 export default abstract class TileItem<T extends Model = Model> {
     protected _$fixedPosition: string;
 
@@ -83,12 +103,11 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region TileOptions
 
-    protected _$tileScalingMode: string;
+    protected _$tileScalingMode: TTileScalingMode;
 
-    // TODO указать нормальный тип
-    protected _$tileMode: string;
+    protected _$tileMode: TTileMode;
 
-    protected _$tileSize: 's'|'m'|'l';
+    protected _$tileSize: TTileSize;
 
     protected _$tileHeight: number;
 
@@ -104,46 +123,71 @@ export default abstract class TileItem<T extends Model = Model> {
 
     protected _$imageProperty: string;
 
-    // TODO указать нормальный тип
-    protected _$imageFit: string;
+    protected _$imageFit: TImageFit;
 
     protected _$imageHeightProperty: string;
 
     protected _$imageWidthProperty: string;
 
-    // TODO указать нормальный тип функции с параметрами
-    protected _$imageUrlResolver: Function;
+    protected _$imageUrlResolver: TImageUrlResolver;
 
     // endregion ImageOptions
 
     // region Tile
 
-    getTileMode(): string {
+    /**
+     * Возвращает режим отображения плитки
+     * @return {TTileMode} Режим отображения плитки
+     */
+    getTileMode(): TTileMode {
         return this._$tileMode;
     }
 
-    setTileMode(tileMode: string): void {
+    /**
+     * Устанавливает режим отображения плитки
+     * @param {TTileMode} tileMode Новый режим отображения плитки
+     * @void
+     */
+    setTileMode(tileMode: TTileMode): void {
         if (this._$tileMode !== tileMode) {
             this._$tileMode = tileMode;
             this._nextVersion();
         }
     }
 
-    getTileSize(): 's'|'m'|'l' {
+    /**
+     * Возвращает минимальный размер плитки
+     * @return {TTileSize} Режим отображения плитки
+     */
+    getTileSize(): TTileSize {
         return this._$tileSize;
     }
 
-    setTileSize(tileSize: 's'|'m'|'l'): void {
+    /**
+     * Устанавливает новый минимальный размер плитки
+     * @param {TTileSize} tileSize Новый минимальный размер плитки
+     * @void
+     */
+    setTileSize(tileSize: TTileSize): void {
         if (this._$tileSize !== tileSize) {
             this._$tileSize = tileSize;
             this._nextVersion();
         }
     }
 
+    /**
+     * Возвращает высоту плитки
+     * @return {number} Высота плитки
+     */
     getTileHeight(): number {
         return this._$tileHeight || DEFAULT_TILE_HEIGHT;
     }
 
+    /**
+     * Устанавливает высоту плитки
+     * @param {number} tileHeight Высота плитки
+     * @void
+     */
     setTileHeight(tileHeight: number): void {
         if (this._$tileHeight !== tileHeight) {
             this._$tileHeight = tileHeight;
@@ -151,10 +195,19 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает название свойства на рекорде, которое содержит ширину плитки
+     * @return {string} Название свойства
+     */
     getTileWidthProperty(): string {
         return this._$tileWidthProperty;
     }
 
+    /**
+     * Устанавливает название свойства на рекорде, которое содержит ширину плитки
+     * @param {string} tileWidthProperty Название свойства
+     * @void
+     */
     setTileWidthProperty(tileWidthProperty: string): void {
         if (this._$tileWidthProperty !== tileWidthProperty) {
             this._$tileWidthProperty = tileWidthProperty;
@@ -162,10 +215,19 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает название свойства на рекорде, которое содержит коэффициент для расчета ширины от высоты в динамическом режиме
+     * @return {string} Название свойства
+     */
     getTileFitProperty(): string {
         return this._$tileFitProperty;
     }
 
+    /**
+     * Устанавливает название свойства на рекорде, которое содержит коэффициент для расчета ширины от высоты в динамическом режиме
+     * @param {string} tileFitProperty Название свойства
+     * @void
+     */
     setTileFitProperty(tileFitProperty: string): void {
         if (this._$tileFitProperty !== tileFitProperty) {
             this._$tileFitProperty = tileFitProperty;
@@ -173,7 +235,18 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getTileWidth(widthTpl?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): number {
+    /**
+     * Возвращает ширину плитки
+     * @param {number} widthTpl Ширина плитка, заданная на темплейте
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     * @return {number} Ширина плитки
+     */
+    getTileWidth(
+        widthTpl?: number,
+        imagePosition: TImagePosition = 'top',
+        imageViewMode: TImageViewMode = 'rectangle'
+    ): number {
         if (this.getTileSize()) {
             return this.getTileSizes(imagePosition, imageViewMode).width;
         }
@@ -204,6 +277,11 @@ export default abstract class TileItem<T extends Model = Model> {
         return itemWidth ? Math.max(resultWidth, itemWidth) : resultWidth;
     }
 
+    /**
+     * Устанавливает ширину плитки
+     * @param {number} tileWidth Ширина плитки
+     * @void
+     */
     setTileWidth(tileWidth: number): void {
         if (this._$tileWidth !== tileWidth) {
             this._$tileWidth = tileWidth;
@@ -211,7 +289,13 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getTileSizes(imagePosition: string = 'top', imageViewMode: string = 'rectangle'): ITileSize {
+    /**
+     * Возвращает размеры в плитке
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     * @return {ITileSize} Режим отображения плитки при наведении курсора
+     */
+    getTileSizes(imagePosition: TImagePosition = 'top', imageViewMode: TImageViewMode = 'rectangle'): ITileSize {
         if (!this.getTileSize()) {
             return null;
         }
@@ -229,11 +313,20 @@ export default abstract class TileItem<T extends Model = Model> {
         return tileSizes;
     }
 
-    getTileScalingMode(): string {
+    /**
+     * Возвращает режим отображения плитки при наведении курсора
+     * @return {TTileScalingMode} Режим отображения плитки при наведении курсора
+     */
+    getTileScalingMode(): TTileScalingMode {
         return this._$tileScalingMode;
     }
 
-    setTileScalingMode(tileScalingMode: string): void {
+    /**
+     * Устанавливает режим отображения плитки при наведении курсора
+     * @param {TTileScalingMode} tileScalingMode Режим отображения плитки при наведении курсора
+     * @void
+     */
+    setTileScalingMode(tileScalingMode: TTileScalingMode): void {
         if (this._$tileScalingMode !== tileScalingMode) {
             this._$tileScalingMode = tileScalingMode;
             this._nextVersion();
@@ -244,7 +337,22 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region AutoResizer
 
-    shouldDisplayAutoResizer(itemType: TTileItem = 'default', staticHeight: boolean, imagePosition?: string, imageViewMode?: string, imageProportion?: number): boolean {
+    /**
+     * Должен ли показаться блок, который автоматически растягивает плитку
+     * @param {TTileItem} itemType Тип элемента
+     * @param {boolean} staticHeight Признак, означающий что высота постоянная
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения плитки
+     * @param {number} imageProportion Пропорции изображения
+     * @return {boolean}
+     */
+    shouldDisplayAutoResizer(
+        itemType: TTileItem = 'default',
+        staticHeight: boolean,
+        imagePosition?: TImagePosition,
+        imageViewMode?: TImageViewMode,
+        imageProportion?: number
+    ): boolean {
         if (itemType === 'rich') {
             return imagePosition === 'top' && imageViewMode === 'rectangle' && !!imageProportion;
         } else {
@@ -252,13 +360,35 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getAutoResizerStyles(itemType: TTileItem = 'default', width?: number, imageProportion?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
+    /**
+     * Возвращает стиль для блока, который автоматически растягивает плитку
+     * @param {TTileItem} itemType Тип элемента
+     * @param {number} width Ширина плитки, заданная на темплейте
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения плитки
+     * @param {number} imageProportion Пропорции изображения
+     * @return {string} Стиль для блока, который автоматически растягивает плитку
+     */
+    getAutoResizerStyles(
+        itemType: TTileItem = 'default',
+        width?: number,
+        imageProportion?: number,
+        imagePosition: TImagePosition = 'top',
+        imageViewMode: TImageViewMode = 'rectangle'
+    ): string {
         if (itemType === 'rich') {
             return ` padding-top: ${100 * imageProportion}%`;
         }
         return `padding-top: ${(this.getTileHeight() / this.getTileWidth(width, imagePosition, imageViewMode)) * 100}%;`;
     }
 
+    /**
+     * Возвращает классы для блока, который автоматически растягивает плитку
+     * @param {TTileItem} itemType Тип элемента
+     * @param {boolean} staticHeight Признак, означающий что высота постоянная
+     * @param {boolean} hasTitle Признак, означающий что заголовок в плитке отображается
+     * @return {string} Стиль для блока, который автоматически растягивает плитку
+     */
     getAutoResizerClasses(itemType: TTileItem = 'default', staticHeight?: boolean, hasTitle?: boolean): string {
         if (itemType === 'preview') {
             return '';
@@ -273,18 +403,37 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // endregion AutoResizer
 
+    /**
+     * Пересчитывает тип плитки
+     * @param {TTileItem} itemType Тип плитки переданный из темплейта
+     * @param {TemplateFunction} nodeContentTemplate Темплейт контента узла
+     * @return {TTileItem} Тип плитки
+     */
     getItemType(itemType: TTileItem, nodeContentTemplate?: TemplateFunction): TTileItem {
         return itemType;
     }
 
+    /**
+     * Возвращает коэффициент сжатия размеров плитки
+     * @return {number} Коэффициент сжатия размеров плитки
+     */
     getCompressionCoefficient(): number {
         return DEFAULT_COMPRESSION_COEFF;
     }
 
-    getShadowVisibility(templateShadowVisibility?: string): string {
+    /**
+     * Возвращает видимость теней на плитке
+     * @param {TShadowVisibility} templateShadowVisibility Видимость теней, заданаая на темплейте элемента
+     * @return {TShadowVisibility} Видимость теней
+     */
+    getShadowVisibility(templateShadowVisibility?: TShadowVisibility): TShadowVisibility {
         return templateShadowVisibility || 'visible';
     }
 
+    /**
+     * Признак, означающий что плитка увеличена в размерах
+     * @return {boolean}
+     */
     isScaled(): boolean {
         const scalingMode = this.getTileScalingMode();
         return (
@@ -293,10 +442,19 @@ export default abstract class TileItem<T extends Model = Model> {
         );
     }
 
+    /**
+     * Признак, означающий что плитка зафиксирована
+     * @return {boolean}
+     */
     isFixed(): boolean {
         return !!this.getFixedPositionStyle();
     }
 
+    /**
+     * Устанавливает признак, означающий что плитка анимирована
+     * @param {boolean} animated Признак, означающий что плитка анимирована
+     * @param {boolean} silent Признак, означающий что не нужно отправлять событие об изменении коллекции
+     */
     setAnimated(animated: boolean, silent?: boolean): void {
         if (this._$animated === animated) {
             return;
@@ -308,6 +466,10 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Признака, означающий что плитка анимирована
+     * @return {boolean}
+     */
     isAnimated(): boolean {
         if (this._$animated && !this.isScaled()) {
             // FIXME This is bad, but there is no other obvious place to
@@ -320,12 +482,21 @@ export default abstract class TileItem<T extends Model = Model> {
         return this._$animated;
     }
 
+    /**
+     * Признак, означающий что плитка не увеличивается в размерах
+     * @return {boolean}
+     */
     isUnscaleable(): boolean {
         return !this.getTileScalingMode() || this.getTileScalingMode() === 'none';
     }
 
     // region ItemActions
 
+    /**
+     * Устанавливает признак, означающий что плитка может отображать операции на записью
+     * @param {boolean} canShowActions Признак, означающий что плитка может отображать операции на записью
+     * @param {boolean} silent Признак, означающий что не нужно отправлять событие об изменении коллекции
+     */
     setCanShowActions(canShowActions: boolean, silent?: boolean): void {
         if (this._$canShowActions === canShowActions) {
             return;
@@ -337,11 +508,22 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает признак, означающий что плитка может отображать операции на записью
+     * @return {boolean}
+     */
     canShowActions(): boolean {
         return this._$canShowActions;
     }
 
-    shouldDisplayItemActions(itemType: TTileItem = 'default', itemActionsPositionTemplate: string, place?: 'wrapper'|'title'): boolean {
+    /**
+     * Должен ли отрисоваться темплейт операций над записью
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TItemActionsPosition} itemActionsPositionTemplate Позиционирование панели опций записи
+     * @param {TItemActionsPlace} place Место в темплейте, в котором будет отрисовываться темплейт операций над записью
+     * @return {boolean}
+     */
+    shouldDisplayItemActions(itemType: TTileItem = 'default', itemActionsPositionTemplate: TItemActionsPosition, place?: TItemActionsPlace): boolean {
         // В превью темплейте itemActions должны показываться внутри блока с названием
         if (itemType === 'preview' && place === 'wrapper') {
             return false;
@@ -350,35 +532,49 @@ export default abstract class TileItem<T extends Model = Model> {
         return !this.isSwiped() && (this.hasVisibleActions() || this.isEditing()) && itemActionsPosition !== 'custom';
     }
 
+    /**
+     * Возвращает контрол операций над записью
+     * @param {TTileItem} itemType Тип элемента
+     * @return {string|undefined} Контрол операций над записью
+     */
     getItemActionsControl(itemType: TTileItem = 'default'): string|undefined {
         if (itemType === 'preview') {
             return 'Controls/tile:TileItemActions';
         }
     }
 
+    /**
+     * Должен ли отрисоваться темплейт операций над записью, который показывается при свайпе
+     */
     shouldDisplaySwipeTemplate(): boolean {
         return this.isSwiped() && (this.hasVisibleActions() || this.isEditing());
     }
 
-    getItemActionsClasses(itemType: TTileItem = 'default', itemActionsClass?: string): string {
+    /**
+     * Возвращает классы стилей для операций над записью
+     * @param {TTileItem} itemType Тип элемента
+     * @param {string} itemActionsClassTemplate Классы стилей для операций над записью, переданные в темплейт элемента
+     * @return {string}
+     */
+    getItemActionsClasses(itemType: TTileItem = 'default', itemActionsClassTemplate?: string): string {
         let classes = '';
 
         switch (itemType) {
             case 'default':
                 classes += 'controls-TileView__itemActions ';
-                classes += itemActionsClass || ' controls-TileView__itemActions_bottomRight';
+                classes += itemActionsClassTemplate || ' controls-TileView__itemActions_bottomRight';
                 break;
             case 'small':
                 classes += 'controls-TileView__itemActions ';
-                classes += itemActionsClass || ' controls-TreeTileView__itemActions_center';
+                classes += itemActionsClassTemplate || ' controls-TreeTileView__itemActions_center';
                 break;
             case 'medium':
                 classes += 'controls-TileView__mediumTemplate_itemActions ';
-                classes += itemActionsClass || ' controls-TileView__itemActions_bottomRight';
+                classes += itemActionsClassTemplate || ' controls-TileView__itemActions_bottomRight';
                 break;
             case 'rich':
                 classes += 'controls-TileView__richTemplate_itemActions ';
-                classes += itemActionsClass || ' controls-TileView__itemActions_topRight';
+                classes += itemActionsClassTemplate || ' controls-TileView__itemActions_topRight';
                 break;
             case 'preview':
                 classes += 'controls-TileView__previewTemplate_itemActions';
@@ -388,6 +584,11 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
+    /**
+     * Возвращает режим отображения операций над записью
+     * @param {TTileItem} itemType Тип элемента
+     * @return {string}
+     */
     getActionMode(itemType: TTileItem = 'default'): string {
         if (itemType === 'preview') {
             return 'adaptive';
@@ -398,6 +599,11 @@ export default abstract class TileItem<T extends Model = Model> {
         return '';
     }
 
+    /**
+     * Возвращает отступ для операций над записью
+     * @param {TTileItem} itemType Тип элемента
+     * @return {string}
+     */
     getActionPadding(itemType: TTileItem = 'default'): string {
         if (itemType === 'preview') {
             return 'null';
@@ -410,10 +616,19 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Image
 
+    /**
+     * Возвращает название свойства, содержащего ссылку на изображение
+     * @return {string} Название свойства
+     */
     getImageProperty(): string {
         return this._$imageProperty;
     }
 
+    /**
+     * Устанавливает название свойства, содержащего ссылку на изображение
+     * @param {string} imageProperty Название свойства
+     * @void
+     */
     setImageProperty(imageProperty: string): void {
         if (imageProperty !== this._$imageProperty) {
             this._$imageProperty = imageProperty;
@@ -421,21 +636,39 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImageFit(imageFitTpl?: string): string {
+    /**
+     * Возвращает режим отображения изображения
+     * @return {TImageFit} Режим отображения изображения
+     */
+    getImageFit(imageFitTpl?: TImageFit): TImageFit {
         return imageFitTpl || this._$imageFit;
     }
 
-    setImageFit(imageFit: string): void {
+    /**
+     * Устанавливает режим отображения изображения
+     * @param {TImageFit} imageFit Режим отображения изображения
+     * @void
+     */
+    setImageFit(imageFit: TImageFit): void {
         if (imageFit !== this._$imageFit) {
             this._$imageFit = imageFit;
             this._nextVersion();
         }
     }
 
+    /**
+     * Возвращает название свойства, содержащего высоту оригинального изображения
+     * @return {string} Название свойства
+     */
     getImageHeightProperty(): string {
         return this._$imageHeightProperty;
     }
 
+    /**
+     * Устанавливает название свойства, содержащего высоту оригинального изображения
+     * @param {string} imageHeightProperty Название свойства
+     * @void
+     */
     setImageHeightProperty(imageHeightProperty: string): void {
         if (imageHeightProperty !== this._$imageHeightProperty) {
             this._$imageHeightProperty = imageHeightProperty;
@@ -443,10 +676,19 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает название свойства, содержащего ширину оригинального изображения
+     * @return {string} Название свойства
+     */
     getImageWidthProperty(): string {
         return this._$imageWidthProperty;
     }
 
+    /**
+     * Устанавливает название свойства, содержащего ширину оригинального изображения
+     * @param {string} imageWidthProperty Название свойства
+     * @void
+     */
     setImageWidthProperty(imageWidthProperty: string): void {
         if (imageWidthProperty !== this._$imageWidthProperty) {
             this._$imageWidthProperty = imageWidthProperty;
@@ -454,25 +696,47 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImageUrlResolver(): Function {
+    /**
+     * Возвращает функцию обратного вызова для получения URL изображения
+     * @return {TImageUrlResolver} Функция обратного вызова для получения URL изображения
+     */
+    getImageUrlResolver(): TImageUrlResolver {
         return this._$imageUrlResolver;
     }
 
-    setImageUrlResolver(imageUrlResolver: Function): void {
+    /**
+     * Устанавливает функцию обратного вызова для получения URL изображения
+     * @param {TImageUrlResolver} imageUrlResolver Функция обратного вызова для получения URL изображения
+     * @void
+     */
+    setImageUrlResolver(imageUrlResolver: TImageUrlResolver): void {
         if (imageUrlResolver !== this._$imageUrlResolver) {
             this._$imageUrlResolver = imageUrlResolver;
             this._nextVersion();
         }
     }
 
+    /**
+     * Возвращает высоту изображения из рекорда по imageHeightProperty
+     * @return {number} Высота изображения
+     */
     getImageHeight(): number {
         return object.getPropertyValue<number>(this.getContents(), this.getImageHeightProperty());
     }
 
+    /**
+     * Возвращает ширину изображения из рекорда по imageWidthProperty
+     * @return {number} Ширина изображения
+     */
     getImageWidth(): number {
         return object.getPropertyValue<number>(this.getContents(), this.getImageWidthProperty());
     }
 
+    /**
+     * Возвращает значения атрибута height для изображения
+     * @param {TTileItem} itemType Тип элемента
+     * @return {string}
+     */
     getImageHeightAttribute(itemType: TTileItem = 'default'): string {
         if (itemType === 'rich') {
             return '';
@@ -481,6 +745,11 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает значения атрибута width для изображения
+     * @param {TTileItem} itemType Тип элемента
+     * @return {string}
+     */
     getImageWidthAttribute(itemType: TTileItem = 'default'): string {
         if (itemType === 'rich') {
             return '';
@@ -489,10 +758,18 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает URL изображения
+     * @param {number} widthTpl Ширина плитки, заданная на темплейте
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     * @param {string} fallbackImage URL заглушки, если не получилось посчитать URL изображения
+     * @return {string} URL изображения
+     */
     getImageUrl(
         widthTpl?: number,
-        imagePosition: string = 'top',
-        imageViewMode: string = 'rectangle',
+        imagePosition: TImagePosition = 'top',
+        imageViewMode: TImageViewMode = 'rectangle',
         fallbackImage?: string
     ): string {
         const baseUrl = object.getPropertyValue<string>(this.getContents(), this.getImageProperty()) || fallbackImage;
@@ -511,6 +788,10 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает пропорции изображения
+     * @param {string} proportion Пропорции изображения, заданные на темплейте
+     */
     getImageProportion(proportion: string = '1:1'): number {
         const [width, height]: string[] = proportion.split(':');
         if (width && height) {
@@ -519,15 +800,47 @@ export default abstract class TileItem<T extends Model = Model> {
         return 1;
     }
 
+    /**
+     * Должны ли отображать изображение
+     * @param {TemplateFunction} contentTemplate Темплейт контента плитки
+     * @return {boolean}
+     */
     shouldDisplayImageTemplate(contentTemplate: TemplateFunction): boolean {
         return !contentTemplate;
     }
 
+    /**
+     * Возвращает темплейт изображения
+     * @param {TTileItem} itemType Тип элемента
+     * @return {TemplateFunction} Темплейт изображения
+     */
     getImageTemplate(itemType: TTileItem = 'default'): TemplateFunction {
         return ImageTemplate;
     }
 
-    getImageClasses(itemType: TTileItem = 'default', widthTpl?: number, imageAlign: string = 'center', imageViewMode?: string, imageProportion?: number, imagePosition?: string, imageSize?: string, imageFit?: string, imageProportionOnItem?: string): string {
+    /**
+     * Возвращает классы стилей для изображения
+     * @param {TTileItem} itemType Тип элемента
+     * @param {number} widthTpl Ширина плитки, заданная на темплейте
+     * @param {TImageAlign} imageAlign Выравнивание изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     * @param {string} imageProportion Пропорции изображения
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageSize} imageSize Размер изображения
+     * @param {TImageFit} imageFit Режим отображения изображения
+     * @param {string} imageProportionOnItem Пропорции изображения, заданные на темплейте элемента
+     */
+    getImageClasses(
+        itemType: TTileItem = 'default',
+        widthTpl?: number,
+        imageAlign: TImageAlign = 'center',
+        imageViewMode?: TImageViewMode,
+        imageProportion?: number,
+        imagePosition?: TImagePosition,
+        imageSize?: TImageSize,
+        imageFit?: TImageFit,
+        imageProportionOnItem?: string
+    ): string {
         let classes = '';
 
         switch (itemType) {
@@ -559,7 +872,27 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes ;
     }
 
-    getImageWrapperClasses(itemType: TTileItem = 'default', templateHasTitle?: boolean, templateTitleStyle?: string, imageViewMode: string = 'rectangle', imageProportion?: number, imagePosition?: string, imageSize?: string,  imageProportionOnItem?: string): string {
+    /**
+     * Возвращает классы стилей для обертки над изображением
+     * @param {TTileItem} itemType Тип элемента
+     * @param {boolean} templateHasTitle Признак, означающий что заголовок в плитке отображается
+     * @param {TTitleStyle} templateTitleStyle Стиль заголовка
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     * @param {string} imageProportion Пропорции изображения
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageSize} imageSize Размер изображения
+     * @param {string} imageProportionOnItem Пропорции изображения, заданные на темплейте элемента
+     */
+    getImageWrapperClasses(
+        itemType: TTileItem = 'default',
+        templateHasTitle?: boolean,
+        templateTitleStyle?: TTitleStyle,
+        imageViewMode: TImageViewMode = 'rectangle',
+        imageProportion?: number,
+        imagePosition?: TImagePosition,
+        imageSize?: TImageSize,
+        imageProportionOnItem?: string
+    ): string {
         let classes = 'controls-TileView__imageWrapper';
         if (templateTitleStyle === 'accent') {
             classes += ' controls-TileView__imageWrapper_accent';
@@ -601,7 +934,17 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getImageWrapperStyles(itemType: TTileItem = 'default', imageViewMode: string = 'rectangle', imagePosition?: string): string {
+    /**
+     * Возвращает стили для обертки над изображением
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     * @param {TImagePosition} imagePosition Позиция изображения
+     */
+    getImageWrapperStyles(
+        itemType: TTileItem = 'default',
+        imageViewMode: TImageViewMode = 'rectangle',
+        imagePosition?: TImagePosition
+    ): string {
         let styles = '';
         if (this.getTileMode() === 'dynamic') {
             let height = this.getTileHeight();
@@ -614,7 +957,11 @@ export default abstract class TileItem<T extends Model = Model> {
         return styles;
     }
 
-    getImageAlignClasses(imageAlign: string): string {
+    /**
+     * Возвращает классы выравнивания изображения
+     * @param {TImageAlign} imageAlign Выравнивание изображения
+     */
+    getImageAlignClasses(imageAlign: TImageAlign): string {
         if (imageAlign === 'top') {
             return 'controls-TileView__imageAlign_wrapper ws-flexbox ws-justify-content-center ws-align-items-center';
         } else {
@@ -622,7 +969,13 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getImagePreserveAspectRatio(itemType: TTileItem = 'default', imageFit?: string): string {
+    /**
+     * Возвращает значения атрибута preserveAspectRatio для изображения
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TImageFit} imageFit Режим отображения изображения
+     * @return {string}
+     */
+    getImagePreserveAspectRatio(itemType: TTileItem = 'default', imageFit?: TImageFit): string {
         switch (itemType) {
             case 'default':
             case 'small':
@@ -638,7 +991,21 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region ImageGradient
 
-    shouldDisplayGradient(itemType: TTileItem = 'default', imageEffect?: string, imageViewMode?: string, imagePosition?: string, position?: string): boolean {
+    /**
+     * Должен ли отрисоваться градиент изображения
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TImageEffect} imageEffect Эффект изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TGradientPlace} position Место в темплейте, в котором будет отрисован темплейт градиента
+     */
+    shouldDisplayGradient(
+        itemType: TTileItem = 'default',
+        imageEffect?: TImageEffect,
+        imageViewMode?: TImageViewMode,
+        imagePosition?: TImagePosition,
+        position?: TGradientPlace
+    ): boolean {
         switch (itemType) {
             case 'default':
             case 'small':
@@ -651,7 +1018,12 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getGradientClasses(itemType: TTileItem = 'default', gradientType: string = 'dark'): string {
+    /**
+     * Возвращает классы стилей градиента
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TGradientType} gradientType Тип градиента
+     */
+    getGradientClasses(itemType: TTileItem = 'default', gradientType: TGradientType = 'dark'): string {
         let classes = '';
 
         switch (itemType) {
@@ -671,7 +1043,17 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getBigGradientStyles(itemType: TTileItem = 'default', gradientStartColor: string = '#ffffff', gradientStopColor: string = '#ffffff'): string {
+    /**
+     * Возвращает стили для большого градиента
+     * @param {TTileItem} itemType Тип элемента
+     * @param {string} gradientStartColor Начальный цвет градиента
+     * @param {string} gradientStopColor Конечный цвет градиента
+     */
+    getBigGradientStyles(
+        itemType: TTileItem = 'default',
+        gradientStartColor: string = '#ffffff',
+        gradientStopColor: string = '#ffffff'
+    ): string {
         let styles = '';
 
         switch (itemType) {
@@ -688,7 +1070,17 @@ export default abstract class TileItem<T extends Model = Model> {
         return styles;
     }
 
-    getGradientStyles(itemType: TTileItem = 'default', gradientColor: string = '#ffffff', gradientType: string = 'dark'): string {
+    /**
+     * Возвращает стили градиента
+     * @param {TTileItem} itemType Тип элемента
+     * @param {string} gradientColor Цвет градиента
+     * @param {TGradientType} gradientType Тип градиента
+     */
+    getGradientStyles(
+        itemType: TTileItem = 'default',
+        gradientColor: string = '#ffffff',
+        gradientType: TGradientType = 'dark'
+    ): string {
         let styles = '';
 
         switch (itemType) {
@@ -713,17 +1105,25 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Styles
 
-    getItemPaddingClasses(): string {
-        let classes = '';
-        classes += `controls-TileView__item_spacingLeft_${this.getLeftPadding()}`;
-        classes += ` controls-TileView__item_spacingRight_${this.getRightPadding()}`;
-        classes += ` controls-TileView__item_spacingTop_${this.getTopPadding()}`;
-        classes += ` controls-TileView__item_spacingBottom_${this.getBottomPadding()}`;
-
-        return classes;
-    }
-
-    getItemClasses(itemType: TTileItem = 'default', templateClickable?: boolean, hasTitle?: boolean, cursor: string = 'pointer', templateMarker?: boolean, templateShadowVisibility?: string, border?: boolean): string {
+    /**
+     * Возвращает классы стилей для элемента
+     * @param {TTileItem} itemType Тип элемента
+     * @param {boolean} templateClickable Признак, означающий что элемент является кликабельным
+     * @param {boolean} hasTitle Признак, означающий что нужно отображать заголовок
+     * @param {TCursor} cursor Тип курсора при наведении на элемент
+     * @param {boolean} templateMarker Признак, означающий что нужно отображать маркер
+     * @param {TShadowVisibility} templateShadowVisibility Видимость теней
+     * @param {boolean} border Признак, означающий что нужно отображать границы
+     */
+    getItemClasses(
+        itemType: TTileItem = 'default',
+        templateClickable?: boolean,
+        hasTitle?: boolean,
+        cursor: TCursor = 'pointer',
+        templateMarker?: boolean,
+        templateShadowVisibility?: TShadowVisibility,
+        border?: boolean
+    ): string {
         let classes = 'controls-TileView__item controls-ListView__itemV';
 
         if (templateClickable !== false) {
@@ -766,7 +1166,21 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getItemStyles(itemType: TTileItem = 'default', templateWidth?: number, staticHeight?: boolean, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
+    /**
+     * Возвращает стили для элемента
+     * @param {TTileItem} itemType Тип элемента
+     * @param {number} templateWidth Ширина элемента, заданная на темплейте
+     * @param {boolean} staticHeight Признак, означающий что высота постоянная
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     */
+    getItemStyles(
+        itemType: TTileItem = 'default',
+        templateWidth?: number,
+        staticHeight?: boolean,
+        imagePosition: TImagePosition = 'top',
+        imageViewMode: TImageViewMode = 'rectangle'
+    ): string {
         const width = this.getTileWidth(templateWidth, imagePosition, imageViewMode);
         if (this.getTileMode() === 'dynamic') {
             const flexBasis = width * this.getCompressionCoefficient();
@@ -793,15 +1207,27 @@ export default abstract class TileItem<T extends Model = Model> {
 
     }
 
+
+    /**
+     * Возвращает классы стилей для обертки элемента
+     * @param {TTileItem} itemType Тип элемента
+     * @param {boolean} marker Признак, означающий что нужно отображать маркер
+     * @param {TShadowVisibility} templateShadowVisibility Видимость теней
+     * @param {boolean} highlightOnHover Признак, означающий что нужно подсвечивать элемент при ховере
+     * @param {TBackgroundColorStyle} backgroundColorStyle
+     * @param {string} height
+     * @param {boolean} border Признак, означающий что нужно отображать границы
+     * @param {TTitleStyle} titleStyle Стиль заголовка
+     */
     getWrapperClasses(
         itemType: TTileItem = 'default',
         templateShadowVisibility?: string,
         marker?: boolean,
         highlightOnHover?: boolean,
-        backgroundColorStyle?: string,
+        backgroundColorStyle?: TBackgroundColorStyle,
         height?: string,
         border?: boolean,
-        titleStyle: string = 'light'
+        titleStyle: TTitleStyle = 'light'
     ): string {
         let classes = '';
         classes += ` ${this.getRoundBorderClasses()}`;
@@ -815,6 +1241,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
         classes += ' controls-TileView__itemContent js-controls-ListView__measurableContainer';
 
+        // TODO это значение вроде задается только для Rich темплейта всегда, нет смысла прокидывать его в опции
         if (height === 'auto') {
             classes += ' controls-TileView__item_autoHeight';
         }
@@ -874,6 +1301,10 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
+    /**
+     * Возвращает стили для обертки элемента
+     * @param {TTileItem} itemType Тип элемента
+     */
     getWrapperStyles(itemType: TTileItem = 'default'): string {
         let styles = this.getFixedPositionStyle() || '';
 
@@ -893,10 +1324,31 @@ export default abstract class TileItem<T extends Model = Model> {
         return styles;
     }
 
+    /**
+     * Возвращает классы с отступами элемента
+     */
+    getItemPaddingClasses(): string {
+        let classes = '';
+        classes += `controls-TileView__item_spacingLeft_${this.getLeftPadding()}`;
+        classes += ` controls-TileView__item_spacingRight_${this.getRightPadding()}`;
+        classes += ` controls-TileView__item_spacingTop_${this.getTopPadding()}`;
+        classes += ` controls-TileView__item_spacingBottom_${this.getBottomPadding()}`;
+
+        return classes;
+    }
+
+    /**
+     * Возвращает стиль фиксированной позиции элемента
+     */
     getFixedPositionStyle(): string {
         return this.isScaled() ? this._$fixedPosition || undefined : undefined;
     }
 
+    /**
+     * Устанавливает стиль фиксированной позиции элемента
+     * @param {string} position Стиль фиксированной позиции элемента
+     * @param {boolean} silent Признак, означающий что не нужно отправлять событие об изменении коллекции
+     */
     setFixedPositionStyle(position: string, silent?: boolean): void {
         if (this._$fixedPosition === position) {
             return;
@@ -908,6 +1360,11 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает стили маркера
+     * @param {boolean} marker Признак, означающий что нужно отображать маркер
+     * @param {boolean} border Признак, означающий что нужно отображать границы
+     */
     getMarkerClasses(marker?: boolean, border?: boolean): string {
         let classes = '';
 
@@ -920,10 +1377,37 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
+    /**
+     * Возвращает стили для чекбоксов
+     * @param {TTileItem} itemType Тип элемента
+     */
+    getMultiSelectStyles(itemType: TTileItem = 'default'): string {
+        let styles = '';
+
+        switch (itemType) {
+            case 'default':
+            case 'medium':
+            case 'preview':
+                break;
+            case 'rich':
+            case 'small':
+                // TODO переопределяем left и top, т.к. в метод getMultiSelectClasses мы не можем прокинуть параметр itemType
+                styles += ' left: unset; top: unset;';
+                break;
+        }
+
+        return styles;
+    }
+
     // endregion Styles
 
     // region Content
 
+    /**
+     * Возвращает темплейт контента
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TemplateFunction} contentTemplate Прикладной темплейт контента
+     */
     getContentTemplate(itemType: TTileItem = 'default', contentTemplate?: TemplateFunction): TemplateFunction {
         if (contentTemplate) {
             return contentTemplate;
@@ -942,7 +1426,17 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getContentClasses(itemType: TTileItem = 'default', imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
+    /**
+     * Возвращает классы стилей для контента
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     */
+    getContentClasses(
+        itemType: TTileItem = 'default',
+        imagePosition: TImagePosition = 'top',
+        imageViewMode: TImageViewMode = 'rectangle'
+    ): string {
         let classes = '';
 
         switch (itemType) {
@@ -968,6 +1462,10 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Title
 
+    /**
+     * Должен ли отрисоваться заголовок
+     * @param {TTileItem} itemType Тип элемента
+     */
     shouldDisplayTitle(itemType: TTileItem = 'default'): boolean {
         switch (itemType) {
             case 'default':
@@ -981,7 +1479,19 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
-    getTitleWrapperClasses(itemType: TTileItem = 'default', titleLines: number = 1, gradientType: string = 'dark', titleStyle: string = 'light'): string {
+    /**
+     * Возвращает классы стилей для обертки заголовка
+     * @param {TTileItem} itemType Тип элемента
+     * @param {number} titleLines Кол-во строк в заголовке
+     * @param {TGradientType} gradientType Тип градиента
+     * @param {TTitleStyle} titleStyle Стиль заголовка
+     */
+    getTitleWrapperClasses(
+        itemType: TTileItem = 'default',
+        titleLines: number = 1,
+        gradientType: TGradientType = 'dark',
+        titleStyle: TTitleStyle = 'light'
+    ): string {
         let classes = '';
 
         switch (itemType) {
@@ -1007,7 +1517,19 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getTitleWrapperStyles(itemType: TTileItem = 'default', imageViewMode: string, imagePosition: string, gradientColor: string = '#FFF'): string {
+    /**
+     * Возвращает стили для обертки заголовка
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TImageViewMode} imageViewMode Режим отображения изображения
+     * @param {TImagePosition} imagePosition Позиция изображения
+     * @param {string} gradientColor Цвет градиента
+     */
+    getTitleWrapperStyles(
+        itemType: TTileItem = 'default',
+        imageViewMode: TImageViewMode,
+        imagePosition: TImagePosition,
+        gradientColor: string = '#FFF'
+    ): string {
         let styles = '';
 
         switch (itemType) {
@@ -1028,7 +1550,21 @@ export default abstract class TileItem<T extends Model = Model> {
         return styles;
     }
 
-    getTitleClasses(itemType: TTileItem = 'default', titleStyle?: string, hasTitle?: boolean, titleLines: number = 1, titleColorStyle: string = 'default'): string {
+    /**
+     * Возвращает классы стилей для заголовка
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TTitleStyle} titleStyle Стиль заголовка
+     * @param {boolean} hasTitle Признак, означающий что нужно отображать заголовок
+     * @param {number} titleLines Кол-во строк в заголовке
+     * @param {string} titleColorStyle Стиль цвета заголовка
+     */
+    getTitleClasses(
+        itemType: TTileItem = 'default',
+        titleStyle?: TTitleStyle,
+        hasTitle?: boolean,
+        titleLines: number = 1,
+        titleColorStyle: string = 'default'
+    ): string {
         let classes = '';
         switch (itemType) {
             case 'default':
@@ -1062,7 +1598,45 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getEllipsisClasses(itemType: TTileItem = 'default', titleLines: number = 1, staticHeight?: boolean, hasTitle?: boolean): string {
+    /**
+     * Возвращает стили для заголовка
+     * @param {TTileItem} itemType Тип элемента
+     * @param {number} titleLines Кол-во строк в заголовке
+     * @param {string} textColor Цвет текста заголовка
+     */
+    getTitleStyles(itemType: TTileItem = 'default', titleLines: number = 1, textColor: string = 'inherit'): string {
+        let styles = '';
+        switch (itemType) {
+            case 'default':
+                break;
+            case 'small':
+                break;
+            case 'medium':
+                break;
+            case 'rich':
+            case 'preview':
+                styles = `-webkit-line-clamp: ${titleLines};`;
+                styles += `color: ${textColor};`;
+                break;
+        }
+
+        return styles;
+    }
+
+
+    /**
+     * Возвращает классы стилей для заголовка, которые многоточат текст
+     * @param {TTileItem} itemType Тип элемента
+     * @param {number} titleLines Кол-во строк в заголовке
+     * @param {boolean} staticHeight Признак, означающий что высота постоянная
+     * @param {boolean} hasTitle Признак, означающий что нужно отображать заголовок
+     */
+    getEllipsisClasses(
+        itemType: TTileItem = 'default',
+        titleLines: number = 1,
+        staticHeight?: boolean,
+        hasTitle?: boolean
+    ): string {
         let classes = '';
 
         switch (itemType) {
@@ -1086,52 +1660,40 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
-    getTitleStyles(itemType: TTileItem = 'default', titleLines: number = 1, textColor: string = 'inherit'): string {
-        let styles = '';
-        switch (itemType) {
-            case 'default':
-                break;
-            case 'small':
-                break;
-            case 'medium':
-                break;
-            case 'rich':
-            case 'preview':
-                styles = `-webkit-line-clamp: ${titleLines};`;
-                styles += `color: ${textColor};`;
-                break;
-        }
-
-        return styles;
-    }
-
     // endregion Title
 
     // region Description
 
+    /**
+     * Должно ли рисоваться описание
+     * @param {TTileItem} itemType Тип элемента
+     * @param {string} description Описание
+     * @param {number} descriptionLines Кол-во строк в описании
+     */
     shouldDisplayDescription(itemType: TTileItem = 'default', description: string, descriptionLines: number): boolean {
         switch (itemType) {
             case 'default':
-                return false;
             case 'small':
-                break;
             case 'medium':
-                break;
+            case 'preview':
+                return false;
             case 'rich':
                 return description && descriptionLines !== 0;
-            case 'preview':
-                break;
         }
     }
 
+    /**
+     * Возвращает классы стилей для описания
+     * @param {TTileItem} itemType Тип элемента
+     * @param {number} descriptionLines Кол-во строк в описании
+     */
     getDescriptionClasses(itemType: TTileItem = 'default', descriptionLines: number): string {
         let classes = '';
         switch (itemType) {
             case 'default':
-                break;
             case 'small':
-                break;
             case 'medium':
+            case 'preview':
                 break;
             case 'rich':
                 classes += 'controls-TileView__richTemplate_description';
@@ -1142,27 +1704,28 @@ export default abstract class TileItem<T extends Model = Model> {
                 }
                 classes += ' controls-TileView__richTemplate_description';
                 break;
-            case 'preview':
-                break;
         }
 
         return classes;
     }
 
+    /**
+     * Возвращает стили для описания
+     * @param {TTileItem} itemType Тип элемента
+     * @param {number} descriptionLines Кол-во строк в описании
+     * @param {string} textColor Цвет текста
+     */
     getDescriptionStyles(itemType: TTileItem = 'default', descriptionLines: number = 1, textColor: string = 'inherit'): string {
         let styles = '';
         switch (itemType) {
             case 'default':
-                break;
             case 'small':
-                break;
             case 'medium':
+            case 'preview':
                 break;
             case 'rich':
                 styles = `-webkit-line-clamp: ${descriptionLines};`;
                 styles += `color: ${textColor};`;
-                break;
-            case 'preview':
                 break;
         }
 
@@ -1173,6 +1736,11 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region RoundBorder
 
+    /**
+     * Устанавливает скругление углов элемента
+     * @param {TRoundBorder} roundBorder Скругление углов элемента
+     * @void
+     */
     setRoundBorder(roundBorder: TRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
@@ -1180,22 +1748,42 @@ export default abstract class TileItem<T extends Model = Model> {
         }
     }
 
+    /**
+     * Возвращает скругление верхнего левого угла плитки
+     * @return {string}
+     */
     getTopLeftRoundBorder(): string {
         return this._$roundBorder?.tl || 'default';
     }
 
+    /**
+     * Возвращает скругление верхнего правого угла плитки
+     * @return {string}
+     */
     getTopRightRoundBorder(): string {
         return this._$roundBorder?.tr || 'default';
     }
 
+    /**
+     * Возвращает скругление нижнего левого угла плитки
+     * @return {string}
+     */
     getBottomLeftRoundBorder(): string {
         return this._$roundBorder?.bl || 'default';
     }
 
+    /**
+     * Возвращает скругление нижнего правого угла плитки
+     * @return {string}
+     */
     getBottomRightRoundBorder(): string {
         return this._$roundBorder?.br || 'default';
     }
 
+    /**
+     * Возвращает классы стилей для скругления углов плитки
+     * @return {string}
+     */
     getRoundBorderClasses(): string {
         let classes = ` controls-TileView__item_roundBorder_topLeft_${this.getTopLeftRoundBorder()}`;
         classes += ` controls-TileView__item_roundBorder_topRight_${this.getTopRightRoundBorder()}`;
@@ -1207,7 +1795,17 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Footer
 
-    shouldDisplayFooterTemplate(itemType: TTileItem = 'default', footerTemplate: TemplateFunction, place: 'wrapper'|'content'): boolean {
+    /**
+     * Должен ли отрисовываться темплейт футера
+     * @param {TTileItem} itemType Тип элемента
+     * @param {TemplateFunction} footerTemplate Темплейт футера
+     * @param {TFooterPlace} place Место в темплейте, в котором будет отрисовываться темплейт футера
+     */
+    shouldDisplayFooterTemplate(
+        itemType: TTileItem = 'default',
+        footerTemplate: TemplateFunction,
+        place: TFooterPlace
+    ): boolean {
         if (!footerTemplate) {
             return false;
         }
@@ -1220,24 +1818,6 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     // endregion Footer
-
-    getMultiSelectStyles(itemType: TTileItem = 'default'): string {
-        let styles = '';
-
-        switch (itemType) {
-            case 'default':
-            case 'medium':
-            case 'preview':
-                break;
-            case 'rich':
-            case 'small':
-                // TODO переопределяем left и top, т.к. в метод getMultiSelectClasses мы не можем прокинуть параметр itemType
-                styles += ' left: unset; top: unset;';
-                break;
-        }
-
-        return styles;
-    }
 
     abstract isHovered(): boolean;
     abstract isActive(): boolean;

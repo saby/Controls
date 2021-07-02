@@ -6,16 +6,25 @@ import InvisibleTileItem from '../InvisibleTileItem';
 
 export const COUNT_INVISIBLE_ITEMS = 10;
 
+/**
+ * Интерфейс опций, с которыми создается стратегия InvisibleStrategy
+ */
 interface IOptions<S extends Model = Model, T extends TileCollectionItem<S>> {
     source: IItemsStrategy<S, T>;
     display: TileCollection<S, T>;
 }
 
+/**
+ * Интерфейс опций метода InvisibleStrategy::sortItems
+ */
 interface ISortOptions<S extends Model = Model, T extends TileCollectionItem<S>> {
     display: TileCollection<S, T>;
     invisibleItems: InvisibleTileItem[];
 }
 
+/**
+ * Стратегия, которая создает невидимые элементы в коллекции
+ */
 export default class InvisibleStrategy<
     S extends Model = Model,
     T extends TileCollectionItem<S> = TileCollectionItem<S>
