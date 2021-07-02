@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/Search/Explorer/Explorer';
-import {Gadgets} from '../../Explorer_new/DataHelpers/DataCatalog';
+import {Gadgets} from '../../explorerNew/DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import { IColumn } from 'Controls/grid';

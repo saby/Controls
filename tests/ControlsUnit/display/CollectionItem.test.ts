@@ -466,7 +466,10 @@ describe('Controls/_display/CollectionItem', () => {
         const owner = {
             notifyItemChange(): void {},
             getHoverBackgroundStyle: function() {},
-            getEditingBackgroundStyle: () => 'default'
+            getEditingBackgroundStyle: () => 'default',
+            isFirstItem: () => false,
+            isLastItem: () => false,
+            getNavigation: () => ({})
         };
 
         const defaultClasses = [

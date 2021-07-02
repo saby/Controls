@@ -285,7 +285,7 @@ class Base extends Control<IMasterDetail, string> {
     }
 
     protected _getMasterStyle(scrollTop: number = 0, scrollOffsetTop: number, masterOffsetTop: number): string {
-        if (this._container) {
+        if (this._container && document) {
             const normalHeight = scrollOffsetTop + masterOffsetTop;
             const height = document.body.clientHeight - Math.max(normalHeight - scrollTop, masterOffsetTop);
             return `max-height: ${height}px;`;

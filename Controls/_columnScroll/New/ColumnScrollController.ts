@@ -577,10 +577,16 @@ export default class ColumnScrollController {
     private _getScrollPositionToColumnRectEdge(columnRect: DOMRect): number {
         const scrollableRect = this._getScrollContainerRect();
 
+        // Граница ячейки за пределами видимой скроллируемой области.
+        // Величина смещения может быть дробной, нужно по максимуму сдвинуть скролл в ту сторону.
+        // Для этого округляем в соответствующую направлению скролла
+        // сторону (у ячейкислева в меньшую, справа в большую, а у скроллконтейнера наоборот).
         if (columnRect.right > scrollableRect.right) {
-            return Math.min(this._scrollPosition + (columnRect.right - scrollableRect.right), this.getScrollLength());
+            const newScrollPosition = this._scrollPosition + (Math.round(columnRect.right) - Math.floor(scrollableRect.right));
+            return Math.min(newScrollPosition, this.getScrollLength());
         } else if (columnRect.left < scrollableRect.left) {
-            return Math.max(0, this._scrollPosition - (scrollableRect.left - columnRect.left));
+            const newScrollPosition = this._scrollPosition - (Math.floor(scrollableRect.left) - Math.round(columnRect.left));
+            return Math.max(0, newScrollPosition);
         }
         return this._scrollPosition;
     }

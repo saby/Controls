@@ -38,7 +38,8 @@ export interface IInitializeColumnsOptions {
 }
 
 export interface IOptions<T> extends IBaseOptions<T> {
-    columns: TColumns;
+    columnsConfig: TColumns;
+    gridColumnsConfig: TColumns;
     colspanCallback?: TColspanCallback;
     rowTemplate: TemplateFunction;
     rowTemplateOptions: object;
@@ -63,9 +64,12 @@ export default abstract class Row<T> {
 
     protected _$rowTemplate: TemplateFunction;
     protected _$rowTemplateOptions: object;
-    protected _$columns: TColumns;
+    protected _$columnsConfig: TColumns;
+    protected _$gridColumnsConfig: TColumns;
     protected _$itemActionsPosition: 'inside' | 'outside' | 'custom';
     protected _$backgroundStyle: string;
+    protected _$isBottomSeparatorEnabled: boolean;
+    protected _$isTopSeparatorEnabled: boolean;
     protected _savedColumns: TColumns;
 
     protected constructor(options?: IOptions<T>) {
@@ -74,7 +78,7 @@ export default abstract class Row<T> {
                 this._savedColumns = options.columns;
             }
 
-            this._$columns = [{
+            this._$columnsConfig = [{
                 template: this._$rowTemplate,
                 templateOptions: this._$rowTemplateOptions
             }];
@@ -102,7 +106,21 @@ export default abstract class Row<T> {
         const stickyVerticalPosition = stickyCallback ? 'top' : 'topBottom';
         return {
             vertical: stickyVerticalPosition
-        }
+        };
+    }
+
+    // @TODO https://online.sbis.ru/opendoc.html?guid=907731fd-b8a8-4b58-8958-61b5c8090188
+    setBottomSeparatorEnabled(state: boolean): void {
+        this._$isBottomSeparatorEnabled = state;
+        this._reinitializeColumns();
+        this._nextVersion();
+    }
+
+    // @TODO https://online.sbis.ru/opendoc.html?guid=907731fd-b8a8-4b58-8958-61b5c8090188
+    setTopSeparatorEnabled(state: boolean): void {
+        this._$isTopSeparatorEnabled = state;
+        this._reinitializeColumns();
+        this._nextVersion();
     }
 
     //region Аспект "Стилевое оформление. Классы и стили строки"
@@ -113,11 +131,6 @@ export default abstract class Row<T> {
 
         if (params.showItemActionsOnHover !== false) {
             itemClasses += ' controls-ListView__item_showActions';
-        }
-        const navigation = this.getOwner().getNavigation();
-        if ((!navigation || navigation.view !== 'infinity' || !this.getOwner().hasMoreData())
-            && this.isLastItem()) {
-            itemClasses += ' controls-ListView__itemV_last';
         }
 
         return itemClasses;
@@ -169,7 +182,7 @@ export default abstract class Row<T> {
 
     //region Аспект "Лесенка"
     getStickyLadderCellsCount(): number {
-        const stickyProperties = this.getStickyLadderProperties(this._$columns[0]);
+        const stickyProperties = this.getStickyLadderProperties(this._$columnsConfig[0]);
         return stickyProperties ? stickyProperties.length : 0;
     }
     getStickyLadderProperties(column: IColumn): string[] {
@@ -182,7 +195,7 @@ export default abstract class Row<T> {
 
     shouldDrawLadderContent(ladderProperty: string, stickyProperty: string): boolean {
         const stickyLadder = this.getStickyLadder();
-        const stickyProperties = this.getStickyLadderProperties(this._$columns[0]);
+        const stickyProperties = this.getStickyLadderProperties(this._$columnsConfig[0]);
 
         if (!stickyLadder) {
             return true;
@@ -202,7 +215,7 @@ export default abstract class Row<T> {
         let ladderWrapperClasses = 'controls-Grid__row-cell__ladder-content';
         const ladder = this.getLadder();
         const stickyLadder = this.getStickyLadder();
-        const stickyProperties = this.getStickyLadderProperties(this._$columns[0]);
+        const stickyProperties = this.getStickyLadderProperties(this._$columnsConfig[0]);
         const index = stickyProperties?.indexOf(stickyProperty);
         const hasMainCell = stickyLadder && !!(stickyLadder[stickyProperties[0]].ladderLength);
 
@@ -255,7 +268,7 @@ export default abstract class Row<T> {
     protected _processStickyLadderCells(addEmptyCellsForStickyLadder: boolean = false,
                                         stickyLadderCellCtor: (new () => Cell) = StickyLadderCell): void {
         // todo Множественный stickyProperties можно поддержать здесь:
-        const stickyLadderProperties = this.getStickyLadderProperties(this.getColumnsConfig()[0]);
+        const stickyLadderProperties = this.getStickyLadderProperties(this.getGridColumnsConfig()[0]);
         const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
 
         // Создание пустых ячеек, для строк, которые никогда не отображают лесенку, но обязаны выводить пустые ячейки
@@ -272,9 +285,9 @@ export default abstract class Row<T> {
         }
 
         const stickyLadderStyleForFirstProperty = stickyLadderProperties &&
-            this._getStickyLadderStyle(this.getColumnsConfig()[0], stickyLadderProperties[0]);
+            this._getStickyLadderStyle(this.getGridColumnsConfig()[0], stickyLadderProperties[0]);
         const stickyLadderStyleForSecondProperty = stickyLadderProperties && stickyLadderProperties.length === 2 &&
-            this._getStickyLadderStyle(this.getColumnsConfig()[0], stickyLadderProperties[1]);
+            this._getStickyLadderStyle(this.getGridColumnsConfig()[0], stickyLadderProperties[1]);
 
         if (stickyLadderStyleForSecondProperty || stickyLadderStyleForFirstProperty) {
             this._$columnItems[0].setHiddenForLadder(true);
@@ -282,11 +295,11 @@ export default abstract class Row<T> {
 
         if (stickyLadderStyleForSecondProperty) {
             this._$columnItems.splice(1, 0, new stickyLadderCellCtor({
-                ...this._getColumnFactoryParams(this.getColumnsConfig()[0], 0),
+                ...this._getColumnFactoryParams(this.getGridColumnsConfig()[0], 0),
                 owner: this,
                 instanceId: `${this.key}_column_secondSticky`,
                 wrapperStyle: stickyLadderStyleForSecondProperty,
-                contentStyle: `left: -${this.getColumnsConfig()[0].width}; right: 0;`,
+                contentStyle: `left: -${this.getGridColumnsConfig()[0].width}; right: 0;`,
                 stickyProperty: stickyLadderProperties[1],
                 isFixed: this.hasColumnScroll(),
                 isPointerEventsDisabled: this._$itemActionsPosition === 'outside',
@@ -297,11 +310,11 @@ export default abstract class Row<T> {
         if (stickyLadderStyleForFirstProperty) {
             this._$columnItems = ([
                 new stickyLadderCellCtor({
-                    ...this._getColumnFactoryParams(this.getColumnsConfig()[0], 0),
+                    ...this._getColumnFactoryParams(this.getGridColumnsConfig()[0], 0),
                     owner: this,
                     instanceId: `${this.key}_column_firstSticky`,
                     wrapperStyle: stickyLadderStyleForFirstProperty,
-                    contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this.getColumnsConfig()[0].width};` : '',
+                    contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this.getGridColumnsConfig()[0].width};` : '',
                     stickyProperty: stickyLadderProperties[0],
                     isFixed: this.hasColumnScroll(),
                     isPointerEventsDisabled: this._$itemActionsPosition === 'outside',
@@ -316,6 +329,11 @@ export default abstract class Row<T> {
             this._initializeColumns();
         }
         return this._$columnItems;
+    }
+
+    setGridColumnsConfig(columns: TColumns): void {
+        this._$gridColumnsConfig = columns;
+        this._reinitializeColumns(true);
     }
 
     getColumnsCount(): number {
@@ -421,19 +439,19 @@ export default abstract class Row<T> {
 
         for (
             let columnIndex = 0, resultTotalLength = 0;
-            (columnIndex < columns.length) && (skipColumns ? true : (resultTotalLength < this.getColumnsConfig().length));
+            (columnIndex < columns.length) && (skipColumns ? true : (resultTotalLength < this.getGridColumnsConfig().length));
             columnIndex++
         ) {
             const column = columns[columnIndex];
             let colspan = this._$getColspan(column, columnIndex);
             if (colspan === 'end') {
-                colspan = this.getColumnsConfig().length - columnIndex;
+                colspan = this.getGridColumnsConfig().length - columnIndex;
             }
             if (this.hasMultiSelectColumn() && shouldColspanWithMultiselect) {
                 colspan++;
             }
             if (shouldColspanWithStickyLadderCells && this.isFullGridSupport()) {
-                const stickyLadderProperties = this.getStickyLadderProperties(this.getColumnsConfig()[0]);
+                const stickyLadderProperties = this.getStickyLadderProperties(this.getGridColumnsConfig()[0]);
                 const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
                 colspan += stickyLadderCellsCount;
             }
@@ -456,7 +474,7 @@ export default abstract class Row<T> {
             });
         }
 
-        if (creatingColumnsParams.length === 1 && this.getColumnsConfig().length > 1) {
+        if (creatingColumnsParams.length === 1 && this.getGridColumnsConfig().length > 1) {
             creatingColumnsParams[0].isActsAsRowTemplate = true;
             if (this.hasColumnScroll()) {
                 creatingColumnsParams[0].isFixed = true;
@@ -486,7 +504,7 @@ export default abstract class Row<T> {
         return creatingColumnsParams.map((params) => factory(params));
     }
 
-    setColumns(newColumns: TColumns): void {
+    setColumnsConfig(newColumns: TColumns): void {
         if (this._$rowTemplate) {
             // В данный момент строка выводит контент из rowTemplate. Он актуален, перестроение не требуется.
             // Однако, колонки сохраняются, чтобы при сбросе шаблона строки строка перерисовалась по ним.
@@ -495,8 +513,8 @@ export default abstract class Row<T> {
                 this._reinitializeColumns(true);
             }
         } else {
-            if (this._$columns !== newColumns) {
-                this._$columns = newColumns;
+            if (this._$columnsConfig !== newColumns) {
+                this._$columnsConfig = newColumns;
                 this._reinitializeColumns(true);
             }
         }
@@ -519,16 +537,18 @@ export default abstract class Row<T> {
             columnSeparatorSize: this._getColumnSeparatorSizeForColumn(column, columnIndex),
             backgroundStyle: this._$backgroundStyle,
             isSticked: this.isSticked(),
-            shadowVisibility: this.getShadowVisibility()
+            shadowVisibility: this.getShadowVisibility(),
+            isTopSeparatorEnabled: this._$isTopSeparatorEnabled,
+            isBottomSeparatorEnabled: this._$isBottomSeparatorEnabled
         };
     }
 
     protected _initializeColumns(options: IInitializeColumnsOptions = {shouldAddStickyLadderCells: true, shouldAddMultiSelectCell: true}): void {
-        if (this._$columns) {
+        if (this._$columnsConfig) {
 
             // Заполняем основные ячейки строки (данные), учитывая колспаны.
             this._$columnItems = this._prepareColumnItems(
-                this._$columns,
+                this._$columnsConfig,
                 this.getColumnsFactory(),
                 options.shouldAddMultiSelectCell === false,
                 options.shouldAddStickyLadderCells === false,
@@ -599,8 +619,8 @@ export default abstract class Row<T> {
         return this._$owner.isFullGridSupport();
     }
 
-    getColumnsConfig(): TColumns {
-        return this._$owner.getColumnsConfig();
+    getGridColumnsConfig(): TColumns {
+        return this._$owner.getGridColumnsConfig();
     }
 
     getHeaderConfig(): THeader {
@@ -676,7 +696,7 @@ export default abstract class Row<T> {
 
     protected _getColumnSeparatorSizeForColumn(column: IColumn, columnIndex: number): TColumnSeparatorSize {
         if (columnIndex > 0) {
-            const columns = this.getColumnsConfig();
+            const columns = this.getGridColumnsConfig();
             const previousColumn = columns[columnIndex - 1];
             return this._resolveColumnSeparatorSize(column, previousColumn);
         }
@@ -710,17 +730,17 @@ export default abstract class Row<T> {
         if (rowTemplate) {
             // Произошла установка шаблона стрки. Если строка рисовалась по колонкам, сохраним их,
             // чтобы при сбросе шаблона строки вернуться к ним.
-            if (!this._$rowTemplate && this._$columns) {
-                this._savedColumns = this._$columns;
+            if (!this._$rowTemplate && this._$columnsConfig) {
+                this._savedColumns = this._$columnsConfig;
             }
             this._$rowTemplate = rowTemplate;
-            this._$columns = [{
+            this._$columnsConfig = [{
                 template: this._$rowTemplate,
                 templateOptions: this._$rowTemplateOptions || {}
             }];
         } else if (this._$rowTemplate) {
             this._$rowTemplate = rowTemplate;
-            this._$columns = this._savedColumns ? this._savedColumns : null;
+            this._$columnsConfig = this._savedColumns ? this._savedColumns : null;
         } else {
             return;
         }
@@ -731,8 +751,8 @@ export default abstract class Row<T> {
     setRowTemplateOptions(rowTemplateOptions: object): void {
         if (!isEqual(this._$rowTemplateOptions, rowTemplateOptions)) {
             this._$rowTemplateOptions = rowTemplateOptions;
-            if (this._$rowTemplate && this._$columns) {
-                this._$columns[this._$columns.length - 1].templateOptions = this._$rowTemplateOptions;
+            if (this._$rowTemplate && this._$columnsConfig) {
+                this._$columnsConfig[this._$columnsConfig.length - 1].templateOptions = this._$rowTemplateOptions;
             }
             this._reinitializeColumns(true);
         }
@@ -759,8 +779,6 @@ export default abstract class Row<T> {
 
     abstract getShadowVisibility(): string;
 
-    abstract isLastItem(): boolean;
-
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
 
     protected abstract _nextVersion(): void;
@@ -772,12 +790,15 @@ export default abstract class Row<T> {
 Object.assign(Row.prototype, {
     '[Controls/_display/grid/mixins/Row]': true,
     _cellModule: null,
-    _$columns: null,
+    _$columnsConfig: null,
+    _$gridColumnsConfig: null,
     _$rowTemplate: null,
     _$rowTemplateOptions: null,
     _$colspanCallback: null,
     _$columnSeparatorSize: null,
     _$backgroundStyle: 'default',
     _$itemActionsPosition: 'inside',
-    _$editingColumnIndex: null,
+    _$isBottomSeparatorEnabled: false,
+    _$isTopSeparatorEnabled: false,
+    _$editingColumnIndex: null
 });

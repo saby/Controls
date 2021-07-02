@@ -203,11 +203,6 @@ define([
             tabs._afterRender({ selectedKey: 1 });
             sinon.assert.notCalled(tabs._children.tab1.scrollIntoView);
          });
-
-         it('should scroll into view if selectedKey is changed', () => {
-            tabs._afterRender({ selectedKey: 2 });
-            sinon.assert.calledOnce(tabs._children.wrapper.scrollTo);
-         });
       });
 
       describe('_afterUpdate', () => {

@@ -747,14 +747,13 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             select
         };
         const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
-        const queryForCurrentRoot = key !== this._root;
         const expandedItems = this.getExpandedItems();
         const isHierarchyQueryParamsNeeded =
             isMultiNavigation &&
             this.isDeepReload() &&
             expandedItems?.length &&
             !direction &&
-            queryForCurrentRoot;
+            key === this._root;
         let resultQueryParams;
 
         if (isHierarchyQueryParamsNeeded) {
@@ -772,7 +771,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                 key,
                 navigationSourceConfig,
                 NAVIGATION_DIRECTION_COMPATIBILITY[direction],
-                (!isMultiNavigation || queryForCurrentRoot || !!direction || !!navigationSourceConfig)
+                (!isMultiNavigation || key !== this._root || !!direction || !!navigationSourceConfig)
             );
         }
 

@@ -219,7 +219,9 @@ define([
             const converter = new input.StringValueConverter();
             const currentDate = converter.getCurrentDate(model._lastValue, model._mask);
             model.value = currentDate;
+            sandbox.stub(component, '_notify');
             component._onKeyDown(event);
+            sinon.assert.calledWith(component._notify, 'inputCompleted');
             const localDate = new Date(currentDate);
             localDate.setDate(localDate.getDate() + 1);
             assert.deepEqual(model.value, localDate);

@@ -66,6 +66,8 @@ export default interface IBaseItemTemplateOptions {
  * @cfg {boolean} Flag, allowing to set "readonly" state for checkbox within multiSelect.
  * @default false
  */
+
+export type TBackgroundColorStyle = 'danger'|'success'|'warning'|'primary'|'secondary'|'unaccented'|'readonly';
 /**
  * @typedef {String} Controls/_list/interface/IBaseItemTemplate/BackgroundColorStyle
  * @description Значения, с помощью которых задается фон строки.

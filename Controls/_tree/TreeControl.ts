@@ -581,7 +581,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (!item || !item['[Controls/_display/TreeItem]'] || direction !== 'down') {
             return false;
         }
-        const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
+        const hasMoreParentData = !!this._sourceController && this._sourceController.hasMoreData('down', parentKey);
         const hasNodeFooterTemplate: boolean = !!this._options.nodeFooterTemplate;
         return !hasMoreParentData && !hasNodeFooterTemplate && item.isNode() && item.isExpanded();
     }
@@ -593,7 +593,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      */
     private _loadNodeChildrenRecursive(item: TreeItem): Promise {
         const nodeKey = item.getContents().getKey();
-        const hasMoreData = this._sourceController.hasMoreData('down', nodeKey);
+        const hasMoreData = this._sourceController && this._sourceController.hasMoreData('down', nodeKey);
         if (hasMoreData) {
             // Вызов метода, который подгружает дочерние записи узла
             return _private.loadNodeChildren(this, nodeKey);
@@ -1212,7 +1212,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = !model.isLastItem(model.getItemBySourceKey(key)) || model.hasMoreData();
+        const hasNextLeaf = (model.getLast() !== model.getItemBySourceKey(key)) || model.hasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i).getContents())) {
@@ -1277,7 +1277,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (model.isLastItem(model.getItemBySourceKey(key))) {
+            if (model.getLast() === model.getItemBySourceKey(key)) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();

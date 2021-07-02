@@ -462,11 +462,11 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
                 next = current;
                 if (typeof _options.columnIndex === 'number') {
                     const newColumnIndex = _options.columnIndex + (position === CONSTANTS.PREV_COLUMN ? -1 : 1);
-                    if (newColumnIndex > this._options.collection.getColumnsConfig().length - 1) {
+                    if (newColumnIndex > this._options.collection.getGridColumnsConfig().length - 1) {
                         _options.columnIndex = 0;
                         next = this.getNextEditableItem(current);
                     } else if (newColumnIndex < 0) {
-                        _options.columnIndex = this._options.collection.getColumnsConfig().length - 1;
+                        _options.columnIndex = this._options.collection.getGridColumnsConfig().length - 1;
                         next = this.getPrevEditableItem(current);
                     } else {
                         _options.columnIndex = newColumnIndex;

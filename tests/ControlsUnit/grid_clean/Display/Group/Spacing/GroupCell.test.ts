@@ -6,7 +6,7 @@ describe('ControlsUnit/grid_clean/Display/Group/Spacing/GroupCell', () => {
     let multiSelectVisibility: string;
 
     const mockedCollection: GridCollection<any> = {
-        getColumnsConfig: () => [{}, {}, {}, {}, {}],
+        getGridColumnsConfig: () => [{}, {}, {}, {}, {}],
         isFullGridSupport: () => true,
         hasMultiSelectColumn: () => false,
         hasColumnScroll: () => hasColumnsScroll,
@@ -36,7 +36,8 @@ describe('ControlsUnit/grid_clean/Display/Group/Spacing/GroupCell', () => {
     it('getContentClasses should return classes for the only column', () => {
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig()
+            columnsConfig: mockedCollection.getGridColumnsConfig(),
+            gridColumnsConfig: mockedCollection.getGridColumnsConfig()
         });
 
         const columns = groupRow.getColumns();
@@ -51,7 +52,8 @@ describe('ControlsUnit/grid_clean/Display/Group/Spacing/GroupCell', () => {
         multiSelectVisibility = 'visible';
         const groupRow = new GridGroupRow({
             owner: mockedCollection,
-            columns: mockedCollection.getColumnsConfig()
+            columnsConfig: mockedCollection.getGridColumnsConfig(),
+            gridColumnsConfig: mockedCollection.getGridColumnsConfig()
         });
 
         const columns = groupRow.getColumns();

@@ -1,3 +1,7 @@
 <Controls.Container.Async
-    templateName="{{ _pageTemplate }}"
-    templateOptions="{{ _options }}"/>
+        templateName="{{ _options.pageTemplate }}">
+    <ws:partial
+        template="{{ content.resolvedTemplate }}"
+        scope="{{ _options.pageTemplateOptions }}"
+        />
+</Controls.Container.Async>

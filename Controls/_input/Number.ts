@@ -53,6 +53,18 @@ class NumberInput extends Base<INumberInputOptions> implements IOnlyPositive {
             useAdditionToMaxPrecision: options.showEmptyDecimals
         };
     }
+    protected _beforeMount(options: IBaseInputOptions): void {
+        super._beforeMount(options);
+        if (options.readOnly) {
+            this._viewModel.trimTrailingZeros(false);
+        }
+    }
+    protected _beforeUpdate(newOptions: IBaseInputOptions): void {
+        super._beforeUpdate(newOptions);
+        if (newOptions.readOnly !== this._options.readOnly && newOptions.readOnly) {
+            this._viewModel.trimTrailingZeros(false);
+        }
+    }
 
     protected _getViewModelConstructor(): ViewModel {
         return ViewModel;

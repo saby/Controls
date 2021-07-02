@@ -179,7 +179,7 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsProperty('setColumns', this._$columns);
+        this._updateItemsProperty('setColumnsConfig', this._$columns);
     }
 
     isLastItem(item: CollectionItem): boolean {
@@ -250,7 +250,9 @@ export default class TreeGridCollection<
     getAdditionalGroupConstructorParams() {
         return {
             ...super.getAdditionalGroupConstructorParams(),
-            colspanGroup: this._$colspanGroup
+            colspanGroup: this._$colspanGroup,
+            gridColumnsConfig: this._$columns,
+            columnsConfig: this._$columns
         };
     }
 
@@ -297,7 +299,8 @@ export default class TreeGridCollection<
     // region itemsFactoryResolver
 
     protected _itemsFactoryResolver(superFactory: ItemsFactory<T>, options?: ITreeGridRowOptions<S>): ItemsFactory<T> {
-        options.columns = this._$columns;
+        options.columnsConfig = this._$columns;
+        options.gridColumnsConfig = this._$columns;
         options.colspanCallback = this._$colspanCallback;
         options.columnSeparatorSize = this._$columnSeparatorSize;
         options.rowSeparatorSize = this._$rowSeparatorSize;
@@ -337,7 +340,8 @@ export default class TreeGridCollection<
         return new TreeGridFooterRow({
             ...options,
             owner: this,
-            columns: options.footer,
+            columnsConfig: options.footer,
+            gridColumnsConfig: options.columns,
             shouldAddFooterPadding: options.itemActionsPosition === 'outside',
             rowTemplate: options.footerTemplate,
             hasNodeWithChildren: this._hasNodeWithChildren,

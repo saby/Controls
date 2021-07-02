@@ -10,7 +10,7 @@ describe('Controls/grid_clean/Display/Ladder/ResultsCell/getWrapperClasses', () 
         const gridResultsCell = new GridResultsCell({
             owner: {
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => [column],
+                getGridColumnsConfig: () => [column],
                 getHeaderConfig: () => [resultsColumn],
                 getColumnIndex: () => 0,
                 isStickyHeader: () => false,

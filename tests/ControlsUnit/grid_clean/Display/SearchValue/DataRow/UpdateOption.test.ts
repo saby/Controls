@@ -29,7 +29,8 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
         const gridDataRow = new GridDataRow({
             contents: model,
             owner: {} as any,
-            columns
+            columnsConfig: columns,
+            gridColumnsConfig: columns
         });
 
         assert.isEmpty(gridDataRow.getSearchValue());
@@ -46,14 +47,15 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
             contents: model,
             owner: {
                 getStickyColumnsCount: () => 0,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => false,
                 hasItemActionsSeparatedCell: () => false,
                 getItemEditorTemplate: () => {},
                 isFullGridSupport: () => true,
                 hasColumnScroll: () => false
             } as any,
-            columns
+            columnsConfig: columns,
+            gridColumnsConfig: columns
         });
 
         const sandbox = sinon.createSandbox();
@@ -78,14 +80,15 @@ describe('Controls/grid_clean/Display/SearchValue/DataRow/UpdateOption', () => {
             multiSelectVisibility: 'visible',
             owner: {
                 getStickyColumnsCount: () => 0,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => true,
                 hasItemActionsSeparatedCell: () => false,
                 getItemEditorTemplate: () => {},
                 isFullGridSupport: () => true,
                 hasColumnScroll: () => false
             } as any,
-            columns
+            columnsConfig: columns,
+            gridColumnsConfig: columns
         });
 
         const sandbox = sinon.createSandbox();

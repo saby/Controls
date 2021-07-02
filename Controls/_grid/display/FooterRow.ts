@@ -26,7 +26,7 @@ export default class FooterRow<T> extends mixin<Row<string>, Footer>(Row, Footer
     // TODO: Испавить вызов этого метода, разделить на 2 метода.
     setFooter(footerTemplate: TemplateFunction, footer?: TColumns): void {
         this.setRowTemplate(footerTemplate);
-        this.setColumns(footer);
+        this.setColumnsConfig(footer);
     }
 
     resetColumns(): void {

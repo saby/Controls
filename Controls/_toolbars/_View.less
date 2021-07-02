@@ -78,3 +78,37 @@
 .controls-Toolbar__menu_vertical-spacing-small {
    margin-top: var(--offset_xs);
 }
+
+.controls-Toolbar__menu_enabled {
+   cursor: pointer;
+}
+
+.controls-Toolbar__menu {
+   display: inline-block;
+}
+
+.controls-Toolbar__menu_size-m {
+   height: var(--icon-size_m);
+}
+
+.controls-Toolbar__menu_size-l {
+   height: var(--icon-size_l);
+}
+
+.controls-Toolbar__menu_contrastBackground {
+   background-color: var(--background-color_contrast_button_toolButton);
+   border-radius: var(--border-radius_button_toolButton);
+   border: var(--border-thickness_button) solid var(--border-color_button_toolButton);
+   height: var(--inline_height_l);
+   min-width: var(--inline_height_l);
+   box-sizing: border-box;
+   align-items: center;
+   justify-content: center;
+   display: flex;
+}
+
+.ws-is-hover {
+   .controls-Toolbar__menu_enabled:hover {
+      color: var(--secondary_hover_icon-color);
+   }
+}

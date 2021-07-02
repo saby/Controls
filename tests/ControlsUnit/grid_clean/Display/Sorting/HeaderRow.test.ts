@@ -9,7 +9,7 @@ describe('Controls/grid_clean/Display/Sorting/HeaderRow', () => {
         const mockedHeaderOwner = {
             getStickyColumnsCount: () => 0,
             hasMultiSelectColumn: () => false,
-            getColumnsConfig: () => columns,
+            getGridColumnsConfig: () => columns,
             getHeaderConfig: () => header,
             hasItemActionsSeparatedCell: () => false,
             getLeftPadding: () => 's',
@@ -26,9 +26,9 @@ describe('Controls/grid_clean/Display/Sorting/HeaderRow', () => {
         const sorting = [{ test: 'ASC' }];
         const headerRow = new GridHeaderRow({
             sorting,
-            header,
+            columnsConfig: header,
             headerModel: mockedHeaderModel,
-            columns,
+            gridColumnsConfig: columns,
             owner: mockedHeaderOwner
         });
         assert.equal(headerRow.getColumns()[0].getSorting(), 'ASC');
