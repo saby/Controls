@@ -72,6 +72,7 @@ export default class ScrollController {
     private _shadowVisibility: IShadowVisibility;
     private _resetInEnd: boolean;
 
+    // Массив с отрендерреными ключами
     private _collectionRenderedKeys: string[] = [];
 
     // Флаг, который необходимо включать, чтобы не реагировать на скроллы происходящие вследствие
@@ -317,7 +318,7 @@ export default class ScrollController {
                                         index,
                                         this._options.collection.getCount()
                                     );
-                                    const newCollectionRenderedKeys = this._setCollectionIndices(
+                                    const newCollectionRenderedKeys: void | string[] = this._setCollectionIndices(
                                         this._options.collection,
                                         rangeShiftResult.range,
                                         false,
@@ -399,7 +400,7 @@ export default class ScrollController {
                 count === undefined ?  options.collection.getCount() : count,
                 itemsHeights
             );
-            const newCollectionRenderedKeys = this._setCollectionIndices(
+            const newCollectionRenderedKeys: void | string[] = this._setCollectionIndices(
                 options.collection,
                 rangeShiftResult.range,
                 true,
@@ -531,7 +532,7 @@ export default class ScrollController {
     private virtualScrollPositionChanged(params: IScrollParams): IScrollControllerResult  {
         if (this._virtualScroll) {
             const rangeShiftResult = this._virtualScroll.shiftRangeToScrollPosition(params.scrollTop);
-            const newCollectionRenderedKeys = this._setCollectionIndices(
+            const newCollectionRenderedKeys: void | string[] = this._setCollectionIndices(
                this._options.collection, rangeShiftResult.range, false, this._options.needScrollCalculation);
             this._applyScrollTopCallback = params.applyScrollTopCallback;
             if (!this._isRendering && !this._virtualScroll.rangeChanged) {
@@ -568,7 +569,7 @@ export default class ScrollController {
                 if (this._virtualScroll && !this._virtualScroll.rangeChanged) {
                     this._inertialScrolling.callAfterScrollStopped(() => {
                         const rangeShiftResult = this._virtualScroll.shiftRange(direction);
-                        const newCollectionRenderedKeys =
+                        const newCollectionRenderedKeys: void | string[] =
                            this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
                             this._options.needScrollCalculation);
                         this.savePlaceholders(rangeShiftResult.placeholders);
@@ -655,7 +656,7 @@ export default class ScrollController {
             direction
         );
         const removeItemsResult = this._virtualScroll.removeItems(removeIndex, removedIitems.length);
-        const newCollectionRenderedKeys =
+        const newCollectionRenderedKeys: void | string[] =
            this._setCollectionIndices(this._options.collection, removeItemsResult.range, false,
             this._options.needScrollCalculation);
         this.savePlaceholders(removeItemsResult.placeholders);
@@ -692,7 +693,7 @@ export default class ScrollController {
         if (shift && this._options.collection.getCount() - items.length >= this._options.virtualScrollConfig.pageSize) {
             rangeShiftResult = this._virtualScroll.shiftRange(direction);
         }
-        const newCollectionRenderedKeys =
+        const newCollectionRenderedKeys: void | string[] =
            this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
             this._options.needScrollCalculation);
         this.savePlaceholders(rangeShiftResult.placeholders);
