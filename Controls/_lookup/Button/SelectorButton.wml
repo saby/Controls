@@ -25,7 +25,7 @@
                 {{_options.showSelectorCaption}}
             </span>
         </ws:if>
-        <ws:if data="{{_items.getCount() > 1 && !_options.readOnly}}">
+        <ws:if data="{{(_items.getCount() > 1 || _options.clearButtonTemplate) && !_options.readOnly}}">
             <ws:if data="{{_options.clearButtonTemplate}}">
                 <ws:partial template="{{_options.clearButtonTemplate}}"/>
             </ws:if>
