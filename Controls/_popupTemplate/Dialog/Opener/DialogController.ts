@@ -9,6 +9,7 @@ import {IResizeDirection} from 'Controls/_popup/interface/IDialog';
 import {getPositionProperties, HORIZONTAL_DIRECTION, VERTICAL_DIRECTION} from './DirectionUtil';
 
 interface IDialogItem extends IPopupItem {
+    hasSavedPosition: boolean;
     popupOptions: IDialogOptions;
     startPosition: IPopupPosition;
     dragged: boolean;
@@ -178,6 +179,15 @@ class DialogController extends BaseController {
         return true;
     }
 
+    dragNDropOnPage(item: IDialogItem, container: HTMLDivElement, isInsideDrag: boolean): boolean {
+        if (item.popupOptions.target) {
+            if (!isInsideDrag && !item.hasSavedPosition) {
+                item.dragged = false;
+                this._prepareConfigWithSizes(item, container);
+            }
+        }
+    }
+
     _isIOS12(): boolean {
         return detection.isMobileIOS && detection.IOSVersion === 12;
     }
@@ -216,6 +226,7 @@ class DialogController extends BaseController {
                         const vertical = storage[propStorageId][verticalPositionProperty];
                         const horizontal = storage[propStorageId][horizontalPositionProperty];
                         if (vertical !== undefined && horizontal !== undefined) {
+                            item.hasSavedPosition = true;
                             item.popupOptions[verticalPositionProperty] = vertical;
                             item.popupOptions[horizontalPositionProperty] = horizontal;
                             // Если сохранена позиция, то считаем что окно уже перемещали.

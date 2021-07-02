@@ -180,7 +180,7 @@ abstract class BaseController {
         return false;
     }
 
-    protected dragNDropOnPage(item: IPopupItem, container: HTMLDivElement): boolean {
+    protected dragNDropOnPage(item: IPopupItem, container: HTMLDivElement, isInsideDrag: boolean): boolean {
         return false;
     }
 
