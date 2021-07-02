@@ -1,4 +1,4 @@
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import LookupTemplate = require('wml!Controls/_filterPanel/Editors/Lookup');
 import {BaseEditor} from 'Controls/_filterPanel/Editors/Base';
@@ -9,6 +9,7 @@ import {Model} from 'Types/entity';
 
 interface ILookupOptions extends IControlOptions {
     propertyValue: number[] | string[];
+    maxVisibleItems: number;
 }
 
 interface ILookup {
@@ -29,15 +30,19 @@ const MAX_VISIBLE_ITEMS = 7;
 class LookupEditor extends BaseEditor implements ILookup {
     readonly '[Controls/_filterPanel/Editors/Lookup]': boolean = true;
     protected _template: TemplateFunction = LookupTemplate;
-    protected _textValue: string = '';
+    protected _textValue: string = rk('Еще');
     protected _showSelectorCaption: string = null;
     protected _children: {
         lookupEditor: Selector
     };
 
-    protected _afterMount(options: IControlOptions): void {
-        if (this._children.lookupEditor) {
-            this._children.lookupEditor.showSelector();
+    protected _beforeMount(options: ILookupOptions): void {
+        this._showSelectorCaption = this._getShowSelectorCaption(options.propertyValue, options.maxVisibleItems);
+    }
+
+    protected _beforeUpdate(options: ILookupOptions): void {
+        if (this._options.propertyValue !== options.propertyValue) {
+            this._showSelectorCaption = this._getShowSelectorCaption(options.propertyValue, options.maxVisibleItems);
         }
     }
 
@@ -56,7 +61,7 @@ class LookupEditor extends BaseEditor implements ILookup {
             textValue: this._textValue
         };
         this._notifyPropertyValueChanged(extendedValue);
-        this._showSelectorCaption = this._getShowSelectorCaption(value);
+        this._showSelectorCaption = this._getShowSelectorCaption(value, this._options.maxVisibleItems);
     }
 
     protected _extendedCaptionClickHandler(event: SyntheticEvent): void {
@@ -80,8 +85,8 @@ class LookupEditor extends BaseEditor implements ILookup {
         this._textValue = value;
     }
 
-    private _getShowSelectorCaption(values: number[] | string []): string {
-        const amount = values.length - this._options.maxVisibleItems;
+    private _getShowSelectorCaption(values: number[] | string [], maxVisibleItems): string {
+        const amount = values?.length - maxVisibleItems;
         return  amount > 0 ? rk('Еще ') + amount : '';
     }
 
