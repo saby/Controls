@@ -84,10 +84,6 @@ class LookupEditor extends BaseEditor implements ILookup {
         this._textValue = value;
     }
 
-    protected _closeHandler(): void {
-        //
-    }
-
     private _getShowSelectorCaption(values: number[] | string [], maxVisibleItems): string {
         const amount = values?.length - maxVisibleItems;
         return  amount > 0 ? rk('Еще ') + amount : '';

@@ -14,7 +14,9 @@ function getPopupOptions(self): IStackPopupOptions | IDialogPopupOptions {
                 self._selectCallback(null, result);
             },
             onClose: () => {
-                self._closeHandler();
+                if (self._closeHandler) {
+                    self._closeHandler();
+                }
                 self._notify('selectorClose');
             }
         }
