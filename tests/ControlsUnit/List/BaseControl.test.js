@@ -1063,7 +1063,8 @@ define([
          var
             baseControl = {
                _options: {},
-               _hasMoreData: () => bcHasMoreData
+               _hasMoreData: () => bcHasMoreData,
+               _onFooterPrepared: () => {}
             },
             tests = [
                {
@@ -3176,48 +3177,83 @@ define([
       });
 
       it('needFooterPadding', function() {
-         let cfg = {
-            itemActionsPosition: 'outside'
-         };
          let count = 10;
+         let footer = false;
+         let results = false;
+         let resultsPosition = '';
+
          const model = {
             isEditing: function() {
                return false;
             },
             getCount: function() {
                return count;
+            },
+            getFooter: function() {
+               return footer;
+            },
+            getResults: function() {
+               return results;
+            },
+            getResultsPosition: function() {
+               return resultsPosition;
             }
          };
          const editingModel = {
+            ...model,
             isEditing: function() {
                return true;
-            },
-            getCount: function() {
-               return count;
             }
          };
+         let fakeInstance = {
+            _listViewModel: model,
+            _shouldDrawFooter: false
+         };
 
-         assert.isTrue(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, padding is needed");
-         cfg = {
-            itemActionsPosition: 'inside'
-         };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is inside, padding is not needed");
-         cfg = {
-            itemActionsPosition: 'outside',
-            footerTemplate: "footer"
-         };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, footer exists, padding is not needed");
-         cfg = {
-            itemActionsPosition: 'outside',
-            resultsPosition: "bottom"
-         };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, results row is in bottom padding is not needed");
-         cfg = {
-            itemActionsPosition: 'outside',
-         };
+         assert.isTrue(
+            lists.BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, padding is needed'
+         );
+
+         fakeInstance._shouldDrawFooter = true;
+         assert.isFalse(
+            lists.BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside and "hasMore" button visible, no padding needed'
+         );
+         fakeInstance._shouldDrawFooter = false;
+
+         assert.isFalse(
+            lists.BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'inside'}),
+            'itemActionsPosition is inside, padding is not needed'
+         );
+
+         footer = true;
+         assert.isFalse(
+            lists.BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, footer exists, padding is not needed'
+         );
+         footer = false;
+
+         results = true;
+         resultsPosition = 'bottom';
+         assert.isFalse(
+            lists.BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, results row is in bottom padding is not needed'
+         );
+         results = false;
+         resultsPosition = '';
+
          count = 0;
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, empty items, padding is not needed");
-         assert.isTrue(lists.BaseControl._private.needBottomPadding(cfg, editingModel), "itemActionsPosinon is outside, empty items, run editing in place padding is needed");
+         assert.isFalse(
+            lists.BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, empty items, padding is not needed'
+         );
+
+         fakeInstance._listViewModel = editingModel;
+         assert.isTrue(
+            lists.BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, empty items, run editing in place padding is needed'
+         );
       });
 
       describe('EditInPlace', function() {

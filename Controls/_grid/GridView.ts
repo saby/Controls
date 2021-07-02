@@ -251,10 +251,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
             classes += ` controls-Grid_support-ladder ${this._ladderOffsetSelector}`;
         }
 
-        if (options.itemActionsPosition === 'outside' &&
-            !this._listModel.getFooter() &&
-            !(this._listModel.getResults() && this._listModel.getResultsPosition() === 'bottom')
-        ) {
+        if (options._needBottomPadding) {
             classes += ' controls-GridView__paddingBottom__itemActionsV_outside';
         }
 
