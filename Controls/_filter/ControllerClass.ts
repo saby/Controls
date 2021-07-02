@@ -46,6 +46,18 @@ export interface IFilterControllerOptions {
     historySaveCallback?: (historyData: Record<string, unknown>, filterButtonItems: IFilterItem[]) => void;
 }
 
+export interface ICalculateFilterParams {
+    historyId: string;
+    historyItems?: IFilterItem[];
+    prefetchParams?: IPrefetchHistoryParams;
+    filter: TFilter;
+    filterButtonSource: IFilterItem[];
+}
+export interface ICalculatedFilter {
+    filter: TFilter;
+    historyItems: IFilterItem[];
+    filterButtonItems: IFilterItem[];
+}
 const getPropValue = Utils.object.getPropertyValue.bind(Utils);
 const setPropValue = Utils.object.setPropertyValue.bind(Utils);
 
@@ -807,7 +819,7 @@ export default class FilterControllerClass {
     // Методы добавлены для совместимости, чтобы не сломался код у прикладных программистов,
     // которые используют статический метод getCalculatedFilter у Controls/filter:Controller
     // будет исправлено по задаче https://online.sbis.ru/opendoc.html?guid=8bd01598-d6cd-4581-ae3a-2a6915b34b79
-    static getCalculatedFilter(cfg: object): Promise<any> {
+    static getCalculatedFilter(cfg: ICalculateFilterParams): Promise<any> {
         return new FilterControllerClass({}).getCalculatedFilter(cfg);
     }
 
@@ -816,7 +828,7 @@ export default class FilterControllerClass {
     }
 }
 
-function getCalculatedFilter(config) {
+function getCalculatedFilter(config: ICalculateFilterParams): Promise<ICalculatedFilter> {
     const def = new Deferred();
     this._resolveHistoryItems(config.historyId, config.historyItems, config.prefetchParams).then((items) => {
         this._setFilterItems(clone(config.filterButtonSource), clone(config.fastFilterSource), items);

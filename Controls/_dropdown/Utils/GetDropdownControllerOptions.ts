@@ -31,6 +31,7 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         selectorTemplate: options.selectorTemplate,
         headerContentTemplate: options.headerContentTemplate,
         footerContentTemplate: options.footerContentTemplate || options.footerTemplate,
+        footerItemData: options.footerItemData,
         itemTemplateProperty: options.itemTemplateProperty,
         itemTemplate: options.itemTemplate,
         breadCrumbsItemTemplate: options.breadCrumbsItemTemplate,

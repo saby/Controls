@@ -10,11 +10,12 @@ export default {
      */
     isYearStateEnabled: (options: object): boolean => {
         const quantum = options.ranges;
-        return (options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single
+        const enabledByQuantum = (options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single
             && options.minRange === IDateRangeSelectable.minRange.month) ||
             (options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single && (!quantum ||
                 (isEmpty(quantum) || 'months' in quantum || 'quarters' in quantum ||
                     'halfyears' in quantum || 'years' in quantum)));
+        return enabledByQuantum && options.selectionType !== 'workdays';
     },
 
     /**

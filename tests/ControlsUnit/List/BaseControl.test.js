@@ -600,7 +600,7 @@ define([
          var ctrl = correctCreateBaseControl(cfg);
          ctrl.saveOptions(cfg);
          ctrl._beforeMount(cfg);
-         assert.isNotOk(ctrl._needScrollCalculation, 'Wrong _needScrollCalculation value after mounting');
+         assert.isOk(ctrl._needScrollCalculation, 'Wrong _needScrollCalculation value after mounting');
 
          cfg = {
             viewName: 'Controls/List/ListView',

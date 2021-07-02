@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500" >
+        <div attr:style="margin-bottom:20px">
+            <Controls.popupConfirmation:Footer buttons="{{_buttons1}}"/>
+        </div>
+        <div>
+            <Controls.popupConfirmation:Footer buttons="{{_buttons2}}"/>
+        </div>
+    </div>
+</div>

@@ -49,13 +49,20 @@ export const dateMaskConstants = {
  * @param start {Date}
  * @param end {Date}
  * @param direction Shift direction.
+ * @param selectionType
  */
-export function shiftPeriod(start: Date, end: Date, direction: number): Date[] {
+export function shiftPeriod(start: Date, end: Date, direction: number, selectionType?: string): Date[] {
     let result;
     if (compare.isFullInterval(start, end, compare.DateUnits.Month)) {
         result = shiftPeriodByMonth(start, end, direction * getPeriodLengthInMonths(start, end));
     } else {
-        result = shiftPeriodByDays(start, end, direction * getPeriodLengthInDays(start, end));
+        let periodLengthInDays;
+        if (selectionType === 'workdays') {
+            periodLengthInDays = 7;
+        } else {
+            periodLengthInDays = getPeriodLengthInDays(start, end);
+        }
+        result = shiftPeriodByDays(start, end, direction * periodLengthInDays);
     }
     return result;
 }

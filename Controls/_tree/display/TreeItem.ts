@@ -15,6 +15,7 @@ export default class TreeItem<T extends Model = Model>
     readonly DisplaySearchValue: boolean = true;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
+    readonly EnumerableItem: boolean = true;
     readonly DraggableItem: boolean = true;
 
     // region Expander

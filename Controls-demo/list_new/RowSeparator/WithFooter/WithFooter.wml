@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper controls-MasterDetail_details-newDesign">
+    <Controls.list:View
+            keyProperty="key"
+            source="{{_viewSource}}"
+            header="{{_header}}"
+            newDesign="{{true}}"
+            rowSeparatorSize="s">
+        <ws:footerTemplate>
+            <div>Подвал растянут</div>
+        </ws:footerTemplate>
+    </Controls.list:View>
+</div>

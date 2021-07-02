@@ -36,7 +36,7 @@ describe('Controls/grid_clean/Display/HeaderCell', () => {
                 getColumnsCount: () => 2,
                 hasItemActionsSeparatedCell: () => false,
                 isStickyHeader: () => false,
-                getColumnsConfig: () => columnsConfig,
+                getGridColumnsConfig: () => columnsConfig,
                 getMultiSelectVisibility: () => 'hidden'
             }
         });

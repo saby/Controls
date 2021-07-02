@@ -15,6 +15,7 @@ import {SHADOW_VISIBILITY as SCROLL_SHADOW_VISIBILITY} from 'Controls/_scroll/Co
 import StickyBlock from 'Controls/_scroll/StickyBlock';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
+import {IPositionOrientation} from './StickyBlock/Utils';
 
 // @ts-ignore
 
@@ -359,7 +360,7 @@ class StickyHeaderController {
             // Контроллер инициализируется при наведении мыши или когда заголовки зафиксированы.
             if (header && this._initialized) {
                 const heightEntry = this._getElementHeightEntry(entry.target);
-                const isDelayedHeader = this._delayedHeaders.some(header => header.id === header.index);
+                const isDelayedHeader = this._delayedHeaders.some(delayedHeader => delayedHeader.id === header.index);
                 // Не будем обрабатывать delayedHeader, т.к он обработается позже в _registerDelayed.
                 if (heightEntry && !isDelayedHeader) {
                     operation = this._getOperationForHeadersStack(entry.contentRect.height, heightEntry.value, header.index);
@@ -403,7 +404,17 @@ class StickyHeaderController {
             this._headers[header.id].offset = {};
         } else if (operation === STACK_OPERATION.add) {
             const headerPosition = this._headers[header.id].position;
-            this._addToHeadersStack(header.id, headerPosition);
+            const positions = this._getDecomposedPosition(headerPosition);
+
+            positions.forEach(position => {
+                const inHeadersStack = this._headersStack[position].some(headerId => headerId === header.id);
+                // В operations panel при инициализации контент намеренно скрывают, вешая нулевую высоту. Из-за этого вначале заголовок
+                // во время обсчета оффсетов запишет себе height = 0, а после, когда он покажется, по ресайз обсёрверу будет опять добавление
+                // в headersStack, т.к предыдущая высота была равна 0.
+                if (!inHeadersStack) {
+                    this._addToHeadersStack(header.id, position, true);
+                }
+            })
         }
     }
 
@@ -630,9 +641,10 @@ class StickyHeaderController {
      * @param position
      * @private
      */
-    private _getHeaderOffset(id: number, position: string) {
+    private _getHeaderOffset(id: number, position: string, needUpdateOffset = false) {
         const header = this._headers[id];
-        if (header.offset[position] === undefined) {
+        // Нужно пересчитать оффсет в случае, если после ресайза добавляются заголовки в headersStack.
+        if (header.offset[position] === undefined || needUpdateOffset) {
             header.offset[position] = this._getHeaderOffsetByContainer(this._container, id, position);
         }
         return header.offset[position];
@@ -653,12 +665,12 @@ class StickyHeaderController {
         }
     }
 
-    private _addToHeadersStack(id: number, headerPosition: POSITION): void {
-        const addToHeadersStack = (position) => {
-            const
-                headersStack = this._headersStack[position],
-                newHeaderOffset = this._getHeaderOffset(id, position),
-                headerContainerSizes = this._headers[id].inst.getHeaderContainer().getBoundingClientRect();
+    private _addToHeadersStack(id: number, headerPosition: POSITION, needUpdateOffset = false): void {
+        const positions = this._getDecomposedPosition(headerPosition);
+        positions.forEach(position => {
+            const headersStack = this._headersStack[position];
+            const newHeaderOffset = this._getHeaderOffset(id, position, needUpdateOffset);
+            const headerContainerSizes = this._headers[id].inst.getHeaderContainer().getBoundingClientRect();
             let headerContainerSize;
             if (position === 'left' || position === 'right') {
                 headerContainerSize = headerContainerSizes.width;
@@ -676,29 +688,33 @@ class StickyHeaderController {
             });
             index = index === -1 ? headersStack.length : index;
             headersStack.splice(index, 0, id);
-        };
+        })
+    }
 
+    private _getDecomposedPosition(headerPosition: IPositionOrientation): POSITION[] {
+        let positions = [];
         switch (headerPosition.vertical) {
             case 'top':
             case 'bottom':
-                addToHeadersStack(headerPosition.vertical);
+                positions.push(headerPosition.vertical);
                 break;
             case 'topBottom':
-                addToHeadersStack('top');
-                addToHeadersStack('bottom');
+                positions.push('top');
+                positions.push('bottom');
                 break;
         }
 
         switch (headerPosition.horizontal) {
             case 'left':
             case 'right':
-                addToHeadersStack(headerPosition.horizontal);
+                positions.push(headerPosition.horizontal);
                 break;
             case 'leftRight':
-                addToHeadersStack('left');
-                addToHeadersStack('right');
+                positions.push('left');
+                positions.push('right');
                 break;
         }
+        return positions;
     }
 
     private _updateFixedInitially(position: POSITION): void {

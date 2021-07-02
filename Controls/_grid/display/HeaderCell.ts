@@ -84,9 +84,9 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
                 // ВНИМАТЕЛЬНО! Независимо от оси для которой считается выравнивание, считать нужно через startColumn,
                 // т.к. чтобы получить корректное значение для выравнивания контента растянутой ячейки заголовка по
                 // опции колонки данных, нужно получить конфигурацию колонки расположенной под данной ячейкой заголовка.
-                return this._$owner.getColumnsConfig()[this._$column.startColumn - 1][prop];
+                return this._$owner.getGridColumnsConfig()[this._$column.startColumn - 1][prop];
             } else {
-                return this._$owner.getColumnsConfig()[this._$owner.getHeaderConfig().indexOf(this._$column)][prop];
+                return this._$owner.getGridColumnsConfig()[this._$owner.getHeaderConfig().indexOf(this._$column)][prop];
             }
         };
 

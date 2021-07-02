@@ -21,7 +21,7 @@ export type TTileItem = 'default'|'invisible'|'medium'|'preview'|'rich'|'small';
 export const TILE_SIZES = {
     s: {
         horizontal: {
-            width: 300,
+            width: 320,
             imageHeight: 180
         },
         vertical: {
@@ -31,7 +31,7 @@ export const TILE_SIZES = {
     },
     m: {
         horizontal: {
-            width: 420,
+            width: 380,
             imageHeight: 240
         },
         vertical: {
@@ -41,7 +41,7 @@ export const TILE_SIZES = {
     },
     l: {
         horizontal: {
-            width: 648,
+            width: 460,
             imageHeight: 320
         },
         vertical: {

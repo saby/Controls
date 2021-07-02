@@ -9,6 +9,7 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     readonly Markable: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly EnumerableItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
 
     protected _$moreFontColorStyle: string;

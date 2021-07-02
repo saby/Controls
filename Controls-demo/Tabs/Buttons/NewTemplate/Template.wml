@@ -1,0 +1,71 @@
+<div class="controlsDemo_fixedWidth800 controlsDemo__ml1">
+    <div attr:style="margin-bottom: 15px">
+        <div attr:style="text-align: center;" class="controls-text-secondary">1. -</div>
+        <div class="demo-TabButtons">
+            <Controls.tabs:Buttons
+                    bind:selectedKey='SelectedKey2'
+                    keyProperty="id"
+                    items="{{_items1}}"/>
+        </div>
+    </div>
+    <div>
+        <div attr:style="text-align: center;" class="controls-text-secondary">2. TextCounterTabTemplate</div>
+        <div attr:style="display: flex;align-items: flex-end" class="demo-TabButtons">
+            <span attr:style="white-space: nowrap">caption-counter</span>
+            <Controls.tabs:Buttons
+                    bind:selectedKey='SelectedKey1'
+                    itemTemplate="Controls/tabs:TextCounterTabTemplate"
+                    items="{{_items1}}"
+                    keyProperty="id"/>
+        </div>
+        <div attr:style="display: flex;align-items: flex-end" class="demo-TabButtons">
+            <span attr:style="white-space: nowrap">caption-icon</span>
+            <Controls.tabs:Buttons
+                    bind:selectedKey='SelectedKey1'
+                    itemRightTemplate="Controls/tabs:TextCounterTabTemplate"
+                    items="{{_items3}}"
+                    keyProperty="id"/>
+        </div>
+        <div attr:style="display: flex;align-items: flex-end" class="demo-TabButtons">
+            <span attr:style="white-space: nowrap">caption-counter-icon</span>
+            <Controls.tabs:Buttons
+                    bind:selectedKey='SelectedKey1'
+                    itemRightTemplate="Controls/tabs:TextCounterTabTemplate"
+                    items="{{_items4}}"
+                    keyProperty="id"/>
+        </div>
+    </div>
+    <div attr:style="text-align: center;" class="controls-text-secondary">3. IconCounterTabTemplate</div>
+    <div attr:style="display: flex;align-items: flex-end" class="demo-TabButtons">
+        <span attr:style="white-space: nowrap">icon</span>
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey3'
+                itemTemplate="Controls/tabs:IconCounterTabTemplate"
+                items="{{_items5}}"
+                keyProperty="id"/>
+    </div>
+    <div attr:style="display: flex;align-items: flex-end" class="demo-TabButtons">
+        <span attr:style="white-space: nowrap">icon-counter</span>
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey3'
+                itemTemplate="Controls/tabs:IconCounterTabTemplate"
+                items="{{_items6}}"
+                keyProperty="id"/>
+    </div>
+    <div attr:style="display: flex;align-items: flex-end" class="demo-TabButtons">
+        <span attr:style="white-space: nowrap">icon-caption</span>
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey3'
+                itemTemplate="Controls/tabs:IconCounterTabTemplate"
+                items="{{_items7}}"
+                keyProperty="id"/>
+    </div>
+    <div attr:style="display: flex;align-items: flex-end" class="demo-TabButtons">
+        <span attr:style="white-space: nowrap">image-caption</span>
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey3'
+                itemTemplate="Controls/tabs:IconCounterTabTemplate"
+                items="{{_items8}}"
+                keyProperty="id"/>
+    </div>
+</div>

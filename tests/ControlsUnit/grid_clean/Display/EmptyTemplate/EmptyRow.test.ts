@@ -11,7 +11,7 @@ describe('Controls/grid_clean/Display/EmptyTemplate/EmptyRow', () => {
     it('should not add multiselect column to colspaned empty row', () => {
         const emptyRow = new GridEmptyRow({
             owner: {
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 hasMultiSelectColumn: () => true,
                 getStickyColumnsCount: () => {},
                 isFullGridSupport: () => true,

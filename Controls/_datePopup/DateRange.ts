@@ -50,9 +50,12 @@ export default class DateRange extends Control<IDatePopupDateRangeOptions> {
         // Нет необходимости передавать опцию hoveredStartValue и hoveredEndValue, если ховер работает только по одному
         // итему, а не по нескольким, как в квантах.
         const isQuantumSelection = options.selectionType === 'quantum' && options.ranges;
+        let isSingleDayQuantum;
         if (isQuantumSelection) {
-            const isSingleDayQuantum = 'days' in options.ranges && options.ranges.days.indexOf(1) !== -1;
-            this._singleDayHover = isSingleDayQuantum;
+            isSingleDayQuantum = 'days' in options.ranges && options.ranges.days.indexOf(1) !== -1;
+        }
+        if (options.selectionType === 'workdays' || isQuantumSelection && !isSingleDayQuantum) {
+            this._singleDayHover = false;
         }
     }
 

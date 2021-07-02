@@ -10,6 +10,7 @@ import IGroupNode from './interface/IGroupNode';
 export interface IOptions<T extends Model = Model> extends ICollectionItemOptions<T> {
     owner?: Tree<T>;
     last: TreeItem<T>;
+    parent: TreeItem<T>;
 }
 
 /**

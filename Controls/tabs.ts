@@ -19,7 +19,11 @@ export {default as AdaptiveButtons, ITabsAdaptiveButtonsOptions} from 'Controls/
 export {ITabsButtons, ITabsButtonsOptions} from 'Controls/_tabs/interface/ITabsButtons';
 
 import buttonsItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
+import TextCounterTabTemplate = require('wml!Controls/_tabs/Buttons/templates/TextCounterTabTemplate');
+import IconCounterTabTemplate = require('wml!Controls/_tabs/Buttons/templates/IconCounterTabTemplate');
 
 export {
-   buttonsItemTemplate
+   buttonsItemTemplate,
+   TextCounterTabTemplate,
+   IconCounterTabTemplate
 };

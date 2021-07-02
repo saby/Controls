@@ -29,12 +29,13 @@ describe('Controls/grid/Display/Ladder/StickyLadderCell/PointerEventsDisabled', 
                 owner: {
                     hasMultiSelectColumn: () => false,
                     hasColumnScroll: () => false,
-                    getColumnsConfig: () => columns,
+                    getGridColumnsConfig: () => columns,
                     isFullGridSupport: () => true,
                     hasItemActionsSeparatedCell: () => false
                 } as any,
                 contents: model,
-                columns,
+                gridColumnsConfig: columns,
+                columnsConfig: columns,
                 ...options
             });
         }
