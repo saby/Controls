@@ -259,7 +259,10 @@ class Manager {
 
     private _subscribeToPageDragNDrop(): void {
         // Подписка и на платформенное перемещение, и на нативное, т.к. перемещение файлов из ОС тоже нужно отследить.
-        const handler = this.eventHandler.bind(this, 'pageDragnDropHandler');
+        const handler = (...args) => {
+            const [, ...preparedArgs] = args;
+            this.eventHandler('pageDragnDropHandler', preparedArgs);
+        };
         EventBus.channel('dragnDrop').subscribe('documentDragStart', handler);
         EventBus.channel('dragnDrop').subscribe('documentDragEnd', handler);
         if (document) {
@@ -882,17 +885,8 @@ class Manager {
         }
     }
 
-    protected _popupInsideDrag(action: string, id: string): void {
-        const value = action === 'Start';
-        let item = this.find(id);
-        // Текущее и все родительские окна помечаем как те, в которых происходит d'n'd.
-        while (item) {
-            item.isDragOnPopup = value;
-            item = this.find(item.parentId);
-        }
-    }
-
-    protected _pageDragnDropHandler(): boolean {
+    protected _pageDragnDropHandler(dragEvent: object = {}): boolean {
+        const {domEvent} = dragEvent;
         const delay = 10;
         if (this._dragTimer) {
             clearTimeout(this._dragTimer);
@@ -902,7 +896,12 @@ class Manager {
         this._dragTimer = setTimeout(() => {
             this._dragTimer = null;
             this._popupItems.each((item) => {
-                if (item.controller.dragNDropOnPage(item, this._getItemContainer(item.id))) {
+                const popupContainer = this._getItemContainer(item.id);
+                // Событие documentDragStart стреляет на всех контейнерах на странице. Для обработки понимаем, лежит ли
+                // нужный контейнер внутри текущего окна.
+                const popupNode = domEvent?.target.closest('.controls-Popup');
+                const isInsideDrag = popupNode === popupContainer;
+                if (item.controller.dragNDropOnPage(item, popupContainer, isInsideDrag)) {
                     this.remove(item.id);
                 }
                 this._redrawItems();
