@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controls-MasterDetail_details-newDesign">
+    <Controls.grid:View
+            keyProperty="key"
+            attr:class="controlsDemo__inline-flex"
+            source="{{_viewSource}}"
+            rowSeparatorSize="s"
+            columns="{{_columns}}"
+            newDesign="{{true}}"/>
+</div>
