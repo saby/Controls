@@ -203,7 +203,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
             columnsWidths = ['0px'].concat(columnsWidths);
         }
         if (hasMultiSelect) {
-            columnsWidths = ['max-content'].concat(columnsWidths);
+            columnsWidths = ['auto'].concat(columnsWidths);
         }
 
         // Дополнительная колонка для отображения застиканных операций над записью при горизонтальном скролле.
