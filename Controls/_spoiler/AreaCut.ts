@@ -25,11 +25,8 @@ class AreaCut extends Cut {
     protected _expanded: boolean = true;
     protected _value: string | null;
     protected _firstEditPassed: boolean = false;
-    protected _wasMouseEnter: boolean = false;
     protected _cutButtonVisibility: boolean = true;
-    private _shouldUpdateCutButtonVisibility: boolean = false;
-
-    private _contentElement: HTMLElement;
+    private _shouldUpdateCutButtonVisibility: boolean = true;
 
     protected _beforeMount(options: IAreaCutOptions): void {
         if (options.value) {
@@ -39,28 +36,23 @@ class AreaCut extends Cut {
         super._beforeMount(options);
     }
 
-    protected _afterMount(): void {
-        this._contentElement = this._container.querySelector('.controls-AreaCut__content');
-    }
-
     protected _beforeUpdate(options: IAreaCutOptions): void {
         if (!options.readOnly && !this._firstEditPassed) {
             this._expanded = true;
         }
         if (!this._options.readOnly && options.readOnly) {
             this._expanded = false;
+            this._cutButtonVisibility = true;
+            this._shouldUpdateCutButtonVisibility = true;
             if (options.readOnly && this._value) {
                 this._firstEditPassed = true;
             }
         }
-        super._beforeUpdate(options);
-    }
-
-    protected _afterUpdate(): void {
-        // Высчитываем значения отложенно, т.к. верстка еще не поменялась
-        if (this._shouldUpdateCutButtonVisibility) {
-            this._countCutButtonVisibility();
+        if (options.hasOwnProperty('expanded') && this._expanded !== options.expanded && !options.expanded) {
+            this._shouldUpdateCutButtonVisibility = true;
+            this._cutButtonVisibility = true;
         }
+        super._beforeUpdate(options);
     }
 
     protected _valueChangedHandler(event: Event, value: string): void {
@@ -79,22 +71,30 @@ class AreaCut extends Cut {
     }
 
     protected _mouseEnterHandler(): void {
-        if (!this._wasMouseEnter) {
-            this._wasMouseEnter = true;
+        // По нажатию на область поля ввода в режиме редактирования при свернутом кате мы должны развернуть кат, а
+        // только потом пользователь сможет поставить курсор в поле ввода. Для этого кнопка ката растягивается на всю
+        // область как элемент, при клике на нее мы раскроем кат. Если контента будет не достаточно для ката, кнопка
+        // все равно будет занимать эту область. Пользователь не будет видеть состояние кнопки и будет казаться, что он
+        // делает лишний клик просто так. Посчитаем, достаточно ли контента для показа ката во время того, как навели
+        // мышкой на контрол, если нет - скроем кнопку.
+        if (this._shouldUpdateCutButtonVisibility) {
+            this._shouldUpdateCutButtonVisibility = false;
             this._countCutButtonVisibility();
         }
     }
 
     private _countCutButtonVisibility(): void {
         const containerHeight = this._container.clientHeight;
-        const contentHeight = this._contentElement.clientHeight;
+        const contentHeight = this._children.content.clientHeight;
         this._cutButtonVisibility = contentHeight > containerHeight;
     }
 
     protected _onExpandedChangedHandler(event: Event, expanded: boolean): void {
         if (this._expanded !== expanded) {
-            this._shouldUpdateCutButtonVisibility = true;
             this._expanded = expanded;
+            if (!this._expanded) {
+                this._shouldUpdateCutButtonVisibility = true;
+            }
             this._notify('expandedChanged', [this._expanded]);
         }
     }
