@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controlsDemo__search-button">
+         <div class="controls-text-label">inlineHeight = default</div>
+         <Controls.search:Input attr:class="controlsDemo__searchBase_field"/>
+      </div>
+   </div>
+    <div class="controlsDemo__cell">
+        <div class="controlsDemo__search-button">
+            <div class="controls-text-label">inlineHeight = l</div>
+            <Controls.search:Input attr:class="controlsDemo__searchBase_field"
+                                   inlineHeight="l" />
+        </div>
+   </div>
+</div>

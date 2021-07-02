@@ -5,6 +5,14 @@ export interface IConfirmationFooterOptions {
     cancelCaption?: string;
     primaryAction?: string;
     okCaption?: string;
+    buttons?: IConfirmationButton[];
+}
+interface IConfirmationButton {
+    caption: string;
+    value: boolean | string;
+    viewMode?: string;
+    buttonStyle?: string;
+    fontColorStyle?: string;
 }
 
 /**
@@ -73,4 +81,40 @@ export interface IConfirmationFooter {
  * @name Controls/_popup/interface/IConfirmationFooter#result
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события
  * @param {Result} Результат
+ */
+
+/**
+ * @name Controls/_popup/interface/IConfirmationFooter#buttons
+ * @cfg {Array.<Controls/_popup/interface/IConfirmationFooter/buttons.typedef>} Описывает набор кнопок с результатами,
+ * позиционирующихся в нижней части окна подтверждения.
+ * @example
+ * <pre>
+ * <Controls.popupTemplate:ConfirmationDialog
+ *                         name="Confirm"
+ *                         message="Сохранить изменения?"
+ *                         buttons="{{_buttons}}"/>
+ * </pre>
+ * <pre>
+ *     this._buttons = [{
+ *      caption: 'Да',
+ *      primary: true,
+ *      buttonStyle: primary,
+ *      value: true
+ *     },
+ *     {
+ *      caption: 'Собрать без конвертацией',
+ *      viewMode: 'link',
+ *      value: false
+ *     }];
+ * </pre>
+ * @demo Controls-demo/PopupTemplate/Confirmation/Buttons/Index
+ */
+
+/**
+ * @typedef {Array} Controls/_popup/interface/IConfirmationFooter/buttons
+ * @property {String} [buttons.caption] Подпись к кнопке.
+ * @property {Boolean|String} [buttons.value] Значение результата, которое вернет кнопка при нажатии.
+ * @property {String} [buttons.viewMode] Режим отображения кнопки.
+ * @property {String} [buttons.buttonStyle] Стиль отображения кнопки.
+ * @property {String} [buttons.fontColorStyle] Определяет cтиль цвета текста контрола.
  */

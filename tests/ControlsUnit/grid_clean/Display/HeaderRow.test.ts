@@ -12,7 +12,7 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const mockedHeaderOwner = {
                 getStickyColumnsCount: () => 0,
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 getHeaderConfig: () => header,
                 hasItemActionsSeparatedCell: () => false,
                 getLeftPadding: () => 's',
@@ -28,9 +28,9 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             };
 
             const headerRow = new GridHeaderRow({
-                header,
+                columnsConfig: header,
                 headerModel: mockedHeaderModel,
-                columns,
+                gridColumnsConfig: columns,
                 owner: mockedHeaderOwner
             });
             const columnItems = headerRow.getColumns();
@@ -74,7 +74,7 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const mockedHeaderOwner = {
                 getStickyColumnsCount: () => 0,
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 getHeaderConfig: () => header,
                 hasItemActionsSeparatedCell: () => false,
                 getLeftPadding: () => 's',
@@ -87,12 +87,12 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const mockedHeaderModel = {
                 isMultiline: () => false,
                 isSticked: () => false
-            }
+            };
 
             const headerRow = new GridHeaderRow({
-                header,
+                columnsConfig: header,
                 headerModel: mockedHeaderModel,
-                columns,
+                gridColumnsConfig: columns,
                 owner: mockedHeaderOwner
             });
             const columnItems = headerRow.getColumns();
@@ -120,7 +120,7 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const mockedHeaderOwner = {
                 getStickyColumnsCount: () => 0,
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 getHeaderConfig: () => header,
                 hasItemActionsSeparatedCell: () => false,
                 getLeftPadding: () => 'default',
@@ -133,12 +133,12 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const mockedHeaderModel = {
                 isMultiline: () => false,
                 isSticked: () => false
-            }
+            };
 
             const headerRow = new GridHeaderRow({
-                header,
+                columnsConfig: header,
                 headerModel: mockedHeaderModel,
-                columns,
+                gridColumnsConfig: columns,
                 owner: mockedHeaderOwner
             });
             const columnItems = headerRow.getColumns();
@@ -177,7 +177,7 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const mockedHeaderOwner = {
                 getStickyColumnsCount: () => 0,
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 getHeaderConfig: () => header,
                 hasItemActionsSeparatedCell: () => false,
                 getLeftPadding: () => 's',
@@ -205,9 +205,9 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             }
 
             const headerRow = new GridHeaderRow({
-                header,
+                columnsConfig: header,
                 headerModel: mockedHeaderModel,
-                columns,
+                gridColumnsConfig: columns,
                 owner: mockedHeaderOwner
             });
             const columnItems = headerRow.getColumns();
@@ -235,7 +235,7 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const mockedHeaderOwner = {
                 getStickyColumnsCount: () => 0,
                 hasMultiSelectColumn: () => false,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 getHeaderConfig: () => header,
                 hasItemActionsSeparatedCell: () => false,
                 getLeftPadding: () => 's',
@@ -260,12 +260,12 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                     }
                 },
                 isSticked: () => false
-            }
+            };
 
             const headerRow = new GridHeaderRow({
-                header,
+                columnsConfig: header,
                 headerModel: mockedHeaderModel,
-                columns,
+                gridColumnsConfig: columns,
                 owner: mockedHeaderOwner
             });
             const columnItems = headerRow.getColumns();
@@ -294,7 +294,7 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             const mockedHeaderOwner = {
                 getStickyColumnsCount: () => 0,
                 hasMultiSelectColumn: () => true,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 getHeaderConfig: () => header,
                 hasItemActionsSeparatedCell: () => false,
                 getLeftPadding: () => 's',
@@ -322,9 +322,9 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             }
 
             const headerRow = new GridHeaderRow({
-                header,
+                columnsConfig: header,
                 headerModel: mockedHeaderModel,
-                columns,
+                gridColumnsConfig: columns,
                 owner: mockedHeaderOwner
             });
             const columnItems = headerRow.getColumns();
@@ -353,7 +353,7 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 const mockedHeaderOwner = {
                     getStickyColumnsCount: () => 0,
                     hasMultiSelectColumn: () => false,
-                    getColumnsConfig: () => columns,
+                    getGridColumnsConfig: () => columns,
                     getHeaderConfig: () => header,
                     hasItemActionsSeparatedCell: () => true,
                     getLeftPadding: () => 's',
@@ -371,9 +371,9 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 };
 
                 const headerRow = new GridHeaderRow({
-                    header,
+                    columnsConfig: header,
                     headerModel: mockedHeaderModel,
-                    columns,
+                    gridColumnsConfig: columns,
                     owner: mockedHeaderOwner
                 });
 

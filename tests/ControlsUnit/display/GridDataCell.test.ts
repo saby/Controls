@@ -73,7 +73,7 @@ describe('Controls/display/GridDataCell', () => {
             const owner: GridCollection<Model> = {
                 hasMultiSelectColumn: () => hasMultiSelectColumn,
                 getStickyColumnsCount: () => stickyColumnsCount,
-                getColumnsConfig: () => columns,
+                getGridColumnsConfig: () => columns,
                 hasItemActionsSeparatedCell: () => hasItemActionsSeparatedCell,
                 hasColumnScroll: () => hasColumnScroll,
                 getHoverBackgroundStyle: () => 'default',
@@ -89,7 +89,8 @@ describe('Controls/display/GridDataCell', () => {
                 isFullGridSupport: () => true
             } as undefined as GridCollection<Model>;
             return new GridDataRow({
-                columns,
+                gridColumnsConfig: columns,
+                columnsConfig: columns,
                 owner,
                 contents: {
                     getKey: () => 1

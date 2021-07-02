@@ -35,6 +35,7 @@ export interface IToggleButtonOptions extends
     icons?: string[];
     captions?: string[];
     viewMode?: 'button' | 'link' | 'toolButton' | 'pushButton';
+    iconStyles?: string[];
     // deprecated options
     icon?: string;
 }
@@ -59,7 +60,7 @@ export interface IToggleButtonOptions extends
  * @implements Control
  * s/_interface/IHeight
  * @implements Controls/interface:ITooltip
- * 
+ *
  * @public
  * @author Красильников А.С.
  *
@@ -81,7 +82,7 @@ export interface IToggleButtonOptions extends
  * @implements Controls/interface:IIconStyle
  * @implements Controls/interface:IHeight
  * @implements Controls/interface:ITooltip
- * 
+ *
  * @public
  * @author Красильников А.С.
  *
@@ -134,7 +135,9 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         const clonedOptions = {...newOptions};
         clonedOptions.icon = this._icon;
         this._iconSize = this._icon ? ActualApi.iconSize(newOptions.iconSize, this._icon) : '';
-        this._iconStyle = this._icon ? ActualApi.iconStyle(newOptions.iconStyle, this._icon,
+        const iconStyles = newOptions.iconStyles || [newOptions.iconStyle];
+        const iconStyle = (!value && iconStyles[1] ? iconStyles[1] : iconStyles[0]);
+        this._iconStyle = this._icon ? ActualApi.iconStyle(iconStyle, this._icon,
             newOptions.readOnly, false) : '';
 
         if (newOptions.viewMode === 'pushButton' || newOptions.viewMode === 'toolButton') {
@@ -218,6 +221,13 @@ Object.defineProperty(ToggleButton, 'defaultProps', {
  * <pre>
  *    <Controls.toggle:Button icons="{{['icon-ArrangeList03', 'icon-ArrangeList04']}}" iconStyle="success" iconSize="s" viewMode="link"/>
  * </pre>
+ */
+
+/**
+ * @name Controls/_toggle/Button#iconStyles
+ * @cfg {Array} Пара стилей для иконок.
+ * Первый стиль отображается, когда переключатель выключен.
+ * Второй стиль отображается, когда переключатель включен.
  */
 
 /**

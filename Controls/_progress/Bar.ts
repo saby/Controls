@@ -5,17 +5,17 @@ import barTemplate = require('wml!Controls/_progress/Bar/Bar');
 
 export interface IBarOptions extends IControlOptions {
    value?: number;
-   barStyle: 'primary' | 'success' | 'danger' | 'warning';
+   barStyle: 'primary' | 'success' | 'danger' | 'warning' | 'secondary';
 }
 /**
  * Базовый индикатор выполнения процесса.
  * Отображает полосу прогресса выполнения.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2fprogress%2fBar%2fIndex демо-пример}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_progress.less переменные тем оформления}
- * 
+ *
  * @class Controls/_progress/Bar
  * @extends UI/Base:Control
  * @author Колесов В.А.
@@ -106,6 +106,7 @@ Object.defineProperty(Bar, 'defaultProps', {
  * @variant success
  * @variant warning
  * @variant danger
+ * @variant secondary
  * @default primary
  * @demo Controls-demo/progress/Bar/BarStyle/Index
  */

@@ -43,12 +43,13 @@ export {default as DialogOpener} from './_popup/PopupHelper/Dialog';
 export {default as NotificationOpener} from './_popup/PopupHelper/Notification';
 export {default as SlidingPanelOpener} from './_popup/PopupHelper/SlidingPanel';
 export {default as PageOpener} from './_popup/PopupHelper/Page';
+export {default as PageController} from './_popup/Page/Controller';
 
 export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition, IEventHandlers, IPopupItemInfo} from './_popup/interface/IPopup';
 export {IBasePopupOptions, IBaseOpener} from './_popup/interface/IBaseOpener';
 export {IStackPopupOptions, IStackOpener} from './_popup/interface/IStack';
 export {IStickyPopupOptions, IStickyPosition, IStickyPositionOffset, IStickyOpener} from './_popup/interface/ISticky';
-export {IDialogPopupOptions, IDialogOpener} from './_popup/interface/IDialog';
+export {IDialogPopupOptions, IDialogOpener, IResizeDirection} from './_popup/interface/IDialog';
 export {IConfirmationOptions, IConfirmationOpener} from './_popup/interface/IConfirmation';
 export {INotificationPopupOptions, INotificationOpener} from './_popup/interface/INotification';
 export {IPreviewerOptions, IPreviewer} from './_popup/interface/IPreviewer';

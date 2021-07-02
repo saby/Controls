@@ -165,7 +165,6 @@ define([
          assert.strictEqual(markedKey, 'test');
          assert.strictEqual(explorer._markerForRestoredScroll, 'test');
          assert.isFalse(explorer._isGoingBack);
-         assert.isTrue(clearSelectionCalled);
 
          clearSelectionCalled = false;
          explorer._isGoingFront = true;

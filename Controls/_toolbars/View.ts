@@ -35,12 +35,12 @@ import {
     IIconStyle,
     IIconStyleOptions,
     IFilter,
-    IFilterOptions
+    IFilterOptions, IHeightOptions
 } from 'Controls/interface';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
 
 import {IToolbarSourceOptions, default as IToolbarSource} from 'Controls/_toolbars/IToolbarSource';
-import {IButtonOptions} from 'Controls/buttons';
+import {IButtonOptions, IViewMode} from 'Controls/buttons';
 import {IGrouped, IGroupedOptions} from 'Controls/dropdown';
 import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
@@ -64,7 +64,7 @@ export interface IMenuOptions {
 
  export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIconSizeOptions,
     IItemTemplateOptions, IGroupedOptions, IToolbarSourceOptions, IItemsOptions<TItem>, IFontColorStyleOptions,
-    IIconStyleOptions, IFilterOptions {
+    IIconStyleOptions, IFilterOptions, IHeightOptions {
     /**
      * @name Controls/toolbars:IToolbar#popupClassName
      * @cfg {String} Имя класса, которое будет добавлено к атрибуту class на корневой ноде выпадающего меню.
@@ -106,12 +106,12 @@ export interface IMenuOptions {
     /**
      * @name Controls/toolbars:IToolbar#itemActionVisibilityCallback
      * @cfg {function} Функция управления видимостью опций записи.
-     * @remark 
+     * @remark
      * Аргументы функции:
-     * 
+     *
      * * action (тип {@link Controls/itemActions:IItemAction}) — объект с настройкой действия.
      * * item (тип {@link Types/entity:Model}) — экземпляр записи, действие над которой обрабатывается.
-     * 
+     *
      * Если из функции возвращается true, то операция отображается.
      * @demo Controls-demo/Toolbar/ItemActions/Index
      */
@@ -130,6 +130,11 @@ export interface IMenuOptions {
      * @cfg {Boolean} Определяет наличие подложки у кнопки открытия выпадающего меню тулбара.
      */
     contrastBackground?: true;
+     /**
+      * @name Controls/toolbars:IToolbar#menuButtonViewMode
+      * @cfg {IViewMode} Режим отображения кнопки открытия выпадающего меню тулбара
+      */
+     menuButtonViewMode?: IViewMode;
 }
 
 /**
@@ -638,7 +643,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             iconSize: 'm',
             direction: 'horizontal',
             itemTemplate: defaultItemTemplate,
-            iconStyle: 'secondary'
+            iconStyle: 'secondary',
+            menuButtonViewMode: 'link'
         };
     }
 

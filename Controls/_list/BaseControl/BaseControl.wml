@@ -110,11 +110,11 @@
          name="viewContainer">
         <ws:partial if="{{ _shouldDisplayMiddleLoadingIndicator() }}" template="loadingIndicator"/>
 
-        <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? ' display: none;'}}"></div>
+        <div name="topVirtualScrollTrigger"
+             style="position: relative; top: {{ _attachLoadTopTriggerToNull ? '-1px' : '0px' }}; {{_hideTopTrigger ?  ' display: none;'}}"></div>
        <!-- render _viewName -->
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
-                attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: ' + _attachedToNullLoadTopTriggerOffset + 'px;'}}"
                 name="{{name}}"
                 template="{{ _options.viewName }}"
                 scope="{{_options}}"
@@ -198,7 +198,7 @@
     viewConfig="{{ __error }}"
     on:keyDown="_onViewKeyDown()"
 >
-    <div class="controls-BaseControl controls_list_theme-{{_options.theme}}"
+    <div class="controls-BaseControl controls_list_theme-{{_options.theme}} controls_toggle_theme-{{_options.theme}}"
          on:sortingChanged="_sortingChanged()"
          on:mouseenter="_mouseEnter()"
          on:mouseleave="_mouseLeave()"

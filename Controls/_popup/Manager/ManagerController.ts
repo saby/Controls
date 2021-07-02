@@ -171,15 +171,6 @@ export default {
         // удалить метод, сейчас в качестве заглушки
     },
 
-    // TODO: Временное решение, убрать
-    setPageTemplate(template: string): void {
-        this._pageTemplate = template;
-    },
-
-    getPageTemplate(): void {
-        return this._pageTemplate;
-    },
-
     _getModuleByModuleName(moduleName: string, callback: Function): void {
         const module = getModuleByName(moduleName);
         if (module) {
@@ -189,27 +180,5 @@ export default {
                 callback(loadedModule);
             });
         }
-    },
-
-    getPageConfigLoaderModule(): string | void {
-        return this._popupPageConfigLoaderModule;
-    },
-
-    setPageConfigLoaderModule(module: string): void {
-        this._popupPageConfigLoaderModule = module;
-    },
-
-    getPageConfig(pageId: string): Promise<unknown> {
-        const configLoaderModule = this.getPageConfigLoaderModule();
-        if (!configLoaderModule) {
-            const message = 'При попытке открыть страницу в окне произошла ошибка.' +
-                'На приложении не задан модуль для получения конфигурации страницы.';
-            throw new Error(message);
-        }
-        return new Promise((resolve, reject) => {
-            this._getModuleByModuleName(configLoaderModule, (DataLoader) => {
-                DataLoader.getConfig('page/' + pageId).then(resolve, reject);
-            });
-        });
     }
 };

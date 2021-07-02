@@ -1,13 +1,33 @@
 import { TreeGridCollection } from 'Controls/treeGrid';
-import {Model as EntityModel, Model} from 'Types/entity';
+import {Model} from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
-import {ItemsFactory, itemsStrategy } from 'Controls/display';
+import {ItemsFactory, itemsStrategy, TreeItem} from 'Controls/display';
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
 import {IOptions as ITreeGridOptions} from 'Controls/_treeGrid/display/TreeGridCollection';
 import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
-import Header from "Controls/_grid/display/Header";
-import TableHeader from "Controls/_grid/display/TableHeader";
+import {GridHeader, GridTableHeader} from 'Controls/grid';
+
+/**
+ * Рекурсивно проверяет скрыт ли элемент сворачиванием родительских узлов
+ * @param {TreeItem<T>} item
+ */
+function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
+   if (item['[Controls/treeGrid:TreeGridGroupDataRow]'] || item['[Controls/_display/GroupItem]']) {
+      return true;
+   }
+
+   const parent = item.getParent();
+
+   // корневой узел не может быть свернут
+   if (!parent || parent.isRoot()) {
+      return true;
+   } else if (parent['[Controls/treeGrid:TreeGridGroupDataRow]'] && !parent.isExpanded()) {
+      return false;
+   }
+
+   return itemIsVisible(parent);
+}
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>> extends ITreeGridOptions<S, T> {
    breadCrumbsMode?: 'row' | 'cell';
@@ -36,11 +56,13 @@ export default
    }
 
    protected _setupProjectionFilters(): void {
-      // Результаты поиска нужно показывать без каких либо фильтров
+      this.addFilter(
+          (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)
+      );
    }
 
-   getHeaderConstructor(): typeof Header {
-      return this.isFullGridSupport() ? Header : TableHeader;
+   getHeaderConstructor(): typeof GridHeader {
+      return this.isFullGridSupport() ? GridHeader : GridTableHeader;
    }
 
    getSearchBreadcrumbsItemTemplate(): TemplateFunction|string {
@@ -106,9 +128,8 @@ export default
       const composer = super._createComposer();
 
       composer.append(itemsStrategy.Search, {
+         display: this,
          dedicatedItemProperty: this._$dedicatedItemProperty,
-         searchSeparatorModule: 'Controls/searchBreadcrumbsGrid:SearchSeparatorRow',
-         breadcrumbsItemModule: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemRow',
          treeItemDecoratorModule: 'Controls/searchBreadcrumbsGrid:TreeGridItemDecorator'
       });
 

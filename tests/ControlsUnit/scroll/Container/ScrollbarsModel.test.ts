@@ -8,16 +8,16 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
 
     describe('constructor', () => {
         [{
-            scrollMode: SCROLL_MODE.VERTICAL,
+            scrollOrientation: SCROLL_MODE.VERTICAL,
             direction: [SCROLL_DIRECTION.VERTICAL]
         }, {
-            scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL,
+            scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL,
             direction: [SCROLL_DIRECTION.VERTICAL, SCROLL_DIRECTION.HORIZONTAL]
         }].forEach((test) => {
-            it(`should init scrollbars models. ${test.scrollMode}`, () => {
+            it(`should init scrollbars models. ${test.scrollOrientation}`, () => {
                 const model: ScrollbarsModel = new ScrollbarsModel({
                     ...getScrollbarsDefaultOptions(),
-                    scrollMode: test.scrollMode
+                    scrollOrientation: test.scrollOrientation
                 });
                 assert.hasAllKeys(model._models, test.direction);
                 for (let direction of test.direction) {
@@ -40,7 +40,7 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
             const
                 model: ScrollbarsModel = new ScrollbarsModel({
                     ...getScrollbarsDefaultOptions(),
-                    scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL
+                    scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL
                 });
 
             // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
@@ -58,7 +58,7 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
             const
                 model: ScrollbarsModel = new ScrollbarsModel({
                     ...getScrollbarsDefaultOptions(),
-                    scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL
+                    scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL
                 })
             const scrollState = {
                 scrollTop: 0,
@@ -85,7 +85,7 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
             const
                 model: ScrollbarsModel = new ScrollbarsModel({
                     ...getScrollbarsDefaultOptions(),
-                    scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL
+                    scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL
                 });
 
             model.updateScrollState(scrollState, { offsetHeight: 30 });
@@ -111,7 +111,7 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
                 const
                     model: ScrollbarsModel = new ScrollbarsModel({
                         ...getScrollbarsDefaultOptions(),
-                        scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL
+                        scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL
                     });
 
                 // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
@@ -163,6 +163,19 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
             model.updateOptions({scrollOrientation: SCROLL_MODE.VERTICAL_HORIZONTAL, scrollbarVisible: false});
             assert.isFalse(model._models.vertical.isVisible);
             assert.isFalse(model._models.horizontal.isVisible);
+        });
+    });
+
+    describe('setOffsets', () => {
+        it('should update scrollbars styles.', () => {
+            const model: ScrollbarsModel = new ScrollbarsModel({
+                ...getScrollbarsDefaultOptions(),
+                scrollOrientation: 'vertical'
+            });
+
+            model.setOffsets({ top: 10, bottom: 20 });
+
+            assert.strictEqual(model._models.vertical.style, 'top: 10px; bottom: 20px;');
         });
     });
 

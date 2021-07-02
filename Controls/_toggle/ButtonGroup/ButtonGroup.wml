@@ -1,4 +1,4 @@
-<div class="controls-ButtonGroup">
+<div class="controls_toggle_theme-{{_options.theme}} controls-ButtonGroup">
     <ws:template name="button">
         <ws:partial template="Controls/buttons:ButtonTemplate"
                     attr:class="controls-ButtonGroup__button"
@@ -14,6 +14,7 @@
                 <ws:partial template="{{ _options.itemTemplate }}"
                             item="{{itemData}}"
                             displayProperty="{{ _options.displayProperty }}"
+                            selected="{{ _isSelectedItem(itemData) }}"
                 />
             </ws:_caption>
         </ws:partial>

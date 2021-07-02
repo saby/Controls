@@ -24,6 +24,7 @@ export default class Row<T>
     //  Сейчас, т.к. нет элемента данных, его имплементирует CollectionItem.
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly EnumerableItem: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
 

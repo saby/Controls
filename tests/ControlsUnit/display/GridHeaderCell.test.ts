@@ -13,7 +13,7 @@ describe('Controls/display:HeaderCell', () => {
             };
             const cell = new GridHeaderCell({
                 owner: {
-                    getColumnsConfig: () => [{}],
+                    getGridColumnsConfig: () => [{}],
                     getHeaderConfig: () => [headerColumnConfig],
                     hasMultiSelectColumn: () => false
                 },
@@ -27,7 +27,7 @@ describe('Controls/display:HeaderCell', () => {
             const headerColumnConfig = {};
             const cell = new GridHeaderCell({
                 owner: {
-                    getColumnsConfig: () => [{
+                    getGridColumnsConfig: () => [{
                         align: 'right',
                         valign: 'bottom'
                     }],
@@ -47,7 +47,7 @@ describe('Controls/display:HeaderCell', () => {
             };
             const cell = new GridHeaderCell({
                 owner: {
-                    getColumnsConfig: () => [{
+                    getGridColumnsConfig: () => [{
                         align: 'right',
                         valign: 'bottom'
                     }],
@@ -67,7 +67,7 @@ describe('Controls/display:HeaderCell', () => {
             };
             const cell = new GridHeaderCell({
                 owner: {
-                    getColumnsConfig: () => [{
+                    getGridColumnsConfig: () => [{
                         align: 'right',
                         valign: 'bottom'
                     }],

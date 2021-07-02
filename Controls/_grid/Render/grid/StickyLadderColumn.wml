@@ -4,6 +4,7 @@
                                  backgroundStyle="{{'transparent'}}"
                                  shadowVisibility="hidden"
                                  mode="replaceable"
+                                 fixedZIndex="{{ gridColumn.getZIndex()}}"
                                  attr:class="{{ gridColumn.getStickyHeaderClasses() }}"
                                  attr:style="{{ gridColumn.getStickyHeaderStyles() }}">
          <ws:partial template="{{ gridColumn.getOriginalTemplate() }}"

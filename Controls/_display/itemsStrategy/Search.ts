@@ -21,8 +21,6 @@ interface IOptions<S, T> {
 
     source: IItemsStrategy<S, T>;
 
-    searchSeparatorModule: string;
-    breadcrumbsItemModule: string;
     treeItemDecoratorModule: string;
 }
 
@@ -32,8 +30,6 @@ interface ISortOptions<S extends Model, T extends TreeItem<S>> {
     dedicatedItemProperty: string;
     display: Search<S, T>;
 
-    searchSeparatorModule: string;
-    breadcrumbsItemModule: string;
     treeItemDecoratorModule: string;
 }
 
@@ -79,27 +75,20 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
 ): IBreadCrumbsReference<S, T> {
     let breadCrumbs;
     const last = getNearestNode(item);
-    const root = display && display.getRoot();
-    if (last && last !== root) {
+    const root = display.getRoot();
+    if (last && last !== root && !last['[Controls/treeGrid:TreeGridGroupDataRow]']) {
         breadCrumbs = treeItemToBreadcrumbs.get(last);
         if (!breadCrumbs) {
-            // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
-            if (display?.createBreadcrumbsItem) {
-                breadCrumbs = display?.createBreadcrumbsItem({
-                    contents: null,
-                    last,
-                    multiSelectVisibility: display?.getMultiSelectVisibility(),
-                    multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
-                });
-            } else {
-                breadCrumbs = new BreadcrumbsItem<S>({
-                    contents: null,
-                    last,
-                    owner: display,
-                    multiSelectVisibility: display?.getMultiSelectVisibility(),
-                    multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
-                });
-            }
+            // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
+            // В случае, когда группой является узел, то родителем хлебной крошки должна быть эта группа
+            const parent = item.getParent() && item.getParent()['[Controls/treeGrid:TreeGridGroupDataRow]']
+                ? item.getParent()
+                : root
+            breadCrumbs = display.createBreadcrumbsItem({
+                contents: null,
+                last,
+                parent
+            });
 
             treeItemToBreadcrumbs.set(last, breadCrumbs);
         }
@@ -107,12 +96,7 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
         breadCrumbs = treeItemToBreadcrumbs.get(last);
 
         if (!breadCrumbs) {
-            // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
-            if (display?.createSearchSeparator) {
-                breadCrumbs = display.createSearchSeparator({});
-            } else {
-                breadCrumbs = new SearchSeparator({owner: display, source: item});
-            }
+            breadCrumbs = display.createSearchSeparator({source: item});
             treeItemToBreadcrumbs.set(item, breadCrumbs);
         }
     }
@@ -239,14 +223,12 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
      * Returns elements of display
      * @protected
      */
-    protected _getItems(): Array<T | BreadcrumbsItem<S>> {
+    protected _getItems(): Array<T | BreadcrumbsItem<S> | SearchSeparator<S>> {
         return SearchStrategy.sortItems<S, T>(this.source.items, {
             dedicatedItemProperty: this._options.dedicatedItemProperty || '',
             treeItemToDecorator: this._treeItemToDecorator,
             treeItemToBreadcrumbs: this._treeItemToBreadcrumbs,
             display: this.options.display as Search<S, T>,
-            searchSeparatorModule: this._options.searchSeparatorModule,
-            breadcrumbsItemModule: this._options.breadcrumbsItemModule,
             treeItemDecoratorModule: this._options.treeItemDecoratorModule
         });
     }
@@ -300,7 +282,10 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
         items.forEach((item, index) => {
             let resultItem = item;
 
-            if (item && item['[Controls/_display/TreeItem]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+            if (item
+                && item['[Controls/_display/TreeItem]']
+                && !item['[Controls/treeGrid:TreeGridNodeFooterRow]']
+                && !item['[Controls/treeGrid:TreeGridGroupDataRow]']) {
                 if (item.isNode()) {
                     // Check if there is a special item within the breadcrumbs
                     if (
@@ -376,14 +361,14 @@ export default class SearchStrategy<S extends Model, T extends TreeItem<S> = Tre
                         if (itsDescendant) {
                             parent = item.getParent();
                         } else {
-                            parent = currentBreadcrumbs['[Controls/_display/SearchSeparator]'] ? display?.getRoot() : currentBreadcrumbs;
+                            parent = currentBreadcrumbs['[Controls/_display/SearchSeparator]'] ? display.getRoot() : currentBreadcrumbs;
                         }
 
                         decoratedItem = create(options.treeItemDecoratorModule, {
                             source: item,
                             parent,
-                            multiSelectVisibility: display?.getMultiSelectVisibility(),
-                            multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
+                            multiSelectVisibility: display.getMultiSelectVisibility(),
+                            multiSelectAccessibilityProperty: display.getMultiSelectAccessibilityProperty()
                         });
                         treeItemToDecorator.set(item, decoratedItem);
                     }

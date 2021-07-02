@@ -38,17 +38,9 @@
    // Радиус скругления обводки
    //
    // Общий радиус скругления обводки
-
-   --border-radius_xs_button: calc(var(--inline_height_xs) / 2);
-   --border-radius_s_button: calc(var(--inline_height_s) / 2);
-   --border-radius_m_button: calc(var(--inline_height_m) / 2);
-   --border-radius_l_button: calc(var(--inline_height_l) / 2);
-   --border-radius_xl_button: calc(var(--inline_height_xl) / 2);
-   --border-radius_2xl_button: calc(var(--inline_height_2xl) / 2);
-   --border-radius_3xl_button: calc(var(--inline_height_3xl) / 2);
-   --border-radius_4xl_button: calc(var(--inline_height_4xl) / 2);
-   --border-radius_5xl_button: calc(var(--inline_height_5xl) / 2);
-   --border-radius_default_button: calc(var(--inline_height_default) / 2);
+   // border-radius работает по разному с пикселями и процентами.
+   // Ставим большое значение, чтобы получить максимальное закругление на всех размерах
+   --border-radius_button: 100px;
 
    // Радиус скругления обводки кнопки-иконки для тулбара.
 
@@ -56,16 +48,7 @@
 
    // Радиус скругления обводки функциональной кнопки
 
-   --border-radius_xs_button_functionalButton: calc(var(--inline_height_xs) / 2);
-   --border-radius_s_button_functionalButton: calc(var(--inline_height_s) / 2);
-   --border-radius_m_button_functionalButton: calc(var(--inline_height_m) / 2);
-   --border-radius_l_button_functionalButton: calc(var(--inline_height_l) / 2);
-   --border-radius_xl_button_functionalButton: calc(var(--inline_height_xl) / 2);
-   --border-radius_2xl_button_functionalButton: calc(var(--inline_height_2xl) / 2);
-   --border-radius_3xl_button_functionalButton: calc(var(--inline_height_3xl) / 2);
-   --border-radius_4xl_button_functionalButton: calc(var(--inline_height_4xl) / 2);
-   --border-radius_5xl_button_functionalButton: calc(var(--inline_height_5xl) / 2);
-   --border-radius_default_button_functionalButton: calc(var(--inline_height_default) / 2);
+   --border-radius_button_functionalButton: 50%;
 
    // Минимальная ширина кнопки в режиме отображения "по умолчанию".
 
@@ -148,9 +131,11 @@
    // Тень контейнера кнопки
 
    --box-shadow_button: none;
-   --box-shadow_contrast-button: 0 3px 5px 0 rgba(0, 0, 0, .25);
+   --box-shadow_contrast-button: 0 1px 5px 0 rgba(0, 0, 0, .12);
+   --box-shadow_contrast_big_button: 0 3px 5px 0 rgba(0, 0, 0, .25);
    --box-shadow_button_toolButton: none;
    --box-shadow_button_functionalButton: var(--box-shadow_contrast-button);
+   --box-shadow_big_button_functionalButton: var(--box-shadow_contrast_big_button);
 
    //Стили кнопки-стрелки
    --box-shadow_ArrowButton: 0 1px 4px rgba(0, 0, 0, 0.05);

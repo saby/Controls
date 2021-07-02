@@ -5,7 +5,10 @@ describe('Controls/columns/display/Drag/CollectionItem/WrapperClasses', () => {
     const owner = {
         getHoverBackgroundStyle: () => null,
         getEditingBackgroundStyle: () => null,
-        isDragging: () => true
+        isDragging: () => true,
+        isFirstItem: () => false,
+        isLastItem: () => false,
+        getNavigation: () => ({})
     };
 
     it('when drag should disable hover', () => {

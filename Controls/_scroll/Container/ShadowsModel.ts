@@ -16,7 +16,7 @@ export default class ShadowsModel extends mixin<VersionableMixin>(VersionableMix
     constructor(options: IShadowsOptions) {
         super(options);
 
-        const scrollOrientation = ContainerBase.getScrollOrientation(options).toLowerCase();
+        const scrollOrientation = options.scrollOrientation.toLowerCase();
         if (scrollOrientation.indexOf('vertical') !== -1) {
             this._models.top = new ShadowModel(POSITION.TOP, options);
             this._models.bottom = new ShadowModel(POSITION.BOTTOM, options);

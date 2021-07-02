@@ -13,6 +13,7 @@
                     rangeModel="{{_rangeModel}}"
                     headerRangeModel="{{_headerRangeModel}}"
                     monthStateEnabled="{{_monthStateEnabled}}"
+                    yearsStateEnabled="{{ _yearsStateEnabled }}"
                     state="{{_state}}"
                     mask="{{_mask}}"
                     dateConstructor="{{_options.dateConstructor}}"

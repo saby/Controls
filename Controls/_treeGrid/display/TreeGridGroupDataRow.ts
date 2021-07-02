@@ -11,6 +11,7 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
     '[Controls/treeGrid:TreeGridGroupDataRow]': boolean = true;
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly EnumerableItem: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly LadderSupport: boolean = false;
     readonly ItemActionsItem: boolean = false;
@@ -104,7 +105,7 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
 
 Object.assign(TreeGridGroupDataRow.prototype, {
     _cellModule: 'Controls/treeGrid:TreeGridGroupDataCell',
-    _moduleName: 'Controls/treeGrid:TreeGridDataRow',
+    _moduleName: 'Controls/treeGrid:TreeGridGroupDataRow',
     _$searchValue: '',
     _$isHiddenGroup: false,
     _instancePrefix: 'tree-grid-group-row-'

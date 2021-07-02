@@ -19,7 +19,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetCol
         isLastItem: () => true,
         isStickyHeader: () => true,
         hasColumnScroll: () => false,
-        getColumnsConfig: () => columns,
+        getGridColumnsConfig: () => columns,
         hasMultiSelectColumn: () => multiSelectVisibility,
         isFullGridSupport: () => true,
         hasItemActionsSeparatedCell: () => false

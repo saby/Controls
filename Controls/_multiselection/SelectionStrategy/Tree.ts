@@ -1,15 +1,14 @@
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
-
-import { Model } from 'Types/entity';
-import { ISelectionObject as ISelection } from 'Controls/interface';
-import ISelectionStrategy from './ISelectionStrategy';
-import { IEntryPathItem, ITreeSelectionStrategyOptions, TKeys } from '../interface';
 // нет замены
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import clone = require('Core/core-clone');
-import { CrudEntityKey } from 'Types/source';
-import {CollectionItem, Tree, TreeItem} from 'Controls/display';
+import {Model} from 'Types/entity';
+import {ISelectionObject as ISelection} from 'Controls/interface';
+import ISelectionStrategy from './ISelectionStrategy';
+import {IEntryPathItem, ITreeSelectionStrategyOptions, TKeys} from '../interface';
+import {CrudEntityKey} from 'Types/source';
+import {BreadcrumbsItem, CollectionItem, Tree, TreeItem} from 'Controls/display';
 
 const LEAF = null;
 
@@ -60,11 +59,12 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       const item = this._getItem(key);
       const cloneSelection = clone(selection);
 
-      if (!this._canBeSelected(item)) {
+      // Если не найден item, то считаем что он не загружен и будет работать соответствующая логика
+      if (item && !this._canBeSelected(item)) {
          return cloneSelection;
       }
 
-      if (!item || this._isNode(item)) {
+      if (item && this._isNode(item)) {
          this._selectNode(cloneSelection, item);
       } else {
          this._selectLeaf(cloneSelection, key);
@@ -134,7 +134,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
    toggleAll(selection: ISelection, hasMoreData: boolean): ISelection {
       // Если выбраны все дети в узле по одному, то при инвертировании должен получиться пустой selection
-      if (this.isAllSelected(selection, hasMoreData, this._model.getCount(), true)) {
+      if (this.isAllSelected(selection, hasMoreData, this._model.getCollection().getCount(), true)) {
          return {selected: [], excluded: []};
       }
 
@@ -238,26 +238,34 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          }
 
          const key = this._getKey(item);
-         const parentId = this._getKey(item.getParent());
-         const isNode = this._isNode(item);
+         const parent = item.getParent();
+         const parentId = this._getKey(parent);
          const inSelected = selectionWithEntryPath.selected.includes(key);
          const inExcluded = selectionWithEntryPath.excluded.includes(key);
 
          let isSelected;
-         if (!this._selectAncestors && !this._selectDescendants) {
-            // В этом случае мы вообще не смотри на узлы, т.к. выбранность элемента не зависит от выбора родительского узла
-            // или выбранность узла не зависит от его детей
-            isSelected = this._canBeSelected(item, false) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selectionWithEntryPath));
+         if (item['[Controls/_display/BreadcrumbsItem]']) {
+            isSelected = this._getBreadcrumbsSelected(item, selectionWithEntryPath);
+         } else if (parent['[Controls/_display/BreadcrumbsItem]']) {
+            const parentIsSelected = this._getBreadcrumbsSelected(parent, selectionWithEntryPath);
+            isSelected = parentIsSelected === null && !inExcluded;
          } else {
-            isSelected = this._canBeSelected(item, false) && (!inExcluded && (inSelected || this._isAllSelected(selectionWithEntryPath, parentId)) || isNode && this._isAllSelected(selectionWithEntryPath, key));
+            const isNode = this._isNode(item);
+            if (!this._selectAncestors && !this._selectDescendants) {
+               // В этом случае мы вообще не смотри на узлы, т.к. выбранность элемента не зависит от выбора родительского узла
+               // или выбранность узла не зависит от его детей
+               isSelected = this._canBeSelected(item, false) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selectionWithEntryPath));
+            } else {
+               isSelected = this._canBeSelected(item, false) && (!inExcluded && (inSelected || this._isAllSelected(selectionWithEntryPath, parentId)) || isNode && this._isAllSelected(selectionWithEntryPath, key));
 
-            if ((this._selectAncestors || searchValue) && isNode) {
-               isSelected = this._getStateNode(item, isSelected, selectionWithEntryPath);
+               if ((this._selectAncestors || searchValue) && isNode) {
+                  isSelected = this._getStateNode(item, isSelected, selectionWithEntryPath);
+               }
             }
-         }
 
-         if (isSelected && isNode && doNotSelectNodes) {
-            isSelected = null;
+            if (isSelected && isNode && doNotSelectNodes) {
+               isSelected = null;
+            }
          }
 
          // Проверяем на лимит, если он уже превышен, то остальные элементы нельзя выбрать
@@ -278,6 +286,26 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       }
 
       return selectedItems;
+   }
+
+   private _getBreadcrumbsSelected(item: BreadcrumbsItem, selection: ISelection): false|null {
+      const keys = item.getContents().map((it) => it.getKey());
+      // разворачиваем ключи в обратном порядке, т.к. элементы с конца имеют больше приоритет в палне выбранности
+      // т.к. если выбрать вложенную папку, то не зависимо от выбранности родителей она будет выбрана
+      const reversedKeys = keys.reverse();
+      const excludedKeyIndex = reversedKeys.findIndex((key) => selection.excluded.includes(key));
+      const selectedKeyIndex = reversedKeys.findIndex((key) => selection.selected.includes(key));
+
+      // крошка выбрана, если нет исключенных элементов
+      // или выбранный элемент находится ближе к концу крошки(глубже по иерархии) чем исключенный
+      const hasSelected = selectedKeyIndex !== -1;
+      const hasExcluded = excludedKeyIndex !== -1;
+      const isSelected = this._isAllSelectedInRoot(selection)
+          ? !hasExcluded
+          : hasSelected && (!hasExcluded || selectedKeyIndex < excludedKeyIndex);
+      // null - значит хлебная крошка выбрана, она может быть выбрана только частично,
+      // т.к. хлебная крошка представляет только часть папки
+      return isSelected ? null : false;
    }
 
    getCount(selection: ISelection, hasMoreData: boolean, limit?: number): number|null {
@@ -662,7 +690,8 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
    private _getSelectedChildrenCount(node: TreeItem<Model>, selection: ISelection, deep: boolean): number|null {
       if (!node) {
-         return 0;
+         // Если узла нет, это значит что он не загружен, соответственно мы не можем посчитать кол-во выбранных детей
+         return null;
       }
 
       const children = node.getChildren(false);
@@ -697,7 +726,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                }
             }
          });
-      } else if (!node || this._hasChildren(node)) {
+      } else if (this._hasChildren(node)) {
          selectedChildrenCount = null;
       }
 

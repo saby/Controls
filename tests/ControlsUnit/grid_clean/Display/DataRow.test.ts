@@ -15,7 +15,7 @@ const mockedCollection = {
     getStickyColumnsCount: () => 2,
     hasMultiSelectColumn: () => multiSelectVisibility === 'visible',
     hasItemActionsSeparatedCell: () => false,
-    getColumnsConfig: () => columns,
+    getGridColumnsConfig: () => columns,
     getIndex: () => 0,
     notifyItemChange: () => {},
     getItemEditorTemplate: () => {},
@@ -38,13 +38,15 @@ describe('Controls/grid_clean/Display/DataRow', () => {
     });
 
     it('Generate columns.instanceId', () => {
+        const columnsConfig = [{
+            displayProperty: 'key'
+        }, {
+            displayProperty: 'caption'
+        }];
         const gridRow = new GridDataRow({
             owner: mockedCollection,
-            columns: [{
-                displayProperty: 'key'
-            }, {
-                displayProperty: 'caption'
-            }],
+            gridColumnsConfig: columnsConfig,
+            columnsConfig: columnsConfig,
             contents: record
         });
 
@@ -128,7 +130,8 @@ describe('Controls/grid_clean/Display/DataRow', () => {
 
         const gridRow = new GridDataRow({
             owner: mockedCollection,
-            columns,
+            gridColumnsConfig: columns,
+            columnsConfig: columns,
             contents: record
         });
         assert.strictEqual(gridRow.getVersion(), 0, 'The row version after initialize must be equals "0". No other variants!');
@@ -151,6 +154,11 @@ describe('Controls/grid_clean/Display/DataRow', () => {
     });
 
     it('Set editing of separated column', () => {
+        const columnsConfig = [{
+            displayProperty: 'key'
+        }, {
+            displayProperty: 'caption'
+        }];
         const gridRow = new GridDataRow({
             owner: {
                 ...mockedCollection,
@@ -158,11 +166,8 @@ describe('Controls/grid_clean/Display/DataRow', () => {
                     mode: 'cell'
                 })
             },
-            columns: [{
-                displayProperty: 'key'
-            }, {
-                displayProperty: 'caption'
-            }],
+            gridColumnsConfig: columnsConfig,
+            columnsConfig: columnsConfig,
             contents: record
         });
 
@@ -173,6 +178,11 @@ describe('Controls/grid_clean/Display/DataRow', () => {
     });
 
     it('editing with itemEditorTemplate', () => {
+        const columnsConfig = [{
+            displayProperty: 'key'
+        }, {
+            displayProperty: 'caption'
+        }];
         const gridRow = new GridDataRow({
             owner: {
                 ...mockedCollection,
@@ -180,11 +190,8 @@ describe('Controls/grid_clean/Display/DataRow', () => {
                 }),
                 getItemEditorTemplate: () => 'ITEM_EDITOR_TEMPLATE'
             },
-            columns: [{
-                displayProperty: 'key'
-            }, {
-                displayProperty: 'caption'
-            }],
+            gridColumnsConfig: columnsConfig,
+            columnsConfig: columnsConfig,
             contents: record
         });
 

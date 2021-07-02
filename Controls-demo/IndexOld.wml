@@ -169,7 +169,7 @@
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Explorer_new/Index' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/explorerNew/Index' }}">
             <a href="{{content.href}}">New Explorer</a>
          </Router.router:Reference>
       </div>
@@ -253,12 +253,12 @@
          <div>
             <h1>StickyHeader</h1>
             <div>
-               <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/StickyHeader/StickyHeader' }}">
+               <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/StickyBlock/StickyBlock' }}">
                   <a href="{{content.href}}">StickyHeader</a>
                </Router.router:Reference>
             </div>
             <div>
-               <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/StickyHeader/StickyHeaderDisplaced' }}">
+               <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/StickyBlock/StickyBlockDisplaced' }}">
                   <a href="{{content.href}}">StickyHeader Displaced</a>
                </Router.router:Reference>
             </div>

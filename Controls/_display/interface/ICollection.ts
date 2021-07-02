@@ -96,6 +96,14 @@ export enum ANIMATION_STATE {
  * @private
  * @author Аверкиев П.А.
  */
+
+export type TRoundBorder = {
+    tl: string;
+    tr: string;
+    bl: string;
+    br: string;
+}
+
 export interface ICollection<S extends Model, T extends ICollectionItem> extends IBaseCollection<S, T> {
     getCollection(): ISourceCollection<S>;
     getDisplayProperty(): string;

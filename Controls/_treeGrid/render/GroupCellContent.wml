@@ -4,7 +4,7 @@
             <div class="controls-ListView__groupSeparator controls-ListView__groupSeparator-left">&nbsp;</div>
         </ws:if>
         <ws:if data="{{ groupNodeConfig.textVisible !== false }}">
-            <div class="{{ (gridColumn || itemData).getContentTextClasses(groupNodeConfig.separatorVisibility, groupNodeConfig.textAlign) }}
+            <div class="{{ (gridColumn || itemData).getContentTextClasses(groupNodeConfig.separatorVisibility, groupNodeConfig.textAlign, fontSize) }}
                     {{ (gridColumn || itemData).getExpanderClasses(groupNodeConfig.expanderVisible, groupNodeConfig.expanderAlign) }}">
                 <ws:if data="{{ groupNodeConfig.contentTemplate }}">
                     <ws:partial template="{{ groupNodeConfig.contentTemplate }}"

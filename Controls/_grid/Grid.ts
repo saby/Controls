@@ -28,6 +28,7 @@ import { TemplateFunction } from 'UI/Base';
  * @mixes Controls/interface/IGroupedGrid
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/grid:IPropStorage
+ * @mixes Controls/grid:IEditableGrid
  * @mixes Controls/marker:IMarkerList
  *
  * @public
@@ -57,6 +58,7 @@ import { TemplateFunction } from 'UI/Base';
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/grid:IPropStorage
+ * @mixes Controls/grid:IEditableGrid
  * @mixes Controls/marker:IMarkerList
  *
  *

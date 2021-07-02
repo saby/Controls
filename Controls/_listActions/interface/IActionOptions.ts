@@ -1,6 +1,6 @@
 import {ICrud, CrudEntityKey} from 'Types/source';
 import {INavigationOptionValue} from 'Controls/interface';
-import {IColumn} from 'Controls/interface';
+import {IColumn} from 'Controls/grid';
 import {RecordSet} from 'Types/collection';
 
 export default interface IActionOptions {

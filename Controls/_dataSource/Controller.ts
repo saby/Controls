@@ -766,13 +766,12 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         }
 
         if (!isHierarchyQueryParamsNeeded || !resultQueryParams || !resultQueryParams.length) {
-            const resetNavigationParams = !isMultiNavigation || key !== this._root || !!direction;
             resultQueryParams = navigationController.getQueryParams(
                 userQueryParams,
                 key,
                 navigationSourceConfig,
                 NAVIGATION_DIRECTION_COMPATIBILITY[direction],
-                resetNavigationParams
+                (!isMultiNavigation || key !== this._root || !!direction || !!navigationSourceConfig)
             );
         }
 

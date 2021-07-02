@@ -3,6 +3,7 @@ import {RecordSet} from 'Types/collection';
 import {assert} from 'chai';
 
 describe('Controls/viewCommands:HierarchyRemoveStrategy', () => {
+    const removeStrategy = new RemoveStrategy();
     const options = {
         keyProperty: 'key',
         parentProperty: 'parent',
@@ -25,23 +26,22 @@ describe('Controls/viewCommands:HierarchyRemoveStrategy', () => {
             rawData: [
                 {key: '1', parent: null, node: true},
                 {key: '2', parent: null, node: true},
-                {key: '3', parent: '1', node: false},
+                {key: '3', parent: '1', node: null},
                 {key: '4', parent: '1', node: true},
                 {key: '5', parent: '4', node: true},
                 {key: '6', parent: '5', node: true},
-                {key: '7', parent: '6', node: false},
-                {key: '8', parent: '2', node: false},
-                {key: '9', parent: '2', node: false},
+                {key: '7', parent: '6', node: null},
+                {key: '8', parent: '2', node: null},
+                {key: '9', parent: '2', node: null},
                 {key: '10', parent: '2', node: true},
-                {key: '11', parent: '2', node: false},
-                {key: '12', parent: '10', node: false}
+                {key: '11', parent: '2', node: null},
+                {key: '12', parent: '10', node: null}
             ],
             keyProperty: 'key'
         });
     });
 
     it('remove list', () => {
-        const removeStrategy = new RemoveStrategy();
         options.selection = {
             selected: ['7'],
             excluded: []
@@ -51,8 +51,19 @@ describe('Controls/viewCommands:HierarchyRemoveStrategy', () => {
         assert.isNotOk(items.getRecordById('7'));
     });
 
+    it('remove lists', () => {
+        options.selection = {
+            selected: ['7', '8', '12'],
+            excluded: []
+        };
+        removeStrategy.remove(items, options);
+        assert.equal(items.getCount(), 9);
+        assert.isNotOk(items.getRecordById('7'));
+        assert.isNotOk(items.getRecordById('8'));
+        assert.isNotOk(items.getRecordById('12'));
+    });
+
     it('remove folder', () => {
-        const removeStrategy = new RemoveStrategy();
         options.selection = {
             selected: ['5'],
             excluded: []
@@ -66,7 +77,6 @@ describe('Controls/viewCommands:HierarchyRemoveStrategy', () => {
     });
 
     it('remove folder from root', () => {
-        const removeStrategy = new RemoveStrategy();
         options.selection = {
             selected: ['1'],
             excluded: []
@@ -80,7 +90,6 @@ describe('Controls/viewCommands:HierarchyRemoveStrategy', () => {
     });
 
     it('remove item from folder', () => {
-        const removeStrategy = new RemoveStrategy();
         options.selection = {
             selected: ['4'],
             excluded: ['4']
@@ -91,5 +100,54 @@ describe('Controls/viewCommands:HierarchyRemoveStrategy', () => {
         assert.isNotOk(items.getRecordById('5'));
         assert.isNotOk(items.getRecordById('6'));
         assert.isNotOk(items.getRecordById('7'));
+    });
+
+    it('remove item from folder with excludedKeys', () => {
+        options.selection = {
+            selected: ['4'],
+            excluded: ['4', '6']
+        };
+        removeStrategy.remove(items, options);
+        assert.equal(items.getCount(), 9);
+        assert.isOk(items.getRecordById('4'));
+        assert.isNotOk(items.getRecordById('5'));
+        assert.isNotOk(items.getRecordById('6'));
+        assert.isNotOk(items.getRecordById('7'));
+    });
+
+    it('remove folder with excludedKeys', () => {
+        options.selection = {
+            selected: ['5'],
+            excluded: ['7']
+
+        };
+        removeStrategy.remove(items, options);
+        assert.equal(items.getCount(), 9);
+        assert.isNotOk(items.getRecordById('5'));
+        assert.isNotOk(items.getRecordById('6'));
+        assert.isNotOk(items.getRecordById('7'));
+    });
+
+    it('remove folder with child folder in excludedKeys', () => {
+        options.selection = {
+            selected: ['5'],
+            excluded: ['6']
+        };
+        removeStrategy.remove(items, options);
+        assert.equal(items.getCount(), 9);
+        assert.isNotOk(items.getRecordById('5'));
+        assert.isNotOk(items.getRecordById('6'));
+        assert.isNotOk(items.getRecordById('7'));
+    });
+
+    it('flatList', () => {
+        removeStrategy.remove(items, {
+            keyProperty: 'key',
+            selection: {
+                selected: ['5'],
+                excluded: []
+            }});
+        assert.equal(items.getCount(), 11);
+        assert.isNotOk(items.getRecordById('5'));
     });
 });

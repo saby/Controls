@@ -1,5 +1,5 @@
-<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
-   <div class="controlsDemo__cell">
+<div class="controlsDemo__wrapper controlsDemo__flex">
+   <div class="controlsDemo__wrapper">
       <div class="controls-text-label">Ограничение в одну строку.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{1}}">
          <ws:content>
@@ -8,7 +8,7 @@
          </ws:content>
       </Controls.spoiler:Cut>
    </div>
-   <div class="controlsDemo__cell">
+   <div class="controlsDemo__wrapper">
       <div class="controls-text-label">Ограничение в две строки.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{2}}">
          <ws:content>
@@ -17,7 +17,7 @@
          </ws:content>
       </Controls.spoiler:Cut>
    </div>
-   <div class="controlsDemo__cell">
+   <div class="controlsDemo__wrapper">
       <div class="controls-text-label">Ограничение в три строки.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}">
          <ws:content>
@@ -26,7 +26,20 @@
          </ws:content>
       </Controls.spoiler:Cut>
    </div>
-   <div class="controlsDemo__cell">
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label">Ограничение в 12 строк.</div>
+      <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{12}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.spoiler:Cut>
+   </div>
+   <div class="controlsDemo__wrapper">
       <div class="controls-text-label">Без ограничения.</div>
       <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{null}}">
          <ws:content>

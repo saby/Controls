@@ -12,8 +12,8 @@ describe('Controls/grid:GridHeader', () => {
         it('should sticky header if options.stickyHeader === true in full grid support browsers', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(true, true),
-                header: [{}],
-                columns: [{}]
+                columnsConfig: [{}],
+                gridColumnsConfig: [{}]
             });
             assert.isTrue(header.isSticked());
         });
@@ -21,8 +21,8 @@ describe('Controls/grid:GridHeader', () => {
         it('should not sticky header if options.stickyHeader === false in full grid support browsers', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(false, true),
-                header: [{}],
-                columns: [{}]
+                columnsConfig: [{}],
+                gridColumnsConfig: [{}]
             });
             assert.isFalse(header.isSticked());
         });
@@ -30,8 +30,8 @@ describe('Controls/grid:GridHeader', () => {
         it('should not sticky header in browsers without grid support', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(true, false),
-                header: [{}],
-                columns: [{}]
+                columnsConfig: [{}],
+                gridColumnsConfig: [{}]
             });
             assert.isFalse(header.isSticked());
         });
@@ -41,8 +41,8 @@ describe('Controls/grid:GridHeader', () => {
         it('should returns false for solo row header', function () {
             const header = new GridHeader({
                 owner: {},
-                header: [{}],
-                columns: [{}]
+                columnsConfig: [{}],
+                gridColumnsConfig: [{}]
             });
             assert.isFalse(header.isMultiline());
         });
@@ -56,8 +56,8 @@ describe('Controls/grid:GridHeader', () => {
         it('should returns GridHeaderRow', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(),
-                header: [{}],
-                columns: [{}]
+                columnsConfig: [{}],
+                gridColumnsConfig: [{}]
             });
             const row = header.getRow();
             assert.instanceOf(row, GridHeaderRow);
@@ -72,8 +72,8 @@ describe('Controls/grid:GridHeader', () => {
         it('simple header', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(),
-                header: [{}, {}],
-                columns: [{}, {}]
+                columnsConfig: [{}, {}],
+                gridColumnsConfig: [{}, {}]
             });
             assert.deepEqual({
                 row: {start: 1, end: 2},
@@ -84,12 +84,12 @@ describe('Controls/grid:GridHeader', () => {
         it('two line header', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(),
-                header: [
+                columnsConfig: [
                     {startRow: 1, endRow: 3, startColumn: 1, endColumn: 2},
                     {startRow: 1, endRow: 2, startColumn: 2, endColumn: 3},
                     {startRow: 2, endRow: 3, startColumn: 2, endColumn: 3},
                 ],
-                columns: [{}, {}]
+                gridColumnsConfig: [{}, {}]
             });
             assert.deepEqual({
                 row: {start: 1, end: 3},
@@ -100,12 +100,12 @@ describe('Controls/grid:GridHeader', () => {
         it('invalid configuration', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(),
-                header: [
+                columnsConfig: [
                     {startRow: 1, endRow: 3, startColumn: 1, endColumn: 2},
                     {},
                     {startRow: 2, endRow: 3, startColumn: 2, endColumn: 3},
                 ],
-                columns: [{}, {}]
+                gridColumnsConfig: [{}, {}]
             });
             assert.deepEqual({
                 row: {start: 1, end: 2},

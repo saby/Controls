@@ -60,6 +60,22 @@ define(
                   }
                ]);
             });
+            it('Simple URL with punctuation mark', function() {
+               ctrl._beforeMount({
+                  value: '?http://regexpal.com/'
+               });
+               assert.deepEqual(ctrl._parsedText, [
+                  {
+                     type: 'plain',
+                     value: '? '
+                  },
+                  {
+                     type: 'link',
+                     href: 'http://regexpal.com/',
+                     scheme: 'http://'
+                  }
+               ]);
+            });
             it('Simple URL with params', function() {
                ctrl._beforeMount({
                   value: 'http://regexpal.com/home.php?request=q&theme=2'

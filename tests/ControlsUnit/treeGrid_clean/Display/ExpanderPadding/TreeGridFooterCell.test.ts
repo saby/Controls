@@ -6,7 +6,7 @@ describe('Controls/treeGrid_clean/Display/ExpanderPadding/TreeGridFooterCell', (
 
     beforeEach(() => {
         mockedOwner = {
-            getColumnsConfig: () => [{}],
+            getGridColumnsConfig: () => [{}],
             getColumnsCount: () => 2,
             getStickyColumnsCount: () => 0,
             getExpanderSize: () => '',

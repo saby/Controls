@@ -18,6 +18,7 @@
                                     rootVisible="{{true}}"
                                     keyProperty="key"
                                     parentProperty="parent"
+                                    displayProperty="title"
                                     hasChildrenProperty="hasChild"
                                     rootTitle="Каталог"
                                     searchParam="title"

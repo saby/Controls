@@ -87,14 +87,14 @@ describe('Controls/_tile/TileView', () => {
         });
     });
 
-    describe('getItemsPaddingContainerClasses', () => {
-        it('getItemsPaddingContainerClasses', () => {
+    describe('_getItemsPaddingContainerClasses', () => {
+        it('_getItemsPaddingContainerClasses', () => {
             tileView.saveOptions({});
-            CssClassesAssert.isSame(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_default controls-TileView__itemsPaddingContainer_spacingRight_default controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
+            CssClassesAssert.isSame(tileView._getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_default controls-TileView__itemsPaddingContainer_spacingRight_default controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
             tileView.saveOptions({
                 itemPadding: {left: 's', right: 'null'}
             });
-            CssClassesAssert.isSame(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s controls-TileView__itemsPaddingContainer_spacingRight_null controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
+            CssClassesAssert.isSame(tileView._getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s controls-TileView__itemsPaddingContainer_spacingRight_null controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
         });
 
         it('with itemPaddingsContainerOptions', () => {
@@ -104,7 +104,7 @@ describe('Controls/_tile/TileView', () => {
                     right: 'null'
                 }
             });
-            CssClassesAssert.isSame(tileView.getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default');
+            CssClassesAssert.isSame(tileView._getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default');
         });
     });
 

@@ -18,12 +18,12 @@ describe('Controls/_display:GridHeaderRow', () => {
                 hasItemActionsSeparatedCell: () => false,
                 hasMultiSelectColumn: () => true,
                 getHeaderConfig: () => header,
-                getColumnsConfig: () => [{}],
+                getGridColumnsConfig: () => [{}],
                 isFullGridSupport: () => true,
                 getStickyColumnsCount: () => {}
             },
-            header,
-            columns: [{}],
+            columnsConfig: header,
+            gridColumnsConfig: [{}],
             headerModel: {
                 getBounds: () => ({ row: {start: 1, end: 3} }),
                 isMultiline: (): boolean => true

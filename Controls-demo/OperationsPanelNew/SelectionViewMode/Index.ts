@@ -1,26 +1,25 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/OperationsPanelNew/SelectionViewMode/SelectionViewMode';
-import {Memory} from 'Types/source';
-import {getPanelData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
+import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
+import {getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
+import 'wml!Controls-demo/operations/SelectionViewMode/resources/PersonInfo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
    protected _selectionViewMode: string|null = 'all';
-   protected _selectedKeys: string[] = [null];
-   protected _excludedKeys: string[] = [];
-   protected _panelSource: Memory;
+   protected _selectedKeys: number[] = [];
+   protected _excludedKeys: number[] = [];
+   protected _viewSource: TreeMemory;
+   protected _gridColumns: object[];
 
    protected _beforeMount(): void {
-      this._panelSource = new Memory({
+      this._gridColumns = [{
+         template: 'wml!Controls-demo/operations/SelectionViewMode/resources/PersonInfo'
+      }];
+      this._viewSource = new TreeMemory({
          keyProperty: 'id',
-         data: getPanelData()
+         data: getListData()
       });
-   }
-
-   protected _selectedTypeChangedHandler(event: Event, type: string): void {
-      if (['all', 'selected'].includes(type)) {
-         this._selectionViewMode = type;
-      }
    }
 
    static _styles: string[] = ['Controls-demo/Controls-demo'];

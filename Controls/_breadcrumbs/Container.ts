@@ -81,8 +81,8 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         this._dragOnBreadCrumbs = false;
     }
 
-    private _subscribeItemsChanged(options): void {
-        this._sourceController = options.sourceController;
+    private _subscribeItemsChanged(sourceController): void {
+        this._sourceController = sourceController;
         this._sourceController.subscribe('itemsChanged', this._updateBreadCrumbsItems);
     }
 
@@ -95,12 +95,19 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         if (options.id) {
             dataOptions = options._dataOptionsValue.listsConfigs[options.id]
         }
-        if (dataOptions && dataOptions.breadCrumbsItems !== undefined) {
-            this._breadCrumbsItems = dataOptions.breadCrumbsItems;
-        } else if (this._sourceController !== options.sourceController) {
-            // FIXME пока страница не обернута в браузер, sourceController задается на опциях
-            this._subscribeItemsChanged(options);
+
+        const isUpdated = this._updateSourceControllerSubscribe(options, dataOptions);
+
+        if (isUpdated) {
             this._updateBreadCrumbsItems();
+        }
+    }
+
+    private _updateSourceControllerSubscribe(options, dataOptions): boolean {
+        let sourceController = options.sourceController || dataOptions?.sourceController;
+        if (this._sourceController !== sourceController) {
+            this._subscribeItemsChanged(sourceController);
+            return true;
         }
     }
 

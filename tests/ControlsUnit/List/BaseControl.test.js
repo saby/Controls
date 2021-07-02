@@ -600,7 +600,7 @@ define([
          var ctrl = correctCreateBaseControl(cfg);
          ctrl.saveOptions(cfg);
          ctrl._beforeMount(cfg);
-         assert.isNotOk(ctrl._needScrollCalculation, 'Wrong _needScrollCalculation value after mounting');
+         assert.isOk(ctrl._needScrollCalculation, 'Wrong _needScrollCalculation value after mounting');
 
          cfg = {
             viewName: 'Controls/List/ListView',
@@ -8475,8 +8475,8 @@ define([
                baseControl._beforeMount(newCfg);
                assert.isOk(baseControl._selectionController);
                baseControl._beforeUpdate({ ...newCfg, root: 2 });
-               assert.isTrue(spyNotify.withArgs('selectedKeysChanged', [[], [], [null]]).called);
-               assert.isTrue(spyNotify.withArgs('excludedKeysChanged', [[], [], [null]]).called);
+               assert.isFalse(spyNotify.withArgs('selectedKeysChanged', [[], [], [null]]).called);
+               assert.isFalse(spyNotify.withArgs('excludedKeysChanged', [[], [], [null]]).called);
             });
          });
 

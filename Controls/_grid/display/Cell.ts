@@ -39,6 +39,8 @@ export interface IOptions<T> extends IColspanParams {
     shadowVisibility?: string;
     rowSeparatorSize?: string;
     isFirstDataCell?: boolean;
+    isTopSeparatorEnabled: boolean;
+    isBottomSeparatorEnabled: boolean;
 }
 
 export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
@@ -71,6 +73,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$isSticked: boolean;
     protected _$backgroundStyle: string;
     protected _$shadowVisibility?: string;
+    protected _$isTopSeparatorEnabled?: string;
+    protected _$isBottomSeparatorEnabled?: string;
 
     constructor(options?: IOptions<T>) {
         super();
@@ -442,14 +446,22 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return classes;
     }
 
+    // @TODO https://online.sbis.ru/opendoc.html?guid=907731fd-b8a8-4b58-8958-61b5c8090188
     protected _getWrapperSeparatorClasses(theme: string): string {
         const rowSeparatorSize = this._$rowSeparatorSize;
         let classes = '';
 
         if (rowSeparatorSize) {
-            classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
-            classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}`;
-        } else {
+            if (this._$isTopSeparatorEnabled) {
+                classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
+                classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}`;
+            }
+
+            if (this._$isBottomSeparatorEnabled) {
+                classes += ` controls-Grid__rowSeparator_bottom_size-${rowSeparatorSize}`;
+            }
+        }
+        if (!rowSeparatorSize || !this._$isTopSeparatorEnabled) {
             // Вспомогательные классы, вешаются на ячейку. Обеспечивают отсутствие "скачков" при смене rowSeparatorSize.
             classes += ' controls-Grid__no-rowSeparator';
             classes += ' controls-Grid__row-cell_withRowSeparator_size-null';
@@ -641,5 +653,7 @@ Object.assign(Cell.prototype, {
     _$isSingleColspanedCell: null,
     _$isActsAsRowTemplate: null,
     _$isLadderCell: null,
-    _$isHiddenForLadder: null
+    _$isHiddenForLadder: null,
+    _$isTopSeparatorEnabled: false,
+    _$isBottomSeparatorEnabled: false
 });

@@ -146,7 +146,6 @@ const
         keyDownDel: constants.key.del
     };
 
-const ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET = 1;
 const INDICATOR_DELAY = 2000;
 const INITIAL_PAGES_COUNT = 1;
 const SET_MARKER_AFTER_SCROLL_DELAY = 100;
@@ -186,13 +185,13 @@ const ITEM_ACTION_SELECTOR = '.js-controls-ItemActions__ItemAction';
 export const LIST_EDITING_CONSTANTS = {
     /**
      * С помощью этой константы можно отменить или пропустить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
-     * Для этого константу следует вернуть из обработчика события {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}.
+     * Для этого константу следует вернуть из обработчика события {@link Controls/list:IEditableList#beforeBeginEdit beforeBeginEdit}.
      * При последовательном редактировании записей (при переходе через Tab, Enter, Arrow Down и Up) возврат константы CANCEL приведет к отмене запуска
      * редактирования по месту и попытке старта редактирования следующей записи в направлении перехода.
      * В остальных случаях возврат константы CANCEL приведет к отмене запуска редактирования в списке.
      */
     /*
-     * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
+     * Constant that can be returned in {@link Controls/list:IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
      */
     CANCEL: EDIT_IN_PLACE_CONSTANTS.CANCEL
 };
@@ -418,6 +417,7 @@ const _private = {
         } else {
             self._attachLoadTopTriggerToNull = false;
         }
+
         return needAttachLoadTopTriggerToNull;
     },
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
@@ -862,6 +862,7 @@ const _private = {
                     _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
                     // После подгрузки элементов, не нужно скроллить
                     self._needScrollToFirstItem = false;
+                    self._hideTopTrigger = false;
                 } else if (direction === 'down') {
                     _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
                 }
@@ -1566,6 +1567,7 @@ const _private = {
             searchResetCallback: () => {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButtonDirection = null;
+                _private.hideIndicator(self);
             },
             searchContinueCallback: () => {
                 const direction = self._hasMoreData(self._sourceController, 'up') ? 'up' : 'down';
@@ -1655,7 +1657,9 @@ const _private = {
     },
 
     needScrollCalculation(navigationOpt) {
-        return navigationOpt && navigationOpt.view === 'infinity';
+        // Виртуальный скролл должен работать, даже если у списка не настроена навигация.
+        // https://online.sbis.ru/opendoc.html?guid=a83180cf-3e02-4d5d-b632-3d03442ceaa9
+        return !navigationOpt || (navigationOpt && navigationOpt.view === 'infinity');
     },
 
     needScrollPaging(navigationOpt) {
@@ -3390,7 +3394,7 @@ const _private = {
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/interface/IEditableList
+ * @mixes Controls/list:IEditableList
  * @mixes Controls/_list/BaseControl/Styles
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
@@ -3439,12 +3443,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _attachLoadTopTriggerToNull = false;
     _attachLoadDownTriggerToNull = false;
-
-    // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
-    _attachedToNullLoadTopTriggerOffset = ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET;
     _hideTopTrigger = false;
     _resetTopTriggerOffset = false;
     _resetDownTriggerOffset = false;
+
     protected _listViewModel = null;
     _viewModelConstructor = null;
     protected _items: RecordSet;
@@ -3740,6 +3742,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             ...newOptions,
             keyProperty: self._keyProperty,
             items,
+            newDesign: newOptions._dataOptionsValue?.newDesign || newOptions.newDesign,
             collapsedGroups: collapsedGroups || newOptions.collapsedGroups
         };
 
@@ -4289,8 +4292,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._options.selectionViewMode === newOptions.selectionViewMode ||
                 newOptions.selectionViewMode !== 'selected';
             const isAllSelected = selectionController.isAllSelected(false, selectionController.getSelection(), this._options.root);
-            if ((filterChanged || this._options.root !== newOptions.root) && isAllSelected &&
-                allowClearSelectionBySelectionViewMode) {
+            if (filterChanged && isAllSelected && allowClearSelectionBySelectionViewMode) {
                 _private.changeSelection(this, { selected: [], excluded: [] });
             }
         }
@@ -4455,7 +4457,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 !this._sourceController.isLoading() &&
                 this._options.loading !== newOptions.loading;
 
-            if (searchValueChanged || this._loadedBySourceController) {
+            if (searchValueChanged || this._loadedBySourceController && !this._sourceController.isLoading()) {
                 _private.getPortionedSearch(this).reset();
             }
             // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
@@ -4838,10 +4840,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._viewSize > this._viewportSize && _private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
                 // Ромашку нужно показать непосредственно перед скроллом к первому элементу
                 this.changeIndicatorStateHandler(true, 'up');
+                this._scrollToFirstItemIfNeed();
                 if (this._hideTopTrigger) {
                     this._hideTopTrigger = false;
                 }
-                this._scrollToFirstItemIfNeed();
             }
         }
         if (this._viewSize <= this._viewportSize && this._hideTopTrigger) {
@@ -4934,7 +4936,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     protected _shiftToDirection(direction): Promise {
         let resolver;
         const shiftPromise = new Promise((res) => { resolver = res; });
-        this._handleLoadToDirection = this._sourceController.hasMoreData(direction);
+        this._handleLoadToDirection = !!this._sourceController && this._sourceController.hasMoreData(direction);
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (this._destroyed) {
                 return;
@@ -6150,6 +6152,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (this._mouseDownItemKey === key) {
+            if (domEvent.nativeEvent.button === 1) {
+                const url = itemData.item.get('url');
+                if (url) {
+                    window.open(url);
+                }
+            }
+
             // TODO избавиться по задаче https://online.sbis.ru/opendoc.html?guid=7f63bbd1-3cb9-411b-81d7-b578d27bf289
             // Ключ перетаскиваемой записи мы запоминаем на mouseDown, но днд начнется только после смещения на 4px и не факт, что он вообще начнется
             // Если сработал mouseUp, то днд точно не сработает и draggedKey нам уже не нужен
@@ -6352,7 +6361,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.addShowActionsClass(this);
         }
 
-        // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
         if (this._dndListController && this._dndListController.isDragging()) {
             this._draggingItemMouseMove(itemData, nativeEvent);
         }
@@ -6808,7 +6816,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _getLoadingIndicatorClasses(state?: string): string {
         const hasItems = !!this._items && !!this._items.getCount();
-        const indicatorState = state || this._loadingIndicatorState;
+        let indicatorState = state ? state : 'all';
+        if (!state && this._portionedSearchInProgress) {
+            indicatorState = this._loadingIndicatorState;
+        }
         return _private.getLoadingIndicatorClasses({
             hasItems,
             hasPaging: !!this._pagingVisible,
@@ -6824,7 +6835,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _getLoadingIndicatorStyles(state?: string): string {
         let styles = '';
 
-        const indicatorState = state || this._loadingIndicatorState;
+        let indicatorState = state ? state : 'all';
+        if (!state && this._portionedSearchInProgress) {
+            indicatorState = this._loadingIndicatorState;
+        }
         switch (indicatorState) {
             case 'all':
                 if (this._loadingIndicatorContainerHeight) {
@@ -6837,9 +6851,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             case 'up':
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     styles += 'display: none; ';
-                }
-                if (this._attachLoadTopTriggerToNull) {
-                    styles += `margin-bottom: -${this._attachedToNullLoadTopTriggerOffset}px;`;
                 }
                 break;
             case 'down':

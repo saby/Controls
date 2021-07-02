@@ -14,18 +14,22 @@
 
 //toolButton
 .controls-Button_toolButton_style-secondary_toggled {
+   background-color: var(--unaccented_hover_same_background-color);
    border-color: var(--secondary_toggled_border-color_toggleButton_toolButton);
 }
 
 .controls-Button_toolButton_style-danger_toggled {
+   background-color: var(--unaccented_hover_same_background-color);
    border-color: var(--success_color);
 }
 
 .controls-Button_toolButton_style-success_toggled {
+   background-color: var(--unaccented_hover_same_background-color);
    border-color: var(--danger_color);
 }
 
 .controls-Button_toolButton_style-readonly_toggled {
+   background-color: var(--unaccented_hover_same_background-color);
    border-color: var(--readonly_border-color_button_toolButton);
 }
 
@@ -110,6 +114,25 @@
       background-color: var(--secondary_hover_background-color_toggleButton_pushButton);
       border-color: var(--secondary_toggled_border-color_toggleButton_pushButton);
    }
+   .controls-Button_toolButton.controls-Button_toolButton:hover {
+      background-color: var(--unaccented_hover_same_background-color);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton_style-secondary_toggled:hover {
+      border-color: var(--secondary_toggled_border-color_toggleButton_toolButton);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton_style-danger_toggled:hover {
+      border-color: var(--success_color);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton_style-success_toggled:hover {
+      border-color: var(--danger_color);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton_style-readonly_toggled:hover {
+      border-color: var(--readonly_border-color_button_toolButton);
+   }
 }
 
 .ws-is-no-touch,
@@ -121,6 +144,30 @@
    .controls-Button_pushButton_style-secondary:active.controls-Button_bg-same {
       background-color: var(--secondary_hover_background-color_toggleButton_pushButton);
       border-color: var(--secondary_toggled_border-color_toggleButton_pushButton);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton:active {
+      background-color: var(--unaccented_hover_same_background-color);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton_style-secondary_toggled:active,
+   .controls-Button_toolButton.controls-Button_toolButton_style-secondary:active {
+      border-color: var(--secondary_toggled_border-color_toggleButton_toolButton);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton_style-danger_toggled:active,
+   .controls-Button_toolButton.controls-Button_toolButton_style-danger:active {
+      border-color: var(--success_color);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton_style-success_toggled:active,
+   .controls-Button_toolButton.controls-Button_toolButton_style-success:active {
+      border-color: var(--danger_color);
+   }
+
+   .controls-Button_toolButton.controls-Button_toolButton_style-readonly_toggled:active,
+   .controls-Button_toolButton.controls-Button_toolButton_style-readonly:active {
+      border-color: var(--readonly_border-color_button_toolButton);
    }
 }
 

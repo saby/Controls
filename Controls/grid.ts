@@ -61,6 +61,7 @@ import {register} from 'Types/di';
  * @includes ITagColumn Controls/_grid/interface/ITagColumn
  * @includes SortingButton Controls/_grid/SortingButton
  * @includes ItemEditorTemplate Controls/_grid/interface/IitemEditorTemplate
+ * @includes IEditableGrid Controls/_grid/interface/IEditableGrid
  * @public
  * @author Крайнов Д.О.
  */
@@ -111,14 +112,14 @@ export {
     TOverflow,
     IColumnSeparatorSizeConfig,
     TColumnSeparatorSize
-} from './_grid/display/interface/IColumn';
+} from 'Controls/_grid/display/interface/IColumn';
 
 export {
     THeader,
     IHeaderCell
-} from './_grid/display/interface/IHeaderCell';
+} from 'Controls/_grid/display/interface/IHeaderCell';
 
-export { IGridControl } from './_grid/display/interface/IGridControl';
+export { IGridControl } from 'Controls/_grid/display/interface/IGridControl';
 
 import GridRow, {IOptions as IGridRowOptions} from 'Controls/_grid/display/Row';
 import { default as GridItemActionsCell } from 'Controls/_grid/display/ItemActionsCell';
@@ -147,7 +148,7 @@ import GridGroupRow, {IOptions as IGridGroupRowOptions} from 'Controls/_grid/dis
 import GridGroupCell, {IOptions as IGridGroupCellOptions} from 'Controls/_grid/display/GroupCell';
 
 import { IDisplaySearchValueOptions, IDisplaySearchValue } from 'Controls/_grid/display/interface/IDisplaySearchValue';
-import CheckboxCell from './_grid/display/CheckboxCell';
+import CheckboxCell from 'Controls/_grid/display/CheckboxCell';
 
 register('Controls/grid:GridCollection', GridCollection, {instantiate: false});
 register('Controls/grid:GridRow', GridRow, {instantiate: false});

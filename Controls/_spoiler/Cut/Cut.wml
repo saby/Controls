@@ -1,11 +1,27 @@
-<div class="controls_spoiler_theme-{{_options.theme}} controls-Cut__container">
-   <div class="controls-Cut
-            controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight
-            controls-Cut_lineHeight-{{_options.lineHeight}}">
+<div class="controls_spoiler_theme-{{_options.theme}} controls-Cut__container"
+      style="{{
+         '--calculated-content-max-height_inputArea: calc(' + (_lines + 1) + ' * var(--line-height_' + _options.lineHeight + '_inputArea));' +
+         '--calculated-btn-margin-top_inputArea: calc(' + (_lines + 1) + ' * var(--line-height_' + _options.lineHeight + '_inputArea));'
+      }}">
+   <div class="controls-Cut controls-Cut_lineHeight-{{_options.lineHeight}}"
+         style="{{
+            _lines !== null ?
+            ('max-height: ' + (
+               _isIE ?
+                  ((_lines + 1) * _lineHeightForIE[_options.lineHeight]) + 'px; ' :
+                  'var(--calculated-content-max-height_inputArea); ')
+            )
+         }}">
       <ws:partial attr:class="controls-Cut__content" template="{{_options.content}}"/>
       <ws:if data="{{_options.lines !== null}}">
-         <div class="controls-Cut__ellipsisWrapper{{ _expanded ? '_expanded_lineHeight-' +  _options.lineHeight}}
-               controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height">
+         <div class="controls-Cut__ellipsisWrapper{{ _expanded ? '_expanded_lineHeight-' +  _options.lineHeight}}"
+              style="{{
+              'margin-top: ' + (
+                  _isIE ?
+                     ((_lines + 1) * _lineHeightForIE[_options.lineHeight]) + 'px; ' :
+                     'var(--calculated-btn-margin-top_inputArea); '
+                  )
+              }}">
             <Controls._spoiler.CutButton
                     attr:class="controls-Cut__ellipsis
                      controls-background-{{_options.backgroundStyle}}"

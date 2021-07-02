@@ -12,6 +12,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
+ * @includes IEditableList Controls/_list/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
@@ -31,6 +32,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
+ * @includes IEditableList Controls/_list/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
@@ -64,7 +66,7 @@ import {IList} from './_list/interface/IList';
 import IListNavigation from './_list/interface/IListNavigation';
 import { CssClassList, createClassListCollection} from 'Controls/_list/resources/utils/CssClassList';
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
-import {TCursor} from './_list/interface/BaseItemTemplate';
+import {TCursor, TBackgroundColorStyle} from './_list/interface/BaseItemTemplate';
 
 import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 
@@ -91,6 +93,7 @@ export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
+export * from 'Controls/_list/interface/IEditableList';
 
 export {default as ItemsView, IItemsViewOptions} from 'Controls/_list/ItemsView';
 
@@ -132,11 +135,12 @@ export {
     VirtualScroll,
     ScrollController,
     IListNavigation,
-    TCursor
+    TCursor,
+    TBackgroundColorStyle
 };
 
 import {groupConstants, IHiddenGroupPosition} from './display';
 import {MultiSelectAccessibility} from './display';
-import {IItemPadding} from './display';
+import {IItemPadding, TRoundBorder} from './display';
 
-export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, MultiSelectAccessibility};
+export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, TRoundBorder, MultiSelectAccessibility};

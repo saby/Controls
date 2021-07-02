@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
+    <Controls.treeGrid:View
+            keyProperty="key"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type"
+            header="{{_header}}"
+            rowSeparatorSize="s"
+            newDesign="{{true}}">
+        <ws:footerTemplate>
+            <div>Подвал растянут</div>
+        </ws:footerTemplate>
+    </Controls.treeGrid:View>
+</div>
