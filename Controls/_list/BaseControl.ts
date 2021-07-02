@@ -2754,7 +2754,7 @@ const _private = {
                 }
             });
 
-            if (result.newCollectionRenderedKeys?.length && this._options.notifyKeyOnRender) {
+            if (result.newCollectionRenderedKeys?.length && self._options.notifyKeyOnRender) {
                self._notify('preloadItemsByKeys', [result.newCollectionRenderedKeys], {bubbling: true});
             }
 
