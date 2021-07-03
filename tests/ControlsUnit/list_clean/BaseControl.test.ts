@@ -1422,4 +1422,69 @@ describe('Controls/list_clean/BaseControl', () => {
             });
         });
     });
+
+    it('needFooterPadding', () => {
+        let editing = false;
+        let count = 10;
+        let footer = false;
+        let results = false;
+        let resultsPosition = '';
+
+        const fakeInstance = {
+            _listViewModel: {
+                isEditing: () => editing,
+                getCount: () => count,
+                getFooter: () => footer,
+                getResults: () => results,
+                getResultsPosition: () => resultsPosition
+            },
+            _shouldDrawFooter: false
+        } as unknown as BaseControl;
+
+        assert.isFalse(
+            BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'inside'}),
+            'itemActionsPosition is inside, padding is not needed'
+        );
+
+        assert.isTrue(
+            BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, padding is needed'
+        );
+
+        fakeInstance._shouldDrawFooter = true;
+        assert.isFalse(
+            BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside and "hasMore" button visible, no padding needed'
+        );
+        fakeInstance._shouldDrawFooter = false;
+
+        footer = true;
+        assert.isFalse(
+            BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, footer exists, padding is not needed'
+        );
+        footer = false;
+
+        results = true;
+        resultsPosition = 'bottom';
+        assert.isFalse(
+            BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, results row is in bottom padding is not needed'
+        );
+        results = false;
+        resultsPosition = '';
+
+        count = 0;
+        assert.isFalse(
+            BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, empty items, padding is not needed'
+        );
+
+        editing = true;
+        assert.isTrue(
+            BaseControl._private.needBottomPadding(fakeInstance, {itemActionsPosition: 'outside'}),
+            'itemActionsPosition is outside, empty items, run editing in place padding is needed'
+        );
+        editing = false;
+    });
 });
