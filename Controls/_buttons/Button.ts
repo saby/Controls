@@ -299,7 +299,7 @@ Object.defineProperty(Button, 'defaultProps', {
 /**
  * @name Controls/_buttons/Button#contrastBackground
  * @cfg
- * @default false (Когда опция {@link Controls/buttons:Button#viewMode viewMode} установлена в значение functionalButton, то для опции contrastBackground значение по умолчанию - true.)
+ * @default false (Когда опция {@link Controls/buttons/Button#viewMode viewMode} установлена в значение functionalButton, то для опции contrastBackground значение по умолчанию - true.)
  * @remark
  * Опция используется для акцентирования внимания на кнопке, и ее визуального выделения относительно окружения.
  * @demo Controls-demo/Buttons/ContrastBackground/Index
