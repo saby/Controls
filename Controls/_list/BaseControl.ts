@@ -7102,9 +7102,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _documentDragEnd(dragObject): void {
-        // Если перетаскиваются элементы списка, то мы всегда задаем entity
         // событие documentDragEnd может долететь до списка, в котором нет модели
-        if (!dragObject || !dragObject.entity || !this._listViewModel) {
+        if (!this._listViewModel || !this._dndListController || !this._dndListController.isDragging()) {
             return;
         }
 
