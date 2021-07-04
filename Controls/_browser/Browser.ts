@@ -550,7 +550,6 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _breadCrumbsItemClick(event: SyntheticEvent, root: Key): void {
-        this._rootChanged(event, root);
         this._getRootChangedRegister().start(root);
     }
 
