@@ -46,6 +46,19 @@ export interface IFilterControllerOptions {
     historySaveCallback?: (historyData: Record<string, unknown>, filterButtonItems: IFilterItem[]) => void;
 }
 
+export interface ICalculateFilterParams {
+    historyId: string;
+    historyItems?: IFilterItem[];
+    prefetchParams?: IPrefetchHistoryParams;
+    filter: TFilter;
+    filterButtonSource: IFilterItem[];
+}
+export interface ICalculatedFilter {
+    filter: TFilter;
+    historyItems: IFilterItem[];
+    filterButtonItems: IFilterItem[];
+}
+
 const getPropValue = Utils.object.getPropertyValue.bind(Utils);
 const setPropValue = Utils.object.setPropertyValue.bind(Utils);
 
