@@ -158,7 +158,7 @@ class StickyHeaderController {
             if (header.mode === 'stackable') {
                 if (header.fixedInitially || header.inst.offsetTop ||
                     type === TYPE_FIXED_HEADERS.allFixed || type === TYPE_FIXED_HEADERS.fixed) {
-                    height += header.inst.height;
+                    height += header.inst.height + header.inst.offsetTop;
                 }
                 replaceableHeight = 0;
             } else if (header.mode === 'replaceable') {
