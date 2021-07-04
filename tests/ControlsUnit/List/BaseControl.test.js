@@ -4159,7 +4159,8 @@ define([
                getContents: () => ({
                   getKey: () => 1
                })
-            })
+            }),
+            isDragging: () => true
          };
          ctrl._documentDragEnd({entity: {}});
          assert.isTrue(dragEnded);
@@ -4181,7 +4182,8 @@ define([
                getContents: () => ({
                   getKey: () => 1
                })
-            })
+            }),
+            isDragging: () => true
          };
          ctrl._insideDragging = true;
          ctrl._notify = () => new cDeferred();
@@ -7660,7 +7662,8 @@ define([
                      }
                   };
                },
-               getDraggableItem: () => undefined
+               getDraggableItem: () => undefined,
+               isDragging: () => false
             };
             baseControl._dndListController = dndController;
 
@@ -7669,6 +7672,7 @@ define([
             baseControl._documentDragEnd({});
             assert.isFalse(endDragSpy.called);
 
+            dndController.isDragging = () => true;
             baseControl._documentDragEnd({ entity: {} });
 
             assert.isTrue(endDragSpy.called);
@@ -7765,7 +7769,8 @@ define([
                      }
                   };
                },
-               getDraggableItem: () => undefined
+               getDraggableItem: () => undefined,
+               isDragging: () => true
             };
 
             const spy = sinon.spy(baseControl, 'checkTriggerVisibilityAfterRedraw');
