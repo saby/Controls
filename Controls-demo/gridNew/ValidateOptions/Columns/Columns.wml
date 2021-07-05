@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+    <span class="controls-text-label controlsDemo-beginAdd-grid-excel-editing">Неправильные ширины колонок. Проверка сообщений.</span>
+
+    <div class="controlsDemo__flexRow" style="width: 100%;">
+        <Controls.grid:View
+                keyProperty="key"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"/>
+
+        <div class="controlsDemo__grid__validateOptions__console">
+            <ws:for data="index, item in _console">
+                <div attr:key="{{ index }}"
+                     class="controlsDemo__grid__validateOptions__console__item controlsDemo__grid__validateOptions__console__item_{{ item.type }}">
+                    <pre>{{ item.errorName }} {{ item.errorMsg }}</pre>
+                </div>
+            </ws:for>
+        </div>
+    </div>
+</div>
