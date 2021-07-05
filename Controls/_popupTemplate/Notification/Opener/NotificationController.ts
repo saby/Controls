@@ -2,10 +2,8 @@ import Deferred = require('Core/Deferred');
 import collection = require('Types/collection');
 import {default as BaseController} from 'Controls/_popupTemplate/BaseController';
 import {IPopupItem, IPopupOptions} from 'Controls/popup';
-import NotificationStrategy = require('Controls/_popupTemplate/Notification/Opener/NotificationStrategy');
-import NotificationContent = require('Controls/_popupTemplate/Notification/Opener/NotificationContent');
-
-const timeAutoClose = 5000;
+import NotificationContent from 'Controls/_popupTemplate/Notification/Opener/NotificationContent';
+import NotificationStrategy from 'Controls/_popupTemplate/Notification/Opener/NotificationStrategy';
 
 interface INotificationItem extends IPopupItem {
     height: number;
@@ -34,9 +32,6 @@ class NotificationController extends BaseController {
         this._setNotificationContent(item);
         this._stack.add(item, 0);
         this._updatePositions();
-        if (item.popupOptions.autoClose) {
-            this._closeByTimeout(item);
-        }
         return true;
     }
 
@@ -55,27 +50,9 @@ class NotificationController extends BaseController {
         return new Deferred().callback();
     }
 
-    popupMouseEnter(item: INotificationItem): void {
-        if (item.popupOptions.autoClose) {
-            clearTimeout(item.closeId);
-        }
-    }
-
-    popupMouseLeave(item: INotificationItem): void {
-        if (item.popupOptions.autoClose) {
-            this._closeByTimeout(item);
-        }
-    }
-
     getDefaultConfig(item: INotificationItem): void {
         super.getDefaultConfig.apply(this, arguments);
         this._setNotificationContent(item);
-    }
-
-    private _closeByTimeout(item: INotificationItem): void  {
-        item.closeId = setTimeout(() => {
-            require('Controls/popup').Controller.remove(item.id);
-        }, timeAutoClose);
     }
 
     private _updatePositions(): void {
