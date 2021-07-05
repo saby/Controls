@@ -41,6 +41,7 @@
 .controls-FilterViewPanel__group-content {
    color: var(--label_text-color);
    font-size: var(--font-size_m);
+   flex-shrink: 0;
    overflow: hidden;
    text-overflow: ellipsis;
    white-space: nowrap;
@@ -60,6 +61,7 @@
 }
 
 .controls-FilterViewPanel__group {
+   width: 100%;
    display: flex;
    flex-direction: row;
    height: var(--group_height_filterViewPanel);
@@ -67,10 +69,11 @@
 }
 
 .controls-FilterViewPanel__groupReset {
-   cursor: pointer;
+   align-self: center;
+   margin-left: var(--offset_m);
    color: var(--label_text-color);
-   padding-left: var(--offset_2xs);
-   padding-top: var(--offset_2xs);
+   font-size: var(--font-size_xs);
+   cursor: pointer;
 }
 
 .controls-FilterViewPanel__groupReset-icon {
@@ -99,7 +102,6 @@
 .controls-FilterViewPanel__group-header {
    display: flex;
    justify-content: space-between;
-   padding-right: var(--offset_m);
 }
 
 .controls-FilterViewPanel__group-result_wrapper {
@@ -246,4 +248,12 @@
    padding-left: var(--offset_m);
    font-size: var(--font-size_xs);
    color: var(--contrast_text-color);
+}
+
+.controls-FilterViewPanel__group-content_separator {
+   margin-left: var(--offset_m);
+   width: 100%;
+   height: 1px;
+   background: var(--separator_color);
+   align-self: center;
 }

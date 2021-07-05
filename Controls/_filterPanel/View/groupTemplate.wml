@@ -7,6 +7,10 @@
                  title="{{item}}">
                {{item}}
             </div>
+            <div class="controls-FilterViewPanel__group-content_separator"></div>
+            <ws:if data="{{!collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
+               <div class="controls-FilterViewPanel__groupReset" title="{[Сбросить фильтр]}">{{rk('Сбросить')}}</div>
+            </ws:if>
          </div>
       </div>
       <ws:if data="{{collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
@@ -20,13 +24,6 @@
                   <Controls.Container.Async templateName="{{_options.groupItems[item].afterEditorTemplate}}">
                      <ws:partial template="{{ content.resolvedTemplate }}"/>
                   </Controls.Container.Async>
-               </ws:if>
-            </div>
-            <div class="controls-FilterViewPanel__groupReset"
-                 ws-no-focus="{{true}}"
-                 title="{[Сбросить фильтр]}">
-               <ws:if data="{{collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
-                  <span class="icon-CloseNew controls-FilterViewPanel__groupReset-icon"> </span>
                </ws:if>
             </div>
          </div>
