@@ -779,6 +779,7 @@ define([
             };
             component._changeHeadersStackByHeader(header, 'add');
             sinon.assert.calledOnce(stb);
+            sinon.assert.calledWith(stb, header.id, { vertical: component._headers[0].position }, true);
          });
       });
 
