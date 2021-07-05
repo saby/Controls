@@ -4,6 +4,7 @@ define('Controls-demo/PropertyGrid/PropertyGridWrapper',
       'Core/Deferred',
       'Core/core-merge',
       'Core/library',
+      'UI/NodeCollector',
       'Controls-demo/PropertyGrid/propertyGridUtil',
       'wml!Controls-demo/PropertyGrid/PropertyGridWrapper',
       'wml!Controls-demo/PropertyGrid/PropertyGridTemplate',
@@ -23,7 +24,7 @@ define('Controls-demo/PropertyGrid/PropertyGridWrapper',
       'json!Controls-demo/PropertyGrid/pgtext',
    ],
 
-   function(Base, Deferred, cMerge, libHelper, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
+   function(Base, Deferred, cMerge, libHelper, NodeCollector, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
       datetimeTmpl, booleanTmpl, functOrString, functionTmpl, enumTmpl, objTmpl, timeIntervalTmpl) {
       'use strict';
 
@@ -66,27 +67,29 @@ define('Controls-demo/PropertyGrid/PropertyGridWrapper',
          },
          _afterMount: function(opts) {
             var self = this,
-               container = this._children[opts.componentOpt.name]._container,
-               controlNodes = container.controlNodes || container[0].controlNodes;
+               _container = this._children[opts.componentOpt.name]._container,
+               container = _container[0] || _container;
 
             // TODO: https://online.sbis.ru/doc/d7b89438-00b0-404f-b3d9-cc7e02e61bb3
 
-
-            controlNodes.forEach(function(config) {
+            const controls = NodeCollector.goUpByControlTree(container);
+            controls.forEach(function(control) {
                var
-                  notOrigin = config.control._notify,
+                  notOrigin = control._notify,
                   resultNotify;
 
-               config.control._notify = function(event, arg) {
-                  self.myEvent += event + ' ';
-                  if (event === opts.eventType) {
-                     opts.componentOpt[opts.nameOption] = arg[0];
-                  }
-                  resultNotify = notOrigin.apply(this, arguments);
-                  self._forceUpdate();
-                  self._children.PropertyGrid._forceUpdate();
-                  return resultNotify;
-               };
+               if (control._container === container || control._container[0] === container) {
+                  control._notify = function(event, arg) {
+                     self.myEvent += event + ' ';
+                     if (event === opts.eventType) {
+                        opts.componentOpt[opts.nameOption] = arg[0];
+                     }
+                     resultNotify = notOrigin.apply(this, arguments);
+                     self._forceUpdate();
+                     self._children.PropertyGrid._forceUpdate();
+                     return resultNotify;
+                  };
+               }
             });
          },
          _clickHandler: function() {

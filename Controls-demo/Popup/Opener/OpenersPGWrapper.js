@@ -4,6 +4,7 @@ define('Controls-demo/Popup/Opener/OpenersPGWrapper',
       'Core/Deferred',
       'Core/core-merge',
       'Core/library',
+      'UI/NodeCollector',
       'Controls-demo/PropertyGrid/propertyGridUtil',
       'wml!Controls-demo/Popup/Opener/OpenersPGWrapper',
       'wml!Controls-demo/PropertyGrid/PropertyGridTemplate',
@@ -22,7 +23,7 @@ define('Controls-demo/Popup/Opener/OpenersPGWrapper',
       'json!Controls-demo/PropertyGrid/pgtext',
    ],
 
-   function(Base, Deferred, cMerge, libHelper, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
+   function(Base, Deferred, cMerge, libHelper, NodeCollector, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
       datetimeTmpl, booleanTmpl, functOrString, functionTmpl, enumTmpl, objTmpl) {
       'use strict';
 
@@ -71,21 +72,24 @@ define('Controls-demo/Popup/Opener/OpenersPGWrapper',
          _afterMount: function(opts) {
             var self = this,
                container = this._children[opts.nameOpener]._container;
-            this._exampleControlOptions.target = container,
+            this._exampleControlOptions.target = container;
+            const controls = NodeCollector.goUpByControlTree(container);
 
-            container.controlNodes.forEach(function(config) {
-               var notOrigin = config.control._notify;
+            controls.forEach(function(control) {
+               var notOrigin = control._notify;
 
-               config.control._notify = function(event, arg) {
-                  self.myEvent += event + ' ';
-                  if (event === opts.eventType) {
-                     opts.componentOpt[opts.nameOption] = arg[0];
-                  }
-                  var result = notOrigin.apply(this, arguments);
-                  self._forceUpdate();
-                  self._children.PropertyGrid._forceUpdate();
-                  return result;
-               };
+               if (control._container === container) {
+                  control._notify = function(event, arg) {
+                     self.myEvent += event + ' ';
+                     if (event === opts.eventType) {
+                        opts.componentOpt[opts.nameOption] = arg[0];
+                     }
+                     var result = notOrigin.apply(this, arguments);
+                     self._forceUpdate();
+                     self._children.PropertyGrid._forceUpdate();
+                     return result;
+                  };
+               }
             });
          },
          _openHandler: function(event) {

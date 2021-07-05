@@ -5,6 +5,7 @@ import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {Logger} from 'UI/Utils';
 import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
 import {goUpByControlTree} from 'UI/Focus';
+import { getClosestControl } from 'UI/NodeCollector';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
 import {constants, detection} from 'Env/Env';
@@ -855,7 +856,8 @@ class Manager {
     // Зовем метод close с шаблона. Если закрывать по механизму деактивации, то он уничтожит попап =>
     // у compoundArea вызовется сразу destroy. такую логику прервать нельзя
     private _getCompoundArea(popupContainer: HTMLElement): Control {
-        return $('.controls-CompoundArea', popupContainer)[0].controlNodes[0].control;
+        const compoundContainer = $('.controls-CompoundArea', popupContainer)[0];
+        return getClosestControl(compoundContainer);
     }
 
     private _updatePopupOptions(id: string, item: IPopupItem, oldOptions: IPopupOptions, result: boolean): void {

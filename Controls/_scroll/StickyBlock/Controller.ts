@@ -16,6 +16,7 @@ import StickyBlock from 'Controls/_scroll/StickyBlock';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
 import {IPositionOrientation} from './StickyBlock/Utils';
+import { getClosestControl } from 'UI/NodeCollector';
 
 // @ts-ignore
 
@@ -419,7 +420,11 @@ class StickyHeaderController {
     }
 
     private _getHeaderFromNode(container: HTMLElement): any {
-        return container.controlNodes[0]?.control;
+        const control = getClosestControl(container);
+        if (control._container === container) {
+            // если контейнер ближайшего контрола совпадает с таргетом - это хедер
+            return control;
+        }
     }
 
     private _getStickyHeaderElements(header: TRegisterEventData): NodeListOf<HTMLElement> {

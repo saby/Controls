@@ -13,6 +13,7 @@ import {delay as runDelayed} from 'Types/function';
 import {InstantiableMixin} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
+import { getClosestControl } from 'UI/NodeCollector';
 import {Bus as EventBus} from 'Env/Event';
 import {constants, detection, coreDebug} from 'Env/Env';
 import 'css!Controls/compatiblePopup';
@@ -751,12 +752,13 @@ var CompoundArea = CompoundContainer.extend([
       }
 
       if (compoundArea.length) {
-         opener = compoundArea[0].controlNodes[0].control.getOpener();
+         const compoundAreaInst = getClosestControl(compoundArea[0]);
+         opener = compoundAreaInst.getOpener();
       }
 
       const vdomPopupContaner = target.closest('.controls-Popup');
       if (vdomPopupContaner.length) {
-         const vdomPopup = vdomPopupContaner[0].controlNodes[0].control;
+         const vdomPopup = getClosestControl(vdomPopupContaner[0]);
          if (vdomPopup) {
             opener = vdomPopup._options.opener;
          }
@@ -1242,8 +1244,11 @@ var CompoundArea = CompoundContainer.extend([
    },
    _getPopupId: function() {
       var popupContainer = this.getContainer().closest('.controls-Popup')[0];
-      var controlNode = popupContainer && popupContainer.controlNodes && popupContainer.controlNodes[0];
-      return controlNode && controlNode.control._options.id;
+      var control;
+      if (popupContainer) {
+         control = getClosestControl(popupContainer);
+      }
+      return control?._options.id;
    },
    _getTemplateComponent: function() {
       return this._childControl;
@@ -1332,33 +1337,10 @@ var CompoundArea = CompoundContainer.extend([
    },
 
    _unregisterEventListener: function() {
-      var
-         element = this.getContainer()[0],
-         controlNodes = element && element.controlNodes,
-         controlNode;
-
-      if (controlNodes) {
-         // Find CompoundArea's control node
-         for (var i = 0; i < controlNodes.length; i++) {
-            if (controlNodes[i].control === this) {
-               controlNode = controlNodes[i];
-               break;
-            }
-         }
-
-         if (controlNode) {
-            // Get event listener's control node
-            var
-               listenerNode = controlNode.childrenNodes && controlNode.childrenNodes[1],
-               listener = listenerNode && listenerNode.control;
-
-            if (listener) {
-               // Tell event listener to unregister from its Registrar to
-               // prevent leaks
-               listener._notify('unregister', ['controlResize', listener], { bubbling: true });
-            }
-         }
-      }
+      const listener = this._children.listener;
+      // Tell event listener to unregister from its Registrar to
+      // prevent leaks
+      listener._notify('unregister', ['controlResize', listener], { bubbling: true });
    },
 
    _removeOpFromCollections: function(operation) {
