@@ -4,7 +4,7 @@
      on:cancelFinishingPending="_cancelFinishingPendingHandler()">
     <ws:for data="index, item in _popupItems">
         <ws:if data="{{item.id === _overlayId}}">
-            <UI.Base:WasabyPortal on:click="stop()" portalContainer="{{ item.popupOptions && item.popupOptions.opener && item.popupOptions.opener._container }}">
+            <UI.Base:WasabyPortal on:sendresult="stop()" on:click="stop()" portalContainer="{{ item.popupOptions && item.popupOptions.opener && item.popupOptions.opener._container }}">
                 <div class="controls-Container__overlay"
                     on:mousedown="_overlayClickHandler(item)"
                     style="z-index: {{item.currentZIndex}};">
