@@ -88,7 +88,7 @@ import {
     IFlatSelectionStrategyOptions,
     SelectionController
 } from 'Controls/multiselection';
-import { MarkerController, SingleColumnStrategy } from 'Controls/marker';
+import {IMarkerListOptions, MarkerController, SingleColumnStrategy} from 'Controls/marker';
 import {
     DndController,
     FlatStrategy, IDragStrategyParams,
@@ -2802,11 +2802,11 @@ const _private = {
 
     // region Marker
 
-    hasMarkerController(self: typeof BaseControl): boolean {
+    hasMarkerController(self: BaseControl): boolean {
         return !!self._markerController;
     },
 
-    getMarkerController(self: typeof BaseControl, options: IList = null): MarkerController {
+    getMarkerController(self: BaseControl, options: IList = null): MarkerController {
         if (!_private.hasMarkerController(self)) {
             options = options ? options : self._options;
             self._markerController = new MarkerController({
@@ -3418,7 +3418,7 @@ const _private = {
  * @author Авраменко А.С.
  */
 
-export interface IBaseControlOptions extends IControlOptions, IItemActionsOptions {
+export interface IBaseControlOptions extends IControlOptions, IItemActionsOptions, IMarkerListOptions {
     keyProperty: string;
     viewModelConstructor: string;
     navigation?: INavigationOptionValue<INavigationSourceConfig>;
@@ -4284,15 +4284,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._updateScrollController(newOptions);
         }
 
-        if (_private.hasMarkerController(this) && this._listViewModel) {
-            _private.getMarkerController(this).updateOptions({
-                model: this._listViewModel,
-                markerVisibility: newOptions.markerVisibility,
-                markerStrategy: newOptions.markerStrategy,
-                moveMarkerOnScrollPaging: newOptions.moveMarkerOnScrollPaging
-            });
-        }
-
         if (_private.hasSelectionController(this)) {
             _private.updateSelectionController(this, newOptions);
 
@@ -4385,35 +4376,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         this._needBottomPadding = _private.needBottomPadding(this, newOptions);
 
-        const shouldProcessMarker = newOptions.markerVisibility === 'visible'
-            || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined || this._modelRecreated;
-
-        // Если будет выполнена перезагрузка, то мы на событие reset применим новый ключ
-        // Возможен сценарий, когда до загрузки элементов нажимают развернуть ПМО и мы пытаемся посчитать маркер, но модели еще нет
-        if (shouldProcessMarker && !loadStarted && !isSourceControllerLoadingNow && this._listViewModel) {
-            let needCalculateMarkedKey = false;
-            if (!_private.hasMarkerController(this) && newOptions.markerVisibility === 'visible') {
-                // В этом случае маркер пытался проставиться, когда еще не было элементов. Проставляем сейчас, когда уже точно есть
-                needCalculateMarkedKey = true;
-            }
-
-            const markerController = _private.getMarkerController(this, newOptions);
-            // могут скрыть маркер и занового показать, тогда markedKey из опций нужно проставить даже если он не изменился
-            if (this._options.markedKey !== newOptions.markedKey || this._options.markerVisibility === 'hidden' && newOptions.markerVisibility === 'visible' && newOptions.markedKey !== undefined) {
-                markerController.setMarkedKey(newOptions.markedKey);
-            } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible' || this._modelRecreated || needCalculateMarkedKey) {
-                // Когда модель пересоздается, то возможен такой вариант:
-                // Маркер указывает на папку, TreeModel -> SearchViewModel, после пересоздания markedKey
-                // будет указывать на хлебную крошку, но маркер не должен ставиться на нее,
-                // поэтому нужно пересчитать markedKey
-
-                const newMarkedKey = markerController.calculateMarkedKeyForVisible();
-                this._changeMarkedKey(newMarkedKey);
-            }
-        } else if (_private.hasMarkerController(this) && newOptions.markerVisibility === 'hidden') {
-            _private.getMarkerController(this).destroy();
-            this._markerController = null;
-        }
+        this._updateMarkerController(newOptions, loadStarted, isSourceControllerLoadingNow);
 
         // Когда удаляют все записи, мы сбрасываем selection, поэтому мы его должны применить даже когда список пуст
         if (this._items) {
@@ -4545,6 +4508,69 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         this._updateBaseControlModel(newOptions);
         return updateResult;
+    }
+
+    private _updateMarkerController(
+        newOptions: IBaseControlOptions,
+        loadStarted: boolean,
+        isSourceControllerLoadingNow: boolean
+    ): void {
+        const hasMarkerController = _private.hasMarkerController(this);
+
+        // Если маркер показывать не надо, то дистроим контроллер
+        if (hasMarkerController && newOptions.markerVisibility === 'hidden') {
+            _private.getMarkerController(this).destroy();
+            this._markerController = null;
+            return;
+        }
+
+        if (hasMarkerController && this._listViewModel) {
+            _private.getMarkerController(this).updateOptions({
+                model: this._listViewModel,
+                markerVisibility: newOptions.markerVisibility,
+                markerStrategy: newOptions.markerStrategy,
+                moveMarkerOnScrollPaging: newOptions.moveMarkerOnScrollPaging
+            });
+        }
+
+        const shouldProcessMarker =
+            !loadStarted && !isSourceControllerLoadingNow && this._listViewModel &&
+            (
+                this._modelRecreated ||
+                newOptions.markerVisibility === 'visible' ||
+                newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined
+            );
+
+        if (!shouldProcessMarker) {
+            return;
+        }
+
+        const isMarkerVisible = newOptions.markerVisibility === 'visible';
+        // true если нужно пересчитать markedKey:
+        //  1. если пересоздалась модель, то возможен такой вариант:
+        //  Маркер указывает на папку, TreeModel -> SearchViewModel, после пересоздания markedKey
+        //  будет указывать на хлебную крошку, но маркер не должен ставиться на нее,
+        //  поэтому нужно пересчитать markedKey
+        //  2. Если маркер-контроллера не было и нужно показать маркер
+        const needCalculateMarkedKey = this._modelRecreated || (!hasMarkerController && isMarkerVisible);
+        // true если значение опции markerVisibility изменилось на visible
+        const markerVisibilityChangedToVisible =
+            isMarkerVisible &&
+            this._options.markerVisibility !== newOptions.markerVisibility;
+
+        const markerController = _private.getMarkerController(this, newOptions);
+
+        if (
+            this._options.markedKey !== newOptions.markedKey ||
+            // Могут скрыть маркер и заново показать, тогда markedKey из опций нужно проставить
+            // даже если он не изменился
+            markerVisibilityChangedToVisible && newOptions.markedKey !== undefined
+        ) {
+            markerController.setMarkedKey(newOptions.markedKey);
+        } else if (needCalculateMarkedKey || markerVisibilityChangedToVisible) {
+            const newMarkedKey = markerController.calculateMarkedKeyForVisible();
+            this._changeMarkedKey(newMarkedKey);
+        }
     }
 
     reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
@@ -5339,7 +5365,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    protected _changeMarkedKey(newMarkedKey: CrudEntityKey, shouldFireEvent: boolean = false): Promise<CrudEntityKey>|CrudEntityKey {
+    protected _changeMarkedKey(
+        newMarkedKey: CrudEntityKey,
+        shouldFireEvent: boolean = false
+    ): Promise<CrudEntityKey>|CrudEntityKey {
+
         const markerController = _private.getMarkerController(this);
         if ((newMarkedKey === undefined || newMarkedKey === markerController.getMarkedKey()) && !shouldFireEvent) {
             return newMarkedKey;
@@ -6622,8 +6652,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _createNewModel(items, modelConfig, modelName): void {
-        return diCreate(modelName, {
+    _createNewModel(items, modelConfig, modelName): Collection {
+        return diCreate<Collection>(modelName, {
             ...modelConfig,
             collection: items,
             unique: true,

@@ -46,9 +46,9 @@ export class Controller {
             this.setMarkedKey(null);
          }
       }
+
       const markerStrategy = options.markerStrategy || SingleColumnStrategy;
       this._markerStrategy = new markerStrategy({model: options.model, moveMarkerOnScrollPaging: options.moveMarkerOnScrollPaging});
-      this._markerVisibility = options.markerVisibility;
    }
 
    /**
