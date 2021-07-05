@@ -311,24 +311,24 @@ define(
             assert.isNotOk(configs['state']);
          });
 
-         it('_isNeedReload', function() {
+         it('_getItemsForReload', function() {
             let view = getView(defaultConfig);
             let oldItems = defaultConfig.source;
             let newItems = Clone(defaultConfig.source);
 
-            let result = view._isNeedReload(oldItems, newItems);
+            let result = !!view._getItemsForReload(oldItems, newItems).length;
             assert.isFalse(result);
 
             newItems[0].viewMode = 'basic';
-            result = view._isNeedReload(oldItems, newItems);
+            result = !!view._getItemsForReload(oldItems, newItems).length;
             assert.isFalse(result);
 
             newItems[2].viewMode = 'frequent';
-            result = view._isNeedReload(oldItems, newItems);
+            result = !!view._getItemsForReload(oldItems, newItems).length;
             assert.isTrue(result);
 
             oldItems = [];
-            result = view._isNeedReload(oldItems, newItems);
+            result = !!view._getItemsForReload(oldItems, newItems).length;
             assert.isTrue(result);
          });
 
@@ -1423,7 +1423,7 @@ define(
 
             it('_reload', async function() {
                view._source[0].editorOptions.source = hSource;
-               await view._reload(false, true, true).addCallback((receivedState) => {
+               await view._reload(false, true).addCallback((receivedState) => {
                   assert.isUndefined(receivedState.configs.document.source);
                   assert.isOk(receivedState.configs.state.source);
 

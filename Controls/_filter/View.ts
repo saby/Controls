@@ -217,17 +217,44 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         this._resetCallbackId = Store.declareCommand('resetFilter', this.reset.bind(this));
     }
 
+    protected _getItemsForReload(
+        oldItems: IFilterItem[],
+        newItems: IFilterItem[],
+        configs: IFilterItemConfigs
+    ): IFilterItem[] {
+        const optionsToCheck = ['source', 'filter', 'navigation'];
+        const getOptionsChecker = (oldItem, newItem) => {
+            return (changed, optName) => changed ||
+                !isEqual(oldItem.editorOptions[optName], newItem.editorOptions[optName]);
+        };
+        const result = [];
+        factory(newItems).each((newItem) => {
+            const oldItem = this._getItemByName(oldItems, newItem.name);
+            const newItemIsFrequent = this._isFrequentItem(newItem);
+            const oldItemIsFrequent = oldItem && this._isFrequentItem(oldItem);
+            const needHistoryReload = configs && configs[newItem.name] && !configs[newItem.name].sourceController;
+            const valueChanged = oldItem && !isEqual(newItem.value, oldItem.value);
+            if (
+                newItemIsFrequent &&
+                (!oldItem || !oldItemIsFrequent || optionsToCheck.reduce(getOptionsChecker(oldItem, newItem), false)
+                    || valueChanged || (configs && !configs[newItem.name]) || needHistoryReload) &&
+                !isEqual(newItem.value, newItem.resetValue)
+            ) {
+                result.push(newItem);
+            }
+        });
+        return result;
+    }
+
     protected _beforeUpdate(newOptions: IFilterViewOptions): void {
         if (newOptions.source && newOptions.source !== this._options.source) {
             let resultDef;
             this._resolveItems(newOptions.source);
             this._detailPanelTemplateName = this._getDetailPanelTemplateName(newOptions);
-            if (this._isNeedReload(this._options.source, newOptions.source, this._configs) ||
-                this._isNeedHistoryReload(this._configs)) {
+            const itemsForReload = this._getItemsForReload(this._options.source, newOptions.source, this._configs);
+            if (itemsForReload.length) {
                 this._clearConfigs(this._source, this._configs);
-                resultDef = this._reload(null, !!newOptions.panelTemplateName, true);
-            } else if (this._isNeedHistoryReload(this._configs)) {
-                resultDef = this._reload(null, !!newOptions.panelTemplateName, true);
+                resultDef = this._reload(null, !!newOptions.panelTemplateName, itemsForReload);
             } else if (this._loadPromise) {
                 resultDef = this._loadPromise.promise.then(() => {
                     return this._loadSelectedItems(this._source, this._configs).then(() => {
@@ -902,13 +929,13 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
     private _reload(onlyChangedItems: boolean = false,
                     hasSimplePanel: boolean = true,
-                    force?: boolean): Promise<IFilterReceivedState> {
+                    items?: IFilterItem[]): Promise<IFilterReceivedState> {
         const loadPromises = [];
-        factory(this._source).each((item) => {
+        factory(items || this._source).each((item) => {
             if (this._isFrequentItem(item)) {
                 if (!onlyChangedItems || this._isItemChanged(item)) {
                     if (hasSimplePanel) {
-                        if (!item.textValue || force) {
+                        if (!item.textValue) {
                             const result = this._loadItems(item);
                             loadPromises.push(result);
                         } else {
@@ -1081,33 +1108,6 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         this._collapsedFilters = result.collapsedFilters;
     }
 
-    private _isNeedReload(oldItems: IFilterItem[],
-                          newItems: IFilterItem[],
-                          configs: IFilterItemConfigs): boolean {
-        const optionsToCheck = ['source', 'filter', 'navigation'];
-        const getOptionsChecker = (oldItem, newItem) => {
-            return (changed, optName) => changed ||
-                !isEqual(oldItem.editorOptions[optName], newItem.editorOptions[optName]);
-        };
-        let result = false;
-
-        if (oldItems.length !== newItems.length) {
-            result = true;
-        } else {
-            factory(newItems).each((newItem) => {
-                const oldItem = this._getItemByName(oldItems, newItem.name);
-                const isFrequent = this._isFrequentItem(newItem);
-                if (isFrequent && (!oldItem || !this._isFrequentItem(oldItem) ||
-                    optionsToCheck.reduce(getOptionsChecker(oldItem, newItem), false) ||
-                    !isEqual(newItem.value, oldItem.value) && !configs[newItem.name])
-                ) {
-                    result = true;
-                }
-            });
-        }
-        return result;
-    }
-
     private _updateHierarchyHistory(currentFilter: IFilterItemConfig,
                                     selectedItems: Model[],
                                     source: HistorySource): void {
@@ -1149,16 +1149,6 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 currentFilter.items = source.getItems();
             }
         }
-    }
-
-    private _isNeedHistoryReload(configs: IFilterItemConfigs): boolean {
-        let needReload = false;
-        factory(configs).each((config) => {
-            if (!config.sourceController) {
-                needReload = true;
-            }
-        });
-        return needReload;
     }
 
     private _loadDependencies(): Promise<unknown> {
