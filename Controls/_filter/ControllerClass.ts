@@ -313,7 +313,7 @@ export default class FilterControllerClass {
                 return historyItems ? historyItems : result;
             });
         } else {
-            return historyItems ? Promise.resolve(historyItems) : this._loadHistoryItems(historyId);
+            return historyItems?.length ? Promise.resolve(historyItems) : this._loadHistoryItems(historyId, prefetchParams);
         }
     }
 
