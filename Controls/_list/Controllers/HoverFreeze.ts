@@ -389,6 +389,11 @@ export default class HoverFreeze {
                  opacity: 1;
                  visibility: visible;
               }
+              .${uniqueClass} .controls-Grid__row:nth-child(${index}) .controls-Grid__row-cell__content .controls-background-default,
+              .${uniqueClass} .controls-Grid__row:nth-child(${index}) .controls-Grid__row-cell__content .controls-background-infoBox,
+              .${uniqueClass} .controls-Grid__row:nth-child(${index}) .controls-Grid__row-cell__content .controls-background-stack {
+                 background-color: ${hoverBackgroundColor};
+              }
               `;
     }
 
