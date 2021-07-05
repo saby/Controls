@@ -9,6 +9,8 @@ define(
    (popupTemplate, NotificationContent, popup, NotificationController, collection) => {
       'use strict';
 
+      NotificationContent = NotificationContent.default;
+
       describe('Controls/_popup/Opener/Notification', () => {
          const containers = [
             {
