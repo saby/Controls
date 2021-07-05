@@ -46,6 +46,7 @@ import {default as View} from 'Controls/_list/List';
 import BaseAction from 'Controls/_list/BaseAction';
 import LoadingIndicatorTemplate = require('wml!Controls/_list/PortionedSearchTemplate');
 import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
+import LoadingIndicatorItemTemplate = require('wml!Controls/_list/LoadingIndicatorTemplate');
 import {default as DataContainer, IDataOptions} from 'Controls/_list/Data';
 import * as EditingTemplate from 'wml!Controls/_list/EditInPlace/EditingTemplate';
 import * as MoneyEditingTemplate from 'wml!Controls/_list/EditInPlace/decorated/Money';
@@ -136,7 +137,8 @@ export {
     ScrollController,
     IListNavigation,
     TCursor,
-    TBackgroundColorStyle
+    TBackgroundColorStyle,
+    LoadingIndicatorItemTemplate
 };
 
 import {groupConstants, IHiddenGroupPosition} from './display';

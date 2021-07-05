@@ -422,7 +422,7 @@ const _private = {
         return needAttachLoadTopTriggerToNull;
     },
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
-        if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !self._listViewModel || !self._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
+        if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !self._listViewModel) {
             self._attachLoadDownTriggerToNull = false;
             return false;
         }
@@ -2450,24 +2450,6 @@ const _private = {
     isBlockedForLoading(loadingIndicatorState): boolean {
         return loadingIndicatorState === 'all';
     },
-    getLoadingIndicatorClasses(
-        {hasItems, hasPaging, loadingIndicatorState, theme, isPortionedSearchInProgress, attachLoadTopTriggerToNull, attachLoadTopTriggerToNullOption, attachLoadDownTriggerToNull}: IIndicatorConfig
-    ): string {
-        const state = attachLoadTopTriggerToNull && loadingIndicatorState === 'up' || attachLoadDownTriggerToNull && loadingIndicatorState === 'down'
-           ? 'attachToNull'
-           : loadingIndicatorState;
-
-        const isAbsoluteTopIndicator = state === 'up' && !attachLoadTopTriggerToNullOption;
-        return CssClassList.add('controls-BaseControl__loadingIndicator')
-            .add(`controls-BaseControl__loadingIndicator__state-${state}`, !isAbsoluteTopIndicator)
-            .add('controls-BaseControl__loadingIndicator__state-up-absolute', isAbsoluteTopIndicator)
-            .add(`controls-BaseControl__loadingIndicator__state-${state}`)
-            .add(`controls-BaseControl_empty__loadingIndicator__state-down`,
-                !hasItems && loadingIndicatorState === 'down')
-            .add(`controls-BaseControl__loadingIndicator_style-portionedSearch`,
-                isPortionedSearchInProgress)
-            .compile();
-    },
     updateIndicatorContainerHeight(self, viewRect: DOMRect, viewportRect: DOMRect): void {
         let top;
         let bottom;
@@ -3783,13 +3765,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             self._afterReloadCallback(newOptions, self._items, self._listViewModel);
 
-            if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
-                _private.needAttachLoadTriggerToNull(self, 'up')) {
-                self._hideTopTrigger = true;
-                self._resetTopTriggerOffset = true;
-            }
+            // TODO LI точно ли нужно верхний индикатор показывать на mouseEnter? Почему его сразу не показать...
+            //  UPD: сразу не показать, т.к. нужно скроллить
             if (_private.attachLoadDownTriggerToNullIfNeed(self, newOptions)) {
-                self._resetDownTriggerOffset = true;
+                self._showBottomIndicator();
             }
 
             _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
@@ -4078,20 +4057,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.changeSelection(this, controller.getSelection());
         }
 
-        if (!this._items || !this._items.getCount()) {
-            this._attachLoadTopTriggerToNull = false;
-            this._hideTopTrigger = false;
-            this._attachLoadDownTriggerToNull = false;
-        }
-
         // на мобильных устройствах не сработает mouseEnter, поэтому ромашку сверху добавляем сразу после моунта
         if (detection.isMobilePlatform) {
             // нельзя делать это в процессе загрузки
             if (!this._loadingState && !this._scrollController?.getScrollTop()) {
-                _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
-            }
-            if (this._hideTopTrigger && !this._needScrollToFirstItem) {
-                this._hideTopTrigger = false;
+                if (_private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
+                    this._showTopIndicator();
+                }
             }
         }
 
@@ -4447,15 +4419,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             });
         }
 
-        // Синхронный индикатор загрузки для реестров, в которых записи - тяжелые контролы.
-        // Их отрисовка может занять много времени, поэтому следует показать индикатор, не дожидаясь ее окончания.
-        if (this._syncLoadingIndicatorState) {
-            clearTimeout(this._syncLoadingIndicatorTimeout);
-            this._syncLoadingIndicatorTimeout = setTimeout(() => {
-                this.changeIndicatorStateHandler(true, this._syncLoadingIndicatorState);
-            }, INDICATOR_DELAY);
-        }
-
         if (newOptions.searchValue || this._loadedBySourceController) {
             const isPortionedLoad = _private.isPortionedLoad(this);
             const hasMoreData = _private.hasMoreDataInAnyDirection(this, this._sourceController);
@@ -4797,16 +4760,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 // её по ошибке: https://online.sbis.ru/opendoc.html?guid=cd0ba66a-115c-44d1-9384-0c81675d5b08
                 correctingHeight = 33;
             }
-            if (this._syncLoadingIndicatorTimeout) {
-                clearTimeout(this._syncLoadingIndicatorTimeout);
-                if (!this._shouldDisplayTopLoadingIndicator()) {
-                    this.changeIndicatorStateHandler(false, 'up');
-                }
-                if (!this._shouldDisplayBottomLoadingIndicator()) {
-                    this.changeIndicatorStateHandler(false, 'down');
-                }
-                this._syncLoadingIndicatorState = null;
-            }
             let itemsUpdated = false;
             if (this._listViewModel && !this._modelRecreated && this._viewReady) {
                 itemsUpdated = this._scrollController.updateItemsHeights(getItemsHeightsData(this._getItemsContainer(), this._options.plainItemsContainer === false));
@@ -4848,7 +4801,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // Скроллить нужно только если достаточно элементов(занимают весь вьюПорт)
             if (this._viewSize > this._viewportSize && _private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
                 // Ромашку нужно показать непосредственно перед скроллом к первому элементу
-                this.changeIndicatorStateHandler(true, 'up');
+                this._listViewModel.showIndicator('top');
                 this._scrollToFirstItemIfNeed();
                 if (this._hideTopTrigger) {
                     this._hideTopTrigger = false;
@@ -6418,10 +6371,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (shouldAttachTopTrigger) {
             // нельзя делать это в процессе обновления или загрузки
             if (!this._loadingState && !this._updateInProgress && !this._scrollController?.getScrollTop()) {
-                _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
-            }
-            if (this._hideTopTrigger && !this._needScrollToFirstItem) {
-                this._hideTopTrigger = false;
+                if (_private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
+                    this._showTopIndicator();
+                }
             }
         } else {
             this._recountTopTriggerAfterLoadData = true;
@@ -6719,6 +6671,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _registerIntersectionObserver(): void {
+        // TODO LI нужно как-то получить теперь триггеры. И не забыть при скрытии/добавлении триггера пересоздавать Observer
         this._intersectionObserver = new EdgeIntersectionObserver(
             this,
             this._intersectionObserverHandler.bind(this),
@@ -6823,61 +6776,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._portionedSearchInProgress && this._loadingIndicatorState === 'down';
     }
 
-    _getLoadingIndicatorClasses(state?: string): string {
-        const hasItems = !!this._items && !!this._items.getCount();
-        let indicatorState = state ? state : 'all';
-        if (!state && this._portionedSearchInProgress) {
-            indicatorState = this._loadingIndicatorState;
-        }
-        return _private.getLoadingIndicatorClasses({
-            hasItems,
-            hasPaging: !!this._pagingVisible,
-            loadingIndicatorState: indicatorState,
-            theme: this._options.theme,
-            isPortionedSearchInProgress: !!this._portionedSearchInProgress && this._loadingIndicatorState === state,
-            attachLoadTopTriggerToNull: this._attachLoadTopTriggerToNull,
-            attachLoadDownTriggerToNull: this._attachLoadDownTriggerToNull,
-            attachLoadTopTriggerToNullOption: this._options.attachLoadTopTriggerToNull
-        });
+    private _showTopIndicator(): void {
+        // TODO LI нужно переписать
+        this._listViewModel.showIndicator('top');
+        this._scrollToFirstItemIfNeed();
+        // TODO LI т.к. нам теперь нужно пересоздавать обсервер, то триггер может быть сразу показан
+        //  а в этом месте нужно обсервер пересоздать, естественно в промисе scrollToElement
     }
 
-    _getLoadingIndicatorStyles(state?: string): string {
-        let styles = '';
-
-        let indicatorState = state ? state : 'all';
-        if (!state && this._portionedSearchInProgress) {
-            indicatorState = this._loadingIndicatorState;
-        }
-        switch (indicatorState) {
-            case 'all':
-                if (this._loadingIndicatorContainerHeight) {
-                    styles += `min-height: ${this._loadingIndicatorContainerHeight}px; `;
-                }
-                if (this._loadingIndicatorContainerOffsetTop) {
-                    styles += `top: ${this._loadingIndicatorContainerOffsetTop}px;`;
-                }
-                break;
-            case 'up':
-                if (!this._shouldDisplayTopLoadingIndicator()) {
-                    styles += 'display: none; ';
-                }
-                break;
-            case 'down':
-                if (!this._shouldDisplayBottomLoadingIndicator()) {
-                    styles += 'display: none;';
-                }
-                break;
-        }
-
-        return styles;
-    }
-
-    // Устанавливаем напрямую в style, чтобы не ждать и не вызывать лишний цикл синхронизации
-    changeIndicatorStateHandler(state: boolean, indicatorName: IDirection): void {
-        const indicator = this._children[`${indicatorName}LoadingIndicator`];
-        if (indicator) {
-            indicator.style.display = state ? '' : 'none';
-        }
+    private _showBottomIndicator(): void {
+        this._listViewModel.showIndicator('bottom');
+        // TODO пересоздать обсервер
     }
 
     // endregion LoadingIndicator

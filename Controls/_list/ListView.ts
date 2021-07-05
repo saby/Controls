@@ -264,6 +264,11 @@ var ListView = BaseControl.extend(
         },
 
         _onItemClick: function(e, dispItem) {
+            if (dispItem['Controls/display:LoadingIndicator']) {
+                e.stopPropagation();
+                return;
+            }
+
             // Флаг preventItemEvent выставлен, если нужно предотвратить возникновение
             // событий itemClick, itemMouseDown по нативному клику, но по какой-то причине
             // невозможно остановить всплытие события через stopPropagation
@@ -302,12 +307,22 @@ var ListView = BaseControl.extend(
          * @private
          */
         _onItemLongTap(event, itemData): void {
+            if (itemData['Controls/display:LoadingIndicator']) {
+                event.stopPropagation();
+                return;
+            }
+
             if (this._options.contextMenuEnabled !== false && this._options.contextMenuVisibility !== false && !this._options.listModel.isEditing()) {
                 this._notify('itemLongTap', [itemData, event]);
             }
         },
 
         _onItemSwipe: function(event, itemData) {
+            if (itemData['Controls/display:LoadingIndicator']) {
+                event.stopPropagation();
+                return;
+            }
+
             if (event.nativeEvent.direction === 'left') {
                 this.activate();
             }
@@ -320,7 +335,7 @@ var ListView = BaseControl.extend(
         },
 
         _onItemMouseDown: function(event, itemData) {
-            if (itemData['[Controls/_display/GroupItem]']) {
+            if (itemData['[Controls/_display/GroupItem]'] || itemData['Controls/display:LoadingIndicator']) {
                 event.stopPropagation();
                 return;
             }
@@ -339,7 +354,7 @@ var ListView = BaseControl.extend(
         },
 
         _onItemMouseUp(e, itemData) {
-            if (itemData['[Controls/_display/GroupItem]']) {
+            if (itemData['[Controls/_display/GroupItem]'] || itemData['Controls/display:LoadingIndicator']) {
                 e.stopPropagation();
                 return;
             }
@@ -347,6 +362,11 @@ var ListView = BaseControl.extend(
         },
 
         _onItemMouseEnter: function(event, itemData) {
+            if (itemData['Controls/display:LoadingIndicator']) {
+                event.stopPropagation();
+                return;
+            }
+
             this._notify('itemMouseEnter', [itemData, event]);
             this._debouncedSetHoveredItem(this, itemData, event);
         },
@@ -354,11 +374,21 @@ var ListView = BaseControl.extend(
         //TODO: из-за того что ItemOutput.wml один для всех таблиц, приходится подписываться в нем на события,
         //которые не нужны для ListView. Выписана задача https://online.sbis.ru/opendoc.html?guid=9fd4922f-eb37-46d5-8c39-dfe094605164
         _onItemMouseLeave: function(event, itemData) {
+            if (itemData['Controls/display:LoadingIndicator']) {
+                event.stopPropagation();
+                return;
+            }
+
             this._notify('itemMouseLeave', [itemData, event]);
             this._debouncedSetHoveredItem(this, null);
         },
 
         _onItemMouseMove: function(event, itemData) {
+            if (itemData['Controls/display:LoadingIndicator']) {
+                event.stopPropagation();
+                return;
+            }
+
             this._notify('itemMouseMove', [itemData, event]);
         },
 

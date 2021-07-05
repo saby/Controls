@@ -38,6 +38,8 @@ import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
 import {TRoundBorder} from "Controls/_display/interface/ICollection";
 import {Footer} from 'Controls/_display/Footer';
+import LoadingIndicatorMixin from './LoadingIndicatorMixin';
+import {default as LoadingIndicatorStrategy} from './itemsStrategy/LoadingIndicator';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -482,16 +484,21 @@ function groupingFilter(item: EntityModel,
  * @public
  * @author Мальцев А.А.
  */
-export default class Collection<S extends EntityModel = EntityModel, T extends CollectionItem<S> = CollectionItem<S>> extends mixin<
+export default class Collection<
+    S extends EntityModel = EntityModel,
+    T extends CollectionItem<S> = CollectionItem<S>
+> extends mixin<
     Abstract<any, any>,
     SerializableMixin,
     VersionableMixin,
-    EventRaisingMixin
+    EventRaisingMixin,
+    LoadingIndicatorMixin
 >(
     Abstract,
     SerializableMixin,
     VersionableMixin,
-    EventRaisingMixin
+    EventRaisingMixin,
+    LoadingIndicatorMixin
 ) implements ICollection<S, T>, IEnumerable<T>, IList<T> {
     /**
      * Возвращать локализованные значения
@@ -3064,7 +3071,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _extractItemId(item: T): string {
         const contents = item.getContents();
         let uid;
-        if (contents['[Types/_entity/Model]']) {
+        if (contents && contents['[Types/_entity/Model]']) {
             uid = (contents as any).getId();
         } else if (this._$keyProperty) {
             uid = object.getPropertyValue(contents, this._$keyProperty);
@@ -3376,7 +3383,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             collapsedGroups: this._$collapsedGroups,
             hiddenGroupPosition: this._$hiddenGroupPosition,
             groupConstructor: this._getGroupItemConstructor()
-        });
+        }).append(LoadingIndicatorStrategy);
 
         this._userStrategies.forEach((us) => composer.append(us.strategy, us.options));
 

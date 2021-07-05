@@ -1,3 +1,7 @@
-<div class="controls-BaseControl__loadingIndicatorImg-wrapper">
-   <div class="controls-BaseControl__loadingIndicatorImg"></div>
+<div if="{{ item.shouldDisplayTrigger('before') }}" style="{{ item.getTriggerStyles() }}" attr:key="{{ item.key + 'trigger' }}"></div>
+<div class="{{ item.getClasses() }}" data-qa="{{ item.getQAData() }}">
+   <div class="controls-BaseControl__loadingIndicatorImg-wrapper">
+      <div class="controls-BaseControl__loadingIndicatorImg"></div>
+   </div>
 </div>
+<div if="{{ item.shouldDisplayTrigger('after') }}" style="{{ item.getTriggerStyles() }}" attr:key="{{ item.key + 'trigger' }}"></div>
