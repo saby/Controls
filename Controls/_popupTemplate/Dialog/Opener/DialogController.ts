@@ -1,5 +1,5 @@
-import {default as BaseController, IDragOffset} from 'Controls/_popupTemplate/BaseController';
-import {IPopupItem, IPopupOptions, IPopupSizes, IPopupPosition} from 'Controls/popup';
+import {default as BaseController, IDragOffset, RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
+import {IPopupItem, IPopupOptions, IPopupSizes, IPopupPosition, Controller as ManagerController} from 'Controls/popup';
 import {detection} from 'Env/Env';
 import {List} from 'Types/collection';
 import * as Deferred from 'Core/Deferred';
@@ -301,7 +301,11 @@ class DialogController extends BaseController {
             return BaseController.getCoordsByContainer('body') as IPopupPosition;
         }
         const dialogTargetContainer = '.controls-Popup__dialog-target-container';
-        return BaseController.getRootContainerCoords(item, dialogTargetContainer) as IPopupPosition;
+        const position = BaseController.getRootContainerCoords(item, dialogTargetContainer) as IPopupPosition;
+        if (ManagerController.getRightTemplate()) {
+            position.width += RIGHT_PANEL_WIDTH;
+        }
+        return position;
     }
 }
 
