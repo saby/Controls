@@ -19,8 +19,7 @@ export default class extends Control {
         });
         this.menuPopupOptions = {
             templateOptions: {
-                backgroundStyle: 'primary',
-                hoverBackgroundStyle: 'danger'
+                backgroundStyle: 'custom'
             }
         };
     }
