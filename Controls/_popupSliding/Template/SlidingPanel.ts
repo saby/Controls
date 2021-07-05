@@ -284,7 +284,8 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         const focusedElement = document.activeElement;
         const isFocusInsideCurrentPanel = focusedElement.closest('.controls-SlidingPanel') === this._container;
         if (isFocusInsideCurrentPanel && focusedElement.tagName === 'INPUT') {
-            focusedElement.blur();
+            const newFocusElement = focusedElement.parentElement;
+            newFocusElement.focus();
         }
     }
 
