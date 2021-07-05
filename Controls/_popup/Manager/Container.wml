@@ -11,7 +11,7 @@
                 </div>
             </UI.Base:WasabyPortal>
         </ws:if>
-        <UI.Base:WasabyPortal on:click="stop()" portalContainer="{{ item.popupOptions && item.popupOptions.opener && item.popupOptions.opener._container }}">
+        <UI.Base:WasabyPortal on:click="stop()" on:sendresult="stop()" portalContainer="{{ item.popupOptions && item.popupOptions.opener && item.popupOptions.opener._container }}">
             <Controls._popup.Manager.Popup id="{{item.id}}" __key="{{item.id}}" attr:key="{{item.id}}"
                                         name="{{item.id}}"
                                         theme="{{_options.theme}}"
