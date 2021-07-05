@@ -412,8 +412,7 @@ class StickyHeaderController {
                 // во время обсчета оффсетов запишет себе height = 0, а после, когда он покажется, по ресайз обсёрверу будет опять добавление
                 // в headersStack, т.к предыдущая высота была равна 0.
                 if (!inHeadersStack) {
-                    const pos = StickyBlock.getStickyPosition({ position });
-                    this._addToHeadersStack(header.id, pos, true);
+                    this._addToHeadersStack(header.id, position, true);
                 }
             });
         }
