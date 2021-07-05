@@ -205,16 +205,31 @@ export interface IInfoBox {
  */
 
 /**
- * @event Происходит перед открытием всплывающего окна.
+ * @event Происходит при открытии всплывающей подсказки.
  * @name Controls/_popup/interface/IInfoBox#openInfoBox
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
- * @param {Object} config Конфигурация всплывающего окна.
+ * @param {Object} config Конфигурация всплывающей подсказки.
+ * @remark
+ * Если из кода {@link /doc/platform/developmentapl/interface-development/ui-library/events/#event-notify опубликовать событие}, то будет открыта всплывающая подсказка с конфигурацией, которая указана в первом параметре события.
+ * Для закрытия такой подсказки следует опубликовать событие {@link closeInfoBox}.
+ * @example
+ * <pre class="brush: js">
+ * // TypeScript
+ * this._notify('openInfoBox', [config], {bubbling: true});
+ * </pre>
  * @see closeInfoBox
  */
 
 /**
- * @event Происходит перед закрытие всплывающего окна.
+ * @event Происходит при закрытии всплывающей подсказки.
  * @name Controls/_popup/interface/IInfoBox#closeInfoBox
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @see openInfoBox
+ * @remark
+ * Опубликуйте это событие, чтобы закрыть всплывающую подсказку, которая открыта с помощью события {@link openInfoBox}.
+ * @example
+ * <pre class="brush: js">
+ * // TypeScript
+ * this._notify('closeInfoBox', [], {bubbling: true});
+ * </pre>
  */
