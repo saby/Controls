@@ -1,0 +1,12 @@
+<Controls._filterPanel.BaseEditor scope="{{_options}}"
+                                  on:extendedCaptionClick="_extendedCaptionClickHandler()"
+                                  extendedCaption="{{_options.extendedCaption}}">
+    <ws:editorTemplate>
+        <Controls.dropdown:Selector scope="{{_options}}"
+                                    fontColorStyle="default"
+                                    selectedKeys="{{_options.propertyValue}}"
+                                    style="filterPanel"
+                                    on:textValueChanged="_handleTextValueChanged()"
+                                    on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
+    </ws:editorTemplate>
+</Controls._filterPanel.BaseEditor>

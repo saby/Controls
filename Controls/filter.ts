@@ -38,6 +38,7 @@ export {default as mergeSource} from 'Controls/_filter/Utils/mergeSource';
 export {IFilterItem} from 'Controls/_filter/View/interface/IFilterItem';
 export {IFilterViewOptions, IFilterView} from 'Controls/_filter/View/interface/IFilterView';
 export {ICalculatedFilter, ICalculateFilterParams} from './_filter/ControllerClass';
+
 export {
    ViewItemTemplate,
    HistoryUtils,

@@ -58,8 +58,9 @@ import * as __Util from 'Controls/_input/resources/Util';
 import * as MaskFormatterValue from 'Controls/_input/Mask/FormatterValue';
 import hoursFormat from 'Controls/_input/InputCallback/hoursFormat';
 import lengthConstraint from 'Controls/_input/InputCallback/lengthConstraint';
-import * as IECompatibleLineHeights from 'Controls/_input/Area/IECompatibleLineHeights';
+export {default as IECompatibleLineHeights} from 'Controls/_input/Area/IECompatibleLineHeights';
 export {default as MobileFocusController} from 'Controls/_input/resources/MobileFocusController';
+export {default as transliterate} from 'Controls/_input/resources/Transliterate';
 export {default as NewBaseViewModel} from './_input/BaseViewModel';
 export {default as AdapterMask} from 'Controls/_input/Adapter/Mask';
 export {default as isMaskFormatValid} from 'Controls/_input/Mask/isFormatValid';
@@ -98,6 +99,5 @@ export {
     MaskInputProcessor,
     MaskFormatterValue,
     InputCallback,
-    ActualAPI,
-    IECompatibleLineHeights
+    ActualAPI
 };

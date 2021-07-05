@@ -78,7 +78,7 @@
  * @cfg {Number} Максимальная ширина колонки.
  * @default 400
  * @example
- * <pre class="brush: html;>
+ * <pre class="brush: html;">
  * <Controls.columns:View
  *     keyProperty="id"
  *     columnMinWidth="{{300}}"

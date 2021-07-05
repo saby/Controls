@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {IText} from 'Controls/decorator';
 import {__Util, ISelection, ISplitValue} from 'Controls/input';
-import {transliterateInput} from 'Controls/_input/resources/Util';
+import {transliterate} from 'Controls/input';
 import {controller as i18Controller} from 'I18n/i18n';
 
 describe('Controls/input:__Util', () => {
@@ -103,7 +103,7 @@ describe('Controls/input:__Util', () => {
             {testName: 'С выделением текста', revertedText: 'уд', value: 'Hello', selection: {start: 1, end: 3}, expected: 'Hудlo'},
             {testName: 'С выделением всего текста', revertedText: 'Руддщ', value: 'Hello', selection: {start: 0, end: 5}, expected: 'Руддщ'}
         ];
-        const transliterateSelectedText = __Util.transliterateSelectedText;
+        const transliterateSelectedText = transliterate._transliterateSelectedText;
 
         cases.forEach((item) => {
             it(item.testName, () => {
@@ -125,7 +125,7 @@ describe('Controls/input:__Util', () => {
             const i18 = sinon.createSandbox();
             it(item.testName, (done) => {
                 i18.replaceGetter(i18Controller, 'currentLocale', () => item.locale);
-                transliterateInput(item.value, item.selection).then((value) => {
+                transliterate(item.value, item.selection).then((value) => {
                     assert.equal(value, item.expected);
                     i18.restore();
                     done();

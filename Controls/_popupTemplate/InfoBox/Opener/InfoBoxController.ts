@@ -138,9 +138,9 @@ class InfoBoxController extends StickyController {
         return isActive;
     }
 
-    // Инфобокс закрывается всегда при драге на странице
+    // Инфобокс закрывается всегда при драге на странице, только если драг не в нем.
     dragNDropOnPage(item, container: HTMLDivElement, isInsideDrag: boolean): boolean {
-        return true;
+        return !isInsideDrag;
     }
 
     getDefaultConfig(item: IPopupItem): Promise<void> {

@@ -58,7 +58,6 @@
                         on:dragEnd="_notifyHandler('detailDragEnd')"
                         on:drawItems="_notifyHandler('drawItems')"
                         on:beforeItemsMove="_notifyHandler('detailBeforeItemsMove')"
-                        dataLoadCallback="{{_onDetailDataLoadCallback}}"
                         searchValue="{{_options.searchValue}}"
                         tileSize="{{_tileCfg.tileSize}}"
                         on:changeDragTarget="_notifyHandler('detailChangeDragTarget')"

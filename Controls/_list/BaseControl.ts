@@ -56,7 +56,8 @@ import {
     IShownItemAction,
     TItemActionShowType,
     ItemActionsTemplate,
-    SwipeActionsTemplate
+    SwipeActionsTemplate,
+    IItemActionsOptions
 } from 'Controls/itemActions';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
@@ -739,17 +740,19 @@ const _private = {
                     (hasMoreData || expanded && items && items.getCount() > (navigation.sourceConfig.pageSize));
     },
 
-    prepareFooter(self, options, sourceController: SourceController): void {
-        let
-            loadedDataCount, allDataCount;
-
+    prepareFooter(self: BaseControl, options: IBaseControlOptions, sourceController: SourceController): void {
+        // Если подгрузка данных осуществляется кликом по кнопке "Еще..." и есть что загружать, то рисуем эту кнопку
+        // всегда кроме случая когда задана группировка и все группы свернуты
         if (_private.isDemandNavigation(self._navigation) && self._hasMoreData(sourceController, 'down')) {
-            self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
+            self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ?
+                !self._listViewModel.isAllGroupsCollapsed()
+                : true;
         } else if (
             _private.shouldDrawCut(options.navigation,
                                    self._items,
                                    self._hasMoreData(sourceController, 'down'),
-                                   self._expanded)) {
+                                   self._expanded)
+        ) {
             self._shouldDrawCut = true;
         } else {
             self._shouldDrawFooter = false;
@@ -757,6 +760,8 @@ const _private = {
         }
 
         if (self._shouldDrawFooter) {
+            let loadedDataCount = 0;
+
             if (self._listViewModel) {
                 // Единственный способ однозначно понять, что выводится дерево - проверить что список строится
                 // по проекци для дерева.
@@ -765,11 +770,9 @@ const _private = {
                 loadedDataCount = display && display['[Controls/_display/Tree]'] ?
                     display.getChildren(display.getRoot()).getCount() :
                     self._items.getCount();
-            } else {
-                loadedDataCount = 0;
             }
 
-            allDataCount = _private.getAllDataCount(self);
+            const allDataCount = _private.getAllDataCount(self);
             if (typeof loadedDataCount === 'number' && typeof allDataCount === 'number') {
                 self._loadMoreCaption = allDataCount - loadedDataCount;
                 if (self._loadMoreCaption === 0) {
@@ -779,6 +782,8 @@ const _private = {
                 self._loadMoreCaption = '...';
             }
         }
+
+        self._onFooterPrepared(options);
     },
 
     loadToDirection(self, direction, receivedFilter) {
@@ -2280,16 +2285,20 @@ const _private = {
         }
     },
 
-    needBottomPadding(options, listViewModel) {
-        const isEditing = !!listViewModel?.isEditing();
+    needBottomPadding(self: BaseControl, options: IItemActionsOptions): boolean {
+        const listViewModel = self._listViewModel;
 
+        const isEditing = !!listViewModel?.isEditing();
         const hasVisibleItems = !!listViewModel?.getCount();
+        const footer = listViewModel?.getFooter();
+        const results = typeof listViewModel?.getResults === 'function' ? listViewModel.getResults() : false;
 
         return (
             (hasVisibleItems || isEditing) &&
             options.itemActionsPosition === 'outside' &&
-            !options.footerTemplate &&
-            options.resultsPosition !== 'bottom'
+            !footer &&
+            (!results || listViewModel?.getResultsPosition() !== 'bottom') &&
+            !self._shouldDrawFooter
         );
     },
 
@@ -2757,6 +2766,11 @@ const _private = {
                     self._applySelectedPage();
                 }
             });
+
+            if (result.newCollectionRenderedKeys?.length && self._options.notifyKeyOnRender) {
+               self._notify('preloadItemsByKeys', [result.newCollectionRenderedKeys], {bubbling: true});
+            }
+
             if (result.placeholders) {
                 self._notifyPlaceholdersChanged = () => {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
@@ -2892,7 +2906,8 @@ const _private = {
             topTriggerOffsetCoefficient: options.topTriggerOffsetCoefficient,
             bottomTriggerOffsetCoefficient: options.bottomTriggerOffsetCoefficient,
             resetTopTriggerOffset: self._resetTopTriggerOffset,
-            resetDownTriggerOffset: self._resetDownTriggerOffset
+            resetDownTriggerOffset: self._resetDownTriggerOffset,
+            notifyKeyOnRender: options.notifyKeyOnRender
         });
         const result = self._scrollController.handleResetItems();
         _private.handleScrollControllerResult(self, result);
@@ -3403,7 +3418,7 @@ const _private = {
  * @author Авраменко А.С.
  */
 
-export interface IBaseControlOptions extends IControlOptions {
+export interface IBaseControlOptions extends IControlOptions, IItemActionsOptions {
     keyProperty: string;
     viewModelConstructor: string;
     navigation?: INavigationOptionValue<INavigationSourceConfig>;
@@ -3760,7 +3775,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.setHasMoreData(self._listViewModel, _private.getHasMoreData(self), true);
 
             self._items = self._listViewModel.getCollection();
-            self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
+            self._needBottomPadding = _private.needBottomPadding(self, newOptions);
             if (self._pagingNavigation) {
                 const hasMoreData = self._items.getMetaData().more;
                 _private.updatePagingData(self, hasMoreData, newOptions);
@@ -4368,7 +4383,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.createScrollController(this, newOptions);
         }
 
-        this._needBottomPadding = _private.needBottomPadding(newOptions, this._listViewModel);
+        this._needBottomPadding = _private.needBottomPadding(this, newOptions);
 
         const shouldProcessMarker = newOptions.markerVisibility === 'visible'
             || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined || this._modelRecreated;
@@ -7093,9 +7108,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _documentDragEnd(dragObject): void {
-        // Если перетаскиваются элементы списка, то мы всегда задаем entity
+        // Флаг _documentDragging проставляется во всех списках, он говорит что где-то началось перетаскивание записи
+        // и при mouseEnter возможно придется начать днд. Поэтому сбрасываем флаг не зависимо от isDragging
+        this._documentDragging = false;
+
         // событие documentDragEnd может долететь до списка, в котором нет модели
-        if (!dragObject || !dragObject.entity || !this._listViewModel) {
+        if (!this._listViewModel || !this._dndListController || !this._dndListController.isDragging()) {
             return;
         }
 
@@ -7164,7 +7182,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         this._insideDragging = false;
-        this._documentDragging = false;
         this._draggedKey = null;
         this._listViewModel.setDragOutsideList(false);
     }
@@ -7230,6 +7247,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return `controls__BaseControl__footer ${paddingClassName}`;
     }
 
+    /**
+     * Ф-ия вызывается после того как были обновлены значения флагов, идентифицирующих
+     * нужно или нет показывать кнопку "Еще..." или "•••" (cut)
+     */
+    _onFooterPrepared(options: IBaseControlOptions): void {
+        // После обновления данных футера нужно обновить _needBottomPadding,
+        // который прокидывается во view
+        this._needBottomPadding = _private.needBottomPadding(this, options);
+    }
+
     // TODO: Должно переехать в GridControl, когда он появится.
     _onToggleHorizontalScroll(e, visibility: boolean): void {
         this._isColumnScrollVisible = visibility;
@@ -7239,6 +7266,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     isColumnScrollVisible(): boolean {
         return this._isColumnScrollVisible;
     }
+
+    static _private: typeof _private = _private;
 
     static getDefaultOptions(): Partial<IBaseControlOptions> {
         return {
@@ -7264,11 +7293,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
             stickyHeader: true,
             stickyColumnsCount: 1,
+            notifyKeyOnRender: false
         };
     }
 }
-
-BaseControl._private = _private;
 
 Object.defineProperty(BaseControl, 'defaultProps', {
     enumerable: true,

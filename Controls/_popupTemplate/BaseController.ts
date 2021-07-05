@@ -15,6 +15,8 @@ export interface IDragOffset {
     y: number;
 }
 
+export const RIGHT_PANEL_WIDTH = 54; // --width_stack-right_panel + borders
+
 let _fakeDiv: HTMLDivElement;
 /**
  * Base Popup Controller

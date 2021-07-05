@@ -26,6 +26,8 @@ const SERVICE_FILTERS = {
    }
 };
 
+const SEARCH_STARTED_ROOT_FIELD = 'searchStartedFromRoot';
+
 /**
  * Класс контроллер, реализующий поиск по заданному значению, либо сброс поиска.
  * Имеется возможность поиска в дереве и плоском списке.
@@ -340,19 +342,22 @@ export default class ControllerClass {
       const filter = {...this._sourceController.getFilter()};
       filter[this._options.searchParam] = this._searchValue;
 
-      if (this._root !== undefined && this._options.parentProperty) {
-         const root = this._getRoot();
-
-         if (root !== undefined) {
-            filter[this._options.parentProperty] = root;
-         } else {
-            delete filter[this._options.parentProperty];
-         }
-      }
-
       if (this._options.parentProperty) {
+         if (this._root !== undefined) {
+            const root = this._getRoot();
+
+            if (root !== undefined) {
+               filter[this._options.parentProperty] = root;
+            } else {
+               delete filter[this._options.parentProperty];
+            }
+         }
+         if (this._options.startingWith === 'root' && this._rootBeforeSearch !== undefined) {
+            filter[SEARCH_STARTED_ROOT_FIELD] = this._rootBeforeSearch;
+         }
          Object.assign(filter, SERVICE_FILTERS.HIERARCHY);
       }
+
       return filter;
    }
 
@@ -368,6 +373,7 @@ export default class ControllerClass {
          }
 
          this._deleteRootFromFilter(filter);
+         delete filter[SEARCH_STARTED_ROOT_FIELD];
       }
 
       return filter;

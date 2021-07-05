@@ -14,7 +14,9 @@ function getPopupOptions(self): IStackPopupOptions | IDialogPopupOptions {
                 self._selectCallback(null, result);
             },
             onClose: () => {
-                self._closeHandler();
+                if (self._closeHandler) {
+                    self._closeHandler();
+                }
                 self._notify('selectorClose');
             }
         }
@@ -23,7 +25,7 @@ function getPopupOptions(self): IStackPopupOptions | IDialogPopupOptions {
 
 function getTemplateOptions(self, multiSelect) {
     return {
-        selectedItems: self._lookupController.getItems().clone(),
+        selectedItems: self._lookupController?.getItems().clone(),
         multiSelect: multiSelect,
         handlers: {
             onSelectComplete: function (event, result) {
