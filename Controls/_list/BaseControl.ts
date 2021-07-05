@@ -7108,6 +7108,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _documentDragEnd(dragObject): void {
+        // Флаг _documentDragging проставляется во всех списках, он говорит что где-то началось перетаскивание записи
+        // и при mouseEnter возможно придется начать днд. Поэтому сбрасываем флаг не зависимо от isDragging
+        this._documentDragging = false;
+
         // событие documentDragEnd может долететь до списка, в котором нет модели
         if (!this._listViewModel || !this._dndListController || !this._dndListController.isDragging()) {
             return;
@@ -7178,7 +7182,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         this._insideDragging = false;
-        this._documentDragging = false;
         this._draggedKey = null;
         this._listViewModel.setDragOutsideList(false);
     }
