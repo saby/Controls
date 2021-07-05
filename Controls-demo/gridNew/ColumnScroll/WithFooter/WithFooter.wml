@@ -28,6 +28,7 @@
                     stickyColumnsCount="{{2}}">
                 <ws:footer>
                     <ws:Array>
+                        <ws:Object startColumn="{{ 1 }}" endColumn="{{ 2 }}"/>
                         <ws:Object startColumn="{{ 2 }}" endColumn="{{ 3 }}">
                             <ws:template>
                                 <ws:partial template="Controls/grid:FooterColumnTemplate">

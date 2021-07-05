@@ -2,7 +2,6 @@ import { GridView } from 'Controls/grid';
 import { assert } from 'chai';
 import { RecordSet } from 'Types/collection';
 import { GridCollection } from 'Controls/grid';
-import { assert as sinonAssert, spy} from 'sinon';
 
 describe('Controls/grid_clean/GridView', () => {
 
@@ -17,11 +16,12 @@ describe('Controls/grid_clean/GridView', () => {
                     keyProperty: 'key'
                 }),
                 keyProperty: 'key',
-                columns: [{}],
+                columns: [{}]
             };
             const gridOptions = {
                 listModel: new GridCollection(collectionOptions),
                 keyProperty: 'key',
+                columns: [{}],
                 footerTemplate: () => '',
                 footer: () => '',
                 itemPadding: {}
@@ -142,6 +142,7 @@ describe('Controls/grid_clean/GridView', () => {
         });
 
         it('should contain class when dragging', async () => {
+            options.columns = [{}];
             const grid = await getGridView();
             grid._listModel.isDragging = () => true;
             const classes = grid._getGridViewClasses(options);
