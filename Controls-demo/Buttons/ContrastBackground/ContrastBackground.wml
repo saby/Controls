@@ -3,14 +3,16 @@
         <div class="controls-text-label">contrastBackground=false</div>
         <div class="controlsDemo__background">
             <Controls.buttons:Button contrastBackground="{{false}}" caption="Button"></Controls.buttons:Button>&nbsp;
-            <Controls.buttons:Button contrastBackground="{{false}}" icon="icon-Author" viewMode="toolButton" iconSize="s" iconStyle="secondary"></Controls.buttons:Button>
+            <Controls.buttons:Button contrastBackground="{{false}}" icon="icon-Author" viewMode="toolButton" iconSize="s" iconStyle="secondary"></Controls.buttons:Button>&nbsp;
+            <Controls.buttons:Button viewMode="functionalButton" buttonStyle="secondary" icon="icon-Yes" iconStyle="contrast" contrastBackground="{{false}}"/>
         </div>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">contrastBackground=true</div>
         <div class="controlsDemo__background">
             <Controls.buttons:Button contrastBackground="{{true}}" caption="Button"></Controls.buttons:Button>&nbsp;
-            <Controls.buttons:Button contrastBackground="{{true}}" icon="icon-Author" viewMode="toolButton" iconSize="s" iconStyle="secondary"></Controls.buttons:Button>
+            <Controls.buttons:Button contrastBackground="{{true}}" icon="icon-Author" viewMode="toolButton" iconSize="s" iconStyle="secondary"></Controls.buttons:Button>&nbsp;
+            <Controls.buttons:Button viewMode="functionalButton" buttonStyle="secondary" icon="icon-Yes" iconStyle="contrast" contrastBackground="{{true}}"/>
         </div>
     </div>
 </div>
