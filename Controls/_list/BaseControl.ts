@@ -2766,6 +2766,11 @@ const _private = {
                     self._applySelectedPage();
                 }
             });
+
+            if (result.newCollectionRenderedKeys?.length && self._options.notifyKeyOnRender) {
+               self._notify('preloadItemsByKeys', [result.newCollectionRenderedKeys], {bubbling: true});
+            }
+
             if (result.placeholders) {
                 self._notifyPlaceholdersChanged = () => {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
@@ -2901,7 +2906,8 @@ const _private = {
             topTriggerOffsetCoefficient: options.topTriggerOffsetCoefficient,
             bottomTriggerOffsetCoefficient: options.bottomTriggerOffsetCoefficient,
             resetTopTriggerOffset: self._resetTopTriggerOffset,
-            resetDownTriggerOffset: self._resetDownTriggerOffset
+            resetDownTriggerOffset: self._resetDownTriggerOffset,
+            notifyKeyOnRender: options.notifyKeyOnRender
         });
         const result = self._scrollController.handleResetItems();
         _private.handleScrollControllerResult(self, result);
@@ -7283,7 +7289,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
             stickyHeader: true,
-            stickyColumnsCount: 1
+            stickyColumnsCount: 1,
+            notifyKeyOnRender: false
         };
     }
 }
