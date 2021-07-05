@@ -73,7 +73,7 @@ define('Controls-demo/Popup/Opener/OpenersPGWrapper',
             var self = this,
                container = this._children[opts.nameOpener]._container;
             this._exampleControlOptions.target = container;
-            const controls = NodeCollector.goUpByControlTree(container);
+            var controls = NodeCollector.goUpByControlTree(container);
 
             controls.forEach(function(control) {
                var notOrigin = control._notify;

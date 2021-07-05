@@ -72,7 +72,7 @@ define('Controls-demo/PropertyGrid/PropertyGridWrapper',
 
             // TODO: https://online.sbis.ru/doc/d7b89438-00b0-404f-b3d9-cc7e02e61bb3
 
-            const controls = NodeCollector.goUpByControlTree(container);
+            var controls = NodeCollector.goUpByControlTree(container);
             controls.forEach(function(control) {
                var
                   notOrigin = control._notify,
