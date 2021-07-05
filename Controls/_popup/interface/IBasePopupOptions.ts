@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IEventHandlers, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
 import {ILoadingIndicatorOptions} from 'Controls/_LoadingIndicator/interface/ILoadingIndicator';
 import {List} from 'Types/collection';
-import {IDataLoader} from 'Controls/_popup/interface/IBasePopupOptions';
+import {IDataLoader} from 'Controls/_popup/interface/IBaseOpener';
 
 /**
  * Интерфейс базовых опций окна.
@@ -25,7 +25,9 @@ export interface IBasePopupOptions {
     showIndicator?: boolean;
     indicatorConfig?: ILoadingIndicatorOptions;
     dataLoaders?: IDataLoader[][];
+    restrictiveContainer?: string;
     zIndexCallback?(item: IPopupItemInfo, popupList: List<IPopupItemInfo>): number;
+
     actionOnScroll?: string; // TODO Перенести на sticky, Удалить из baseOpener
     zIndex?: number; // TODO Compatible
     isCompoundTemplate?: boolean; // TODO Compatible
