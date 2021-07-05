@@ -1,16 +1,18 @@
-<div class="controls_spoiler_theme-{{_options.theme}} controls-AreaCut__container">
+<div class="controls_spoiler_theme-{{_options.theme}} controls-AreaCut__container" on:mouseenter="_mouseEnterHandler()">
     <div class="controls-AreaCut controls-AreaCut_{{ _options.readOnly ? 'readOnly' : 'active' }} {{ _options.borderVisible ? 'controls-AreaCut__border' }}
             controls-AreaCut_{{ _expanded ? 'expanded' : 'notExpanded'}}
             controls-AreaCut_{{ _expanded ? 'expanded' : 'notExpanded'}}_lineHeight-{{ _options.lineHeight }}
             controls-AreaCut_lineHeight-{{ _options.lineHeight }}
             controls-AreaCut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight">
         <ws:if data="{{ _options.content }}">
-            <ws:partial template="{{_options.content}}"
-                        scope="{{ _options }}"
-                        value="{{ _value }}"
-                        on:valueChanged="_valueChangedHandler()"/>
+            <div name="content" class="controls-AreaCut__content">
+                <ws:partial template="{{_options.content}}"
+                            scope="{{ _options }}"
+                            value="{{ _value }}"
+                            on:valueChanged="_valueChangedHandler()"/>
+            </div>
         </ws:if>
-        <ws:if data="{{_options.lines !== null && (_firstEditPassed || _options.readOnly) }}">
+        <ws:if data="{{_options.lines !== null && (_firstEditPassed || _options.readOnly) && (_cutButtonVisibility || _expanded)}}">
             <div class="controls-AreaCut__ellipsisWrapper{{ _expanded ? '_expanded' }}
             controls-AreaCut__ellipsisWrapper_lineHeight-{{ _options.lineHeight }}
             controls-AreaCut__ellipsisWrapper_lineHeight-{{ _options.lineHeight }}_lines-{{ _options.lines }}
@@ -20,11 +22,10 @@
                controls-AreaCut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height"
                  on:mousedown="_mousedownHandler()">
                 <div class="controls-AreaCut__shadow {{ _expanded ? 'ws-hidden' }}
-                                controls-AreaCut__shadow_lineHeight-{{ _options.lineHeight }}"></div>
+                                controls-AreaCut__shadow_lineHeight-{{ _options.lineHeight }}
+                                controls-AreaCut__shadow_background-{{ _options.backgroundStyle }}"></div>
                 <Controls._spoiler.CutButton
-                        attr:class="controls-AreaCut__ellipsis
-                     controls-AreaCut__ellipsis
-                     controls-background-{{_options.backgroundStyle}}"
+                        attr:class="controls-AreaCut__ellipsis"
                         readOnly="{{ false }}"
                         buttonPosition="{{ _options.buttonPosition }}"
                         backgroundStyle="{{ _options.backgroundStyle }}"
