@@ -198,12 +198,6 @@ export interface IBaseOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#autoClose
- * @cfg {Boolean} Автоматически закрывать окно через 5 секунд после открытия.
- * @default false
- */
-
-/**
  * @event Происходит при закрытии всплывающего окна.
  * @name Controls/_popup/interface/IBaseOpener#close
  * @example
