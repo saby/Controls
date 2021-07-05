@@ -3,12 +3,13 @@
          <div class="controls-ConfirmationDialog__button-{{_buttons.length >= 3 ? 'mini' : 'standard'}}
                     {{index > 0 ? 'controls-ConfirmationDialog__no-cancel-button'}}">
             <Controls.buttons:Button
-                    buttonStyle="{{button.buttonStyle || (button.primary ? 'primary' : 'secondary')}}"
+                    buttonStyle="{{button.buttonStyle}}"
                     inlineHeight="confirmation"
                     fontSize="confirmation"
+                    fontColorStyle="{{button.fontColorStyle}}"
                     viewMode="{{button.viewMode || 'button'}}"
                     caption="{{button.caption}}"
-                    attr:ws-autofocus="{{button.primary}}"
+                    attr:ws-autofocus="{{button.buttonStyle === 'primary'}}"
                     attr:data-qa="controls-ConfirmationDialog__button-{{button.value}}"
                     attr:class="controls-ConfirmationDialog__button"
                     on:click="_tmplNotify('result', button.value)"/>

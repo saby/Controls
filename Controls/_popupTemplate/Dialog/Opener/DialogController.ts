@@ -1,5 +1,5 @@
-import {default as BaseController, IDragOffset} from 'Controls/_popupTemplate/BaseController';
-import {IPopupItem, IPopupOptions, IPopupSizes, IPopupPosition} from 'Controls/popup';
+import {default as BaseController, IDragOffset, RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
+import {IPopupItem, IPopupOptions, IPopupSizes, IPopupPosition, Controller as ManagerController} from 'Controls/popup';
 import {detection} from 'Env/Env';
 import {List} from 'Types/collection';
 import * as Deferred from 'Core/Deferred';
@@ -9,6 +9,7 @@ import {IResizeDirection} from 'Controls/_popup/interface/IDialog';
 import {getPositionProperties, HORIZONTAL_DIRECTION, VERTICAL_DIRECTION} from './DirectionUtil';
 
 interface IDialogItem extends IPopupItem {
+    hasSavedPosition: boolean;
     popupOptions: IDialogOptions;
     startPosition: IPopupPosition;
     dragged: boolean;
@@ -178,6 +179,15 @@ class DialogController extends BaseController {
         return true;
     }
 
+    dragNDropOnPage(item: IDialogItem, container: HTMLDivElement, isInsideDrag: boolean): boolean {
+        if (item.popupOptions.target) {
+            if (!isInsideDrag && !item.hasSavedPosition) {
+                item.dragged = false;
+                this._prepareConfigWithSizes(item, container);
+            }
+        }
+    }
+
     _isIOS12(): boolean {
         return detection.isMobileIOS && detection.IOSVersion === 12;
     }
@@ -216,6 +226,7 @@ class DialogController extends BaseController {
                         const vertical = storage[propStorageId][verticalPositionProperty];
                         const horizontal = storage[propStorageId][horizontalPositionProperty];
                         if (vertical !== undefined && horizontal !== undefined) {
+                            item.hasSavedPosition = true;
                             item.popupOptions[verticalPositionProperty] = vertical;
                             item.popupOptions[horizontalPositionProperty] = horizontal;
                             // Если сохранена позиция, то считаем что окно уже перемещали.
@@ -290,7 +301,11 @@ class DialogController extends BaseController {
             return BaseController.getCoordsByContainer('body') as IPopupPosition;
         }
         const dialogTargetContainer = '.controls-Popup__dialog-target-container';
-        return BaseController.getRootContainerCoords(item, dialogTargetContainer) as IPopupPosition;
+        const position = BaseController.getRootContainerCoords(item, dialogTargetContainer) as IPopupPosition;
+        if (ManagerController.getRightTemplate()) {
+            position.width += RIGHT_PANEL_WIDTH;
+        }
+        return position;
     }
 }
 

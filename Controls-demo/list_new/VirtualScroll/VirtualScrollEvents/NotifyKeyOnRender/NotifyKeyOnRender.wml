@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
+   <Controls.scroll:Container
+      attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth400 controlsDemo__height500 controlsDemo__mb1">
+      <Controls.list:View
+         name="list"
+         source="{{_source}}"
+         keyProperty="key"
+         notifyKeyOnRender="{{true}}"
+         on:preloadItemsByKeys="_trackNotifiedKeys()"
+         bottomTriggerOffsetCoefficient="{{1}}"
+      >
+         <ws:navigation view="infinity"/>
+         <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate" attr:style="{{ 'min-height: 500px'}}"/>
+         </ws:itemTemplate>
+         <ws:virtualScrollConfig pageSize="{{3}}"/>
+      </Controls.list:View>
+   </Controls.scroll:Container>
+   <div class="controlsDemo__height200">
+      <Controls.input:Area
+         attr:class="controlsDemo_fixedWidth500 controlsDemo__height200"
+         maxLines="{{ 10 }}"
+         minLines="{{ 10 }}"
+         bind:value="_notifiedKeys"/>
+   </div>
+</div>

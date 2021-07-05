@@ -1,10 +1,21 @@
 import {Model} from 'Types/entity';
+import {TImageFit, TImageUrlResolver, TTileMode} from "Controls/_tile/display/mixins/Tile";
 
+/**
+ * Содержит базовые методы для подсчета параметров изображения
+ */
+
+/**
+ * Интерфейс размера изображения
+ */
 export interface IImageSize {
     width: number;
     height: number;
 }
 
+/**
+ * Интерфейс объекта, который содержит для каких измерений(высота, ширина) нужно добавить класс стилей
+ */
 export interface IImageRestrictions {
     width?: boolean;
     height?: boolean;
@@ -18,12 +29,21 @@ export const IMAGE_FIT = {
     NONE: 'none'
 };
 
+
+/**
+ * Возвращает URL изображения
+ * @param imageWidth
+ * @param imageHeight
+ * @param baseUrl
+ * @param item
+ * @param urlResolver
+ */
 export function getImageUrl(
     imageWidth: number,
     imageHeight: number,
     baseUrl: string,
     item: Model,
-    urlResolver?: (width?: number, height?: number, url?: string, item?: Model) => string
+    urlResolver?: TImageUrlResolver
 ): string {
     if (urlResolver) {
         return urlResolver(imageWidth, imageHeight, baseUrl, item);
@@ -32,10 +52,19 @@ export function getImageUrl(
     }
 }
 
+/**
+ * Возвращает размеры изображения
+ * @param tileWidth
+ * @param tileHeight
+ * @param tileMode
+ * @param imageHeight
+ * @param imageWidth
+ * @param imageFit
+ */
 export function getImageSize(
     tileWidth: number,
     tileHeight: number,
-    tileMode: 'static' | 'dynamic',
+    tileMode: TTileMode,
     imageHeight: number,
     imageWidth: number,
     imageFit: string
@@ -68,7 +97,12 @@ export function getImageSize(
     };
 }
 
-export function getImageClasses(imageFit: 'contain' | 'cover', imageRestrictions: IImageRestrictions = {}): string {
+/**
+ * Возвращает классы стилей для изображения
+ * @param imageFit
+ * @param imageRestrictions
+ */
+export function getImageClasses(imageFit: TImageFit, imageRestrictions: IImageRestrictions = {}): string {
     let result = '';
     if (imageFit === IMAGE_FIT.CONTAIN) {
         result = 'controls-TileView__image-contain';
@@ -82,6 +116,13 @@ export function getImageClasses(imageFit: 'contain' | 'cover', imageRestrictions
     return result;
 }
 
+/**
+ * Считает для каких измерений(высоты, ширина) нужно добавить класс стилей
+ * @param imageHeight
+ * @param imageWidth
+ * @param tileHeight
+ * @param tileWidth
+ */
 export function getImageRestrictions(
     imageHeight: number,
     imageWidth: number,
@@ -117,8 +158,13 @@ export function getImageRestrictions(
     }
 }
 
-export function getItemSize(item: HTMLElement, zoomCoefficient: number, tileMode: string): void
-{
+/**
+ * Возвращает размеры элемента в DOM
+ * @param {HTMLElement} item Элемент в DOM
+ * @param {number} zoomCoefficient Коэффициент увеличения размеров при ховере
+ * @param {TTileMode} tileMode Режим отображения плитки
+ */
+export function getItemSize(item: HTMLElement, zoomCoefficient: number, tileMode: TTileMode): void {
     var
         result,
         rectAfterZoom,

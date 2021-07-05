@@ -1063,7 +1063,8 @@ define([
          var
             baseControl = {
                _options: {},
-               _hasMoreData: () => bcHasMoreData
+               _hasMoreData: () => bcHasMoreData,
+               _onFooterPrepared: () => {}
             },
             tests = [
                {
@@ -3175,51 +3176,6 @@ define([
          assert.isFalse(updatedMeta.more.before);
       });
 
-      it('needFooterPadding', function() {
-         let cfg = {
-            itemActionsPosition: 'outside'
-         };
-         let count = 10;
-         const model = {
-            isEditing: function() {
-               return false;
-            },
-            getCount: function() {
-               return count;
-            }
-         };
-         const editingModel = {
-            isEditing: function() {
-               return true;
-            },
-            getCount: function() {
-               return count;
-            }
-         };
-
-         assert.isTrue(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, padding is needed");
-         cfg = {
-            itemActionsPosition: 'inside'
-         };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is inside, padding is not needed");
-         cfg = {
-            itemActionsPosition: 'outside',
-            footerTemplate: "footer"
-         };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, footer exists, padding is not needed");
-         cfg = {
-            itemActionsPosition: 'outside',
-            resultsPosition: "bottom"
-         };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, results row is in bottom padding is not needed");
-         cfg = {
-            itemActionsPosition: 'outside',
-         };
-         count = 0;
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, model), "itemActionsPosinon is outside, empty items, padding is not needed");
-         assert.isTrue(lists.BaseControl._private.needBottomPadding(cfg, editingModel), "itemActionsPosinon is outside, empty items, run editing in place padding is needed");
-      });
-
       describe('EditInPlace', function() {
          describe('beginEdit(), BeginAdd()', () => {
             let opt;
@@ -4198,7 +4154,8 @@ define([
                getContents: () => ({
                   getKey: () => 1
                })
-            })
+            }),
+            isDragging: () => true
          };
          ctrl._documentDragEnd({entity: {}});
          assert.isTrue(dragEnded);
@@ -4220,7 +4177,8 @@ define([
                getContents: () => ({
                   getKey: () => 1
                })
-            })
+            }),
+            isDragging: () => true
          };
          ctrl._insideDragging = true;
          ctrl._notify = () => new cDeferred();
@@ -7672,7 +7630,8 @@ define([
                      }
                   };
                },
-               getDraggableItem: () => undefined
+               getDraggableItem: () => undefined,
+               isDragging: () => false
             };
             baseControl._dndListController = dndController;
 
@@ -7681,6 +7640,7 @@ define([
             baseControl._documentDragEnd({});
             assert.isFalse(endDragSpy.called);
 
+            dndController.isDragging = () => true;
             baseControl._documentDragEnd({ entity: {} });
 
             assert.isTrue(endDragSpy.called);
@@ -7717,6 +7677,12 @@ define([
             assert.isFalse(notifySpy.withArgs('selectedKeysChanged').called);
 
             baseControl._insideDragging = undefined;
+
+            // Сбрасываем _documentDragging даже если в этом списке не было днд
+            dndController.isDragging = () => false;
+            baseControl._documentDragging = true;
+            baseControl._documentDragEnd({ entity: {} });
+            assert.isFalse(baseControl._documentDragging);
          });
 
          it('loadToDirection, drag all items', () => {
@@ -7777,7 +7743,8 @@ define([
                      }
                   };
                },
-               getDraggableItem: () => undefined
+               getDraggableItem: () => undefined,
+               isDragging: () => true
             };
 
             const spy = sinon.spy(baseControl, 'checkTriggerVisibilityAfterRedraw');

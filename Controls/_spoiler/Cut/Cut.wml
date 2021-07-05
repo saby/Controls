@@ -22,6 +22,9 @@
                      'var(--calculated-btn-margin-top_inputArea); '
                   )
               }}">
+            <div class="controls-AreaCut__shadow {{ _expanded ? 'ws-hidden' }}
+                                controls-AreaCut__shadow_lineHeight-{{ _options.lineHeight }}
+                                controls-AreaCut__shadow_background-{{ _options.backgroundStyle }}"></div>
             <Controls._spoiler.CutButton
                     attr:class="controls-Cut__ellipsis
                      controls-background-{{_options.backgroundStyle}}"

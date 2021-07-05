@@ -59,7 +59,13 @@ class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive 
     }
     protected _beforeUpdate(newOptions: IMoneyOptions): void {
         super._beforeUpdate(newOptions);
-        if (this._viewModel.displayValueBeforeUpdate === '' && newOptions.value === this._getValue(newOptions)) {
+        /**
+         * Когда выделяем весь текст, и нажимаем на пробел или del, displayValue устанавливается в ""
+         * После в Base устанавливается значение 0.0, из-за чего в Field фиксируется текущее значение displayValue(0.0)
+         * Из-за этого, при потере фокуса не стреляет событие inputCompleted.
+         * Поэтому не даем Field зафиксировать новое значение
+         */
+        if (newOptions.value === this._getValue(newOptions)) {
             this._viewModel.displayValueBeforeUpdate = this._viewModel.displayValue;
         }
     }

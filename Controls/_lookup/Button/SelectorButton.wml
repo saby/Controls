@@ -20,10 +20,18 @@
             </ws:itemTemplate>
         </Controls._lookup.SelectedCollection>
         <ws:if data="{{_options.multiSelect && !_options.readOnly}}">
-            <span on:click="_showSelectorHandler()" attr:class="controls-Selectorbutton_button-more">{{_options.showSelectorCaption}}</span>
+            <span on:click="_showSelectorHandler()" attr:class="controls-Selectorbutton_button-more
+                    controls-Selectorbutton_button-more_fontsize-{{_options.selectorCaptionFontSize}}">
+                {{_options.showSelectorCaption}}
+            </span>
         </ws:if>
-        <ws:if data="{{_items.getCount() > 1 && !_options.readOnly}}">
-            <span on:click="_reset()" attr:class="controls-Selectorbutton__button-reset">{[Очистить]}</span>
+        <ws:if data="{{(_items.getCount() > 1 || _options.clearButtonTemplate) && !_options.readOnly}}">
+            <ws:if data="{{_options.clearButtonTemplate}}">
+                <ws:partial template="{{_options.clearButtonTemplate}}"/>
+            </ws:if>
+            <ws:else>
+                <span on:click="_reset()" attr:class="controls-Selectorbutton__button-reset">{[Очистить]}</span>
+            </ws:else>
         </ws:if>
     </ws:if>
     <ws:else>

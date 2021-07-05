@@ -417,6 +417,25 @@ describe('Controls/search:ControllerClass', () => {
          assert.ok(sourceController.getRoot() === null);
       });
 
+      it('search with root and startingWith: "root"', async () => {
+         const hierarchyOptions = {
+            parentProperty: 'parentProperty',
+            root: 'testRoot',
+            startingWith: 'root',
+            saveRootOnSearch: true
+         };
+         const sourceController = getSourceController({
+            source: new Memory(),
+            ...hierarchyOptions
+         });
+         const searchController = getSearchController({
+            sourceController,
+            ...hierarchyOptions
+         });
+         await searchController.search('testSearchValue');
+         assert.ok(sourceController.getFilter().searchStartedFromRoot === 'testRoot');
+      });
+
       it('search with expandedItems', async () => {
          let sourceController = getSourceController({
             source: new Memory(),

@@ -12,7 +12,7 @@ interface IConfirmationButton {
     value: boolean | string;
     viewMode?: string;
     buttonStyle?: string;
-    primary?: boolean;
+    fontColorStyle?: string;
 }
 
 /**
@@ -116,5 +116,5 @@ export interface IConfirmationFooter {
  * @property {Boolean|String} [buttons.value] Значение результата, которое вернет кнопка при нажатии.
  * @property {String} [buttons.viewMode] Режим отображения кнопки.
  * @property {String} [buttons.buttonStyle] Стиль отображения кнопки.
- * @property {boolean} [buttons.primary] Определяет будет ли у кнопки стиль primary.
+ * @property {String} [buttons.fontColorStyle] Определяет cтиль цвета текста контрола.
  */

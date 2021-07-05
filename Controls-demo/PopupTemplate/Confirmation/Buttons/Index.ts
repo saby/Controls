@@ -11,19 +11,20 @@ class ConfirmationTemplateDemo extends Control<IControlOptions> {
         this._buttons1 = [
             {
                 caption: 'Да',
-                primary: true,
+                buttonStyle: 'primary',
                 value: true
             },
             {
                 caption: 'Собрать без конвертацией',
                 viewMode: 'link',
+                fontColorStyle: 'unaccented',
                 value: false
             }
         ];
         this._buttons2 = [
             {
                 caption: 'Принять',
-                primary: true,
+                buttonStyle: 'primary',
                 value: true
             },
             {

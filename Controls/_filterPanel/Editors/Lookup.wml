@@ -1,0 +1,25 @@
+<Controls._filterPanel.BaseEditor scope="{{_options}}"
+                                  closeButtonVisibility="hidden"
+                                  on:extendedCaptionClick="_extendedCaptionClickHandler()"
+                                  extendedCaption="{{_options.extendedCaption}}">
+    <ws:editorTemplate>
+        <Controls.lookup:Selector name="lookupEditor"
+                                  scope="{{_options}}"
+                                  showSelectorCaption="{{_showSelectorCaption}}"
+                                  selectorCaptionFontSize="s"
+                                  fontColorStyle="default"
+                                  selectedKeys="{{_options.propertyValue}}"
+                                  style="filterPanel"
+                                  on:textValueChanged="_handleTextValueChanged()">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/lookup:ItemTemplate"
+                            readOnly="{{true}}"/>
+            </ws:itemTemplate>
+            <ws:clearButtonTemplate>
+                <Controls.icon:Icon icon="icon-CloseNew"
+                                    attr:class="controls-FilterViewPanel__baseEditor-cross-icon"
+                                    on:click="_handleCloseEditorClick()"/>
+            </ws:clearButtonTemplate>
+        </Controls.lookup:Selector>
+    </ws:editorTemplate>
+</Controls._filterPanel.BaseEditor>
