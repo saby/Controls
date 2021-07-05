@@ -17,13 +17,8 @@
          />
 
          <ws:if data="{{_options.toolbarContentTemplate}}">
-            <ws:partial template="{{_options.toolbarContentTemplate}}"/>
+            <ws:partial template="{{_options.toolbarContentTemplate}}" attr:class="controls-padding_top-xs"/>
          </ws:if>
-         <ws:else data="{{ _options.toolbarConfig && _rightTopTemplate }}">
-               <Controls.Container.Async templateName="{{_rightTopTemplate}}">
-                  <ws:partial template="{{content.resolvedTemplate}}" stack="{{true}}" toolbarConfig="{{_options.toolbarConfig}}"/>
-            </Controls.Container.Async>
-         </ws:else>
       </div>
 
       <ws:if data="{{_rightBottomTemplate}}">
