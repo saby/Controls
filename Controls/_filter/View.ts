@@ -237,10 +237,14 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             if (
                 newItemIsFrequent &&
                 (!oldItem || !oldItemIsFrequent || optionsToCheck.reduce(getOptionsChecker(oldItem, newItem), false)
-                    || valueChanged || (configs && !configs[newItem.name]) || needHistoryReload) &&
-                !isEqual(newItem.value, newItem.resetValue)
+                    || (valueChanged && configs && !configs[newItem.name]) || needHistoryReload)
             ) {
-                result.push(newItem);
+                if (valueChanged && !isEqual(newItem.value, newItem.value)) {
+                    result.push(newItem);
+                } else if (configs && configs[newItem.name]) {
+                    // Загрузим перед открытием
+                    delete configs[newItem.name];
+                }
             }
         });
         return result;

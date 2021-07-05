@@ -157,6 +157,7 @@ define(
 
          it('_beforeUpdate', async function() {
             let view = getView(defaultConfig);
+            await view._beforeMount(defaultConfig);
             view._beforeUpdate(defaultConfig);
 
             let expectedDisplayText = {
@@ -176,6 +177,7 @@ define(
 
             // isNeedReload = true
             await view._beforeUpdate(newConfig);
+            await view._reload();
             assert.deepStrictEqual(view._displayText, expectedDisplayText);
 
             newConfig = Clone(defaultConfig);
@@ -322,14 +324,15 @@ define(
             newItems[0].viewMode = 'basic';
             result = !!view._getItemsForReload(oldItems, newItems).length;
             assert.isFalse(result);
-
+            const configs = {author: {}};
             newItems[2].viewMode = 'frequent';
-            result = !!view._getItemsForReload(oldItems, newItems).length;
-            assert.isTrue(result);
+            result = !!view._getItemsForReload(oldItems, newItems, configs).length;
+            assert.isFalse(result);
+            assert.isUndefined(configs.author);
 
             oldItems = [];
             result = !!view._getItemsForReload(oldItems, newItems).length;
-            assert.isTrue(result);
+            assert.isFalse(result);
          });
 
          it('openDetailPanel', function() {
