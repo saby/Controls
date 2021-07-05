@@ -7063,7 +7063,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _documentDragEnd(dragObject): void {
         // Флаг _documentDragging проставляется во всех списках, он говорит что где-то началось перетаскивание записи
-        // и при mouseEnter возможно придеться начать днд. Поэтому сбрасываем флаг не зависимо от isDragging
+        // и при mouseEnter возможно придется начать днд. Поэтому сбрасываем флаг не зависимо от isDragging
         this._documentDragging = false;
 
         // событие documentDragEnd может долететь до списка, в котором нет модели
