@@ -1,4 +1,4 @@
-import BaseController from 'Controls/_popupTemplate/BaseController';
+import BaseController, {RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
 import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition, Controller} from 'Controls/popup';
 import StackStrategy from 'Controls/_popupTemplate/Stack/Opener/StackStrategy';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
@@ -19,7 +19,6 @@ import {Bus} from 'Env/Event';
  */
 
 const ACCORDEON_MIN_WIDTH = 50;
-const RIGHT_PANEL_WIDTH = 54;
 
 class StackController extends BaseController {
     TYPE: string = 'Stack';

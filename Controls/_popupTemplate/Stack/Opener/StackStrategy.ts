@@ -3,10 +3,10 @@
  */
 import {detection} from 'Env/Env';
 import {Controller as ManagerController, Controller, IPopupItem, IPopupPosition} from 'Controls/popup';
+import {RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
 
 // Minimum popup indentation from the right edge
 const MINIMAL_PANEL_DISTANCE = 48;
-const RIGHT_PANEL_WIDTH = 52; // --width_stack-right_panel
 
 export class StackStrategy {
     /**

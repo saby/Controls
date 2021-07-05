@@ -845,7 +845,7 @@ define(
 
             Strategy._getRightTemplate = () => 'rightTemplate.wml';
             result = Strategy._getRightPosition(tCoord, true);
-            assert.equal(result, 52);
+            assert.equal(result, 54);
          })
       });
    });
