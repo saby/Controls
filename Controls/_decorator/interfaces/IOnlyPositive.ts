@@ -8,7 +8,7 @@ export interface IOnlyPositiveOptions {
  * @default false
  * @remark
  * true - только неотрицательные числа.
- * false - неотрицательные и отрицательные числа.
+ * false - положительные и отрицательные числа, а также ноль.
  * @example
  * В этом примере _inputValue в состоянии контрола будет хранить только неотрицательные числа.
  * <pre class="brush: html">
