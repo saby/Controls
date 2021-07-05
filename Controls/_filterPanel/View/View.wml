@@ -89,6 +89,7 @@
                   <ws:partial template="{{filter.editorTemplateName}}"
                               scope="{{filter.editorOptions}}"
                               viewMode="{{filter.viewMode}}"
+                              value="{{filter.value}}"
                               on:propertyValueChanged="_propertyValueChanged(filter)"/>
                </ws:for>
             </div>
