@@ -23,7 +23,6 @@ import template = require('wml!Controls/_input/Date/Picker/Picker');
  * @mixes Controls/interface:IDateMask
  * @mixes Controls/interface:IInputTag
  * @mixes Controls/input:IBorderVisibility
- * 
  * @mixes Controls/dateRange:IDatePickerSelectors
  * @mixes Controls/dateRange:IDateRangeSelectable
  * @mixes Controls/input:IBase
