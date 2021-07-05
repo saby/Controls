@@ -5,7 +5,7 @@ import {
 } from 'Controls/popup';
 import * as PopupContent from 'wml!Controls/_popupSliding/SlidingPanelContent';
 import SlidingPanelStrategy, {AnimationState, ISlidingPanelItem} from './Strategy';
-import {detection} from 'Env/Env';
+import {constants} from 'Env/Env';
 
 /**
  * SlidingPanel Popup Controller
@@ -203,7 +203,9 @@ class Controller extends BaseController {
      * @private
      */
     private _toggleCancelBodyDragging(state: boolean): void {
-        document.documentElement.style.overflow = state ? 'hidden' : '';
+        if (constants.isBrowserPlatform) {
+            document.documentElement.style.overflow = state ? 'hidden' : '';
+        }
     }
 
     /**
