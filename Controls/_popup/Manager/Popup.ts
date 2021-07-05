@@ -216,12 +216,12 @@ class Popup extends Control<IPopupControlOptions> {
         ManagerController.notifyToManager('popupDragEnd', [this._options.id]);
     }
 
-    protected _popupMouseEnter(event: SyntheticEvent<MouseEvent>, popupEvent: SyntheticEvent<MouseEvent>): void {
-        ManagerController.notifyToManager('popupMouseEnter', [this._options.id, popupEvent]);
+    protected _popupMouseEnter(event: SyntheticEvent<MouseEvent>): void {
+        ManagerController.notifyToManager('popupMouseEnter', [this._options.id]);
     }
 
-    protected _popupMouseLeave(event: SyntheticEvent<MouseEvent>, popupEvent: SyntheticEvent<MouseEvent>): void {
-        ManagerController.notifyToManager('popupMouseLeave', [this._options.id, popupEvent]);
+    protected _popupMouseLeave(event: SyntheticEvent<MouseEvent>): void {
+        ManagerController.notifyToManager('popupMouseLeave', [this._options.id]);
     }
 
     protected _popupResizingLine(event: SyntheticEvent<Event>, offset: number): void {

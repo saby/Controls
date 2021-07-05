@@ -59,7 +59,6 @@ class Notification extends Control<INotificationBaseOptions> implements INotific
     static getDefaultOptions(): INotificationOptions {
         return {
             style: 'secondary',
-            autoClose: true,
             closeButtonVisibility: true
         };
     }

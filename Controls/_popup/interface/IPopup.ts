@@ -24,6 +24,7 @@ export interface IPopupItem {
    popupState: string;
    childs: IPopupItem[];
    parentId?: string;
+   closeId?: number;
    position?: IPopupPosition;
    currentZIndex?: number;
    isDragOnPopup?: boolean; // Осуществляется ли d'n'd внутри окна
@@ -68,6 +69,7 @@ export interface IPopupOptions extends IBasePopupOptions {
    id?: string;
    maximize?: boolean;
    content?: Function;
+   autoClose?: boolean;
 }
 
 export interface IPopupController {
