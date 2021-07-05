@@ -40,6 +40,7 @@
    <ws:partial template="wml!Controls/_input/Base/PlaceholderWrapper"
                placeholderVisibility="{{placeholderVisibility}}"
                placeholderTemplate="{{placeholderTemplate}}"
+               placeholderDisplay="{{placeholderDisplay}}"
                value="{{value}}"
    />
    <ws:if data="{{isFieldFocused()}}">
