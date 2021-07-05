@@ -712,10 +712,18 @@ export default class ScrollController {
      * @private
      */
     handleRemoveItems(removeIndex: number, items: object[]): IScrollControllerResult {
+        let result = {};
+        if (!this._virtualScroll) {
+            result = this._initVirtualScroll(
+                {...this._options, forceInitVirtualScroll: true},
+                (this._options.collection.getCount() + items.length)
+            );
+        }
         if (this._virtualScroll) {
             const rangeShiftResult = this._virtualScroll.removeItems(removeIndex, items.length);
             this.savePlaceholders(rangeShiftResult.placeholders);
             return {
+                ...result,
                 placeholders: rangeShiftResult.placeholders,
                 shadowVisibility: this._calcShadowVisibility(this._options.collection, rangeShiftResult.range)
             };
