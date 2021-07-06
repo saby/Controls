@@ -7,9 +7,6 @@ import {default as LoadingIndicatorItem, TLoadingIndicatorPosition} from '../Loa
 import {ITriggerOffset} from '../LoadingIndicatorMixin';
 import LoadingTrigger, {TLoadingTriggerPosition} from '../LoadingTrigger';
 
-export const DEFAULT_TOP_TRIGGER_OFFSET = -1;
-export const DEFAULT_BOTTOM_TRIGGER_OFFSET = 0;
-
 interface IOptions<S extends Model, T extends CollectionItem<S>> {
     source: IItemsStrategy<S, T>;
     display: Collection<S, T>;
@@ -148,6 +145,10 @@ export default class LoadingIndicator<
         return indicatorIsShowed;
     }
 
+    getIndicator(position: TLoadingIndicatorPosition): LoadingIndicatorItem {
+        return this._getIndicator(position);
+    }
+
     private _getIndicatorName(position: TLoadingIndicatorPosition): string {
         return `_${position}Indicator`;
     }
@@ -171,7 +172,7 @@ export default class LoadingIndicator<
 
     // region Trigger
 
-    showTrigger(position: TLoadingTriggerPosition): boolean {
+    showTrigger(position: TLoadingTriggerPosition, displaceTriggerToUp: boolean): boolean {
         const trigger = this._getTrigger(position);
         return trigger.show();
     }
@@ -191,21 +192,20 @@ export default class LoadingIndicator<
         return `_${position}Trigger`;
     }
 
-    private _getTrigger(position: TLoadingTriggerPosition): LoadingTrigger {
+    private _getTrigger(position: TLoadingTriggerPosition, displaceTriggerToUp: boolean = true): LoadingTrigger {
         const triggerName = this._getTriggerName(position);
 
         let trigger = this[triggerName];
         if (!trigger) {
-            this._createTrigger(position);
+            this._createTrigger(position, displaceTriggerToUp);
         }
         return this[triggerName];
     }
 
-    private _createTrigger(position: TLoadingTriggerPosition): void {
+    private _createTrigger(position: TLoadingTriggerPosition, displaceTriggerToUp: boolean = true): void {
         const isTopTrigger = position === 'top';
         // У верхнего триггера оффсет должен быть изначально -1, иначе обсервер сразу сработает
-        // TODO LI а возможно и не нужен такой оффсет, ведь теперь обсервер пересоздавать придется. ПРОВЕРИТЬ.
-        const offset = isTopTrigger ? DEFAULT_TOP_TRIGGER_OFFSET : DEFAULT_BOTTOM_TRIGGER_OFFSET;
+        const offset = isTopTrigger && displaceTriggerToUp ? -1 : 0;
         const visible = !isTopTrigger;
         const trigger = this.options.display.createItem({
             itemModule: 'Controls/display:LoadingTrigger',

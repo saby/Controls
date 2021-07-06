@@ -4,7 +4,7 @@ import IItemsStrategy from './IItemsStrategy';
 import {StrategyConstructor} from './Collection';
 import CollectionItem from './CollectionItem';
 import {default as LoadingIndicatorStrategy} from './itemsStrategy/LoadingIndicator';
-import {TLoadingIndicatorPosition} from './LoadingIndicator';
+import LoadingIndicator, {TLoadingIndicatorPosition} from './LoadingIndicator';
 import {IEnumerableComparatorSession} from 'Types/collection';
 
 export interface ITriggerOffset {
@@ -43,11 +43,16 @@ export default abstract class LoadingIndicatorMixin<
         }
     }
 
-    showTopTrigger(): void {
+    hasIndicator(position: TLoadingIndicatorPosition): boolean {
+        const strategy = this._getLoadingIndicatorStrategy();
+        return !!strategy.getIndicator(position);
+    }
+
+    showTopTrigger(displaceTriggerToUp: boolean = true): void {
         const strategy = this._getLoadingIndicatorStrategy();
 
         const session = this._startUpdateSession();
-        const changed = strategy.showTrigger('top');
+        const changed = strategy.showTrigger('top', displaceTriggerToUp);
         if (changed) {
             this._reSort();
             this._reFilter();

@@ -3635,6 +3635,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (self._shouldDisplayBottomIndicator(newOptions)) {
                 self._showBottomIndicator();
             }
+            // Если верхний индикатор не будет показан, то сразу же показываем триггер,
+            // чтобы в кейсе когда нет данных после моунта инициировать их загрузку
+            if (!self._shouldDisplayTopIndicator(newOptions)) {
+                self._resetTopTriggerOffset = false;
+                self._listViewModel.showTopTrigger(false);
+            }
 
             _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
             _private.prepareFooter(self, newOptions, self._sourceController);
@@ -6570,6 +6576,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     private _showTopIndicator(scrollToFirstItem: boolean): void {
+        const isDisplayedIndicator = this._listViewModel.hasIndicator('top');
+        if (isDisplayedIndicator) {
+            return;
+        }
+
         this._listViewModel.showIndicator('top');
 
         let scrollResult;
@@ -6587,6 +6598,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     private _showBottomIndicator(): void {
+        const isDisplayedIndicator = this._listViewModel.hasIndicator('bottom');
+        if (isDisplayedIndicator) {
+            return;
+        }
+
         this._listViewModel.showIndicator('bottom');
     }
 
@@ -6640,13 +6656,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    private _shouldDisplayTopIndicator(): boolean {
+    private _shouldDisplayTopIndicator(newOptions?: IBaseControlOptions): boolean {
         // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
         // TODO LI вроде как это уже не актуально
         //  const isInfinityNavigation = _private.isInfinityNavigation(this._options.navigation);
 
         // TODO LI пересмотреть проверку !this._updateInProgress && !this._scrollController?.getScrollTop()
-        return this._options.attachLoadTopTriggerToNull && this._shouldDisplayIndicator('up');
+        const options = newOptions || this._options;
+        return options.attachLoadTopTriggerToNull && this._shouldDisplayIndicator('up', newOptions);
     }
 
     private _shouldDisplayBottomIndicator(newOptions?: IBaseControlOptions): boolean {
