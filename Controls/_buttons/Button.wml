@@ -15,6 +15,6 @@
             _iconStyle="{{_iconStyle}}"
             _captionPosition="{{_captionPosition}}"
             _isSVGIcon="{{_isSVGIcon}}"
-            _textAlign="{{_options.textAlign}}"
+            _textAlign="{{_textAlign}}"
             on:click="_clickHandler()"
             on:keypress="_keyUpHandler()"/>

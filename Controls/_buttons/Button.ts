@@ -62,6 +62,13 @@ export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._fontColorStyle = options.fontColorStyle ? options.fontColorStyle : defaultFontColorStyle(this._viewMode);
     this._fontSize = options.fontSize;
     this._hasIcon = !!options.icon;
+    if (this._viewMode === 'button') {
+        this._textAlign = options.textAlign;
+    } else if (['functionalButton', 'toolButton'].includes(this._viewMode)) {
+        this._textAlign = 'center';
+    } else {
+        this._textAlign = 'none';
+    }
 
     this._caption = options.caption;
     // На сервере rk создает инстанс String'a, проверки на typeof недостаточно
@@ -168,6 +175,7 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
     protected _iconStyle: string;
     protected _hoverIcon: boolean = true;
     protected _isSVGIcon: boolean = false;
+    protected _textAlign: string;
 
     protected _beforeMount(options: IButtonControlOptions): void {
         simpleCssStyleGeneration.call(this, options);
