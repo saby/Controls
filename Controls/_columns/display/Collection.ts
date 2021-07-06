@@ -163,7 +163,7 @@ export default class Collection<
                     }
                     const nextIndex = this._columnsIndexes[item.column + 1].pop();
                     this._columnsIndexes[item.column].push(nextIndex);
-                    const nextItem = this.getItemBySourceIndex(nextIndex) as CollectionItem<Model>;
+                    const nextItem = this.at(nextIndex) as CollectionItem<Model>;
                     nextItem.setColumn(item.column);
                 }
                 item.column++;
