@@ -224,6 +224,12 @@ Object.defineProperty(BreadCrumbsPath, 'defaultProps', {
 });
 
 /**
+ * @name Controls/_breadcrumbs/HeadingPath#backButtonFontSize
+ * @cfg {String} Размер шрифта кнопки "Назад".
+ * @demo Controls-demo/BreadCrumbs/backButtonFontSize/Index
+ */
+
+/**
  * @name Controls/_breadcrumbs/HeadingPath#backButtonNewIcon
  * @cfg {Boolean} Отображение кнопки "Назад" в новом дизайне.
  * @default false
