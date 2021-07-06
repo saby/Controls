@@ -2,14 +2,5 @@
             controls-ArrowButton_inlineHeight-{{_options.inlineHeight}}
             controls-ArrowButton-{{_options.readOnly? 'readOnly' : 'active'}}"
      on:click="_clickHandler()">
-    <ws:if data="{{_options.direction === 'up' || _options.direction === 'down'}}">
-        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
-             class="controls-ArrowButton_icon controls-icon_size-{{ _options.iconSize }}
-                    controls-ArrowButton_icon_direction-{{_options.direction}}">
-            <path d="M8 5L15 10.5H13L8 6.8L3 10.5H1L8 5Z"/>
-        </svg>
-    </ws:if>
-    <ws:else>
-        <span class="{{_getIconClass()}}"></span>
-    </ws:else>
+    <span class="{{_getIconClass()}}"></span>
 </div>
