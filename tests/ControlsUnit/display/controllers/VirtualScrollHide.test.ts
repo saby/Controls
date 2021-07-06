@@ -32,7 +32,7 @@ describe('Controls/_display/controllers/VirtualScrollHide', () => {
         const collection = {
             _$version: 0,
             nextVersion: () => collection._$version++,
-
+            _$items: Array.from({ length: 100 }).map((_) => ({})),
             _$count: 100,
             getCount: () => collection._$count,
 
@@ -41,7 +41,7 @@ describe('Controls/_display/controllers/VirtualScrollHide', () => {
             setViewIterator: (viewIterator) => collection._$viewIterator = viewIterator,
 
             getEnumerator: () => null,
-            at: (index) => null
+            at: (index) => collection._$items[index]
         };
         return collection;
     }
@@ -122,7 +122,7 @@ describe('Controls/_display/controllers/VirtualScrollHide', () => {
     });
 
     describe('isItemAtIndexHidden()', () => {
-        it('returns true if item is visible', () => {
+        it('returns true if item is hidden', () => {
             const collection = makeCollection();
 
             collection._$viewIterator = {
@@ -142,6 +142,18 @@ describe('Controls/_display/controllers/VirtualScrollHide', () => {
                 'item at startIndex should be visible');
             assert.isTrue(VirtualScrollHideController.isItemAtIndexHidden(collection, 25),
                 'item at stopIndex should not be visible');
+
+            collection.at(0).isSticked = () => true;
+            collection.at(5).isSticked = () => true;
+            collection.at(30).isSticked = () => true;
+            collection.at(35).isSticked = () => true;
+
+            // Ближние к границам диапазона застиканные записи должны быть видны.
+            assert.isFalse(VirtualScrollHideController.isItemAtIndexHidden(collection, 5));
+            assert.isFalse(VirtualScrollHideController.isItemAtIndexHidden(collection, 30));
+
+            assert.isTrue(VirtualScrollHideController.isItemAtIndexHidden(collection, 0));
+            assert.isTrue(VirtualScrollHideController.isItemAtIndexHidden(collection, 35));
         });
     });
 });

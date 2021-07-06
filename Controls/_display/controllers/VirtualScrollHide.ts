@@ -4,6 +4,7 @@ import { EnumeratorCallback } from 'Types/collection';
 export interface IVirtualScrollHideItem {
     setRendered(rendered: boolean): void;
     isRendered(): boolean;
+    isSticked(): boolean;
 }
 
 export interface IVirtualScrollHideEnumerator extends VirtualScroll.IVirtualScrollEnumerator {
@@ -62,10 +63,34 @@ export function isItemAtIndexHidden(
     collection: IVirtualScrollHideCollection,
     index: number
 ): boolean {
-    return (
-        index < VirtualScroll.getStartIndex(collection) ||
-        index >= VirtualScroll.getStopIndex(collection)
-    );
+    const start = VirtualScroll.getStartIndex(collection);
+    const stop = VirtualScroll.getStartIndex(collection);
+    const current = collection.at(index);
+    const isSticky = current && current.isSticked && current.isSticked();
+
+    if (isSticky) {
+        let tempIndex = index + 1;
+        let tempItem;
+        while (tempIndex < start) {
+            tempItem = collection.at(tempIndex);
+            if (tempItem && tempItem.isSticked && tempItem.isSticked()) {
+                return true;
+            }
+            tempIndex++;
+        }
+        tempIndex = index - 1;
+        while (tempIndex >= stop) {
+            tempItem = collection.at(tempIndex);
+            if (tempItem && tempItem.isSticked && tempItem.isSticked()) {
+                return true;
+            }
+            tempIndex--;
+        }
+
+        return false;
+    }
+
+    return ( index < start || index >= stop );
 }
 
 function _applyRenderedItems(collection: IVirtualScrollHideCollection): void {
