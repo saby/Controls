@@ -6,6 +6,7 @@ import CollectionItem from './CollectionItem';
 import {default as LoadingIndicatorStrategy} from './itemsStrategy/LoadingIndicator';
 import {TLoadingIndicatorPosition} from './LoadingIndicator';
 import {ISession} from "Types/_collection/enumerableComparator";
+import {TLoadingTriggerPosition} from "Controls/_display/LoadingTrigger";
 
 export interface ITriggerOffset {
     top: number;
@@ -35,6 +36,19 @@ export default abstract class LoadingIndicatorMixin<
 
         const session = this._startUpdateSession();
         const changed = strategy.hideIndicator(position);
+        if (changed) {
+            this._reSort();
+            this._reFilter();
+            this._nextVersion();
+            this._finishUpdateSession(session);
+        }
+    }
+
+    showTopTrigger(): void {
+        const strategy = this._getLoadingIndicatorStrategy();
+
+        const session = this._startUpdateSession();
+        const changed = strategy.showTrigger('top');
         if (changed) {
             this._reSort();
             this._reFilter();

@@ -128,10 +128,12 @@ import TreeItemDecorator from 'Controls/_display/TreeItemDecorator';
 export {IItemsStrategy, IItemsStrategyOptions};
 
 import {Footer} from './_display/Footer';
-import LoadingIndicator from 'Controls/_display/LoadingIndicator';
 export {Footer};
 
+import LoadingIndicator from 'Controls/_display/LoadingIndicator';
+import LoadingTrigger from 'Controls/_display/LoadingTrigger';
 export {ITriggerOffset} from 'Controls/_display/LoadingIndicatorMixin';
+export {TOP_TRIGGER_ID, BOTTOM_TRIGGER_ID} from 'Controls/_display/LoadingTrigger';
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});
@@ -147,4 +149,6 @@ register('Controls/display:TreeChildren', TreeChildren, {instantiate: false});
 register('Controls/display:TreeItem', TreeItem, {instantiate: false});
 register('Controls/display:TreeItemDecorator', TreeItemDecorator, {instantiate: false});
 register('Controls/display:Footer', Footer, {instantiate: false});
+
 register('Controls/display:LoadingIndicator', LoadingIndicator, {instantiate: false});
+register('Controls/display:LoadingTrigger', LoadingTrigger, {instantiate: false});

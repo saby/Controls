@@ -8,6 +8,7 @@ import * as forTemplate from 'wml!Controls/_list/Render/For';
 import 'css!Controls/list';
 import {isEqual} from "Types/object";
 import {_Options} from 'UI/Vdom';
+import {BOTTOM_TRIGGER_ID, TOP_TRIGGER_ID} from 'Controls/display';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -261,6 +262,14 @@ var ListView = BaseControl.extend(
 
         getItemsContainer: function() {
             return this._children.itemsContainer;
+        },
+
+        getTopTrigger(): HTMLElement {
+            return document.getElementById(TOP_TRIGGER_ID);
+        },
+
+        getBottomTrigger(): HTMLElement {
+            return document.getElementById(BOTTOM_TRIGGER_ID);
         },
 
         _onItemClick: function(e, dispItem) {

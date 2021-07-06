@@ -85,7 +85,7 @@
 </ws:template>
 
 <ws:template name="emptyTemplateIf">
-    <ws:if data="{{__needShowEmptyTemplate(_options.emptyTemplate, _listViewModel, _options.emptyTemplateColumns)}}">
+    <ws:if data="{{__needShowEmptyTemplate()}}">
         <div class="controls-BaseControl__emptyTemplate">
           <div class="controls-BaseControl__emptyTemplate__contentWrapper">
             <!-- Прокидываем items и filter в emptyTemplate для правильной работы системы помощи.
@@ -98,7 +98,7 @@
 
 <ws:template name="viewTpl">
     <div class="controls-BaseControl__viewContainer
-                {{ __needShowEmptyTemplate(_options.emptyTemplate, _listViewModel, _options.emptyTemplateColumns) ? 'controls-BaseControl__viewContainer_empty' }}"
+                {{ __needShowEmptyTemplate() ? 'controls-BaseControl__viewContainer_empty' }}"
          name="viewContainer">
        <!-- render _viewName -->
         <ws:partial
@@ -108,7 +108,7 @@
                 scope="{{_options}}"
                 loadingState="{{_showLoadingIndicator ? _loadingIndicatorState}}"
                 _needBottomPadding="{{_needBottomPadding}}"
-                needShowEmptyTemplate="{{ __needShowEmptyTemplate(_options.emptyTemplate, _listViewModel, _options.emptyTemplateColumns) }}"
+                needShowEmptyTemplate="{{ __needShowEmptyTemplate() }}"
                 listModel="{{_listViewModel}}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
                 preventServerSideColumnScroll="{{ !_useServerSideColumnScroll }}"

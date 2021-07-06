@@ -1,7 +1,5 @@
-<div if="{{ item.shouldDisplayTrigger('before') }}" id="{{ item.getTriggerId() }}" style="{{ item.getTriggerStyles() }}" attr:key="{{ item.key + 'trigger' }}"/>
 <div class="{{ item.getClasses() }}" data-qa="{{ item.getQAData() }}">
    <div class="controls-BaseControl__loadingIndicatorImg-wrapper">
       <div class="controls-BaseControl__loadingIndicatorImg"/>
    </div>
 </div>
-<div if="{{ item.shouldDisplayTrigger('after') }}" id="{{ item.getTriggerId() }}" style="{{ item.getTriggerStyles() }}" attr:key="{{ item.key + 'trigger' }}"/>

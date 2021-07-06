@@ -5,6 +5,7 @@ import {DestroyableMixin, Model} from 'Types/entity';
 import {mixin} from 'Types/util';
 import {default as LoadingIndicatorItem, TLoadingIndicatorPosition} from '../LoadingIndicator';
 import {ITriggerOffset} from '../LoadingIndicatorMixin';
+import LoadingTrigger, {TLoadingTriggerPosition} from '../LoadingTrigger';
 
 export const DEFAULT_TOP_TRIGGER_OFFSET = -1;
 export const DEFAULT_BOTTOM_TRIGGER_OFFSET = 0;
@@ -30,6 +31,9 @@ export default class LoadingIndicator<
     protected _bottomIndicator: LoadingIndicatorItem = null;
     protected _globalIndicator: LoadingIndicatorItem = null;
 
+    protected _topTrigger: LoadingTrigger = null;
+    protected _bottomTrigger: LoadingTrigger = null;
+
     constructor(options: IOptions<S, T>) {
         super();
         this._options = options;
@@ -54,11 +58,18 @@ export default class LoadingIndicator<
     get items(): T[] {
         const items = this.source.items.slice();
 
-        if (this._topIndicator) {
-            items.unshift(this._topIndicator as any as T);
+        if (this._getTrigger('top')) {
+            items.unshift(this._getTrigger('top') as any as T);
         }
-        if (this._bottomIndicator) {
-            items.push(this._bottomIndicator as any as T);
+        if (this._getIndicator('top')) {
+            items.unshift(this._getIndicator('top') as any as T);
+        }
+
+        if (this._getTrigger('bottom')) {
+            items.push(this._getTrigger('bottom') as any as T);
+        }
+        if (this._getIndicator('bottom')) {
+            items.push(this._getIndicator('bottom') as any as T);
         }
 
         return items;
@@ -80,6 +91,10 @@ export default class LoadingIndicator<
         this._topIndicator = null;
         this._bottomIndicator = null;
         this._globalIndicator = null;
+
+        this._topTrigger = null;
+        this._bottomTrigger = null;
+
         return this.source.reset();
     }
 
@@ -89,26 +104,39 @@ export default class LoadingIndicator<
 
     getDisplayIndex(collectionIndex: number): number {
         const sourceIndex = this.source.getDisplayIndex(collectionIndex);
-        // на индекс может повлиять только верхний индикатор, нижний всегда находится после всех элементов
-        const itemIndex = this._topIndicator ? sourceIndex + 1 : sourceIndex;
+        const offset = this._getIndexOffset();
+        const itemIndex = sourceIndex + offset;
         return itemIndex === -1 ? this.items.length : itemIndex;
     }
 
     getCollectionIndex(displayIndex: number): number {
         const sourceIndex = this.source.getCollectionIndex(displayIndex);
-        // на индекс может повлиять только верхний индикатор, нижний всегда находится после всех элементов
-        return this._topIndicator ? sourceIndex - 1 : sourceIndex;
+        const offset = this._getIndexOffset();
+        return sourceIndex - offset;
+    }
+
+    private _getIndexOffset(): number {
+        let offset = 0;
+
+        // на индекс может повлиять только верхний индикатор и триггер, нижний всегда находится после всех элементов
+        if (this._getIndicator('top')) {
+            offset++;
+        }
+        if (this._getTrigger('top')) {
+            offset++;
+        }
+
+        return offset;
     }
 
     // endregion
 
-    // region LoadingIndicator
+    // region Indicator
 
     showIndicator(position: TLoadingIndicatorPosition): boolean {
         const indicatorIsHidden  = !this._getIndicator(position);
         if (indicatorIsHidden) {
-            const indicatorName = this._getIndicatorName(position);
-            this[indicatorName] = this._createIndicator(position);
+            this._createIndicator(position);
         }
         return indicatorIsHidden;
     }
@@ -120,28 +148,6 @@ export default class LoadingIndicator<
         return indicatorIsShowed;
     }
 
-    setTriggerOffset(offset: ITriggerOffset): boolean {
-        let changed = false;
-        if (this._topIndicator) {
-            changed = changed || this._topIndicator.setTriggerOffset(offset.top);
-        }
-        if (this._bottomIndicator) {
-            changed = changed || this._bottomIndicator.setTriggerOffset(offset.bottom);
-        }
-        return changed;
-    }
-
-    private _createIndicator(position: TLoadingIndicatorPosition): LoadingIndicatorItem {
-        // У верхнего индикатора оффсет должен быть изначально -1, иначе обсервер сразу сработает
-        // TODO LI а возможно и не нужен такой оффсет, ведь теперь обсервер пересоздавать придется. ПРОВЕРИТЬ.
-        const triggerOffset = position === 'top' ? DEFAULT_TOP_TRIGGER_OFFSET : DEFAULT_BOTTOM_TRIGGER_OFFSET;
-        return this.options.display.createItem({
-            itemModule: 'Controls/display:LoadingIndicator',
-            position,
-            triggerOffset
-        }) as any as LoadingIndicatorItem;
-    }
-
     private _getIndicatorName(position: TLoadingIndicatorPosition): string {
         return `_${position}Indicator`;
     }
@@ -151,7 +157,68 @@ export default class LoadingIndicator<
         return this[indicatorName];
     }
 
-    // endregion LoadingIndicator
+    private _createIndicator(position: TLoadingIndicatorPosition): void {
+        const indicator = this.options.display.createItem({
+            itemModule: 'Controls/display:LoadingIndicator',
+            position
+        }) as any as LoadingIndicatorItem;
+
+        const indicatorName = this._getIndicatorName(position);
+        this[indicatorName] = indicator;
+    }
+
+    // endregion Indicator
+
+    // region Trigger
+
+    showTrigger(position: TLoadingTriggerPosition): boolean {
+        const trigger = this._getTrigger(position);
+        return trigger.show();
+    }
+
+    setTriggerOffset(offset: ITriggerOffset): boolean {
+        let changed = false;
+        if (this._topTrigger) {
+            changed = changed || this._topTrigger.setOffset(offset.top);
+        }
+        if (this._bottomTrigger) {
+            changed = changed || this._bottomTrigger.setOffset(offset.bottom);
+        }
+        return changed;
+    }
+
+    private _getTriggerName(position: TLoadingTriggerPosition): string {
+        return `_${position}Trigger`;
+    }
+
+    private _getTrigger(position: TLoadingTriggerPosition): LoadingTrigger {
+        const triggerName = this._getTriggerName(position);
+
+        let trigger = this[triggerName];
+        if (!trigger) {
+            this._createTrigger(position);
+        }
+        return this[triggerName];
+    }
+
+    private _createTrigger(position: TLoadingTriggerPosition): void {
+        const isTopTrigger = position === 'top';
+        // У верхнего триггера оффсет должен быть изначально -1, иначе обсервер сразу сработает
+        // TODO LI а возможно и не нужен такой оффсет, ведь теперь обсервер пересоздавать придется. ПРОВЕРИТЬ.
+        const offset = isTopTrigger ? DEFAULT_TOP_TRIGGER_OFFSET : DEFAULT_BOTTOM_TRIGGER_OFFSET;
+        const visible = !isTopTrigger;
+        const trigger = this.options.display.createItem({
+            itemModule: 'Controls/display:LoadingTrigger',
+            position,
+            offset,
+            visible
+        }) as any as LoadingTrigger;
+
+        const triggerName = this._getTriggerName(position);
+        this[triggerName] = trigger;
+    }
+
+    // endregion Trigger
 }
 
 Object.assign(LoadingIndicator.prototype, {
