@@ -536,6 +536,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 // FIXME для совместимости, т.к. сейчас люди задают опции, которые требуетюся для запроса
                 //  и на списке и на Browser'e
                 const sourceControllerState = options.sourceController.getState();
+                this._validateSourceControllerOptions(options.sourceController, options);
 
                 if (options.parentProperty && sourceControllerState.parentProperty !== options.parentProperty ||
                     options.root !== undefined && options.root !== sourceControllerState.root) {
@@ -767,10 +768,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (sourceController) {
             sourceController.setNodeDataMoreLoadCallback(this._nodeDataMoreLoadCallback);
+            this._validateSourceControllerOptions(sourceController, newOptions);
 
             const sourceControllerState = sourceController.getState();
             if (newOptions.parentProperty && sourceControllerState.parentProperty !== newOptions.parentProperty) {
-                Logger.error('TreeControl: для корректной работы опцию parentProperty необходимо задавать на Controls/list:DataContainer (Layout/browsers:Browser)', this);
                 updateSourceController = true;
             }
         }
@@ -1443,6 +1444,20 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             this, this._options, this._listViewModel.getCollection(), this._listViewModel.getExpandedItems()
         );
         this._listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(this.getSourceController(), expandedItems));
+    }
+
+    protected _validateSourceControllerOptions(
+        sourceController: NewSourceController,
+        options: ITreeControlOptions
+    ): void {
+        const sourceControllerState = sourceController.getState();
+        const logError = (optionName) => {
+            Logger.error(`TreeControl: для корректной работы опцию ${optionName} необходимо задавать на Controls/list:DataContainer (Layout/browsers:Browser)`, this);
+        };
+
+        if (options.parentProperty && sourceControllerState.parentProperty !== options.parentProperty) {
+                logError('parentProperty');
+        }
     }
 
     static getDefaultOptions() {
