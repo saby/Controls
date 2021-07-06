@@ -246,9 +246,16 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          let isSelected;
          if (item['[Controls/_display/BreadcrumbsItem]']) {
             isSelected = this._getBreadcrumbsSelected(item, selectionWithEntryPath);
-         } else if (parent['[Controls/_display/BreadcrumbsItem]']) {
+            if (isSelected === false) {
+               isSelected = this._getStateNode(item, isSelected, selectionWithEntryPath);
+               // хлебная крошка не модет быть полностью выбрана исходя из выбора детей
+               if (isSelected === true) {
+                  isSelected = null;
+               }
+            }
+         } else if (parent['[Controls/_display/BreadcrumbsItem]'] && !inSelected) {
             const parentIsSelected = this._getBreadcrumbsSelected(parent, selectionWithEntryPath);
-            isSelected = parentIsSelected === null && !inExcluded;
+            isSelected = parentIsSelected !== false && !inExcluded;
          } else {
             const isNode = this._isNode(item);
             if (!this._selectAncestors && !this._selectDescendants) {
@@ -288,7 +295,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return selectedItems;
    }
 
-   private _getBreadcrumbsSelected(item: BreadcrumbsItem, selection: ISelection): false|null {
+   private _getBreadcrumbsSelected(item: BreadcrumbsItem, selection: ISelection): boolean|null {
       const keys = item.getContents().map((it) => it.getKey());
       // разворачиваем ключи в обратном порядке, т.к. элементы с конца имеют больше приоритет в палне выбранности
       // т.к. если выбрать вложенную папку, то не зависимо от выбранности родителей она будет выбрана
@@ -300,12 +307,15 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       // или выбранный элемент находится ближе к концу крошки(глубже по иерархии) чем исключенный
       const hasSelected = selectedKeyIndex !== -1;
       const hasExcluded = excludedKeyIndex !== -1;
-      const isSelected = this._isAllSelectedInRoot(selection)
-          ? !hasExcluded
-          : hasSelected && (!hasExcluded || selectedKeyIndex < excludedKeyIndex);
-      // null - значит хлебная крошка выбрана, она может быть выбрана только частично,
-      // т.к. хлебная крошка представляет только часть папки
-      return isSelected ? null : false;
+
+      let isSelected;
+      if (this._isAllSelectedInRoot(selection)) {
+         // Если нажали выбрать все, то выбирается все что найдено, то есть сама хлебная крошка не выбрана
+         isSelected = !hasExcluded ? null : false;
+      } else {
+         isSelected = hasSelected && (!hasExcluded || selectedKeyIndex < excludedKeyIndex);
+      }
+      return isSelected;
    }
 
    getCount(selection: ISelection, hasMoreData: boolean, limit?: number): number|null {
