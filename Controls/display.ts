@@ -107,9 +107,6 @@ export {ILadderObject, IStickyColumn, ILadderConfig, IStickyLadderConfig, TLadde
 export {default as isFullGridSupport} from './_display/utils/GridSupportUtil';
 export {default as GridLayoutUtil} from './_display/utils/GridLayoutUtil';
 
-import * as EditInPlaceController from './_display/controllers/EditInPlace';
-
-export { EditInPlaceController };
 import * as VirtualScrollController from './_display/controllers/VirtualScroll';
 
 export { VirtualScrollController };
