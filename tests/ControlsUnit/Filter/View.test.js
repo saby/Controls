@@ -702,27 +702,64 @@ define(
             assert.strictEqual(view._filterText, 'Author: Ivanov K.K., test_extended');
          });
 
-         it('_getFastText', function() {
-            let view = getView(defaultConfig);
-            let config = {
-               displayProperty: 'title',
-               keyProperty: 'id',
-               emptyText: 'empty text',
-               emptyKey: 'empty',
-               items: new collection.RecordSet({
-                  rawData: [
-                     {id: null, title: 'Reset'},
-                     {id: '1', title: 'Record 1'},
-                     {id: '2', title: 'Record 2'},
-                     {id: '3', title: 'Record 3'}
-                  ]
-               })
-            };
-            let display = view._getFastText(config, [null]);
-            assert.strictEqual(display.text, 'Reset');
+         describe('_getFastText', function() {
+            it('with items', () => {
+               let view = getView(defaultConfig);
+               let config = {
+                  displayProperty: 'title',
+                  keyProperty: 'id',
+                  emptyText: 'empty text',
+                  emptyKey: 'empty',
+                  items: new collection.RecordSet({
+                     rawData: [
+                        {id: null, title: 'Reset'},
+                        {id: '1', title: 'Record 1'},
+                        {id: '2', title: 'Record 2'},
+                        {id: '3', title: 'Record 3'}
+                     ]
+                  })
+               };
+               let display = view._getFastText(config, [null]);
+               assert.strictEqual(display.text, 'Reset');
 
-            display = view._getFastText(config, ['empty']);
-            assert.strictEqual(display.text, 'empty text');
+               display = view._getFastText(config, ['empty']);
+               assert.strictEqual(display.text, 'empty text');
+            });
+
+            it('with displayText', () => {
+               let view = getView(defaultConfig);
+               const item = {
+                  name: 'org',
+                  value: [],
+                  resetValue: null,
+                  textValue: '',
+                  displayTextValue: {
+                     title: 'Очень длинный title который надо удалить',
+                     hasMoreText: 'Еще 10',
+                     text: 'Организация'
+                  }
+               };
+               let config = {
+                  displayProperty: 'title',
+                  keyProperty: 'id',
+                  emptyText: 'empty text',
+                  emptyKey: 'empty'
+               };
+               let display = view._getFastText(config, [], item);
+               assert.deepEqual(display, {
+                  title: '',
+                  hasMoreText: 'Еще 10',
+                  text: 'Организация'
+               });
+
+               item.textValue = 'А вот это title';
+               display = view._getFastText(config, [], item);
+               assert.deepEqual(display, {
+                  title: 'А вот это title',
+                  hasMoreText: 'Еще 10',
+                  text: 'Организация'
+               });
+            });
          });
 
          it('_getKeysUnloadedItems', function() {

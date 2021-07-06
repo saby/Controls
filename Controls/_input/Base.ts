@@ -200,8 +200,8 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     protected _horizontalPadding: string;
     private _isBrowserPlatform: boolean;
 
-    constructor(cfg: IBaseInputOptions) {
-        super(cfg);
+    constructor(cfg: IBaseInputOptions, context?: object) {
+        super(cfg, context);
 
         this._isIE = detection.isIE;
         this._ieVersion = detection.IEVersion;

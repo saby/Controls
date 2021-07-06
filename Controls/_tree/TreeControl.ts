@@ -503,8 +503,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     private _mouseDownExpanderKey: TKey;
     private _expandedItemsToNotify: TKey[];
 
-    constructor(options: TOptions) {
-        super(options);
+    constructor(options: TOptions, context?: object) {
+        super(options, context);
         this._expandNodeOnDrag = this._expandNodeOnDrag.bind(this);
         this._nodeDataMoreLoadCallback = this._nodeDataMoreLoadCallback.bind(this);
         if (typeof options.root !== 'undefined') {

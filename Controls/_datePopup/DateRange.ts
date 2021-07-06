@@ -43,8 +43,8 @@ export default class DateRange extends Control<IDatePopupDateRangeOptions> {
     private _singleDayHover: boolean = true;
     private _shouldUpdateMonthsPosition: boolean = true;
 
-    constructor(options: IDatePopupDateRangeOptions) {
-        super(options);
+    constructor(options: IDatePopupDateRangeOptions, context?: object) {
+        super(options, context);
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
         // Нет необходимости передавать опцию hoveredStartValue и hoveredEndValue, если ховер работает только по одному

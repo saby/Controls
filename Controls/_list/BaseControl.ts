@@ -3591,8 +3591,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     //#endregion
 
-    constructor(options) {
-        super(options || {});
+    constructor(options, context) {
+        super(options || {}, context);
         options = options || {};
         this._validateController = new ControllerClass();
         this.__errorController = options.errorController || new dataSourceError.Controller({});
