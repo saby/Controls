@@ -86,8 +86,8 @@ class Field<Value, ModelOptions>
 
     readonly '[Controls/input:IField]': boolean = true;
 
-    constructor(cfg: IFieldOptions<Value, ModelOptions>) {
-        super(cfg);
+    constructor(cfg: IFieldOptions<Value, ModelOptions>, context?: object) {
+        super(cfg, context);
 
         this._selectionFromFieldToModel = this._selectionFromFieldToModel.bind(this);
     }

@@ -147,7 +147,7 @@ let _private = {
  * @class Controls/_lookupPopup/List/Container
  * @extends UI/Base:Control
  * @mixes Controls/interface:IMultiSelectable
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -165,7 +165,7 @@ let _private = {
  * @class Controls/_lookupPopup/List/Container
  * @extends UI/Base:Control
  * @mixes Controls/interface:IMultiSelectable
- * 
+ *
  * @public
  * @author Герасимов Александр Максимович
  */
@@ -176,8 +176,8 @@ let Container = Control.extend({
    _markedKey: null,
    _itemsActions: null,
 
-   constructor(options) {
-      Container.superclass.constructor.call(this, options);
+   constructor(options, context) {
+      Container.superclass.constructor.call(this, options, context);
    },
 
    _beforeMount(options): void {
