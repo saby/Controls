@@ -174,6 +174,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     protected _isMobileIOS: boolean = null;
 
     protected _placeholderVisibility: PLACEHOLDER_VISIBILITY = null;
+    protected _placeholderDisplay: string = null;
     /**
      * @type {Boolean|null} Determined whether to hide the placeholder using css.
      * @private
@@ -262,6 +263,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._placeholderVisibility = (this._autoComplete === 'off' || this._hidePlaceholderUsingCSS) ?
             options.placeholderVisibility :
             PLACEHOLDER_VISIBILITY.HIDDEN;
+        this._updatePlaceholderDisplay(options);
     }
 
     protected _afterMount(options: IBaseInputOptions): void {
@@ -275,6 +277,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._updateSelectionByOptions(newOptions);
         this._updateHorizontalPadding(newOptions);
         this._updatePlaceholderVisibility(newOptions);
+        this._updatePlaceholderDisplay(newOptions);
     }
 
     /**
@@ -283,6 +286,12 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
      */
     protected _renderStyle(): string {
         return '';
+    }
+
+    private _updatePlaceholderDisplay(options: IBaseInputOptions): void {
+        if (this._options.placeholder !== options.placeholder) {
+            this._placeholderDisplay = (typeof options.placeholder !== "string" ? 'under' : 'above');
+        }
     }
 
     private _updatePlaceholderVisibility(options: IBaseInputOptions): void {

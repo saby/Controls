@@ -36,7 +36,7 @@
          on:keypress="_keyPressHandler()"/>
    </ws:partial>
    <ws:if data="{{!value}}">
-      <div class="controls-InputBase__placeholder">
+      <div class="controls-InputBase__placeholder controls-InputBase__placeholder_displayed-{{placeholderDisplay}}-caret">
          <ws:partial template="{{placeholderTemplate}}" on:click="_placeholderClickHandler()"/>
       </div>
    </ws:if>

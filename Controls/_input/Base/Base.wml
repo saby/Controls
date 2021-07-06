@@ -48,6 +48,7 @@
                      wasActionUser="{{_wasActionUser}}"
                      value="{{_viewModel.displayValue}}"
                      placeholderVisibility="{{_placeholderVisibility}}"
+                     placeholderDisplay="{{_placeholderDisplay}}"
                      hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
                      isBrowserPlatform="{{_isBrowserPlatform}}"
                      inputKey="{{ _inputKey }}"
