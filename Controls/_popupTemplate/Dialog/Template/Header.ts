@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_popupTemplate/Dialog/DialogHeader';
+import * as template from 'wml!Controls/_popupTemplate/Dialog/Template/Header';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import 'css!Controls/popupTemplate';
 

@@ -1,36 +1,19 @@
-import {default as BaseController, IDragOffset, RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
-import {IPopupItem, IPopupOptions, IPopupSizes, IPopupPosition, Controller as ManagerController} from 'Controls/popup';
+import {default as BaseController, RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
+import {IPopupItem, IDialogPopupOptions, IPopupSizes, IPopupPosition, Controller as ManagerController, IDragOffset} from 'Controls/popup';
 import {detection} from 'Env/Env';
 import {List} from 'Types/collection';
 import * as Deferred from 'Core/Deferred';
-import DialogStrategy = require('Controls/_popupTemplate/Dialog/Opener/DialogStrategy');
+import DialogStrategy from 'Controls/_popupTemplate/Dialog/DialogStrategy';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
-import {IResizeDirection} from 'Controls/_popup/interface/IDialog';
 import {getPositionProperties, HORIZONTAL_DIRECTION, VERTICAL_DIRECTION} from './DirectionUtil';
 
-interface IDialogItem extends IPopupItem {
+export interface IDialogItem extends IPopupItem {
     hasSavedPosition: boolean;
-    popupOptions: IDialogOptions;
+    popupOptions: IDialogPopupOptions;
     startPosition: IPopupPosition;
     dragged: boolean;
     targetCoords: object;
-}
-
-interface IDialogOptions extends IPopupOptions {
-    maximize: boolean;
-    top?: number;
-    left?: number;
-    right?: number;
-    bottom?: number;
-    resizeDirection?: IResizeDirection;
-    propStorageId: string;
-}
-
-interface IWindow {
-    width?: number;
-    height?: number;
-    scrollTop?: number;
-    scrollLeft?: number;
+    contextIsTouch: boolean;
 }
 
 const IPAD_MIN_WIDTH = 1024;
@@ -46,13 +29,13 @@ class DialogController extends BaseController {
     TYPE: string = 'Dialog';
     _dialogList: List<IDialogItem> = new List();
 
-    elementCreated(item: IDialogItem, container: HTMLDivElement): boolean {
+    elementCreated(item: IDialogItem, container: HTMLElement): boolean {
         this._prepareConfigWithSizes(item, container);
         this._dialogList.add(item);
         return true;
     }
 
-    elementUpdated(item: IDialogItem, container: HTMLDivElement): boolean {
+    elementUpdated(item: IDialogItem, container: HTMLElement): boolean {
         /* start: We remove the set values that affect the size and positioning to get the real size of the content */
         const width: string = container.style.width;
         const height: string = container.style.height;
@@ -118,7 +101,7 @@ class DialogController extends BaseController {
         }
     }
 
-    popupDragStart(item: IDialogItem, container: HTMLDivElement, offset: IDragOffset): void {
+    popupDragStart(item: IDialogItem, container: HTMLElement, offset: IDragOffset): void {
         const {
             horizontal: horizontalProperty,
             vertical: verticalProperty
@@ -139,26 +122,26 @@ class DialogController extends BaseController {
         this._prepareConfig(item, item.sizes);
     }
 
-    popupDragEnd(item: IDialogItem): void {
+    popupDragEnd(item: IDialogItem, offset: number): void {
         this._savePopupCoords(item);
         delete item.startPosition;
     }
 
-    resizeOuter(item: IPopupItem, container: HTMLDivElement): boolean {
+    resizeOuter(item: IDialogItem, container: HTMLElement): boolean {
         // На ios ресайз страницы - это зум. Не реагируем на него.
         if (!detection.isMobileIOS) {
-            return this._elementUpdated(item, container);
+            return this.elementUpdatedWrapper(item, container);
         }
         // ресайз страницы это также смена ориентации устройства
         // если окно открыто на полный экран, то после переворота оно должно остаться на весь экран
         //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=1b290673-5722-41cb-8120-ad6af46e64aa
         if (window.innerWidth >= IPAD_MIN_WIDTH && item.popupOptions.maximize) {
-            return this._elementUpdated(item, container);
+            return this.elementUpdatedWrapper(item, container);
         }
         return false;
     }
 
-    resizeInner(item: IDialogItem, container: HTMLDivElement): boolean {
+    resizeInner(item: IDialogItem, container: HTMLElement): boolean {
         /* Если задан resizeDirection не перепозиционируем,
            т.к. это опция отвечает как раз за ресайз без изменения позиции */
         if (item.popupOptions?.resizeDirection) {
@@ -179,26 +162,27 @@ class DialogController extends BaseController {
         return true;
     }
 
-    dragNDropOnPage(item: IDialogItem, container: HTMLDivElement, isInsideDrag: boolean): boolean {
+    dragNDropOnPage(item: IDialogItem, container: HTMLElement, isInsideDrag: boolean): boolean {
         if (item.popupOptions.target) {
             if (!isInsideDrag && !item.hasSavedPosition) {
                 item.dragged = false;
                 this._prepareConfigWithSizes(item, container);
             }
         }
+        return false;
     }
 
-    _isIOS12(): boolean {
+    private _isIOS12(): boolean {
         return detection.isMobileIOS && detection.IOSVersion === 12;
     }
 
-    _prepareConfigWithSizes(item: IDialogItem, container: HTMLDivElement): void {
+    private _prepareConfigWithSizes(item: IDialogItem, container: HTMLElement): void {
         const sizes: IPopupSizes = this._getPopupSizes(item, container);
         item.sizes = sizes;
         this._prepareConfig(item, sizes);
     }
 
-    _prepareConfig(item: IDialogItem, sizes: IPopupSizes): void {
+    private _prepareConfig(item: IDialogItem, sizes: IPopupSizes): void {
         // After popup will be transferred to the synchronous change of coordinates,
         // we need to return the calculation of the position with the keyboard.
         // Positioning relative to body
@@ -280,7 +264,7 @@ class DialogController extends BaseController {
         item.position[horizontalPositionProperty] = item.popupOptions[horizontalPositionProperty] || defaultCoordinate;
     }
 
-    _hasMaximizePopup(): boolean {
+    private _hasMaximizePopup(): boolean {
         let hasMaximizePopup = false;
         this._dialogList.each((item: IDialogItem) => {
             if (item.popupOptions.maximize) {

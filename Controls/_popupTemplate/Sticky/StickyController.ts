@@ -351,11 +351,11 @@ export class StickyController extends BaseController {
         };
     }
 
-    _beforeUpdateOptions(item): void {
+    beforeUpdateOptions(item): void {
         // sticky must update on elementAfterUpdatePhase
     }
 
-    _afterUpdateOptions(item): void {
+    afterUpdateOptions(item): void {
         // sticky must update on elementAfterUpdatePhase
     }
 

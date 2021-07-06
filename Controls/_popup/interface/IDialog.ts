@@ -1,5 +1,5 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
-import {Control} from "UICore/Base";
+import {Control} from 'UICore/Base';
 import {IStickyPositionOffset} from 'Controls/_popup/interface/ISticky';
 
 export interface IDialogPopupOptions extends IBasePopupOptions {
@@ -17,7 +17,8 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
     maximize?: boolean;
     target?: HTMLElement | EventTarget | Control;
     offset?: IStickyPositionOffset;
-    restrictiveContainer?: string;
+    propStorageId?: string;
+    isCentered?: boolean;
 }
 
 /**
@@ -281,7 +282,6 @@ export interface IResizeDirection {
  * @see destroy
  * @see isOpened
  */
-
 
 /**
  * Разрушает экземпляр класса.

@@ -1,98 +1,91 @@
-import Deferred = require('Core/Deferred');
-import Utils = require('Types/util');
-import oldWindowManager from 'Controls/_popupTemplate/_oldWindowManager';
-import {Controller as ManagerController, IPopupItem, IPopupPosition, IPopupSizes} from 'Controls/popup';
+import {Controller as ManagerController, IPopupItem, IPopupPosition, IPopupSizes, IPopupController, IDragOffset} from 'Controls/popup';
 import * as TargetCoords from 'Controls/_popupTemplate/TargetCoords';
 import {Control} from 'UI/Base';
 import {goUpByControlTree} from 'UI/Focus';
 import {Logger} from 'UI/Utils';
 import {constants} from 'Env/Env';
+import oldWindowManager from 'Controls/_popupTemplate/_oldWindowManager';
+import * as Deferred from 'Core/Deferred';
 import * as cMerge from 'Core/core-merge';
 import * as cInstance from 'Core/core-instance';
 
-export interface IDragOffset {
-    x: number;
-    y: number;
-}
-
 export const RIGHT_PANEL_WIDTH = 54; // --width_stack-right_panel + borders
 
-let _fakeDiv: HTMLDivElement;
+let _fakeDiv: HTMLElement;
 /**
  * Base Popup Controller
  * @class Controls/_popupTemplate/BaseController
  * @author Красильников А.С.
  * @private
  */
-abstract class BaseController {
+abstract class BaseController implements IPopupController {
+    // Перед добавлением окна в верстку
+    POPUP_STATE_INITIALIZING: string = 'initializing';
+    // После добавления окна в верстку
+    POPUP_STATE_CREATED: string = 'created';
+    // Перед обновлением опций окна
+    POPUP_STATE_UPDATING: string = 'updating';
+    // После обновления опций окна
+    POPUP_STATE_UPDATED: string = 'updated';
+    // Окно начало удаление, перед всеми операциями по закрытию детей и пендингов
+    POPUP_STATE_START_DESTROYING: string = 'startDestroying';
+    // Окно в процессе удаления (используется где есть операции перед удалением, например анимация)
+    POPUP_STATE_DESTROYING: string = 'destroying';
+    // Окно удалено из верстки
+    POPUP_STATE_DESTROYED: string = 'destroyed';
 
-    POPUP_STATE_INITIALIZING: string = 'initializing'; // До того как окно замаунтилось
-    POPUP_STATE_CREATED: string = 'created'; // Окно замаунтилось
-    POPUP_STATE_UPDATING: string = 'updating'; // Перед обновлением опций окна
-    POPUP_STATE_UPDATED: string = 'updated'; // После обновления опций окна
-    POPUP_STATE_START_DESTROYING: string = 'startDestroying'; // Окно начало удаление, перед всеми операциями по закрытию детей и пендингов
-    POPUP_STATE_DESTROYING: string = 'destroying'; // Окно в процессе удаления (используется где есть операции перед удалением, например анимация)
-    POPUP_STATE_DESTROYED: string = 'destroyed'; // Окно удалено из верстки
-
-    abstract elementCreated(item: IPopupItem, container: HTMLDivElement): boolean;
-
-    abstract elementUpdated(item: IPopupItem, container: HTMLDivElement): boolean;
-
-    abstract elementAfterUpdated(item: IPopupItem, container: HTMLDivElement): boolean;
-
-    abstract elementMaximized(item: IPopupItem, container: HTMLDivElement, state: boolean): boolean;
-
-    abstract popupResizingLine(item: IPopupItem, offset: IDragOffset): boolean;
-
-    abstract popupDragStart(item: IPopupItem, container: HTMLDivElement, offset: IDragOffset): void;
-
-    abstract popupDragEnd(item: IPopupItem): void;
-
-    abstract popupMouseEnter(item: IPopupItem): void;
-
-    abstract popupMouseLeave(item: IPopupItem): void;
-
-    abstract elementAnimated(item: IPopupItem): boolean;
-
-    _elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
+    elementCreatedWrapper(item: IPopupItem, container: HTMLElement): boolean {
         if (this._checkContainer(item, container, 'elementCreated')) {
             item.popupState = this.POPUP_STATE_CREATED;
             oldWindowManager.addZIndex(item.currentZIndex);
-            return this.elementCreated && this.elementCreated.apply(this, arguments);
+            return this.elementCreated.apply(this, arguments);
         }
     }
-    _popupDragEnd(item: IPopupItem): boolean {
-        return this.popupDragEnd && this.popupDragEnd.apply(this, arguments);
+
+    protected elementCreated(item: IPopupItem, container: HTMLElement): boolean {
+        // method can be implemented
+        return false;
     }
-    _elementUpdated(item: IPopupItem, container: HTMLDivElement): boolean {
+
+    elementUpdatedWrapper(item: IPopupItem, container: HTMLElement): boolean {
         if (this._checkContainer(item, container, 'elementUpdated')) {
             if (item.popupState === this.POPUP_STATE_CREATED ||
                 item.popupState === this.POPUP_STATE_UPDATED ||
                 item.popupState === this.POPUP_STATE_UPDATING) {
                 item.popupState = this.POPUP_STATE_UPDATING;
-                this.elementUpdated && this.elementUpdated.apply(this, arguments);
+                this.elementUpdated.apply(this, arguments);
                 return true;
             }
         }
         return false;
     }
 
-    _elementAfterUpdated(item: IPopupItem, container: HTMLDivElement): boolean {
+    protected elementUpdated(item: IPopupItem, container: HTMLElement): boolean {
+        // method can be implemented
+        return false;
+    }
+
+    elementAfterUpdatedWrapper(item: IPopupItem, container: HTMLElement): boolean {
         if (this._checkContainer(item, container, 'elementAfterUpdated')) {
             // We react only after the update phase from the controller
             if (item.popupState === this.POPUP_STATE_UPDATING) {
                 item.popupState = this.POPUP_STATE_UPDATED;
-                return this.elementAfterUpdated && this.elementAfterUpdated.apply(this, arguments);
+                return this.elementAfterUpdated.apply(this, arguments);
             }
         }
         return false;
     }
 
-    _beforeElementDestroyed(item: IPopupItem, container: HTMLDivElement): void {
+    protected elementAfterUpdated(item: IPopupItem, container: HTMLElement): boolean {
+        // method can be implemented
+        return false;
+    }
+
+    beforeElementDestroyed(item: IPopupItem, container: HTMLElement): void {
         item.popupState = this.POPUP_STATE_START_DESTROYING;
     }
 
-    _elementDestroyed(item: IPopupItem, container: HTMLDivElement): Promise<undefined> {
+    elementDestroyedWrapper(item: IPopupItem, container: HTMLElement): Promise<void> {
         if (item.popupState === this.POPUP_STATE_INITIALIZING) {
             return (new Deferred()).callback();
         }
@@ -102,7 +95,7 @@ abstract class BaseController {
 
         if (item.popupState !== this.POPUP_STATE_DESTROYED) {
             item.popupState = this.POPUP_STATE_DESTROYING;
-            item._destroyDeferred = this.elementDestroyed && this.elementDestroyed.apply(this, arguments);
+            item._destroyDeferred = this.elementDestroyed.apply(this, arguments);
             return item._destroyDeferred.addCallback(() => {
                 oldWindowManager.removeZIndex(item.currentZIndex);
                 item.popupState = this.POPUP_STATE_DESTROYED;
@@ -111,23 +104,11 @@ abstract class BaseController {
         return (new Deferred()).callback();
     }
 
-    _elementMaximized(item: IPopupItem, container: HTMLDivElement, state: boolean): boolean {
-        return this.elementMaximized && this.elementMaximized(item, container, state);
+    protected elementDestroyed(item: IPopupItem): Promise<void> {
+        return (new Deferred()).callback();
     }
 
-    _popupResizingLine(item: IPopupItem, offset: IDragOffset): boolean {
-        return this.popupResizingLine && this.popupResizingLine(item, offset);
-    }
-
-    _elementAnimated(item: IPopupItem): boolean {
-        return this.elementAnimated && this.elementAnimated(item);
-    }
-
-    orientationChanged(item: IPopupItem, container: HTMLDivElement): boolean {
-        return this._elementUpdated(item, container);
-    }
-
-    getDefaultConfig(item: IPopupItem): void {
+    getDefaultConfig(item: IPopupItem): Promise<void> | void {
         item.position = {
             top: -10000,
             left: -10000,
@@ -144,57 +125,85 @@ abstract class BaseController {
         }
     }
 
-    _beforeUpdateOptions(item: IPopupItem): void {
+    beforeUpdateOptions(item: IPopupItem): void {
         item.popupState = item.controller.POPUP_STATE_INITIALIZING;
     }
 
-    _afterUpdateOptions(item: IPopupItem): void {
+    afterUpdateOptions(item: IPopupItem): void {
         item.popupState = item.controller.POPUP_STATE_CREATED;
     }
 
-    protected elementDestroyed(item: IPopupItem): Promise<undefined> {
-        return (new Deferred()).callback();
-    }
-
-    protected elementUpdateOptions(item: IPopupItem, container: HTMLDivElement): boolean | Promise<boolean> {
-        return this._elementUpdated(item, container);
-    }
-
-    protected pageScrolled(item: IPopupItem, container: HTMLDivElement): boolean {
-        return this._elementUpdated(item, container);
-    }
-
-    protected popupDeactivated(item: IPopupItem): void {
-        if (item.popupOptions.closeOnOutsideClick && ManagerController) {
-            ManagerController.remove(item.id);
-        }
-    }
-
-    protected resizeInner(item: IPopupItem, container: HTMLDivElement): boolean {
-        return this._elementUpdated(item, container);
-    }
-
-    protected resizeOuter(item: IPopupItem, container: HTMLDivElement): boolean {
-        return this._elementUpdated(item, container);
-    }
-
-    protected workspaceResize(): boolean {
-        return false;
-    }
-
-    protected dragNDropOnPage(item: IPopupItem, container: HTMLDivElement, isInsideDrag: boolean): boolean {
-        return false;
-    }
-
-    protected needRecalcOnKeyboardShow(): boolean {
-        return false;
-    }
-
-    protected needRestoreFocus(): boolean {
+    elementUpdateOptions(item: IPopupItem, container: HTMLElement): boolean | Promise<boolean> {
+        this.elementUpdatedWrapper(item, container);
         return true;
     }
 
-    protected _getPopupSizes(item: IPopupItem, container: HTMLDivElement): IPopupSizes {
+    elementAnimated(item: IPopupItem): boolean {
+        // method can be implemented
+        return false;
+    }
+
+    popupDragStart(item: IPopupItem, container: HTMLElement, offset: IDragOffset): void {
+        // method can be implemented
+    }
+
+    popupDragEnd(item: IPopupItem, offset: number): void {
+        // method can be implemented
+    }
+
+    elementMaximized(item: IPopupItem, container: HTMLElement, state: boolean): boolean {
+        // method can be implemented
+        return false;
+    }
+
+    popupResizingLine(item: IPopupItem, offset: number): boolean {
+        // method can be implemented
+        return false;
+    }
+
+    popupMouseEnter(item: IPopupItem): boolean {
+        // method can be implemented
+        return false;
+    }
+
+    popupMouseLeave(item: IPopupItem): boolean {
+        // method can be implemented
+        return false;
+    }
+
+    orientationChanged(item: IPopupItem, container: HTMLElement): boolean {
+        return this.elementUpdatedWrapper(item, container);
+    }
+
+    pageScrolled(item: IPopupItem, container: HTMLElement): boolean {
+        return this.elementUpdatedWrapper(item, container);
+    }
+
+    resizeInner(item: IPopupItem, container: HTMLElement): boolean {
+        return this.elementUpdatedWrapper(item, container);
+    }
+
+    resizeOuter(item: IPopupItem, container: HTMLElement): boolean {
+        return this.elementUpdatedWrapper(item, container);
+    }
+
+    workspaceResize(): boolean {
+        return false;
+    }
+
+    dragNDropOnPage(item: IPopupItem, container: HTMLElement, isInsideDrag: boolean): boolean {
+        return false;
+    }
+
+    needRecalcOnKeyboardShow(): boolean {
+        return false;
+    }
+
+    needRestoreFocus(): boolean {
+        return true;
+    }
+
+    protected _getPopupSizes(item: IPopupItem, container: HTMLElement): IPopupSizes {
         const containerSizes: IPopupSizes = this.getContentSizes(container);
 
         item.sizes = {
@@ -204,7 +213,7 @@ abstract class BaseController {
         return item.sizes;
     }
 
-    protected _getPopupContainer(id: string): HTMLDivElement {
+    protected _getPopupContainer(id: string): HTMLElement {
         const popupContainer = ManagerController.getContainer();
         const item = popupContainer && popupContainer._children[id];
         // todo https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
@@ -215,19 +224,19 @@ abstract class BaseController {
         return container;
     }
 
-    private _checkContainer(item: IPopupItem, container: HTMLDivElement, stage: string): boolean {
+    private _checkContainer(item: IPopupItem, container: HTMLElement, stage: string): boolean {
         if (!container) {
             // if popup has initializing state then container doesn't created yet
             if (item.popupState !== this.POPUP_STATE_INITIALIZING) {
                 const message = `Error when building the template ${item.popupOptions.template} on stage ${stage}`;
-                Utils.logger.error('Controls/popup', message);
+                Logger.error('Controls/popup', message);
             }
             return false;
         }
         return true;
     }
 
-    private getContentSizes(container?: HTMLDivElement = null): IPopupSizes {
+    private getContentSizes(container?: HTMLElement = null): IPopupSizes {
         // Чтобы размер контейнера не искажался при масштабировании использую getBoundingClientRect
         const sizes = container?.getBoundingClientRect();
         return {
@@ -256,10 +265,10 @@ abstract class BaseController {
         return goUpByControlTree(container);
     }
 
-    protected _getTargetCoords(cfg, sizes = {}) {
-        if (cfg.popupOptions.nativeEvent) {
-            const top = cfg.popupOptions.nativeEvent.clientY;
-            const left = cfg.popupOptions.nativeEvent.clientX;
+    protected _getTargetCoords(item: IPopupItem, sizes: IPopupSizes = {}) {
+        if (item.popupOptions.nativeEvent) {
+            const top = item.popupOptions.nativeEvent.clientY;
+            const left = item.popupOptions.nativeEvent.clientX;
             const size = 1;
             const positionCfg = {
                 direction: {
@@ -267,7 +276,7 @@ abstract class BaseController {
                     vertical: 'bottom'
                 }
             };
-            cMerge(cfg.popupOptions, positionCfg);
+            cMerge(item.popupOptions, positionCfg);
             sizes.margins = {top: 0, left: 0};
             return {
                 width: size,
@@ -293,7 +302,7 @@ abstract class BaseController {
                 leftScroll: 0
             };
         }
-        return TargetCoords.get(this._getTargetNode(cfg));
+        return TargetCoords.get(this._getTargetNode(item));
     }
 
     private _getTargetNode(item: IPopupItem): HTMLElement {
@@ -335,7 +344,7 @@ abstract class BaseController {
         };
     }
 
-    private _getFakeDiv(): HTMLDivElement {
+    private _getFakeDiv(): HTMLElement {
         if (!constants.isBrowserPlatform) {
             return {
                 marginLeft: 0,
@@ -353,7 +362,7 @@ abstract class BaseController {
         return _fakeDiv;
     }
 
-    private _getContainerStyles(container: Element): object {
+    private _getContainerStyles(container: Element): {marginTop: string, marginLeft: string} {
         return window.getComputedStyle(container);
     }
 

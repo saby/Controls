@@ -81,7 +81,7 @@ define(
             let itemConfig = {
                popupState: StickyController.POPUP_STATE_INITIALIZING
             };
-            let destroyDef = StickyController._elementDestroyed(itemConfig);
+            let destroyDef = StickyController.elementDestroyedWrapper(itemConfig);
             assert.equal(destroyDef.isReady(), true);
          });
 

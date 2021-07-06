@@ -1,11 +1,12 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls/_popupTemplate/Dialog/Dialog');
+import template = require('wml!Controls/_popupTemplate/Dialog/Template/Dialog');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Controller as ManagerController} from 'Controls/popup';
-import {default as IPopupTemplate, IPopupTemplateOptions} from './interface/IPopupTemplate';
+import {default as IPopupTemplate, IPopupTemplateOptions} from 'Controls/_popupTemplate/interface/IPopupTemplate';
 import 'css!Controls/popupTemplate';
 
 export interface IDialogTemplateOptions extends IControlOptions, IPopupTemplateOptions {
+
    draggable?: boolean;
    headerBackgroundStyle?: string;
    headerBorderVisible?: boolean;
