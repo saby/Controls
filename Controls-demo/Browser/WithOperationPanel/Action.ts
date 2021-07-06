@@ -1,7 +1,7 @@
 import {Confirmation} from 'Controls/popup';
-import {BaseAction} from 'Controls/defaultActions';
+import {MassAction} from 'Controls/actions';
 
-export default class extends BaseAction {
+export default class extends MassAction {
     protected _name: string = '';
     constructor(options) {
         super(options);
@@ -20,5 +20,15 @@ export default class extends BaseAction {
             type: 'ok'
         });
         return Promise.resolve('reload');
+    }
+
+    onSelectionChanged(items, selection): void {
+        if (this._$id === 'sum') {
+          if (selection.selected.length > 1) {
+              this._$iconStyle = 'success';
+          } else {
+              this._$iconStyle = 'label'
+          }
+        }
     }
 }

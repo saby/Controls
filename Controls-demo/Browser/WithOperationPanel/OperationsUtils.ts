@@ -47,32 +47,32 @@ export function getPanelData() {
             name: 'Разворот без разделов'
         },
         parent: null
-    }, {
-        id: 'sum',
-        '@parent': false,
-        icon: 'icon-Sum',
-        title: 'Суммировать',
-        actionName: 'Controls-demo/Browser/WithOperationPanel/Action',
-        actionOptions: {
-            name: 'Суммирование'
-        },
-        parent: null
-    }, {
-        actionName: 'Controls/defaultActions:Remove'
-    }, {
-        title: 'Sync del',
-        actionName: 'Controls/defaultActions:Remove',
-        commandOptions: {
-            providerName: 'Controls/listActions:RemoveProvider'
-        },
-        viewCommandName: 'Controls/viewCommands:AtomicRemove'
-    }, {
-        actionName: 'Controls/defaultActions:Move',
-        commandOptions: {
-            columns: [{
-                displayProperty: 'department'
-            }]
-        }
-
     }];
+}
+
+export function getAddedData() {
+    return [
+        {
+            id: 'sum',
+            '@parent': false,
+            icon: 'icon-Sum',
+            iconStyle: 'label',
+            title: 'Суммировать',
+            actionName: 'Controls-demo/Browser/WithOperationPanel/Action',
+            actionOptions: {
+                name: 'Суммирование'
+            },
+            parent: null
+        }, {
+            actionName: 'Controls/actions:Remove'
+        }, {
+            actionName: 'Controls/actions:Move',
+            commandOptions: {
+                columns: [{
+                    displayProperty: 'department'
+                }]
+            }
+
+        }
+    ];
 }

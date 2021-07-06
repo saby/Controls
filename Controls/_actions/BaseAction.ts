@@ -4,8 +4,8 @@ import {
     EventRaisingMixin,
     ObservableMixin
 } from 'Types/entity';
+import {merge} from 'Types/object';
 import {IAction} from './IAction';
-import {merge} from "Types/object";
 import {IExecuteCommandParams} from 'Controls/operations';
 import {IToolBarItem} from 'Controls/toolbars';
 
@@ -15,7 +15,7 @@ export interface IBaseAction {
 
 export interface IBaseActionOptions extends IAction {}
 
-const REACTIVE_PROPS = ['icon', 'iconStyle', 'title', 'tooltip', 'visibility'];
+const TOOLBAR_PROPS = ['icon', 'iconStyle', 'title', 'tooltip', 'visibility'];
 
 export default abstract class BaseAction extends mixin<ObservableMixin>(
     ObservableMixin
@@ -59,7 +59,7 @@ export default abstract class BaseAction extends mixin<ObservableMixin>(
     protected _$commandName: string;
     protected _$commandOptions: object;
     protected _$viewCommandName: string;
-    protected _$viewCommandOptions: string;
+    protected _$viewCommandOptions: object;
 
     private title: string;
     private tooltip: string;
@@ -97,7 +97,12 @@ export default abstract class BaseAction extends mixin<ObservableMixin>(
             const commandOptions = this._getCommandOptions(options);
             this._createCommand(commandOptions, this._$commandName).then((commandClass) => {
                 if (this._$viewCommandName) {
-                    this._createCommand({...commandOptions, command: commandClass},
+                    this._createCommand({
+                            ...commandOptions,
+                            command: commandClass,
+                            sourceController: options.sourceController,
+                            ...this._$viewCommandOptions
+                        },
                         this._$viewCommandName).then((viewCommandClass) => {
                         return this._actionExecute(commandOptions, viewCommandClass);
                     });
@@ -118,8 +123,7 @@ export default abstract class BaseAction extends mixin<ObservableMixin>(
             nodeProperty: commandParams.nodeProperty,
             navigation: commandParams.navigation,
             selection: commandParams.selection,
-            target: commandParams.target,
-            sourceController: commandParams.sourceController
+            target: commandParams.target
         });
         return commandOptions;
     }
@@ -136,7 +140,7 @@ export default abstract class BaseAction extends mixin<ObservableMixin>(
 
     public getToolbarItem(): IToolBarItem {
         const config = {id: this._$id};
-        REACTIVE_PROPS.forEach((prop) => {
+        TOOLBAR_PROPS.forEach((prop) => {
             config[prop] = this[prop];
         });
         return config;

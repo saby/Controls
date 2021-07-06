@@ -2,6 +2,7 @@
     <Controls.browser:Browser
         bind:selectedKeys="_selectedKeys"
         bind:excludedKeys="_excludedKeys"
+        on:selectedKeysChanged="_selectedKeysChanged()"
         multiSelectVisibility="visible"
         navigation="{{null}}"
         nodeProperty="Раздел@"
@@ -16,7 +17,7 @@
                 <Controls.operations:PanelContainer
                         selectedKeys="{{ content._selectedKeys }}"
                         listMarkedKey="{{ content._options.listMarkedKey }}">
-                    <Controls.defaultActions:Container
+                    <Controls.actions:Container
                             items="{{_operationsItems}}">
                         <Controls.operations:Panel
                             listMarkedKey="{{ content._options.listMarkedKey }}"
@@ -24,7 +25,7 @@
                             parentProperty="parent"
                             nodeProperty="@parent"
                             keyProperty="id"/>
-                    </Controls.defaultActions:Container>
+                    </Controls.actions:Container>
                 </Controls.operations:PanelContainer>
                 <Controls.list:HotKeysContainer>
                     <Controls.list:Container>

@@ -1,4 +1,4 @@
-import {BaseAction} from 'Controls/defaultActions';
+import {BaseAction} from 'Controls/actions';
 import {assert} from 'chai';
 
 describe('Controls/defaultActions:BaseAction', () => {

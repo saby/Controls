@@ -1,15 +1,10 @@
-import rk = require('i18n!Controls');
+import * as rk from 'i18n!Controls';
 import MassAction from './MassAction';
-import {RecordSet} from 'Types/collection';
 
 export default class Move extends MassAction {
     constructor(options) {
         super(options);
     }
-
-    onCollectionChanged(items: RecordSet): void {}
-
-    onSelectionChangedHandler(items: RecordSet): void {}
 }
 
 Object.assign(Move.prototype, {

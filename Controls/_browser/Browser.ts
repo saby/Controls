@@ -36,9 +36,9 @@ import {IControllerState} from 'Controls/_dataSource/Controller';
 import {isEqual} from 'Types/object';
 import {DataLoader, IDataLoaderOptions, ILoadDataResult} from 'Controls/dataSource';
 import {Logger} from 'UI/Utils';
-import {descriptor, Model} from 'Types/entity';
+import {descriptor} from 'Types/entity';
 import {loadAsync, isLoaded} from 'WasabyLoader/ModulesLoader';
-import {IBaseAction} from "Controls/_defaultActions/BaseAction";
+import {IBaseAction} from "Controls/_actions/BaseAction";
 
 type Key = string|number|null;
 
@@ -264,7 +264,8 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         clickEvent: SyntheticEvent
     ): void {
         event.stopImmediatePropagation();
-        action.execute({
+        this._getOperationsController().executeAction({
+            action,
             source: this._source,
             target: clickEvent,
             selection: {

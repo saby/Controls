@@ -48,13 +48,17 @@ export default class Reload {
         if (!options.items) {
             options.items = options.sourceController.getItems();
         }
-        const sourceController = new SourceController({
+
+        return this._getSourceController(options, filter).load(null, null, filter).then((items) => {
+           return this._processSelectedItems(options, items as RecordSet);
+        });
+    }
+
+    private _getSourceController(options: IReloadOptions, filter): SourceController {
+        return new SourceController({
             filter,
             source: options.source,
             keyProperty: this._options.keyProperty
-        });
-        return sourceController.load(null, null, filter).then((items) => {
-           return this._processSelectedItems(options, items as RecordSet);
         });
     }
 
@@ -67,6 +71,7 @@ export default class Reload {
            oldItem = oldItems.getRecordById(key);
            newItem = selectedItems.getRecordById(key);
            if (oldItem && newItem) {
+               // oldItem.merge(newItem) не работает https://online.sbis.ru/opendoc.html?guid=3ab98669-85b6-484c-b0de-1df6a83b4d02
                this._merge(oldItems, oldItem, newItem, options);
            } else if (oldItem) {
                 this._removeItem(options, key);
