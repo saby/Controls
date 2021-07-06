@@ -45,7 +45,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     }
 
     protected _itemClickHandler(e: SyntheticEvent, item: Model): void {
-        if (this._sourceController) {
+        if (this._sourceController && this._options.sourceController) {
             this._sourceController.setRoot(item.getKey());
             this._sourceController.reload();
         } else {
