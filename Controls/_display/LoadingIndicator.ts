@@ -33,9 +33,9 @@ export default class LoadingIndicator extends CollectionItem<null> {
         let styles = 'position: relative;';
 
         if (this.isTopIndicator()) {
-            styles += ` top: ${this._$triggerOffset};`;
+            styles += ` top: ${this._$triggerOffset}px;`;
         } else if (this.isBottomIndicator()) {
-            styles += ` bottom: ${this._$triggerOffset};`;
+            styles += ` bottom: ${this._$triggerOffset}px;`;
         }
 
         return styles;
@@ -63,10 +63,20 @@ export default class LoadingIndicator extends CollectionItem<null> {
         return this._$position === 'global';
     }
 
-    setTriggerOffset(offset: number): void {
-        if (this._$triggerOffset !== offset) {
+    setTriggerOffset(offset: number): boolean {
+        const changed = this._$triggerOffset !== offset;
+        if (changed) {
             this._$triggerOffset = offset;
             this._nextVersion();
+        }
+        return changed;
+    }
+
+    getTriggerId(): string {
+        if (this.isTopIndicator()) {
+            return 'topLoadingTrigger';
+        } else if (this.isBottomIndicator()) {
+            return 'bottomLoadingTrigger';
         }
     }
 }

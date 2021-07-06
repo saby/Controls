@@ -381,78 +381,6 @@ const _private = {
         }
     },
 
-    supportAttachLoadTriggerToNull(options: any, direction: 'up' | 'down'): boolean {
-        // Поведение отложенной загрузки вверх нужно опциональное, например, для контактов
-        // https://online.sbis.ru/opendoc.html?guid=f07ea1a9-743c-42e4-a2ae-8411d59bcdce
-        if (
-            direction === 'up' && options.attachLoadTopTriggerToNull === false ||
-            direction === 'down' && options.attachLoadDownTriggerToNull === false
-        ) {
-            return false;
-        }
-        // Прижимать триггер к верху списка нужно только при infinity-навигации.
-        // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
-        const isInfinityNavigation = _private.isInfinityNavigation(options.navigation);
-        if (!isInfinityNavigation) {
-            return false;
-        }
-        return true;
-    },
-
-    needAttachLoadTriggerToNull(self, direction: 'up' | 'down'): boolean {
-        const sourceController = self._sourceController;
-        return sourceController && self._hasMoreData(sourceController, direction);
-    },
-
-    attachLoadTopTriggerToNullIfNeed(self, options): boolean {
-        const supportAttachLoadTopTriggerToNull = _private.supportAttachLoadTriggerToNull(options, 'up');
-        if (!supportAttachLoadTopTriggerToNull) {
-            self._attachLoadTopTriggerToNull = false;
-            return false;
-        }
-        const needAttachLoadTopTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'up');
-        if (needAttachLoadTopTriggerToNull && self._isMounted) {
-            self._attachLoadTopTriggerToNull = true;
-            self._needScrollToFirstItem = true;
-            self._scrollTop = 1;
-        } else {
-            self._attachLoadTopTriggerToNull = false;
-        }
-
-        return needAttachLoadTopTriggerToNull;
-    },
-    attachLoadDownTriggerToNullIfNeed(self, options): boolean {
-        if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !self._listViewModel) {
-            self._attachLoadDownTriggerToNull = false;
-            return false;
-        }
-        const needAttachLoadDownTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'down');
-        if (needAttachLoadDownTriggerToNull) {
-            self._attachLoadDownTriggerToNull = true;
-        } else {
-            self._attachLoadDownTriggerToNull = false;
-        }
-        return needAttachLoadDownTriggerToNull;
-    },
-
-    recountAttachIndicatorsAfterReload(self): void {
-        if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-            // Не нужно показывать ромашку сразу после релоада, т.к. элементов может быть недостаточно на всю страницу
-            // и тогда загрузка должна будет пойти только в одну сторону.
-            // Ромашку покажем на _afterRender, когда точно будем знать достаточно ли элементов загружено
-            self._attachLoadTopTriggerToNull = false;
-            self._hideTopTrigger = true;
-            self._resetTopTriggerOffset = true;
-            self._updateScrollController(self._options);
-        }
-        if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
-            if (!self._resetDownTriggerOffset) {
-                self._resetDownTriggerOffset = true;
-                self._updateScrollController(self._options);
-            }
-        }
-    },
-
     assignItemsToModel(self: BaseControl, items: RecordSet, newOptions: IBaseControlOptions): void {
         const listModel = self._listViewModel;
         const oldCollection = listModel.getCollection();
@@ -529,8 +457,8 @@ const _private = {
             return;
         }
 
-        const hasMoreDataDown = self._hasMoreData(self._sourceController, 'down');
-        const hasMoreDataUp = self._hasMoreData(self._sourceController, 'up');
+        const hasMoreDataDown = self._hasMoreData('down');
+        const hasMoreDataUp = self._hasMoreData('up');
 
         if (!list.getCount()) {
             const needShowIndicatorByNavigation =
@@ -550,15 +478,15 @@ const _private = {
         }
     },
 
-    hasMoreDataInAnyDirection(self, sourceController: SourceController): boolean {
-        return self._hasMoreData(sourceController, 'up') ||
-            self._hasMoreData(sourceController, 'down');
+    hasMoreDataInAnyDirection(self): boolean {
+        return self._hasMoreData('up') ||
+            self._hasMoreData('down');
     },
 
     getHasMoreData(self): object {
         return {
-            up: self._hasMoreData(self._sourceController, 'up'),
-            down: self._hasMoreData(self._sourceController, 'down')
+            up: self._hasMoreData('up'),
+            down: self._hasMoreData('down')
         };
     },
 
@@ -743,14 +671,14 @@ const _private = {
     prepareFooter(self: BaseControl, options: IBaseControlOptions, sourceController: SourceController): void {
         // Если подгрузка данных осуществляется кликом по кнопке "Еще..." и есть что загружать, то рисуем эту кнопку
         // всегда кроме случая когда задана группировка и все группы свернуты
-        if (_private.isDemandNavigation(self._navigation) && self._hasMoreData(sourceController, 'down')) {
+        if (_private.isDemandNavigation(self._navigation) && self._hasMoreData('down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ?
                 !self._listViewModel.isAllGroupsCollapsed()
                 : true;
         } else if (
             _private.shouldDrawCut(options.navigation,
                                    self._items,
-                                   self._hasMoreData(sourceController, 'down'),
+                                   self._hasMoreData('down'),
                                    self._expanded)
         ) {
             self._shouldDrawCut = true;
@@ -791,17 +719,7 @@ const _private = {
         const listViewModel = self._listViewModel;
         const isPortionedLoad = _private.isPortionedLoad(self);
 
-        if (direction === 'down' && self._resetDownTriggerOffset) {
-            // после первого запроса остальные запросы нужно загружать заранее
-            self._resetDownTriggerOffset = false;
-            self._updateScrollController(self._options);
-        }
-
-        if (direction === 'up' && self._resetTopTriggerOffset) {
-            // после первого запроса остальные запросы нужно загружать заранее
-            self._resetTopTriggerOffset = false;
-            self._updateScrollController(self._options);
-        }
+        self._recountResetTriggerOffsets(direction);
 
         _private.showIndicator(self, direction);
 
@@ -829,11 +747,6 @@ const _private = {
                     return;
                 }
 
-                // при порционном поиске индикатор скроется в searchStopCallback или searchAbortCallback
-                if (!self._portionedSearchInProgress) {
-                    _private.hideIndicator(self);
-                }
-
                 const itemsCountAfterLoad = self._listViewModel.getCount();
                 // If received list is empty, make another request.
                 // If it’s not empty, the following page will be requested in resize event
@@ -856,29 +769,14 @@ const _private = {
                     const newMarkedKey = _private.getMarkerController(self).onCollectionReset();
                     self._changeMarkedKey(newMarkedKey);
                 }
-                if (!self._hasMoreData(self._sourceController, direction)) {
+                if (!self._hasMoreData(direction)) {
                     self._updateShadowModeHandler(self._shadowVisibility);
                 }
 
                 // Пересчитывать ромашки нужно сразу после загрузки, а не по событию add, т.к.
                 // например при порционном поиске последний запрос в сторону может подгрузить пустой список
                 // и событие add не сработает
-                if (direction === 'up') {
-                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
-                    // После подгрузки элементов, не нужно скроллить
-                    self._needScrollToFirstItem = false;
-                    self._hideTopTrigger = false;
-                } else if (direction === 'down') {
-                    _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
-                }
-
-                if (self._recountTopTriggerAfterLoadData) {
-                    self._recountTopTriggerAfterLoadData = false;
-                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
-                    if (self._hideTopTrigger && !self._needScrollToFirstItem) {
-                        self._hideTopTrigger = false;
-                    }
-                }
+                self._recountIndicators(direction);
 
                 // Скрываем ошибку после успешной загрузки данных
                 _private.hideError(self);
@@ -899,7 +797,7 @@ const _private = {
                     !self._sourceController?.isLoading();
 
                 if (hideIndicatorOnCancelQuery) {
-                    _private.hideIndicator(self);
+                    self._recountIndicators(direction);
                 }
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
                 if (!error.canceled && !error.isCanceled) {
@@ -1072,7 +970,7 @@ const _private = {
 
     loadToDirectionIfNeed(self, direction, filter) {
         const sourceController = self._sourceController;
-        const hasMoreData = self._hasMoreData(sourceController, direction);
+        const hasMoreData = self._hasMoreData(direction);
         const allowLoadByLoadedItems = _private.needScrollCalculation(self._options.navigation) ?
             !self._loadedItems || _private.isPortionedLoad(self, self._loadedItems) :
             true;
@@ -1115,10 +1013,10 @@ const _private = {
         });
         _private.setMarkerAfterScroll(self);
         let hasMoreData = {
-            up: self._hasMoreData(self._sourceController, 'up'),
-            down: self._hasMoreData(self._sourceController, 'down')
+            up: self._hasMoreData('up'),
+            down: self._hasMoreData('down')
         };
-        if (self._hasMoreData(self._sourceController, direction)) {
+        if (self._hasMoreData(direction)) {
 
             self._resetPagingOnResetItems = false;
             let pagingMode = '';
@@ -1234,8 +1132,8 @@ const _private = {
 
             // если есть Еще данные, мы не знаем сколько их всего, превышают два вьюпорта или нет и покажем пэйдджинг
             const hasMoreData = {
-                up: self._hasMoreData(self._sourceController, 'up'),
-                down: self._hasMoreData(self._sourceController, 'down')
+                up: self._hasMoreData('up'),
+                down: self._hasMoreData('down')
             };
 
             // если естьЕще данные, мы не знаем сколько их всего, превышают два вьюпорта или нет и покажем пэйдджинг
@@ -1478,8 +1376,8 @@ const _private = {
     updateScrollPagingButtons(self, scrollParams) {
         _private.getScrollPagingControllerWithCallback(self, (scrollPaging) => {
             const hasMoreData = {
-                up: self._hasMoreData(self._sourceController, 'up'),
-                down: self._hasMoreData(self._sourceController, 'down')
+                up: self._hasMoreData('up'),
+                down: self._hasMoreData('down')
             };
             scrollPaging.updateScrollParams(scrollParams, hasMoreData);
         });
@@ -1575,7 +1473,7 @@ const _private = {
                 _private.hideIndicator(self);
             },
             searchContinueCallback: () => {
-                const direction = self._hasMoreData(self._sourceController, 'up') ? 'up' : 'down';
+                const direction = self._hasMoreData('up') ? 'up' : 'down';
 
                 self._portionedSearchInProgress = true;
                 self._showContinueSearchButtonDirection = null;
@@ -1621,7 +1519,7 @@ const _private = {
         const portionedSearch = _private.getPortionedSearch(self);
         const isPortionedLoad = _private.isPortionedLoad(self, loadedItems);
 
-        if (!_private.hasMoreDataInAnyDirection(self, self._sourceController) || !isPortionedLoad) {
+        if (!_private.hasMoreDataInAnyDirection(self) || !isPortionedLoad) {
             portionedSearch.reset();
         } else if (loadedItems.getCount() && !_private.isLoadingIndicatorVisible(self) && self._loadingIndicatorTimer) {
             _private.resetShowLoadingIndicatorTimer(self);
@@ -1646,7 +1544,7 @@ const _private = {
 
     updateShadowMode(self, shadowVisibility: {up: boolean, down: boolean}): void {
         const itemsCount = self._listViewModel && self._listViewModel.getCount();
-        const hasMoreData = (direction) => self._hasMoreData(self._sourceController, direction);
+        const hasMoreData = (direction) => self._hasMoreData(direction);
         const showShadowByNavigation = _private.needShowShadowByNavigation(self._options.navigation, itemsCount);
         const showShadowUpByPortionedSearch = _private.allowLoadMoreByPortionedSearch(self, 'up');
         const showShadowDownByPortionedSearch = _private.allowLoadMoreByPortionedSearch(self, 'down');
@@ -1751,7 +1649,7 @@ const _private = {
             }
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
-                _private.recountAttachIndicatorsAfterReload(self);
+                self._recountIndicators('all');
             }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
@@ -2233,7 +2131,6 @@ const _private = {
                 self._scrollController = null;
             }
             self._observerRegistered = false;
-            self._intersectionObserverRegistered = false;
             self._viewReady = false;
         }
     },
@@ -2332,7 +2229,7 @@ const _private = {
             this._loadingState === 'all' ||
             !_private.needScrollCalculation(navigation) ||
             !this._loadTriggerVisibility[this._loadingState] ||
-            !this._hasMoreData(this._sourceController, this._loadingState)
+            !this._hasMoreData(this._loadingState)
         ) {
             _private.resolveIndicatorStateAfterReload(this, items, navigation);
         } else {
@@ -2502,8 +2399,8 @@ const _private = {
         self._wasScrollToEnd = true;
 
         const hasMoreData = {
-            up: self._hasMoreData(self._sourceController, 'up'),
-            down: self._hasMoreData(self._sourceController, 'down')
+            up: self._hasMoreData('up'),
+            down: self._hasMoreData('down')
         };
         if (self._scrollPagingCtr) {
             self._currentPage = self._pagingCfg.pagesCount;
@@ -2717,8 +2614,8 @@ const _private = {
         let bottomEnabled = false;
 
         if (sourceController) {
-            topEnabled = topEnabled || self._hasMoreData(self._sourceController, 'up');
-            bottomEnabled = bottomEnabled || self._hasMoreData(self._sourceController, 'down');
+            topEnabled = topEnabled || self._hasMoreData('up');
+            bottomEnabled = bottomEnabled || self._hasMoreData('down');
         }
         if (scrollController) {
             topEnabled = topEnabled || scrollController.getShadowVisibility()?.up;
@@ -2776,7 +2673,7 @@ const _private = {
             }
         }
         if (result.triggerOffset) {
-            self.applyTriggerOffset(result.triggerOffset);
+            self._listViewModel.setTriggerOffset(result.triggerOffset);
         }
         if (result.shadowVisibility) {
             self._updateShadowModeHandler(result.shadowVisibility);
@@ -2888,7 +2785,7 @@ const _private = {
             topTriggerOffsetCoefficient: options.topTriggerOffsetCoefficient,
             bottomTriggerOffsetCoefficient: options.bottomTriggerOffsetCoefficient,
             resetTopTriggerOffset: self._resetTopTriggerOffset,
-            resetDownTriggerOffset: self._resetDownTriggerOffset,
+            resetBottomTriggerOffset: self._resetBottomTriggerOffset,
             notifyKeyOnRender: options.notifyKeyOnRender
         });
         const result = self._scrollController.handleResetItems();
@@ -3436,7 +3333,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _attachLoadDownTriggerToNull = false;
     _hideTopTrigger = false;
     _resetTopTriggerOffset = false;
-    _resetDownTriggerOffset = false;
+    _resetBottomTriggerOffset = false;
 
     protected _listViewModel = null;
     _viewModelConstructor = null;
@@ -3900,11 +3797,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    applyTriggerOffset(offset: {top: number, bottom: number}): void {
-        // Устанавливаем напрямую в style, чтобы не ждать и не вызывать лишний цикл синхронизации
-        this._children.topVirtualScrollTrigger?.style.top = `${offset.top}px`;
-        this._children.bottomVirtualScrollTrigger?.style.bottom = `${offset.bottom}px`;
-    }
     protected _viewResize(): void {
         if (this._isMounted) {
             const container = this._children.viewContainer || this._container[0] || this._container;
@@ -3995,7 +3887,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (!this.__error) {
             this._registerObserver();
-            if (this._needScrollCalculation && this._listViewModel) {
+            if (this._shouldRegisterIntersectionObserver()) {
                 this._registerIntersectionObserver();
             }
         }
@@ -4062,7 +3954,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // нельзя делать это в процессе загрузки
             if (!this._loadingState && !this._scrollController?.getScrollTop()) {
                 if (_private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
-                    this._showTopIndicator();
+                    this._showTopIndicator(true);
                 }
             }
         }
@@ -4079,7 +3971,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 options: {
                     ...newOptions,
                     resetTopTriggerOffset: this._resetTopTriggerOffset,
-                    resetDownTriggerOffset: this._resetDownTriggerOffset,
+                    resetBottomTriggerOffset: this._resetBottomTriggerOffset,
                     forceInitVirtualScroll: newOptions?.navigation?.view === 'infinity',
                     collection: this.getViewModel(),
                     needScrollCalculation: this._needScrollCalculation
@@ -4324,7 +4216,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
 
-                _private.recountAttachIndicatorsAfterReload(this);
+                this._recountIndicators('all');
             }
 
             if (newOptions.sourceController) {
@@ -4421,7 +4313,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (newOptions.searchValue || this._loadedBySourceController) {
             const isPortionedLoad = _private.isPortionedLoad(this);
-            const hasMoreData = _private.hasMoreDataInAnyDirection(this, this._sourceController);
+            const hasMoreData = _private.hasMoreDataInAnyDirection(this);
             const isSearchReturnsEmptyResult = this._items && !this._items.getCount();
             const needCheckLoadToDirection =
                 hasMoreData &&
@@ -4961,7 +4853,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (!this._observerRegistered) {
                 this._registerObserver();
             }
-            if (this._needScrollCalculation && !this._intersectionObserverRegistered && this._listViewModel) {
+            if (this._shouldRegisterIntersectionObserver()) {
                 this._registerIntersectionObserver();
             }
         }
@@ -5097,7 +4989,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const noData = !listViewModel || !listViewModel.getCount();
         const noEdit = !listViewModel || !_private.isEditing(this);
         const isLoading = this._sourceController && this._sourceController.isLoading();
-        const notHasMore = !_private.hasMoreDataInAnyDirection(this, this._sourceController);
+        const notHasMore = !_private.hasMoreDataInAnyDirection(this);
         const noDataBeforeReload = this._noDataBeforeReload;
         return (emptyTemplate || emptyTemplateColumns) && noEdit && notHasMore && (isLoading ? noData && noDataBeforeReload : noData);
     }
@@ -5333,8 +5225,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._options.moveMarkerOnScrollPaging;
     }
 
-    protected _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
-        return !!(sourceController?.hasMoreData(direction));
+    protected _hasMoreData(direction: Direction): boolean {
+        return !!(this._sourceController && this._sourceController.hasMoreData(direction));
     }
 
     _onGroupClick(e, groupId, baseEvent, dispItem) {
@@ -6365,18 +6257,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._dragEnter(this._getDragObject());
         }
 
-        // Нельзя отображать верхний индикатор, если уже отображается нижний и элементы не занимают весь вьюпорт
-        // Верхний индикатор пересчитаем после подгрузки элементов
-        const shouldAttachTopTrigger = !(this._attachLoadDownTriggerToNull && this._viewSize <= this._viewportSize);
-        if (shouldAttachTopTrigger) {
-            // нельзя делать это в процессе обновления или загрузки
-            if (!this._loadingState && !this._updateInProgress && !this._scrollController?.getScrollTop()) {
-                if (_private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
-                    this._showTopIndicator();
-                }
-            }
-        } else {
-            this._recountTopTriggerAfterLoadData = true;
+        if (this.shouldDisplayTopIndicator()) {
+            this._showTopIndicator(true);
         }
 
         if (!this._pagingVisible) {
@@ -6670,14 +6552,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _registerIntersectionObserver(): void {
-        // TODO LI нужно как-то получить теперь триггеры. И не забыть при скрытии/добавлении триггера пересоздавать Observer
+    private _registerIntersectionObserver(): void {
         this._intersectionObserver = new EdgeIntersectionObserver(
             this,
             this._intersectionObserverHandler.bind(this),
-            this._children.topVirtualScrollTrigger,
-            this._children.bottomVirtualScrollTrigger);
-        this._intersectionObserverRegistered = true;
+            document.getElementById('topLoadingTrigger'),
+            document.getElementById('bottomLoadingTrigger'));
+    }
+
+    private _shouldRegisterIntersectionObserver(): boolean {
+        return document && this._isMounted && this._needScrollCalculation && this._listViewModel;
     }
 
     _intersectionObserverHandler(eventName) {
@@ -6740,8 +6624,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         const shouldDisplayTopIndicator = this._loadingIndicatorState === 'up' && !this._portionedSearchInProgress;
         const isAborted = _private.getPortionedSearch(this).isAborted();
-        // Если нет элементов, то должен отображаться глобальный индикатор
-        const hasItems = !!this._items && !!this._items.getCount();
+
         return (shouldDisplayTopIndicator || this._attachLoadTopTriggerToNull && !this._showContinueSearchButtonDirection && this._scrollController.isRangeOnEdge('up'))
             && !this._portionedSearchInProgress && !isAborted && hasItems;
     }
@@ -6776,17 +6659,107 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._portionedSearchInProgress && this._loadingIndicatorState === 'down';
     }
 
-    private _showTopIndicator(): void {
-        // TODO LI нужно переписать
+    private _showTopIndicator(scrollToFirstItem: boolean): void {
+        // До первой подгрузки оффсет не нужен, т.к. скроллить пользователь возможно вообще и не собирался
+        this._resetTopTriggerOffset = true;
+        this._updateScrollController(this._options);
+
         this._listViewModel.showIndicator('top');
-        this._scrollToFirstItemIfNeed();
-        // TODO LI т.к. нам теперь нужно пересоздавать обсервер, то триггер может быть сразу показан
-        //  а в этом месте нужно обсервер пересоздать, естественно в промисе scrollToElement
+        this._scrollToFirstItemIfNeed().then(() => {
+            if (this._shouldRegisterIntersectionObserver()) {
+                this._registerIntersectionObserver();
+            }
+        })
     }
 
     private _showBottomIndicator(): void {
+        // До первой подгрузки оффсет не нужен, т.к. скроллиить пользователь возможно вообще и не собирался
+        this._resetBottomTriggerOffset = true;
+        this._updateScrollController(this._options);
+
         this._listViewModel.showIndicator('bottom');
-        // TODO пересоздать обсервер
+        if (this._shouldRegisterIntersectionObserver()) {
+            this._registerIntersectionObserver();
+        }
+    }
+
+    private _recountResetTriggerOffsets(direction: 'up'|'down'): void {
+        // после первого запроса остальные запросы нужно загружать заранее
+
+        if (direction === 'down' && this._resetBottomTriggerOffset) {
+            this._resetBottomTriggerOffset = false;
+            this._updateScrollController(this._options);
+        }
+
+        if (direction === 'up' && this._resetTopTriggerOffset) {
+            this._resetTopTriggerOffset = false;
+            this._updateScrollController(this._options);
+        }
+    }
+
+    private _recountIndicators(direction: 'up'|'down'|'all'): void {
+        if (direction === 'up') {
+            if (this.shouldDisplayTopIndicator()) {
+                this._showTopIndicator(false);
+            } else {
+                this._listViewModel.hideTopTrigger();
+            }
+        }
+
+        if (direction === 'down') {
+            if (this.shouldDisplayBottomIndicator()) {
+                this._showBottomIndicator();
+            } else {
+                this._listViewModel.hideBottomTrigger();
+            }
+        }
+
+        if (direction === 'all') {
+            if (this.shouldDisplayTopIndicator()) {
+                // TODO LI после отрисовки должны это сделать
+                this._showTopIndicator(true);
+
+                this._resetTopTriggerOffset = true;
+                this._updateScrollController(this._options);
+            } else {
+                this._listViewModel.hideTopTrigger();
+            }
+
+            if (this.shouldDisplayBottomIndicator()) {
+                this._showBottomIndicator();
+
+                this._resetBottomTriggerOffset = true;
+                this._updateScrollController(this._options);
+            } else {
+                this._listViewModel.hideBottomTrigger();
+            }
+        }
+    }
+
+    shouldDisplayTopIndicator(): boolean {
+        if (this._sourceController.isLoading() && this._viewSize <= this._viewportSize) {
+            // TODO LI то пересчитываем после подгрузки
+            return false;
+        }
+
+        // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
+        // TODO LI вроде как это уже не актуально
+        //  const isInfinityNavigation = _private.isInfinityNavigation(this._options.navigation);
+        const hasMoreData = this._hasMoreData('up');
+        // Если нет элементов, то должен отображаться глобальный индикатор
+        const hasItems = !!this._items && !!this._items.getCount();
+        return !this._updateInProgress && !this._scrollController?.getScrollTop() && hasItems
+            && this._listViewModel && this._options.attachLoadTopTriggerToNull && hasMoreData
+    }
+
+    shouldDisplayBottomIndicator(): boolean {
+        if (this._sourceController.isLoading() && this._viewSize <= this._viewportSize) {
+            // TODO LI то пересчитываем после подгрузки
+            return false;
+        }
+
+        const hasMoreData = this._hasMoreData('down');
+        return this._listViewModel && this._options.attachLoadDownTriggerToNull && hasMoreData
     }
 
     // endregion LoadingIndicator

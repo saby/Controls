@@ -7,6 +7,11 @@ import {default as LoadingIndicatorStrategy} from './itemsStrategy/LoadingIndica
 import {TLoadingIndicatorPosition} from './LoadingIndicator';
 import {ISession} from "Types/_collection/enumerableComparator";
 
+export interface ITriggerOffset {
+    top: number;
+    bottom: number;
+}
+
 export default abstract class LoadingIndicatorMixin<
     S extends Model = Model,
     T extends CollectionItem<S> = CollectionItem<S>
@@ -35,6 +40,14 @@ export default abstract class LoadingIndicatorMixin<
             this._reFilter();
             this._nextVersion();
             this._finishUpdateSession(session);
+        }
+    }
+
+    setTriggerOffset(offset: ITriggerOffset): void {
+        const strategy = this._getLoadingIndicatorStrategy();
+        const changed = strategy.setTriggerOffset(offset);
+        if (changed) {
+            this._nextVersion();
         }
     }
 

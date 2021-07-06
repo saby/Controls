@@ -131,6 +131,8 @@ import {Footer} from './_display/Footer';
 import LoadingIndicator from 'Controls/_display/LoadingIndicator';
 export {Footer};
 
+export {ITriggerOffset} from 'Controls/_display/LoadingIndicatorMixin';
+
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});
 register('Controls/display:Enum', Enum, {instantiate: false});

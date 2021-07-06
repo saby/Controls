@@ -3,7 +3,8 @@ import Collection from '../Collection';
 import CollectionItem from '../CollectionItem';
 import {DestroyableMixin, Model} from 'Types/entity';
 import {mixin} from 'Types/util';
-import {default as LoadingIndicatorItem, TLoadingIndicatorPosition} from "Controls/_display/LoadingIndicator";
+import {default as LoadingIndicatorItem, TLoadingIndicatorPosition} from '../LoadingIndicator';
+import {ITriggerOffset} from '../LoadingIndicatorMixin';
 
 export const DEFAULT_TOP_TRIGGER_OFFSET = -1;
 export const DEFAULT_BOTTOM_TRIGGER_OFFSET = 0;
@@ -117,6 +118,17 @@ export default class LoadingIndicator<
         const indicatorName = this._getIndicatorName(position);
         this[indicatorName] = null;
         return indicatorIsShowed;
+    }
+
+    setTriggerOffset(offset: ITriggerOffset): boolean {
+        let changed = false;
+        if (this._topIndicator) {
+            changed = changed || this._topIndicator.setTriggerOffset(offset.top);
+        }
+        if (this._bottomIndicator) {
+            changed = changed || this._bottomIndicator.setTriggerOffset(offset.bottom);
+        }
+        return changed;
     }
 
     private _createIndicator(position: TLoadingIndicatorPosition): LoadingIndicatorItem {
