@@ -37,7 +37,8 @@ class ArrowButton extends Control<IArrowButtonOptions>  {
     static getDefaultOptions(): object {
         return {
             inlineHeight: 's',
-            iconSize: 's'
+            iconSize: 's',
+            direction: 'right'
         };
     }
 }
