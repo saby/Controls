@@ -440,32 +440,6 @@ const _private = {
         return self._isMounted && self._listViewModel && self._listViewModel.getCount();
     },
 
-    resolveIndicatorStateAfterReload(self, list, navigation): void {
-        if (!self._isMounted) {
-            return;
-        }
-
-        const hasMoreDataDown = self._hasMoreData('down');
-        const hasMoreDataUp = self._hasMoreData('up');
-
-        if (!list.getCount()) {
-            const needShowIndicatorByNavigation =
-                _private.isMaxCountNavigation(navigation) ||
-                self._needScrollCalculation;
-            const needShowIndicatorByMeta = hasMoreDataDown || hasMoreDataUp;
-
-            // because of IntersectionObserver will trigger only after DOM redraw, we should'n hide indicator
-            // otherwise empty template will shown
-            if (needShowIndicatorByNavigation && needShowIndicatorByMeta) {
-                _private.showIndicator(self, hasMoreDataDown ? 'down' : 'up');
-            } else {
-                _private.hideIndicator(self);
-            }
-        } else {
-            _private.hideIndicator(self);
-        }
-    },
-
     hasMoreDataInAnyDirection(self): boolean {
         return self._hasMoreData('up') ||
             self._hasMoreData('down');
@@ -709,8 +683,6 @@ const _private = {
 
         self._recountResetTriggerOffsets(direction);
 
-        _private.showIndicator(self, direction);
-
         if (self._sourceController) {
             const filter: IHashMap<unknown> = cClone(receivedFilter || self._options.filter);
             if (isPortionedLoad) {
@@ -805,9 +777,7 @@ const _private = {
                         action: () => {
                             const afterActionCallback = () => _private.hideError(self);
                             const errorConfig = self.__error;
-                            return _private.loadToDirection(
-                                self, direction, receivedFilter
-                            ).then(() => {
+                            return _private.loadToDirection(self, direction, receivedFilter).then(() => {
                                 _private.showError(self, errorConfig);
                                 return Promise.resolve(afterActionCallback);
                             });
@@ -1286,65 +1256,6 @@ const _private = {
         return self._viewSize;
     },
 
-    showIndicator(self, direction: 'down' | 'up' | 'all' = 'all'): void {
-        if (!self._isMounted) {
-            return;
-        }
-
-        self._loadingState = direction;
-        if (direction === 'all') {
-            self._loadingIndicatorState = self._loadingState;
-        }
-        _private.updateIndicatorContainerHeight(self, _private.getViewRect(self), self._viewportRect);
-        _private.startShowLoadingIndicatorTimer(self);
-    },
-
-    hideIndicator(self): void {
-        if (!self._isMounted) {
-            return;
-        }
-
-        self._loadingState = null;
-        self._showLoadingIndicator = false;
-        self._loadingIndicatorContainerOffsetTop = 0;
-        self._hideIndicatorOnTriggerHideDirection = null;
-        _private.clearShowLoadingIndicatorTimer(self);
-        if (self._loadingIndicatorState !== null) {
-            self._loadingIndicatorState = self._loadingState;
-            self._notify('controlResize');
-        }
-    },
-
-    startShowLoadingIndicatorTimer(self): void {
-        if (!self._loadingIndicatorTimer) {
-            self._loadingIndicatorTimer = setTimeout(() => {
-                self._loadingIndicatorTimer = null;
-                if (self._loadingState) {
-                    self._loadingIndicatorState = self._loadingState;
-                    self._showLoadingIndicator = true;
-                    self._loadingIndicatorContainerOffsetTop = self._scrollTop + _private.getListTopOffset(self);
-                    self._notify('controlResize');
-                }
-            }, INDICATOR_DELAY);
-        }
-    },
-
-    clearShowLoadingIndicatorTimer(self): void {
-        if (self._loadingIndicatorTimer) {
-            clearTimeout(self._loadingIndicatorTimer);
-            self._loadingIndicatorTimer = null;
-        }
-    },
-
-    resetShowLoadingIndicatorTimer(self): void {
-        _private.clearShowLoadingIndicatorTimer(self);
-        _private.startShowLoadingIndicatorTimer(self);
-    },
-
-    isLoadingIndicatorVisible(self): boolean {
-        return !!self._showLoadingIndicator;
-    },
-
     updateScrollPagingButtons(self, scrollParams) {
         _private.getScrollPagingControllerWithCallback(self, (scrollPaging) => {
             const hasMoreData = {
@@ -1418,7 +1329,7 @@ const _private = {
         }
     },
 
-    getPortionedSearch(self): PortionedSearch {
+    getPortionedSearch(self: BaseControl): PortionedSearch {
         return self._portionedSearch || (self._portionedSearch = new PortionedSearch({
             searchStartCallback: () => {
                 self._portionedSearchInProgress = true;
@@ -1426,14 +1337,12 @@ const _private = {
                 self._handleLoadToDirection = false;
             },
             searchStopCallback: (direction?: IDirection) => {
-                const isStoppedByTimer = !direction;
-
                 self._portionedSearchInProgress = false;
-                self._showContinueSearchButtonDirection = isStoppedByTimer ? self._loadingState || 'down' : direction;
+                self._showContinueSearchButtonDirection = direction;
                 if (typeof self._sourceController.cancelLoading !== 'undefined') {
                     self._sourceController.cancelLoading();
                 }
-                _private.hideIndicator(self);
+                // TODO LI _private.hideIndicator(self);
 
                 if (self._isScrollShown) {
                     _private.updateShadowMode(self, self._shadowVisibility);
@@ -1442,7 +1351,7 @@ const _private = {
             searchResetCallback: () => {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButtonDirection = null;
-                _private.hideIndicator(self);
+                // TODO LI _private.hideIndicator(self);
             },
             searchContinueCallback: () => {
                 const direction = self._hasMoreData('up') ? 'up' : 'down';
@@ -1456,7 +1365,7 @@ const _private = {
                 if (typeof self._sourceController.cancelLoading !== 'undefined') {
                     self._sourceController.cancelLoading();
                 }
-                _private.hideIndicator(self);
+                // TODO LI _private.hideIndicator(self);
 
                 _private.disablePagingNextButtons(self);
 
@@ -1493,8 +1402,6 @@ const _private = {
 
         if (!_private.hasMoreDataInAnyDirection(self) || !isPortionedLoad) {
             portionedSearch.reset();
-        } else if (loadedItems.getCount() && !_private.isLoadingIndicatorVisible(self) && self._loadingIndicatorTimer) {
-            _private.resetShowLoadingIndicatorTimer(self);
         }
     },
 
@@ -1764,11 +1671,6 @@ const _private = {
                 }
 
                 self._changeMarkedKey(newMarkedKey);
-            }
-
-            // will updated after render
-            if (self._loadingIndicatorState === 'all') {
-                self._loadingIndicatorContainerHeight = 0;
             }
         }
         // VirtualScroll controller can be created and after that virtual scrolling can be turned off,
@@ -2068,7 +1970,7 @@ const _private = {
      */
     processError(self: BaseControl, config: IErrbackConfig): Promise<ICrudResult> {
         if (!config.error.canceled && !config.error.isCanceled) {
-            _private.hideIndicator(self);
+            self._hideGlobalIndicator();
         }
         return self.__errorController.process({
             error: config.error,
@@ -2197,20 +2099,6 @@ const _private = {
 
         _private.callDataLoadCallbackCompatibility(this, items, direction, this._options);
 
-        if (
-            this._loadingState === 'all' ||
-            !_private.needScrollCalculation(navigation) ||
-            !this._loadTriggerVisibility[this._loadingState] ||
-            !this._hasMoreData(this._loadingState)
-        ) {
-            _private.resolveIndicatorStateAfterReload(this, items, navigation);
-        } else {
-            // If we are loading to a specific direction with scroll calculation enabled,
-            // we should only hide indicator if there are enough items to "push" the load
-            // trigger off the screen.
-            this._hideIndicatorOnTriggerHideDirection = this._loadingState;
-        }
-
         if (_private.isPortionedLoad(this)) {
             _private.loadToDirectionWithSearchValueEnded(this, items);
         }
@@ -2315,44 +2203,6 @@ const _private = {
                 self._cancelEdit();
             }
         }
-    },
-    isBlockedForLoading(loadingIndicatorState): boolean {
-        return loadingIndicatorState === 'all';
-    },
-    updateIndicatorContainerHeight(self, viewRect: DOMRect, viewportRect: DOMRect): void {
-        let top;
-        let bottom;
-        if (self._isScrollShown || viewRect && viewportRect) {
-            top = Math.max(viewRect.y, viewportRect.y);
-            bottom = Math.min(viewRect.y + viewRect.height, viewportRect.y + viewportRect.height);
-        } else {
-            top = viewRect.top;
-            bottom = viewRect.bottom;
-        }
-        const newHeight = bottom - top - _private.getListTopOffset(self);
-
-        if (self._loadingIndicatorContainerHeight !== newHeight) {
-            self._loadingIndicatorContainerHeight = newHeight;
-        }
-    },
-    getListTopOffset(self): number {
-        const view = self._children && self._children.listView;
-        let height = 0;
-
-        /* Получаем расстояние от начала скроллконтейнера, до начала списка, т.к.список может лежать не в "личном" контейнере. */
-        if (self._isMounted) {
-            const viewRect = (self._container[0] || self._container).getBoundingClientRect();
-            if (self._isScrollShown || (self._needScrollCalculation && viewRect && self._viewportRect)) {
-                height = viewRect.y + self._scrollTop - self._viewportRect.top;
-            }
-        }
-        if (view && view.getHeaderHeight) {
-            height += view.getHeaderHeight();
-        }
-        if (view && view.getResultsHeight) {
-            height += view.getResultsHeight();
-        }
-        return height;
     },
     setHasMoreData(model, hasMoreData: object, silent: boolean = false): void {
         if (model) {
@@ -3294,8 +3144,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _isMounted = false;
 
-    _savedStartIndex = 0;
-    _savedStopIndex = 0;
     _shadowVisibility = null;
 
     _template = BaseControlTpl;
@@ -3303,8 +3151,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     private _resetTopTriggerOffset: boolean = true;
     private _resetBottomTriggerOffset: boolean = true;
+    private _showIndicatorTimer: number;
 
-    protected _listViewModel = null;
+    protected _listViewModel: Collection = null;
     _viewModelConstructor = null;
     protected _items: RecordSet;
 
@@ -3314,11 +3163,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _expanded = false;
     _cutSize = 'm';
-
-    _loader = null;
-    _loadingState = null;
-    _loadingIndicatorState = null;
-    _loadingIndicatorTimer = null;
 
     _pagingCfg = null;
     _pagingVisible = false;
@@ -3338,10 +3182,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _isScrollShown = false;
     _needScrollCalculation = false;
     _loadTriggerVisibility = null;
-    _hideIndicatorOnTriggerHideDirection = null;
     _checkTriggerVisibilityTimeout = null;
     _notifyPlaceholdersChanged = null;
-    _loadingIndicatorContainerOffsetTop = 0;
     _viewSize = null;
     _viewportSize = null;
     _scrollTop = 0;
@@ -3377,11 +3219,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _portionedSearchInProgress = null;
     _showContinueSearchButtonDirection = null;
 
-    _draggingItem = null;
-    _draggingEntity = null;
-    _draggingTargetItem = null;
-
-    _selectionController = null;
     _itemActionsController = null;
     protected _sourceController: SourceController = null;
     _prevRootId = null;
@@ -3404,15 +3241,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // Шаблон операций с записью для swipe
     _swipeTemplate = SwipeActionsTemplate;
 
-    _markerController = null;
+    private _markerController: MarkerController = null;
+    private _selectionController: SelectionController = null;
 
-    _dndListController = null;
-    _dragEntity = undefined;
-    _startEvent = undefined;
-    _documentDragging = false;
-    _insideDragging = false;
-    _endDragNDropTimer = null; // для IE
-    _draggedKey = null;
+    private _dndListController: DndController<any> = null;
+    private _dragEntity: ItemsEntity = undefined;
+    private _startEvent: SyntheticEvent = undefined;
+    private _documentDragging: boolean = false;
+    private _insideDragging: boolean = false;
+    private _endDragNDropTimer: number = null; // для IE
+    private _draggedKey: CrudEntityKey = null;
     _validateController = null;
 
     _removedItems = [];
@@ -3707,9 +3545,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._isScrollShown || this._scrollController && this._scrollController.isAppliedVirtualScroll()) {
             this._updateHeights(false);
         }
-        if (this._loadingIndicatorState) {
-            _private.updateIndicatorContainerHeight(this, _private.getViewRect(this), this._viewportRect);
-        }
         if (this._viewportSize >= this._viewSize) {
             this._pagingVisible = false;
         }
@@ -3751,17 +3586,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     triggerVisibilityChangedHandler(direction: IDirection, state: boolean): void {
         this._loadTriggerVisibility[direction] = state;
-        if (!state && this._hideIndicatorOnTriggerHideDirection === direction) {
-            if (!this._sourceController.isLoading()) {
-                _private.hideIndicator(this);
-            }
-
-            const viewModel = this.getViewModel();
-            const hasItems = viewModel && viewModel.getCount();
-            if (_private.isPortionedLoad(this) && this._portionedSearchInProgress && hasItems) {
-                _private.getPortionedSearch(this).stopSearch(direction);
-            }
-        }
         this._scrollController?.setTriggerVisibility(direction, state);
         if (state) {
             this.handleTriggerVisible(direction);
@@ -3797,9 +3621,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
                     _private.updateScrollPagingButtons(this, this._getScrollParams());
                 });
-            }
-            if (this._loadingIndicatorState) {
-                _private.updateIndicatorContainerHeight(this, _private.getViewRect(this), this._viewportRect);
             }
         }
     }
@@ -4461,7 +4282,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._checkTriggerVisibilityTimeout) {
             clearTimeout(this._checkTriggerVisibilityTimeout);
         }
-        _private.clearShowLoadingIndicatorTimer(this);
+        if (this._showIndicatorTimer) {
+            clearTimeout(this._showIndicatorTimer);
+        }
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
@@ -4603,16 +4426,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             positionRestored = true;
         }
 
-        // До отрисовки элементов мы не можем понять потребуется ли еще загрузка (зависит от видимости тригеров).
-        // Чтобы индикатор загрузки не мигал, показываем индикатор при загрузки, а скрываем после отрисовки.
-        const hasTrigger = this._loadTriggerVisibility.hasOwnProperty(this._loadingIndicatorState);
-        const isTriggerVisible = !this._loadTriggerVisibility[this._loadingIndicatorState];
-        const isLoading = !!this._sourceController && this._sourceController.isLoading();
-
-        if (this._loadingIndicatorState && !isLoading && hasTrigger && isTriggerVisible) {
-            _private.hideIndicator(this);
-        }
-
         if (this._scrollController) {
             let correctingHeight = 0;
 
@@ -4748,7 +4561,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
             if (result) {
                 _private.handleScrollControllerResult(this, result);
-                this._syncLoadingIndicatorState = direction;
                 this._handleLoadToDirection = false;
                 resolver();
             } else {
@@ -4758,10 +4570,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     }
                     this._handleLoadToDirection = false;
                     resolver();
-                }).catch((error) => {
-                    _private.hideIndicator(this);
-                    return error;
-                });
+                }).catch((error) => error);
             }
         });
         return shiftPromise;
@@ -4791,14 +4600,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
             if (this._shouldRegisterIntersectionObserver()) {
                 this._registerIntersectionObserver();
-            }
-        }
-        // FIXME need to delete after https://online.sbis.ru/opendoc.html?guid=4db71b29-1a87-4751-a026-4396c889edd2
-        if (oldOptions.hasOwnProperty('loading') && oldOptions.loading !== this._options.loading) {
-            if (this._options.loading && this._loadingState === null) {
-                _private.showIndicator(this);
-            } else if (this._loadingState === 'all') {
-                _private.hideIndicator(this);
             }
         }
 
@@ -4964,14 +4765,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this.setMarkedKey(key);
     }
 
-    showIndicator(direction: 'down' | 'up' | 'all' = 'all'): void {
-        _private.showIndicator(this, direction);
-    }
-
-    hideIndicator(): void {
-        _private.hideIndicator(this);
-    }
-
     reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<any> {
         if (keepScroll) {
             this._keepScrollAfterReload = true;
@@ -5003,7 +4796,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         self._noDataBeforeReload = !_private.hasDataBeforeLoad(self);
 
         if (self._sourceController) {
-            _private.showIndicator(self);
+            self._showGlobalIndicator();
             _private.getPortionedSearch(self).reset();
 
             if (cfg.groupProperty) {
@@ -5027,8 +4820,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     _private.setReloadingState(self, false);
                     if (list.getCount()) {
                         self._loadedItems = list;
-                    } else {
-                        self._loadingIndicatorContainerOffsetTop = _private.getListTopOffset(self);
                     }
                     if (self._pagingNavigation) {
                         const hasMoreDataDown = list.getMetaData().more;
@@ -5064,7 +4855,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                         _private.initializeModel(self, cfg, list)
                     }
                     _private.prepareFooter(self, self._options, self._sourceController);
-                    _private.resolveIndicatorStateAfterReload(self, list, navigation);
 
                     resDeferred.callback({
                         data: list
@@ -5077,7 +4867,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (self._destroyed) {
                     return;
                 }
-                _private.hideIndicator(self);
+                self._hideGlobalIndicator();
                 return _private.processError(self, {
                     error
                 }).then(function(result: ICrudResult) {
@@ -5522,20 +5312,20 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (_private.hasHoverFreezeController(this)) {
             this._hoverFreezeController.unfreezeHover();
         }
-        this.showIndicator();
+        this._showGlobalIndicator();
         return this._getEditInPlaceController().edit(userOptions, { columnIndex }).then((result) => {
             if (shouldActivateInput && !(result && result.canceled)) {
                 this._editInPlaceInputHelper.shouldActivate();
             }
             return result;
         }).finally(() => {
-            this.hideIndicator();
+            this._hideGlobalIndicator();
         });
     }
 
     _beginAdd(userOptions, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
-        this.showIndicator();
+        this._showGlobalIndicator();
         return this._getEditInPlaceController().add(userOptions, {addPosition, targetItem, columnIndex}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
@@ -5552,7 +5342,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 controller.setSelection(controller.getSelection());
             }
         }).finally(() => {
-            this.hideIndicator();
+            this._hideGlobalIndicator();
         });
     }
 
@@ -5560,13 +5350,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
-        this.showIndicator();
+        this._showGlobalIndicator();
         return this._getEditInPlaceController().cancel(force).finally(() => {
             if (_private.hasSelectionController(this)) {
                 const controller = _private.getSelectionController(this);
                 controller.setSelection(controller.getSelection());
             }
-            this.hideIndicator();
+            this._hideGlobalIndicator();
         });
     }
 
@@ -5574,9 +5364,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
-        this.showIndicator();
+        this._showGlobalIndicator();
         return this._getEditInPlaceController().commit(commitStrategy).finally(() => {
-            this.hideIndicator();
+            this._hideGlobalIndicator();
         });
     }
 
@@ -6083,7 +5873,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (event.nativeEvent.altKey) {
             return;
         }
-        if (!_private.isBlockedForLoading(this._loadingIndicatorState)) {
+        const isLoading = this._sourceController && this._sourceController.isLoading();
+        if (!isLoading) {
             const key = event.nativeEvent.keyCode;
             const dontStop = key === 17 // Ctrl
                 || key === 33 // PageUp
@@ -6606,6 +6397,29 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._listViewModel.showIndicator('bottom');
     }
 
+    protected _showGlobalIndicator(): void {
+        if (!this._showIndicatorTimer) {
+            this._showIndicatorTimer = setTimeout(() => {
+                if (this._destroyed) {
+                    return;
+                }
+
+                this._showIndicatorTimer = null;
+                this._listViewModel.showIndicator('global');
+                // TODO LI нужно ли событие? У нас ведь модель поменяется
+                this._notify('controlResize');
+            }, INDICATOR_DELAY);
+        }
+    }
+
+    protected _hideGlobalIndicator(): void {
+        this._listViewModel.hideIndicator('global');
+        if (this._showIndicatorTimer) {
+            clearTimeout(this._showIndicatorTimer);
+            this._showIndicatorTimer = null;
+        }
+    }
+
     private _recountResetTriggerOffsets(direction: 'up'|'down'): void {
         // после первого запроса остальные запросы нужно загружать заранее
 
@@ -6657,18 +6471,26 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     private _shouldDisplayTopIndicator(newOptions?: IBaseControlOptions): boolean {
+        // TODO LI нужно продумать логику для не infinity навигаций
+
         // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
-        // TODO LI вроде как это уже не актуально
-        //  const isInfinityNavigation = _private.isInfinityNavigation(this._options.navigation);
+        const isInfinityNavigation = _private.isInfinityNavigation(this._options.navigation);
 
         // TODO LI пересмотреть проверку !this._updateInProgress && !this._scrollController?.getScrollTop()
         const options = newOptions || this._options;
-        return options.attachLoadTopTriggerToNull && this._shouldDisplayIndicator('up', newOptions);
+        return options.attachLoadTopTriggerToNull && isInfinityNavigation
+            && this._shouldDisplayIndicator('up', newOptions);
     }
 
     private _shouldDisplayBottomIndicator(newOptions?: IBaseControlOptions): boolean {
+        // TODO LI нужно продумать логику для не infinity навигаций
+
+        // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
+        const isInfinityNavigation = _private.isInfinityNavigation(this._options.navigation);
+
         const options = newOptions || this._options;
-        return options.attachLoadDownTriggerToNull && this._shouldDisplayIndicator('down', newOptions);
+        return options.attachLoadDownTriggerToNull && isInfinityNavigation
+            && this._shouldDisplayIndicator('down', newOptions);
     }
 
     private _shouldDisplayIndicator(direction: 'up'|'down', newOptions?: IBaseControlOptions): boolean {
@@ -6987,10 +6809,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // чтобы не было прыжков в списке, если асинхронно меняют порядок элементов
         if (this._dndListController) {
             if (dragEndResult instanceof Promise) {
-                _private.showIndicator(this);
+                this._showGlobalIndicator();
                 dragEndResult.finally(() => {
                     endDrag();
-                    _private.hideIndicator(this);
+                    this._hideGlobalIndicator();
                 });
             } else {
                 endDrag();

@@ -123,17 +123,15 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    z-index: 17;
 }
 
-.controls-BaseControl__emptyTemplate {
-   height: 100%;
-   display: flex;
+.controls-BaseControl__loadingIndicator__state-global {
+   position: absolute;
    align-items: center;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
 }
 
-.controls-BaseControl__emptyTemplate__contentWrapper {
-   // Пустое представление обязано и расширяться и сжиматья, подстраиваясь под список
-   flex-grow: 1;
-   max-width: 100%;
-}
 .controls-BaseControl__loadingIndicator_style-portionedSearch {
    padding-top: var(--offset_s);
    bottom: var(--scrollpaging_offset-vertical_list);
@@ -145,25 +143,6 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    position: absolute;
    left: 0;
    right: 0;
-}
-
-// IE не поддерживает position: sticky, положение sticky контейнера не нужно компенсировать на контейнер с пагинацией.
-.ws-is-ie .controls-BaseControl_withPaging__loadingIndicator__state-down {
-   margin-bottom: 0;
-}
-
-.controls-BaseControl__loadingIndicator__state-up .controls-BaseControl__loadingIndicatorImg-wrapper {
-   position: absolute;
-   top: 0;
-}
-
-.controls-BaseControl__loadingIndicator__state-all {
-   position: absolute;
-   align-items: center;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
 }
 
 .controls-BaseControl__loadingIndicatorImg-wrapper {
@@ -185,6 +164,18 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    width: var(--spinner_l_size_loadingIndicator);
    height: var(--spinner_l_size_loadingIndicator);
    background-size: var(--spinner_l_size_loadingIndicator);
+}
+
+.controls-BaseControl__emptyTemplate {
+   height: 100%;
+   display: flex;
+   align-items: center;
+}
+
+.controls-BaseControl__emptyTemplate__contentWrapper {
+   // Пустое представление обязано и расширяться и сжиматья, подстраиваясь под список
+   flex-grow: 1;
+   max-width: 100%;
 }
 
 .controls-BaseControl__trigger {

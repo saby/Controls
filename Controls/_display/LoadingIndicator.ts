@@ -22,7 +22,9 @@ export default class LoadingIndicator extends CollectionItem<null> {
     }
 
     getClasses(): string {
-        return 'controls-BaseControl__loadingIndicator';
+        let classes = 'controls-BaseControl__loadingIndicator';
+        classes += ` controls-BaseControl__loadingIndicator__state-${this._$position}`;
+        return classes
     }
 
     getQAData(marker?: boolean): string {

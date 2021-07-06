@@ -48,6 +48,11 @@ export default abstract class LoadingIndicatorMixin<
         return !!strategy.getIndicator(position);
     }
 
+    getGlobalIndicator(): LoadingIndicator {
+        const strategy = this._getLoadingIndicatorStrategy();
+        return strategy.getIndicator('global');
+    }
+
     showTopTrigger(displaceTriggerToUp: boolean = true): void {
         const strategy = this._getLoadingIndicatorStrategy();
 

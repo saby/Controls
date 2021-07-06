@@ -115,14 +115,14 @@ const _private = {
 
         const eventResult = self._notify(expanded ? 'beforeItemExpand' : 'beforeItemCollapse', [item]);
         if (eventResult instanceof Promise) {
-            self.showIndicator('all');
+            self._showGlobalIndicator();
             return eventResult.then(
                 () => {
-                    self.hideIndicator();
+                    self._hideGlobalIndicator();
                     return _private.doExpand(self, dispItem).then(expandToFirstLeafIfNeed).catch((e) => e);
                 },
                 () => {
-                    self.hideIndicator();
+                    self._hideGlobalIndicator();
                 }
             );
         } else {
@@ -261,7 +261,7 @@ const _private = {
     loadNodeChildren(self: TreeControl, nodeKey: CrudEntityKey): Promise<object> {
         const sourceController = self.getSourceController();
 
-        self.showIndicator();
+        self._showGlobalIndicator();
         return sourceController.load('down', nodeKey).then((list) => {
                 self.stopBatchAdding();
                 return list;
@@ -271,7 +271,7 @@ const _private = {
                 return error;
             })
             .finally(() => {
-                self.hideIndicator();
+                self._hideGlobalIndicator();
             });
     },
 
@@ -1417,11 +1417,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             return;
         }
 
-        this.showIndicator();
+        this._showGlobalIndicator();
         return baseSourceController
             .load(undefined, nodeKey)
             .then((list) => {
-                this.hideIndicator();
+                this._hideGlobalIndicator();
                 return list as RecordSet;
             })
             .catch((error: Error) => {
@@ -1430,7 +1430,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
 
                 this._onDataError({ error });
-                this.hideIndicator();
+                this._hideGlobalIndicator();
 
                 throw error;
             });

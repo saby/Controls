@@ -3797,82 +3797,6 @@ define([
          });
       });
 
-      it('can\'t start drag on readonly list', async function() {
-         let
-             cfg = {
-                viewName: 'Controls/List/ListView',
-                source: source,
-                viewConfig: {
-                   keyProperty: 'id'
-                },
-                viewModelConfig: {
-                   collection: rs,
-                   keyProperty: 'id',
-                   selectedKeys: [1, 3]
-                },
-                viewModelConstructor: 'Controls/display:Collection',
-                navigation: {
-                   source: 'page',
-                   sourceConfig: {
-                      pageSize: 6,
-                      page: 0,
-                      hasMore: false
-                   },
-                   view: 'infinity',
-                   viewConfig: {
-                      pagingMode: 'direct'
-                   }
-                },
-                readOnly: true,
-             },
-             ctrl;
-
-         ctrl = await correctCreateBaseControlAsync(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl.itemsDragNDrop = true;
-         ctrl._itemMouseDown({}, ctrl.getViewModel().at(0), {target: { closest: () => null }, nativeEvent: {button: 0}});
-         assert.isNull(ctrl._draggingItem);
-      });
-      it('can\'t start drag if canStartDragNDrop return false', async function () {
-         let
-            cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  collection: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: 'Controls/display:Collection',
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               },
-               canStartDragNDrop: function() {
-                  return false;
-               }
-            },
-            ctrl;
-         ctrl = await correctCreateBaseControlAsync(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl.itemsDragNDrop = true;
-         ctrl._itemMouseDown({}, ctrl.getViewModel().at(0), { target: { closest: () => null }, nativeEvent: { button: 0 } });
-         assert.isNull(ctrl._draggingItem);
-      });
-
       it('startDragNDrop', () => {
          const self = {
             _options: {
@@ -6838,7 +6762,6 @@ define([
                   startDrag() {},
                   calculateDragPosition() {}
                };
-               baseControl._draggingItem = { dispItem: {} };
                baseControl._unprocessedDragEnteredItem = null;
                baseControl._itemMouseEnter(event, itemData, originalEvent);
                assert.equal(baseControl._unprocessedDragEnteredItem, itemData, 'should save itemData');
