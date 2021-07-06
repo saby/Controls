@@ -5,19 +5,21 @@ define(
    (StickyStrategy) => {
       'use strict';
 
+      StickyStrategy = StickyStrategy.default;
+
       describe('visualViewPort', () => {
 
          it('checkOverflow', () => {
-            let getWindowSizes = StickyStrategy._private.getWindowSizes;
-            let getVisualViewPort = StickyStrategy._private.getVisualViewport;
-            StickyStrategy._private.getVisualViewport = () => ({
+            let getWindowSizes = StickyStrategy._getWindowSizes;
+            let getVisualViewPort = StickyStrategy._getVisualViewport;
+            StickyStrategy._getVisualViewport = () => ({
                width: 1000,
                offsetLeft: 0,
                pageLeft: 80,
                offsetTop: 0,
                pageTop: 699
             });
-            StickyStrategy._private.getWindowSizes = () => ({
+            StickyStrategy._getWindowSizes = () => ({
                width: 1024,
                height: 1040
             });
@@ -49,24 +51,24 @@ define(
             };
 
             //окно открывается вправо, но не умещается из-за своих размеров
-            let overflow = StickyStrategy._private.checkOverflow(popupCfg, targetCoords, position, 'horizontal');
+            let overflow = StickyStrategy._checkOverflow(popupCfg, targetCoords, position, 'horizontal');
             assert.strictEqual(overflow, 85);
 
-            overflow = StickyStrategy._private.checkOverflow(popupCfg, targetCoords, position, 'vertical');
+            overflow = StickyStrategy._checkOverflow(popupCfg, targetCoords, position, 'vertical');
             assert.strictEqual(overflow, -219);
 
             //страница зазумлена, но это влиять на ширину не должно
-            StickyStrategy._private.getVisualViewport = () => ({
+            StickyStrategy._getVisualViewport = () => ({
                width: 1000,
                offsetLeft: 200,
                pageLeft: 200
             });
 
-            overflow = StickyStrategy._private.checkOverflow(popupCfg, targetCoords, position, 'horizontal');
+            overflow = StickyStrategy._checkOverflow(popupCfg, targetCoords, position, 'horizontal');
             assert.strictEqual(overflow, 85);
 
-            StickyStrategy._private.getVisualViewport = getVisualViewPort;
-            StickyStrategy._private.getWindowSizes = getWindowSizes;
+            StickyStrategy._getVisualViewport = getVisualViewPort;
+            StickyStrategy._getWindowSizes = getWindowSizes;
          });
       });
    }

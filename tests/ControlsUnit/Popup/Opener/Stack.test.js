@@ -13,11 +13,12 @@ define(
       var StackStrategyClass = StackStrategyMod.StackStrategy;
       var StackStrategy = popupTemplate.StackStrategy;
       BaseController = new BaseController.default();
+      StackContent = StackContent.default;
       StackStrategy._goUpByControlTree = () => [];
 
       describe('Controls/_popupTemplate/Stack/Opener/StackContent', () => {
          it('canResize', () => {
-            let stackC = new StackContent.default();
+            let stackC = new StackContent();
             assert.equal(false, stackC._canResize(1, 2, 3, null));
             assert.equal(false, stackC._canResize(1, 2, null, 4));
             assert.equal(false, stackC._canResize(1, null, 3, 4));
@@ -262,7 +263,7 @@ define(
             assert.equal(itemConfig.position.top, 0);
             assert.equal(itemConfig.position.right, 0);
             assert.equal(itemConfig.position.width, 800);
-            assert.equal(itemConfig.popupOptions.content, popupTemplate.StackContent);
+            assert.equal(itemConfig.popupOptions.content, StackContent);
             assert.equal(itemConfig.position.hidden, undefined);
 
             let itemCount = 0;
@@ -720,7 +721,7 @@ define(
             assert.equal(item.popupOptions.stackWidth, 500);
          });
          it('stack resizing', () => {
-            let stackContentInstance = new popupTemplate.StackContent({});
+            let stackContentInstance = new StackContent({});
             let item = {
                stackMinWidth: 500,
                stackMaxWidth: 1200,
