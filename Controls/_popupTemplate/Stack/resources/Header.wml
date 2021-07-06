@@ -18,7 +18,7 @@
                <ws:partial template="{{_options.headerContentTemplate}}"
                            scope="{{_options.stackOptions}}"
                            theme="{{_options.theme}}"
-                           hasRightTemplate="{{_options.hasRightTemplate}}"
+                           hasRightTemplate="{{ true }}"
                            bodyContentTemplate="{{null}}"
                            headerContentTemplate="{{null}}"
                            footerContentTemplate="{{null}}" /> <!-- Опция с тем же названием есть на выпадающем списке.
