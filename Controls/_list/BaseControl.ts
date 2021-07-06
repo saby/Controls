@@ -1527,10 +1527,6 @@ const _private = {
                 }
             }
 
-            if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
-                self._recountIndicators('all');
-            }
-
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
             }
@@ -2089,8 +2085,6 @@ const _private = {
                 this._cancelEdit(true) :
                 void 0;
         }
-
-        const navigation = this._options.navigation;
 
         if (items.getCount()) {
             this._loadedItems = items;
@@ -3149,8 +3143,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _template = BaseControlTpl;
     iWantVDOM = true;
 
-    private _resetTopTriggerOffset: boolean = true;
-    private _resetBottomTriggerOffset: boolean = true;
+    private _resetTopTriggerOffset: boolean;
+    private _resetBottomTriggerOffset: boolean;
     private _showIndicatorTimer: number;
 
     protected _listViewModel: Collection = null;
@@ -3469,20 +3463,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
 
             self._afterReloadCallback(newOptions, self._items, self._listViewModel);
-
-            if (self._shouldDisplayBottomIndicator(newOptions)) {
-                self._showBottomIndicator();
-            }
-            // Если верхний индикатор не будет показан, то сразу же показываем триггер,
-            // чтобы в кейсе когда нет данных после моунта инициировать их загрузку
-            if (!self._shouldDisplayTopIndicator(newOptions)) {
-                self._resetTopTriggerOffset = false;
-                self._listViewModel.showTopTrigger(false);
-            }
-
             _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
             _private.prepareFooter(self, newOptions, self._sourceController);
             _private.initVisibleItemActions(self, newOptions);
+            self._initIndicators(newOptions);
         }
         _private.createScrollController(self, newOptions);
 
@@ -3745,10 +3729,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         // на мобильных устройствах не сработает mouseEnter, поэтому ромашку сверху добавляем сразу после моунта
-        if (detection.isMobilePlatform) {
-            if (this._shouldDisplayTopIndicator()) {
-                this._showTopIndicator(true);
-            }
+        // до моунта нельзя, т.к. нельзя будет проскроллить
+        if (detection.isMobilePlatform && this._shouldDisplayTopIndicator()) {
+            this._showTopIndicator(true);
         }
 
         if (_private.isMaxCountNavigation(this._options.navigation) && this._sourceController) {
@@ -4009,7 +3992,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
 
-                this._recountIndicators('all');
+                this._recountIndicators('all', newOptions);
             }
 
             if (newOptions.sourceController) {
@@ -4818,6 +4801,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 _private.doAfterUpdate(self, () => {
                     _private.hideError(self);
                     _private.setReloadingState(self, false);
+                    self._recountIndicators('all');
+
                     if (list.getCount()) {
                         self._loadedItems = list;
                     }
@@ -6351,19 +6336,30 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     // region LoadingIndicator
 
-    _shouldDisplayMiddleLoadingIndicator(): boolean {
-        // Если нет элементов, то должен отображаться глобальный индикатор
-        const shouldDisplayIndicator = this._loadingIndicatorState === 'all'
-            || !!this._loadingIndicatorState && (!this._items || !this._items.getCount());
-        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator;
-    }
-
     _shouldDisplayTopPortionedSearch(): boolean {
         return this._portionedSearchInProgress && this._loadingIndicatorState === 'up';
     }
 
     _shouldDisplayBottomPortionedSearch(): boolean {
         return this._portionedSearchInProgress && this._loadingIndicatorState === 'down';
+    }
+
+    private _initIndicators(newOptions?: IBaseControlOptions) {
+        const displayTopIndicator = this._shouldDisplayTopIndicator(newOptions);
+        const displayBottomIndicator = this._shouldDisplayBottomIndicator(newOptions);
+
+        this._resetTopTriggerOffset = displayTopIndicator;
+        this._resetBottomTriggerOffset = displayBottomIndicator;
+
+        // Если верхний индикатор не будет показан, то сразу же показываем триггер,
+        // чтобы в кейсе когда нет данных после моунта инициировать их загрузку
+        if (!displayTopIndicator) {
+            this._listViewModel.showTopTrigger();
+        }
+        // Нижний индикатор сразу же показываем, т.к. не нужно скроллить
+        if (displayBottomIndicator) {
+            this._showBottomIndicator();
+        }
     }
 
     private _showTopIndicator(scrollToFirstItem: boolean): void {
@@ -6406,8 +6402,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
                 this._showIndicatorTimer = null;
                 this._listViewModel.showIndicator('global');
-                // TODO LI нужно ли событие? У нас ведь модель поменяется
-                this._notify('controlResize');
             }, INDICATOR_DELAY);
         }
     }
@@ -6434,50 +6428,49 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    private _recountIndicators(loadDirection: 'up'|'down'|'all'): void {
-        if (loadDirection === 'up') {
-            if (this._shouldDisplayTopIndicator()) {
-                this._showTopIndicator(false);
-            } else {
-                this._listViewModel.hideIndicator('top');
-            }
+    private _recountIndicators(loadDirection: 'up'|'down'|'all', newOptions?: IBaseControlOptions): void {
+        switch (loadDirection) {
+            case "up":
+                this._recountTopIndicator(newOptions);
+                break;
+            case "down":
+                this._recountBottomIndicator(newOptions);
+                break;
+            case 'all':
+                // триггер после перезагрузки сбрасываем только если нужно показывать индикатор
+                this._resetTopTriggerOffset = this._shouldDisplayTopIndicator(newOptions);
+                this._resetBottomTriggerOffset = this._shouldDisplayBottomIndicator(newOptions);
+                this._recountTopIndicator(newOptions);
+                this._recountBottomIndicator(newOptions);
+                // после перезагрузки скрываем глобальный индикатор
+                this._hideGlobalIndicator();
+                break;
         }
+    }
 
-        if (loadDirection === 'down') {
-            if (this._shouldDisplayBottomIndicator()) {
-                this._showBottomIndicator();
-            } else {
-                this._listViewModel.hideIndicator('bottom');
-            }
+    private _recountTopIndicator(newOptions?: IBaseControlOptions): void {
+        if (this._shouldDisplayTopIndicator(newOptions)) {
+            this._showTopIndicator(false);
+        } else {
+            this._listViewModel.hideIndicator('top');
         }
+    }
 
-        if (loadDirection === 'all') {
-            if (this._shouldDisplayTopIndicator()) {
-                this._resetTopTriggerOffset = true;
-                this._updateScrollController();
-                this._showTopIndicator(true);
-            } else {
-                this._listViewModel.hideIndicator('top');
-            }
-
-            if (this._shouldDisplayBottomIndicator()) {
-                this._resetBottomTriggerOffset = true;
-                this._updateScrollController();
-                this._showBottomIndicator();
-            } else {
-                this._listViewModel.hideIndicator('bottom');
-            }
+    private _recountBottomIndicator(newOptions?: IBaseControlOptions): void {
+        if (this._shouldDisplayBottomIndicator(newOptions)) {
+            this._showBottomIndicator();
+        } else {
+            this._listViewModel.hideIndicator('bottom');
         }
     }
 
     private _shouldDisplayTopIndicator(newOptions?: IBaseControlOptions): boolean {
+        const options = newOptions || this._options;
+
         // TODO LI нужно продумать логику для не infinity навигаций
 
         // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
-        const isInfinityNavigation = _private.isInfinityNavigation(this._options.navigation);
-
-        // TODO LI пересмотреть проверку !this._updateInProgress && !this._scrollController?.getScrollTop()
-        const options = newOptions || this._options;
+        const isInfinityNavigation = _private.isInfinityNavigation(options.navigation);
         return options.attachLoadTopTriggerToNull && isInfinityNavigation
             && this._shouldDisplayIndicator('up', newOptions);
     }

@@ -172,7 +172,7 @@ export default class LoadingIndicator<
 
     // region Trigger
 
-    showTrigger(position: TLoadingTriggerPosition, displaceTriggerToUp: boolean): boolean {
+    showTrigger(position: TLoadingTriggerPosition): boolean {
         const trigger = this._getTrigger(position);
         return trigger.show();
     }
@@ -180,10 +180,12 @@ export default class LoadingIndicator<
     setTriggerOffset(offset: ITriggerOffset): boolean {
         let changed = false;
         if (this._topTrigger) {
-            changed = changed || this._topTrigger.setOffset(offset.top);
+            const topOffsetChanged = this._topTrigger.setOffset(offset.top);
+            changed = changed || topOffsetChanged;
         }
         if (this._bottomTrigger) {
-            changed = changed || this._bottomTrigger.setOffset(offset.bottom);
+            const bottomOffsetChanged = this._bottomTrigger.setOffset(offset.bottom);
+            changed = changed || bottomOffsetChanged;
         }
         return changed;
     }
@@ -192,20 +194,20 @@ export default class LoadingIndicator<
         return `_${position}Trigger`;
     }
 
-    private _getTrigger(position: TLoadingTriggerPosition, displaceTriggerToUp: boolean = true): LoadingTrigger {
+    private _getTrigger(position: TLoadingTriggerPosition): LoadingTrigger {
         const triggerName = this._getTriggerName(position);
 
         let trigger = this[triggerName];
         if (!trigger) {
-            this._createTrigger(position, displaceTriggerToUp);
+            this._createTrigger(position);
         }
         return this[triggerName];
     }
 
-    private _createTrigger(position: TLoadingTriggerPosition, displaceTriggerToUp: boolean = true): void {
+    private _createTrigger(position: TLoadingTriggerPosition): void {
         const isTopTrigger = position === 'top';
         // У верхнего триггера оффсет должен быть изначально -1, иначе обсервер сразу сработает
-        const offset = isTopTrigger && displaceTriggerToUp ? -1 : 0;
+        const offset = isTopTrigger ? -1 : 0;
         const visible = !isTopTrigger;
         const trigger = this.options.display.createItem({
             itemModule: 'Controls/display:LoadingTrigger',

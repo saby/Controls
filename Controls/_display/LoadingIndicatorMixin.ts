@@ -53,11 +53,11 @@ export default abstract class LoadingIndicatorMixin<
         return strategy.getIndicator('global');
     }
 
-    showTopTrigger(displaceTriggerToUp: boolean = true): void {
+    showTopTrigger(): void {
         const strategy = this._getLoadingIndicatorStrategy();
 
         const session = this._startUpdateSession();
-        const changed = strategy.showTrigger('top', displaceTriggerToUp);
+        const changed = strategy.showTrigger('top');
         if (changed) {
             this._reSort();
             this._reFilter();
