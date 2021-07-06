@@ -85,6 +85,12 @@
                         style="{{ _options.style }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
+
+        <!--Global loading indicator-->
+        <ws:if data="{{ _listModel.getGlobalIndicator() }}">
+            <ws:partial template="{{_listModel.getGlobalIndicator().getTemplate()}}"
+                        item="{{_listModel.getGlobalIndicator()}}"/>
+        </ws:if>
     </table>
 </ws:template>
 
