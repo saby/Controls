@@ -1,6 +1,7 @@
 <ws:template name="buttonTemplate">
     <span attr:class="controls-BaseButton__wrapper
                                 controls-Button__wrapper_viewMode-{{_viewMode}}
+                                controls-Button_textAlign-{{_textAlign === undefined ? 'center' : _textAlign}}
                                 {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height}}" tabindex="0">
         <ws:if data="{{!!_icon}}">
             <ws:if data="{{_isSVGIcon}}">

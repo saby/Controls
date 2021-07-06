@@ -29,12 +29,14 @@ import 'css!Controls/buttons';
 import 'css!Controls/CommonClasses';
 
 export type IViewMode = 'button' | 'link' | 'linkButton' | 'toolButton' | 'functionalButton';
+export type TextAlign = 'left' | 'right' | 'center';
 
 export interface IButtonControlOptions extends IControlOptions, IHrefOptions, ICaptionOptions, IIconOptions,
     IIconStyleOptions, IIconSizeOptions, IFontColorStyleOptions, IFontSizeOptions, IHeightOptions, ITooltipOptions,
     IButtonOptions {
     viewMode?: IViewMode;
     captionPosition: 'left' | 'right';
+    textAlign?: TextAlign;
 }
 
 export function defaultHeight(viewMode: string): string {
@@ -90,7 +92,8 @@ export function getDefaultOptions(): object {
         iconSize: 'm',
         captionPosition: 'right',
         fontSize: 'm',
-        buttonStyle: 'secondary'
+        buttonStyle: 'secondary',
+        textAlign: 'center'
     };
 }
 
@@ -267,6 +270,14 @@ Object.defineProperty(Button, 'defaultProps', {
  *    <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
  * </pre>
  * @see Size
+ */
+
+/**
+ * @name Controls/_buttons/Button#textAlign
+ * @variant left Текст выравнивается по левой стороне.
+ * @variant right Текст выравнивается по правой стороне.
+ * @variant center Текст выравнивается по центру.
+ * @default center
  */
 
 /**
