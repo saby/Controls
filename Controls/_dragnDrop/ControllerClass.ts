@@ -62,6 +62,7 @@ class ControllerClass {
         this._dialogOpener.open({
             topPopup: true,
             opener: null,
+            autofocus: false,
             template: 'Controls/dragnDrop:DraggingTemplateWrapper',
             templateOptions: {
                 draggingTemplateOptions,
