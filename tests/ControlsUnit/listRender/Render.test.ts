@@ -268,10 +268,6 @@ describe('Controls/_listRender/Render', () => {
             contextMenuEnabled: true,
             contextMenuVisibility: true
         });
-        editingItem = {};
-        render._onItemContextMenu(mockEvent, {});
-
-        assert.isFalse(itemContextMenuFired, 'itemContextMenu should not fire when an item is being edited');
 
         const item = {};
         editingItem = null;

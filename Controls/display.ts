@@ -117,13 +117,8 @@ export {Footer};
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});
-register('Controls/display:Enum', Enum, {instantiate: false});
-register('Controls/display:Flags', Flags, {instantiate: false});
-register('Controls/display:FlagsItem', FlagsItem, {instantiate: false});
 
 register('Controls/display:GroupItem', GroupItem, {instantiate: false});
-register('Controls/display:TileCollection', TileCollection, {instantiate: false});
-register('Controls/display:TileCollectionItem', TileCollectionItem, {instantiate: false});
 register('Controls/display:Tree', Tree, {instantiate: false});
 register('Controls/display:TreeChildren', TreeChildren, {instantiate: false});
 register('Controls/display:TreeItem', TreeItem, {instantiate: false});
