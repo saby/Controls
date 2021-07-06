@@ -7,6 +7,7 @@ import * as GridItem from 'wml!Controls/_grid/Render/grid/Item';
 import * as GroupTemplate from 'wml!Controls/_grid/Render/GroupCellContentWithRightTemplate';
 import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
+import ValidateGridOptions from './utils/GridConfigValidating';
 
 import {ColumnScrollViewMixin} from './ViewMixins/ColumnScrollViewMixin';
 
@@ -28,6 +29,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
         const result = GridView.superclass._beforeMount.apply(this, arguments);
         this._columnScrollOnViewBeforeMount(options);
         this._ladderOffsetSelector = `controls-GridView__ladderOffset-${this._createGuid()}`;
+        ValidateGridOptions.COLUMNS.validateWidths(options.columns);
         return result;
     },
 
@@ -42,6 +44,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
             // Если колонки изменились, например, их кол-во, а данные остались те же, то
             // то без перерисовки мы не можем корректно отобразить данные в новых колонках.
             // правка конфликтует с https://online.sbis.ru/opendoc.html?guid=a8429971-3a3c-44d0-8cca-098887c9c717
+            ValidateGridOptions.COLUMNS.validateWidths(options.columns);
             listModel.setColumns(options.columns, false);
         }
 
