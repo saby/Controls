@@ -174,8 +174,8 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         return this._index;
     }
 
-    constructor(cfg: IStickyHeaderOptions) {
-        super(cfg);
+    constructor(cfg: IStickyHeaderOptions, context?: object) {
+        super(cfg, context);
         this._observeHandler = this._observeHandler.bind(this);
     }
 
