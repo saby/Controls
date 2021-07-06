@@ -1,0 +1,47 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Up/Index' }}">
+            <a href="{{content.href}}">Подгрузка вверх</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Up.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Down/Index' }}">
+            <a href="{{content.href}}">Подгрузка вниз</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Down.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Both/Index' }}">
+            <a href="{{content.href}}">Подгрузка в обе стороны</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Both.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Middle/Index' }}">
+            <a href="{{content.href}}">Ромашка по центру</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Middle.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/PortionedSearch/Index' }}">
+            <a href="{{content.href}}">Порционный поиск</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.PortionedSearch.Index/>
+    </div>
+</div>
+

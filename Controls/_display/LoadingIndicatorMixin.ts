@@ -5,8 +5,7 @@ import {StrategyConstructor} from './Collection';
 import CollectionItem from './CollectionItem';
 import {default as LoadingIndicatorStrategy} from './itemsStrategy/LoadingIndicator';
 import {TLoadingIndicatorPosition} from './LoadingIndicator';
-import {ISession} from "Types/_collection/enumerableComparator";
-import {TLoadingTriggerPosition} from "Controls/_display/LoadingTrigger";
+import {IEnumerableComparatorSession} from 'Types/collection';
 
 export interface ITriggerOffset {
     top: number;
@@ -73,8 +72,8 @@ export default abstract class LoadingIndicatorMixin<
     protected abstract _nextVersion(): void;
     protected abstract _reSort(): void;
     protected abstract _reFilter(): void;
-    protected abstract _startUpdateSession(): ISession;
-    protected abstract _finishUpdateSession(session: ISession, analize?: boolean): void;
+    protected abstract _startUpdateSession(): IEnumerableComparatorSession;
+    protected abstract _finishUpdateSession(session: IEnumerableComparatorSession, analize?: boolean): void;
 }
 
 Object.assign(LoadingIndicatorMixin.prototype, {
