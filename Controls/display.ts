@@ -55,17 +55,10 @@ export {
     IItemActionsTemplateConfig, ISwipeConfig, ItemsFactory, IViewIterator
 };
 export {default as CollectionItem, IOptions as ICollectionItemOptions} from './_display/CollectionItem';
-import {default as Enum} from './_display/Enum';
-export {Enum};
-import {default as Flags} from './_display/Flags';
-export {Flags};
-import {default as FlagsItem} from './_display/FlagsItem';
-export {FlagsItem};
 import {default as GroupItem} from './_display/GroupItem';
 export {GroupItem};
 import * as itemsStrategy from './_display/itemsStrategy';
 export {itemsStrategy};
-export {default as Ladder} from './_display/Ladder';
 import {default as Search} from './_display/Search';
 export {Search};
 import {default as Tree} from './_display/Tree';
@@ -95,11 +88,6 @@ export {IEditableCollection} from './_display/interface/IEditableCollection';
 export {IEditableCollectionItem} from './_display/interface/IEditableCollectionItem';
 export {ICollectionItem} from './_display/interface/ICollectionItem';
 export {IBaseCollection, TItemKey} from './_display/interface';
-
-import {default as TileCollection} from './_display/TileCollection';
-export {TileCollection};
-import {default as TileCollectionItem} from './_display/TileCollectionItem';
-export {TileCollectionItem};
 
 import * as GridLadderUtil from './_display/utils/GridLadderUtil';
 export {GridLadderUtil};
