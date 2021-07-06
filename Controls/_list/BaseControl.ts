@@ -3929,15 +3929,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _updateScrollController(newOptions) {
+    _updateScrollController(newOptions?: IBaseControlOptions) {
         if (this._scrollController) {
+            const options = newOptions || this._options;
             this._scrollController.setRendering(true);
             const result = this._scrollController.update({
                 options: {
-                    ...newOptions,
+                    ...options,
                     resetTopTriggerOffset: this._resetTopTriggerOffset,
                     resetBottomTriggerOffset: this._resetBottomTriggerOffset,
-                    forceInitVirtualScroll: newOptions?.navigation?.view === 'infinity',
+                    forceInitVirtualScroll: options?.navigation?.view === 'infinity',
                     collection: this.getViewModel(),
                     needScrollCalculation: this._needScrollCalculation
                 }
@@ -6594,17 +6595,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (direction === 'down' && this._resetBottomTriggerOffset) {
             this._resetBottomTriggerOffset = false;
-            this._updateScrollController(this._options);
+            this._updateScrollController();
         }
 
         if (direction === 'up' && this._resetTopTriggerOffset) {
             this._resetTopTriggerOffset = false;
-            this._updateScrollController(this._options);
+            this._updateScrollController();
         }
     }
 
-    private _recountIndicators(direction: 'up'|'down'|'all'): void {
-        if (direction === 'up') {
+    private _recountIndicators(loadDirection: 'up'|'down'|'all'): void {
+        if (loadDirection === 'up') {
             if (this._shouldDisplayTopIndicator()) {
                 this._showTopIndicator(false);
             } else {
@@ -6612,7 +6613,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
         }
 
-        if (direction === 'down') {
+        if (loadDirection === 'down') {
             if (this._shouldDisplayBottomIndicator()) {
                 this._showBottomIndicator();
             } else {
@@ -6620,21 +6621,19 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
         }
 
-        if (direction === 'all') {
+        if (loadDirection === 'all') {
             if (this._shouldDisplayTopIndicator()) {
-                this._showTopIndicator(true);
-
                 this._resetTopTriggerOffset = true;
-                this._updateScrollController(this._options);
+                this._updateScrollController();
+                this._showTopIndicator(true);
             } else {
                 this._listViewModel.hideIndicator('top');
             }
 
             if (this._shouldDisplayBottomIndicator()) {
-                this._showBottomIndicator();
-
                 this._resetBottomTriggerOffset = true;
-                this._updateScrollController(this._options);
+                this._updateScrollController();
+                this._showBottomIndicator();
             } else {
                 this._listViewModel.hideIndicator('bottom');
             }
