@@ -1,4 +1,3 @@
-import {Control} from 'UI/Base';
 import {POSITION, TYPE_FIXED_HEADERS} from "../Utils";
 import { goUpByControlTree } from 'UI/NodeCollector';
 import {IControl} from 'UICommon/interfaces';
