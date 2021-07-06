@@ -239,7 +239,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 (!oldItem || !oldItemIsFrequent || optionsToCheck.reduce(getOptionsChecker(oldItem, newItem), false)
                     || (valueChanged && configs && !configs[newItem.name]) || needHistoryReload)
             ) {
-                if (valueChanged && !isEqual(newItem.value, newItem.value)) {
+                if (valueChanged && !isEqual(newItem.value, newItem.resetValue)) {
                     result.push(newItem);
                 } else if (configs && configs[newItem.name]) {
                     // Загрузим перед открытием
