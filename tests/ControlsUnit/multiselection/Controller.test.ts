@@ -718,9 +718,9 @@ describe('Controls/_multiselection/Controller', () => {
          const addedItems = [model.getItemBySourceKey(1), model.getItemBySourceKey(3)];
          controller.onCollectionAdd(addedItems);
 
-         assert.isNull(model.getItemBySourceKey(1).isSelected());
+         assert.isTrue(model.getItemBySourceKey(1).isSelected());
          assert.isFalse(model.getItemBySourceKey(2).isSelected());
-         assert.isNull(model.getItemBySourceKey(3).isSelected());
+         assert.isTrue(model.getItemBySourceKey(3).isSelected());
          assert.isFalse(model.getItemBySourceKey(4).isSelected());
       });
 
@@ -825,11 +825,11 @@ describe('Controls/_multiselection/Controller', () => {
 
          controller.setSelection({selected: [1], excluded: []});
          // Проверяем что выбраны все хлебные крошки, у которых в пути есть 1 и все дети этих хлебных крошек
-         assert.isNull(model.getItemBySourceKey(1).isSelected());
+         assert.isTrue(model.getItemBySourceKey(1).isSelected());
          assert.isTrue(model.getItemBySourceKey(13).isSelected());
-         assert.isNull(model.getItemBySourceKey(11).isSelected());
+         assert.isTrue(model.getItemBySourceKey(11).isSelected());
          assert.isTrue(model.getItemBySourceKey(111).isSelected());
-         assert.isNull(model.getItemBySourceKey(12).isSelected());
+         assert.isTrue(model.getItemBySourceKey(12).isSelected());
          assert.isTrue(model.getItemBySourceKey(121).isSelected());
          assert.isFalse(model.getItemBySourceKey(2).isSelected());
          assert.isFalse(model.getItemBySourceKey(21).isSelected());
@@ -842,7 +842,7 @@ describe('Controls/_multiselection/Controller', () => {
          assert.isFalse(model.getItemBySourceKey(111).isSelected());
          assert.isFalse(model.getItemBySourceKey(12).isSelected());
          assert.isFalse(model.getItemBySourceKey(121).isSelected());
-         assert.isNull(model.getItemBySourceKey(2).isSelected());
+         assert.isTrue(model.getItemBySourceKey(2).isSelected());
          assert.isTrue(model.getItemBySourceKey(21).isSelected());
 
          controller.setSelection({selected: [12], excluded: [1]});
@@ -852,7 +852,7 @@ describe('Controls/_multiselection/Controller', () => {
          assert.isFalse(model.getItemBySourceKey(13).isSelected());
          assert.isFalse(model.getItemBySourceKey(11).isSelected());
          assert.isFalse(model.getItemBySourceKey(111).isSelected());
-         assert.isNull(model.getItemBySourceKey(12).isSelected());
+         assert.isTrue(model.getItemBySourceKey(12).isSelected());
          assert.isTrue(model.getItemBySourceKey(121).isSelected());
          assert.isFalse(model.getItemBySourceKey(2).isSelected());
          assert.isFalse(model.getItemBySourceKey(21).isSelected());
