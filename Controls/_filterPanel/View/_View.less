@@ -163,6 +163,12 @@
    font-size: var(--font-size_m);
 }
 
+.controls-FilterViewPanel__history-caption {
+   color: var(--label_text-color);
+   margin-left: var(--offset_2xl);
+   font-size: var(--font-size_m);
+}
+
 .controls-FilterViewPanel__additional-header {
    display: flex;
    flex-direction: row;
@@ -180,12 +186,24 @@
    flex-grow: 1;
    padding-bottom: var(--offset_2xl);
    background-color: var(--background-color_filterViewPanel);
+}
 
+.controls-FilterViewPanel__history-editors-container {
+   flex-grow: 1;
+   background-color: var(--background-color_filterViewPanel);
+   padding-bottom: var(--offset_xl);
 }
 
 .controls-FilterViewPanel__additional-editors {
    display: flex;
    flex-wrap: wrap;
+   width: 100%;
+   box-sizing: border-box;
+   padding-left: calc(var(--offset_2xl) - var(--additional-editor_horizontal-offset_filterViewPanel));
+   padding-right: var(--offset_m);
+}
+
+.controls-FilterViewPanel__history-editors {
    width: 100%;
    box-sizing: border-box;
    padding-left: calc(var(--offset_2xl) - var(--additional-editor_horizontal-offset_filterViewPanel));
@@ -201,7 +219,18 @@
    color: var(--additional-editor_color_filterViewPanel);
 }
 
-.controls-FilterViewPanel__additional-editor:hover {
+.controls-FilterViewPanel__history-editor {
+   cursor: pointer;
+   min-height: var(--inline_height_s);
+   padding: 0 var(--additional-editor_horizontal-offset_filterViewPanel);
+   margin-top: var(--offset_s);
+   border-radius: var(--additional-editor_border-radius_filterViewPanel);
+   color: var(--additional-editor_color_filterViewPanel);
+   display: inline-flex;
+}
+
+.controls-FilterViewPanel__additional-editor:hover,
+.controls-FilterViewPanel__history-editor:hover {
    background: var(--background-color);
 }
 
@@ -264,4 +293,23 @@
    height: 1px;
    background: var(--separator_color);
    align-self: center;
+}
+
+.controls-FilterViewPanel__pin-icon {
+   .icon-size(var(--reset-button_icon-size_filterView));
+   padding-top: var(--offset_3xs);
+   padding-left: var(--offset_m);
+   color: var(--reset-button_icon-color_filterView);
+   cursor: pointer;
+   visibility: hidden;
+}
+
+.controls-FilterViewPanel__history-editor:hover {
+   .controls-FilterViewPanel__pin-icon {
+      visibility: visible;
+   }
+}
+
+.controls-FilterViewPanel__pinned-icon {
+   visibility: visible;
 }
