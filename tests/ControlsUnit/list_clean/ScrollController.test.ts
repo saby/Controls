@@ -503,7 +503,8 @@ describe('Controls/list_clean/ScrollController', () => {
             const options = {
                 collection,
                 virtualScrollConfig: {pageSize: 1},
-                needScrollCalculation: true
+                needScrollCalculation: true,
+                forceInitVirtualScroll: true
             };
             const controller = new ScrollController(options);
             const result = controller.handleResetItems();
