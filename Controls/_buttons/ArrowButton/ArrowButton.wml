@@ -10,10 +10,6 @@
         </svg>
     </ws:if>
     <ws:else>
-        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
-             class="controls-ArrowButton_icon controls-icon_size-{{ _options.iconSize }}
-                    controls-ArrowButton_icon_direction-{{_options.direction}}">
-            <path d="M11.5 8L6 15V13L9.7 8L6 3V1L11.5 8Z"/>
-        </svg>
+        <span class="{{_getIconClass()}}"></span>
     </ws:else>
 </div>
