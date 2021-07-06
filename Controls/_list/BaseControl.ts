@@ -5685,7 +5685,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return BaseControl._rejectEditInPlacePromise('beginEdit');
         }
         return this._beginEdit(userOptions, {
-            shouldActivateInput: userOptions?.shouldActivateInput
+            shouldActivateInput: userOptions?.shouldActivateInput,
+            columnIndex: userOptions?.columnIndex || 0
         });
     }
 
@@ -5696,7 +5697,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._beginAdd(userOptions, {
             addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
             targetItem: userOptions?.targetItem,
-            shouldActivateInput: userOptions?.shouldActivateInput
+            shouldActivateInput: userOptions?.shouldActivateInput,
+            columnIndex: userOptions?.columnIndex || 0
         });
     }
 
