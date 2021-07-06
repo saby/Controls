@@ -731,7 +731,7 @@ export default class ScrollController {
     }
 
     handleResetItems(): IScrollControllerResult {
-        return this._initVirtualScroll(this._options);
+        return this._initVirtualScroll({...this._options, forceInitVirtualScroll: true});
     }
 
     calculateVirtualScrollHeight(): number {
