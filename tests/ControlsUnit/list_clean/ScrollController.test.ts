@@ -494,6 +494,22 @@ describe('Controls/list_clean/ScrollController', () => {
             const result = controller.handleRemoveItems(0, [{}]);
             assert.isOk(result);
         });
+        it('reset', () => {
+            const collection = new Collection({
+                collection: new RecordSet({
+                    rawData: [ { id: '1'} ]
+                })
+            });
+            const options = {
+                collection,
+                virtualScrollConfig: {pageSize: 1},
+                needScrollCalculation: true,
+                forceInitVirtualScroll: true
+            };
+            const controller = new ScrollController(options);
+            const result = controller.handleResetItems();
+            assert.isOk(result);
+        });
     });
 
 
