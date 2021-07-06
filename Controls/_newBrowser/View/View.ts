@@ -144,8 +144,8 @@ export default class View extends Control<IOptions, IReceivedState> {
     //endregion
     //endregion
 
-    constructor() {
-        super();
+    constructor(options: IOptions, context?: object) {
+        super(options, context);
         this._onDetailDataLoadCallback = this._onDetailDataLoadCallback.bind(this);
     }
 

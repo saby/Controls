@@ -433,7 +433,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * Если параметр имеет значение true, элемент коллекции будет заменен загруженным элементом.
  * Если параметр имеет значение false (по умолчанию), загруженные элементы будут объединены в элемент коллекции.
  * @param {Controls/_list/interface/IList/ReloadType.typedef} [reloadType=read] Определяет, как будет загружен элемент.
- * @return {Promise<Model>} В случае успешной загрузки, Promise вернет список отображаемых дочерних элементов для загруженного узла.
+ * @returns {Promise<Model>} В случае успешной загрузки, Promise вернет список отображаемых дочерних элементов для загруженного узла.
  * @example
  * <pre class="brush: js">
  * _itemUpdated: function(id) {

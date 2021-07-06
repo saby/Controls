@@ -77,7 +77,7 @@
                                   app="{{ 'Controls-demo/Menu/Control/ItemActions/Index' }}">
             <a href="{{content.href}}">ItemActions</a>
          </Router.router:Reference>
-         <Controls-demo.Menu.Control.ItemActions.Index/>
+         <Controls-demo.Menu.Control.GroupProperty.Index/>
    </div>
    <div class="controlsDemo__cell">
          <Router.router:Reference attr:class="controls-text-label"
@@ -87,4 +87,12 @@
          </Router.router:Reference>
          <Controls-demo.Menu.Control.NodeFooterTemplate.Index/>
    </div>
+   <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Menu/Control/ItemActions/HoverBackgroundStyle/Index' }}">
+            <a href="{{content.href}}">ItemActions, hoverBackgroundStyle = danger</a>
+        </Router.router:Reference>
+        <Controls-demo.Menu.Control.ItemActions.HoverBackgroundStyle.Index/>
+    </div>
 </div>

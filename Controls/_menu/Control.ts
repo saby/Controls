@@ -1169,20 +1169,17 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return parent === options.root || !parent && options.root === null;
     }
 
-    static getDefaultOptions(): object {
-        return {
-            selectedKeys: [],
-            root: null,
-            historyRoot: null,
-            emptyKey: null,
-            moreButtonCaption: rk('Еще') + '...',
-            groupTemplate,
-            itemPadding: {},
-            markerVisibility: 'onactivated',
-            backgroundStyle: 'default',
-            hoverBackgroundStyle: 'default'
-        };
-    }
+    static defaultProps: object = {
+        selectedKeys: [],
+        root: null,
+        historyRoot: null,
+        emptyKey: null,
+        moreButtonCaption: rk('Еще') + '...',
+        groupTemplate,
+        itemPadding: {},
+        markerVisibility: 'onactivated',
+        hoverBackgroundStyle: 'default'
+    };
 }
 /**
  * @name Controls/_menu/MenuControl#multiSelect
@@ -1246,12 +1243,3 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
  * }
  * </pre>
  */
-
-Object.defineProperty(MenuControl, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
-
-   get(): object {
-      return MenuControl.getDefaultOptions();
-   }
-});

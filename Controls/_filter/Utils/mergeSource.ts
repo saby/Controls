@@ -12,8 +12,12 @@ export default function mergeSource(target: IFilterItem[] = [], source: IFilterI
                         value !== undefined :
                         historyItem.hasOwnProperty(fieldName);
 
-                    if (item.hasOwnProperty(fieldName) && allowMerge) {
-                        object.setPropertyValue(item, fieldName, value);
+                    if ((item.hasOwnProperty(fieldName) || fieldName === 'displayTextValue') && allowMerge) {
+                        if (fieldName === 'displayTextValue') {
+                            item[fieldName] = value;
+                        } else {
+                            object.setPropertyValue(item, fieldName, value);
+                        }
                     }
                 }
             }

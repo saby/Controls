@@ -49,22 +49,6 @@ export default interface IMenuBase {
  */
 
 /**
- * @typedef {String} backgroundColor
- * @variant primary.
- * @variant secondary.
- * @variant danger.
- * @variant success.
- * @variant warning.
- * @variant info.
- * @variant unaccented.
- */
-/**
- * @name Controls/_menu/interface/IMenuBase#backgroundColor
- * @cfg {backgroundColor} Задает цвет фона для меню.
- * @demo Controls-demo/Menu/Control/ItemActions/MenuBackgroundStyle/Index
- */
-
-/**
  * @name Controls/_menu/interface/IMenuBase#navigation
  * @cfg {Controls/_interface/INavigation} Конфигурация навигации по списку.
  * @demo Controls-demo/Menu/Control/Navigation/Index
