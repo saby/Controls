@@ -58,10 +58,9 @@
 <ws:for data="index, item in collection.getViewIterator()">
    <ws:if data="{{ item.isEditing() }}">
       <!-- Во время редактирования строки View не должна слушать событие click и mouseDown -->
-      <Controls._list.EditInPlace.EditingRow name="editingRow" on:deactivated="_onRowDeactivated()">
-              <ws:partial template="localItemTemplate"
-                          on:editingItemClick="_onEditingItemClick(item)"/>
-      </Controls._list.EditInPlace.EditingRow>
+      <Controls._baseList.EditInPlace.EditingRow name="editingRow" on:deactivated="_onRowDeactivated()">
+         <ws:partial template="localItemTemplate" on:editingItemClick="_onEditingItemClick(item)"/>
+      </Controls._baseList.EditInPlace.EditingRow>
    </ws:if>
    <ws:else>
       <ws:partial template="localItemTemplate"

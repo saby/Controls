@@ -15,7 +15,7 @@ import {
     IItemActionsOptions,
     ISelectorDialogOptions
 } from 'Controls/interface';
-import {IList} from 'Controls/list';
+import {IList} from 'Controls/baseList';
 import {IColumn} from 'Controls/interface';
 import {List, RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
