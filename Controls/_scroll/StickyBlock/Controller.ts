@@ -421,7 +421,7 @@ class StickyHeaderController {
 
     private _getHeaderFromNode(container: HTMLElement): any {
         const control = getClosestControl(container);
-        if (control._container === container) {
+        if (control?._container === container) {
             // если контейнер ближайшего контрола совпадает с таргетом - это хедер
             return control;
         }
