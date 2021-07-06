@@ -8,7 +8,7 @@
                                iconStyle="{{ _options.backButtonIconStyle }}"
                                fontColorStyle="{{ _options.backButtonFontColorStyle }}"
                                newIcon="{{_options.backButtonNewIcon}}"
-                               fontSize="headingPathBack"
+                               fontSize="{{_options.backButtonFontSize || 'headingPathBack'}}"
                                theme="{{ _options.theme}}"
                                on:click="_onBackButtonClick()"/>
         <ws:if data="{{ _options.afterBackButtonTemplate }}">
