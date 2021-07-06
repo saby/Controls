@@ -1,19 +1,15 @@
-/**
- * Created by kraynovdo on 31.01.2018.
- */
-import {Control, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls/_list/List');
-
+import {Model} from 'Types/entity';
 import {EventUtils} from 'UI/Events';
-import viewName = require('Controls/_list/ListView');
-import {default as ListControl} from 'Controls/_list/BaseControl';
-import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
-import { DataSet, CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
+import { RecordSet } from 'Types/collection';
+import {Control, TemplateFunction} from 'UI/Base';
 import {IMovableList} from './interface/IMovableList';
 import {IRemovableList} from './interface/IRemovableList';
-import { RecordSet } from 'Types/collection';
-import 'css!Controls/list';
-import {Model} from 'Types/entity';
+import template = require('wml!Controls/_baseList/List');
+import viewName = require('Controls/_baseList/ListView');
+import {default as ListControl} from 'Controls/_baseList/BaseControl';
+import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
+import {DataSet, CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
+import 'css!Controls/baseList';
 
 /**
  * Контрол "Плоский список" позволяет отображать данные из различных источников в виде упорядоченного списка.

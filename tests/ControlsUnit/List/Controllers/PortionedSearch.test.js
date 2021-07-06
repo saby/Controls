@@ -1,4 +1,4 @@
-define(['Controls/_list/Controllers/PortionedSearch'], function(PortionedSearch) {
+define(['Controls/_baseList/Controllers/PortionedSearch'], function(PortionedSearch) {
    describe('Controls.Controllers.PortionedSearch', function () {
       let portionedSearchController;
       let searchStopped = false;

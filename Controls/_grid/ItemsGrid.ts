@@ -1,7 +1,7 @@
 import {isFullGridSupport} from 'Controls/display';
 import * as GridView from 'Controls/_grid/GridView';
 import GridViewTable from 'Controls/_grid/GridViewTable';
-import {IItemsViewOptions, ItemsView as ListItemsView, ListControl as viewTemplate} from 'Controls/list';
+import {IItemsViewOptions, ItemsView as ListItemsView, ListControl as viewTemplate} from 'Controls/baseList';
 
 /**
  * Контрол плоской таблицы, который умеет работать без источника данных.

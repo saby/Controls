@@ -1,4 +1,4 @@
-import {IItemPadding, ListView} from 'Controls/list';
+import {IItemPadding, ListView} from 'Controls/baseList';
 import template = require('wml!Controls/_tile/render/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/render/items/Default');
 import { TouchDetect } from 'Env/Touch';
@@ -13,7 +13,7 @@ import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
 import {createPositionInBounds} from './utils/createPosition';
 import 'css!Controls/tile';
-import CollectionItem from "Controls/_display/CollectionItem";
+import CollectionItem from 'Controls/_display/CollectionItem';
 
 const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
 const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
