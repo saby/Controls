@@ -667,6 +667,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
     private _getFastText(config: IFilterItemConfig, selectedKeys: string[], item?: IFilterItem): IDisplayText {
         const textArr = [];
+        const displayTextValue = item?.displayTextValue;
         if (selectedKeys[0] === config.emptyKey && config.emptyText) {
             textArr.push(config.emptyText);
         } else if (config.items) {
@@ -676,6 +677,11 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                     textArr.push(object.getPropertyValue(selectedItem, config.displayProperty));
                 }
             });
+        } else if (displayTextValue) {
+            return {
+                ...displayTextValue,
+                title: item?.textValue ? item.textValue : ''
+            };
         } else if (item?.textValue) {
             textArr.push(item.textValue);
         }
@@ -712,16 +718,17 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
                         // [ [selectedKeysList1], [selectedKeysList2] ] in hierarchy list
                         const flatSelectedKeys = nodeProperty ? factory(selectedKeys).flatten().value() : selectedKeys;
-
-                        this._displayText[item.name] = this._getFastText(configs[item.name], flatSelectedKeys, item);
-                        if (!this._displayText[item.name].text && detailPanelHandler) {
+                        const displayText = this._getFastText(configs[item.name], flatSelectedKeys, item);
+                        this._displayText[item.name] = displayText;
+                        if (!displayText.text && detailPanelHandler) {
                             // If method is called after selecting from detailPanel,
                             // then textValue will contains actual display value
-                            this._displayText[item.name].text = item.textValue && item.textValue.split(', ')[0];
-                            this._displayText[item.name].hasMoreText = this._getHasMoreText(flatSelectedKeys);
+                            displayText.text = item.textValue && item.textValue.split(', ')[0];
+                            displayText.hasMoreText = this._getHasMoreText(flatSelectedKeys);
                         }
                         if (item.textValue !== undefined && !detailPanelHandler) {
-                            item.textValue = this._displayText[item.name].title;
+                            item.textValue = displayText.title;
+                            item.displayTextValue = displayText;
                         }
                     } else if (item.textValue) {
                         /* Сюда мы попадем только в случае, когда фильтр выбрали с панели фильтров,

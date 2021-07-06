@@ -765,6 +765,11 @@ export default class FilterControllerClass {
             minimizedItem.name = getPropValue(item, 'name');
             minimizedItem.viewMode = getPropValue(item, 'viewMode');
         }
+        if (isNeedSaveHistory && getPropValue(item, 'displayTextValue')) {
+            const displayText = {...getPropValue(item, 'displayTextValue')};
+            delete displayText.title;
+            minimizedItem.displayTextValue = displayText;
+        }
         return minimizedItem;
     }
 
