@@ -30,6 +30,7 @@ define(['Controls/_filter/Utils/mergeSource'],
             var history = [{
                id: 'testId',
                value: 'testValue',
+               displayTextValue: 'shortText',
                resetValue: '',
                textValue: 'textTextValue'
             }, {
@@ -49,6 +50,7 @@ define(['Controls/_filter/Utils/mergeSource'],
             var result = [{
                id: 'testId',
                value: 'testValue',
+               displayTextValue: 'shortText',
                textValue: 'textTextValue',
                resetValue: ''
             }, {
