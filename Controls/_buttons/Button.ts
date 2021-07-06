@@ -62,9 +62,10 @@ export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._fontColorStyle = options.fontColorStyle ? options.fontColorStyle : defaultFontColorStyle(this._viewMode);
     this._fontSize = options.fontSize;
     this._hasIcon = !!options.icon;
+    const isTextAlignCenter = ['functionalButton', 'toolButton'].includes(this._viewMode);
     if (this._viewMode === 'button') {
         this._textAlign = options.textAlign;
-    } else if (['functionalButton', 'toolButton'].includes(this._viewMode)) {
+    } else if (isTextAlignCenter) {
         this._textAlign = 'center';
     } else {
         this._textAlign = 'none';
