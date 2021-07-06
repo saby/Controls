@@ -427,7 +427,7 @@ define(
                height: 950
             }); // Этот метод зовет получение размеров окна, для этих тестов не нужно
 
-            popupTemplate.StackController._elementCreated(itemConfig, {});
+            popupTemplate.StackController.elementCreatedWrapper(itemConfig, {});
 
             // Зависит от того где запускаем тесты, под нодой или в браузере
             assert.isTrue(itemConfig.popupState === BaseController.POPUP_STATE_CREATED || itemConfig.popupState === BaseController.POPUP_STATE_CREATING);
@@ -435,25 +435,25 @@ define(
             assert.equal(itemConfig.popupState, BaseController.POPUP_STATE_CREATED);
 
             itemConfig.popupOptions.className = '';
-            popupTemplate.StackController._elementUpdated(itemConfig, {});
-            popupTemplate.StackController._elementUpdated(itemConfig, {});
-            popupTemplate.StackController._elementUpdated(itemConfig, {});
+            popupTemplate.StackController.elementUpdatedWrapper(itemConfig, {});
+            popupTemplate.StackController.elementUpdatedWrapper(itemConfig, {});
+            popupTemplate.StackController.elementUpdatedWrapper(itemConfig, {});
 
             // класс обновился, потому что состояние было opened. После множ. update класс не задублировался
             assert.equal(itemConfig.popupState, BaseController.POPUP_STATE_UPDATING);
             assert.equal(itemConfig.popupOptions.className, '');
 
-            popupTemplate.StackController._elementAfterUpdated(itemConfig, {});
+            popupTemplate.StackController.elementAfterUpdatedWrapper(itemConfig, {});
             assert.equal(itemConfig.popupState, BaseController.POPUP_STATE_UPDATED);
 
             itemConfig.popupState = 'notOpened';
             itemConfig.popupOptions.className = '';
-            popupTemplate.StackController._elementUpdated(itemConfig, {});
+            popupTemplate.StackController.elementUpdatedWrapper(itemConfig, {});
 
             // класс не обновился, потому что состояние не opened
             assert.equal(itemConfig.popupOptions.className, '');
 
-            popupTemplate.StackController._elementDestroyed(itemConfig, {});
+            popupTemplate.StackController.elementDestroyedWrapper(itemConfig, {});
 
             // Зависит от того где запускаем тесты, под нодой или в браузере
             assert.isTrue(itemConfig.popupState === BaseController.POPUP_STATE_DESTROYING || itemConfig.popupState === BaseController.POPUP_STATE_DESTROYED);
@@ -482,7 +482,7 @@ define(
                   ],
                   popupOptions: item.popupOptions
                };
-            popupTemplate.StackController._elementUpdated(itemConfig, {});
+            popupTemplate.StackController.elementUpdatedWrapper(itemConfig, {});
             const updateItemPositionSpy = sinon.spy(popupTemplate.StackController, '_update');
 
             popupTemplate.StackController.elementAfterUpdated(itemConfig, {});

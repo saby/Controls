@@ -1,6 +1,7 @@
 import {detection} from 'Env/Env';
-import {IDialogPopupOptions, IPopupItem, IPopupPosition, IPopupSizes} from 'Controls/popup';
+import {IDialogPopupOptions, IPopupPosition, IPopupSizes} from 'Controls/popup';
 import {getPositionProperties, VERTICAL_DIRECTION} from './DirectionUtil';
+import {IDialogItem} from 'Controls/_popupTemplate/Dialog/DialogController';
 
 interface ILimitingSizes {
     minWidth: number;
@@ -20,7 +21,7 @@ interface IDialogPosition {
     height: number;
 }
 
-class DialogStrategy {
+export class DialogStrategy {
     /**
      * Returns popup position
      * @function Controls/_popupTemplate/Dialog/Opener/DialogStrategy#getPosition
@@ -28,7 +29,7 @@ class DialogStrategy {
      * @param containerSizes Popup container sizes
      * @param item Popup configuration
      */
-    getPosition(windowData: IPopupPosition = {}, containerSizes: IPopupSizes, item: IPopupItem): Position {
+    getPosition(windowData: IPopupPosition = {}, containerSizes: IPopupSizes, item: IDialogItem): Position {
         const popupOptions = item.popupOptions;
         const {
             minWidth, maxWidth,
@@ -57,7 +58,7 @@ class DialogStrategy {
         return position;
     }
 
-    private _resetMargins(item: IPopupItem, position: IDialogPosition): void {
+    private _resetMargins(item: IDialogItem, position: IDialogPosition): void {
         // Сбрасываю все отступы, которые заданы на css. Они уже учтены в позиции
         if (item.targetCoords) {
             position.margin = 0;
@@ -68,14 +69,14 @@ class DialogStrategy {
      * Получение позиции диалога
      * @param {IPopupPosition} windowData
      * @param {IPopupSizes} containerSizes
-     * @param {IPopupItem} popupItem
+     * @param {IDialogItem} popupItem
      * @return {IDialogPosition}
      * @private
      */
     private _getPositionCoordinates(
         windowData: IPopupPosition,
         containerSizes: IPopupSizes,
-        popupItem: IPopupItem
+        popupItem: IDialogItem
     ): IDialogPosition {
         const {
             horizontal: horizontalPositionProperty,
@@ -104,7 +105,8 @@ class DialogStrategy {
         }
     }
 
-    private _updateCoordsByOptions(windowData: IPopupPosition, popupItem: IPopupItem, position: IDialogPosition): void {
+    private _updateCoordsByOptions(windowData: IPopupPosition, popupItem: IDialogItem,
+                                   position: IDialogPosition): void {
         const topCoordinate = popupItem.targetCoords?.top || popupItem.popupOptions.top;
         const bottomCoordinate = popupItem.targetCoords?.left || popupItem.popupOptions.left;
 
@@ -112,8 +114,8 @@ class DialogStrategy {
             return;
         }
 
-        const topOffset = popupItem.sizes?.margins?.top || 0 + popupItem.popupOptions.offset?.vertical || 0;
-        const leftOffset = popupItem.sizes?.margins?.left || 0 + popupItem.popupOptions.offset?.horizontal || 0;
+        const topOffset = (popupItem.sizes?.margins?.top || 0) + (popupItem.popupOptions.offset?.vertical || 0);
+        const leftOffset = (popupItem.sizes?.margins?.left || 0) + (popupItem.popupOptions.offset?.horizontal || 0);
         const top = (topCoordinate || 0) + topOffset;
         const left = (bottomCoordinate || 0) + leftOffset;
 
@@ -136,7 +138,7 @@ class DialogStrategy {
      * Возвращает позицию для центрированного диалога(дефолтное состояние)
      * @param {IPopupPosition} windowData
      * @param {IPopupSizes} containerSizes
-     * @param {IPopupItem} item
+     * @param {IDialogItem} item
      * @param {string} verticalPositionProperty
      * @param {string} horizontalPositionProperty
      * @return {IDialogPosition}
@@ -145,7 +147,7 @@ class DialogStrategy {
     private _getDefaultPosition(
         windowData: IPopupPosition,
         containerSizes: IPopupSizes,
-        item: IPopupItem,
+        item: IDialogItem,
         verticalPositionProperty: string,
         horizontalPositionProperty: string
     ): IDialogPosition {
@@ -347,4 +349,4 @@ class DialogStrategy {
     }
 }
 
-export = new DialogStrategy();
+export default new DialogStrategy();

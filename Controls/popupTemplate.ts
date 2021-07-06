@@ -12,9 +12,9 @@ export {default as StackController} from 'Controls/_popupTemplate/Stack/Opener/S
 export {default as StackContent} from 'Controls/_popupTemplate/Stack/Opener/StackContent';
 export {default as StackStrategy} from 'Controls/_popupTemplate/Stack/Opener/StackStrategy';
 
-export {default as DialogHeader} from 'Controls/_popupTemplate/Dialog/DialogHeader';
-export {default as Dialog} from 'Controls/_popupTemplate/Dialog';
-export {default as DialogController} from 'Controls/_popupTemplate/Dialog/Opener/DialogController';
+export {default as DialogHeader} from 'Controls/_popupTemplate/Dialog/Template/Header';
+export {default as Dialog} from 'Controls/_popupTemplate/Dialog/Template/Dialog';
+export {default as DialogController} from 'Controls/_popupTemplate/Dialog/DialogController';
 
 export {default as Sticky} from 'Controls/_popupTemplate/Sticky';
 export {default as StickyController} from 'Controls/_popupTemplate/Sticky/StickyController';
@@ -36,7 +36,7 @@ export {default as NotificationController} from 'Controls/_popupTemplate/Notific
 export {default as IPopupTemplate, IPopupTemplateOptions} from 'Controls/_popupTemplate/interface/IPopupTemplate';
 export {default as CloseButton} from 'Controls/_popupTemplate/CloseButton';
 export {default as IPopupTemplateBaseOptions} from 'Controls/_popupTemplate/interface/IPopupTemplateBase';
-export {default as BaseController, IDragOffset} from 'Controls/_popupTemplate/BaseController';
+export {default as BaseController} from 'Controls/_popupTemplate/BaseController';
 
 import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 

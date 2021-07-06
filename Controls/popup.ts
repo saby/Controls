@@ -45,7 +45,8 @@ export {default as SlidingPanelOpener} from './_popup/PopupHelper/SlidingPanel';
 export {default as PageOpener} from './_popup/PopupHelper/Page';
 export {default as PageController} from './_popup/Page/Controller';
 
-export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition, IEventHandlers, IPopupItemInfo} from './_popup/interface/IPopup';
+export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition,
+    IEventHandlers, IPopupItemInfo, IPopupController, IDragOffset} from './_popup/interface/IPopup';
 export {IBasePopupOptions, IBaseOpener} from './_popup/interface/IBaseOpener';
 export {IStackPopupOptions, IStackOpener} from './_popup/interface/IStack';
 export {IStickyPopupOptions, IStickyPosition, IStickyPositionOffset, IStickyOpener} from './_popup/interface/ISticky';
