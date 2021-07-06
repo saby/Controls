@@ -44,10 +44,11 @@ import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import ItemTemplate = require('wml!Controls/_list/ItemTemplate');
 import {default as View} from 'Controls/_list/List';
 import BaseAction from 'Controls/_list/BaseAction';
-import LoadingIndicatorTemplate = require('wml!Controls/_list/PortionedSearchTemplate');
-import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
-import LoadingIndicatorItemTemplate = require('wml!Controls/_list/LoadingIndicatorTemplate');
-import LoadingTriggerItemTemplate = require('wml!Controls/_list/LoadingTriggerTemplate');
+import * as LoadingIndicatorTemplate from 'wml!Controls/_list/PortionedSearchTemplate';
+import * as PortionedSearchIndicatorTemplate from 'wml!Controls/_list/PortionedSearchIndicatorTemplate';
+import * as ContinueSearchTemplate from 'wml!Controls/_list/resources/ContinueSearchTemplate';
+import * as LoadingIndicatorItemTemplate from 'wml!Controls/_list/LoadingIndicatorTemplate';
+import * as LoadingTriggerItemTemplate from 'wml!Controls/_list/LoadingTriggerTemplate';
 import {default as DataContainer, IDataOptions} from 'Controls/_list/Data';
 import * as EditingTemplate from 'wml!Controls/_list/EditInPlace/EditingTemplate';
 import * as MoneyEditingTemplate from 'wml!Controls/_list/EditInPlace/decorated/Money';
@@ -62,7 +63,7 @@ import ScrollEmitter = require('Controls/_list/BaseControl/Scroll/Emitter');
 import HotKeysContainer from 'Controls/_list/HotKeysContainer';
 import InertialScrolling from 'Controls/_list/resources/utils/InertialScrolling';
 import {IVirtualScrollConfig} from './_list/interface/IVirtualScroll';
-import {VirtualScroll} from './_list/ScrollContainer/VirtualScroll';
+import VirtualScroll from './_list/ScrollContainer/VirtualScroll';
 import {default as ScrollController} from './_list/ScrollController';
 import {IList} from './_list/interface/IList';
 import IListNavigation from './_list/interface/IListNavigation';
@@ -129,6 +130,7 @@ export {
     createClassListCollection,
     getItemsBySelection,
     LoadingIndicatorTemplate,
+    PortionedSearchIndicatorTemplate,
     ContinueSearchTemplate,
     LoadingIndicatorItemTemplate,
     LoadingTriggerItemTemplate,

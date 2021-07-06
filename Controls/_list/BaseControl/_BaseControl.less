@@ -132,11 +132,6 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    bottom: 0;
 }
 
-.controls-BaseControl__loadingIndicator_style-portionedSearch {
-   padding-top: var(--offset_s);
-   bottom: var(--scrollpaging_offset-vertical_list);
-}
-
 // По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка.
 // IE не поддерживает position: sticky, поэтому прижимаем индикатор загрузки к низу последней записи, тем самым урезая функционал в IE
 .ws-is-ie .controls-BaseControl__loadingIndicator__state-down {
@@ -153,6 +148,19 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    display: inline-flex;
    align-items: center;
    pointer-events: auto;
+}
+
+.controls-BaseControl__portionedSearch {
+   position: sticky;
+   background-color: transparent;
+   display: flex;
+   justify-content: center;
+   cursor: auto;
+   min-height: 48px;
+   pointer-events: none;
+
+   padding-top: var(--offset_s);
+   bottom: var(--scrollpaging_offset-vertical_list);
 }
 
 .controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch {

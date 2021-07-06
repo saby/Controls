@@ -1,25 +1,3 @@
-<ws:template name="portionedSearch">
-    <div class="{{ _getLoadingIndicatorClasses(loadingIndicatorState) }}" name="LoadingIndicator">
-        <ws:partial template="{{_options.loadingIndicatorTemplate}}"
-                    showLoadingIndicator="{{_showLoadingIndicator}}"
-                    portionedSearchInProgress="{{_portionedSearchInProgress}}">
-            <ws:contentTemplate>
-                <div class="controls-BaseControl__abortSearch controls-BaseControl__abortSearch" on:click="_abortSearch()">{[Прервать поиск]}</div>
-            </ws:contentTemplate>
-        </ws:partial>
-    </div>
-</ws:template>
-
-<ws:template name="continueSearch">
-    <ws:partial template="{{_options.continueSearchTemplate}}" pagingVisible="{{_pagingVisible}}">
-        <ws:contentTemplate>
-            <div class="controls-BaseControl__continueSearch_caption" on:click="_continueSearch()">
-                {[Продолжить поиск]}
-            </div>
-        </ws:contentTemplate>
-    </ws:partial>
-</ws:template>
-
 <ws:template name="pagingTpl">
     <ws:if data="{{_pagingLabelData}}">
         <ws:if data="{{_options.navigation.viewConfig.totalInfo === 'extended'}}">
@@ -194,22 +172,10 @@
 
         <style name="itemActionsOutsideStyle" data-vdom-ignore="true"></style>
 
-        <ws:if data="{{_showContinueSearchButtonDirection === 'up'}}">
-            <ws:partial template="continueSearch"/>
-        </ws:if>
-
-        <ws:partial if="{{ _shouldDisplayTopPortionedSearch() }}" template="portionedSearch"/>
-
         <ws:if data="{{_listViewModel}}">
             <ws:partial template="viewTpl"
                         name="listView"
                         attr:class="{{ _getViewClasses(_addShowActionsClass, _addHoverEnabledClass, _uniqueId) }}"/>
-        </ws:if>
-
-        <ws:partial if="{{ _shouldDisplayBottomPortionedSearch() }}" template="portionedSearch"/>
-
-        <ws:if data="{{_showContinueSearchButtonDirection === 'down'}}">
-            <ws:partial template="continueSearch"/>
         </ws:if>
 
         <ws:if data="{{_pagingVisible}}">

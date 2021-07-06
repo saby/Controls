@@ -27,11 +27,11 @@ export default class PortionedSearch<PortionedSearchOptions> {
         this._options = constructorOptions;
     }
 
-    startSearch(): void {
+    startSearch(direction?: IDirection): void {
         if (this._getSearchState() === SEARCH_STATES.NOT_STARTED) {
             this._setSearchState(SEARCH_STATES.STARTED);
             this._startTimer(SEARCH_MAX_DURATION);
-            this._options.searchStartCallback();
+            this._options.searchStartCallback(direction);
         }
     }
 

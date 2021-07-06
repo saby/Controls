@@ -686,7 +686,7 @@ const _private = {
         if (self._sourceController) {
             const filter: IHashMap<unknown> = cClone(receivedFilter || self._options.filter);
             if (isPortionedLoad) {
-                _private.loadToDirectionWithSearchValueStarted(self);
+                _private.loadToDirectionWithSearchValueStarted(self, direction);
             }
             if (self._options.groupProperty) {
                 GroupingController.prepareFilterCollapsedGroups(self._listViewModel.getCollapsedGroups(), filter);
@@ -1331,10 +1331,14 @@ const _private = {
 
     getPortionedSearch(self: BaseControl): PortionedSearch {
         return self._portionedSearch || (self._portionedSearch = new PortionedSearch({
-            searchStartCallback: () => {
+            searchStartCallback: (direction?: IDirection) => {
                 self._portionedSearchInProgress = true;
                 // Нужно сбросить флаг, чтобы подгрузка по триггеру работала после порционного поиска.
                 self._handleLoadToDirection = false;
+
+                // TODO LI возможно в этот момент нужно вызвать пересчет индикаторов, чтобы они не показывались
+                const position = direction === 'up' ? 'top' : 'bottom';
+                self._listViewModel.startPortionedSearch(position);
             },
             searchStopCallback: (direction?: IDirection) => {
                 self._portionedSearchInProgress = false;
@@ -1342,7 +1346,9 @@ const _private = {
                 if (typeof self._sourceController.cancelLoading !== 'undefined') {
                     self._sourceController.cancelLoading();
                 }
-                // TODO LI _private.hideIndicator(self);
+
+                const position = direction === 'up' ? 'top' : 'bottom';
+                self._listViewModel.showContinueSearch(position);
 
                 if (self._isScrollShown) {
                     _private.updateShadowMode(self, self._shadowVisibility);
@@ -1351,7 +1357,8 @@ const _private = {
             searchResetCallback: () => {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButtonDirection = null;
-                // TODO LI _private.hideIndicator(self);
+
+                self._listViewModel.endPortionedSearch();
             },
             searchContinueCallback: () => {
                 const direction = self._hasMoreData('up') ? 'up' : 'down';
@@ -1359,13 +1366,19 @@ const _private = {
                 self._portionedSearchInProgress = true;
                 self._showContinueSearchButtonDirection = null;
                 _private.loadToDirectionIfNeed(self, direction);
+
+                const position = direction === 'up' ? 'top' : 'bottom';
+                self._listViewModel.showPortionedSearch(position);
             },
             searchAbortCallback: () => {
                 self._portionedSearchInProgress = false;
+                self._showContinueSearchButtonDirection = null;
+
                 if (typeof self._sourceController.cancelLoading !== 'undefined') {
                     self._sourceController.cancelLoading();
                 }
-                // TODO LI _private.hideIndicator(self);
+
+                self._listViewModel.endPortionedSearch();
 
                 _private.disablePagingNextButtons(self);
 
@@ -1392,8 +1405,8 @@ const _private = {
         }
     },
 
-    loadToDirectionWithSearchValueStarted(self): void {
-        _private.getPortionedSearch(self).startSearch();
+    loadToDirectionWithSearchValueStarted(self: BaseControl, direction: IDirection): void {
+        _private.getPortionedSearch(self).startSearch(direction);
     },
 
     loadToDirectionWithSearchValueEnded(self, loadedItems: RecordSet): void {
@@ -5774,10 +5787,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
+    // TODO LI обработать клик по элементу
     _continueSearch(): void {
         _private.getPortionedSearch(this).continueSearch();
     }
 
+    // TODO LI обработать клик по элементу
     _abortSearch(): void {
         _private.getPortionedSearch(this).abortSearch();
     }
@@ -6335,14 +6350,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     // region LoadingIndicator
-
-    _shouldDisplayTopPortionedSearch(): boolean {
-        return this._portionedSearchInProgress && this._loadingIndicatorState === 'up';
-    }
-
-    _shouldDisplayBottomPortionedSearch(): boolean {
-        return this._portionedSearchInProgress && this._loadingIndicatorState === 'down';
-    }
 
     private _initIndicators(newOptions?: IBaseControlOptions) {
         const displayTopIndicator = this._shouldDisplayTopIndicator(newOptions);

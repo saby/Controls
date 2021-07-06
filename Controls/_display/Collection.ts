@@ -40,6 +40,8 @@ import {TRoundBorder} from "Controls/_display/interface/ICollection";
 import {Footer} from 'Controls/_display/Footer';
 import LoadingIndicatorMixin from './LoadingIndicatorMixin';
 import {default as LoadingIndicatorStrategy} from './itemsStrategy/LoadingIndicator';
+import PortionedSearchMixin from './PortionedSearchMixin';
+import {default as PortionedSearchStrategy} from './itemsStrategy/PortionedSearch';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -492,13 +494,15 @@ export default class Collection<
     SerializableMixin,
     VersionableMixin,
     EventRaisingMixin,
-    LoadingIndicatorMixin
+    LoadingIndicatorMixin,
+    PortionedSearchMixin
 >(
     Abstract,
     SerializableMixin,
     VersionableMixin,
     EventRaisingMixin,
-    LoadingIndicatorMixin
+    LoadingIndicatorMixin,
+    PortionedSearchMixin
 ) implements ICollection<S, T>, IEnumerable<T>, IList<T> {
     /**
      * Возвращать локализованные значения
@@ -3383,7 +3387,7 @@ export default class Collection<
             collapsedGroups: this._$collapsedGroups,
             hiddenGroupPosition: this._$hiddenGroupPosition,
             groupConstructor: this._getGroupItemConstructor()
-        }).append(LoadingIndicatorStrategy);
+        }).append(LoadingIndicatorStrategy).append(PortionedSearchStrategy);
 
         this._userStrategies.forEach((us) => composer.append(us.strategy, us.options));
 

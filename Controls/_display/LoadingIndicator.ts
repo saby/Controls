@@ -48,6 +48,5 @@ Object.assign(LoadingIndicator.prototype, {
     'Controls/display:LoadingIndicator': true,
     _moduleName: 'Controls/display:LoadingIndicator',
     _instancePrefix: 'loading-indicator-',
-    _$position: null,
-    _$triggerOffset: 0
+    _$position: null
 });

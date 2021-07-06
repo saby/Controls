@@ -132,6 +132,7 @@ export {Footer};
 
 import LoadingIndicator from 'Controls/_display/LoadingIndicator';
 import LoadingTrigger from 'Controls/_display/LoadingTrigger';
+import PortionedSearchIndicator from 'Controls/_display/PortionedSearchIndicator';
 export {ITriggerOffset} from 'Controls/_display/LoadingIndicatorMixin';
 export {TOP_TRIGGER_ID, BOTTOM_TRIGGER_ID} from 'Controls/_display/LoadingTrigger';
 
@@ -152,3 +153,4 @@ register('Controls/display:Footer', Footer, {instantiate: false});
 
 register('Controls/display:LoadingIndicator', LoadingIndicator, {instantiate: false});
 register('Controls/display:LoadingTrigger', LoadingTrigger, {instantiate: false});
+register('Controls/display:PortionedSearchIndicator', PortionedSearchIndicator, {instantiate: false});

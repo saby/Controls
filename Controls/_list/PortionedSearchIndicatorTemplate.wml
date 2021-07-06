@@ -1,0 +1,22 @@
+<ws:if data="{{ item.shouldDisplayPortionedSearch() }}">
+    <div class="{{ item.getPortionedSearchClasses() }}" data-qa="{{ item.getQAData() }}">
+        <ws:partial template="{{ item.getPortionedSearchTemplate() }}">
+            <ws:contentTemplate>
+                <div class="controls-BaseControl__abortSearch controls-BaseControl__abortSearch">
+                    {[Прервать поиск]}
+                </div>
+            </ws:contentTemplate>
+        </ws:partial>
+    </div>
+</ws:if>
+<ws:else>
+    <div class="{{ item.getContinueSearchClasses() }}" data-qa="{{ item.getQAData() }}">
+        <ws:partial template="{{ item.getContinueSearchTemplate() }}">
+            <ws:contentTemplate>
+                <div class="controls-BaseControl__continueSearch_caption">
+                    {[Продолжить поиск]}
+                </div>
+            </ws:contentTemplate>
+        </ws:partial>
+    </div>
+</ws:else>
