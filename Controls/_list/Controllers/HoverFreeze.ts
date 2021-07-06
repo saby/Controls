@@ -376,10 +376,6 @@ export default class HoverFreeze {
               .${uniqueClass} .controls-Grid__row:nth-child(${index}) .controls-Grid__row-cell__content .controls-background-stack {
                  background-color: ${hoverBackgroundColor};
               }
-              /* многоточие в хлебных крошках */
-              .${uniqueClass} .controls-Grid__row:nth-child(${index}) .controls-background-stack {
-                 background-color: ${hoverBackgroundColor};
-              }
               `;
     }
 

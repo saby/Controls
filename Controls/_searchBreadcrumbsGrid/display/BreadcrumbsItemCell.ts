@@ -52,7 +52,7 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
    getContentClasses(theme: string, style: string = 'default'): string {
       // Только в первой ячейке выводятся хлебные крошки
       if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
-         let classes = 'controls-Grid__row-cell__content_colspaned ';
+         let classes = 'controls-Grid__row-cell__content controls-Grid__row-cell__content_colspaned ';
 
          if (!this.getOwner().hasMultiSelectColumn()) {
             classes += `controls-Grid__cell_spacingFirstCol_${this.getOwner().getLeftPadding()} `;
