@@ -1,6 +1,6 @@
 import IAction from './interface/IAction';
 import IActionOptions from './interface/IActionOptions';
-import {RemoveController} from 'Controls/list';
+import {RemoveController} from 'Controls/baseList';
 import {Confirmation, IConfirmationOptions} from 'Controls/popup';
 
 interface IOptions extends IActionOptions {

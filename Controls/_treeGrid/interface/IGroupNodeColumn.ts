@@ -1,10 +1,10 @@
 import {IColumn} from 'Controls/grid';
-import {IBaseGroupTemplate} from 'Controls/list';
+import {IBaseGroupTemplate} from 'Controls/baseList';
 
 /**
  * Интерфейс колонки списка с иерархической группировкой.
  * @interface Controls/_treeGrid/interface/IGroupNodeColumn
- * 
+ *
  * @public
  * @author Аверкиев П.А.
  */

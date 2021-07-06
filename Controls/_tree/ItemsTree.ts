@@ -1,5 +1,5 @@
 import { Logger } from 'UI/Utils';
-import { IItemsViewOptions, ItemsView } from 'Controls/list';
+import { IItemsViewOptions, ItemsView } from 'Controls/baseList';
 import TreeControl from 'Controls/_tree/TreeControl';
 import ITree, { IOptions as ITreeOptions } from 'Controls/_tree/interface/ITree';
 import TreeView from 'Controls/_tree/TreeView';

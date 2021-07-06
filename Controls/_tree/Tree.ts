@@ -4,7 +4,7 @@ import { descriptor } from 'Types/entity';
 import { CrudEntityKey } from 'Types/source';
 import { Model } from 'Types/entity';
 
-import { View as List } from 'Controls/list';
+import { View as List } from 'Controls/baseList';
 import TreeControl from 'Controls/_tree/TreeControl';
 import ITree, { IOptions as ITreeOptions } from 'Controls/_tree/interface/ITree';
 import TreeView from 'Controls/_tree/TreeView';

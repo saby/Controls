@@ -1,0 +1,8 @@
+<Controls.buttons:Button
+   viewMode="link"
+   readOnly="{{false}}"
+   fontColorStyle="{{moreFontColorStyle}}"
+   caption="{{rk('Еще') + ' ' + loadMoreCaption}}"
+   attr:class="controls-BaseControl__loadMore controls-BaseControl__loadMore"
+   on:click="_onClickMoreButton()"
+/>

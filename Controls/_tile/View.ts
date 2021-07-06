@@ -1,4 +1,4 @@
-import {View as List} from 'Controls/list';
+import {View as List} from 'Controls/baseList';
 import { TemplateFunction } from 'UI/Base';
 import TileView = require('./TileView');
 
