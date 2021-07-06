@@ -79,7 +79,7 @@
             <ws:partial template="{{ swipeTemplate }}"/>
          </ws:if>
          <ws:else>
-            <ws:partial template="{{ itemActionsTemplate }}" />
+            <ws:partial template="{{ itemActionsTemplate }}" style="{{_options.hoverBackgroundStyle}}"/>
          </ws:else>
       </ws:if>
    </ws:else>

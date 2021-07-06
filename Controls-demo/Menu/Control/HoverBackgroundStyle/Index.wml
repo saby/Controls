@@ -4,8 +4,8 @@
             source="{{_source}}"
             keyProperty="key"
             displayProperty="title"
-            itemActions="{{_itemActions}}"
             attr:class="ControlsDemo-menuControl_minWidth"
+            hoverBackgroundStyle="danger"
         />
     </div>
 </div>
