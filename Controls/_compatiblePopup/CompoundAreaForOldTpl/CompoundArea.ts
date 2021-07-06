@@ -427,6 +427,7 @@ var CompoundArea = CompoundContainer.extend([
          closeButton.addClass('controls_popupTemplate_theme-' + Controller.getPopupHeaderTheme());
       }
 
+      this.listener = this._children.listener;
    },
 
    _beforeUnmount: function() {
@@ -1337,7 +1338,8 @@ var CompoundArea = CompoundContainer.extend([
    },
 
    _unregisterEventListener: function() {
-      const listener = this._children.listener;
+      const listener = this.listener;
+      this.listener = null;
       // Tell event listener to unregister from its Registrar to
       // prevent leaks
       listener._notify('unregister', ['controlResize', listener], { bubbling: true });
