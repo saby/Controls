@@ -7,7 +7,6 @@
                  title="{{item}}">
                {{item}}
             </div>
-            <div class="controls-FilterViewPanel__group-content_separator"></div>
             <ws:if data="{{!collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
                <div class="controls-FilterViewPanel__group-content_reset controls-FilterViewPanel__groupReset" title="{[Сбросить фильтр]}">{{rk('Сбросить')}}</div>
             </ws:if>
