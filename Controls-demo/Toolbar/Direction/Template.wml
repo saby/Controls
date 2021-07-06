@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">direction=horizontal</div>
+        <Controls.toolbars:View
+                direction="horizontal"
+                menuButtonViewMode="toolButton"
+                source="{{_buttonsSource}}"
+                keyProperty="id"
+                on:itemClick="_itemClick()"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">direction=vertical</div>
+        <Controls.toolbars:View
+                direction="vertical"
+                menuButtonViewMode="toolButton"
+                source="{{_buttonsSource}}"
+                keyProperty="id"
+                on:itemClick="_itemClick()"
+        />
+    </div>
+</div>

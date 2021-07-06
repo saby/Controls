@@ -84,6 +84,7 @@ export interface IMenuOptions {
       * @cfg {String} Расположение элементов в тулбаре.
       * @variant vertical
       * @variant horizontal
+      * @demo Controls-demo/Toolbar/Direction/Index
       */
      direction: 'vertical' | 'horizontal';
     /**
@@ -135,6 +136,23 @@ export interface IMenuOptions {
       * @cfg {IViewMode} Режим отображения кнопки открытия выпадающего меню тулбара
       */
      menuButtonViewMode?: IViewMode;
+     /**
+      * @name Controls/toolbars:IToolbar#menuButtonStyle
+      * @cfg {IViewMode} Стиль отображения кнопки открытия выпадающего меню тулбара
+      */
+     menuButtonStyle?: string;
+     /**
+      * @name Controls/toolbars:IToolbar#menuButtonClass
+      * @cfg {IViewMode} Класс, который навесится на кнопку открытия выпадающего меню тулбара
+      * @demo Controls-demo/Toolbar/ButtonClass/Index
+      */
+     menuButtonClass?: string;
+     /**
+      * @name Controls/toolbars:IToolbar#menuIconStyle
+      * @cfg {IViewMode} Стиль отображения иконки открытия выпадающего меню тулбара
+      * @demo Controls-demo/Toolbar/ButtonClass/Index
+      */
+     menuIconStyle?: string;
 }
 
 /**

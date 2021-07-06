@@ -8,6 +8,7 @@
                         itemsSpacing="{{_options.itemsSpacing}}"
                         buttonTemplate="{{_buttonTemplate}}"
                         buttonTemplateOptions="{{ _getSimpleButtonTemplateOptionsByItem(item) }}"
+                        buttonClass="{{item['buttonClass']}}"
                         theme="{{_options.theme}}"
                         isFirstItem="{{_firstItem === item}}"
                         attr:data-qa="{{item[_options.keyProperty]}}"
@@ -15,39 +16,24 @@
          </ws:if>
       </ws:for>
       <ws:if data="{{_needShowMenu}}">
-         <ws:if data="{{_options.menuButtonViewMode === 'link'}}">
-            <div name="menuTarget" title="{[Открыть меню]}"
-                 class="controls-Toolbar__menu
-                     controls-Toolbar__menu_size-{{_options.iconSize === 'l' ? 'l' : 'm'}}
-                     controls-Toolbar__menu_{{_options.direction}}-spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}
-                     controls-Toolbar__menu{{_options.contrastBackground ? '_contrastBackground'}}
-                     controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}
-                     controls-icon_style-{{_options.readOnly ? 'readonly': _options.iconStyle}}"
+         <Controls.buttons:Button
+                 attr:class="controls-Toolbar__menu controls-Toolbar__menu_viewMode-{{_options.menuButtonViewMode}}{{_options.contrastBackground ? '_contrastBackground'}}
+                             controls-Toolbar__menu_{{_options.direction}}-spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}} {{_options.menuButtonClass}}"
+                 name="menuTarget"
+                 viewMode="{{_options.menuButtonViewMode}}"
+                 buttonStyle="{{_options.menuButtonStyle}}"
+                 iconStyle="{{_options.menuIconStyle}}"
+                 tooltip="{[Открыть меню]}"
+                 iconSize="{{_options.iconSize === 'l' ? 'l' : 'm'}}"
+                 icon="icon-SettingsNew"
+                 inlineHeight="{{_options.inlineHeight ? _options.inlineHeight : (_options.iconSize === 'l' ? 'l' : 'm')}}"
+                 readOnly="{{_options.readOnly}}"
+                 contrastBackground="{{_options.contrastBackground}}"
                  attr:data-qa="controls-Toolbar__menu"
                  on:click="_onClickHandler()"
                  on:mousedown="_mouseDownHandler()"
                  on:mouseenter="_mouseEnterHandler()"
-                 on:mouseleave="_mouseLeaveHandler()">
-               <i class="controls-icon controls-icon_size-{{_options.iconSize === 'l' ? 'l' : 'm'}} icon-SettingsNew"/>
-            </div>
-         </ws:if>
-         <ws:else>
-            <Controls.buttons:Button
-                    attr:class="controls-Toolbar__menu controls-Toolbar__menu_{{_options.direction}}-spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}"
-                    name="menuTarget"
-                    viewMode="{{_options.menuButtonViewMode}}"
-                    tooltip="{[Открыть меню]}"
-                    iconSize="{{_options.iconSize === 'l' ? 'l' : 'm'}}"
-                    icon="icon-SettingsNew"
-                    inlineHeight="{{_options.inlineHeight ? _options.inlineHeight : (_options.iconSize === 'l' ? 'l' : 'm')}}"
-                    readOnly="{{_options.readOnly}}"
-                    contrastBackground="{{_options.contrastBackground}}"
-                    attr:data-qa="controls-Toolbar__menu"
-                    on:click="_onClickHandler()"
-                    on:mousedown="_mouseDownHandler()"
-                    on:mouseenter="_mouseEnterHandler()"
-                    on:mouseleave="_mouseLeaveHandler()"/>
-         </ws:else>
+                 on:mouseleave="_mouseLeaveHandler()"/>
       </ws:if>
    </div>
 </div>
