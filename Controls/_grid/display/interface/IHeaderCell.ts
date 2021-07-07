@@ -16,47 +16,35 @@ export type THeader = IHeaderCell[];
  */
 export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanParams {
     /**
-     * @cfg {String} Текст заголовка ячейки.
+     * @cfg Текст заголовка ячейки.
      */
     caption?: string;
     /**
-     * @typedef {String} TOverflow
-     * @description Допустимые значения для опции {@link textOverflow}.
+     * @cfg Поведение текста, если он не умещается в ячейке.
      * @variant ellipsis Текст обрезается многоточием.
      * @variant none Текст разбивается на несколько строк.
-     */
-    /**
-     * @cfg {TOverflow} Поведение текста, если он не умещается в ячейке.
      * @default none
      */
     textOverflow?: 'none' | 'ellipsis'
     /**
-     * @typedef {String} TCellAlign
-     * @description Допустимые значения для опции {@link align}.
+     * @cfg Выравнивание содержимого ячейки по горизонтали.
      * @variant left По левому краю.
      * @variant center По центру.
      * @variant right По правому краю.
-     */
-    /**
-     * @cfg {TCellAlign} Выравнивание содержимого ячейки по горизонтали.
      * @default left
      * @see valign
      */
     align?: TCellAlign;
     /**
-     * @typedef {String} TCellVerticalAlign
-     * @description Допустимые значения для опции {@link valign}.
+     * @cfg Выравнивание содержимого ячейки по вертикали.
      * @variant top По верхнему краю.
      * @variant center По центру.
      * @variant bottom По нижнему краю.
-     */
-    /**
-     * @cfg {TCellVerticalAlign} Выравнивание содержимого ячейки по вертикали.
      * @see align
      */
     valign?: TCellVerticalAlign;
     /**
-     * @cfg {String|TemplateFunction} Шаблон отображения заголовка ячейки.
+     * @cfg Шаблон отображения заголовка ячейки.
      * @default Controls/grid:HeaderContent
      * @remark
      * Параметры шаблона Controls/grid:HeaderContent доступны {@link Controls/grid:HeaderContent здесь}.
@@ -153,12 +141,9 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      */
     template?: TemplateFunction|string;
     /**
-     * @cfg {String} Имя поля, по которому выполняется сортировка.
+     * @cfg Имя поля, по которому выполняется сортировка.
      * @remark
-     * Одновременно можно сортировать только по одному полю.
-     * Если в конфигурации ячейки задать это свойство, то в заголовке таблицы в конкретной ячейке будет отображаться кнопка для изменения сортировки.
-     * Клик по кнопке будет менять порядок сортировки элементов на противоположный.
-     * При этом элементы будут отсортированы по полю, имя которого указано в свойстве sortingProperty.
+     * Если в конфигурации ячейки задать это свойство, то в заголовке таблицы в конкретной ячейке будет отображаться кнопка для изменения сортировки. Клик по кнопке будет менять порядок сортировки элементов на противоположный. При этом элементы будут отсортированы по полю, имя которого указано в свойстве sortingProperty. Одновременно можно сортировать только по одному полю.
      * @example
      * <pre class="brush: js">
      * _sorting: null,
@@ -187,32 +172,28 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      */
     sortingProperty?: string;
     /**
-     * @cfg {Number} Порядковый номер строки, на которой начинается ячейка.
+     * @cfg Порядковый номер строки, на которой начинается ячейка.
      * @see endRow
      */
     startRow?: number;
     /**
-     * @cfg {Number} Порядковый номер строки, на которой заканчивается ячейка.
+     * @cfg Порядковый номер строки, на которой заканчивается ячейка.
      * @see startRow
      */
     endRow?: number;
     /**
-     * @cfg {Number} Порядковый номер колонки, на которой начинается ячейка.
+     * @cfg Порядковый номер колонки, на которой начинается ячейка.
      * @see endColumn
      */
     startColumn?: number;
     /**
-     * @cfg {Number} Порядковый номер колонки, на которой заканчивается ячейка.
+     * @cfg Порядковый номер колонки, на которой заканчивается ячейка.
      * @see startColumn
      */
     endColumn?: number;
     /**
-     * @cfg {Number} Опции, передаваемые в шаблон отображения ячейки заголовка.
+     * @cfg Опции, передаваемые в шаблон отображения ячейки заголовка.
      * @see template
      */
     templateOptions?: object;
-    /**
-     * @cfg {Boolean} Поле, для определения ячейки действий.
-     */
-    isActionCell?: boolean;
 }

@@ -35,12 +35,12 @@ import {
     IIconStyle,
     IIconStyleOptions,
     IFilter,
-    IFilterOptions
+    IFilterOptions, IHeightOptions
 } from 'Controls/interface';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
 
 import {IToolbarSourceOptions, default as IToolbarSource} from 'Controls/_toolbars/IToolbarSource';
-import {IButtonOptions} from 'Controls/buttons';
+import {IButtonOptions, IViewMode} from 'Controls/buttons';
 import {IGrouped, IGroupedOptions} from 'Controls/dropdown';
 import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
@@ -64,7 +64,7 @@ export interface IMenuOptions {
 
  export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIconSizeOptions,
     IItemTemplateOptions, IGroupedOptions, IToolbarSourceOptions, IItemsOptions<TItem>, IFontColorStyleOptions,
-    IIconStyleOptions, IFilterOptions {
+    IIconStyleOptions, IFilterOptions, IHeightOptions {
     /**
      * @name Controls/toolbars:IToolbar#popupClassName
      * @cfg {String} Имя класса, которое будет добавлено к атрибуту class на корневой ноде выпадающего меню.
@@ -79,6 +79,13 @@ export interface IMenuOptions {
      * @default medium
      */
     itemsSpacing: TItemsSpacing;
+     /**
+      * @name Controls/toolbars:IToolbar#direction
+      * @cfg {String} Расположение элементов в тулбаре.
+      * @variant vertical
+      * @variant horizontal
+      */
+     direction: 'vertical' | 'horizontal';
     /**
      * @name Controls/toolbars:IToolbar#additionalProperty
      * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/item-config/#additional">здесь</a>.
@@ -92,26 +99,30 @@ export interface IMenuOptions {
     popupFooterTemplate?: String | Function;
     /**
      * @name Controls/toolbars:IToolbar#itemActions
-     * @cfg {Array<ItemAction>} Конфигурация опций записи.
+     * @cfg {Array<Controls/itemActions:IItemAction>} Конфигурация опций записи.
      * @demo Controls-demo/Toolbar/ItemActions/Index
      */
     itemActions?: IItemAction[];
     /**
      * @name Controls/toolbars:IToolbar#itemActionVisibilityCallback
-     * @cfg {function} Функция управления видимостью операций над записью.
-     * @param {ItemAction} action Объект с настройкой действия.
-     * @param {Types/entity:Model} item Экземпляр записи, действие над которой обрабатывается.
-     * @remark Если из функции возвращается true, то операция отображается.
+     * @cfg {function} Функция управления видимостью опций записи.
+     * @remark
+     * Аргументы функции:
+     *
+     * * action (тип {@link Controls/itemActions:IItemAction}) — объект с настройкой действия.
+     * * item (тип {@link Types/entity:Model}) — экземпляр записи, действие над которой обрабатывается.
+     *
+     * Если из функции возвращается true, то операция отображается.
      * @demo Controls-demo/Toolbar/ItemActions/Index
      */
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
     /**
      * @name Controls/toolbars:IToolbar#menuSource
-     * @cfg {Types/source:ICrudPlus} Объект реализующий интерфейс {@link Types/source:ICrud},
+     * @cfg {Types/source:ICrudPlus} Объект, реализующий интерфейс {@link Types/source:ICrud},
      * необходимый для работы с источником данных выпадающего меню тулбара.
      * Данные будут загружены отложенно, при взаимодействии с меню.
-     * @link source
-     * @link items
+     * @see source
+     * @see items
      */
     menuSource?: ICrudPlus;
     /**
@@ -119,8 +130,12 @@ export interface IMenuOptions {
      * @cfg {Boolean} Определяет наличие подложки у кнопки открытия выпадающего меню тулбара.
      */
     contrastBackground?: true;
+     /**
+      * @name Controls/toolbars:IToolbar#menuButtonViewMode
+      * @cfg {IViewMode} Режим отображения кнопки открытия выпадающего меню тулбара
+      */
+     menuButtonViewMode?: IViewMode;
 }
-
 
 /**
  * Интерфейс опций контрола {@link Controls/toolbars:View}.
@@ -145,60 +160,13 @@ export interface IMenuOptions {
  * * {@link /materials/Controls-demo/app/Controls-demo%2FToolbar%2FBase%2FIndex демо-пример}
  * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_toolbars.less переменные тем оформления}
  *
- * @class Controls/_toolbars/View
  * @extends UI/Base:Control
  * @implements Controls/toolbars:IToolbar
  * // TODO: https://online.sbis.ru/opendoc.html?guid=64c95101-d268-4225-9e52-b6398ded5ced
- * @implements Controls/interface/IItemTemplate
- * @implements Controls/interface:IIconStyle
- * @implements Controls/interface:IIconSize
- * @implements Controls/interface:IFontColorStyle
- * @implements Controls/interface:IHierarchy
- * @implements Controls/interface:IFilterChanged
  * @implements Controls/interface:IItems
- * @implements Controls/toolbars:IToolbarSource
- * @implements Controls/dropdown:IGrouped
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Toolbar/Base/Index
- */
-
-/**
- * @name Controls/_toolbars/View#iconStyle
- * @cfg
- * @demo Controls-demo/Toolbar/IconStyle/Index
- */
-
-/**
- * @name Controls/_toolbars/View#fontColorStyle
- * @cfg
- * @demo Controls-demo/Toolbar/IconStyle/Index
- */
-
-/**
- * @name Controls/_toolbars/View#itemTemplate
- * @cfg {String | TemplateFunction} Пользовательский шаблон отображения элемента внутри тулбара.
- * Для того чтобы задать шаблон элемента и в тулбаре и в выпадающем списке используйте опцию {@link Controls/interface/IItemTemplate itemTemplateProperty}.
- *
- * @example
- * <pre class="brush: html">
- * <!-- WML -->
- * <div class="controlsDemo__wrapper">
- *   <div class="controlsDemo__cell">
- *      <Controls.toolbars:View
- *          source="{{_toolbarSource}}"
- *          keyProperty="id">
- *              <ws:itemTemplate>
- *                  <div style="background: #E1E1E1">
- *                      <ws:partial template="Controls/toolbars:ItemTemplate" />
- *                  </div>
- *               </ws:itemTemplate>
- *      </Controls.toolbars:View>
- *    </div>
- * </div>
- * </pre>
- *
- * @demo Controls-demo/Toolbar/ItemTemplate/Index
  */
 
 class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IIconSize, IItemTemplate,
@@ -254,15 +222,16 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         });
     }
 
-    private _setSourceByItems(items: TItem): void {
+    private _setSourceByItems(items: TItems): void {
         if (!this._sourceByItems) {
             this._sourceByItems = this._createMemory(items);
         }
     }
 
-    private _getSynchronousSourceForMenu(): ICrudPlus {
-        if (this._options.items) {
-            this._setSourceByItems(this._options.items);
+    private _getSynchronousSourceForMenu(menuItems?: TItems): ICrudPlus {
+        const items = menuItems || this._options.items;
+        if (items) {
+            this._setSourceByItems(items);
             return this._sourceByItems;
         }
         if (this._source) {
@@ -409,7 +378,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             this._menuSource = this._options.menuSource;
         } else {
             const menuItems = Toolbar._calcMenuItems(this._items);
-            const source = this._options.source || this._getSynchronousSourceForMenu();
+            const source = this._options.source || this._getSynchronousSourceForMenu(menuItems);
             this._menuSource = this._createPrefetchProxy(source, menuItems);
         }
     }
@@ -672,8 +641,10 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             popupClassName: '',
             itemsSpacing: 'medium',
             iconSize: 'm',
+            direction: 'horizontal',
             itemTemplate: defaultItemTemplate,
-            iconStyle: 'secondary'
+            iconStyle: 'secondary',
+            menuButtonViewMode: 'link'
         };
     }
 
@@ -700,26 +671,64 @@ Object.defineProperty(Toolbar, 'defaultProps', {
 /**
  * @event Происходит при клике по элементу.
  * @name Controls/_toolbars/View#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому производим клик.
  * @example
- * TMPL:
- * <pre>
- *    <Controls.toolbars:View on:itemClick="onToolbarItemClick()" />
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.toolbars:View on:itemClick="onToolbarItemClick()" />
  * </pre>
- * JS:
- * <pre>
- *    onToolbarItemClick: function(e, selectedItem) {
- *       var itemId = selectedItem.get('id');
- *       switch (itemId) {
- *          case 'remove':
- *             this._removeItems();
- *             break;
- *          case 'move':
- *             this._moveItems();
- *             break;
- *    }
+ * <pre class="brush: js">
+ * // JavaScript
+ * onToolbarItemClick: function(e, selectedItem) {
+ *    var itemId = selectedItem.get('id');
+ *    switch (itemId) {
+ *       case 'remove':
+ *          this._removeItems();
+ *          break;
+ *       case 'move':
+ *          this._moveItems();
+ *          break;
+ * }
  * </pre>
+ */
+
+/**
+ * @name Controls/_toolbars/View#iconStyle
+ * @cfg
+ * @demo Controls-demo/Toolbar/IconStyle/Index
+ */
+
+/**
+ * @name Controls/_toolbars/View#fontColorStyle
+ * @cfg
+ * @demo Controls-demo/Toolbar/IconStyle/Index
+ */
+
+/**
+ * @name Controls/_toolbars/View#itemTemplate
+ * @cfg {String | TemplateFunction} Пользовательский шаблон отображения элемента внутри тулбара.
+ * Для того чтобы задать шаблон элемента и в тулбаре и в выпадающем списке, используйте опцию {@link Controls/interface/IItemTemplate itemTemplateProperty}.
+ *
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <div class="controlsDemo__wrapper">
+ *    <div class="controlsDemo__cell">
+ *       <Controls.toolbars:View
+ *          source="{{_toolbarSource}}"
+ *          keyProperty="id">
+ *             <ws:itemTemplate>
+ *                <div style="background: #E1E1E1">
+ *                   <ws:partial template="Controls/toolbars:ItemTemplate" />
+ *                </div>
+ *             </ws:itemTemplate>
+ *       </Controls.toolbars:View>
+ *    </div>
+ * </div>
+ * </pre>
+ *
+ * @demo Controls-demo/Toolbar/ItemTemplate/Index
  */
 
 export default Toolbar;

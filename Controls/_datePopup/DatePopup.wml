@@ -1,6 +1,6 @@
 <Controls.scroll:ScrollContextProvider pagingVisible="{{ false }}">
     <Controls.validate:Controller name="formController" on:keyDown="_keyDownHandler()" on:click="_onClickHandler()">
-        <div class="controls_datePicker_theme-{{_options.theme}} controls_popupTemplate_theme-{{_options.theme}} controls-PeriodDialog">
+        <div data-qa="controls-PeriodDialog" class="controls_datePicker_theme-{{_options.theme}} controls_popupTemplate_theme-{{_options.theme}} controls-PeriodDialog">
             <ws:partial
                     template="{{_headerTmpl}}"
                     _options="{{_options}}"
@@ -13,6 +13,7 @@
                     rangeModel="{{_rangeModel}}"
                     headerRangeModel="{{_headerRangeModel}}"
                     monthStateEnabled="{{_monthStateEnabled}}"
+                    yearsStateEnabled="{{ _yearsStateEnabled }}"
                     state="{{_state}}"
                     mask="{{_mask}}"
                     dateConstructor="{{_options.dateConstructor}}"
@@ -22,7 +23,8 @@
             />
 
             <div if="{{ _state === _STATES.year }}" class="controls-PeriodDialog__months
-               controls-PeriodDialog__body">
+               controls-PeriodDialog__body"
+                data-qa="controls-PeriodDialog__months">
                 <Controls.dateRange:DateRangeSelectionController
                         bind:startValue="_yearRangeModel.startValue"
                         bind:endValue="_yearRangeModel.endValue"

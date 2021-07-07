@@ -1,7 +1,3 @@
-.box-shadow_button() {
-   box-shadow: var(--box-shadow_contrast-button);
-}
-
 //common styles
 .controls-BaseButton {
    display: inline-block;
@@ -110,11 +106,20 @@
       -ms-flex-negative: 1;
    }
 }
-
 .controls-Button__wrapper_viewMode-button,
 .controls-Button__wrapper_viewMode-toolButton,
 .controls-Button__wrapper_viewMode-functionalButton {
-   justify-content: center;
+   &.controls-Button_textAlign-left {
+      justify-content: left;
+   }
+
+   &.controls-Button_textAlign-center {
+      justify-content: center;
+   }
+
+   &.controls-Button_textAlign-right {
+      justify-content: flex-end;
+   }
 }
 
 .controls-Button_clickable {
@@ -153,18 +158,19 @@
    user-select: none;
 }
 
-.controls-Button_button {
-   box-shadow: var(--box-shadow_button);
+.controls-Button_button_shadow-small {
+   box-shadow: var(--box-shadow_contrast-button);
 }
 
-.controls-Button_functionalButton {
+.controls-Button_button_shadow-big {
+   box-shadow: var(--box-shadow_contrast_big_button);
+}
+
+.controls-Button_functionalButton_shadow-small {
    box-shadow: var(--box-shadow_button_functionalButton);
 }
-
-// Временное решение, будет удалено после правок в engine
-.extControls-doubleButton .controls-Button_functionalButton,
-.extControls-chooseButton .controls-Button_functionalButton {
-   box-shadow: none;
+.controls-Button_functionalButton_shadow-big {
+   box-shadow: var(--box-shadow_big_button_functionalButton);
 }
 
 .controls-Button_button:active,
@@ -291,6 +297,7 @@
 
 .controls-Button_functionalButton {
    border-width: var(--border-thickness_button);
+   border-radius: var(--border-radius_button_functionalButton);
 }
 
 .controls-Button_functionalButton_style-primary {
@@ -336,7 +343,6 @@
 .controls-Button_functionalButton_style-pale {
    border-color: var(--pale_border-color);
    background-color: var(--pale_contrast_background-color);
-   box-shadow: none;
 }
 
 .controls-Button_functionalButton_style-translucent > .controls-Button_functionalButton_style-pale,
@@ -348,7 +354,6 @@
 .controls-Button_functionalButton_style-readonly {
    border-color: var(--readonly_border-color_button_functionalButton);
    background-color: var(--readonly_background-color_button_functionalButton);
-   box-shadow: none;
 }
 
 .ws-is-hover {
@@ -458,7 +463,6 @@
    .controls-Button_button_style-@{_item}.controls-Button_bg-contrast {
       background-color: ~"var(--@{_item}_contrast_background-color)";
       border-color: ~"var(--@{_item}_contrast_background-color)";
-      .box-shadow_button();
    }
 });
 
@@ -485,7 +489,6 @@
 .controls-Button_button_style-default.controls-Button_bg-contrast {
    border-color: var(--default_contrast_background-color_button);
    background-color: var(--default_contrast_background-color_button);
-   .box-shadow_button();
    .controls-Button__text_clickable_bg-contrast {
       color: var(--text-color_button);
    }
@@ -554,87 +557,11 @@
    }
 }
 
-//border-radiuses
-.controls-Button_button_xs {
-   border-radius: var(--border-radius_xs_button);
-}
-
-.controls-Button_button_s {
-   border-radius: var(--border-radius_s_button);
-}
-
-.controls-Button_button_m {
-   border-radius: var(--border-radius_m_button);
-}
-
-.controls-Button_button_l {
-   border-radius: var(--border-radius_l_button);
-}
-
-.controls-Button_button_xl {
-   border-radius: var(--border-radius_xl_button);
-}
-
-.controls-Button_button_2xl {
-   border-radius: var(--border-radius_2xl_button);
-}
-
-.controls-Button_button_3xl {
-   border-radius: var(--border-radius_3xl_button);
-}
-
-.controls-Button_button_4xl {
-   border-radius: var(--border-radius_4xl_button);
-}
-
-.controls-Button_button_5xl {
-   border-radius: var(--border-radius_5xl_button);
-}
-
-.controls-Button_button_default {
-   border-radius: var(--border-radius_default_button);
-}
-
-.controls-Button_functionalButton_s {
-   border-radius: var(--border-radius_s_button_functionalButton);
-}
-
-.controls-Button_functionalButton_m {
-   border-radius: var(--border-radius_m_button_functionalButton);
-}
-
-.controls-Button_functionalButton_l {
-   border-radius: var(--border-radius_l_button_functionalButton);
-}
-
-.controls-Button_functionalButton_xl {
-   border-radius: var(--border-radius_xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_2xl {
-   border-radius: var(--border-radius_2xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_3xl {
-   border-radius: var(--border-radius_3xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_4xl {
-   border-radius: var(--border-radius_4xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_5xl {
-   border-radius: var(--border-radius_5xl_button_functionalButton);
-}
-
-.controls-Button_functionalButton_default {
-   border-radius: var(--border-radius_default_button_functionalButton);
-}
-
 //widths
 .controls-Button_button {
    //may be we need variable for this
    min-width: var(--min-width_button_button);
+   border-radius: var(--border-radius_button);
 }
 
 //this is square buttons, that's why width is equal to height
@@ -753,7 +680,7 @@
 }
 
 .controls-fontsize-5xl.controls-Button_button__wrapper-fontsize-5xl {
-   font-size: var(--font-size_5xl_button);
+   font-size: var(--font-size_5xl);
 }
 
 //fontsize buttons link view mode

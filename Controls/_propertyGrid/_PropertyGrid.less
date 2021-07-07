@@ -1,7 +1,3 @@
-.controls-PropertyGrid_theme-@{themeName} {
-   padding: @content_padding_propertyGrid @content_padding_propertyGrid @content_padding_propertyGrid @content_padding_propertyGrid;
-}
-
 .controls-PropertyGrid__editor_theme-@{themeName} {
    position: relative;
 }
@@ -96,6 +92,10 @@
    padding-top: @item_padding-top_s_grid;
 }
 
+.controls-PropertyGrid__editor_spacingTop_m_theme-@{themeName} {
+   padding-top: @offset_m;
+}
+
 .controls-PropertyGrid__editor_spacingTop_l_theme-@{themeName} {
    padding-top: @item_padding-top_l_grid;
 }
@@ -112,6 +112,10 @@
    padding-bottom: @item_padding-bottom_s_grid;
 }
 
+.controls-PropertyGrid__editor_spacingBottom_m_theme-@{themeName} {
+   padding-bottom: @offset_m;
+}
+
 .controls-PropertyGrid__editor_spacingBottom_l_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_l_grid;
 }
@@ -123,6 +127,10 @@
 
 .controls-PropertyGrid__editor_spacingLeft_s_theme-@{themeName} {
    padding-left: @cell_padding-left_s_grid;
+}
+
+.controls-PropertyGrid__editor_spacingLeft_m_theme-@{themeName} {
+   padding-left: @offset_m;
 }
 
 .controls-PropertyGrid__editor_spacingLeft_l_theme-@{themeName} {
@@ -138,6 +146,10 @@
    padding-right: @cell_padding-right_s_grid;
 }
 
+.controls-PropertyGrid__editor_spacingRight_m_theme-@{themeName} {
+   padding-right: @offset_m;
+}
+
 .controls-PropertyGrid__editor_spacingRight_l_theme-@{themeName} {
    padding-right: @cell_padding-right_l_grid;
 }
@@ -147,4 +159,36 @@
 .controls-PropertyGrid__editor_date_control {
    max-width: 100%;
    margin-right: auto;
+}
+
+.controls-PropertyGrid__itemsContainer_paddingTop-null {
+   padding-top: 0;
+}
+
+.controls-PropertyGrid__itemsContainer_paddingTop-m {
+   padding-top: var(--offset_m);
+}
+
+.controls-PropertyGrid__itemsContainer_paddingRight-null {
+   padding-right: 0;
+}
+
+.controls-PropertyGrid__itemsContainer_paddingRight-m {
+   padding-right: var(--offset_m);
+}
+
+.controls-PropertyGrid__itemsContainer_paddingBottom-null {
+   padding-bottom: 0;
+}
+
+.controls-PropertyGrid__itemsContainer_paddingBottom-m {
+   padding-bottom: var(--offset_m);
+}
+
+.controls-PropertyGrid__itemsContainer_paddingLeft-null {
+   padding-left: 0;
+}
+
+.controls-PropertyGrid__itemsContainer_paddingLeft-m {
+   padding-left: var(--offset_m);
 }

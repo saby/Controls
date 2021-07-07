@@ -85,6 +85,11 @@ export class Controller {
     * @void
     */
    setSelection(selection: ISelection): void {
+      // Прикладники могут задать только selectedKeys и чтобы не было ошибок инициализируем excluded пустым массивом
+      if (!selection.excluded) {
+         selection.excluded = [];
+      }
+
       // Если сбросили выбор, значит закончили "сессию" выбора и нас не интересует последнее изменение фильтра
       if (!selection.selected.length && !selection.excluded.length) {
          this._filterChanged = false;
@@ -139,7 +144,11 @@ export class Controller {
     * @public
     */
    increaseLimitByCount(count: number): number {
-      return this._limit += count;
+      this._limit += count;
+
+      this._updateModel(this._selection);
+
+      return this._limit;
    }
 
    /**
@@ -317,7 +326,7 @@ export class Controller {
     * @return {ISelection|void}
     */
    onCollectionReset(entryPath: IEntryPathItem[]): ISelection|void {
-      if (this._model.getCount() === 0 && this.isAllSelected()) {
+      if (this._filterChanged && this.isAllSelected(false)) {
          return { selected: [], excluded: [] };
       }
 
@@ -409,6 +418,10 @@ export class Controller {
    // endregion
 
    private _removeFilteredItemKeys(selection: ISelection): ISelection {
+      if (this.isAllSelected(false)) {
+         return selection;
+      }
+
       return {
          selected: selection.selected.filter((key) => !!this._model.getItemBySourceKey(key)),
          excluded: selection.excluded.filter((key) => !!this._model.getItemBySourceKey(key))

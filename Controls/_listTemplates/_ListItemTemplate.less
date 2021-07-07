@@ -1,6 +1,7 @@
 .controls-listTemplates__listItemTemplate {
    display: flex;
    width: 100%;
+   box-sizing: border-box;
 }
 
 .controls-listTemplates_listItemTemplate__footer {
@@ -24,6 +25,10 @@
 
 .controls-listTemplates__listItemTemplate-image-padding_position-right {
    margin-left: var(--offset_m);
+}
+
+.controls-ListView__item-leftPadding_null .controls-listTemplates__listItemTemplate-image_position-none {
+   padding-left: var(--offset_m);
 }
 
 .controls-listTemplates__listItemTemplate__itemContent {

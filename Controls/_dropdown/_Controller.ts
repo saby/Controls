@@ -244,6 +244,11 @@ export default class _Controller implements IDropdownController {
    }
 
    openMenu(popupOptions?: object): Promise<any> {
+      if (this._options.reloadOnOpen) {
+         this._setItems(null);
+         this._loadDependsPromise = null;
+         this._sourceController = null;
+      }
       return this._open(popupOptions);
    }
 
@@ -290,7 +295,7 @@ export default class _Controller implements IDropdownController {
    }
 
    handleClose(): void {
-       if (this._items && !this._items.getCount() && this._options.searchParam || this._options.reloadOnOpen) {
+       if (this._items && !this._items.getCount() && this._options.searchParam) {
            this._setItems(null);
        }
        this._isOpened = false;
@@ -447,7 +452,8 @@ export default class _Controller implements IDropdownController {
       }
       return sourcePromise.then((source) => {
          this._source = source;
-         if (isHistorySource(this._source) && options.historyRoot) {
+         if (isHistorySource(this._source)) {
+            this._dataLoadCallbackOnSource = true;
             this._source.setDataLoadCallback(options.dataLoadCallback);
          }
          this._filter = this._prepareFilterForQuery(options);
@@ -489,7 +495,7 @@ export default class _Controller implements IDropdownController {
    }
 
    private _resolveLoadedItems(options: IDropdownControllerOptions, items: RecordSet<Model>): RecordSet<Model> {
-      if (options.dataLoadCallback && !options.historyRoot) {
+      if (options.dataLoadCallback && !this._dataLoadCallbackOnSource) {
          options.dataLoadCallback(items);
       }
       if (this._selectedItems) {
@@ -726,7 +732,7 @@ export default class _Controller implements IDropdownController {
             horizontal: 'overflow'
          },
          autofocus: false,
-         closeOnOutsideClick: true
+         closeOnOutsideClick: this._options.closeMenuOnOutsideClick
       };
       const popupConfig = Merge(popupOptions, this._options.menuPopupOptions || {});
       const result = Merge(config, popupConfig || {});
@@ -770,6 +776,6 @@ _Controller.getOptionTypes = function getOptionTypes() {
 /**
  * @event Происходит при изменении набора выбранных элементов.
  * @name Controls/_dropdown/_Controller#selectedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/collection:RecordSet} items Выбранные элементы.
  */

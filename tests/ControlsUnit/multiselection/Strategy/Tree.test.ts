@@ -9,6 +9,7 @@ import { RecordSet } from 'Types/collection';
 import { Tree, TreeItem } from 'Controls/display';
 import GroupItem from 'Controls/_display/GroupItem';
 import { SearchGridCollection } from 'Controls/searchBreadcrumbsGrid';
+import TreeGridCollection from "Controls/_treeGrid/display/TreeGridCollection";
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    const model = new Tree({
@@ -42,10 +43,7 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    });
 
    function toArrayKeys(array: TreeItem<Model>[]): number[] {
-      function toKey(el: TreeItem<Model>): number {
-         return el.getContents().getKey();
-      }
-      return array.map((el) => toKey(el)).sort((e1, e2) => e1 < e2 ? -1 : 1);
+      return array.map((el) => el.key).sort((e1, e2) => e1 < e2 ? -1 : 1);
    }
 
    beforeEach(() => {
@@ -328,6 +326,15 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(selection.excluded, [null, 1, 3, 4, 5, 6, 7]);
       });
 
+      it('toggleAll after select all by one in root', () => {
+         let selection = { selected: [1, 2, 3, 4, 5, 6, 7], excluded: [] };
+
+         selection = strategy.toggleAll(selection);
+
+         assert.deepEqual(selection.selected, []);
+         assert.deepEqual(selection.excluded, []);
+      });
+
       it('selected not loaded item', () => {
          let selection = { selected: [20], excluded: [] };
          selection = strategy.toggleAll(selection, true);
@@ -350,6 +357,41 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(selection.selected, [2]);
          assert.deepEqual(selection.excluded, [2, 3]);
          strategy.reset();
+      });
+
+      it('when selected childs in collapsed node', () => {
+         const model = new TreeGridCollection({
+            collection: new RecordSet({
+               keyProperty: ListData.KEY_PROPERTY,
+               rawData: ListData.getItems()
+            }),
+            root: null,
+            keyProperty: ListData.KEY_PROPERTY,
+            parentProperty: ListData.PARENT_PROPERTY,
+            nodeProperty: ListData.NODE_PROPERTY,
+            hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY,
+            columns: [],
+            expandedItems: [null],
+            collapsedItems: [null, 2]
+         });
+
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model,
+            selectionType: 'all',
+            recursiveSelection: false
+         });
+         let selection = { selected: [3, 4], excluded: [] };
+         selection = strategy.toggleAll(selection, false);
+
+         assert.deepEqual(selection.selected, [null]);
+         assert.deepEqual(selection.excluded, [null, 3, 4]);
+
+         selection = strategy.toggleAll(selection, false);
+         assert.deepEqual(selection.selected, [3, 4]);
+         assert.deepEqual(selection.excluded, []);
       });
    });
 
@@ -586,7 +628,23 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(toArrayKeys(res.get(null)), []);
       });
 
+      it('with limit', () => {
+         const selection = { selected: [null], excluded: [null] };
+         let res = strategy.getSelectionForModel(selection, 3);
+         assert.deepEqual(toArrayKeys(res.get(true)), [1, 2, 3] );
+         assert.deepEqual(toArrayKeys(res.get(null)), []);
+         assert.deepEqual(toArrayKeys(res.get(false)), [4, 5, 6, 7]);
+      });
+
       it('search model', () => {
+         /*
+            node-1
+               leaf-11
+               leaf-12
+            node-2
+               leaf-21
+               leaf-22
+          */
          const items = new RecordSet({
             rawData: [{
                id: 1,
@@ -642,21 +700,33 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          });
 
          let res = strategy.getSelectionForModel({selected: [null], excluded: [null]}, undefined, undefined, 'sad');
-         assert.deepEqual(res.get(true), [searchModel.getItemBySourceKey(11), searchModel.getItemBySourceKey(12), searchModel.getItemBySourceKey(21), searchModel.getItemBySourceKey(22)]);
-         assert.deepEqual(res.get(null), [searchModel.getItemBySourceKey(1), searchModel.getItemBySourceKey(2)]);
-         assert.deepEqual(res.get(false), []);
+         assert.deepEqual(toArrayKeys(res.get(true)), [11, 12, 21, 22]);
+         assert.deepEqual(toArrayKeys(res.get(null)), [1, 2]);
+         assert.deepEqual(toArrayKeys(res.get(false)), []);
 
          // Изменилось состояние хлебной крошки, когда сняли чекбокс с одного из ее детей
          res = strategy.getSelectionForModel({selected: [null], excluded: [null, 11, 12]}, undefined, undefined, 'sad');
-         assert.deepEqual(res.get(true), [searchModel.getItemBySourceKey(21), searchModel.getItemBySourceKey(22)]);
-         assert.deepEqual(res.get(null), [searchModel.getItemBySourceKey(2)]);
-         assert.deepEqual(res.get(false), [searchModel.getItemBySourceKey(1), searchModel.getItemBySourceKey(11), searchModel.getItemBySourceKey(12)]);
+         assert.deepEqual(toArrayKeys(res.get(true)), [21, 22]);
+         assert.deepEqual(toArrayKeys(res.get(null)), [1, 2]);
+         assert.deepEqual(toArrayKeys(res.get(false)), [11, 12]);
 
          // Выбирается хлебная крошка
          res = strategy.getSelectionForModel({selected: [2], excluded: []}, undefined, undefined, 'sad');
-         assert.deepEqual(res.get(true), [searchModel.getItemBySourceKey(2), searchModel.getItemBySourceKey(21), searchModel.getItemBySourceKey(22)]);
-         assert.deepEqual(res.get(null), []);
-         assert.deepEqual(res.get(false), [searchModel.getItemBySourceKey(1), searchModel.getItemBySourceKey(11), searchModel.getItemBySourceKey(12)]);
+         assert.deepEqual(toArrayKeys(res.get(true)), [2, 21, 22]);
+         assert.deepEqual(toArrayKeys(res.get(null)), []);
+         assert.deepEqual(toArrayKeys(res.get(false)), [1, 11, 12]);
+
+         // исключена хлебная крошка
+         res = strategy.getSelectionForModel({selected: [null], excluded: [null, 2]}, undefined, undefined, 'sad');
+         assert.deepEqual(toArrayKeys(res.get(true)), [11, 12]);
+         assert.deepEqual(toArrayKeys(res.get(null)), [1]);
+         assert.deepEqual(toArrayKeys(res.get(false)), [2, 21, 22]);
+
+         // выбрали ребенка хлебной крошки
+         res = strategy.getSelectionForModel({selected: [11], excluded: []}, undefined, undefined, 'sad');
+         assert.deepEqual(toArrayKeys(res.get(true)), [11]);
+         assert.deepEqual(toArrayKeys(res.get(null)), [1]);
+         assert.deepEqual(toArrayKeys(res.get(false)), [2, 12, 21, 22]);
       });
    });
 
@@ -777,6 +847,18 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const selection = { selected: [2], excluded: [] };
          const res = strategy.getCount(selection, false);
          assert.equal(res, 3);
+      });
+
+      it('with limit', () => {
+         const selection = { selected: [null], excluded: [null] };
+         const count = strategy.getCount(selection, false, 5);
+         assert.equal(count, 5);
+      });
+
+      it('selected not loaded item', () => {
+         const selection = { selected: [20], excluded: [] };
+         const count = strategyWithDescendantsAndAncestors.getCount(selection, false);
+         assert.isNull(count);
       });
    });
 

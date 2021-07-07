@@ -90,7 +90,7 @@ const MARKER_ANIMATION_TIMEOUT: number = 100;
  * @cssModifier controls-Tabs__item-underline Позволяет добавить горизонтальный разделитель к прикладному контенту, чтобы расположить его перед вкладками.
  */
 
-class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems, ITabsTemplate {
+class TabsButtons extends Control<ITabsOptions, IReceivedState> implements ITabsButtons, IItems, ITabsTemplate {
     readonly '[Controls/_tabs/interface/ITabsButtons]': boolean = true;
     readonly '[Controls/_interface/IItems]': boolean = true;
     readonly '[Controls/_tabs/ITabsTemplate]': boolean = true;
@@ -175,12 +175,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
-    protected _afterRender(oldOptions: ITabsOptions): void {
-        if (this._options.selectedKey !== oldOptions.selectedKey) {
-            this._scrollToTab(this._options.selectedKey);
-        }
-    }
-
     protected _beforeUnmount(): void {
         if (this._markerAnimationTimer) {
             clearTimeout(this._markerAnimationTimer);
@@ -188,8 +182,28 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         this._isUnmounted = true;
     }
 
-    protected _mouseEnterHandler(): void {
-        this._updateMarker();
+    protected _mouseEnterHandler(event: SyntheticEvent<MouseEvent>): void {
+        if (this._wrapperIncludesTarget(event.nativeEvent.target as HTMLElement)) {
+            this._updateMarker();
+        }
+    }
+
+    protected _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
+        if (
+            !this._isAnimationProcessing &&
+            this._animatedMarkerSelectedKey === this._options.selectedKey &&
+            !this._wrapperIncludesTarget(event.nativeEvent.relatedTarget as HTMLElement)
+        ) {
+            this._isAnimatedMakerVisible = false;
+        }
+    }
+
+    protected _wrapperIncludesTarget(target: HTMLElement): boolean {
+        let result: boolean = this._children.wrapper === target;
+        if (!result && target) {
+            result = !!target.closest('.controls-Tabs-wrapper');
+        }
+        return result;
     }
 
     protected _touchStartHandler(): void {
@@ -241,8 +255,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         // Не заускаем анимацию при переключении с группы вкладок слева на группу вкладок справа.
         if (changed && startAnimation && align && align === this._marker.getAlign() &&
                 this._options.animationMode !== ANIMATION_MODE.none) {
+            if (this._isAnimatedMakerVisible) {
+                this._isAnimationProcessing = true;
+            }
             this._isAnimatedMakerVisible = true;
-            this._isAnimationProcessing = true;
         }
     }
 
@@ -325,17 +341,18 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const align: string = itemAlign ? itemAlign : DEFAULT_ITEM_ALIGN;
 
         const isLastItem: boolean = order === this._lastRightOrder;
+        const shrinkClassPostfix = options.canShrink ? '' : '_padding';
 
         classes.push(`controls-Tabs__item_align_${align}`);
         if (order === 1 || isLastItem) {
             classes.push('controls-Tabs__item_extreme');
         }
         if (order === 1) {
-            classes.push('controls-Tabs__item_extreme_first');
+            classes.push(`controls-Tabs__item_extreme_first${shrinkClassPostfix}`);
         } else if (isLastItem) {
-            classes.push('controls-Tabs__item_extreme_last');
+            classes.push(`controls-Tabs__item_extreme_last${shrinkClassPostfix}`);
         } else {
-            classes.push('controls-Tabs__item_default');
+            classes.push(`controls-Tabs__item_default${shrinkClassPostfix}`);
         }
 
         const itemType: string = item.type;
@@ -515,20 +532,14 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }, false);
     }
 
-    /**
-     * Подскрол к выбранной вкладке
-     * @param key
-     * @private
-     */
-    private _scrollToTab(key: string): void {
-
+    // Используется для подскролла табов в graphic:Layout.
+    getOffsetTab(key: string): number {
         if (this._children.wrapper.scrollWidth <= this._children.wrapper.clientWidth) {
             return;
         }
 
-        this._children[`tab${key}`].scrollIntoView();
+        return this._children[`tab${key}`].offsetLeft;
     }
-
 
     static _prepareStyle(style: string): string {
         if (style === 'default') {
@@ -630,6 +641,31 @@ Object.defineProperty(TabsButtons, 'defaultProps', {
  * @cfg {Function} Шаблон для рендеринга.
  * @default Controls/tabs:buttonsItemTemplate
  * @demo Controls-demo/Tabs/Buttons/ItemTemplate/Index
+ * @demo Controls-demo/Tabs/Buttons/NewTemplate/Index
+ *
+ * По умолчанию используется шаблон "Controls/tabs:buttonsItemTemplate".
+ * Также вкладки поддерживают разную  реализацию отображения и поддерживают несколько шаблонов.
+ *
+ * Для отображения шаблона типа иконка, иконка-счетчик, иконка-текст или картинка-текст используется шаблон
+ * IconCounterTabTemplate поддерживающий следующие параметры:
+ * - icon {String} —  Название иконки.
+ * - iconStyle {String} — Стиль отображения иконки.
+ * - mainCounter {Number} — Значение счетчика.
+ * - mainCounterStyle {String} — Стиль отображения счетчика.
+ * - caption {String} — Подпись вкладки.
+ * - image {Object} — Конфигурация для отображения картинки.
+ *      - src {String} — Url картинки.
+ *      - srcSet {String} — Значение для аттрибута srcset.
+ *      - tooltip {String} — Значение для тултипа.
+ *
+ * Для отображения шаблона типа текст-счетчик, текст-иконка или текст-иконка-счетчик используется шаблон
+ * TextCounterTabTemplate поддерживающий следующие параметры:
+ * - icon {String} —  Название иконки.
+ * - iconStyle {String} — Стиль отображения иконки.
+ * - mainCounter {Number} — Значение счетчика.
+ * - mainCounterStyle {String} — Стиль отображения счетчика.
+ * - caption {String} — Подпись вкладки.
+ *
  * @remark
  * Чтобы определить шаблон, следует вызвать базовый шаблон 'Controls/tabs:buttonsItemTemplate'.
  * Шаблон помещается в компонент с помощью тега ws:partial с атрибутом template.
@@ -661,6 +697,57 @@ Object.defineProperty(TabsButtons, 'defaultProps', {
  *         </div>
  *     </ws:itemTemplate>
  * </Controls.tabs:Buttons>
+ * </pre>
+ * @example
+ * Вкладки с использованием шаблона TextCounterTabTemplate.
+ * <pre>
+ *     <Controls.tabs:Buttons
+ *                      bind:selectedKey='SelectedKey'
+ *                      itemTemplate="Controls/tabs:TextCounterTabTemplate"
+ *                      items="{{_items}}"
+ *                      keyProperty="id"/>
+ * </pre>
+ * <pre>
+ *     {
+ *        id: '1',
+ *        caption: 'Вкладка',
+ *        mainCounter: 12
+ *     },
+ *     {
+ *        id: '2',
+ *        caption: 'Вкладка',
+ *        mainCounter: 12
+ *     },
+ *     {
+ *        id: '3',
+ *        caption: 'Вкладка',
+ *        mainCounter: 12
+ *     }
+ * </pre>
+ * Вкладки с использованием шаблона IconCounterTabTemplate.
+ * <pre>
+ *     <Controls.tabs:Buttons
+ *                      bind:selectedKey='SelectedKey'
+ *                      itemTemplate="Controls/tabs:IconCounterTabTemplate"
+ *                      items="{{_items}}"
+ *                      keyProperty="id"/>
+ * </pre>
+ * <pre>
+ *     {
+ *        id: '1',
+ *        icon: 'Show',
+ *        caption: 'Вкладка'
+ *     },
+ *     {
+ *        id: '2',
+ *        icon: 'Show',
+ *        caption: 'Вкладка'
+ *     },
+ *     {
+ *        id: '3',
+ *        icon: 'Show',
+ *        caption: 'Вкладка'
+ *     }
  * </pre>
  * @see itemTemplateProperty
  */

@@ -458,6 +458,8 @@
    align-items: baseline;
    min-width: 0;
    flex-grow: 1;
+   line-height: 1;
+   min-height: var(--grouping_height_list);
    // убрал overflow по задаче https://online.sbis.ru/opendoc.html?guid=c2378e36-137e-44e6-a339-1c5bd549a772
    //overflow: hidden;
 }
@@ -650,8 +652,9 @@
 
 //MasterList styles
 
-.controls-ListView_master {
+.controls-MasterDetail_master-template .controls-ListView_master {
    box-sizing: border-box;
+   padding-right: var(--master_item_horizontal-offset_list);
 }
 
 //Классы совместимости для перехода со старого дизайна masterDetail на новый
@@ -755,6 +758,9 @@
       &:hover .controls-background-default {
          background-color: var(--item_hover_background-color_list);
       }
+      &:hover .controls-AreaCut__shadow_background-default {
+         background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, var(--item_hover_background-color_list) 100%)
+      }
    }
    .controls-ListView__item_highlightOnHover_default {
       &:hover .controls-background-default{
@@ -815,26 +821,28 @@
    border-top-color: var(--item_separator_l_color_list);
 }
 
-// Первая граница списка, самая верхняя
-.controls-ListView__itemV_first {
-   .controls-Grid__rowSeparator_size-s {
+// Верхнюю границу лучше задавать в зависимости от наличия заголовков/итогов
+.controls-ListView__itemV:first-child,
+.controls-ListView__groupHidden + .controls-ListView__itemV {
+   .controls-ListView__rowSeparator_size-s {
       border-top-color: var(--item_edge_separator_s_color_list);
    }
 
-   .controls-Grid__rowSeparator_size-l {
+   .controls-ListView__rowSeparator_size-l {
       border-top-color: var(--item_edge_separator_l_color_list);
    }
 }
 
-// Последняя граница списка, самая нижняя
-.controls-ListView__itemV_last {
-   .controls-Grid__rowSeparator_size-s {
-      border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
-   }
+.controls-ListView__group + .controls-ListView__itemV .controls-ListView__itemContent {
+   border-top-color: transparent;
+}
 
-   .controls-Grid__rowSeparator_size-l {
-      border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
-   }
+.controls-ListView__rowSeparator_bottom_size-s {
+   border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
+}
+
+.controls-ListView__rowSeparator_bottom_size-l {
+   border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
 }
 
 .controls-ListView__item_roundBorder_bottomLeft {

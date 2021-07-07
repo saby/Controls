@@ -1,4 +1,4 @@
-<div class="controls-FilterView controls-FilterView-{{_options.alignment}}
+<div class="controls_filter_theme-{{_options.theme}} controls-FilterView controls-FilterView-{{_options.alignment}}
             {{_options.readOnly ? 'controls-FilterView_readOnly'}}"
      on:mouseenter="_mouseEnterHandler()">
    <div class="controls-FilterView__wrapper">
@@ -7,7 +7,7 @@
                      scope="{{_dateRangeItem.editorOptions}}"
                      value="{{_dateRangeItem.value}}"
                      resetValue="{{_dateRangeItem.resetValue}}"
-                     fontColorStyle="link"
+                     fontColorStyle="filterItem"
                      on:textValueChanged="_rangeTextChangedHandler()"
                      on:rangeChanged="_rangeValueChangedHandler()"/>
       </ws:if>

@@ -6,6 +6,7 @@ import {SyntheticEvent} from 'UI/Events';
 import {isEqual} from 'Types/object';
 import {IDragObject, Container} from 'Controls/dragnDrop';
 import Store from 'Controls/Store';
+import 'Controls/menu';
 
 export interface IOperationsPanelOptions extends IControlOptions {
     source: Memory;
@@ -23,10 +24,21 @@ export default class extends Control<IOperationsPanelOptions> {
         this._operationPanelConfig = Store.getState().operationPanelConfig;
     }
 
+    protected _shouldOpenMenuByConfig(config): void {
+        return !Store.getState().operationsMenuExpanded && config.selectedKeysCount > 0;
+    }
+
     protected _afterMount(): void {
+        if (this._shouldOpenMenuByConfig(this._operationPanelConfig)) {
+            Store.dispatch('operationsMenuExpanded', true);
+        }
         this._operationPanelConfigStoreId = Store.onPropertyChanged('operationPanelConfig', (config) => {
             if (!isEqual(config, this._operationPanelConfig)) {
-                this._operationPanelConfig = Store.getState().operationPanelConfig;
+                const shouldOpenMenu = this._shouldOpenMenuByConfig(config);
+                this._operationPanelConfig = config;
+                if (shouldOpenMenu) {
+                    Store.dispatch('operationsMenuExpanded', true);
+                }
             }
         });
     }
@@ -34,8 +46,10 @@ export default class extends Control<IOperationsPanelOptions> {
     protected _beforeUnmount(): void {
         if (this._operationPanelConfigStoreId) {
             Store.unsubscribe(this._operationPanelConfigStoreId);
+            Store.dispatch('operationsMenuExpanded', false);
         }
     }
+
     protected _onDragEnd(): void {
         this._notify('popupDragEnd', [], {bubbling: true});
     }
@@ -55,6 +69,7 @@ export default class extends Control<IOperationsPanelOptions> {
     protected _closePanel(e: SyntheticEvent): void {
         e.stopImmediatePropagation();
         Store.dispatch('operationsPanelExpanded', false);
+        Store.dispatch('operationsMenuExpanded', false);
     }
 
     protected _selectedTypeChanged(e: SyntheticEvent, type: string): void {
@@ -62,6 +77,6 @@ export default class extends Control<IOperationsPanelOptions> {
     }
 
     protected _click(e: SyntheticEvent): void {
-        Store.sendCommand('openOperationPanel');
+        Store.dispatch('operationsMenuExpanded', true);
     }
 }

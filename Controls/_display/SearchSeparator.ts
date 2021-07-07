@@ -3,19 +3,22 @@ import Tree from './Tree';
 import CollectionItem, {IOptions as ICollectionItemOptions} from './CollectionItem';
 import {register} from 'Types/di';
 import IGroupNode from './interface/IGroupNode';
+import {Model} from 'Types/entity';
 
-export interface IOptions<T> extends ICollectionItemOptions<T> {
+export interface IOptions<T extends Model = Model> extends ICollectionItemOptions<T> {
     source: TreeItem<T>;
 }
 
-export default class SearchSeparator<T> extends CollectionItem<T> implements IGroupNode {
+export default class SearchSeparator<T extends Model = Model> extends CollectionItem<T> implements IGroupNode {
     readonly '[Controls/_display/SearchSeparator]': boolean = true;
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
     readonly '[Controls/_itemActions/interface/IItemActionsItem]': boolean = false;
 
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly EnumerableItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
+    readonly GroupNodeItem: boolean = false;
 
     protected _instancePrefix: 'search-separator-item-';
 

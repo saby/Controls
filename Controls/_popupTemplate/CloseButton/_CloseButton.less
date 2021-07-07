@@ -14,56 +14,22 @@
 
 .controls-Button__close__icon_toolButton,
 .controls-Button__close__icon_functionalButton {
-   background-image: var(--icon_background-image_closeButton_toolButton);
+   fill: var(--icon-color_closeButton_toolButton);
    height: var(--icon-size_closeButton_toolButton);
    width: var(--icon-size_closeButton_toolButton);
    display: inline-block;
    &:active {
-      background-image: var(--icon_hovered_background-image_closeButton_toolButton);
-   }
-}
-
-// В Яндекс браузере для win-XP css переменные поддерживаются не в полном объеме, из-за чего браузер ожидает полный путь с указанием домена
-// Поэтому каскадом задаем корректный путь
-.ws-is-chrome.ws-is-windows-xp {
-   .controls-Button__close__icon_toolButton,
-   .controls-Button__close__icon_functionalButton {
-      background-image: url('/resources/Controls-default-theme/img/DefaultCloseIcon.svg');
-      &:active {
-         background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
-      }
-   }
-
-   .controls-Button__close__icon_link,
-   .controls-Button__close__icon_linkButton {
-      background-image: url('/resources/Controls-default-theme/img/LightCloseIcon.svg');
-      &:active {
-         background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
-      }
-   }
-   &.ws-is-hover {
-      .controls-Button__close_toolButton:hover,
-      .controls-Button__close_functionalButton:hover {
-         .controls-Button__close__icon_toolButton,
-         .controls-Button__close__icon_functionalButton {
-            background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
-         }
-      }
-
-      .controls-Button__close__icon_link:hover,
-      .controls-Button__close__icon_linkButton:hover {
-         background-image: url('/resources/Controls-default-theme/img/CloseIconHovered.svg');
-      }
+      fill: var(--icon-color_hovered_closeButton_toolButton);
    }
 }
 
 .controls-Button__close__icon_link,
 .controls-Button__close__icon_linkButton {
-   background-image: var(--icon_background-image_closeButton_link);
+   fill: var(--icon-color_closeButton_link);
    height: var(--icon-size_closeButton_link);
    width: var(--icon-size_closeButton_link);
    &:active {
-      background-image: var(--icon_hovered_background-image_closeButton_link);
+      fill: var(--icon-color_hovered_closeButton_link);
    }
 }
 
@@ -72,13 +38,13 @@
    width: var(--width_closeButton_toolButton);
    height: var(--height_closeButton_toolButton);
    background-color: var(--background-color_closeButton_toolButton);
-   border-color: var(--border-color_button_toolButton);
+   border-color: var(--border-color_closeButton_toolButton);
    border-width: var(--border-thickness_closeButton_toolButton);
    border-radius: var(--border-radius_closeButton_toolButton);
    box-shadow: var(--box-shadow_closeButton_toolButton);
    &:active {
-      border-color: var(--background-color_contrast_active_button_toolButton);
-      background-color: var(--background-color_contrast_active_button_toolButton);
+      border-color: var(--background-color_active_closeButton_toolButton);
+      background-color: var(--background-color_active_closeButton_toolButton);
       box-shadow: var(--box-shadow_closeButton_toolButton); //none
    }
 }
@@ -88,7 +54,7 @@
    height: var(--inline_height_l);
    margin-right: var(--margin-right_closeButton_functionalButton);
    border-width: var(--border-thickness_closeButton_functionalButton);
-   border-radius: var(--border-radius_l_button_functionalButton);
+   border-radius: var(--border-radius_button_functionalButton);
    box-shadow: var(--box-shadow_closeButton_functionalButton);
    background-color: var(--pale_contrast_background-color);
    &:active {
@@ -120,21 +86,21 @@
 .ws-is-hover {
    .controls-Button__close__icon_link:hover,
    .controls-Button__close__icon_linkButton:hover {
-      background-image: var(--icon_hovered_background-image_closeButton_link);
+      fill: var(--icon-color_hovered_closeButton_link);
    }
 
    //button and icon must be hovered at the same time
    .controls-Button__close_toolButton:hover {
-      border-color: var(--background-color_contrast_hover_button_toolButton);
-      background-color: var(--background-color_contrast_hover_button_toolButton);
+      border-color: var(--background-color_hover_closeButton_toolButton);
+      background-color: var(--background-color_hover_closeButton_toolButton);
       .controls-Button__close__icon_toolButton {
-         background-image: var(--icon_hovered_background-image_closeButton_toolButton);
+         fill: var(--icon-color_hovered_closeButton_toolButton);
       }
    }
    .controls-Button__close_functionalButton:hover {
       background-color: var(--pale_hover_contrast_background-color);
       .controls-Button__close__icon_functionalButton {
-         background-image: var(--icon_hovered_background-image_closeButton_toolButton);
+         fill: var(--icon-color_hovered_closeButton_toolButton);
       }
    }
 

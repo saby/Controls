@@ -3,10 +3,10 @@
  */
 import {detection} from 'Env/Env';
 import {Controller as ManagerController, Controller, IPopupItem, IPopupPosition} from 'Controls/popup';
+import {RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
 
 // Minimum popup indentation from the right edge
 const MINIMAL_PANEL_DISTANCE = 48;
-const RIGHT_PANEL_WIDTH = 52; // --width_stack-right_panel
 
 export class StackStrategy {
     /**
@@ -63,23 +63,15 @@ export class StackStrategy {
 
     private _getRightPosition(tCoords, isAboveMaximizePopup: boolean): number {
         if (isAboveMaximizePopup) {
-            const rightTemplate = this._getRightTemplate();
-            if (rightTemplate) {
-                return RIGHT_PANEL_WIDTH;
-            }
-            return 0;
+            return RIGHT_PANEL_WIDTH;
         }
         return tCoords.right;
-    }
-
-    private _getRightTemplate(): string {
-        return ManagerController.getRightTemplate();
     }
 
     private _getPanelWidth(item: IPopupItem, tCoords, maxPanelWidth: number): number {
         let panelWidth;
         const maxPanelWidthWithOffset = maxPanelWidth - tCoords.right;
-        const minRightSpace = this._getRightTemplate() ? RIGHT_PANEL_WIDTH : 0;
+        const minRightSpace = RIGHT_PANEL_WIDTH;
         let minWidth = parseInt(item.popupOptions.minWidth, 10);
         const maxWidth = parseInt(item.popupOptions.maxWidth, 10);
 

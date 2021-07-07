@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/ItemClick/WithEditing/WithEditing';
 import {Memory} from 'Types/source';
-import {getActionsForContacts as getItemActions} from '../DemoHelpers/ItemActionsCatalog';
-import {getContactsCatalog} from '../DemoHelpers/DataCatalog';
+import {getActionsForContacts as getItemActions} from '../../DemoHelpers/ItemActionsCatalog';
+import {getContactsCatalog} from '../../DemoHelpers/DataCatalog';
 import {IItemAction} from 'Controls/itemActions';
 
 export default class extends Control {

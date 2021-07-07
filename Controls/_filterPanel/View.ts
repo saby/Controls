@@ -2,14 +2,12 @@ import {Control} from 'UI/Base';
 import * as template from 'wml!Controls/_filterPanel/View/View';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TemplateFunction} from 'UI/Base';
-import {GroupItem} from 'Controls/display';
+import {GroupItem, IItemPadding} from 'Controls/display';
 import {IFilterItem} from 'Controls/filter';
-import {IItemPadding} from 'Controls/display';
 import {Model} from 'Types/entity';
-import ApplyButton from 'Controls/_filterPanel/View/ApplyButton';
-import 'css!Controls/filterPanel';
 import {default as ViewModel} from './View/ViewModel';
 import {StickyOpener} from 'Controls/popup';
+import 'css!Controls/filterPanel';
 
 /**
  * Контрол "Панель фильтра с набираемыми параметрами".
@@ -55,12 +53,14 @@ export default class View extends Control<IViewPanelOptions> {
         bottom: 'null'
     };
     protected _viewModel: ViewModel = null;
+    protected _applyButtonSticky: StickyOpener;
 
     protected _beforeMount(options: IViewPanelOptions): void {
+        this._applyButtonSticky = new StickyOpener();
         this._viewModel = new ViewModel({
             source: options.source,
             collapsedGroups: options.collapsedGroups,
-            filterViewMode: options.viewMode
+            applyButtonSticky: options.viewMode === 'default' && this._applyButtonSticky
         });
     }
 
@@ -68,8 +68,15 @@ export default class View extends Control<IViewPanelOptions> {
         this._viewModel.update({
             source: options.source,
             collapsedGroups: options.collapsedGroups,
-            filterViewMode: options.viewMode
+            applyButtonSticky: options.viewMode === 'default' && this._applyButtonSticky
         });
+    }
+
+    protected _handleHistoryItemClick(event: SyntheticEvent, filterValue: object): void {
+        this._viewModel.setEditingObjectValue(filterValue.name, filterValue.editorValue);
+        if (this._options.viewMode === 'default') {
+            this._notifyChanges();
+        }
     }
 
     protected _resetFilter(): void {
@@ -87,6 +94,8 @@ export default class View extends Control<IViewPanelOptions> {
         this._viewModel.setEditingObject(editingObject);
         if (this._options.viewMode === 'default') {
             this._notifyChanges();
+        } else {
+            this._notify('sourceChanged', [this._viewModel.getSource()]);
         }
     }
 

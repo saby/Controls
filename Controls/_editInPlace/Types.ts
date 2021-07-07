@@ -6,7 +6,9 @@
 export enum CONSTANTS {
     CANCEL = 'Cancel',
     GOTONEXT = 'GoToNext',
-    GOTOPREV = 'GoToPrev'
+    GOTOPREV = 'GoToPrev',
+    NEXT_COLUMN = 'NextColumn',
+    PREV_COLUMN = 'PrevColumn'
 }
 
 /**

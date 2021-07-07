@@ -1,3 +1,7 @@
+/**
+ * Содержит основные константы для отображения плитки
+ */
+
 export const TILE_SCALING_MODE = {
     NONE: 'none',
     OUTSIDE: 'outside',

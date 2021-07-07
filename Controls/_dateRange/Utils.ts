@@ -229,6 +229,22 @@ var Utils = {
       } else {
          return [date, baseDate];
       }
+   },
+
+   updateRangeByWorkdays: function(date: Date): Date[] {
+      let weekDay = date.getDay();
+      if (weekDay === 0) {
+         // Нумирование начинается с воскресения, присвоем ему индекс последнего для удобства
+         weekDay = 7;
+      }
+      const mondayIndex = 1;
+      const fridayIndex = 5;
+      // Понедельник
+      const startValue = new Date(date.getFullYear(), date.getMonth(), date.getDate() - weekDay + mondayIndex);
+      // Пятница
+      const endValue = new Date(startValue.getFullYear(),
+          startValue.getMonth(), startValue.getDate() + (fridayIndex - mondayIndex));
+      return [startValue, endValue];
    }
 };
 

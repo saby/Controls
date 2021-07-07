@@ -1,5 +1,4 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import { PrefetchLinksStore } from 'UICommon/Deps';
 import { AppData } from 'UI/State';
 import * as template from 'wml!Controls/Application/Page';
 import {Body as PageBody, Head as PageHead} from 'Application/Page';
@@ -17,6 +16,7 @@ import {setController as setSettingsController, IPopupSettingsController} from
        'Controls/Application/SettingsController';
 import {ManagerClass as PopupManager, GlobalController as PopupGlobalController, IPopupItem} from
        'Controls/popup';
+import {PendingClass, IPendingConfig} from 'Controls/Pending';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 import { getConfig } from 'Application/Env';
@@ -135,6 +135,7 @@ export default class Application extends Control<IApplication> {
    private _isPopupShow: boolean;
    private _isSuggestShow: boolean;
    private _touchController: TouchDetect;
+   private _pendingController: PendingClass;
 
    // start hooks
    protected _beforeMount(options: IApplication): void {
@@ -170,6 +171,13 @@ export default class Application extends Control<IApplication> {
       this._createPopupManager(options);
       this._createRegisters();
       this._createTouchDetector();
+
+      const pendingOptions = {
+         notifyHandler: (eventName: string, args?: []) => {
+            return this._notify(eventName, args, {bubbling: true});
+         }
+      };
+      this._pendingController = new PendingClass(pendingOptions);
    }
    protected _afterMount(options: IApplication): void {
       // Подписка через viewPort дает полную информацию про ресайз страницы, на мобильных устройствах
@@ -530,14 +538,14 @@ export default class Application extends Control<IApplication> {
       this._globalPopup.popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
    }
 
-   protected _openInfoBoxHandler(event: SyntheticEvent<Event>, config): void {
-      this._globalPopup.openInfoBoxHandler(event, config);
+   protected _openInfoBoxHandler(event: SyntheticEvent<Event>, config, withDelay?: boolean): void {
+      this._globalPopup.openInfoBoxHandler(event, config, withDelay);
    }
    protected _openDialogHandler(event: SyntheticEvent<Event>, templ, templateOptions, opener): Promise<unknown> {
       return this._globalPopup.openDialogHandler(event, templ, templateOptions, opener);
    }
-   protected _closeInfoBoxHandler(event: SyntheticEvent<Event>, delay: number): void {
-      this._globalPopup.closeInfoBoxHandler(event, delay);
+   protected _closeInfoBoxHandler(event: SyntheticEvent<Event>, withDelay?: boolean): void {
+      this._globalPopup.closeInfoBoxHandler(event, withDelay);
    }
    protected _forceCloseInfoBoxHandler(): void {
       this._globalPopup.forceCloseInfoBoxHandler();
@@ -557,6 +565,21 @@ export default class Application extends Control<IApplication> {
    protected _popupEventHandler(event, action): void {
       let args = Array.prototype.slice.call(arguments, 2);
       this._popupManager.eventHandler.apply(this._popupManager, [action, args]);
+   }
+
+   protected _registerPendingHandler(event: Event, promise: Promise<unknown>, config: IPendingConfig): void {
+      event.stopPropagation();
+      this._pendingController.registerPending(promise, config);
+   }
+
+   protected _finishPendingHandler(event: Event, forceFinishValue: boolean, root: string): Promise<unknown> {
+      event.stopPropagation();
+      return this._pendingController.finishPendingOperations(forceFinishValue, root);
+   }
+
+   protected _cancelFinishingPendingHandler(event: Event, root: string): void {
+      event.stopPropagation();
+      this._pendingController.cancelFinishingPending(root);
    }
 
    /**
@@ -586,56 +609,6 @@ export default class Application extends Control<IApplication> {
 
    private static _isExist(value: unknown): boolean {
       return !!value;
-   }
-
-   /**
-    * Добавление ресурсов, которые необходимо вставить в head как <link rel="prefetch"/> или <link rel="preload"/>
-    * @param modules
-    * @param cfg настройки для ссылок
-    *             {
-    *                'prefetch': <boolean>,  // добавить prefetch-ссылку в head
-    *                'preload': <boolean>  // добавить preload-ссылку в head
-    *                'force': <boolean>  // по умолчанию ресурсы добавляются только на сервисе представления, но
-    *                                    // с этим параметром можно на это повлиять
-    *             }
-    * @private
-    */
-   private static _addHeadLinks(modules: string[], cfg: IHeadLinkConfig = {}): void {
-      if (!constants.isServerSide && !cfg.force) {
-         return;
-      }
-      if (!modules || !modules.length) {
-         return;
-      }
-
-      const pls = new PrefetchLinksStore();
-      if (cfg.prefetch) {
-         pls.addPrefetchModules(modules);
-      } else {
-         pls.addPreloadModules(modules);
-      }
-   }
-
-   /**
-    * Добавление ресурсов, которые необходимо вставить в head как <link rel="prefetch"/>
-    * По умолчанию ресурсы добавляются только на сервисе представления
-    * @param modules
-    * @param force
-    * @public
-    */
-   static addPrefetchModules(modules: string[], force: boolean): void {
-      Application._addHeadLinks(modules, { prefetch: true, force: !!force });
-   }
-
-   /**
-    * Добавление ресурсов, которые необходимо вставить в head как <link rel="preload"/>
-    * По умолчанию ресурсы добавляются только на сервисе представления
-    * @param modules
-    * @param force
-    * @public
-    */
-   static addPreloadModules(modules: string[], force: boolean): void {
-      Application._addHeadLinks(modules, { preload: true, force: !!force });
    }
 
    static getDefaultOptions(): object {

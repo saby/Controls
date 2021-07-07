@@ -14,6 +14,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from "Types/entity";
 import dateControlsUtils from "./Utils";
 import {Base as dateUtils} from 'Controls/dateUtils';
+import * as itemTemplate from 'wml!Controls/_dateRange/LinkView/itemTemplate';
 import 'css!Controls/dateRange';
 import 'css!Controls/CommonClasses';
 
@@ -44,25 +45,27 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * @default bold
  */
 class LinkView extends Control<ILinkViewControlOptions> implements IFontColorStyle {
-   _template: TemplateFunction = componentTmpl;
+   protected _template: TemplateFunction = componentTmpl;
+   protected _itemTemplate: TemplateFunction = itemTemplate;
 
    protected _rangeModel = null;
    protected _caption = '';
    protected _styleClass = null;
-   protected _valueEnabledClass = null;
    protected _viewMode = null;
    protected _fontColorStyle: string = null;
    protected _fontSize: string = null;
+   protected _fontWeight: string = null;
 
    protected _clearButtonVisible = null;
 
-   protected _defaultFontColorStyle: string = 'link';
-   protected _defaultFontSize: string;
+   private _defaultFontColorStyle: string;
+   private _defaultFontSize: string;
+   private _defaultFontWeight: string;
 
    protected _resetButtonVisible: boolean;
 
-   constructor(options: ILinkViewControlOptions) {
-      super(arguments);
+   constructor(options: ILinkViewControlOptions, context?: object) {
+      super(options, context);
       this._rangeModel = new DateRangeModel({
          dateConstructor: options.dateConstructor
       });
@@ -71,7 +74,7 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
 
    _beforeMount(options: ILinkViewControlOptions): void {
       this._updateResetButtonVisible(options);
-      this._setDefaultFontSize(options.viewMode);
+      this._setDefaultFontSettings(options.viewMode);
       this._rangeModel.update(options);
       this._updateCaption(options);
       this._updateStyles({}, options);
@@ -96,13 +99,15 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
           this._options.captionFormatter !== options.captionFormatter) {
          this._updateCaption(options);
       }
-      this._setDefaultFontSize(options.viewMode);
+      this._setDefaultFontSettings(options.viewMode);
       this._updateStyles(this._options, options);
       this._updateClearButton(options);
    }
 
-   private _setDefaultFontSize(viewMode: string): void {
-      this._defaultFontSize = viewMode === 'selector'? 'l' : 'm';
+   private _setDefaultFontSettings(viewMode: string): void {
+      this._defaultFontSize = viewMode === 'selector' ? 'l' : 'm';
+      this._defaultFontColorStyle = viewMode === 'label' ? 'label' : 'link';
+      this._defaultFontWeight =  viewMode === 'selector' ? 'bold' : 'normal';
    }
 
    _beforeUnmount() {
@@ -204,7 +209,15 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
 
    _updateStyles(options, newOption): void {
       this._fontColorStyle = newOption.fontColorStyle || this._defaultFontColorStyle;
+      if (newOption.readOnly) {
+         if (this._fontColorStyle === 'filterPanelItem' || this._fontColorStyle === 'filterItem') {
+            this._fontColorStyle = this._fontColorStyle + '_readOnly';
+         } else {
+            this._fontColorStyle = 'default';
+         }
+      }
       this._fontSize = newOption.fontSize || this._defaultFontSize;
+      this._fontWeight = newOption.fontWeight || this._defaultFontWeight;
       let changed = false;
       if (options.viewMode !== newOption.viewMode) {
          this._viewMode = newOption.viewMode;
@@ -217,10 +230,6 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       if (changed) {
          if (this._viewMode !== 'label') {
             this._styleClass = '';
-            if (newOption.readOnly && !(newOption.fontColorStyle || newOption.fontSize)) {
-               this._styleClass = 'controls-DateLinkView__style-readOnly';
-               this._fontColorStyle = 'default';
-            }
             if (newOption.clickable && !newOption.readOnly) {
                this._styleClass +=  ' controls-DateLinkView__style-clickable';
             }
@@ -230,8 +239,6 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
          } else {
             this._styleClass = null;
          }
-
-         this._valueEnabledClass = newOption.clickable && !newOption.readOnly ? 'controls-DateLinkView__value-clickable' : '';
       }
    }
 }
@@ -241,8 +248,7 @@ LinkView.EMPTY_CAPTIONS = IDateLinkView.EMPTY_CAPTIONS;
 LinkView.getDefaultOptions = () => {
    return {
       ...IDateLinkView.getDefaultOptions(),
-      emptyCaption: IDateLinkView.EMPTY_CAPTIONS.NOT_SPECIFIED,
-      fontWeight: 'bold'
+      emptyCaption: IDateLinkView.EMPTY_CAPTIONS.NOT_SPECIFIED
    };
 };
 

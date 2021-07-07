@@ -3,5 +3,7 @@
    scope="{{templateOptions}}"
    isPrefetchDataMode="{{ _options._isPrefetchDataMode }}"
    prefetchData="{{ _options._prefetchData }}"
-   workspaceWidth="{{ _options._workspaceWidth }}"
+   workspaceWidth="{{ _options.workspaceWidth }}"
+   currentHeight="{{ slidingPanelData.height }}"
+   heightList="{{ options.slidingPanelOptions.heightList }}"
    slidingPanelOptions="{{slidingPanelData}}"/>

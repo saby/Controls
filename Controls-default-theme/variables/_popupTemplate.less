@@ -8,8 +8,8 @@
    // Фон
 
    --background-color_closeButton_toolButton: var(--background-color_button_toolButton);
-   --background-color_hover_closeButton_toolButton: var(--background-color_hover_button_toolButton);
-   --background-color_active_closeButton_toolButton: var(--background-color_active_button_toolButton);
+   --background-color_hover_closeButton_toolButton: var(--background-color_contrast_hover_button_toolButton);
+   --background-color_active_closeButton_toolButton: var(--background-color_contrast_active_button_toolButton);
 
 
    // Иконка
@@ -17,9 +17,11 @@
    --icon-size_closeButton_toolButton: 12px;
    --icon-size_closeButton_link: var(--icon-size_closeButton_toolButton);
    --icon_background-image_closeButton_toolButton: url('../img/DefaultCloseIcon.svg');
+   --icon-color_closeButton_toolButton: #587AB0;
    --icon_hovered_background-image_closeButton_toolButton: url('../img/CloseIconHovered.svg');
-   --icon_background-image_closeButton_link: url('../img/LightCloseIcon.svg');
-   --icon_hovered_background-image_closeButton_link: url('../img/CloseIconHovered.svg');
+   --icon-color_hovered_closeButton_toolButton: var(--link_hover_text-color);
+   --icon-color_closeButton_link: #8991A9;
+   --icon-color_hovered_closeButton_link: var(--link_hover_text-color);
 
    // Обводка
    --border-thickness_closeButton_toolButton: 0;
@@ -197,6 +199,7 @@
 
    --maximized-button_offset-top_stack: 7px;
    --maximized-button_offset-right_stack: var(--offset_s);
+   --close-button_hover_icon-color_stack: var(--secondary_hover_icon-color);
 
 
    // Изменение размера

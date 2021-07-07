@@ -47,7 +47,7 @@ export default interface IItemTemplateOptions {
    /**
     * @cfg {ShadowVisibility} Нужно ли отображать тень для плитки.
     * @default visible
-    * @demo Controls-demo/Tile/Shadows/Index
+    * @demo Controls-demo/tileNew/Shadows/Index
     */
    shadowVisibility?: string;
    /**

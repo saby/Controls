@@ -48,8 +48,9 @@ interface IResizeObserver {
     disconnect: () => void;
 }
 /**
- * Обеспечивает прилипание контента к верхней или нижней части родительского контейнера при прокрутке.
- * Прилипание происходит в момент пересечения верхней или нижней части контента и родительского контейнера.
+ * Обеспечивает прилипание контента к краю родительского контейнера при прокрутке.
+ * В зависимости от конфигурации, прилипание происходит в момент пересечения верхней, нижней, левой или правой
+ * части контента и родительского контейнера.
  * @remark
  * Фиксация заголовка в IE и Edge версии ниже 16 не поддерживается.
  *
@@ -58,11 +59,11 @@ interface IResizeObserver {
  *
  * @public
  * @extends UI/Base:Control
- * @class Controls/_scroll/StickyBlock
  *
  * @mixes Control/interface:IBackgroundStyle
  *
  * @author Красильников А.С.
+ * @demo Controls-demo/Scroll/Container/StickyHeader/SomeSimpleHeaders/Index
  */
 
 /*
@@ -173,8 +174,8 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         return this._index;
     }
 
-    constructor(cfg: IStickyHeaderOptions) {
-        super(cfg);
+    constructor(cfg: IStickyHeaderOptions, context?: object) {
+        super(cfg, context);
         this._observeHandler = this._observeHandler.bind(this);
     }
 
@@ -195,7 +196,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         // Несмотря на то, что _style === '', на дом элементе остаются стили от старого компонента.
         // Если стили остались, то чистим их.
         // TODO: После того как заменим инферно на реакт проблемы скорее не будет.
-        if (this._container.style.top || this._container.style.bottom) {
+        if (this._container.dataset?.stickyBlockNode) {
             this._container.style.top = '';
             this._container.style.bottom = '';
         }
@@ -254,6 +255,9 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     }
 
     protected _beforeUnmount(): void {
+        // Установим дата аттрибут, чтобы в будущем была возможность определить, был ли в этой ноде стики блок.
+        // Подробности в комментарии в _componentDidMount.
+        this._container.dataset?.stickyBlockNode = 'true';
         if (!this._isStickySupport || this._options.mode === MODE.notsticky) {
             return;
         }
@@ -264,7 +268,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         this._notify('stickyRegister', [{
             id: this._index,
             inst: this,
-            position: StickyBlock.getStickyPosition(this._options),
+            position: this._options.position,
             mode: this._options.mode,
             shadowVisibility: this._options.shadowVisibility
         }, true], {bubbling: true});
@@ -289,7 +293,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         this._model = new Model({
             topTarget: children.observationTargetTop,
             bottomTarget: children.observationTargetBottom,
-            position: StickyBlock.getStickyPosition(this._options)
+            position: this._options.position
         });
 
         RegisterUtil(this, 'scrollStateChanged', this._onScrollStateChanged);
@@ -474,7 +478,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         if (isInitializing || !scrollState.canVerticalScroll && !scrollState.canHorizontalScroll) {
             return;
         }
-        const position = StickyBlock.getStickyPosition(this._options);
+        const position = this._options.position;
         if ((position.vertical === 'top' || position.vertical === 'bottom' ||
             position.vertical === 'topBottom') &&
             scrollState.canVerticalScroll !== this._scrollState.canVerticalScroll) {
@@ -542,6 +546,15 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _createObserver(): void {
         const children = this._children;
+
+        // Если задали бордер на корне StickyBlock, то IntersectionObserver не вызывает коллбэк, когда прилипающий
+        // блок доходит до края. Фиксация не срабатывает. Будем добавлять дополнительный rootMargin в случае, если
+        // на корне контрола висит бордер.
+        const borderTop = this._getComputedStyle()['border-top-width'];
+        const borderBottom  = this._getComputedStyle()['border-bottom-width'];
+
+        const rootMarginTop = borderTop ? '-' + borderTop : '0px';
+        const rootMarginBottom = borderBottom ? '-' + borderBottom : '0px';
         this._observer = new IntersectionObserver(
             this._observeHandler,
             {
@@ -549,7 +562,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
                 // Рассширим область тслеживания по горизонтали чтобы ячейки за праделами вьюпорта сбоку не считались
                 // невидимыми если включен горизонтальный скролл в таблицах. Значение не влияет на производительнось.
                 // 20 000 должно хватить, но если повятся сценарии в которых этого значения мало, то можно увеличить.
-                rootMargin: '0px 20000px'
+                rootMargin: rootMarginTop + ' 20000px ' + rootMarginBottom + ' 20000px'
             }
         );
         this._observer.observe(children.observationTargetTop);
@@ -679,7 +692,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         fixedPosition = this._model ? this._model.fixedPosition : undefined;
         // Включаю оптимизацию для всех заголовков на ios, в 5100 проблем выявлено не было
         const isIosOptimizedMode = this._isMobileIOS && task1181007458 !== true;
-        const stickyPosition = StickyBlock.getStickyPosition({position: positionFromOptions});
+        const stickyPosition = positionFromOptions;
 
         const isStickedOnTop = stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1;
         const isStickedOnBottom = stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1;
@@ -912,37 +925,12 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     }
 
     private _updateCanShadowVisible(options: IStickyHeaderOptions): void {
-        const stickyPosition = StickyBlock.getStickyPosition(options);
+        const stickyPosition = options.position;
         const verticalPosition = (stickyPosition?.vertical || '').toLowerCase();
         const top: boolean = verticalPosition.includes(POSITION.bottom);
         const bottom: boolean = verticalPosition.includes(POSITION.top);
         if (this._canShadowVisible.top !== top || this._canShadowVisible.bottom !== bottom) {
             this._canShadowVisible = { top, bottom };
-        }
-    }
-
-    static getStickyPosition(options: IStickyHeaderOptions): Partial<{vertical: string, horizontal: string}> {
-        switch (options.position) {
-            case 'top':
-            case 'bottom':
-                return {
-                    vertical: options.position
-                };
-            case 'topbottom':
-                return  {
-                    vertical: 'topBottom'
-                };
-            case 'left':
-            case 'right':
-                return {
-                    horizontal: options.position
-                };
-            case 'leftright':
-                return {
-                    horizontal: 'leftRight'
-                };
-            default:
-                return options.position;
         }
     }
 
@@ -1060,11 +1048,11 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
  * @cfg {StickyPosition} Определяет позицию прилипания.
  * @remark
  * В качестве значения передается объект с полями horizontal и vertical
- * Значеиня horizontal:
+ * Значения vertical:
  * * top - блок будет прилипать сверху
  * * bottom - блок будет прилипать снизу
  * * topBottom - блок будет прилипать и сверху и снизу
- * Значеиня vertical:
+ * Значения horizontal:
  * * left - блок будет прилипать слева
  * * right - блок будет прилипать справа
  * * leftRight - блок будет прилипать и слева и справа
@@ -1114,14 +1102,14 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 /**
  * @event Происходит при изменении состояния фиксации.
  * @name Controls/_scroll/StickyBlock#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} event Дескриптор события.
  * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Информация о событии фиксации.
  */
 
 /*
  * @event Change the fixation state.
  * @name Controls/_scroll/StickyBlock#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 

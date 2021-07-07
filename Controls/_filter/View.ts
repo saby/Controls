@@ -217,17 +217,48 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         this._resetCallbackId = Store.declareCommand('resetFilter', this.reset.bind(this));
     }
 
+    protected _getItemsForReload(
+        oldItems: IFilterItem[],
+        newItems: IFilterItem[],
+        configs: IFilterItemConfigs
+    ): IFilterItem[] {
+        const optionsToCheck = ['source', 'filter', 'navigation'];
+        const getOptionsChecker = (oldItem, newItem) => {
+            return (changed, optName) => changed ||
+                !isEqual(oldItem.editorOptions[optName], newItem.editorOptions[optName]);
+        };
+        const result = [];
+        factory(newItems).each((newItem) => {
+            const oldItem = this._getItemByName(oldItems, newItem.name);
+            const newItemIsFrequent = this._isFrequentItem(newItem);
+            const oldItemIsFrequent = oldItem && this._isFrequentItem(oldItem);
+            const needHistoryReload = configs && configs[newItem.name] && !configs[newItem.name].sourceController;
+            const valueChanged = oldItem && !isEqual(newItem.value, oldItem.value);
+            if (
+                newItemIsFrequent &&
+                (!oldItem || !oldItemIsFrequent || optionsToCheck.reduce(getOptionsChecker(oldItem, newItem), false)
+                    || (valueChanged && configs && !configs[newItem.name]) || needHistoryReload)
+            ) {
+                if (valueChanged && !isEqual(newItem.value, newItem.resetValue)) {
+                    result.push(newItem);
+                } else if (configs && configs[newItem.name]) {
+                    // Загрузим перед открытием
+                    delete configs[newItem.name];
+                }
+            }
+        });
+        return result;
+    }
+
     protected _beforeUpdate(newOptions: IFilterViewOptions): void {
         if (newOptions.source && newOptions.source !== this._options.source) {
             let resultDef;
             this._resolveItems(newOptions.source);
             this._detailPanelTemplateName = this._getDetailPanelTemplateName(newOptions);
-            if (this._isNeedReload(this._options.source, newOptions.source, this._configs) ||
-                this._isNeedHistoryReload(this._configs)) {
+            const itemsForReload = this._getItemsForReload(this._options.source, newOptions.source, this._configs);
+            if (itemsForReload.length) {
                 this._clearConfigs(this._source, this._configs);
-                resultDef = this._reload(null, !!newOptions.panelTemplateName, true);
-            } else if (this._isNeedHistoryReload(this._configs)) {
-                resultDef = this._reload(null, !!newOptions.panelTemplateName, true);
+                resultDef = this._reload(null, !!newOptions.panelTemplateName, itemsForReload);
             } else if (this._loadPromise) {
                 resultDef = this._loadPromise.promise.then(() => {
                     return this._loadSelectedItems(this._source, this._configs).then(() => {
@@ -391,7 +422,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         if (!detection.isMobileIOS) {
             RegisterUtil(this, 'scroll', this._handleScroll.bind(this), {listenAll: true});
         }
-        let popupOptions = {
+        const popupOptions = {
             opener: this,
             templateOptions: {
                 items,
@@ -405,8 +436,11 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 onResult: this._resultHandler.bind(this)
             }
         };
+        if (this._options.detailPanelOpenMode === 'stack' && !this._container.closest('.controls-StackTemplate')) {
+            popupOptions.restrictiveContainer = '.sabyPage-MainLayout__rightPanel';
+        }
         Merge(popupOptions, panelPopupOptions);
-        popupOptions.className += ` controls_popupTemplate_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
+        popupOptions.className += ` controls_popupTemplate_theme-${this._options.theme} controls_filter_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
         this._getFilterPopupOpener().open(popupOptions);
     }
 
@@ -664,6 +698,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
     private _getFastText(config: IFilterItemConfig, selectedKeys: string[], item?: IFilterItem): IDisplayText {
         const textArr = [];
+        const displayTextValue = item?.displayTextValue;
         if (selectedKeys[0] === config.emptyKey && config.emptyText) {
             textArr.push(config.emptyText);
         } else if (config.items) {
@@ -673,6 +708,11 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                     textArr.push(object.getPropertyValue(selectedItem, config.displayProperty));
                 }
             });
+        } else if (displayTextValue) {
+            return {
+                ...displayTextValue,
+                title: item?.textValue ? item.textValue : ''
+            };
         } else if (item?.textValue) {
             textArr.push(item.textValue);
         }
@@ -709,16 +749,17 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
                         // [ [selectedKeysList1], [selectedKeysList2] ] in hierarchy list
                         const flatSelectedKeys = nodeProperty ? factory(selectedKeys).flatten().value() : selectedKeys;
-
-                        this._displayText[item.name] = this._getFastText(configs[item.name], flatSelectedKeys, item);
-                        if (!this._displayText[item.name].text && detailPanelHandler) {
+                        const displayText = this._getFastText(configs[item.name], flatSelectedKeys, item);
+                        this._displayText[item.name] = displayText;
+                        if (!displayText.text && detailPanelHandler) {
                             // If method is called after selecting from detailPanel,
                             // then textValue will contains actual display value
-                            this._displayText[item.name].text = item.textValue && item.textValue.split(', ')[0];
-                            this._displayText[item.name].hasMoreText = this._getHasMoreText(flatSelectedKeys);
+                            displayText.text = item.textValue && item.textValue.split(', ')[0];
+                            displayText.hasMoreText = this._getHasMoreText(flatSelectedKeys);
                         }
                         if (item.textValue !== undefined && !detailPanelHandler) {
-                            item.textValue = this._displayText[item.name].title;
+                            item.textValue = displayText.title;
+                            item.displayTextValue = displayText;
                         }
                     } else if (item.textValue) {
                         /* Сюда мы попадем только в случае, когда фильтр выбрали с панели фильтров,
@@ -899,13 +940,13 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
     private _reload(onlyChangedItems: boolean = false,
                     hasSimplePanel: boolean = true,
-                    force?: boolean): Promise<IFilterReceivedState> {
+                    items?: IFilterItem[]): Promise<IFilterReceivedState> {
         const loadPromises = [];
-        factory(this._source).each((item) => {
+        factory(items || this._source).each((item) => {
             if (this._isFrequentItem(item)) {
                 if (!onlyChangedItems || this._isItemChanged(item)) {
                     if (hasSimplePanel) {
-                        if (!item.textValue || force) {
+                        if (!item.textValue) {
                             const result = this._loadItems(item);
                             loadPromises.push(result);
                         } else {
@@ -1078,33 +1119,6 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         this._collapsedFilters = result.collapsedFilters;
     }
 
-    private _isNeedReload(oldItems: IFilterItem[],
-                          newItems: IFilterItem[],
-                          configs: IFilterItemConfigs): boolean {
-        const optionsToCheck = ['source', 'filter', 'navigation'];
-        const getOptionsChecker = (oldItem, newItem) => {
-            return (changed, optName) => changed ||
-                !isEqual(oldItem.editorOptions[optName], newItem.editorOptions[optName]);
-        };
-        let result = false;
-
-        if (oldItems.length !== newItems.length) {
-            result = true;
-        } else {
-            factory(newItems).each((newItem) => {
-                const oldItem = this._getItemByName(oldItems, newItem.name);
-                const isFrequent = this._isFrequentItem(newItem);
-                if (isFrequent && (!oldItem || !this._isFrequentItem(oldItem) ||
-                    optionsToCheck.reduce(getOptionsChecker(oldItem, newItem), false) ||
-                    !isEqual(newItem.value, oldItem.value) && !configs[newItem.name])
-                ) {
-                    result = true;
-                }
-            });
-        }
-        return result;
-    }
-
     private _updateHierarchyHistory(currentFilter: IFilterItemConfig,
                                     selectedItems: Model[],
                                     source: HistorySource): void {
@@ -1146,16 +1160,6 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 currentFilter.items = source.getItems();
             }
         }
-    }
-
-    private _isNeedHistoryReload(configs: IFilterItemConfigs): boolean {
-        let needReload = false;
-        factory(configs).each((config) => {
-            if (!config.sourceController) {
-                needReload = true;
-            }
-        });
-        return needReload;
     }
 
     private _loadDependencies(): Promise<unknown> {

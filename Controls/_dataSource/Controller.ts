@@ -303,8 +303,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
 
     /**
      * Перезагружает данные из источника данных
-     * @param {SourceConfig} sourceConfig Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации),
-     * которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
+     * @param {SourceConfig} sourceConfig Конфигурация навигации источника данных (например, размер и номер страницы для постраничной навигации), которую можно передать при вызове reload, чтобы перезагрузка произошла с этими параметрами. По умолчанию перезагрузка происходит с параметрами, переданными в опции {@link Controls/interface:INavigation#navigation navigation}.
      * @param {Boolean} isFirstLoad Флаг первичной загрузки.
      * @return {Types/collection:RecordSet}
      */
@@ -450,7 +449,11 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         const dataLoadCallbackChanged =
             newOptions.dataLoadCallback !== undefined &&
             newOptions.dataLoadCallback !== this._options.dataLoadCallback;
-        this._resolveNavigationParamsChangedCallback(newOptions);
+
+        if (newOptions.navigationParamsChangedCallback !== this._options.navigationParamsChangedCallback) {
+            this._resolveNavigationParamsChangedCallback(newOptions);
+            this._navigationController?.updateOptions(this._getNavigationControllerOptions(newOptions.navigation));
+        }
 
         if (isFilterChanged) {
             this.setFilter(newOptions.filter);
@@ -472,8 +475,12 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             this.setExpandedItems(newOptions.expandedItems);
         }
 
-        if (isSourceChanged && this._crudWrapper) {
-            this._crudWrapper.updateOptions({source: newOptions.source as ICrud});
+        if (isSourceChanged) {
+            if (newOptions.source) {
+                this._crudWrapper?.updateOptions({source: newOptions.source as ICrud});
+            } else {
+                this._crudWrapper = null;
+            }
         }
 
         if (isNavigationChanged) {
@@ -519,7 +526,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            expandedItems: this._expandedItems
+            expandedItems: this._options.hasOwnProperty('expandedItems') ? this._expandedItems : void 0
         };
         OPTIONS_FOR_UPDATE_AFTER_LOAD.forEach((optionName) => {
             state[optionName] = this._options[optionName];
@@ -650,6 +657,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return expandedItems instanceof Array && expandedItems[0] === null;
     }
 
+    getSource(): ICrudPlus | ICrud & ICrudPlus & IData {
+        return this._options.source;
+    }
+
     /**
      * Разрушает экземпляр класса.
      * Выполняет отмену запросов, а так же необходимые отписки от событий.
@@ -702,10 +713,13 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         let hierarchyRelation;
 
         if (this._hasNavigationBySource()) {
-            if (this._deepReload || !direction && this._root === id) {
+            const isMultiNavigation = this._isMultiNavigation(navigationConfig, list);
+            const isRoot = this._root === id;
+            const resetNavigation = this._deepReload || !direction && isRoot;
+            if (resetNavigation && (!isMultiNavigation || !this.getExpandedItems()?.length)) {
                 this._destroyNavigationController();
             }
-            if (this._options.parentProperty && this._isMultiNavigation(navigationConfig)) {
+            if (this._options.parentProperty && isMultiNavigation) {
                 hierarchyRelation = this._getHierarchyRelation();
             }
             this._getNavigationController(this._navigation)
@@ -714,28 +728,30 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                     id,
                     navigationConfig,
                     NAVIGATION_DIRECTION_COMPATIBILITY[direction],
-                    hierarchyRelation
+                    hierarchyRelation,
+                    isRoot
                 );
         }
     }
 
     private _prepareQueryParams(
-        queryParams: IQueryParams,
+        {filter, sorting, select}: IQueryParams,
         key: TKey,
         navigationSourceConfig: INavigationSourceConfig,
         direction: Direction
     ): IQueryParams|IQueryParams[] {
         const navigationController = this._getNavigationController(this._navigation);
         const userQueryParams = {
-            filter: queryParams.filter,
-            sorting: queryParams.sorting,
-            select: queryParams.select
+            filter,
+            sorting,
+            select
         };
         const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
+        const expandedItems = this.getExpandedItems();
         const isHierarchyQueryParamsNeeded =
             isMultiNavigation &&
             this.isDeepReload() &&
-            this._expandedItems?.length &&
+            expandedItems?.length &&
             !direction &&
             key === this._root;
         let resultQueryParams;
@@ -744,7 +760,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             resultQueryParams = navigationController.getQueryParamsForHierarchy(
                 userQueryParams,
                 navigationSourceConfig,
-                !isMultiNavigation
+                !isMultiNavigation,
+                filter[this.getParentProperty()]
             );
         }
 
@@ -754,15 +771,19 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                 key,
                 navigationSourceConfig,
                 NAVIGATION_DIRECTION_COMPATIBILITY[direction],
-                !isMultiNavigation || key !== this._root
+                (!isMultiNavigation || key !== this._root || !!direction || !!navigationSourceConfig)
             );
         }
 
         return resultQueryParams;
     }
 
-    private _isMultiNavigation(navigationSourceConfig: INavigationSourceConfig): boolean {
-        return (navigationSourceConfig || this._options.navigation.sourceConfig)?.multiNavigation;
+    private _isMultiNavigation(
+        navigationSourceConfig: INavigationSourceConfig,
+        list?: RecordSet
+    ): boolean {
+        return (navigationSourceConfig || this._options.navigation.sourceConfig)?.multiNavigation ||
+                list?.getMetaData().more instanceof RecordSet;
     }
 
     private _addItems(items: RecordSet, key: TKey, direction: Direction): RecordSet {

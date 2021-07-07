@@ -74,6 +74,9 @@ export default class DateRangeSelectionController extends RangeSelectionControll
     }
 
     protected _itemClickHandler(event, item): void {
+        if (this._state.selectionType === DateRangeSelectionController.SELECTION_TYPES.workdays) {
+            this._processSingleSelection(item);
+        }
         if (this._state.selectionType === DateRangeSelectionController.SELECTION_TYPES.quantum) {
             // this._processRangeSelection(item);
             if (this._isSingleQuant) {
@@ -88,10 +91,12 @@ export default class DateRangeSelectionController extends RangeSelectionControll
 
     protected _getDisplayedRangeEdges(item): [] {
         let range;
-        if (this._selectionType !== DateRangeSelectionController.SELECTION_TYPES.quantum) {
-            range = super._getDisplayedRangeEdges(item);
-        } else {
+        if (this._selectionType === DateRangeSelectionController.SELECTION_TYPES.quantum) {
             range = CalendarUtils.updateRangeByQuantum(this.getSelectionBaseValue() || item, item, this._quantum);
+        } else if (this._selectionType === DateRangeSelectionController.SELECTION_TYPES.workdays) {
+            range = CalendarUtils.updateRangeByWorkdays(item);
+        } else {
+            range = super._getDisplayedRangeEdges(item);
         }
         if (this._rangeSelectedCallback) {
             range = this._rangeSelectedCallback(range[0], range[1]);

@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
+        <div class="controls-text-label">itemsContainerPadding = {top: null, bottom: null, left: null, right: null}</div>
+        <Controls.propertyGrid:PropertyGrid
+            bind:editingObject="_editingObject"
+            source="{{_source}}">
+            <ws:itemsContainerPadding top="null" bottom="null" left="null" right="null"/>
+        </Controls.propertyGrid:PropertyGrid>
+    </div>
+
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
+        <div class="controls-text-label">itemPadding = {top: m, bottom: m, left: m, right: m}</div>
+        <Controls.propertyGrid:PropertyGrid
+            bind:editingObject="_editingObject"
+            source="{{_source}}">
+            <ws:itemsContainerPadding top="m" bottom="m" left="m" right="m"/>
+        </Controls.propertyGrid:PropertyGrid>
+    </div>
+</div>

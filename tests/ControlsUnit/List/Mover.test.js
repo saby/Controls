@@ -89,14 +89,15 @@ define([
          options._dataOptionsValue = { ...options };
          mover._beforeMount(options);
 
-         assert.equal(mover._controller._popupOptions.template, 'testTemplateName');
-         assert.deepEqual(mover._controller._popupOptions.templateOptions, options.moveDialogTemplate.templateOptions);
+         assert.equal(mover._action._options.popupOptions.template, 'testTemplateName');
+         assert.deepEqual(mover._action._options.popupOptions.templateOptions,
+            options.moveDialogTemplate.templateOptions);
          assert.equal(mover._source, 'testSource');
 
          stubLogger = sinon.stub(ui.Logger, 'warn');
          mover._beforeMount({ moveDialogTemplate: 'testTemplate' }, {});
          stubLogger.restore();
-         assert.equal(mover._controller._popupOptions.template, 'testTemplate');
+         assert.equal(mover._action._options.popupOptions.template, 'testTemplate');
       });
 
       it('_beforeUpdate', function() {
@@ -114,7 +115,7 @@ define([
             dataOptions: {}
          });
 
-         assert.deepEqual(mover._controller._popupOptions.templateOptions, options.moveDialogTemplate.templateOptions);
+         assert.deepEqual(mover._action._options.popupOptions.templateOptions, options.moveDialogTemplate.templateOptions);
 
          options = {
             moveDialogTemplate: {
@@ -130,7 +131,7 @@ define([
             dataOptions: {}
          });
 
-         assert.deepEqual(mover._controller._popupOptions.templateOptions, options.moveDialogTemplate.templateOptions);
+         assert.deepEqual(mover._action._options.popupOptions.templateOptions, options.moveDialogTemplate.templateOptions);
       });
 
       describe('mover methods', () => {
@@ -244,7 +245,7 @@ define([
 
             return new Promise((resolve) => {
                let queryFilter;
-               mover._controller._source.query = (query) => {
+               mover._action._options.source.query = (query) => {
                   queryFilter = query.getWhere();
                   return Promise.reject();
                };
@@ -296,10 +297,10 @@ define([
                list: 'testListMethod'
             };
             const targetId = 4;
-            mover._controller._source.getBinding = () => {
+            mover._action._options.source.getBinding = () => {
                return bindings;
             };
-            mover._controller._source.call = (methodName, data) => {
+            mover._action._options.source.call = (methodName, data) => {
                callMethodCalled = true;
                assert.equal(methodName, bindings.move);
                assert.equal(data.method, bindings.list);
@@ -309,7 +310,7 @@ define([
                   selectionToRecord.default({
                      selected: params.selectedKeys,
                      excluded: params.excludedKeys
-                  }, mover._controller._source.getAdapter()).getRawData()
+                  }, mover._action._options.source.getAdapter()).getRawData()
                );
                return Promise.resolve();
             };

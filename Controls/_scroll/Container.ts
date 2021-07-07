@@ -30,6 +30,7 @@ import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
 import template = require('wml!Controls/_scroll/Container/Container');
 import baseTemplate = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {descriptor} from "Types/entity";
+import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 
 /**
  * @typeof {String} TPagingPosition
@@ -59,7 +60,6 @@ const DEFAULT_BACKGROUND_STYLE = 'default';
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
- * @class Controls/_scroll/Container
  * @extends Controls/_scroll/ContainerBase
  * @mixes Controls/scroll:IScrollbars
  * @mixes Controls/scroll:IShadows
@@ -103,9 +103,18 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     private _wasMouseEnter: boolean = false;
     private _gridAutoShadows: boolean = true;
 
-    _beforeMount(options: IContainerOptions, context, receivedState) {
+    _beforeMount(options: IContainerOptions) {
+        // Будем показывать скроллбар до тех пор, пока пользователь не воспользовался колесиком мышки, даже если
+        // прикладник задал опцию scrollbarVisible=false.
+        // Таким образом пользователи без колесика мышки смогут скроллить контент.
+        // Если пользователь использовал колесико мышки - записываем это в localstorage
+        getSettings(['scrollContainerWheelEventHappened']).then((storage) => {
+            if (storage?.scrollContainerWheelEventHappened) {
+                ScrollbarsModel.wheelEventHappened = storage.scrollContainerWheelEventHappened;
+            }
+        });
         this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
-        this._scrollbars = new ScrollbarsModel(options, receivedState);
+        this._scrollbars = new ScrollbarsModel(options);
         this._stickyHeaderController = new StickyHeaderController({ resizeCallback: this._headersResizeHandler.bind(this) });
         // При инициализации оптимизированные тени включаем только если они явно включены, или включен режим auto.
         // В режиме mixed используем тени на css что бы не вызывать лишние синхронизации. Когда пользователь наведет
@@ -117,10 +126,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._optimizeShadowClass = this._getOptimizeShadowClass(options);
 
         super._beforeMount(...arguments);
-
-        if (!receivedState) {
-            return Promise.resolve(this._scrollbars.serializeState());
-        }
     }
 
     _afterMount(options: IContainerOptions) {
@@ -136,7 +141,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const hasBottomHeaders = (): boolean => {
             const headers = Object.values(this._stickyHeaderController._headers);
             for (let i = 0; i < headers.length; i++) {
-                const position = StickyBlock.getStickyPosition({position: headers[i].position});
+                const position = headers[i].position;
                 if (position?.vertical === POSITION.BOTTOM || position?.horizontal === POSITION.RIGHT) {
                     return true;
                 }
@@ -165,7 +170,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!this._paging) {
                 this._paging = new PagingModel();
             }
-            this._paging.isVisible = this._scrollModel.canVerticalScroll && ContainerBase.getScrollOrientation(this._options) !== 'none';
+            this._paging.isVisible = this._scrollModel.canVerticalScroll && this._options.scrollOrientation !== 'none';
             if (this._options.pagingMode !== options.pagingMode) {
                 this._paging.pagingMode = options.pagingMode;
             }
@@ -181,6 +186,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // TODO: Логика инициализации для поддержки разных браузеров была скопирована почти полностью
         //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
         this._updateScrollContainerPaigingSccClass(options);
+        if (options.scrollOrientation !== this._options.scrollOrientation) {
+            this._scrollbars.updateScrollbarsModels(options);
+        }
         this._scrollbars.updateOptions(options);
         this._shadows.updateOptions(this._getShadowsModelOptions(options));
     }
@@ -451,6 +459,13 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 break;
         }
         this._doScroll(scrollParam);
+    }
+
+    protected _onWheelHandler(): void {
+        if (!ScrollbarsModel.wheelEventHappened) {
+            setSettings({scrollContainerWheelEventHappened: true });
+            ScrollbarsModel.wheelEventHappened = true;
+        }
     }
 
     protected _mouseenterHandler(event) {

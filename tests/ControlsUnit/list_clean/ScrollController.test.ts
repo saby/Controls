@@ -173,7 +173,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
                 });
 
-                assert.strictEqual(result.triggerOffset.top, 0);
+                assert.strictEqual(result.triggerOffset.top, -1);
             });
             it('resetTopTriggerOffset === false', () => {
                 const collection = new Collection({
@@ -477,6 +477,41 @@ describe('Controls/list_clean/ScrollController', () => {
             assert.isFalse(applyScrollTopCallbackCalled);
         });
     });
+
+    describe('collectionChanged', () => {
+        it('remove', () => {
+            const collection = new Collection({
+                collection: new RecordSet({
+                    rawData: [ { id: '1'} ]
+                })
+            });
+            const options = {
+                collection,
+                virtualScrollConfig: {pageSize: 1},
+                needScrollCalculation: true
+            };
+            const controller = new ScrollController(options);
+            const result = controller.handleRemoveItems(0, [{}]);
+            assert.isOk(result);
+        });
+        it('reset', () => {
+            const collection = new Collection({
+                collection: new RecordSet({
+                    rawData: [ { id: '1'} ]
+                })
+            });
+            const options = {
+                collection,
+                virtualScrollConfig: {pageSize: 1},
+                needScrollCalculation: true,
+                forceInitVirtualScroll: true
+            };
+            const controller = new ScrollController(options);
+            const result = controller.handleResetItems();
+            assert.isOk(result);
+        });
+    });
+
 
     describe('inertialScrolling', () => {
         let clock;

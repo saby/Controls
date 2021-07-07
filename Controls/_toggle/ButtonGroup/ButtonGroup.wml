@@ -1,4 +1,4 @@
-<div class="controls-ButtonGroup">
+<div class="controls_toggle_theme-{{_options.theme}} controls-ButtonGroup">
     <ws:template name="button">
         <ws:partial template="Controls/buttons:ButtonTemplate"
                     attr:class="controls-ButtonGroup__button"
@@ -9,8 +9,15 @@
                     _fontColorStyle="{{fontColorStyle}}"
                     _icon="{{itemData.get('icon')}}"
                     _iconSize="{{itemData.get('iconSize') || 's'}}"
-                    _iconStyle="{{_getIconStyle(itemData)}}"
-                    _caption="{{itemData.get(_options.displayProperty || 'title') ||  itemData.get('caption')}}"/>
+                    _iconStyle="{{_getIconStyle(itemData)}}">
+            <ws:_caption>
+                <ws:partial template="{{ _options.itemTemplate }}"
+                            item="{{itemData}}"
+                            displayProperty="{{ _options.displayProperty }}"
+                            selected="{{ _isSelectedItem(itemData) }}"
+                />
+            </ws:_caption>
+        </ws:partial>
     </ws:template>
 
     <div class="controls-ButtonGroup__wrapper">

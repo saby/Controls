@@ -34,7 +34,7 @@ export interface IDateSelectorOptions extends IBaseSelectorOptions {
 /**
  * @event Происходит при изменении значения.
  * @name Controls/_dateRange/interfaces/IDateSelector#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} value Новое значение поля.
  * @remark
  * Это событие должно использоваться для реагирования на изменения, вносимые пользователем в поле.
@@ -52,30 +52,4 @@ export interface IDateSelectorOptions extends IBaseSelectorOptions {
  *       ...
  *    };
  * </pre>
- */
-
-/**
- * @name Controls/_dateRange/interfaces/IDateSelector#monthCaptionTemplate
- * @cfg {HTMLElement} Шаблон заголовка месяца.
- * @remark
- * В шаблон передается:
- * <ul>
- *     <li>caption - месяц в текстовом формате (Май, Июнь, Июль и т.д).</li>
- *     <li>date - дата месяца.</li>
- * </ul>
- * Опции шаблона:
- * <ul>
- *     <li>caption: Текст заголовка месяца.</li>
- *     <li>icon: Определяет {@link https://wi.sbis.ru/icons/ иконку}, которая будет отображена рядом с заголовком месяца.</li>
- *     <li>iconStyle: {@link https://wi.sbis.ru/docs/js/Controls/interface/IFontColorStyle/typedefs/TFontColorStyle/ Цвет} иконки.</li>
- * </ul>
- * @example
- * <pre>
- *     <Controls.dateRange:DateSelector>
- *        <ws:monthCaptionTemplate>
- *          <ws:partial template="Controls/dateRange:MonthCaptionTemplate" icon="icon-Yes" iconStyle="{{_getIconStyle(monthCaptionTemplate.month)}}"/>
- *        </ws:monthCaptionTemplate>
- *     </Controls.shortDatePicker:View>
- * </pre>
- * @demo Controls-demo/dateRange/DateSelector/MonthCaptionTemplate/Index
  */

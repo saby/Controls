@@ -6,7 +6,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_explorer/PathController/PathController';
-import { IGridControl, IHeaderCell } from 'Controls/interface';
+import { IGridControl, IHeaderCell } from 'Controls/grid';
 import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 
 interface IOptions extends IControlOptions, IGridControl {
@@ -19,6 +19,7 @@ interface IOptions extends IControlOptions, IGridControl {
     backButtonIconStyle: string;
     backButtonFontColorStyle: string;
     viewMode?: TExplorerViewMode;
+    breadcrumbsNewIcon?: boolean;
 }
 
 function isItemsEqual(oldItems: Path, newItems: Path): boolean {
@@ -96,6 +97,7 @@ export default class PathController extends Control<IOptions> {
         // Если пользовательский контент первой ячейки заголовка не задан, то
         // то задаем наш шаблон с хлебными крошками
         if (
+            options.breadcrumbsVisibility !== 'hidden' &&
             firstHeaderCell &&
             !(firstHeaderCell.title || firstHeaderCell.caption) &&
             !firstHeaderCell.template
@@ -112,6 +114,7 @@ export default class PathController extends Control<IOptions> {
                     backButtonFontColorStyle: options.backButtonFontColorStyle,
                     displayProperty: options.displayProperty,
                     backButtonCaption: options.backButtonCaption,
+                    backButtonNewIcon: options.backButtonNewIcon,
                     items
                 },
 

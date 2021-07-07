@@ -2,9 +2,10 @@ import { GridFooterCell } from 'Controls/grid';
 
 export default class TreeGridFooterCell extends GridFooterCell<any> {
    /**
-    * Признак, означающий что в списке есть узел с детьми
+    * Признак, означающий что нужно рисовать отступ вместо экспандеров
+    * @protected
     */
-   protected _$hasNodeWithChildren: boolean;
+   protected _$displayExpanderPadding: boolean;
 
    getWrapperClasses(
       theme: string,
@@ -22,9 +23,9 @@ export default class TreeGridFooterCell extends GridFooterCell<any> {
 
    // region HasNodeWithChildren
 
-   setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-      if (this._$hasNodeWithChildren !== hasNodeWithChildren) {
-         this._$hasNodeWithChildren = hasNodeWithChildren;
+   setDisplayExpanderPadding(displayExpanderPadding: boolean): void {
+      if (this._$displayExpanderPadding !== displayExpanderPadding) {
+         this._$displayExpanderPadding = displayExpanderPadding;
          this._nextVersion();
       }
    }
@@ -34,12 +35,7 @@ export default class TreeGridFooterCell extends GridFooterCell<any> {
    private _shouldDisplayExpanderPadding(): boolean {
       const isFirstColumnWithCorrectingForCheckbox = this._$owner.hasMultiSelectColumn() ?
           this.getColumnIndex() === 1 : this.isFirstColumn();
-      const expanderIcon = this.getOwner().getExpanderIcon();
-      const expanderPosition = this.getOwner().getExpanderPosition();
-      const expanderVisibility = this.getOwner().getExpanderVisibility();
-
-      return isFirstColumnWithCorrectingForCheckbox && expanderIcon !== 'none' && expanderPosition === 'default'
-          && (expanderVisibility === 'hasChildren' ? this._$hasNodeWithChildren : true) ;
+      return isFirstColumnWithCorrectingForCheckbox && this._$displayExpanderPadding;
    }
 
    private _getExpanderPaddingClasses(target: 'cellWrapper' | 'contentWrapper'): string {
@@ -49,7 +45,7 @@ export default class TreeGridFooterCell extends GridFooterCell<any> {
            this._$owner.isFullGridSupport() ? target === 'cellWrapper' : target === 'contentWrapper'
        )) {
            const expanderSize = this.getOwner().getExpanderSize() || 'default';
-           return `controls-TreeGridView__footer__expanderPadding-${expanderSize}`;
+           return `controls-TreeGridView__expanderPadding-${expanderSize}`;
        }
        return '';
    }
@@ -59,5 +55,5 @@ Object.assign(TreeGridFooterCell.prototype, {
    '[Controls/treeGrid:TreeGridFooterCell]': true,
    _moduleName: 'Controls/treeGrid:TreeGridFooterCell',
    _instancePrefix: 'tree-grid-footer-cell-',
-   _$hasNodeWithChildren: true
+   _$displayExpanderPadding: true
 });

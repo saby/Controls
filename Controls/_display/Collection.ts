@@ -36,7 +36,7 @@ import * as VirtualScrollController from './controllers/VirtualScroll';
 import { ICollection, ISourceCollection, IItemPadding } from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
-import {IRoundBorder} from "Controls/_tile/display/mixins/Tile";
+import {TRoundBorder} from "Controls/_display/interface/ICollection";
 import {Footer} from 'Controls/_display/Footer';
 
 // tslint:disable-next-line:ban-comma-operator
@@ -198,7 +198,7 @@ export interface IHasMoreData {
  * @variant row - Редактирование всей строки таблицы
  * @variant cell - Редактирование отдельных ячеек таблицы
  * @default row
- * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+ * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  */
 
 /*
@@ -206,7 +206,7 @@ export interface IHasMoreData {
  * @variant row - Editing of whole row.
  * @variant cell - Editing of separated cell.
  * @default row
- * @demo Controls-demo/grid/EditInPlace/SingleCellEditable/Index
+ * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  */
 type TEditingMode = 'cell' | 'row';
 
@@ -296,22 +296,7 @@ function onCollectionChange<T>(
         case IObservable.ACTION_RESET:
             const projectionOldItems = toArray(this);
             let projectionNewItems;
-            // TODO Здесь был вызов _reBuild(true), который полностью пересоздает все
-            // CollectionItem'ы, из-за чего мы теряли их состояние. ACTION_RESET происходит
-            // не только при полном пересоздании рекордсета, но и например при наборе
-            // "критической массы" изменений при выключенном режиме обработки событий.
-            // https://online.sbis.ru/opendoc.html?guid=573aed02-3c97-4432-9d39-19e53bda8bc0
-            // По идее, нам это не нужно, потому что в случае реального пересоздания рекордсета,
-            // нам передадут его новый инстанс, и мы пересоздадим всю коллекцию сами.
-            // Но на случай, если такой кейс все таки имеет право на жизнь, выписал
-            // задачу в этом разобраться.
-            // https://online.sbis.ru/opendoc.html?guid=bd17a1fb-5d00-4f90-82d3-cb733fe7ab27
-            // Как минимум пока мы поддерживаем совместимость с BaseControl, такая возможность нужна,
-            // потому что там пересоздание модели вызывает лишние перерисовки, подскроллы, баги
-            // виртуального скролла.
-            // TODO избавиться по ошибке https://online.sbis.ru/opendoc.html?guid=f44d88a0-ac53-4d45-9dea-2b594211ee57
-            const needReset = this._$compatibleReset || newItems.length === 0 || reason === 'assign';
-            this._reBuild(needReset);
+            this._reBuild(true);
             projectionNewItems = toArray(this);
             this._notifyBeforeCollectionChange();
             this._notifyCollectionChange(
@@ -323,9 +308,6 @@ function onCollectionChange<T>(
                 reason
             );
             this._handleAfterCollectionChange(undefined, action);
-            if (!needReset) {
-                this._handleCollectionActionChange(newItems);
-            }
             this._nextVersion();
             return;
 
@@ -388,7 +370,7 @@ function onCollectionChange<T>(
             break;
     }
 
-    this._resetLastItem();
+    this._updateEdgeItemsSeparators();
     this._finishUpdateSession(session);
     this._nextVersion();
 }
@@ -496,7 +478,7 @@ function groupingFilter(item: EntityModel,
  * @mixes Types/_entity/SerializableMixin
  * @mixes Types/_entity/VersionableMixin
  * @mixes Types/_collection/EventRaisingMixin
- * @ignoreMethods notifyItemChange
+ * @ignoremethods notifyItemChange
  * @public
  * @author Мальцев А.А.
  */
@@ -692,6 +674,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$multiSelectPosition: 'default' | 'custom';
 
+    protected _$multiSelectTemplate: TemplateFunction | string;
+
     protected _$footerTemplate: TemplateFunction | string;
 
     protected _$stickyFooter: boolean;
@@ -709,6 +693,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     protected _$topPadding: string;
 
     protected _$bottomPadding: string;
+
+    protected _$roundBorder: TRoundBorder;
 
     protected _$emptyTemplate: TemplateFunction;
 
@@ -874,15 +860,19 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$isEditing: boolean = false;
 
+    protected _$newDesign: false;
+
     protected _userStrategies: Array<IUserStrategy<S, T>>;
 
     protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
     protected _isDragOutsideList: boolean = false;
-    protected _firstItem: EntityModel;
-    protected _lastItem: EntityModel;
 
     // Фон застиканных записей и лесенки
     protected _$backgroundStyle?: string;
+
+    private _firstItem: CollectionItem;
+
+    private _lastItem: CollectionItem;
 
     constructor(options: IOptions<S, T>) {
         super(options);
@@ -901,9 +891,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         if (options.groupProperty) {
             this._$groupProperty = options.groupProperty;
-            this._$group = (item) => {
-                return item.get(this._$groupProperty);
-            };
+            this._$group = this._createGroupFunctor();
         }
 
         // Support of 'groupingKeyCallback' option
@@ -984,6 +972,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
 
         this._footer = this._initializeFooter(options);
+
+        this._updateEdgeItemsSeparators(true, true);
     }
 
     _initializeCollection(): void {
@@ -1289,7 +1279,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      * @param {Object} options Значения опций
      * @return {Controls/_display/CollectionItem}
      */
-    createItem(options: object): T {
+    createItem(options: ICollectionItemOptions): T {
         if (!this._itemsFactory) {
             this._itemsFactory = this._getItemsFactory().bind(this);
         }
@@ -1327,11 +1317,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      */
     getFirst(): T {
         const enumerator = this._getUtilityEnumerator();
+        if (enumerator.getCount() === 0) {
+            return;
+        }
         enumerator.setPosition(0);
 
         const item = enumerator.getCurrent();
 
-        if (item['[Controls/_display/GroupItem]']) {
+        if (!(item as CollectionItem).EnumerableItem) {
             return this._getNearbyItem(
                 enumerator,
                 item,
@@ -1340,6 +1333,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             );
         }
 
+        enumerator.reset();
         return item;
     }
 
@@ -1349,6 +1343,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      */
     getLast(): T {
         const enumerator = this._getUtilityEnumerator();
+        if (enumerator.getCount() === 0) {
+            return;
+        }
         const lastIndex = enumerator.getCount() - 1;
 
         if (lastIndex === -1) {
@@ -1358,15 +1355,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         enumerator.setPosition(lastIndex);
         const item = enumerator.getCurrent();
 
-        if (item['[Controls/_display/GroupItem]']) {
+        if (!(item as CollectionItem).EnumerableItem) {
             return this._getNearbyItem(
                 enumerator,
-                undefined,
+                item,
                 false,
                 true
             );
         }
 
+        enumerator.reset();
         return item;
     }
 
@@ -1699,14 +1697,19 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setGroupProperty(groupProperty: string): boolean {
         if (this._$groupProperty !== groupProperty) {
             this._$groupProperty = groupProperty;
-            const groupCallback = (item) => {
-                return item.get(this._$groupProperty);
-            };
+            const groupCallback = this._createGroupFunctor();
             this.setGroup(this._$groupProperty ? groupCallback : null);
             this._nextVersion();
             return true;
         }
         return false;
+    }
+
+    private _createGroupFunctor(): GroupFunction<S, T> {
+        return functor.Compute.create(
+            (item) => item.get(this._$groupProperty),
+            [this._$groupProperty]
+        );
     }
 
     getGroupProperty(): string {
@@ -2262,7 +2265,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this.removeStrategy(this._dragStrategy);
             this._reIndex();
             this._reFilter();
-            this._resetLastItem();
+            this._updateEdgeItemsSeparators();
         }
     }
 
@@ -2336,7 +2339,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$stickyHeader;
     }
 
-    setRoundBorder(roundBorder: IRoundBorder): void {
+    isStickyFooter(): boolean {
+        return this._$stickyFooter;
+    }
+
+    setRoundBorder(roundBorder: TRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
             this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');
@@ -2351,6 +2358,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setRowSeparatorSize(rowSeparatorSize: string): void {
         this._$rowSeparatorSize = rowSeparatorSize;
         this._nextVersion();
+        this._updateEdgeItemsSeparators(true, true);
         this._updateItemsProperty('setRowSeparatorSize', this._$rowSeparatorSize);
     }
 
@@ -2392,6 +2400,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     getMultiSelectPosition(): 'default' | 'custom' {
         return this._$multiSelectPosition;
+    }
+
+    getMultiSelectTemplate(): TemplateFunction | string {
+        return this._$multiSelectTemplate;
     }
 
     protected _setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
@@ -2549,18 +2561,51 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
-    isLastItem(item: CollectionItem): boolean {
-        return this.getCount() - 1 === this.getIndex(item);
+    protected _updateEdgeItemsSeparators(force?: boolean, silent?: boolean): void {
+        const navigation = this.getNavigation();
+        const noMoreNavigation = !navigation || navigation.view !== 'infinity' || !this.hasMoreData();
+
+        const oldFirstItem = this._firstItem;
+        const firstItem = this.getFirst();
+        if (firstItem !== oldFirstItem || force) {
+            this._updateFirstItemSeparator(oldFirstItem, false, silent);
+            this._updateFirstItemSeparator(firstItem, true, silent);
+            this._firstItem = firstItem;
+        }
+
+        const oldLastItem = this._lastItem;
+        const lastItem = this.getLast();
+        if (lastItem !== oldLastItem || force) {
+            this._updateLastItemSeparator(oldLastItem, false, silent);
+            this._updateLastItemSeparator(lastItem, noMoreNavigation, silent);
+            this._lastItem = lastItem;
+        }
     }
 
-    protected _resetLastItem(): void {
-        this.each((item, index) => {
-            // Обновляем версию в том случае ,если у элемента сохранённое состояние lastItem
-            // или он реально последний в списке
-            if (item.isLastItem() || this.isLastItem(item)) {
-                item.resetIsLastItem();
+    private _updateLastItemSeparator(item: CollectionItem, state: boolean, silent?: boolean): void {
+        if (item) {
+            if (this._$rowSeparatorSize && this._$rowSeparatorSize !== 'null') {
+                item.setBottomSeparatorEnabled(state && this._isRowSeparatorsEnabled(), silent);
             }
-        });
+
+            // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+            item.setLastItem(state, silent);
+        }
+    }
+
+    private _updateFirstItemSeparator(item: CollectionItem, state: boolean, silent?: boolean): void {
+        if (item) {
+            if (this._$rowSeparatorSize && this._$rowSeparatorSize !== 'null') {
+                item.setTopSeparatorEnabled(state && this._isRowSeparatorsEnabled(), silent);
+            }
+
+            // @TODO https://online.sbis.ru/opendoc.html?guid=ef1556f8-fce4-401f-9818-f4d1f8d8789a
+            item.setFirstItem(state, silent);
+        }
+    }
+
+    protected _isRowSeparatorsEnabled(): boolean {
+        return !this._$newDesign || !!this.getFooter();
     }
 
     getHasMoreData(): IHasMoreData {
@@ -2570,7 +2615,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setHasMoreData(hasMoreData: IHasMoreData): void {
         if (!isEqual(this._$hasMoreData, hasMoreData)) {
             this._$hasMoreData = hasMoreData;
-            this._resetLastItem();
+            this._updateEdgeItemsSeparators();
             this._nextVersion();
         }
     }
@@ -2803,13 +2848,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             addIndex: options.index,
             groupMethod: this.getGroup()
         }, GroupItemsStrategy);
-        this._resetLastItem();
+        this._updateEdgeItemsSeparators();
     }
 
     resetAddingItem(): void {
         if (this.getStrategyInstance(AddStrategy)) {
             this.removeStrategy(AddStrategy);
-            this._resetLastItem();
+            this._updateEdgeItemsSeparators();
         }
     }
 
@@ -2851,7 +2896,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this.nextVersion();
     }
 
-    appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
+    appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object, withSession: boolean = true): void {
         const strategyOptions = { ...options, display: this };
 
         this._userStrategies.push({
@@ -2859,7 +2904,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options: strategyOptions
         });
 
-        const session = this._startUpdateSession();
+        const session = withSession && this._startUpdateSession();
         if (this._composer) {
             this._composer.append(strategy, strategyOptions);
             this._reBuild();
@@ -2873,12 +2918,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._composer.getInstance(strategy);
     }
 
-    removeStrategy(strategy: new() => IItemsStrategy<S, T>): void {
+    removeStrategy(strategy: new() => IItemsStrategy<S, T>, withSession: boolean = true): void {
         const idx = this._userStrategies.findIndex((us) => us.strategy === strategy);
         if (idx >= 0) {
             this._userStrategies.splice(idx, 1);
 
-            const session = this._startUpdateSession();
+            const session = withSession && this._startUpdateSession();
             if (this._composer) {
                 this._composer.remove(strategy);
                 this._reBuild();
@@ -2886,6 +2931,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._finishUpdateSession(session);
 
             this.nextVersion();
+        }
+    }
+
+    reCreateStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
+        const instance = this.getStrategyInstance(strategy);
+        if (instance) {
+            const session = this._startUpdateSession();
+            this.removeStrategy(strategy, false);
+            this.appendStrategy(strategy, options, false);
+            this._finishUpdateSession(session);
         }
     }
 
@@ -3154,7 +3209,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                                    conditionProperty?: string,
                                    silent?: boolean): void {
         this._getItems().forEach((item: CollectionItem<S>) => {
-            if (!conditionProperty || item[conditionProperty]) {
+            // todo Разобраться, почему item === undefined по https://online.sbis.ru/opendoc.html?guid=9018fdea-5de1-4b89-9f48-fb8ded0673cd
+            if (item && (!conditionProperty || item[conditionProperty])) {
                 item[updateMethodName](newPropertyValue, silent);
             }
         });
@@ -3272,6 +3328,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.markerPosition = this._$markerPosition;
             options.roundBorder = this._$roundBorder;
             options.hasMoreDataUp = this.hasMoreDataUp();
+            options.isTopSeparatorEnabled = true;
+            options.isBottomSeparatorEnabled = false;
+            options.isFirstItem = false;
+            options.isLastItem = false;
 
             return create(options.itemModule || this._itemModule, options);
         };
@@ -3377,14 +3437,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      * @param enumerator Энумератор элементов
      * @param item Элемент проекции относительно которого искать
      * @param isNext Следующий или предыдущий элемент
-     * @param [skipGroups=false] Пропускать группы
+     * @param [skipNonEnumerable=false] Пропускать элементы, которые не должны перечисляться (группы, сепараторы, футеры нод)
      * @protected
      */
     protected _getNearbyItem(
         enumerator: CollectionEnumerator<T>,
         item: T,
         isNext: boolean,
-        skipGroups?: boolean
+        skipNonEnumerable?: boolean
     ): T {
         const method = isNext ? 'moveNext' : 'movePrevious';
         let nearbyItem;
@@ -3392,12 +3452,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         enumerator.setCurrent(item);
         while (enumerator[method]()) {
             nearbyItem = enumerator.getCurrent();
-            if (skipGroups && nearbyItem['[Controls/_display/GroupItem]']) {
+            if (skipNonEnumerable && !nearbyItem.EnumerableItem) {
                 nearbyItem = undefined;
                 continue;
             }
             break;
         }
+        enumerator.reset();
 
         return nearbyItem;
     }
@@ -3579,7 +3640,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             processedIndices.add(index);
             item = items[index];
             match = true;
-            if (item['[Controls/_display/GroupItem]']) {
+            if (item['[Controls/_display/SearchSeparator]']) {
+                changed = applyMatch(match, index) || changed;
+            } else if (item['[Controls/_display/GroupItem]']) {
                 // A new group begin, check match for previous
                 if (prevGroup) {
                     match = isMatch(prevGroup, prevGroupIndex, prevGroupPosition, prevGroupHasMembers);
@@ -3591,7 +3654,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 prevGroupIndex = index;
                 prevGroupPosition = position;
                 prevGroupHasMembers = false;
-            } else if (!(item['[Controls/_display/SearchSeparator]'])) {
+            } else {
                 // Check item match
                 match = isMatch(item, index, position);
                 changed = applyMatch(match, index) || changed;
@@ -4044,6 +4107,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
         // тоже должны перерисоваться при изменении видимости чекбоксов
         this._updateItemsProperty('setMultiSelectVisibility', this._$multiSelectVisibility, 'setMultiSelectVisibility');
+        this._updateEdgeItemsSeparators();
     }
 
     protected _handleAfterCollectionItemChange(item: T, index: number, properties?: object): void {}
@@ -4099,6 +4163,7 @@ Object.assign(Collection.prototype, {
     _$itemActionsProperty: '',
     _$markerPosition: 'left',
     _$multiSelectAccessibilityProperty: '',
+    _$multiSelectTemplate: null,
     _$style: 'default',
     _$theme: 'default',
     _$hoverBackgroundStyle: 'default',
@@ -4127,5 +4192,6 @@ Object.assign(Collection.prototype, {
     _$emptyTemplateOptions: null,
     _$itemActionsPosition: 'inside',
     _$roundBorder: null,
+    _$newDesign: false,
     getIdProperty: Collection.prototype.getKeyProperty
 });

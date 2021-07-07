@@ -3,9 +3,7 @@ import Popup from 'Controls/_popup/Manager/Popup';
 import Container from 'Controls/_popup/Manager/Container';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {Logger} from 'UI/Utils';
-import * as Library from 'WasabyLoader/Library';
-import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
-import {getModuleByName} from 'Controls/_popup/utils/moduleHelper';
+import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo, IDragOffset} from 'Controls/_popup/interface/IPopup';
 import {goUpByControlTree} from 'UI/Focus';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
@@ -38,6 +36,8 @@ const SCROLL_DELAY = detection.isMobileIOS ? 100 : 10;
 class Manager {
     _contextIsTouch: boolean = false;
     _dataLoaderModule: string;
+    _popupPageConfigLoaderModule: string;
+    _popupPageTemplateModule: string;
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
@@ -104,22 +104,8 @@ class Manager {
         }
     }
 
-    loadData(dataLoaders): Promise<unknown> {
-        const Loader = getModuleByName(this._dataLoaderModule);
-        if (Loader) {
-            return Loader.load(dataLoaders);
-        }
-        if (!this._dataLoaderModule) {
-            const message = 'На приложении не задан загрузчик данных. Опция окна dataLoaders будет проигнорирована';
-            Logger.warn(message, this);
-            return undefined;
-        }
-
-        return new Promise((resolve) => {
-            Library.load(this._dataLoaderModule).then((DataLoader) => {
-               resolve(DataLoader.load(dataLoaders));
-           });
-        });
+    getDataLoaderModule(): string {
+        return this._dataLoaderModule;
     }
 
     /**
@@ -146,6 +132,8 @@ class Manager {
                 }
                 this._redrawItems();
             });
+        } else if (defaultConfigResult === false) {
+            this._fireEventHandler(item, 'onClose');
         } else {
             this._addElement(item);
             this._redrawItems();
@@ -204,7 +192,7 @@ class Manager {
         if (item) {
             const itemContainer = this._getItemContainer(id);
             // TODO: https://online.sbis.ru/opendoc.html?guid=7a963eb8-1566-494f-903d-f2228b98f25c
-            item.controller._beforeElementDestroyed(item, itemContainer);
+            item.controller.beforeElementDestroyed(item, itemContainer);
             return new Promise((resolve) => {
                 this._closeChilds(item).then(() => {
                     this._finishPendings(id, null, null, () => {
@@ -257,8 +245,12 @@ class Manager {
 
     private _subscribeToPageDragNDrop(): void {
         // Подписка и на платформенное перемещение, и на нативное, т.к. перемещение файлов из ОС тоже нужно отследить.
-        const handler = this.eventHandler.bind(this, 'pageDragnDropHandler');
+        const handler = (...args) => {
+            const [, ...preparedArgs] = args;
+            this.eventHandler('pageDragnDropHandler', preparedArgs);
+        };
         EventBus.channel('dragnDrop').subscribe('documentDragStart', handler);
+        EventBus.channel('dragnDrop').subscribe('documentDragEnd', handler);
         if (document) {
             document.addEventListener('dragenter', handler);
         }
@@ -374,7 +366,7 @@ class Manager {
     }
 
     private _removeElement(item: IPopupItem, container: HTMLElement): Promise<void> {
-        const removeDeferred = item.controller._elementDestroyed(item, container);
+        const removeDeferred = item.controller.elementDestroyedWrapper(item, container);
         this._redrawItems();
 
         Manager._notifyEvent('managerPopupBeforeDestroyed', [item, this._popupItems, container]);
@@ -416,7 +408,7 @@ class Manager {
             // Register new popup
             this._fireEventHandler(item, 'onOpen');
             this._prepareIsTouchData(item);
-            return item.controller._elementCreated(item, this._getItemContainer(id));
+            return item.controller.elementCreatedWrapper(item, this._getItemContainer(id));
             // if it's CompoundTemplate, then compoundArea notify event, when template will ready.
             // notify this event on popupBeforePaintOnMount, cause we need synchronous reaction on created popup
             // if (!item.popupOptions.isCompoundTemplate) {
@@ -433,7 +425,7 @@ class Manager {
     protected _popupResizingLine(id: string, offset: number): boolean {
         const element = this.find(id);
         if (element) {
-            element.controller._popupResizingLine(element, offset);
+            element.controller.popupResizingLine(element, offset);
             Manager._notifyEvent('managerPopupUpdated', [element, this._popupItems]);
             return true;
         }
@@ -444,7 +436,7 @@ class Manager {
         const element = this.find(id);
         if (element) {
             // при создании попапа, зарегистрируем его
-            const needUpdate = element.controller._elementUpdated(element, this._getItemContainer(id));
+            const needUpdate = element.controller.elementUpdatedWrapper(element, this._getItemContainer(id));
             Manager._notifyEvent('managerPopupUpdated', [element, this._popupItems]);
             return !!needUpdate;
         }
@@ -454,7 +446,7 @@ class Manager {
     protected _popupMaximized(id: string, state: boolean): boolean {
         const element = this.find(id);
         if (element) {
-            element.controller._elementMaximized(element, this._getItemContainer(id), state);
+            element.controller.elementMaximized(element, this._getItemContainer(id), state);
             Manager._notifyEvent('managerPopupMaximized', [element, this._popupItems]);
             return true;
         }
@@ -473,7 +465,7 @@ class Manager {
         const element = this.find(id);
         if (element) {
             // при создании попапа, зарегистрируем его
-            return element.controller._elementAfterUpdated(element, this._getItemContainer(id));
+            return element.controller.elementAfterUpdatedWrapper(element, this._getItemContainer(id));
         }
         return false;
     }
@@ -555,7 +547,7 @@ class Manager {
         return goUpByControlTree(this._getActiveElement())[0];
     }
 
-    protected _popupDragStart(id: string, offset: number): boolean {
+    protected _popupDragStart(id: string, offset: IDragOffset): boolean {
         const element = this.find(id);
         if (element) {
             element.controller.popupDragStart(element, this._getItemContainer(id), offset);
@@ -643,7 +635,7 @@ class Manager {
     protected _popupDragEnd(id: string, offset: number): boolean {
         const element = this.find(id);
         if (element) {
-            element.controller._popupDragEnd(element, offset);
+            element.controller.popupDragEnd(element, offset);
             return true;
         }
         return false;
@@ -668,7 +660,7 @@ class Manager {
     protected _popupAnimated(id: string): boolean {
         const item = this._findItemById(id);
         if (item) {
-            return item.controller._elementAnimated(item, this._getItemContainer(id));
+            return item.controller.elementAnimated(item, this._getItemContainer(id));
         }
         return false;
     }
@@ -775,7 +767,7 @@ class Manager {
         setTimeout(() => {
             this._popupItems.each((item) => {
                 if (item.controller.needRecalcOnKeyboardShow()) {
-                    item.controller._elementUpdated(item, this._getItemContainer(item.id));
+                    item.controller.elementUpdatedWrapper(item, this._getItemContainer(item.id));
                 }
             });
             this._redrawItems();
@@ -869,9 +861,9 @@ class Manager {
     private _updatePopupOptions(id: string, item: IPopupItem, oldOptions: IPopupOptions, result: boolean): void {
         if (result) {
             // Эмулируется поведение при открытии, когда состояние с initializing меняется на created
-            item.controller._beforeUpdateOptions(item);
+            item.controller.beforeUpdateOptions(item);
             this._redrawItems().then(() => {
-                item.controller._afterUpdateOptions(item);
+                item.controller.afterUpdateOptions(item);
                 ManagerController.getContainer().activatePopup(id);
             });
         } else {
@@ -879,17 +871,8 @@ class Manager {
         }
     }
 
-    protected _popupInsideDrag(action: string, id: string): void {
-        const value = action === 'Start';
-        let item = this.find(id);
-        // Текущее и все родительские окна помечаем как те, в которых происходит d'n'd.
-        while (item) {
-            item.isDragOnPopup = value;
-            item = this.find(item.parentId);
-        }
-    }
-
-    protected _pageDragnDropHandler(): boolean {
+    protected _pageDragnDropHandler(dragEvent: object = {}): boolean {
+        const {domEvent} = dragEvent;
         const delay = 10;
         if (this._dragTimer) {
             clearTimeout(this._dragTimer);
@@ -899,9 +882,15 @@ class Manager {
         this._dragTimer = setTimeout(() => {
             this._dragTimer = null;
             this._popupItems.each((item) => {
-                if (item.controller.dragNDropOnPage(item)) {
+                const popupContainer = this._getItemContainer(item.id);
+                // Событие documentDragStart стреляет на всех контейнерах на странице. Для обработки понимаем, лежит ли
+                // нужный контейнер внутри текущего окна.
+                const popupNode = domEvent?.target.closest('.controls-Popup');
+                const isInsideDrag = popupNode === popupContainer;
+                if (item.controller.dragNDropOnPage(item, popupContainer, isInsideDrag)) {
                     this.remove(item.id);
                 }
+                this._redrawItems();
             });
         }, delay);
     }

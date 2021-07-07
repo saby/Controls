@@ -44,5 +44,11 @@ export default class extends Control {
         }];
     }
 
+    _onBeforeBeginEdit(options, item, isAdd, columnIndex) {
+        if (columnIndex === 0 || columnIndex === 3){
+            return 'Cancel';
+        }
+    }
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

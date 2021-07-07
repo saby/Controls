@@ -4,8 +4,7 @@ import {TemplateFunction} from 'UI/Base';
 import SearchGridDataRow from './SearchGridDataRow';
 import {TreeChildren} from 'Controls/display';
 import SearchGridCollection from './SearchGridCollection';
-import {GridDataRow, TColspanCallbackResult} from 'Controls/grid';
-import {IColumn} from 'Controls/interface';
+import {GridDataRow, TColspanCallbackResult, IColumn} from 'Controls/grid';
 import {IOptions as IBreadcrumbsItemCellOptions} from './BreadcrumbsItemCell';
 
 export interface IOptions<T extends Model> {
@@ -37,13 +36,15 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
 
     protected _$breadCrumbsMode: 'row' | 'cell';
 
+    protected _$parent: SearchGridDataRow<T>;
+
     protected get _first(): SearchGridDataRow<T> {
         const root = this._$owner ? this._$owner.getRoot() : {};
         let current = this._$last;
 
         while (current) {
             const parent = current.getParent();
-            if (!parent || parent === root) {
+            if (!parent || parent === root || parent['[Controls/treeGrid:TreeGridGroupDataRow]']) {
                 break;
             }
             current = parent;
@@ -68,7 +69,7 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
         while (current) {
             contents.unshift(current.getContents());
             current = current.getParent();
-            if (current === root) {
+            if (current === root || current['[Controls/treeGrid:TreeGridGroupDataRow]']) {
                 break;
             }
         }
@@ -93,8 +94,7 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
     }
 
     getParent(): SearchGridDataRow<T> {
-        // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
-        return this._$owner.getRoot();
+        return this._$parent;
     }
 
     getChildren(withFilter: boolean = true): TreeChildren<T> {
@@ -174,7 +174,8 @@ Object.assign(BreadcrumbsItemRow.prototype, {
     _cellModule: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemCell',
     _$cellTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
     _$last: null,
+    _$parent: null,
     _$colspanBreadcrumbs: true,
-    _$hasNodeWithChildren: false,
+    _$displayExpanderPadding: false,
     _$breadCrumbsMode: 'row'
 });

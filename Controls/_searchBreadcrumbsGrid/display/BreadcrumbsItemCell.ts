@@ -11,13 +11,13 @@ export interface IOptions<T> extends IDataCellOptions<T> {
 export default class BreadcrumbsItemCell<S extends Model, TOwner extends BreadcrumbsItemRow<S>> extends GridDataCell<any, any> {
    protected _$breadCrumbsMode: 'row' | 'cell';
 
-   getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+   getTemplate(): TemplateFunction|string {
       // Только в первой ячейке отображаем хлебную крошку
       if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
          return this.getOwner().getCellTemplate();
       } else {
          if (this._$breadCrumbsMode === 'cell') {
-            return super.getTemplate(multiSelectTemplate);
+            return super.getTemplate();
          } else {
             return this._defaultCellTemplate;
          }
@@ -52,7 +52,7 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
    getContentClasses(theme: string, style: string = 'default'): string {
       // Только в первой ячейке выводятся хлебные крошки
       if (this.isFirstColumn() || this.getOwner().hasMultiSelectColumn() && this.getColumnIndex() === 1) {
-         let classes = 'controls-Grid__row-cell__content_colspaned ';
+         let classes = 'controls-Grid__row-cell__content controls-Grid__row-cell__content_colspaned ';
 
          if (!this.getOwner().hasMultiSelectColumn()) {
             classes += `controls-Grid__cell_spacingFirstCol_${this.getOwner().getLeftPadding()} `;

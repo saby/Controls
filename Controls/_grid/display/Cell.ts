@@ -39,6 +39,8 @@ export interface IOptions<T> extends IColspanParams {
     shadowVisibility?: string;
     rowSeparatorSize?: string;
     isFirstDataCell?: boolean;
+    isTopSeparatorEnabled: boolean;
+    isBottomSeparatorEnabled: boolean;
 }
 
 export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
@@ -71,6 +73,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$isSticked: boolean;
     protected _$backgroundStyle: string;
     protected _$shadowVisibility?: string;
+    protected _$isTopSeparatorEnabled?: string;
+    protected _$isBottomSeparatorEnabled?: string;
 
     constructor(options?: IOptions<T>) {
         super();
@@ -81,7 +85,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return this._$shadowVisibility;
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
+    getTemplate(): TemplateFunction | string {
         return this._$column.template || this._defaultCellTemplate;
     }
 
@@ -309,7 +313,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     }
 
     // Only for partial grid support
-    getRelativeCellWrapperClasses(theme: string): string {
+    getRelativeCellWrapperClasses(): string {
         const rowSeparatorSize = this._$rowSeparatorSize;
 
         // Единственная ячейка с данными сама формирует высоту строки и не нужно применять хак для растягивания контента ячеек по высоте ячеек.
@@ -319,6 +323,18 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return 'controls-Grid__table__relative-cell-wrapper ' +
             `controls-Grid__table__relative-cell-wrapper_rowSeparator-${rowSeparatorSize} ` +
             (shouldFixAlignment ? 'controls-Grid__table__relative-cell-wrapper_singleCell' : '');
+    }
+
+    // Only for partial grid support
+    getRelativeCellWrapperStyles(): string {
+        let styles = '';
+        if (this._$owner.hasColumnScroll() && this._$isFixed) {
+            const width = this.config.compatibleWidth || this.config.width || '';
+            if (width.endsWith('px')) {
+                styles += `max-width: ${width};`;
+            }
+        }
+        return styles;
     }
 
     getWrapperStyles(): string {
@@ -430,14 +446,22 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return classes;
     }
 
+    // @TODO https://online.sbis.ru/opendoc.html?guid=907731fd-b8a8-4b58-8958-61b5c8090188
     protected _getWrapperSeparatorClasses(theme: string): string {
         const rowSeparatorSize = this._$rowSeparatorSize;
         let classes = '';
 
         if (rowSeparatorSize) {
-            classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
-            classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}`;
-        } else {
+            if (this._$isTopSeparatorEnabled) {
+                classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
+                classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}`;
+            }
+
+            if (this._$isBottomSeparatorEnabled) {
+                classes += ` controls-Grid__rowSeparator_bottom_size-${rowSeparatorSize}`;
+            }
+        }
+        if (!rowSeparatorSize || !this._$isTopSeparatorEnabled) {
             // Вспомогательные классы, вешаются на ячейку. Обеспечивают отсутствие "скачков" при смене rowSeparatorSize.
             classes += ' controls-Grid__no-rowSeparator';
             classes += ' controls-Grid__row-cell_withRowSeparator_size-null';
@@ -629,5 +653,7 @@ Object.assign(Cell.prototype, {
     _$isSingleColspanedCell: null,
     _$isActsAsRowTemplate: null,
     _$isLadderCell: null,
-    _$isHiddenForLadder: null
+    _$isHiddenForLadder: null,
+    _$isTopSeparatorEnabled: false,
+    _$isBottomSeparatorEnabled: false
 });

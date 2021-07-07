@@ -123,18 +123,24 @@ class MenuRender extends Control<IMenuRenderOptions> {
     protected _getClassList(treeItem: TreeItem<Model>): string {
         const item = treeItem.getContents();
         let classes = treeItem.getContentClasses(this._options.theme);
+
         if (item && item.get) {
-            classes += ' controls-Menu__row_state_' +
-                (item.get('readOnly') ? 'readOnly' : 'default');
+            const readOnly = item.get('readOnly');
+
+            classes += ` controls-Menu__row_state_${readOnly ? 'readOnly' : 'default'}` +
+                `${!readOnly ? ` controls-Menu__row_hoverBackgroundStyle-${this._options.hoverBackgroundStyle}` : ''}`;
+
             if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
                 classes += ' controls-Menu__emptyItem';
             } else {
                 classes += ' controls-Menu__defaultItem';
             }
+
             if (!this._isFixedItem(treeItem) && item.get('pinned') === true &&
                 !this._hasParent(item, this._options.historyRoot)) {
                 classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
             }
+
             if (this._options.listModel.getLast() !== treeItem && !this._isGroupNext(treeItem) &&
                 !(this._options.allowPin && this._isHistorySeparatorVisible(treeItem))) {
                 classes += ' controls-Menu__row-separator';
@@ -142,6 +148,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         } else if (item && !treeItem['[Controls/_display/SearchSeparator]']) {
             classes += ' controls-Menu__row-breadcrumbs';
         }
+
         return classes;
     }
 

@@ -1,4 +1,4 @@
-<span class="controls-Lookup__link
+<span class="controls_lookup_theme-{{_options.theme}} controls-Lookup__link
                controls-Lookup__link-inlineheight-{{_options.inlineHeight ? _options.inlineHeight : 'default'}}
                controls-Lookup__link-{{_options.readOnly ? 'readOnly' : 'default'}}
                controls-fontsize-{{_options.fontSize}}"

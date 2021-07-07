@@ -29,12 +29,14 @@ import 'css!Controls/buttons';
 import 'css!Controls/CommonClasses';
 
 export type IViewMode = 'button' | 'link' | 'linkButton' | 'toolButton' | 'functionalButton';
+export type TextAlign = 'left' | 'right' | 'center';
 
 export interface IButtonControlOptions extends IControlOptions, IHrefOptions, ICaptionOptions, IIconOptions,
     IIconStyleOptions, IIconSizeOptions, IFontColorStyleOptions, IFontSizeOptions, IHeightOptions, ITooltipOptions,
     IButtonOptions {
     viewMode?: IViewMode;
     captionPosition: 'left' | 'right';
+    textAlign?: TextAlign;
 }
 
 export function defaultHeight(viewMode: string): string {
@@ -53,12 +55,21 @@ export function defaultFontColorStyle(viewMode: string): string {
 
 export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._buttonStyle = options.readOnly ? 'readonly' : options.buttonStyle;
-    this._contrastBackground = options.contrastBackground;
+    this._contrastBackground = options.contrastBackground === undefined ?
+        options.viewMode === 'functionalButton' : options.contrastBackground;
     this._viewMode = options.viewMode;
     this._height = options.inlineHeight ? options.inlineHeight : defaultHeight(this._viewMode);
     this._fontColorStyle = options.fontColorStyle ? options.fontColorStyle : defaultFontColorStyle(this._viewMode);
     this._fontSize = options.fontSize;
     this._hasIcon = !!options.icon;
+    const isTextAlignCenter = ['functionalButton', 'toolButton'].includes(this._viewMode);
+    if (this._viewMode === 'button') {
+        this._textAlign = options.textAlign;
+    } else if (isTextAlignCenter) {
+        this._textAlign = 'center';
+    } else {
+        this._textAlign = 'none';
+    }
 
     this._caption = options.caption;
     // На сервере rk создает инстанс String'a, проверки на typeof недостаточно
@@ -88,9 +99,9 @@ export function getDefaultOptions(): object {
         iconStyle: 'secondary',
         iconSize: 'm',
         captionPosition: 'right',
-        contrastBackground: false,
         fontSize: 'm',
-        buttonStyle: 'secondary'
+        buttonStyle: 'secondary',
+        textAlign: 'center'
     };
 }
 
@@ -165,6 +176,7 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
     protected _iconStyle: string;
     protected _hoverIcon: boolean = true;
     protected _isSVGIcon: boolean = false;
+    protected _textAlign: string;
 
     protected _beforeMount(options: IButtonControlOptions): void {
         simpleCssStyleGeneration.call(this, options);
@@ -211,21 +223,37 @@ Object.defineProperty(Button, 'defaultProps', {
  * @default button
  * @demo Controls-demo/Buttons/ViewModes/Index
  * @example
- * Кнопка в режиме отображения 'linkButton'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="linkButton" fontSize="3xl"/>
+ * Кнопка в режиме отображения "linkButton".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="primary"
+ *    viewMode="linkButton"
+ *    fontSize="3xl"/>
  * </pre>
- * Кнопка в режиме отображения 'toolButton'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="danger" viewMode="toolButton"/>
+ * Кнопка в режиме отображения "toolButton".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="danger"
+ *    viewMode="toolButton"/>
  * </pre>
- * Кнопка в режиме отображения 'button'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
+ * Кнопка в режиме отображения "button".
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="success"
+ *    viewMode="button"/>
  * </pre>
- *  * Кнопка в режиме отображения 'link'.
- * <pre class="brush: html">
- * <Controls.buttons:Button caption="Send document" viewMode="link"/>
+ * Кнопка в режиме отображения "link".
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    viewMode="link"/>
  * </pre>
  * @see Size
  */
@@ -254,6 +282,14 @@ Object.defineProperty(Button, 'defaultProps', {
  */
 
 /**
+ * @name Controls/_buttons/Button#textAlign
+ * @variant left Текст выравнивается по левой стороне.
+ * @variant right Текст выравнивается по правой стороне.
+ * @variant center Текст выравнивается по центру.
+ * @default center
+ */
+
+/**
  * @name Controls/_buttons/Button#captionPosition
  * @cfg {String} Определяет, с какой стороны расположен текст кнопки относительно иконки.
  * @variant left Текст расположен перед иконкой.
@@ -278,6 +314,42 @@ Object.defineProperty(Button, 'defaultProps', {
  * <pre class="brush: html">
  * <Controls.buttons:Button icon="icon-Add" fontSize="xl" viewMode="button"/>
  * </pre>
+ */
+
+/**
+ * @name Controls/_buttons/Button#contrastBackground
+ * @cfg
+ * @default false (Когда опция {@link Controls/buttons/Button#viewMode viewMode} установлена в значение functionalButton, то для опции contrastBackground значение по умолчанию - true.)
+ * @remark
+ * Опция используется для акцентирования внимания на кнопке, и ее визуального выделения относительно окружения.
+ * @demo Controls-demo/Buttons/ContrastBackground/Index
+ * @example
+ * У кнопки контрастный фон.
+ * <pre class="brush: html; highlight: [6]">
+ * <!-- WML -->
+ * <Controls.buttons:Button
+ *    caption="Send document"
+ *    buttonStyle="primary"
+ *    viewMode="toolButton"
+ *    contrastBackground="{{true}}" />
+ * </pre>
+ * @see style
+ */
+
+/*
+ * @name Controls/_buttons/Button#contrastBackground
+ * @cfg
+ * @default true
+ * @example
+ * Button has transparent background.
+ * <pre>
+ *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="toolButton" contrastBackground="{{false}}" inlineHeight="xl"/>
+ * </pre>
+ * Button hasn't transparent background.
+ * <pre>
+ *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="toolButton" />
+ * </pre>
+ * @see style
  */
 
 export default Button;

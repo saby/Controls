@@ -18,7 +18,7 @@ const ERROR_MSG = {
  * @typedef {Promise.<void | { canceled: true }>} TAsyncOperationResult
  * @description Тип возвращаемого значения из операций редактирования по месту.
  */
-type TAsyncOperationResult = Promise<void | { canceled: true }>;
+export type TAsyncOperationResult = Promise<void | { canceled: true }>;
 
 /**
  * @typedef {void|CONSTANTS.CANCEL|Promise.<void|{CONSTANTS.CANCEL}>} TBeforeCallbackBaseResult
@@ -52,23 +52,52 @@ interface IBeginEditOptions {
     columnIndex?: number;
 }
 
+interface ICallbackParams<T extends unknown[]> {
+    toArray(): T;
+}
+
+/**
+ * @typedef {Function} IBeforeBeginEditCallbackParams
+ * @description Параметры для функции обратного вызова перед запуском редактирования.
+ * @property {IBeginEditUserOptions} options Набор опций для запуска редактирования. Доступные свойства: item {Types/entity:Model} - запись для которой запускается редактирование.
+ * @property {Boolean} isAdd Флаг, принимает значение true, если запись добавляется.
+ * @property {number} [columnIndex=undefined] Индекс колонки в которой запускается редактирование. Опреелено только при режиме редактирования mode = "cell".
+ */
+export type IBeforeBeginEditCallbackParams = ICallbackParams<[IBeginEditUserOptions, boolean, number? ]> & {
+    options: IBeginEditUserOptions;
+    isAdd: boolean;
+    columnIndex?: number
+};
+
 /**
  * @typedef {Function} TBeforeBeginEditCallback
  * @description Функция обратного вызова перед запуском редактирования.
- * @param {IBeginEditUserOptions} options Набор опций для запуска редактирования. Доступные свойства: item {Types/entity:Model} - запись для которой запускается редактирование.
- * @param {Boolean} isAdd Флаг, принимает значение true, если запись добавляется
+ * @param {IBeforeBeginEditCallbackParams} params Параметры функции.
  */
-type TBeforeBeginEditCallback = (options: IBeginEditUserOptions, isAdd: boolean) =>
+type TBeforeBeginEditCallback = (params: IBeforeBeginEditCallbackParams) =>
     TBeforeCallbackBaseResult | IBeginEditUserOptions | Promise<IBeginEditUserOptions>;
 
 /**
- * @typedef {Function} TBeforeEndEditCallback
- * @description Функция обратного вызова перед завершением редактирования
- * @param {Types/entity:Model} item Редактируемая запись для которой запускается завершение редактирования.
- * @param willSave Флаг, принимает значение true, если ожидается, что запись будет сохранена.
- * @param isAdd Флаг, принимает значение true, если запись добавляется
+ * @typedef {Object} IBeforeEndEditCallbackParams
+ * @description Параметры функции обратного вызова перед завершением редактирования.
+ * @property {Types/entity:Model} item Редактируемая запись для которой запускается завершение редактирования.
+ * @property {Boolean} willSave Флаг, принимает значение true, если ожидается, что запись будет сохранена.
+ * @property {Boolean} isAdd Флаг, принимает значение true, если запись добавляется.
+ * @property {Number} sourceIndex Индекс записи в источнике данных.
  */
-type TBeforeEndEditCallback = (item: Model, willSave: boolean, isAdd: boolean) => TBeforeCallbackBaseResult;
+export type IBeforeEndEditCallbackParams = ICallbackParams<[Model, boolean, boolean]> & {
+    item: Model;
+    willSave: boolean;
+    isAdd: boolean;
+    force?: boolean;
+    sourceIndex?: number;
+};
+/**
+ * @typedef {Function} TBeforeEndEditCallback
+ * @description Функция обратного вызова перед завершением редактирования.
+ * @param {IBeforeEndEditCallbackParams} params Параметры функции.
+ */
+type TBeforeEndEditCallback = (params: IBeforeEndEditCallbackParams) => TBeforeCallbackBaseResult;
 
 /**
  * @typedef {String} TEditingMode
@@ -83,12 +112,6 @@ type TBeforeEndEditCallback = (item: Model, willSave: boolean, isAdd: boolean) =
  * @interface Controls/_editInPlace/IEditInPlaceOptions
  * @public
  * @author Родионов Е.А.
- */
-/*
- * Interface of edit in place controller options.
- * @interface Controls/_editInPlace/IEditInPlaceOptions
- * @public
- * @author Rodionov E/
  */
 interface IEditInPlaceOptions {
     /**
@@ -243,12 +266,12 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      * @remark Запуск добавления может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
     add(userOptions: IBeginEditUserOptions = {},
-        options: { addPosition: TAddPosition, targetItem?: Model } = { addPosition: 'bottom' }): TAsyncOperationResult {
+        options: { addPosition: TAddPosition, targetItem?: Model, columnIndex?: number } = { addPosition: 'bottom' }): TAsyncOperationResult {
         return this._endPreviousAndBeginEdit(userOptions, {
             isAdd: true,
             addPosition: options.addPosition,
             targetItem: options.targetItem,
-            columnIndex: 0
+            columnIndex: this._options.mode === 'cell' ? (options.columnIndex || 0) : undefined
         });
     }
 
@@ -265,7 +288,10 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      * @remark Запуск редактирования может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
     edit(userOptions: IBeginEditUserOptions = {}, options: { columnIndex?: number } = {}): TAsyncOperationResult {
-        return this._endPreviousAndBeginEdit(userOptions, options);
+        return this._endPreviousAndBeginEdit(userOptions, {
+            ...options,
+            columnIndex: this._options.mode === 'cell' ? (options.columnIndex || 0) : undefined
+        });
     }
 
     /**
@@ -354,7 +380,12 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
         this._operationsPromises.begin = new Promise((resolve) => {
             // Ждем результат колбека "до начала редактирования".
-            const callbackResult = this._options.onBeforeBeginEdit ? this._options.onBeforeBeginEdit(userOptions, isAdd) : undefined;
+            const callbackResult = this._options.onBeforeBeginEdit ? this._options.onBeforeBeginEdit({
+                options: userOptions,
+                isAdd,
+                columnIndex,
+                toArray: () => [userOptions, isAdd, columnIndex]
+            }) : undefined;
             resolve(callbackResult);
         }).catch((e) => {
             // Уведомляем об ошибке если нужно и отменяем начало редактирования. Промис продолжится по ветке resolved.
@@ -370,9 +401,12 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             // Пропуск начала редактирования текущей записи.
             // Игнорироем начало редактирования текущей, находим следуюшую редактируемую запись и пробуем начать ее редактирование.
             // Добавление не пропускается.
-            if (!isAdd && (callbackResult === CONSTANTS.GOTONEXT || callbackResult === CONSTANTS.GOTOPREV)) {
-                this._operationsPromises.begin = null;
-                return tryEditNext(callbackResult === CONSTANTS.GOTONEXT ? 'after' : 'before', userOptions, options);
+            if (
+                (callbackResult === CONSTANTS.NEXT_COLUMN || callbackResult === CONSTANTS.PREV_COLUMN) ||
+                (!isAdd && (callbackResult === CONSTANTS.GOTONEXT || callbackResult === CONSTANTS.GOTOPREV))
+            ) {
+                    this._operationsPromises.begin = null;
+                    return tryEditNext(callbackResult, userOptions, options);
             }
 
             // Нужно запускать редактирование для текущей записи. Получаем актуальную модель.
@@ -412,7 +446,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             }
         };
 
-        const tryEditNext = (position: 'after' | 'before', _userOptions, _options): TAsyncOperationResult | CONSTANTS.CANCEL => {
+        const tryEditNext = (position: Exclude<CONSTANTS, CONSTANTS.CANCEL>, _userOptions, _options): TAsyncOperationResult | CONSTANTS.CANCEL => {
             let current;
             if (_userOptions?.item) {
                 current = this._options.collection.getItemBySourceKey(_userOptions.item.getKey());
@@ -421,11 +455,28 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
                     return CONSTANTS.CANCEL;
                 }
             }
-            const next = position === 'after' ? this.getNextEditableItem(current) : this.getPrevEditableItem(current);
-            if (!next) {
+            let next;
+            if (position === CONSTANTS.GOTONEXT || position === CONSTANTS.GOTOPREV) {
+                next = position === CONSTANTS.GOTONEXT ? this.getNextEditableItem(current) : this.getPrevEditableItem(current);
+            } else {
+                next = current;
+                if (typeof _options.columnIndex === 'number') {
+                    const newColumnIndex = _options.columnIndex + (position === CONSTANTS.PREV_COLUMN ? -1 : 1);
+                    if (newColumnIndex > this._options.collection.getGridColumnsConfig().length - 1) {
+                        _options.columnIndex = 0;
+                        next = this.getNextEditableItem(current);
+                    } else if (newColumnIndex < 0) {
+                        _options.columnIndex = this._options.collection.getGridColumnsConfig().length - 1;
+                        next = this.getPrevEditableItem(current);
+                    } else {
+                        _options.columnIndex = newColumnIndex;
+                    }
+                }
+            }
+            if (!next && !options.isAdd) {
                 return;
             } else {
-                return this._beginEdit({ ..._userOptions, item: next.contents }, _options);
+                return this._beginEdit({ ..._userOptions, item: next && next.contents }, _options);
             }
         };
 
@@ -455,7 +506,11 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
                     sourceIndex = collectionIndex + (this._addParams.addPosition === 'bottom' ? 1 : 0);
                 }
 
-                const result = this._options.onBeforeEndEdit(editingItem, willSave, isAdd, false, sourceIndex);
+                const result = this._options.onBeforeEndEdit({
+                    item: editingItem,
+                    willSave, isAdd, force, sourceIndex,
+                    toArray: () => [editingItem, willSave, isAdd]
+                });
                 resolve(force ? void 0 : result);
             } else {
                 resolve();

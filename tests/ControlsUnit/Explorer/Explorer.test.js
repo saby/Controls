@@ -165,7 +165,6 @@ define([
          assert.strictEqual(markedKey, 'test');
          assert.strictEqual(explorer._markerForRestoredScroll, 'test');
          assert.isFalse(explorer._isGoingBack);
-         assert.isTrue(clearSelectionCalled);
 
          clearSelectionCalled = false;
          explorer._isGoingFront = true;
@@ -322,7 +321,8 @@ define([
             let resetExpandedItemsCalled = false;
             instance._children = {
                treeControl: {
-                  resetExpandedItems: () => resetExpandedItemsCalled = true
+                  resetExpandedItems: () => resetExpandedItemsCalled = true,
+                  isColumnScrollVisible: () => false
                }
             };
 
@@ -388,7 +388,8 @@ define([
             instance._beforeMount({});
             instance._children = {
                treeControl: {
-                  resetExpandedItems: () => null
+                  resetExpandedItems: () => null,
+                  isColumnScrollVisible: () => false
                }
             };
 
@@ -422,7 +423,8 @@ define([
             instance.saveOptions(cfg);
             instance._children = {
                treeControl: {
-                  resetExpandedItems: () => null
+                  resetExpandedItems: () => null,
+                  isColumnScrollVisible: () => false
                }
             };
             instance._setViewMode = (viewMode, cfg) => {

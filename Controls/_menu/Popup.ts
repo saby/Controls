@@ -289,7 +289,8 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
 
     static defaultProps: Partial<IMenuPopupOptions> = {
         selectedKeys: [],
-        backgroundStyle: 'default'
+        backgroundStyle: 'default',
+        hoverBackgroundStyle: 'default'
     }
 }
 

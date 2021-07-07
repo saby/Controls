@@ -157,6 +157,7 @@ define(
 
          it('_beforeUpdate', async function() {
             let view = getView(defaultConfig);
+            await view._beforeMount(defaultConfig);
             view._beforeUpdate(defaultConfig);
 
             let expectedDisplayText = {
@@ -176,6 +177,7 @@ define(
 
             // isNeedReload = true
             await view._beforeUpdate(newConfig);
+            await view._reload();
             assert.deepStrictEqual(view._displayText, expectedDisplayText);
 
             newConfig = Clone(defaultConfig);
@@ -311,25 +313,26 @@ define(
             assert.isNotOk(configs['state']);
          });
 
-         it('_isNeedReload', function() {
+         it('_getItemsForReload', function() {
             let view = getView(defaultConfig);
             let oldItems = defaultConfig.source;
             let newItems = Clone(defaultConfig.source);
 
-            let result = view._isNeedReload(oldItems, newItems);
+            let result = !!view._getItemsForReload(oldItems, newItems).length;
             assert.isFalse(result);
 
             newItems[0].viewMode = 'basic';
-            result = view._isNeedReload(oldItems, newItems);
+            result = !!view._getItemsForReload(oldItems, newItems).length;
             assert.isFalse(result);
-
+            const configs = {author: {}};
             newItems[2].viewMode = 'frequent';
-            result = view._isNeedReload(oldItems, newItems);
-            assert.isTrue(result);
+            result = !!view._getItemsForReload(oldItems, newItems, configs).length;
+            assert.isFalse(result);
+            assert.isUndefined(configs.author);
 
             oldItems = [];
-            result = view._isNeedReload(oldItems, newItems);
-            assert.isTrue(result);
+            result = !!view._getItemsForReload(oldItems, newItems).length;
+            assert.isFalse(result);
          });
 
          it('openDetailPanel', function() {
@@ -365,7 +368,7 @@ define(
 
             view.openDetailPanel();
 
-            assert.equal(popupOptions.className, 'controls-FilterView-popup controls_popupTemplate_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
+            assert.equal(popupOptions.className, 'controls-FilterView-popup controls_popupTemplate_theme-default controls_filter_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
          });
 
          it('_openPanel', function(done) {
@@ -403,16 +406,16 @@ define(
             view._openPanel().then(() => {
                assert.strictEqual(popupOptions.template, 'panelTemplateName.wml');
                assert.strictEqual(popupOptions.templateOptions.items.getCount(), 2);
-               assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel__buttonTarget-popup controls_popupTemplate_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
+               assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel__buttonTarget-popup controls_popupTemplate_theme-default controls_filter_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
                assert.exists(view._configs.document);
                filterClassName = 'div_second_filter';
                view._openPanel(event, 'state').then(() => {
                   assert.strictEqual(popupOptions.target, 'div_state_filter');
-                  assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup controls_popupTemplate_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
+                  assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup controls_popupTemplate_theme-default controls_filter_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
                   view._children.state = null;
                   view._openPanel(event, 'state').then(() => {
                      assert.strictEqual(popupOptions.target, 'div_second_filter');
-                     assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup controls_popupTemplate_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
+                     assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup controls_popupTemplate_theme-default controls_filter_theme-default controls_filterPopup_theme-default controls_dropdownPopup_theme-default');
                      view._openPanel('click').then(() => {
                         assert.deepStrictEqual(popupOptions.target, 'filter_container');
                         view._configs.state.sourceController = {
@@ -702,27 +705,64 @@ define(
             assert.strictEqual(view._filterText, 'Author: Ivanov K.K., test_extended');
          });
 
-         it('_getFastText', function() {
-            let view = getView(defaultConfig);
-            let config = {
-               displayProperty: 'title',
-               keyProperty: 'id',
-               emptyText: 'empty text',
-               emptyKey: 'empty',
-               items: new collection.RecordSet({
-                  rawData: [
-                     {id: null, title: 'Reset'},
-                     {id: '1', title: 'Record 1'},
-                     {id: '2', title: 'Record 2'},
-                     {id: '3', title: 'Record 3'}
-                  ]
-               })
-            };
-            let display = view._getFastText(config, [null]);
-            assert.strictEqual(display.text, 'Reset');
+         describe('_getFastText', function() {
+            it('with items', () => {
+               let view = getView(defaultConfig);
+               let config = {
+                  displayProperty: 'title',
+                  keyProperty: 'id',
+                  emptyText: 'empty text',
+                  emptyKey: 'empty',
+                  items: new collection.RecordSet({
+                     rawData: [
+                        {id: null, title: 'Reset'},
+                        {id: '1', title: 'Record 1'},
+                        {id: '2', title: 'Record 2'},
+                        {id: '3', title: 'Record 3'}
+                     ]
+                  })
+               };
+               let display = view._getFastText(config, [null]);
+               assert.strictEqual(display.text, 'Reset');
 
-            display = view._getFastText(config, ['empty']);
-            assert.strictEqual(display.text, 'empty text');
+               display = view._getFastText(config, ['empty']);
+               assert.strictEqual(display.text, 'empty text');
+            });
+
+            it('with displayText', () => {
+               let view = getView(defaultConfig);
+               const item = {
+                  name: 'org',
+                  value: [],
+                  resetValue: null,
+                  textValue: '',
+                  displayTextValue: {
+                     title: 'Очень длинный title который надо удалить',
+                     hasMoreText: 'Еще 10',
+                     text: 'Организация'
+                  }
+               };
+               let config = {
+                  displayProperty: 'title',
+                  keyProperty: 'id',
+                  emptyText: 'empty text',
+                  emptyKey: 'empty'
+               };
+               let display = view._getFastText(config, [], item);
+               assert.deepEqual(display, {
+                  title: '',
+                  hasMoreText: 'Еще 10',
+                  text: 'Организация'
+               });
+
+               item.textValue = 'А вот это title';
+               display = view._getFastText(config, [], item);
+               assert.deepEqual(display, {
+                  title: 'А вот это title',
+                  hasMoreText: 'Еще 10',
+                  text: 'Организация'
+               });
+            });
          });
 
          it('_getKeysUnloadedItems', function() {
@@ -1423,7 +1463,7 @@ define(
 
             it('_reload', async function() {
                view._source[0].editorOptions.source = hSource;
-               await view._reload(false, true, true).addCallback((receivedState) => {
+               await view._reload(false, true).addCallback((receivedState) => {
                   assert.isUndefined(receivedState.configs.document.source);
                   assert.isOk(receivedState.configs.state.source);
 

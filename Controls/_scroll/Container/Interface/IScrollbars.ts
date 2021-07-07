@@ -1,5 +1,16 @@
 
 export interface IScrollbarsOptions {
+    /**
+     * @name Controls/_scroll/Container/Interface/IScrollbars#scrollbarVisible
+     * @cfg {Boolean} Следует ли отображать скролл.
+     * @default true
+     * @demo Controls-demo/Scroll/ScrollbarVisible/Index
+     */
+
+    /*
+    * @name Controls/_scroll/Container/Interface/IScrollbars#scrollbarVisible
+    * @cfg {Boolean} Whether scrollbar should be shown.
+    */
     scrollbarVisible: boolean;
 }
 
@@ -11,8 +22,6 @@ export function getDefaultOptions(): IScrollbarsOptions {
 
 /**
  * Интерфейс для контролов со скролбарами.
- *
- * @interface Controls/_scroll/Container/Interface/IScrollbars
  * @public
  * @author Миронов А.Ю.
  */
@@ -20,14 +29,3 @@ export function getDefaultOptions(): IScrollbarsOptions {
 export interface IScrollbars {
     readonly '[Controls/_scroll/Container/Interface/IScrollbars]': boolean;
 }
-
-/**
- * @name Controls/_scroll/Container/Interface/IScrollbars#scrollbarVisible
- * @cfg {Boolean} Следует ли отображать скролл.
- * @demo Controls-demo/Scroll/ScrollbarVisible/Index
- */
-
-/*
- * @name Controls/_scroll/Container/Interface/IScrollbars#scrollbarVisible
- * @cfg {Boolean} Whether scrollbar should be shown.
- */

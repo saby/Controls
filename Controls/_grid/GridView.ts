@@ -181,7 +181,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
     _getGridTemplateColumns(options): string {
         // todo Вынести расчёт на viewModel: https://online.sbis.ru/opendoc.html?guid=09307163-7edb-4423-999d-525271e05586
         // тогда метод можно покрыть нормально юнитом и проблемы с актуализацией колонок на самом grid-элементе не будет
-        const columns = this._listModel ? this._listModel.getColumnsConfig() : options.columns;
+        const columns = this._listModel ? this._listModel.getGridColumnsConfig() : options.columns;
         const hasMultiSelect = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
 
         if (!options.columns) {
@@ -251,10 +251,7 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
             classes += ` controls-Grid_support-ladder ${this._ladderOffsetSelector}`;
         }
 
-        if (options.itemActionsPosition === 'outside' &&
-            !this._listModel.getFooter() &&
-            !(this._listModel.getResults() && this._listModel.getResultsPosition() === 'bottom')
-        ) {
+        if (options._needBottomPadding) {
             classes += ' controls-GridView__paddingBottom__itemActionsV_outside';
         }
 
@@ -304,6 +301,11 @@ const GridView = ListView.extend([ColumnScrollViewMixin], {
             const contents = dispItem.getContents();
             if (dispItem['[Controls/_display/GroupItem]']) {
                 this._notify('groupClick', [contents, e, dispItem], {bubbling: true});
+                return;
+            }
+            if (e.target.closest('.js-controls-ListView__checkbox')) {
+                this._notify('checkBoxClick', [dispItem, e]);
+                e.stopPropagation();
                 return;
             }
             this._notify('itemClick', [contents, e, this._getCellIndexByEventTarget(e)]);

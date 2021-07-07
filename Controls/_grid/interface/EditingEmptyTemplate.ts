@@ -64,7 +64,7 @@ interface IEmptyColumnColumns {
  * </Controls.list:View>
  * </pre>
  *
- * @demo Controls-demo/grid/EmptyGrid/Editing/Index
+ * @demo Controls-demo/gridNew/EmptyGrid/Editing/Index
  *
  * @remark
  * Колонки могут быть растянуты и спозиционированы в таблице с помощью опций <b>startIndex</b> и <b>stopIndex</b>.

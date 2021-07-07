@@ -183,7 +183,9 @@ define([
                ml = calendarTestUtils.createComponent(calendar.MonthList, { position: new Date(2017, 2, 3) });
 
             sandbox.stub(ml, '_canScroll').returns([true]);
-            sandbox.stub(ml, '_findElementByDate').returns([true]);
+            sandbox.stub(ml, '_findElementByDate').returns({
+               closest: () => {}
+            });
             ml._children.months = { reload: sinon.fake() };
             ml._container = {};
 

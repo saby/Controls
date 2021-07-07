@@ -9,6 +9,7 @@ import {IAreaOptions} from 'Controls/_input/interface/IArea';
 import {BaseText} from 'Controls/_input/BaseText';
 import {processKeydownEvent} from 'Controls/_input/resources/Util';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
+import LINE_HEIGHT_FOR_IE from 'Controls/_input/Area/IECompatibleLineHeights';
 import template = require('wml!Controls/_input/Area/Area');
 import fieldTemplate = require('wml!Controls/_input/Area/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Area/ReadOnly');
@@ -55,6 +56,8 @@ export default class Area extends BaseText<IAreaOptions> {
     protected _minLines: number;
     protected _maxLines: number;
     protected _controlName: string = 'Area';
+    protected _lineHeightForIE: Record<string, number> = LINE_HEIGHT_FOR_IE;
+    protected _isIE: boolean = detection.isIE11;
 
     protected _syncBeforeMount(options: IAreaOptions): void {
         super._syncBeforeMount(options);

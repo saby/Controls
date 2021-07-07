@@ -50,7 +50,7 @@ interface IItemsFactoryOptions<S> {
     hasChildrenByRecordSet?: boolean;
     node?: boolean;
     expanderTemplate?: TemplateFunction;
-    hasNodeWithChildren?: boolean;
+    displayExpanderPadding?: boolean;
     expanded?: boolean;
     hasMore?: boolean;
 }
@@ -68,6 +68,7 @@ export interface IOptions<S, T> extends ICollectionOptions<S, T> {
     expandedItems?: CrudEntityKey[];
     collapsedItems?: CrudEntityKey[];
     nodeFooterVisibilityCallback?: TNodeFooterVisibilityCallback;
+    expanderSize?: string;
 }
 
 /**
@@ -283,6 +284,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      */
     protected _$nodeFooterVisibilityCallback: TNodeFooterVisibilityCallback;
 
+    protected _$moreFontColorStyle: string;
+
     /**
      * Стратегия перетаскивания записей
      * @protected
@@ -300,10 +303,16 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _hasNodeWithChildren: boolean;
 
     /**
-     * Признак, означающий чтов списке есть узел
+     * Признак, означающий что в списке есть узел
      * @protected
      */
     protected _hasNode: boolean = null;
+
+    /**
+     * Признак, означающий что отступ вместо экспандеров нужно рисовать
+     * @protected
+     */
+    protected _displayExpanderPadding: boolean;
 
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));
@@ -336,6 +345,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         if (this.getExpanderVisibility() === 'hasChildren') {
             this._recountHasNodeWithChildren();
+        } else {
+            this._recountHasNode();
         }
     }
 
@@ -398,6 +409,20 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     getExpanderSize(): string {
         return this._$expanderSize;
+    }
+
+    protected _recountDisplayExpanderPadding(): void {
+        const newValue = this.getExpanderIcon() !== 'none' && this.getExpanderPosition() === 'default'
+            && (this.getExpanderVisibility() === 'hasChildren' ? this.hasNodeWithChildren() : this.hasNode())
+        this._setDisplayExpanderPadding(newValue);
+    }
+
+    protected _setDisplayExpanderPadding(newValue: boolean): void {
+        if (this._displayExpanderPadding !== newValue) {
+            this._displayExpanderPadding = newValue;
+            this._updateItemsProperty('setDisplayExpanderPadding', newValue, 'setDisplayExpanderPadding')
+            this._nextVersion();
+        }
     }
 
     // endregion Expander
@@ -464,9 +489,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         if (this._$nodeFooterVisibilityCallback !== callback) {
             this._$nodeFooterVisibilityCallback = callback;
 
-            const strategy = this.getStrategyInstance(NodeFooter) as any as NodeFooter;
-            strategy.setNodeFooterVisibilityCallback(callback);
-            this._reBuildNodeFooters(true);
+            // Нужно пересоздавать стратегию, чтобы Composer правильно запомнил опции для нее
+            this.reCreateStrategy(NodeFooter, { nodeFooterVisibilityCallback: callback });
 
             this._nextVersion();
         }
@@ -485,6 +509,18 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     getHasMoreStorage(): Record<string, boolean> {
         return this._$hasMoreStorage;
+    }
+
+    getMoreFontColorStyle(): string {
+        return this._$moreFontColorStyle;
+    }
+
+    setMoreFontColorStyle(moreFontColorStyle: string): void {
+        if (this._$moreFontColorStyle !== moreFontColorStyle) {
+            this._$moreFontColorStyle = moreFontColorStyle;
+            this._updateItemsProperty('setMoreFontColorStyle', moreFontColorStyle, '[Controls/tree:TreeNodeFooterItem]')
+            this._nextVersion();
+        }
     }
 
     private _updateItemsHasMore(storage: Record<string, boolean>): void {
@@ -652,6 +688,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._reBuildNodeFooters(true);
         this._reIndex();
         this._reAnalize();
+        this._updateEdgeItemsSeparators();
     }
 
     /**
@@ -780,7 +817,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         //endregion
 
         this._expandedItems = [...expandedKeys];
-        this._resetLastItem();
+        this._updateEdgeItemsSeparators();
     }
 
     setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
@@ -807,19 +844,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 item.setExpanded(false);
             }
         });
-        this._resetLastItem();
-    }
-
-    resetExpandedItems(): void {
-        if (!this.getCount()) {
-            return;
-        }
-
-        this.getItems().filter((it) => it['[Controls/_display/TreeItem]'] && it.isExpanded()).forEach((it) => {
-            if (it['[Controls/_display/TreeItem]']) {
-                it.setExpanded(false);
-            }
-        });
+        this._updateEdgeItemsSeparators();
     }
 
     toggleExpanded(item: T): void {
@@ -868,7 +893,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             options.hasChildrenProperty = this.getHasChildrenProperty();
             options.hasChildrenByRecordSet = !!this.getChildrenByRecordSet(options.contents).length;
             options.expanderTemplate = this._$expanderTemplate;
-            options.hasNodeWithChildren = this._hasNodeWithChildren;
+            options.displayExpanderPadding = this._displayExpanderPadding;
 
             const key = object.getPropertyValue<CrudEntityKey>(options.contents, this._$keyProperty);
             options.expanded = this._expandedItems?.includes(key) || this._expandedItems?.includes(null) && !this._collapsedItems?.includes(key);
@@ -1062,7 +1087,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         nodes.forEach((it) => {
             const hasChildrenByRecordSet = !!this.getChildrenByRecordSet(it.getContents()).length;
-            changed = changed || it.setHasChildrenByRecordSet(hasChildrenByRecordSet);
+            changed = it.setHasChildrenByRecordSet(hasChildrenByRecordSet) || changed;
         });
 
         if (changed) {
@@ -1120,8 +1145,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             nearbyItem = enumerator.getCurrent();
 
             // если мы пришли сюда, когда в enumerator ещё ничего нет, то nearbyItem будет undefined
-            // если nearbyItem не может быть выделен, то он и не может стать текущим
-            if (!!nearbyItem && !nearbyItem.SelectableItem) {
+            if (!!nearbyItem && !nearbyItem.EnumerableItem) {
                 nearbyItem = undefined;
                 continue;
             }
@@ -1170,7 +1194,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
         if (this._hasNodeWithChildren !== hasNodeWithChildren) {
             this._hasNodeWithChildren = hasNodeWithChildren;
-            this._updateItemsProperty('setHasNodeWithChildren', this._hasNodeWithChildren, 'setHasNodeWithChildren');
+            this._recountDisplayExpanderPadding();
             this._nextVersion();
         }
     }
@@ -1195,8 +1219,13 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             }
         }
 
+        this._setHasNode(hasNode);
+    }
+
+    protected _setHasNode(hasNode: boolean): void {
         if (this._hasNode !== hasNode) {
             this._hasNode = hasNode;
+            this._recountDisplayExpanderPadding();
             this._nextVersion();
         }
     }
@@ -1275,5 +1304,6 @@ Object.assign(Tree.prototype, {
     _$nodeFooterTemplate: null,
     _$nodeFooterVisibilityCallback: null,
     _$nodeFooterTemplateMoreButton: null,
+    _$moreFontColorStyle: null,
     _root: null
 });

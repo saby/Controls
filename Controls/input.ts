@@ -41,7 +41,6 @@ export {INewLineKey, INewLineKeyOptions} from 'Controls/_input/interface/INewLin
 export {IBase, IBaseOptions, TextAlign, AutoComplete} from 'Controls/_input/interface/IBase';
 export {ITag, ITagOptions, TagStyle} from 'Controls/_input/interface/ITag';
 export {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
-export {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
 export {ITimeMask, ITimeMaskOptions} from 'Controls/_input/interface/ITimeMask';
 export {ITimeInterval, ITimeIntervalOptions} from 'Controls/_input/interface/ITimeInterval';
 export {IInputMaskValue, IInputMaskValueOptions} from 'Controls/_input/interface/IInputMaskValue';
@@ -59,7 +58,9 @@ import * as __Util from 'Controls/_input/resources/Util';
 import * as MaskFormatterValue from 'Controls/_input/Mask/FormatterValue';
 import hoursFormat from 'Controls/_input/InputCallback/hoursFormat';
 import lengthConstraint from 'Controls/_input/InputCallback/lengthConstraint';
+export {default as IECompatibleLineHeights} from 'Controls/_input/Area/IECompatibleLineHeights';
 export {default as MobileFocusController} from 'Controls/_input/resources/MobileFocusController';
+export {default as transliterate} from 'Controls/_input/resources/Transliterate';
 export {default as NewBaseViewModel} from './_input/BaseViewModel';
 export {default as AdapterMask} from 'Controls/_input/Adapter/Mask';
 export {default as isMaskFormatValid} from 'Controls/_input/Mask/isFormatValid';

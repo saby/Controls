@@ -3,16 +3,14 @@
    //common
    --background-color: #424851;
    --unaccented_background-color: #424851;
-   --unaccented_background-transparent-color: #42485100;
    --hover_background-color: #464d57;
-   --hover_background-transparent-color: #464d5700;
    --readonly_color: #6b6b6b;
    --text-color: #ccc;
    --border-color: #4d535e;
    --separator_color: #6b6b6b;
    --icon-color: #ccc;
    --contrast_icon-color: #383d44;
-   --label_text-color: #ccc;
+   --label_text-color: #999;
    --link_text-color: #6ed4d0;
    --link_hover_text-color: #ff7033;
    --link_text-color_inline: var(--link_text-color);
@@ -63,9 +61,9 @@
    --border-color_hover_button_toolButton: #535c68;
    --background-color_hover_button_toolButton: #535c68;
    --readonly_border-color_button_toolButton: #6b6b6b;
-   --unaccented_background-color_button_functionalButton: #6ed4d0;
-   --unaccented_hover_background-color_button_functionalButton: #5eb4b1;
-   --unaccented_active_background-color_button_functionalButton: #5eb4b1;
+   --unaccented_contrast_background-color: #6ed4d0;
+   --unaccented_hover_contrast_background-color: #5eb4b1;
+   --unaccented_active_contrast_background-color: #5eb4b1;
    --pale_contrast_background-color: #4d535e;
    --pale_border-color: #535c68;
    --pale_hover_contrast_background-color: #535c68;
@@ -104,40 +102,8 @@
    //decorator
    --text_background-color_decoratorHighlight: #535c68;
 
-   //toggle
-   --border-color_switcher: #565e69;
-   --marker-box_border-color_checkbox: #999;
-   --marker-box_border-color_switcher: #999;
-   --readonly_marker-box_border-color_switcher: var(--readonly_color);
-   --secondary_toggled_background-color_toggleButton_pushButton: #383d44;
-   --icon_container_background_color_BigSeparator: #383d44;
-   --readonly_marker-box_border-color_checkbox: var(--readonly_color);
-
    //blocks
    --separator_color_block: #535c68;
-
-   //search
-   --reset-button_icon-color_searchInput: #999;
-   --background-color_searchInput: #424851;
-   --background-color_contrast_searchInput: #424851;
-   --border-color_searchInput: #656d79;
-   --border-color_focus_searchInput: #656d79;
-   --border-color_hover_searchInput: #656d79;
-   --caret-color_empty_searchInput: #ccc;
-   --border-color_contrast_searchInput: var(--border-color_searchInput);
-
-   //operations
-   --background-color_operationsPanel: #30343b;
-   --separator_color_operationsButton: #636c74;
-
-   //FilterView
-   --reset-button_icon-color_filterView: #999;
-   --reset-button_color_filterPanel: var(--secondary_color);
-
-   //FilterViewPanel
-   --background-color_filterViewPanel: #30343b;
-   --heading_border_color_filterViewPanel: #6b6b6b;
-   --list-editor_color-hover_filterViewPanel: #464d57;
 
    //List
    --item_editing_background-color_list: #383D44;
@@ -169,9 +135,6 @@
    //loadingIndicator
    --content_background-color_loadingIndicator:                                   #383d44;
    --spinner_l_background-image_loadingIndicator:                                 url("img/loading.gif");
-
-   //lookup
-   --trigger_icon-color_lookupInput: var(--link_text-color);
 }
 
 .controls_list_theme-@{themeName} {
@@ -269,7 +232,7 @@
    --footer_background-color_stack: transparent;
    --footer_top-border-color_stack: #6b6b6b;
    --border-color_stack: rgba(247, 247, 247, 0.23);
-   --close-button_hover_text-color_stack: #fff;
+   --close-button_hover_icon-color_stack: #fff;
 
    //confirmation
    --secondary_marker_color_confirmation: #6ed4d0;
@@ -290,7 +253,7 @@
    // Close button
    --icon_background-image_closeButton_toolButton: url("img/DefaultCloseIcon.svg");
    --icon_hovered_background-image_closeButton_toolButton: url("img/CloseIconHovered.svg");
-   --icon_hovered_background-image_closeButton_link: url("img/CloseIconHovered.svg");
+   --icon-color_closeButton_toolButton: #6ed4d0;
    --border-color_closeButton_toolButton: #4d535e;
    --border-color_hover_closeButton_toolButton: #4d535e;
    --background-color_closeButton_toolButton: #424851;
@@ -303,4 +266,53 @@
 
 .controls_editableArea_theme-@{themeName} {
    --contrast_background-color_editableArea: var(--background-color);
+}
+
+.controls_search_theme-@{themeName} {
+   //search
+   --reset-button_icon-color_searchInput: #999;
+   --background-color_searchInput: #424851;
+   --background-color_contrast_searchInput: #424851;
+   --border-color_searchInput: #656d79;
+   --border-color_focus_searchInput: #656d79;
+   --border-color_hover_searchInput: #656d79;
+   --caret-color_empty_searchInput: #ccc;
+   --border-color_contrast_searchInput: var(--border-color_searchInput);
+}
+
+.controls_operations_theme-@{themeName} {
+   //operations
+   --background-color_operationsPanel: #30343b;
+   --separator_color_operationsButton: #636c74;
+}
+
+.controls_filter_theme-@{themeName} {
+   //FilterView
+   --reset-button_icon-color_filterView: #999;
+   --reset-button_color_filterPanel: var(--secondary_color);
+   --item_color_filterView: var(--link_text-color);
+}
+
+.controls_filterPanel_theme-@{themeName} {
+   //FilterViewPanel
+   --background-color_filterViewPanel: #30343b;
+   --heading_border_color_filterViewPanel: #6b6b6b;
+   --list-editor_color-hover_filterViewPanel: #464d57;
+}
+
+.controls_lookup_theme-@{themeName} {
+   //lookup
+   --trigger_icon-color_lookupInput: var(--link_text-color);
+}
+
+.controls_toggle_theme-@{themeName} {
+   //toggle
+   --border-color_switcher: #565e69;
+   --marker-box_border-color_checkbox: #999;
+   --marker-box_border-color_switcher: #999;
+   --readonly_marker-box_border-color_switcher: var(--readonly_color);
+   --secondary_toggled_background-color_toggleButton_pushButton: #383d44;
+   --secondary_contrast_hover_background-color_toggleButton_pushButton: var(--background-color);
+   --icon_container_background_color_BigSeparator: #383d44;
+   --readonly_marker-box_border-color_checkbox: var(--readonly_color);
 }

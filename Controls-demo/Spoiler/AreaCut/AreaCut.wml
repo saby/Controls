@@ -3,13 +3,13 @@
         <div>readOnly={{ _readOnly ? 'true' : 'false' }}</div>
         <div class="controlsDemo__flex">
             <div class="controlsDemo__margin-top">
-                <Controls.spoiler:AreaCut lines="{{ 4 }}" readOnly="{{ _readOnly }}">
+                <Controls.spoiler:AreaCut lines="{{ 4 }}" readOnly="{{ _readOnly1 }}">
                     <Controls.input:Area attr:class="controlsDemo__input" bind:value="_areaValue1" placeholder="Enter your name"/>
                 </Controls.spoiler:AreaCut>
             </div>
         </div>
         <div class="controlsDemo__cell">
-            <Controls.buttons:Button attr:ws-no-focus="true" caption="Toggle readonly" on:click="_toggleReadOnly('_readOnly2')"/>
+            <Controls.buttons:Button attr:ws-no-focus="true" caption="Toggle readonly" on:click="_toggleReadOnly('_readOnly1')"/>
         </div>
     </div>
 
@@ -18,7 +18,7 @@
         <div>readOnly={{ _readOnly ? 'true' : 'false' }}</div>
         <div class="controlsDemo__flex">
             <div class="controlsDemo__margin-top">
-                <Controls.spoiler:AreaCut lines="{{ 4 }}" bind:value="_areaValue2" readOnly="{{ _readOnly }}">
+                <Controls.spoiler:AreaCut lines="{{ 4 }}" bind:value="_areaValue2" readOnly="{{ _readOnly2 }}">
                     <Controls.input:Area attr:class="controlsDemo__input" placeholder="Enter your name"/>
                 </Controls.spoiler:AreaCut>
             </div>

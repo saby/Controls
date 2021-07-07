@@ -39,43 +39,47 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     private _container: HTMLElement;
     private _newPlaceholderSizes;
 
-    constructor(options: IScrollbarsOptions, receivedState?: ISerializeState) {
+    constructor(options: IScrollbarsOptions) {
         super(options);
 
         this._options = options;
-        const scrollOrientationOption = ContainerBase.getScrollOrientation(options);
+        const scrollOrientationOption = options.scrollOrientation;
 
-        if (receivedState) {
-            this._overflowHidden = receivedState.overflowHidden;
-            this._styleHideScrollbar = receivedState.styleHideScrollbar ||
-                ScrollWidthUtil.calcStyleHideScrollbar(scrollOrientationOption);
-        } else {
-            this._overflowHidden = ScrollHeightFixUtil.calcHeightFix();
-            this._styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(scrollOrientationOption);
-        }
+        this._overflowHidden = ScrollHeightFixUtil.calcHeightFix();
+        this._styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(scrollOrientationOption);
 
         // На мобильных устройствах используется нативный скролл, на других платформенный.
         this._useNativeScrollbar = detection.isMobileIOS || detection.isMobileAndroid;
 
-        const scrollOrientation = scrollOrientationOption.toLowerCase();
-        if (options.scrollbarVisible && scrollOrientation.indexOf('vertical') !== -1) {
-            this._models.vertical = new ScrollbarModel(SCROLL_DIRECTION.VERTICAL, options);
-        }
-        if (options.scrollbarVisible && scrollOrientation.indexOf('horizontal') !== -1) {
-            this._models.horizontal = new ScrollbarModel(SCROLL_DIRECTION.HORIZONTAL, options);
-        }
+        this.updateScrollbarsModels(options);
     }
 
-    serializeState(): ISerializeState {
-        return {
-            overflowHidden: this._overflowHidden,
-            styleHideScrollbar: this._styleHideScrollbar
-        };
+    updateScrollbarsModels(options: IScrollbarsOptions): void {
+        const scrollOrientation = options.scrollOrientation.toLowerCase();
+        if (scrollOrientation.indexOf('vertical') !== -1) {
+            if (!this._models.vertical) {
+                this._models.vertical = new ScrollbarModel(SCROLL_DIRECTION.VERTICAL, options);
+            }
+        } else {
+            delete this._models.vertical;
+        }
+        if (scrollOrientation.indexOf('horizontal') !== -1) {
+            if (!this._models.horizontal) {
+                this._models.horizontal = new ScrollbarModel(SCROLL_DIRECTION.HORIZONTAL, options);
+            }
+        } else {
+            delete this._models.horizontal;
+        }
     }
 
     updateOptions(options: IScrollbarsOptions): void {
         for (let scrollbar of Object.keys(this._models)) {
-            this._models[scrollbar].updateOptions(options);
+            // Будем показывать скроллбар до тех пор, пока пользователь не воспользовался колесиком мышки, даже если
+            // прикладник задал опцию scrollbarVisible=false.
+            // Таким образом пользователи без колесика мышки смогут скроллить контент.
+            this._models[scrollbar].updateOptions({
+                ...options, scrollbarVisible: options.scrollbarVisible || (!ScrollbarsModel.wheelEventHappened && !this._useNativeScrollbar)
+            });
         }
     }
 
@@ -108,7 +112,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         }
 
         // Используем clientHeight в качестве offsetHeight если нижний скролбар не отбражается.
-        const isHorizontalScrollbarHidden = ContainerBase.getScrollOrientation(this._options) === SCROLL_MODE.VERTICAL &&
+        const isHorizontalScrollbarHidden = this._options.scrollOrientation === SCROLL_MODE.VERTICAL &&
             !detection.firefox && !detection.isIE;
         const overflowHidden = ScrollHeightFixUtil.calcHeightFix({
             scrollHeight: scrollState.scrollHeight,
@@ -191,10 +195,10 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         if (this._useNativeScrollbar) {
             css += this._getOverflowClass();
             if (!this._options.scrollbarVisible) {
-                css += ' controls-Scroll__content_hideNativeScrollbar';
+                css += this._getHideNativeScrollbarCssClass();
             }
         } else {
-            css += ' controls-Scroll__content_hideNativeScrollbar';
+            css += this._getHideNativeScrollbarCssClass();
             if (this._overflowHidden) {
                 css += ' controls-Scroll__content_hidden';
             } else {
@@ -204,8 +208,19 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         return css;
     }
 
+    private _getHideNativeScrollbarCssClass(): string {
+        const css: string[] = [' controls-Scroll__content_hideNativeScrollbar'];
+        // На данный момент вертикальный скролбар скрывается костылями везде кроме chrome.
+        // Если вертикального скролбара нет, скрываем скролбары везде нативно.
+        // Если с этим решением проблем не будет, то надо быдет спилить костыли и для вертикального скролбара.
+        if (this._options.scrollOrientation === SCROLL_MODE.HORIZONTAL) {
+            css.push('controls-Scroll__content_hideNativeScrollbar_ff-ie-edge');
+        }
+        return css.join(' ');
+    }
+
     private _getOverflowClass(): string {
-        switch (ContainerBase.getScrollOrientation(this._options)) {
+        switch (this._options.scrollOrientation) {
             case SCROLL_MODE.VERTICAL:
                 return ' controls-Scroll-ContainerBase__scroll_vertical';
             case SCROLL_MODE.HORIZONTAL:
@@ -253,5 +268,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     get vertical(): ScrollbarModel {
         return this._models.vertical;
     }
+
+    static wheelEventHappened: boolean = false;
 
 }

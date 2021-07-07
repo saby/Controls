@@ -9,6 +9,7 @@ import {ValidationStatus} from "Controls/interface";
 import {Logger} from 'UI/Utils';
 import 'css!Controls/validate';
 import {SyntheticEvent} from 'UI/Vdom';
+import {IndicatorOpener} from 'Controls/LoadingIndicator';
 
 export interface IValidateConfig {
     hideInfoBox?: boolean;
@@ -27,6 +28,7 @@ type ValidResult = boolean|null|Promise<boolean>|string[];
  * Подробнее о работе с валидацией читайте {@link /doc/platform/developmentapl/interface-development/forms-and-validation/validation/ здесь}.
  * @class Controls/_validate/Container
  * @extends UI/Base:Control
+ * @demo Controls-demo/Validate/withTimeout/Index
  *
  * @public
  * @author Красильников А.С.
@@ -35,7 +37,7 @@ type ValidResult = boolean|null|Promise<boolean>|string[];
 /**
  * @event Происходит после заверешения валидации контейнера.
  * @name Controls/_validate/Container#validateFinished
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {null|Boolean|Array.<String>} validationResult Результат валидации.
  * @see validate
  */
@@ -49,6 +51,7 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
     _validationResult: ValidResult = null;
     _isNewEnvironment: boolean;
     _closeId: number;
+    _indicatorId: string | null;
 
     protected _beforeMount(): void {
         this._isNewEnvironment = isNewEnvironment();
@@ -67,6 +70,7 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
         if (this._isOpened) {
             this._forceCloseInfoBox();
         }
+        IndicatorOpener.hide(this._indicatorId);
     }
 
     /**
@@ -85,6 +89,10 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
      */
     validate(validateConfig?: IValidateConfig): Promise<boolean[]> {
         return new Promise((resolve) => {
+            if (this._indicatorId) {
+                IndicatorOpener.hide(this._indicatorId);
+            }
+            this._indicatorId = IndicatorOpener.show();
             const validators = this._options.validators || [];
             this.setValidationResult(null, validateConfig);
             this._callValidators(validators, validateConfig).then((validationResult) => {
@@ -94,9 +102,11 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
                 }
                 this._notify('validateFinished', [validationResult]);
                 resolve(validationResult);
+            }).finally(() => {
+                IndicatorOpener.hide(this._indicatorId);
+                this._indicatorId = null;
             });
         });
-
     }
 
     /**

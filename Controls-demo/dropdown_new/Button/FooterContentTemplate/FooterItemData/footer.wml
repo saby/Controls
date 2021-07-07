@@ -1,0 +1,5 @@
+<div class="controlsDemo__dropdown-button__footerContentTemplate">
+    <Controls.buttons:Button caption="Задача"
+                             scope="{{footerItemData}}"
+                             viewMode="linkButton"/>
+</div>

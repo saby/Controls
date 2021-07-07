@@ -12,6 +12,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
+ * @includes IEditableList Controls/_list/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
@@ -31,6 +32,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
+ * @includes IEditableList Controls/_list/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
  * @public
  * @author Крайнов Д.О.
@@ -64,6 +66,7 @@ import {IList} from './_list/interface/IList';
 import IListNavigation from './_list/interface/IListNavigation';
 import { CssClassList, createClassListCollection} from 'Controls/_list/resources/utils/CssClassList';
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {TCursor, TBackgroundColorStyle} from './_list/interface/BaseItemTemplate';
 
 import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 
@@ -78,15 +81,19 @@ export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Cont
 import * as ForTemplate from 'wml!Controls/_list/Render/For';
 export {ForTemplate};
 
+import * as MultiSelectTemplate from 'wml!Controls/_list/Render/multiSelect';
+export { MultiSelectTemplate };
+
 import * as CharacteristicsTemplate from 'wml!Controls/_list/CharacteristicsTemplate/CharacteristicsTemplate';
 export {CharacteristicsTemplate};
 
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
-export {IMovableList, IMoveDialogTemplate, IMovableOptions} from 'Controls/_list/interface/IMovableList';
+export {IMovableList, IMoveDialogTemplate, IMovableOptions, TBeforeMoveCallback} from 'Controls/_list/interface/IMovableList';
 export {IBaseGroupTemplate} from 'Controls/_list/interface/BaseGroupTemplate';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
+export * from 'Controls/_list/interface/IEditableList';
 
 export {default as ItemsView, IItemsViewOptions} from 'Controls/_list/ItemsView';
 
@@ -127,11 +134,13 @@ export {
     IList,
     VirtualScroll,
     ScrollController,
-    IListNavigation
+    IListNavigation,
+    TCursor,
+    TBackgroundColorStyle
 };
 
 import {groupConstants, IHiddenGroupPosition} from './display';
 import {MultiSelectAccessibility} from './display';
-import {IItemPadding} from './display';
+import {IItemPadding, TRoundBorder} from './display';
 
-export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, MultiSelectAccessibility};
+export {groupConstants, IHiddenGroupPosition, editing, IItemPadding, TRoundBorder, MultiSelectAccessibility};

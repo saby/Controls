@@ -27,18 +27,17 @@ class Strategy {
      * @function Controls/_popupSliding/Strategy#getPosition
      * @param item Popup configuration
      */
-    getPosition({position: popupPosition = {}, popupOptions}: ISlidingPanelItem): IPopupPosition {
+    getPosition(item: ISlidingPanelItem): IPopupPosition {
         const windowHeight = this._getWindowHeight();
+        const {position: popupPosition = {}, popupOptions} = item;
         const {
             slidingPanelOptions: {
                 position,
-                maxHeight: optionsMaxHeight = windowHeight,
-                minHeight: optionsMinHeight,
                 autoHeight
             } = {}
         } = popupOptions;
-        const maxHeight = this._getHeightWithoutOverflow(optionsMaxHeight, windowHeight);
-        const minHeight = this._getHeightWithoutOverflow(optionsMinHeight, maxHeight);
+        const maxHeight = this._getHeightWithoutOverflow(this.getMaxHeight(item), windowHeight);
+        const minHeight = this._getHeightWithoutOverflow(this.getMinHeight(item), maxHeight);
         const initialHeight = this._getHeightWithoutOverflow(popupPosition.height, maxHeight);
         const heightValue = autoHeight && !initialHeight ? undefined : (initialHeight || minHeight);
         const height = this._getHeightWithoutOverflow(heightValue, maxHeight);
@@ -48,8 +47,7 @@ class Strategy {
             width: this._getWindowWidth(),
             [position]: DEFAULT_POSITION_VALUE,
             maxHeight,
-            minHeight,
-            height: height < minHeight ? minHeight : height,
+            height,
             position: 'fixed'
         };
     }
@@ -98,6 +96,39 @@ class Strategy {
         return  position;
     }
 
+    getMaxHeight({popupOptions: {slidingPanelOptions}}: ISlidingPanelItem): number {
+        const {heightList, maxHeight} = slidingPanelOptions;
+        const windowHeight = this._getWindowHeight();
+        const computedMaxHeight = heightList ? heightList[heightList.length - 1] : maxHeight;
+        return this._getHeightWithoutOverflow(computedMaxHeight || windowHeight, windowHeight);
+    }
+
+    getMinHeight({popupOptions: {slidingPanelOptions}}: ISlidingPanelItem): number {
+        const {heightList, minHeight} = slidingPanelOptions;
+        const windowHeight = this._getWindowHeight();
+        const computedMinHeight = heightList ? heightList[0] : minHeight;
+        return this._getHeightWithoutOverflow(computedMinHeight, windowHeight);
+    }
+
+    getPositionAfterDrag(item: ISlidingPanelItem): IPopupPosition {
+        const {popupOptions, position} = item;
+        const heightList = popupOptions.slidingPanelOptions?.heightList;
+        if (heightList) {
+            const height = position.height;
+            for (let i = 0; i < heightList.length; i++) {
+                const nextStep = heightList[i];
+                if (height <= nextStep) {
+                    const previousStep = heightList[i - 1] || 0;
+                    const previousStepDifference = height - previousStep;
+                    const nextStepDifference = nextStep - height;
+                    position.height = previousStepDifference < nextStepDifference ? previousStep : nextStep;
+                    return this.getPosition(item);
+                }
+            }
+        }
+        return position;
+    }
+
     /**
      * Возвращает высоту с защитой от переполнения
      * @param {number} height
@@ -129,7 +160,6 @@ class Strategy {
     private _getWindowWidth(): number {
         return constants.isBrowserPlatform && window.innerWidth;
     }
-
 
     /**
      * Устанавливает противоположную позицию, удаляя дефолтное значение.

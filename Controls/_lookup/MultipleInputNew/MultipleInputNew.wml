@@ -1,11 +1,16 @@
-<div class="controls-MultipleInputNew controls-text-default_theme-{{_options.theme}} controls-text-default"
-     on:showSelector="_showSelector()">
+<div class="controls_lookup_theme-{{_options.theme}} controls-MultipleInputNew controls-text-default_theme-{{_options.theme}} controls-text-default">
   <ws:for data="index,lookupOptions in _options.lookupsOptions">
      <Controls._lookup.BaseLookupInput scope="{{lookupOptions}}"
                                        on:activated="_lookupActivated()"
                                        on:selectedKeysChanged="_selectedKeysChanged(lookupOptions.name)"
                                        on:valueChanged="_valueChanged(lookupOptions.name)"
-                                       on:itemClick="_itemClick()"
+                                       on:itemClick="_proxyEvent('itemClick', lookupOptions.name)"
+                                       on:choose="_proxyEvent('choose', lookupOptions.name)"
+                                       on:itemsChanged="_proxyEvent('itemsChanged', lookupOptions.name)"
+                                       on:showSelector="_showSelector(lookupOptions.name)"
+                                       on:toolbarItemClick="_proxyEvent('toolbarItemClick', lookupOptions.name)"
+                                       on:textValueChanged="_proxyEvent('textValueChanged', lookupOptions.name)"
+                                       on:selectorCallback="_proxyEvent('selectorCallback', lookupOptions.name)"
                                        showSelectButton="{{index === (_options.lookupsOptions.length - 1)}}"
                                        selectedKeys="{{_selectedKeys[lookupOptions.name]}}"
                                        multiSelect="{{false}}"

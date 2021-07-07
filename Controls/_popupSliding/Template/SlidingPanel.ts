@@ -3,6 +3,8 @@ import * as template from 'wml!Controls/_popupSliding/Template/SlidingPanel/Slid
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IDragObject, Container} from 'Controls/dragnDrop';
 import {ISlidingPanelTemplateOptions} from 'Controls/_popupSliding/interface/ISlidingPanelTemplate';
+import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import {detection} from 'Env/Env';
 
 /**
  * Интерфейс для шаблона попапа-шторки.
@@ -28,6 +30,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     };
     private _isPanelMounted: boolean = false;
     private _currentTouchYPosition: number = null;
+    private _startTouchYPosition: number = null;
     private _scrollState: object = null;
 
     protected _beforeMount(options: ISlidingPanelTemplateOptions): void {
@@ -52,21 +55,30 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
             this._scrollAvailable = scrollAvailable;
         }
         this._isPanelMounted = true;
+        if (detection.isMobileIOS) {
+            this._toggleScrollObserveForKeyboardClose(true);
+        }
+    }
+
+    protected _beforeUnmount(): void {
+        if (detection.isMobileIOS) {
+            this._toggleScrollObserveForKeyboardClose(false);
+        }
     }
 
     protected _isScrollAvailable({
-        slidingPanelOptions,
-        controlButtonVisibility
+        slidingPanelOptions
     }: ISlidingPanelTemplateOptions): boolean {
-        const scrollContentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
-        const controllerContainer = this._children.controlLine;
-        const controllerHeight = this._isPanelMounted && controlButtonVisibility ? controllerContainer.clientHeight : 0;
-        const contentHeight = scrollContentHeight + controllerHeight;
+        const contentHeight = this._getHeight();
         const hasMoreContent = this._scrollState ?
             this._scrollState.clientHeight < this._scrollState.scrollHeight : false;
 
         return slidingPanelOptions.height === slidingPanelOptions.maxHeight ||
             slidingPanelOptions.height === contentHeight && !hasMoreContent;
+    }
+
+    private _getHeight(): number {
+        return this._isPanelMounted ? this._container.clientHeight : 0;
     }
 
     protected _dragEndHandler(): void {
@@ -86,7 +98,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._scrollAvailable = this._isScrollAvailable(this._options);
     }
 
-    protected _getScrollAvailableHeight(): number {
+    protected _getCustomContentHeight(): number {
         return this._children.customContent.clientHeight;
     }
 
@@ -96,7 +108,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      * @private
      */
     protected _touchStartHandler(event: SyntheticEvent<TouchEvent>): void {
-        this._currentTouchYPosition = event.nativeEvent.targetTouches[0].clientY;
+        this._startTouchYPosition = this._currentTouchYPosition = event.nativeEvent.targetTouches[0].clientY;
     }
 
     /**
@@ -105,15 +117,15 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      * @private
      */
     protected _touchMoveHandler(event: SyntheticEvent<TouchEvent>): void {
-        /*
-            Если свайпают внутри скролла и скролл не в самом верху,
-            то не тянем шторку, т.к. пользователь пытается скроллить
-         */
-        if (this._scrollAvailable && (this._getScrollTop() !== 0 && this._isSwipeInsideScroll(event))) {
-
+        if (this._scrollAvailable && this._isSwipeForScroll(event)) {
             // Расчет оффсета тача должен начинаться только с того момента как закончится скролл, а не со старта тача
             this._currentTouchYPosition = null;
             return;
+        }
+
+        // Чтобы во время свайпов на IOS Safari не драгался body
+        if (event.nativeEvent.cancelable) {
+            event.preventDefault();
         }
 
         // Если тач начался со скролла, то оффсет нужно начинать с того момента, как закончился скролл
@@ -137,6 +149,30 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         }
         event.stopPropagation();
         this._notifyDragStart(this._touchDragOffset);
+    }
+
+    protected _touchEndHandler(): void {
+        if (this._touchDragOffset) {
+            this._notifyDragEnd();
+            this._touchDragOffset = null;
+        }
+        this._startTouchYPosition = null;
+    }
+
+    /**
+     * Возвращает признак того, что свайп приведет к скроллу
+     * Скроллим когда:
+     * 1. Скролл доступен (см. isScrollAvailable)
+     * 2. Свайп внутри сролла
+     * 3. Либо уже проскроллено, либо свайп в ту сторону, в которую двигается скролл
+     * @param event
+     * @private
+     */
+    private _isSwipeForScroll(event: SyntheticEvent<TouchEvent>): boolean {
+        return this._scrollAvailable && this._isSwipeInsideScroll(event) && (
+            this._getScrollTop() !== 0 ||
+            this._startTouchYPosition - event.nativeEvent.changedTouches[0].clientY > 0
+        );
     }
 
     /**
@@ -163,27 +199,21 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         return false;
     }
 
-    protected _touchEndHandler(): void {
-        if (this._touchDragOffset) {
-            this._notifyDragEnd();
-            this._touchDragOffset = null;
-        }
-    }
-
     private _notifyDragStart(offset: IDragObject['offset']): void {
 
-        /* Запоминаем высоту скролла, чтобы при увеличении проверять на то,
-           что не увеличим шторку больше, чем есть контента */
+        /*
+           Запоминаем высоту скролла, чтобы при увеличении проверять на то,
+           что не увеличим шторку больше, чем есть контента
+        */
         if (!this._dragStartHeightDimensions) {
             this._dragStartHeightDimensions = {
                 scrollHeight: this._children.customContentWrapper.clientHeight,
-                contentHeight: this._children.customContent.clientHeight
+                contentHeight: this._getCustomContentHeight()
             };
         }
         this._notify('popupDragStart', [
             this._getDragOffsetWithOverflowChecking(offset)
         ], {bubbling: true});
-
     }
 
     protected _notifyDragEnd(): void {
@@ -193,7 +223,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
     private _getDragOffsetWithOverflowChecking(dragOffset: IDragObject['offset']): IDragObject['offset'] {
         let offsetY = dragOffset.y;
-        const contentHeight = this._children.customContent.clientHeight;
+        const contentHeight = this._getCustomContentHeight();
 
         // В зависимости от позиции высоту шторки увеличивает либо положительный, либо отрицательный сдвиг по оси "y"
         const realHeightOffset = this._position === 'top' ? offsetY : -offsetY;
@@ -204,7 +234,10 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         const scrollContentOffset = contentHeight - startScrollHeight;
 
         // Если остаток доступного контента меньше сдвига, то сдвигаем на размер оставшегося контента
-        if (realHeightOffset > scrollContentOffset) {
+        if (
+            realHeightOffset > scrollContentOffset &&
+            this._getHeight() > this._options.slidingPanelOptions.minHeight
+        ) {
 
             /*
                 Если изначально контент меньше высоты шторки, и шторку пытаюстся развернуть,
@@ -230,6 +263,34 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      */
     private _getScrollTop(): number {
         return this._scrollState?.scrollTop || 0;
+    }
+
+    /**
+     * Фикс для сафари, чтобы при скролле убиралась клавиатура
+     * Вылезают проблемы с лишней белой полосой внизу
+     * @param container
+     * @param state
+     * @private
+     */
+    private _toggleScrollObserveForKeyboardClose(state: boolean): void {
+        if (state) {
+            RegisterUtil(this, 'scroll', this._scrollHandler.bind(this));
+        } else {
+            UnregisterUtil(this, 'scroll');
+        }
+    }
+
+    /**
+     * При скролле на сафари убираем фокус, чтобы клавиатура закрылась.
+     * Делаем это только если фокус в инпуте в текущей шторке(чтобы не было множественных вызовов, если шторок много)
+     */
+    private _scrollHandler(): void {
+        const focusedElement = document.activeElement;
+        const isFocusInsideCurrentPanel = focusedElement.closest('.controls-SlidingPanel') === this._container;
+        if (isFocusInsideCurrentPanel && focusedElement.tagName === 'INPUT') {
+            const newFocusElement = focusedElement.parentElement;
+            newFocusElement.focus();
+        }
     }
 
     static getDefaultOptions(): Partial<ISlidingPanelTemplateOptions> {

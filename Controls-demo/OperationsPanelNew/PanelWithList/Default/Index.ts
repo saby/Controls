@@ -53,7 +53,7 @@ export default class extends Control {
                this._showPopup('Выгрузка в ' + itemId);
                break;
             case 'print':
-               this._showPopup('Печать');
+               this._showPopup('Печать', selection);
                break;
             case 'plainList':
                this._showPopup('Развернуть без подразделений');
@@ -68,9 +68,13 @@ export default class extends Control {
       }
    }
 
-   _showPopup(text: string): void {
+   _showPopup(text: string, selection?: unknown[]): void {
+      const selectedRecord = !this._selectedKeys.length && selection
+         ? getListData().find((item) => item.id === selection.selected[0])
+         : '';
+
       this._children.popupOpener.open({
-         message: text,
+         message: text + `${selectedRecord ? ` ${selectedRecord.name}` : ''}`,
          type: 'ok'
       });
    }

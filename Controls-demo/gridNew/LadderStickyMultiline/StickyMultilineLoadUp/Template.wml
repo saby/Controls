@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__height300" shadowMode="js">
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                ladderProperties="{{_ladderProperties}}">
+        <ws:navigation view="infinity" source="page">
+            <ws:sourceConfig page="{{1}}" pageSize="{{10}}" hasMore="{{false}}"></ws:sourceConfig>
+        </ws:navigation>
+        </Controls.grid:View>
+    </Controls.scroll:Container>
+</div>

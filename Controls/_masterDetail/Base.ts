@@ -153,7 +153,7 @@ class Base extends Control<IMasterDetail, string> {
     /*
      * @event Происходит при изменении ширины мастера.
      * @name Controls/_masterDetail/Base#masterWidthChanged
-     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+     * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
      * @param {String} width Ширина мастера.
      * @remark Событие провоцируется через движение границ, или после изменения размеров родительским контролом.
      * @see propStorageId
@@ -282,6 +282,15 @@ class Base extends Control<IMasterDetail, string> {
         if (oldOptions.masterVisibility !== this._options.masterVisibility) {
             this._startResizeRegister();
         }
+    }
+
+    protected _getMasterStyle(scrollTop: number = 0, scrollOffsetTop: number, masterOffsetTop: number): string {
+        if (this._container && document) {
+            const normalHeight = scrollOffsetTop + masterOffsetTop;
+            const height = document.body.clientHeight - Math.max(normalHeight - scrollTop, masterOffsetTop);
+            return `max-height: ${height}px;`;
+        }
+        return `max-height: calc(100vh - ${masterOffsetTop }px);`;
     }
 
     private _isMasterFixed(options: IMasterDetail): boolean {

@@ -22,6 +22,10 @@
    align-items: center;
 }
 
+.controls-background-menuPopup {
+   background-color: var(--background-color_sticky);
+}
+
 .controls-Menu__row_state_default {
    cursor: pointer;
 }
@@ -83,10 +87,6 @@
 
 .controls-Menu__row_multiLine {
    min-height: var(--item_height_menu);
-}
-
-.controls-Menu__row-checkbox_active {
-   visibility: visible;
 }
 
 .controls-Menu__row-checkbox-right {
@@ -382,28 +382,55 @@
    padding-left: var(--item_padding-horizontal_s_menu);
 }
 
-
 .ws-is-hover {
-   .controls-Menu__row_state_default:hover {
-      background: var(--item_hover_background-color_menu);
+    .controls-Menu__row_state_default:hover {
+        background: var(--item_hover_background-color_menu);
 
-      .controls-Menu__row-checkbox_default {
-         visibility: visible;
-      }
+        .controls-Menu__row-checkbox_default {
+            visibility: visible;
+        }
 
-      .controls-Menu__iconPin {
-         .inline-flexbox();
-      }
+        .controls-Menu__iconPin {
+           .inline-flexbox();
+        }
 
-      .controls-itemActionsV {
-         opacity: 1;
-         visibility: visible;
-      }
-   }
+        .controls-itemActionsV {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
 
-   .controls-Menu__iconPin:hover {
-      color: var(--pin-button_hover_icon-color_menu);
-   }
+    .controls-Menu__iconPin:hover {
+        color: var(--pin-button_hover_icon-color_menu);
+    }
+
+    .controls-Menu__row_hoverBackgroundStyle-default:hover {
+        background-color: var(--item_hover_background-color_menu);
+    }
+
+    .controls-Menu__row_hoverBackgroundStyle-primary:hover {
+        background-color: var(--primary_hover_background-color);
+    }
+
+    .controls-Menu__row_hoverBackgroundStyle-secondary:hover {
+        background-color: var(--secondary_hover_background-color);
+    }
+
+    .controls-Menu__row_hoverBackgroundStyle-danger:hover {
+        background-color: var(--danger_hover_background-color);
+    }
+
+    .controls-Menu__row_hoverBackgroundStyle-warning:hover {
+        background-color: var(--warning_hover_background-color);
+    }
+
+    .controls-Menu__row_hoverBackgroundStyle-info:hover {
+        background-color: var(--info_hover_background-color);
+    }
+
+    .controls-Menu__row_hoverBackgroundStyle-unaccented:hover {
+        background-color: var(--unaccented_hover_contrast_background-color);
+    }
 }
 
 .ws-is-no-touch {

@@ -1,6 +1,7 @@
 <ws:template name="buttonTemplate">
     <span attr:class="controls-BaseButton__wrapper
                                 controls-Button__wrapper_viewMode-{{_viewMode}}
+                                controls-Button_textAlign-{{_textAlign ? _textAlign : 'center'}}
                                 {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height}}" tabindex="0">
         <ws:if data="{{!!_icon}}">
             <ws:if data="{{_isSVGIcon}}">
@@ -50,11 +51,14 @@
                 {{_hoverIcon ? ' controls-Button_hoverIcon'}} controls-Button_{{_options.readOnly ? 'readonly' : 'clickable'}}
                 {{_toggled ? ' controls-Button_toggled' : ''}}
                 controls-Button_{{_viewMode}}_style-{{_buttonStyle}}{{_toggled ? '_toggled' : ''}}
-                controls-Button_bg{{_contrastBackground ? '-contrast' : '-same'}}
+                controls-Button_bg{{(_contrastBackground ||
+                                            (_contrastBackground === undefined && _viewMode === 'functionalButton')) ? '-contrast' : '-same'}}
                 {{_height ? ' controls-inlineheight-' + _height}}
                 {{_height ? ' controls-Button-inlineheight-' + _height}}
                 {{_height ? ' controls-Button_' + _viewMode + '_' + _height}}
                 controls-fontsize-{{_fontSize}}
-                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}"
+                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}
+                controls-Button_{{_viewMode}}_shadow-{{(_buttonStyle !== 'readonly' && _buttonStyle !== 'pale' && _contrastBackground === true) ?
+                ((_height && (_height !== 'xs' && _height !== 's' && _height !== 'm' && _height !== 'l' && _height !== 'default')) ? 'big' : 'small') : 'none'}}"
             attr:title="{{_options.tooltip}}"
 />

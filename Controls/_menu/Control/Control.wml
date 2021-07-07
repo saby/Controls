@@ -1,13 +1,14 @@
 <Controls.scroll:ScrollContextProvider pagingVisible="{{ false }}">
    <Controls.dataSource:error.Container viewConfig="{{_errorConfig}}">
-      <div class="controls_dropdownPopup_theme-{{_options.theme}} controls-menu"
+      <div class="controls_breadcrumbs_theme-{{_options.theme}} controls_dropdownPopup_theme-{{_options.theme}} controls-menu"
            attr:data-index="{{_options.subMenuLevel || 0}}" attr:ws-no-focus="true">
          <ws:if data="{{_listModel}}">
             <Controls.scroll:Container attr:class="controls-ScrollContainer__flex
                                                 controls-Menu__scroll"
+                                       shadowMode="js"
                                        scrollbarVisible="{{_options.scrollbarVisible}}"
                                        topShadowVisibility="hidden"
-                                       bottomShadowVisibility="{{_options.footerContentTemplate ? 'auto' : 'hidden'}}">
+                                       bottomShadowVisibility="{{(_options.footerContentTemplate || _expandButtonVisible) ? 'auto' : 'hidden'}}">
                <Controls._menu.Render scope="{{_options}}"
                                       listModel="{{_listModel}}"
                                       on:itemClick="_itemClick()"

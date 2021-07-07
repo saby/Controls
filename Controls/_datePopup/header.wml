@@ -5,13 +5,14 @@
          on:click="_toggleStateClick()"
          on:keyDown="_stateButtonKeyDownHandler()"
          tabindex="0"
+         data-qa="controls-PeriodDialog__stateButton"
          class="controls-PeriodDialog__stateButton"
          title="{{state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}">
             <span class="{{ state === 'year' ? 'icon-ArrangeList' : 'icon-ArrangePreview' }}
                 controls-PeriodDialog_stateButton_icon {{ keyboardActive? 'controls-PeriodDialog_stateButton_icon_focus'}}">
             </span>
     </div>
-    <ws:if data="{{ selectionType === 'quantum' }}">
+    <ws:if data="{{ selectionType === 'quantum' || selectionType === 'workdays'}}">
         <div class="controls-PeriodDialog__header-period_link">
             <Controls.dateRange:LinkView
                     startValue="{{headerRangeModel.startValue}}"
@@ -45,6 +46,7 @@
                         dateConstructor="{{_options.dateConstructor}}"
                         valueValidators="{{startValueValidators}}"
                         validateByFocusOut="{{false}}"
+                        attr:data-qa="controls-PeriodDialog__header-datePickerStart"
                         attr:ws-autofocus="true"
                         attr:class="controls-PeriodDialog__header-datePickerStart"
                         on:valueChanged="_startValuePickerChanged()"
@@ -73,6 +75,7 @@
                             dateConstructor="{{_options.dateConstructor}}"
                             valueValidators="{{endValueValidators}}"
                             validateByFocusOut="{{false}}"
+                            attr:data-qa="controls-PeriodDialog__header-datePickerEnd"
                             attr:class="controls-PeriodDialog__header-datePickerEnd"
                             on:valueChanged="_endValuePickerChanged()"
                     />
@@ -97,6 +100,7 @@
     <div attr:date="{{ today }}"
          on:click="_todayCalendarClick()"
          title="{[Текущий период]}"
+         data-qa="controls-PeriodDialog__header_calendar"
          class="controls-PeriodDialog__header_calendar">
         <svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg"
              class="controls-PeriodDialog__header_calendar_svg"
@@ -116,10 +120,12 @@
       iconSize="s"
       inlineHeight="m"
       tooltip="{[Подтвердить]}"
+      attr:data-qa="controls-PeriodDialog__applyButton"
       attr:class="controls-PeriodDialog__applyButton"
       on:click="_applyClick()"
    />
 
    <Controls.popupTemplate:CloseButton attr:title="{[Закрыть]}" on:click="_closeClick()" viewMode="linkButton"
+                                       attr:data-qa="controls-PeriodDialog__closeButton"
                                        attr:class="controls-PeriodDialog__closeButton"/>
 </div>

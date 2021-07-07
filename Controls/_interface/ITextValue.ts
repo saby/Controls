@@ -9,7 +9,7 @@ export default interface ITextValue {
 /**
  * @event Происходит при изменении набора выбранной коллекции.
  * @name Controls/_interface/ITextValue#textValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Декскриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Декскриптор события.
  * @param {String} textValue Строка, сформированная из выбранных записей.
  *
  * @example
@@ -31,7 +31,7 @@ export default interface ITextValue {
 /*
  * @event Occurs when changing the set of the selected collection.
  * @name Controls/_interface/ITextValue#textValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} eventObject The event descriptor.
  * @param {String} textValue String formed from selected entries.
  *
  * @example

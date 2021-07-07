@@ -50,7 +50,6 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
  * @extends UI/Base:Control
- * @class Controls/_scroll/StickyBlock/Group
  * @author Красильников А.С.
  * @public
  */
@@ -340,7 +339,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         fastUpdate.measure(() => {
             for (const id of this._delayedHeaders) {
                 data = this._headers[id];
-                const stickyPosition = StickyBlock.getStickyPosition(data.inst._options);
+                const stickyPosition = data.inst._options.position;
                 for (const position of [POSITION.top, POSITION.bottom]) {
                     if (stickyPosition.vertical.indexOf(position) !== -1) {
                         offset = data.inst.getOffset(this._container, position);
@@ -389,7 +388,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 /**
  * @event Change the fixation state.
  * @name Controls/_scroll/StickyBlock/Group#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
+ * @param {UICommon/Events:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyBlock/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
 

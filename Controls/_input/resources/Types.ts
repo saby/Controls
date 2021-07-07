@@ -25,7 +25,7 @@ export type InputType = 'insert' | 'delete' | 'deleteBackward' | 'deleteForward'
  * @variant deleteWordBackward Удаление через клавиши ctrl + backspace.
  * @variant deleteWordForward Удаление через клавиши ctrl + delete.
  */
-export type NativeInputType = 'insertText' | 'insertFromPaste' | 'insertFromDrop' | 'deleteContentBackward' |
+export type NativeInputType = 'insertText' | 'insertCompositionText' | 'insertFromPaste' | 'insertFromDrop' | 'deleteContentBackward' |
     'deleteContentForward' | 'deleteWordBackward' | 'deleteWordForward';
 
 /**

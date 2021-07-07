@@ -37,31 +37,10 @@ export interface IDisplayTypeOptions {
     searchHighlight?: boolean;
 }
 
-/**
- * @typedef {String} TCellAlign
- * @description Значения для выравнивания ячеек по горизонтали.
- * @variant left По левому краю.
- * @variant center По центру.
- * @variant right По правому краю.
- */
 export type TCellAlign = 'left' | 'center' | 'right';
 
-/**
- * @typedef {String} TCellVerticalAlign
- * @description Значения для выравнивания ячеек по вертикали.
- * @variant top По верхнему краю.
- * @variant center По центру.
- * @variant bottom По нижнему краю.
- * @variant baseline По базовой линии.
- */
 export type TCellVerticalAlign = 'top' | 'center' | 'bottom' | 'baseline';
 
-/**
- * @typedef {String} TOverflow
- * @description Поведение текста, если он не умещается в ячейке
- * @variant ellipsis Текст обрезается многоточием.
- * @variant none Текст разбивается на несколько строк.
- */
 export type TOverflow = 'ellipsis' | 'none';
 
 /**
@@ -79,11 +58,11 @@ export type TColumnSeparatorSize = 's' | null;
  */
 export interface IColumnSeparatorSizeConfig {
     /**
-     * @cfg {TColumnSeparatorSize} Размер линии-разделителя колонок слева.
+     * @cfg Размер линии-разделителя колонок слева.
      */
     left?: TColumnSeparatorSize;
     /**
-     * @cfg {TColumnSeparatorSize} Размер линии-разделителя колонок справа.
+     * @cfg Размер линии-разделителя колонок справа.
      */
     right?: TColumnSeparatorSize;
 }
@@ -126,7 +105,7 @@ export type TTagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | 
  */
 export interface IColumn extends IColspanParams {
     /**
-     * @cfg {String} Ширина колонки.
+     * @cfg Ширина колонки.
      * @remark
      * В качестве значения свойства можно указать пиксели (px), проценты (%), доли (1fr), "auto", "minmax", "max-content" и "min-content".
      * В значении "auto" ширина колонки устанавливается автоматически исходя из типа и содержимого элемента.
@@ -139,8 +118,8 @@ export interface IColumn extends IColspanParams {
      */
     width?: string;
     /**
-     * @cfg {String} Имя поля, данные которого отображаются в колонке.
-     * @demo Controls-demo/grid/Columns/CellNoClickable/Index В демо-примере в конфигурации колонок заданы свойства displayProperty со значениями number, country и capital.
+     * @cfg Имя поля, данные которого отображаются в колонке.
+     * @demo Controls-demo/gridNew/Columns/CellNoClickable/Index В демо-примере в конфигурации колонок заданы свойства displayProperty со значениями number, country и capital.
      * @example
      * <pre class="brush: html; highlight: [6,11,12]">
      * <Controls.grid:View
@@ -187,15 +166,15 @@ export interface IColumn extends IColspanParams {
      */
     displayProperty?: string;
     /**
-     * @cfg {String} Ширина колонки в браузерах, не поддерживающих {@link https://developer.mozilla.org/ru/docs/web/css/css_grid_layout CSS Grid Layout}.
+     * @cfg Ширина колонки в браузерах, не поддерживающих {@link https://developer.mozilla.org/ru/docs/web/css/css_grid_layout CSS Grid Layout}.
      * @remark
      * В качестве значения свойства можно указать только пиксели (px) или проценты (%). Если свойство не задано, применяется значение "auto".
-     * @demo Controls-demo/grid/Columns/CellNoClickable/Index В демо-примере в конфигурации третьей колонки свойство compatibleWidth установлено в значение 98px.
+     * @demo Controls-demo/gridNew/Columns/CellNoClickable/Index В демо-примере в конфигурации третьей колонки свойство compatibleWidth установлено в значение 98px.
      * @see width
      */
     compatibleWidth?: string;
     /**
-     * @cfg {String|TemplateFunction} Шаблон отображения ячейки.
+     * @cfg Шаблон отображения ячейки.
      * @default undefined
      * @markdown
      * @remark
@@ -207,11 +186,11 @@ export interface IColumn extends IColspanParams {
      *
      * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/ руководстве разработчика}.
      * @see Controls/grid:ColumnTemplate
-     * @demo Controls-demo/grid/Columns/Template/Index В демо-примере в конфигурации первой колонки задан пользовательский шаблон отображения ячейки. В конфигурации шаблона переопределён контент ячейки в опции contentTemplate.
+     * @demo Controls-demo/gridNew/Columns/Template/Index В демо-примере в конфигурации первой колонки задан пользовательский шаблон отображения ячейки. В конфигурации шаблона переопределён контент ячейки в опции contentTemplate.
      * @example
      * В следующем примере показано, что шаблон отображения ячейки колонки задаётся из отдельного WML-файла.
      * <pre class="brush: js">
-     * import * as countryRatingNumber from 'wml!Controls-demo/grid/resources/CellTemplates/CountryRatingNumber';
+     * import * as countryRatingNumber from 'wml!Controls-demo/gridNew/resources/CellTemplates/CountryRatingNumber';
      * ...
      * protected _columns: IColumn[] = [
      *     {
@@ -242,7 +221,7 @@ export interface IColumn extends IColspanParams {
      */
     template?: TemplateFunction|string;
     /**
-     * @cfg {Object} Объект с опциями для колонки.
+     * @cfg Объект с опциями для колонки.
      * @remark
      * Позволяет передать дополнительные настройки в шаблон колонки, которые будут доступны в области видимости шаблона.
      * Необходимо использовать для кастомизации шаблона колонки, в случаях когда нужно избежать дублирования кода.
@@ -282,9 +261,9 @@ export interface IColumn extends IColspanParams {
      */
     templateOptions?: object;
     /**
-     * @cfg {String|TemplateFunction} Шаблон отображения ячейки в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строке итогов}.
+     * @cfg Шаблон отображения ячейки в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строке итогов}.
      * @default undefined
-     * @demo Controls-demo/grid/Results/FromMeta/CustomResultsCells/Index
+     * @demo Controls-demo/gridNew/Results/FromMeta/CustomResultsCells/Index
      * @markdown
      * @remark
      * Позволяет установить пользовательский шаблон отображения ячейки в строке итогов (именно шаблон, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ResultColumnTemplate}.
@@ -318,39 +297,48 @@ export interface IColumn extends IColspanParams {
      */
     resultTemplate?: TemplateFunction|string;
     /**
-     * @cfg {TCellAlign} Горизонтальное выравнивание для содержимого ячейки.
+     * @cfg Горизонтальное выравнивание для содержимого ячейки.
      * @default left
-     * @demo Controls-demo/grid/Columns/Align/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
+     * @variant left По левому краю.
+     * @variant center По центру.
+     * @variant right По правому краю.
+     * @demo Controls-demo/gridNew/Columns/Align/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
      * @see valign
      */
     align?: TCellAlign;
     /**
-     * @cfg {TCellVerticalAlign} Вертикальное выравнивание для содержимого ячейки.
+     * @cfg Вертикальное выравнивание для содержимого ячейки.
      * @default baseline
-     * @demo Controls-demo/grid/Columns/Valign/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
+     * @variant top По верхнему краю.
+     * @variant center По центру.
+     * @variant bottom По нижнему краю.
+     * @variant baseline По базовой линии.
+     * @demo Controls-demo/gridNew/Columns/Valign/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
      * @remark
      * См. {@link https://developer.mozilla.org/ru/docs/Web/CSS/align-items align-items}.
      * @see align
      */
     valign?: TCellVerticalAlign;
     /**
-     * @cfg {String | Array} Имя поля, которое используется для настройки прилипания данных колонки к верхней границе таблицы. Чтобы сделать прилипание по двум полям в одной колонке, нужно передать массив из двух строк.
+     * @cfg Имя поля, которое используется для настройки прилипания данных колонки к верхней границе таблицы. Чтобы сделать прилипание по двум полям в одной колонке, нужно передать массив из двух строк.
      * Прилипание работает только для первой колонки таблицы.
      * @remark Подробнее о настройке колонок с прилипанием читайте в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/sticky/ руководстве разработчика}.
      * @default undefined
-     * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultilineWithHeader/Index В демо-примере лесенка и прилипание данных работает для колонок "photo" и "time".
-     * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере отображение лесенкой включено для колонок "photo" (первая колонка) и "date" (последняя колонка). Прилипание данных работает для колонки photo.
+     * @demo Controls-demo/gridNew/LadderStickyMultiline/StickyMultilineWithHeader/Index В демо-примере лесенка и прилипание данных работает для колонок "photo" и "time".
+     * @demo Controls-demo/gridNew/Ladder/Sticky/Index В демо-примере отображение лесенкой включено для колонок "photo" (первая колонка) и "date" (последняя колонка). Прилипание данных работает для колонки photo.
      * @see Controls/grid:IGridControl#ladderProperties
      */
     stickyProperty?: string | string[];
     /**
-     * @cfg {TOverflow} Как отображается текст, если он не умещается в ячейке.
+     * @cfg Как отображается текст, если он не умещается в ячейке.
      * @default none
-     * @demo Controls-demo/grid/Columns/TextOverflow/Ellipsis/Index В демо-примере для первой колонки свойство textOverflow установлено в значение ellipsis.
+     * @variant ellipsis Текст обрезается многоточием.
+     * @variant none Текст разбивается на несколько строк.
+     * @demo Controls-demo/gridNew/Columns/TextOverflow/Ellipsis/Index В демо-примере для первой колонки свойство textOverflow установлено в значение ellipsis.
      */
     textOverflow?: TOverflow;
     /**
-     * @cfg {Controls/grid:IColumnSeparatorSizeConfig} Ширина вертикальных разделителей колонок.
+     * @cfg Ширина вертикальных разделителей колонок.
      * @default none
      * @remark
      * Ширину линии-разделителя между двумя колонками можно задать на любой из них (левую или правую соответственно).
@@ -374,13 +362,13 @@ export interface IColumn extends IColspanParams {
      *     </ws:columns>
      * </Controls.grid:View>
      * </pre>
-     * @demo Controls-demo/grid/ColumnSeparator/WithMultiHeader/Index В демо-примере ширина вертикальных разделителей колонок задана с размером "s".
+     * @demo Controls-demo/gridNew/ColumnSeparator/WithMultiHeader/Index В демо-примере ширина вертикальных разделителей колонок задана с размером "s".
      * @see Controls/list:IList#rowSeparatorSize
      * @see Controls/grid:IGridControl#columnSeparatorSize
      */
     columnSeparatorSize?: IColumnSeparatorSizeConfig;
     /**
-     * @cfg {ICellPadding} Конфигурация левого и правого отступа в ячейках колонки, исключая левый отступ первой и правый последней ячейки.
+     * @cfg Конфигурация левого и правого отступа в ячейках колонки, исключая левый отступ первой и правый последней ячейки.
      * @example
      * <pre class="brush: js; highlight: [6,7,8,14,15,16,17]">
      * columns: [
@@ -407,20 +395,19 @@ export interface IColumn extends IColspanParams {
      *     }
      * ]
      * </pre>
-     * @demo Controls-demo/grid/CellPadding/Index В демо-примере в конфигурации колонок заданы различные отступы для ячеек колонок.
+     * @demo Controls-demo/gridNew/CellPadding/Index В демо-примере в конфигурации колонок заданы различные отступы для ячеек колонок.
      * @see template
      */
     cellPadding?: ICellPadding;
     /**
-     * @cfg {String} Имя свойства, содержащего стиль тега.
+     * @cfg Имя свойства, содержащего стиль тега.
      */
     /*
-     * @cfg {String} Name of the property that contains tag style
+     * @cfg Name of the property that contains tag style
      */
     tagStyleProperty?: string;
     /**
-     * @name Controls/_grid/interface/IColumn#displayType
-     * @cfg {string} Тип отображаемых данных.
+     * @cfg Тип отображаемых данных.
      * @example
      * В следующем примере показано как отобразить поле записи типа "число"
      *
@@ -437,12 +424,12 @@ export interface IColumn extends IColspanParams {
      */
     displayType?: string;
     /**
-     * @cfg {Object} Настройки для типа отображаемых данных.
+     * @cfg Настройки для типа отображаемых данных.
      * @example
      * В следующем примере показано как отключить подсветку данных при поиске.
      *
      * <pre class="brush: js">
-     * ...
+     * // TypeScript
      * protected _columns: IColumn[] = [
      *     {
      *         displayProperty: 'price',
@@ -451,14 +438,13 @@ export interface IColumn extends IColspanParams {
      *             searchHighlight: false
      *         }
      *     },
-     * ...
      * ]
      * </pre>
-     * @example
+     * 
      * В следующем примере показано как отобразить поле записи типа "деньги" без группировки триад цифр.
      *
      * <pre class="brush: js">
-     * ...
+     * // TypeScript
      * protected _columns: IColumn[] = [
      *     {
      *         displayProperty: 'price',
@@ -474,12 +460,12 @@ export interface IColumn extends IColspanParams {
     displayTypeOptions?: IDisplayTypeOptions;
     fontColorStyle?: TFontColorStyle;
     /**
-     * @cfg {string} Цвет фона колонки.
+     * @cfg Цвет фона колонки.
      * @see hoverBackgroundStyle
      */
     backgroundColorStyle?: string;
     /**
-     * @cfg {string} Цвет фона колонки при наведении курсора мыши.
+     * @cfg Цвет фона колонки при наведении курсора мыши.
      *
      * @remark
      * Позволяет определить произвольный фон колонки при наведении.
@@ -490,7 +476,7 @@ export interface IColumn extends IColspanParams {
      */
     hoverBackgroundStyle?: string;
     /**
-     * @cfg {string} Поле с текстом подсказки при наведении на ячейку
+     * @cfg Поле с текстом подсказки при наведении на ячейку
      */
     tooltipProperty?: string;
     fontSize?: TFontSize;

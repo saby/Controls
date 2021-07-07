@@ -1739,14 +1739,6 @@ describe('Controls/_display/Tree', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
         });
 
-        it('setExpandedItems calls resetIsLastItem', () => {
-            const itemAt12 = rsTree.at(12);
-            const spyResetIsLastItem = spy(itemAt12, 'resetIsLastItem');
-            rsTree.setExpandedItems([1]);
-            sinonAssert.calledOnce(spyResetIsLastItem);
-            spyResetIsLastItem.restore();
-        });
-
         xit('setExpandedItems collapse childs', () => {
             rsTree.setExpandedItems([1]);
             rsTree.getItemBySourceKey(11).setExpanded(true);
@@ -1778,14 +1770,6 @@ describe('Controls/_display/Tree', () => {
             const currentVersion = rsTree.getVersion();
             rsTree.setCollapsedItems([1]);
             assert.equal(currentVersion, rsTree.getVersion());
-        });
-
-        it('setCollapsedItems calls resetIsLastItem', () => {
-            const itemAt12 = rsTree.at(12);
-            const spyResetIsLastItem = spy(itemAt12, 'resetIsLastItem');
-            rsTree.setCollapsedItems([1]);
-            sinonAssert.calledOnce(spyResetIsLastItem);
-            spyResetIsLastItem.restore();
         });
 
         it('toggleItem will not change version for another items', () => {
@@ -2337,6 +2321,51 @@ describe('Controls/_display/Tree', () => {
            assert.isNotOk(tree.at(3));
        });
 
+       it('save new visibilityCallback, when start adding item', () => {
+           const rs = new RecordSet({
+               rawData: [
+                   {id: 1, node: true, pid: 0},
+                   {id: 2, node: true, pid: 0}
+               ],
+               keyProperty: 'id'
+           });
+           // TODO должно быть Tree, но нодФутеры пока что создаются только в treeGrid
+           const tree = new TreeGridCollection({
+               collection: rs,
+               root: {
+                   id: 0,
+                   title: 'Root'
+               },
+               keyProperty: 'id',
+               parentProperty: 'pid',
+               nodeProperty: 'node',
+               columns: [],
+               expandedItems: [null],
+               nodeFooterTemplate: () => '',
+               nodeFooterVisibilityCallback: (item: Model) => true
+           });
+
+           const newCallback = (item) => {
+               if (item.getKey() === 1) {
+                   return true;
+               }
+           };
+           tree.setNodeFooterVisibilityCallback(newCallback);
+
+           const addingItem = tree.createItem({
+               contents: new Model({
+                   rawData: {id: 3, node: null, pid: 0},
+                   keyProperty: 'id'
+               })
+           });
+           tree.setAddingItem(addingItem, {
+               position: 'top',
+               index: 3
+           });
+           // 4 элемента - это 2 узла, 1 футер и добавленная запись
+           assert.equal(tree.getItems().length, 4);
+       });
+
         it('when toggle node, recount only one node footer', () => {
             const rs = new RecordSet({
                 rawData: [
@@ -2576,5 +2605,55 @@ describe('Controls/_display/Tree', () => {
             const node = tree.getItemBySourceKey(1);
             assert.isNotOk(node.getNodeFooter()); // проверяем что ссылка на футер занулилась
         });
+    });
+
+    describe('displayExpanderPadding', () => {
+        it('default', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isTrue(tree._displayExpanderPadding);
+        })
+
+        it('expander icon is none', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs, {expanderIcon: 'none'});
+            assert.isFalse(tree._displayExpanderPadding);
+        })
+
+        it('custom expander position', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs, {expanderPosition: 'custom'});
+            assert.isFalse(tree._displayExpanderPadding);
+        })
+
+        it('expander visibility is hasChildren', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs, {expanderVisibility: 'hasChildren', hasChildrenProperty: 'hasChildren'});
+            assert.isFalse(tree._displayExpanderPadding);
+
+            rs.at(0).set('hasChildren', true);
+
+            assert.isTrue(tree._displayExpanderPadding);
+        })
     });
 });

@@ -306,7 +306,8 @@ define(
                ctrl._hidePlaceholderUsingCSS = false;
                ctrl._beforeMount({
                   value: '',
-                  autoComplete: 'off'
+                  autoComplete: 'off',
+                  placeholderVisibility: 'empty'
                });
                assert.equal(ctrl._placeholderVisibility, 'empty');
                options = {

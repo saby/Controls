@@ -309,12 +309,19 @@ var _private = {
       /* В значении фильтра могут быть сложные объекты (record, дата и т.д.)
          При сериализации сложных объектов добавляется id инстанса и два одинаковых объекта сериализуются в разные строки,
          поэтому сравниваем десериализованные объекты */
-      const itemData = JSON.parse(JSON.stringify(data, _private.getSerialize().serialize), deserialize);
+      let itemData = JSON.parse(JSON.stringify(data, _private.getSerialize().serialize), deserialize);
 
       items.forEach(function (element) {
          objectData = element.get('ObjectData');
-         if (objectData && itemData && isEqual(JSON.parse(objectData, _private.getSerialize().deserialize), itemData)) {
-            item = element;
+         let deserializedData = objectData && JSON.parse(objectData, _private.getSerialize().deserialize);
+         if (itemData && deserializedData) {
+            /* В истории с отчетами есть prefetchParams, которые могут меняться, а структура - нет.
+               сравниваем только ее. */
+            itemData = itemData.items || itemData;
+            deserializedData = deserializedData.items || deserializedData;
+            if (isEqual(deserializedData, itemData)) {
+               item = element;
+            }
          }
       });
       return item;

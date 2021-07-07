@@ -9,7 +9,10 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     readonly Markable: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly EnumerableItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
+
+    protected _$moreFontColorStyle: string;
 
     // TODO нужно удалить, когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
     // Храним колспан, чтобы правильно определять индекс столбца.
@@ -103,6 +106,17 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         return ladderProperties && !!Object.keys(ladderProperties).length;
     }
 
+    getMoreFontColorStyle(): string {
+        return this._$moreFontColorStyle;
+    }
+
+    setMoreFontColorStyle(moreFontColorStyle: string): void {
+        if (this._$moreFontColorStyle !== moreFontColorStyle) {
+            this._$moreFontColorStyle = moreFontColorStyle;
+            this._nextVersion();
+        }
+    }
+
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
         // В данный момент nodeFooter не поддерживает colspanCallback,
         // TODO поддержка будет по https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
@@ -112,8 +126,10 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
 
 Object.assign(TreeGridNodeFooterRow.prototype, {
     '[Controls/treeGrid:TreeGridNodeFooterRow]': true,
+    '[Controls/tree:TreeNodeFooterItem]': true,
     _moduleName: 'Controls/treeGrid:TreeGridNodeFooterRow',
     _cellModule: 'Controls/treeGrid:TreeGridNodeFooterCell',
     _instancePrefix: 'tree-grid-node-footer-row-',
-    _$supportLadder: false
+    _$supportLadder: false,
+    _$moreFontColorStyle: null
 });

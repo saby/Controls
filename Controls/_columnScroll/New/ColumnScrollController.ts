@@ -2,6 +2,7 @@ import {Guid} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {detection} from 'Env/Env';
 import {IContainers as IStyleContainers} from './StyleContainers/StyleContainers';
+import {Logger} from 'UI/Utils';
 
 export interface IControllerOptions {
     stickyColumnsCount?: number;
@@ -166,19 +167,7 @@ export default class ColumnScrollController {
         this._shadowState.end = (this._contentSize - this._containerSize - this._scrollPosition) >= 1;
     }
 
-    /**
-     * Метод, позворляющий проскроллить контент до края колонки внутри указанного HTML контейнера в зависимости от текущего направления скролла.
-     * Работает как с обычными колонками, так и с мультизаголовками.
-     * Для работы мультизаголовков пересечение с границей скроллируемой оболасти вычисляется для нескольких колонок.
-     * Затем из отфильтрованных колонок выбирается меньшая для перемещения к её границе, а не к границе colspan-колонки выше.
-     *
-     * Принцип работы:
-     * Если скроллим влево, то фильтруем колонки по принципу левая сторона за пределами scrollContainer, а правая в scrollContainer
-     * Если скроллим вправо, то фильтруем колонки по принципу правая сторона за пределами scrollContainer, а левая в scrollContainer
-     * После этого выбираем меньшую из отфильрованных и вызываем прокрутку области к этой колонке.
-     * @param container
-     */
-    scrollToColumnWithinContainer(container: HTMLElement): void {
+    getScrollPositionWithinContainer(container: HTMLElement): number {
         const scrollContainerRect = this._getScrollContainerRect();
         const scrollableColumns = this._getScrollableColumns(container);
         const scrollableColumnsSizes = scrollableColumns.map((column) => column.getBoundingClientRect());
@@ -196,7 +185,28 @@ export default class ColumnScrollController {
         ), {} as DOMRect);
 
         if (currentColumnRect) {
-            this._scrollToColumnRect(currentColumnRect);
+            return this._getScrollPositionToColumnRectEdge(currentColumnRect);
+        } else {
+            return this._scrollPosition;
+        }
+    }
+
+    /**
+     * Метод, позворляющий проскроллить контент до края колонки внутри указанного HTML контейнера в зависимости от текущего направления скролла.
+     * Работает как с обычными колонками, так и с мультизаголовками.
+     * Для работы мультизаголовков пересечение с границей скроллируемой оболасти вычисляется для нескольких колонок.
+     * Затем из отфильтрованных колонок выбирается меньшая для перемещения к её границе, а не к границе colspan-колонки выше.
+     *
+     * Принцип работы:
+     * Если скроллим влево, то фильтруем колонки по принципу левая сторона за пределами scrollContainer, а правая в scrollContainer
+     * Если скроллим вправо, то фильтруем колонки по принципу правая сторона за пределами scrollContainer, а левая в scrollContainer
+     * После этого выбираем меньшую из отфильрованных и вызываем прокрутку области к этой колонке.
+     * @param container
+     */
+    scrollToColumnWithinContainer(container: HTMLElement): void {
+        const newScrollPosition = this.getScrollPositionWithinContainer(container);
+        if (this._scrollPosition !== newScrollPosition) {
+            this.setScrollPosition(newScrollPosition);
         }
     }
 
@@ -512,9 +522,7 @@ export default class ColumnScrollController {
                 delta = this._calcWheelDelta(detection.firefox, nativeEvent.deltaY);
             }
             // Новая позиция скролла должна лежать в пределах допустимых значений (от 0 до максимальной, включительно).
-            const newPosition = Math.max(0, Math.min(this._scrollPosition + delta, maxPosition));
-
-            this._setScrollPosition(newPosition);
+            return Math.max(0, Math.min(this._scrollPosition + delta, maxPosition));
         }
         return this._scrollPosition;
     }
@@ -556,16 +564,31 @@ export default class ColumnScrollController {
      * @private
      */
     private _scrollToColumnRect(columnRect: DOMRect, immediate?: boolean): boolean {
-        const scrollableRect = this._getScrollContainerRect();
+        const newScrollPosition = this._getScrollPositionToColumnRectEdge(columnRect);
 
-        if (columnRect.right > scrollableRect.right) {
-            this._setScrollPosition(Math.min(this._scrollPosition + (columnRect.right - scrollableRect.right), this.getScrollLength()), immediate);
-            return true;
-        } else if (columnRect.left < scrollableRect.left) {
-            this._setScrollPosition(Math.max(0, this._scrollPosition - (scrollableRect.left - columnRect.left)), immediate);
+        if (this._scrollPosition !== newScrollPosition) {
+            this._setScrollPosition(newScrollPosition, immediate);
             return true;
         }
+
         return false;
+    }
+
+    private _getScrollPositionToColumnRectEdge(columnRect: DOMRect): number {
+        const scrollableRect = this._getScrollContainerRect();
+
+        // Граница ячейки за пределами видимой скроллируемой области.
+        // Величина смещения может быть дробной, нужно по максимуму сдвинуть скролл в ту сторону.
+        // Для этого округляем в соответствующую направлению скролла
+        // сторону (у ячейкислева в меньшую, справа в большую, а у скроллконтейнера наоборот).
+        if (columnRect.right > scrollableRect.right) {
+            const newScrollPosition = this._scrollPosition + (Math.round(columnRect.right) - Math.floor(scrollableRect.right));
+            return Math.min(newScrollPosition, this.getScrollLength());
+        } else if (columnRect.left < scrollableRect.left) {
+            const newScrollPosition = this._scrollPosition - (Math.floor(scrollableRect.left) - Math.round(columnRect.left));
+            return Math.max(0, newScrollPosition);
+        }
+        return this._scrollPosition;
     }
 
     /**
@@ -604,19 +627,21 @@ export default class ColumnScrollController {
 
     static shouldDrawColumnScroll(viewContainers, getFixedPartWidth, isFullGridSupport: boolean): IShouldDrawColumnScrollResult {
             const calcResult = () => {
-                const contentContainerSize = viewContainers.grid.scrollWidth;
-                const scrollContainerSize = isFullGridSupport ? viewContainers.grid.offsetWidth : viewContainers.gridWrapper.offsetWidth;
+                let contentContainerSize = 0;
+                let scrollContainerSize = 0;
+                let fixedColumnsWidth = 0;
                 const header = 'header' in viewContainers ? viewContainers.header : viewContainers.results;
+
                 if (!header) {
-                    throw Error('Header is missing!');
+                    Logger.error('Header is missing!');
+                } else {
+                    contentContainerSize = viewContainers.grid.scrollWidth;
+                    scrollContainerSize = isFullGridSupport ? viewContainers.grid.offsetWidth : viewContainers.gridWrapper.offsetWidth;
+                    fixedColumnsWidth = getFixedPartWidth(viewContainers.gridWrapper, header);
                 }
                 return {
                     status: contentContainerSize > scrollContainerSize,
-                    sizes: {
-                        scrollContainerSize,
-                        contentContainerSize,
-                        fixedColumnsWidth: getFixedPartWidth(viewContainers.gridWrapper, header)
-                    }
+                    sizes: {scrollContainerSize, contentContainerSize, fixedColumnsWidth}
                 };
             };
 

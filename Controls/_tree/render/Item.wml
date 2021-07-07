@@ -4,9 +4,7 @@
 
 <ws:template name="localItemTemplateContent">
    <ws:if data="{{ multiSelectVisibility && multiSelectVisibility !== 'hidden' && multiSelectPosition !== 'custom' }}">
-      <ws:partial template="{{ multiSelectTpl }}" attr:class="{{ (item || itemData).getMultiSelectClasses(theme) }}">
-         <ws:templateOptions item="{{ item || itemData }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
-      </ws:partial>
+      <ws:partial template="{{ (item || itemData).getMultiSelectTemplate() }}" item="{{ (item || itemData) }}" />
    </ws:if>
    <ws:if data="{{ (item || itemData).shouldDisplayMarker(marker) }}">
       <div class="{{(item || itemData).getMarkerClasses(theme, style, markerClassName, itemPadding)}}"></div>
@@ -37,12 +35,7 @@
                     itemActionsTemplate="{{ itemActionsTemplate }}"
                     swipeTemplate="{{ swipeTemplate }}">
                <ws:multiSelectTemplate>
-                  <ws:partial template="{{ multiSelectTpl }}"
-                              _preventMergeOptions="{{ true }}"
-                              if="{{ multiSelectVisibility && multiSelectVisibility !== 'hidden' && multiSelectPosition === 'custom' }}"
-                              attr:class="{{ (item || itemData).getMultiSelectClasses(theme) }}">
-                     <ws:templateOptions item="{{ item || itemData }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
-                  </ws:partial>
+                  <ws:partial template="{{ (item || itemData).getMultiSelectTemplate() }}" item="{{ (item || itemData) }}" />
                </ws:multiSelectTemplate>
             </ws:partial>
          </div>
@@ -73,12 +66,12 @@
 
 <ws:if data="{{(item || itemData).isSticked(style, stickyCallback, item)}}">
 <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
-<Controls.scroll:StickyHeader
+<Controls.scroll:StickyBlock
         attr:data-qa="{{(item || itemData).getQAData(marker)}}"
         attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style, showItemActionsOnHover) }}"
         position="{{item.getStickyHeaderPosition(stickyCallback)}}" backgroundStyle="{{style + '_sticked'}}" mode="replaceable">
    <ws:partial template="localItemTemplateContent"/>
-</Controls.scroll:StickyHeader>
+</Controls.scroll:StickyBlock>
 </ws:if>
 <ws:else>
 <div attr:data-qa="{{(item || itemData).getQAData(marker)}}"

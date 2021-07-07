@@ -1,11 +1,12 @@
 import {TemplateFunction} from 'UI/Base';
 import {ISearchOptions} from 'Controls/interface';
 import {IMenuControlOptions} from 'Controls/menu';
-import {CollectionItem} from 'Controls/display';
-import {Model, CrudEntityKey} from 'Types/entity';
+
+import {Model} from 'Types/entity';
+import {CrudEntityKey} from 'Types/source';
 
 export interface IFooterItemData {
-    item: CollectionItem<Model>;
+    item: Model;
     key: CrudEntityKey;
 }
 
@@ -154,4 +155,25 @@ export default interface IMenuPopup {
 /**
  * @name Controls/_menu/interface/IMenuPopup#footerItemData
  * @cfg {IFooterItemData} Данные для {@link Controls/_menu/interface/IMenuPopup#footerContentTemplate шаблона нижней части окна}.
+ */
+
+/**
+ * @typedef {String} backgroundStyle
+ * @variant primary.
+ * @variant secondary.
+ * @variant danger.
+ * @variant warning.
+ * @variant info.
+ * @variant unaccented.
+ */
+/**
+ * @name Controls/_menu/interface/IMenuBase#backgroundStyle
+ * @cfg {backgroundStyle} Задает цвет фона для меню.
+ * @demo Controls-demo/dropdown_new/Button/MenuPopupBackground/Index
+ */
+
+/**
+ * @name Controls/_menu/interface/IMenuBase#hoverBackgroundStyle
+ * @cfg {backgroundStyle} Задает цвет фона для пункта меню при наведении.
+ * @demo Controls-demo/Menu/Control/HoverBackgroundStyle/Index
  */

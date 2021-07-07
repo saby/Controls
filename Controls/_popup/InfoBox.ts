@@ -22,7 +22,6 @@ import {detection} from 'Env/Env';
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
  *
- * @class Controls/_popup/InfoBox
  * @mixes Controls/popup:IInfoBox
  * @public
  * @author Красильников А.С.
@@ -34,10 +33,11 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     _template: TemplateFunction = template;
     _isNewEnvironment: Function = isNewEnvironment;
     _opened: boolean;
-    _calmTimer: CalmTimer;
     _children: {
         infoBoxOpener: InfoBoxOpener
     };
+    private _openCalmTimer: CalmTimer;
+    private _closeCalmTimer: CalmTimer;
 
     protected _beforeMount(options: IInfoBoxOptions): void {
         this._resultHandler = this._resultHandler.bind(this);
@@ -65,7 +65,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
         const config: IInfoBoxPopupOptions = this._getConfig();
 
         if (this._isNewEnvironment()) {
-            this._notify('openInfoBox', [config], {bubbling: true});
+            this._notify('openInfoBox', [config, false], {bubbling: true});
         } else {
             // To place zIndex in the old environment
             config.zIndex = getZIndex(this._children.infoBoxOpener);
@@ -87,7 +87,6 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             targetSide: this._options.targetSide,
             alignment: this._options.alignment,
             style: this._options.style,
-            showDelay: this._options.showDelay,
             // InfoBox close by outside click only if trigger is set to 'demand' or 'click'.
             closeOnOutsideClick: this._options.trigger === 'click' || this._options.trigger === 'demand',
             floatCloseButton: this._options.floatCloseButton,
@@ -100,12 +99,12 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
         };
     }
 
-    close(delay?: number): void {
+    close(withDelay: boolean = true): void {
         if (this._isNewEnvironment()) {
-            this._notify('closeInfoBox', [delay], {bubbling: true});
+            this._notify('closeInfoBox', [!!withDelay], {bubbling: true});
         } else {
             if (!this._destroyed) {
-                this._children.infoBoxOpener.close(delay);
+                this._children.infoBoxOpener.close();
             }
         }
         this._openCalmTimer.stop();
@@ -156,7 +155,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     protected _contentMouseleaveHandler(): void {
         if (this._options.trigger === 'hover' || this._options.trigger === 'hover|touch') {
             this._openCalmTimer.stop();
-            this._closeCalmTimer.start();
+            this._closeCalmTimer.start(300);
         }
     }
 
@@ -186,7 +185,7 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     }
 
     protected _scrollHandler(): void {
-        this.close(0);
+        this.close();
     }
 
     static getOptionTypes(): Record<string, Function> {
@@ -205,8 +204,6 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
             targetSide: 'top',
             alignment: 'start',
             style: 'secondary',
-            showDelay: 300,
-            hideDelay: 300,
             trigger: 'hover',
             closeButtonVisibility: true
         };

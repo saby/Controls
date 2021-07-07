@@ -5,7 +5,7 @@ import {
 } from 'Controls/popup';
 import * as PopupContent from 'wml!Controls/_popupSliding/SlidingPanelContent';
 import SlidingPanelStrategy, {AnimationState, ISlidingPanelItem} from './Strategy';
-import {detection} from 'Env/Env';
+import {constants} from 'Env/Env';
 
 /**
  * SlidingPanel Popup Controller
@@ -23,7 +23,7 @@ class Controller extends BaseController {
         item.sizes = this._getPopupSizes(item, container);
         // После создания запускаем анимацию изменив позицию
         item.position = SlidingPanelStrategy.getShowingPosition(item);
-        item.popupOptions._workspaceWidth = item.position.width;
+        item.popupOptions.workspaceWidth = item.position.width;
         item.animationState = AnimationState.showing;
 
         // Фиксим оттягивание документа при свайпе на IOS
@@ -41,11 +41,11 @@ class Controller extends BaseController {
         }
         item.sizes = this._getPopupSizes(item, container);
         item.position = SlidingPanelStrategy.getPosition(item);
-        item.popupOptions._workspaceWidth = item.position.width;
+        item.popupOptions.workspaceWidth = item.position.width;
         return true;
     }
 
-    elementDestroyed(item: ISlidingPanelItem): Promise<undefined> {
+    elementDestroyed(item: ISlidingPanelItem): Promise<void> {
         // Если попап еще не замаунчен, то просто закрываем без анимации
         if (!this._isPopupOpened(item)) {
             this._finishPopupClosing(item);
@@ -54,7 +54,7 @@ class Controller extends BaseController {
 
         // Запускаем анимацию закрытия и откладываем удаление до её окончания
         item.position = SlidingPanelStrategy.getHidingPosition(item);
-        item.popupOptions._workspaceWidth = item.position.width;
+        item.popupOptions.workspaceWidth = item.position.width;
         item.animationState = AnimationState.closing;
         return new Promise((resolve) => {
             this._destroyPromiseResolvers[item.id] = resolve;
@@ -92,7 +92,7 @@ class Controller extends BaseController {
             item.position = SlidingPanelStrategy.getPosition(item);
         }
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
-        item.popupOptions._workspaceWidth = item.position.width;
+        item.popupOptions.workspaceWidth = item.position.width;
         return true;
     }
 
@@ -101,6 +101,7 @@ class Controller extends BaseController {
         const className = `${item.popupOptions.className || ''} controls-SlidingPanel__popup
             controls-SlidingPanel__animation controls_popupSliding_theme-${PopupController.getTheme()}`;
 
+        item.popupOptions.workspaceWidth = item.position.width;
         item.popupOptions.className = className;
         item.popupOptions.content = PopupContent;
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
@@ -108,6 +109,9 @@ class Controller extends BaseController {
     }
 
     popupDragStart(item: ISlidingPanelItem, container: HTMLDivElement, offset: IDragOffset): void {
+        if (item.popupOptions.slidingPanelOptions.userMoveLocked) {
+            return;
+        }
         const position = item.position;
         const isFirstDrag = !item.dragStartHeight;
 
@@ -120,20 +124,20 @@ class Controller extends BaseController {
         } = item.popupOptions;
         const heightOffset = positionOption === 'top' ? offset.y : -offset.y;
         const newHeight = item.dragStartHeight + heightOffset;
-        const isClosingSwipe = heightOffset < 0;
 
-        // При свайпе который уменьшает высоту на минимальной высоте закрываем попап
-        if (isClosingSwipe && newHeight < position.minHeight && isFirstDrag) {
-            PopupController.remove(item.id);
-        }
         position.height = newHeight;
         item.sizes.height = newHeight;
         item.position = SlidingPanelStrategy.getPosition(item);
-        item.popupOptions._workspaceWidth = item.position.width;
+        item.popupOptions.workspaceWidth = item.position.width;
         item.popupOptions.slidingPanelData = this._getPopupTemplatePosition(item);
     }
 
     popupDragEnd(item: ISlidingPanelItem): void {
+        if (item.position.height < SlidingPanelStrategy.getMinHeight(item)) {
+            PopupController.remove(item.id);
+        } else {
+            item.position = SlidingPanelStrategy.getPositionAfterDrag(item);
+        }
         item.dragStartHeight = null;
     }
 
@@ -164,13 +168,13 @@ class Controller extends BaseController {
      * @private
      */
     private _getPopupTemplatePosition(item: ISlidingPanelItem): ISlidingPanelPopupOptions['slidingPanelOptions'] {
-        const {position, popupOptions} = item;
+        const {popupOptions: {slidingPanelOptions, desktopMode}} = item;
         return {
-            minHeight: position.minHeight,
-            maxHeight: position.maxHeight,
+            minHeight: SlidingPanelStrategy.getMinHeight(item),
+            maxHeight: SlidingPanelStrategy.getMaxHeight(item),
             height: this._getHeight(item),
-            position: popupOptions.slidingPanelOptions.position,
-            desktopMode: popupOptions.desktopMode
+            position: slidingPanelOptions.position,
+            desktopMode
         };
     }
 
@@ -194,14 +198,15 @@ class Controller extends BaseController {
     }
 
     /**
-     * Фикс для сафари, чтобы при свайпе по шторке не тянулся body.
-     * TODO: Нужно сделать какое-то общее решение для d'n'd
+     * Нужно для:
+     * 1. Сафари, чтобы body не тянулся
+     * 2. Для Android, чтобы при закрытии шторки не вызывалось обновление страницы(свайп вниз)
      * https://online.sbis.ru/opendoc.html?guid=2e549898-5980-49bc-b4b7-e0a27f02bf55
      * @param state
      * @private
      */
     private _toggleCancelBodyDragging(state: boolean): void {
-        if (detection.isMobileIOS) {
+        if (constants.isBrowserPlatform) {
             document.documentElement.style.overflow = state ? 'hidden' : '';
         }
     }

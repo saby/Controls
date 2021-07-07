@@ -13,7 +13,11 @@ export default class SearchView extends TreeGridView {
 
    _beforeMount(options: any): Promise<void> {
       this._onBreadcrumbItemClick = this._onBreadcrumbItemClick.bind(this);
-      return super._beforeMount(options);
+      const superMountResult = super._beforeMount(options);
+      if (options.breadCrumbsMode === 'cell' || options._initBreadCrumbsMode === 'cell') {
+         this._listModel.setColspanBreadcrumbs(false);
+      }
+      return superMountResult;
    }
 
    _beforeUpdate(newOptions: any): void {
@@ -68,6 +72,11 @@ export default class SearchView extends TreeGridView {
    }
 
    protected _onItemClick(e: SyntheticEvent, item: SearchGridDataRow<Model>) {
+      if (e.target.closest('.js-controls-ListView__checkbox')) {
+         this._notify('checkBoxClick', [item, e]);
+         return;
+      }
+
       if (item['[Controls/_display/SearchSeparator]']) {
          e.stopPropagation();
          return;

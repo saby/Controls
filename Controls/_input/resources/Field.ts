@@ -15,11 +15,9 @@ import {
     split
 } from 'Controls/_input/Base/InputUtil';
 import {FixBugs} from '../FixBugs';
-
-// tslint:disable-next-line:ban-ts-ignore
-// @ts-ignore
 import * as template from 'wml!Controls/_input/resources/Field/Field';
-import {splitValueForPasting, calculateInputType, transliterateInput} from './Util';
+import {splitValueForPasting, calculateInputType} from './Util';
+import transliterate from 'Controls/_input/resources/Transliterate';
 import {delay as runDelayed} from 'Types/function';
 import {IText} from 'Controls/decorator';
 
@@ -88,8 +86,8 @@ class Field<Value, ModelOptions>
 
     readonly '[Controls/input:IField]': boolean = true;
 
-    constructor(cfg: IFieldOptions<Value, ModelOptions>) {
-        super(cfg);
+    constructor(cfg: IFieldOptions<Value, ModelOptions>, context?: object) {
+        super(cfg, context);
 
         this._selectionFromFieldToModel = this._selectionFromFieldToModel.bind(this);
     }
@@ -281,6 +279,9 @@ class Field<Value, ModelOptions>
     }
 
     protected _beforeUpdate(options: IFieldOptions<Value, ModelOptions>): void {
+        if (this._options.model !== options.model) {
+           this._model = options.model;
+        }
         const currentDisplayValue: string = this._model.displayValue;
         if (this._model.displayValueBeforeUpdate !== currentDisplayValue) {
             this._changeEventController.fixed(currentDisplayValue);
@@ -420,7 +421,7 @@ class Field<Value, ModelOptions>
             event.nativeEvent.altKey && event.nativeEvent.keyCode === T_KEY_CODE ||
             event.nativeEvent.keyCode === PAUSE_KEY_CODE
         ) {
-            transliterateInput(this._model.value, this._getFieldSelection()).then((value) => {
+            transliterate(this._model.value, this._getFieldSelection()).then((value) => {
                 this._updateField(value, this._getFieldSelection());
                 this._updateModel({value});
                 this._notifyEvent('valueChanged');

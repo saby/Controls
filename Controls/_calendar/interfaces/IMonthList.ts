@@ -191,7 +191,7 @@ export interface IMonthList {
 /**
  * @event Происходит после  отрисовки элементов с новыми загруженными данными.
  * @name Controls/_calendar/interface/IMonthList#enrichItems
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @example
  * В этом примере производим некоторые манипуляции с элементами, после того, как загрузились новые данные, и элементы перерисовались.
  * <pre class="brush: js">

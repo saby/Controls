@@ -18,6 +18,7 @@ export default class PropertyGridCollection<S, T extends PropertyGridCollectionI
     protected _$editingObject: object | Model | Record<string, unknown>;
 
     constructor(options?: IPropertyGridCollectionOptions<S, T>) {
+        this._$toggledEditors = options.toggledEditors || {};
         super(options);
     }
 

@@ -38,6 +38,31 @@ define(
 
             assert.isTrue(instance.instanceOfModule(ctrl._viewModel, 'Controls/_input/Number/ViewModel'));
          });
+         describe('showEmptyDecimals', function() {
+            it('showEmptyDecimals=true, readOnly=false', function() {
+               ctrl._beforeMount({
+                  value: '1.10000',
+                  showEmptyDecimals: true
+               });
+               assert.equal('1.10000', ctrl._viewModel.displayValue);
+            });
+            it('showEmptyDecimals=false, readOnly=false', function() {
+               ctrl._beforeMount({
+                  value: '1.10000',
+                  showEmptyDecimals: false,
+                  readOnly: false
+               });
+               assert.equal('1.10000', ctrl._viewModel.displayValue);
+            });
+            it('showEmptyDecimals=false, readOnly=true', function() {
+               ctrl._beforeMount({
+                  value: '1.10000',
+                  showEmptyDecimals: false,
+                  readOnly: true
+               });
+               assert.equal('1.1', ctrl._viewModel.displayValue);
+            });
+         });
          describe('Change event', function() {
             beforeEach(function() {
                ctrl._beforeMount({

@@ -466,6 +466,34 @@ define(
                   });
                });
             });
+
+            it('_updateRecent', () => {
+               let meta = {
+                  $_history: true
+               };
+               const item = new entity.Model({
+                  rawData: {
+                     _type: 'record',
+                     d: ['7', 'Запись 7', true],
+                     s: [
+                        { n: 'id', t: 'Строка' },
+                        { n: 'title', t: 'Строка' },
+                        { n: 'doNotSaveToHistory', t: 'Логическое' }
+                     ]
+                  },
+                  adapter: new entity.adapter.Sbis(),
+                  keyProperty: 'id',
+                  format: [
+                     { name: 'id', type: 'string' },
+                     { name: 'title', type: 'string' },
+                     { name: 'doNotSaveToHistory', type: 'boolean' }
+                  ]
+               });
+               return hSource._updateRecent(item, meta).then((result) => {
+                  assert.isFalse(result);
+               });
+            });
+
             it('updateRecent history not loaded', async function() {
                let config2 = clone(config),
                   updatedData,
@@ -744,6 +772,15 @@ define(
                const someConfig = {
                   source: hSource
                };
+               const configClone = util.object.clone(someConfig);
+               assert.isOk(configClone.source instanceof historyMod.Source);
+            });
+
+            it('serialization with dataLoadCallback on state', function() {
+               const someConfig = {
+                  source: hSource
+               };
+               hSource.setDataLoadCallback(() => {});
                const configClone = util.object.clone(someConfig);
                assert.isOk(configClone.source instanceof historyMod.Source);
             });

@@ -110,9 +110,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 let savingStartedForItemWithKey;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        if (willSave) {
-                            savingStartedForItemWithKey = item.getKey();
+                    onBeforeEndEdit: (params) => {
+                        if (params.willSave) {
+                            savingStartedForItemWithKey = params.item.getKey();
                         }
                     },
                     onAfterEndEdit: (item) => {
@@ -147,9 +147,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 let savingStartedForItemWithKey;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        if (willSave) {
-                            savingStartedForItemWithKey = item.getKey();
+                    onBeforeEndEdit: (params) => {
+                        if (params.willSave) {
+                            savingStartedForItemWithKey = params.item.getKey();
                         }
                     },
                     onAfterEndEdit: (item) => {
@@ -180,8 +180,8 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 let wasSaved = false;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        wasSaved = willSave;
+                    onBeforeEndEdit: (params) => {
+                        wasSaved = params.willSave;
                     },
                     onBeforeBeginEdit: () => {
                         onBeforeBeginEditCalled = true;
@@ -210,9 +210,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 let savingStartedForItemWithKey;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        if (!willSave) {
-                            savingStartedForItemWithKey = item.getKey();
+                    onBeforeEndEdit: (params) => {
+                        if (!params.willSave) {
+                            savingStartedForItemWithKey = params.item.getKey();
                         }
                     },
                     onAfterEndEdit: (item) => {
@@ -244,8 +244,8 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 onAfterBeginEditCalled = false;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        if (!willSave) {
+                    onBeforeEndEdit: (params) => {
+                        if (!params.willSave) {
                             throw Error('Error while saving');
                         }
                     },
@@ -266,9 +266,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             assert.isFalse(editInPlace.isEditing());
 
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (options) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    assert.equal(options.item, collection.at(0).contents);
+                    assert.equal(params.options.item, collection.at(0).contents);
                 }
             });
 
@@ -376,10 +376,10 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
         it('callback arguments', () => {
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (options, isAdd) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    assert.equal(options.item, items.at(0));
-                    assert.isFalse(isAdd);
+                    assert.equal(params.options.item, items.at(0));
+                    assert.isFalse(params.isAdd);
                 },
                 onAfterBeginEdit: (item, isAdd) => {
                     onAfterBeginEditCalled = true;
@@ -397,9 +397,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
         it('item was modified in callback', () => {
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (options, isAdd) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    options.item.set('modified', true);
+                    params.options.item.set('modified', true);
                 },
                 onAfterBeginEdit: (item, isAdd) => {
                     onAfterBeginEditCalled = true;
@@ -436,9 +436,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             };
 
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (callbackOptions, isAdd) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    assert.equal(callbackOptions, options);
+                    assert.equal(params.options, options);
                 }
             });
 
@@ -452,7 +452,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
                 it('skip editing second item and go to first', () => {
                     editInPlace.updateOptions({
-                        onBeforeBeginEdit: (options) => options.item.getKey() === 2 ? CONSTANTS.GOTOPREV : undefined
+                        onBeforeBeginEdit: (params) => params.options.item.getKey() === 2 ? CONSTANTS.GOTOPREV : undefined
                     });
                     // Try start editing item with key 2
                     return editInPlace.edit({item: collection.at(1).contents}).then(() => {
@@ -477,7 +477,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
                 it('skip editing first item and go to second', () => {
                     editInPlace.updateOptions({
-                        onBeforeBeginEdit: (options) => options.item.getKey() === 1 ? CONSTANTS.GOTONEXT : undefined
+                        onBeforeBeginEdit: (params) => params.options.item.getKey() === 1 ? CONSTANTS.GOTONEXT : undefined
                     });
                     // Try start editing item with key 1
                     return editInPlace.edit({item: collection.at(0).contents}).then(() => {
@@ -495,6 +495,39 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         // Started editing of item with key 1
                         assert.isNull(collection.find((i) => i.isEditing()));
                     });
+                });
+            });
+        });
+
+        describe('cell editing mode', () => {
+
+            beforeEach(() => {
+                editInPlace.updateOptions({
+                    mode: 'cell'
+                });
+            });
+
+            it('column index missed. should use default', () => {
+                editInPlace.updateOptions({
+                    onBeforeBeginEdit: (options, isAdd, columnIndex) => {
+                        onBeforeBeginEditCalled = true;
+                        assert.equal(columnIndex, 0);
+                    }
+                });
+                return editInPlace.edit({item: items.at(0)}).then((res) => {
+                    assert.isTrue(onBeforeBeginEditCalled);
+                });
+            });
+
+            it('column index defined. should use it', () => {
+                editInPlace.updateOptions({
+                    onBeforeBeginEdit: (options, isAdd, columnIndex) => {
+                        onBeforeBeginEditCalled = true;
+                        assert.equal(columnIndex, 2);
+                    }
+                });
+                return editInPlace.edit({item: items.at(0)}, {columnIndex: 2}).then((res) => {
+                    assert.isTrue(onBeforeBeginEditCalled);
                 });
             });
         });
@@ -546,9 +579,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 let savingStartedForItemWithKey;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        if (willSave) {
-                            savingStartedForItemWithKey = item.getKey();
+                    onBeforeEndEdit: (params) => {
+                        if (params.willSave) {
+                            savingStartedForItemWithKey = params.item.getKey();
                         }
                     },
                     onAfterEndEdit: (item) => {
@@ -590,9 +623,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 let savingStartedForItemWithKey;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        if (willSave) {
-                            savingStartedForItemWithKey = item.getKey();
+                    onBeforeEndEdit: (params) => {
+                        if (params.willSave) {
+                            savingStartedForItemWithKey = params.item.getKey();
                         }
                     },
                     onAfterEndEdit: (item) => {
@@ -624,8 +657,8 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 let wasSaved = false;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        wasSaved = willSave;
+                    onBeforeEndEdit: (params) => {
+                        wasSaved = params.willSave;
                     },
                     onBeforeBeginEdit: () => {
                         onBeforeBeginEditCalled = true;
@@ -654,9 +687,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 let savingStartedForItemWithKey;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        if (!willSave) {
-                            savingStartedForItemWithKey = item.getKey();
+                    onBeforeEndEdit: (params) => {
+                        if (!params.willSave) {
+                            savingStartedForItemWithKey = params.item.getKey();
                         }
                     },
                     onAfterEndEdit: (item) => {
@@ -688,8 +721,8 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 onAfterBeginEditCalled = false;
 
                 editInPlace.updateOptions({
-                    onBeforeEndEdit: (item, willSave) => {
-                        if (!willSave) {
+                    onBeforeEndEdit: (params) => {
+                        if (!params.willSave) {
                             throw Error('Error while saving');
                         }
                     },
@@ -710,9 +743,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             assert.isFalse(editInPlace.isEditing());
 
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (options) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    assert.equal(options.item, newItem);
+                    assert.equal(params.options.item, newItem);
                 }
             });
 
@@ -728,9 +761,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             assert.isFalse(editInPlace.isEditing());
 
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (options) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    assert.isUndefined(options.item);
+                    assert.isUndefined(params.options.item);
                     return { item: newItem };
                 }
             });
@@ -820,10 +853,10 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
         it('callback arguments', () => {
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (options, isAdd) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    assert.equal(options.item, newItem);
-                    assert.isTrue(isAdd);
+                    assert.equal(params.options.item, newItem);
+                    assert.isTrue(params.isAdd);
                 },
                 onAfterBeginEdit: (item, isAdd) => {
                     onAfterBeginEditCalled = true;
@@ -841,9 +874,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
         it('item was modified in callback', () => {
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (options, isAdd) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    options.item.set('modified', true);
+                    params.options.item.set('modified', true);
                 },
                 onAfterBeginEdit: (item, isAdd) => {
                     onAfterBeginEditCalled = true;
@@ -863,17 +896,17 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             newItem.set(newItem.getKeyProperty(), null);
 
             editInPlace.updateOptions({
-                onBeforeBeginEdit: (options) => {
+                onBeforeBeginEdit: (params) => {
                     onBeforeBeginEditCalled = true;
-                    assert.isNull(options.item.getKey());
+                    assert.isNull(params.options.item.getKey());
                 },
                 onAfterBeginEdit: (collectionItem) => {
                     onAfterBeginEditCalled = true;
                     assert.isNull(collectionItem.contents.getKey());
                 },
-                onBeforeEndEdit: (item) => {
+                onBeforeEndEdit: (params) => {
                     onBeforeEndEditCalled = true;
-                    assert.isNull(item.getKey());
+                    assert.isNull(params.item.getKey());
                 },
                 onAfterEndEdit: (collectionItem) => {
                     onAfterEndEditCalled = true;
@@ -887,6 +920,38 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 });
             });
         });
+
+        describe('cell editing mode', () => {
+            beforeEach(() => {
+                editInPlace.updateOptions({
+                    mode: 'cell'
+                });
+            });
+
+            it('column index missed. should use default', () => {
+                editInPlace.updateOptions({
+                    onBeforeBeginEdit: (options, isAdd, columnIndex) => {
+                        onBeforeBeginEditCalled = true;
+                        assert.equal(columnIndex, 0);
+                    }
+                });
+                return editInPlace.add({item: items.at(0)}).then((res) => {
+                    assert.isTrue(onBeforeBeginEditCalled);
+                });
+            });
+
+            it('column index defined. should use it', () => {
+                editInPlace.updateOptions({
+                    onBeforeBeginEdit: (options, isAdd, columnIndex) => {
+                        onBeforeBeginEditCalled = true;
+                        assert.equal(columnIndex, 2);
+                    }
+                });
+                return editInPlace.add({item: newItem}, {columnIndex: 2}).then((res) => {
+                    assert.isTrue(onBeforeBeginEditCalled);
+                });
+            });
+        });
     });
 
     describe('commit', () => {
@@ -895,9 +960,9 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         it('should cancel editing if called commit with commit strategy "hasChanges" on unchanged item', () => {
             assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
             editInPlace.updateOptions({
-                onBeforeEndEdit: (item: Model, willSave: boolean, isAdd: boolean) => {
+                onBeforeEndEdit: (params) => {
                     onBeforeEndEditCalled = true;
-                    assert.isFalse(willSave);
+                    assert.isFalse(params.willSave);
                 }
             });
             return editInPlace.commit('hasChanges').then((res) => {
@@ -965,7 +1030,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
     it('should not throw console error if it was processed by error controller', () => {
         editInPlace.updateOptions({
-            onBeforeBeginEdit: (options) => {
+            onBeforeBeginEdit: (params) => {
                 throw { errorProcessed: true };
             }
         });
@@ -1117,10 +1182,10 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         it('callback arguments', () => {
             const editingItem = collection.find((i) => i.isEditing());
             editInPlace.updateOptions({
-                onBeforeEndEdit: (item: Model, willSave: boolean, isAdd: boolean) => {
+                onBeforeEndEdit: (params) => {
                     onBeforeEndEditCalled = true;
-                    assert.equal(item, editingItem.contents);
-                    assert.isFalse(isAdd);
+                    assert.equal(params.item, editingItem.contents);
+                    assert.isFalse(params.isAdd);
                 },
                 onAfterEndEdit: (item, isAdd) => {
                     onAfterEndEditCalled = true;

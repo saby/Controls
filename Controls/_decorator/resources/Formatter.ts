@@ -195,6 +195,12 @@ export function fillAdditionalZeros(str: string, precision: number) {
     return `${str}${splitter}${zeros}`;
 }
 
-export function correctNumberValue(value: string): string {
-    return value.replace('-', '- ');
+export function correctNumberValue(value: string, onlyPositive?: boolean): string {
+    let replaceValue;
+    if (onlyPositive) {
+        replaceValue = '';
+    } else {
+        replaceValue = '- ';
+    }
+    return value.replace(/-\b/, replaceValue);
 }

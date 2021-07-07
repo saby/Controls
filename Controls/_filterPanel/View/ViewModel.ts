@@ -7,11 +7,12 @@ import {VersionableMixin} from 'Types/entity';
 import {mixin} from 'Types/util';
 import {FilterUtils} from 'Controls/filter';
 import * as coreClone from 'Core/core-clone';
+import {StickyOpener} from 'Controls/popup';
 
 interface IFilterViewModelOptions {
     source: IFilterItem[];
     collapsedGroups: string[] | number[];
-    filterViewMode: string;
+    applyButtonSticky: StickyOpener;
 }
 
 interface IFilterGroup {
@@ -59,7 +60,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
                 ...item.editorOptions,
                 ...{
                     viewMode: item.viewMode,
-                    filterViewMode: this._options.filterViewMode
+                    applyButtonSticky: this._options.applyButtonSticky
                 }};
             newSource.push({...item, ...{editorOptions}});
         });
@@ -89,7 +90,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     private _getItemsByViewMode(viewMode: IFilterItem['viewMode']): IFilterItem[] {
         return this._source.filter((item) => {
-            return item.viewMode === viewMode || (viewMode === 'basic' && !item.viewMode)
+            return item.viewMode === viewMode || (viewMode === 'basic' && !item.viewMode);
         });
     }
 
@@ -97,6 +98,23 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         item.value = editorValue?.value === undefined ? editorValue : editorValue?.value;
         if (editorValue?.textValue !== undefined) {
             item.textValue = editorValue.textValue;
+        }
+        if (editorValue?.needCollapse !== undefined) {
+            item.needCollapse = editorValue.needCollapse;
+        }
+    }
+
+    private _resetSourceViewMode(): void {
+        this._source.forEach((item) => {
+            item.viewMode = item.editorOptions?.extendedCaption ? 'extended' : item.viewMode;
+        });
+    }
+
+    private _expandGroup(group: string): void {
+        this._collapsedGroups = this._collapsedGroups.slice();
+        if (this._collapsedGroups.length && this._collapsedGroups.includes(group)) {
+            this._collapsedGroups = this._collapsedGroups.filter((item) => group !== item);
+            this._nextVersion();
         }
     }
 
@@ -110,12 +128,14 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     setEditingObject(editingObject: Record<string, IExtendedPropertyValue>): void {
         this._editingObject = editingObject;
-        this._source = object.clone(this._source);
+        this._source = this._getSource(this._source);
         this._source.forEach((item) => {
             const editingItemProperty = editingObject[item.name];
             this._setValueToSourceItem(item, editingItemProperty);
             if (editingItemProperty?.needCollapse) {
                 this.collapseGroup(item.group);
+            } else if (isEqual(item.value, item.resetValue)) {
+                this._expandGroup(item.group);
             }
             const newViewMode = editingItemProperty?.viewMode;
             const viewModeChanged = newViewMode && newViewMode !== item.viewMode;
@@ -142,7 +162,11 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
             item.viewMode = 'basic';
         }
         this._setValueToSourceItem(item, editorValue);
+        if (item.needCollapse) {
+            this.collapseGroup(item.group);
+        }
         this._source = this._getSource(source);
+        this._editingObject = this._getEditingObjectBySource(this._source);
         this._nextVersion();
     }
 
@@ -185,6 +209,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
     resetFilter(): void {
         this._source = object.clone(this._source);
         FilterUtils.resetFilter(this._source);
+        this._resetSourceViewMode();
         this._collapsedGroups = [];
         this._editingObject = this._getEditingObjectBySource(this._source);
         this._groupItems = this._getGroupItemsBySource(this._source);
@@ -200,11 +225,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._nextVersion();
     }
 
-    handleGroupClick(group: string, isResetClick: boolean): void {
-        this._collapsedGroups = this._collapsedGroups.slice();
-        if (this._collapsedGroups.length && this._collapsedGroups.includes(group)) {
-            this._collapsedGroups = this._collapsedGroups.filter((item) => group !== item);
-            this._nextVersion();
-        }
+    handleGroupClick(group: string): void {
+        this._expandGroup(group);
     }
 }

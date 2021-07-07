@@ -1,0 +1,25 @@
+<div class="controlsDemo__wrapper">
+  <Controls.grid:View
+      keyProperty="id"
+      columns="{{_columns}}"
+      source="{{_viewSource}}"
+      itemActions="{{_itemActions}}"
+      itemActionsPosition="outside"
+  >
+    <ws:navigation source="page" view="demand">
+      <ws:sourceConfig pageSize="{{3}}" page="{{0}}" hasMore="{{false}}"/>
+      <ws:viewConfig pagingMode="basic"/>
+    </ws:navigation>
+  </Controls.grid:View>
+  <div>
+    Контент после списка.
+
+    <ul style="margin-left: 20px;">
+      <li>Если кнопка "Ещё" есть, то должен идти сразу под ней.</li>
+      <li>
+        Если кнопки "Ещё" нет, то между этим контентом и списком должно быть расстояние, зарезервированное
+        под itemActions последней записи.
+      </li>
+    </ul>
+  </div>
+</div>

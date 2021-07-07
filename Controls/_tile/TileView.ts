@@ -19,6 +19,9 @@ const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
 const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
 const AVAILABLE_ITEM_PADDINGS = ['null', 'default', '3xs', '2xs', 'xs', 's', 'm'];
 
+/**
+ * Представление плиточного контрола
+ */
 export default class TileView extends ListView {
     protected _template: TemplateFunction = template;
     protected _defaultItemTemplate: TemplateFunction = defaultItemTpl;
@@ -33,13 +36,13 @@ export default class TileView extends ListView {
         super._beforeMount(options);
     }
 
-    _afterMount(options: any): void {
+    protected _afterMount(options: any): void {
         this._notify('register', ['controlResize', this, this._onResize], {bubbling: true});
         this._notify('register', ['scroll', this, this._onScroll, {listenAll: true}], {bubbling: true});
         super._afterMount(options);
     }
 
-    _onResize(event: SyntheticEvent<AnimationEvent>): void {
+    private _onResize(event: SyntheticEvent<AnimationEvent>): void {
         // TODO Если включены операции над записью с задержкой, то после завершения анимации попап стреляет Resize
         //  https://online.sbis.ru/opendoc.html?guid=d8d0bf9e-fc25-4882-84d9-9ff5e20d52da
         if (event?.type !== 'animationend') {
@@ -47,7 +50,7 @@ export default class TileView extends ListView {
         }
     }
 
-    _beforeUpdate(newOptions: any): void {
+    protected _beforeUpdate(newOptions: any): void {
         super._beforeUpdate(newOptions);
 
         // region Update Model
@@ -139,7 +142,7 @@ export default class TileView extends ListView {
             newItems[0].getContents().getChanged().indexOf('docviewIsLoading') === -1;
     }
 
-    _beforeUnmount(): void {
+    protected _beforeUnmount(): void {
         this._notify('unregister', ['controlResize', this], {bubbling: true});
         this._notify('unregister', ['scroll', this, {listenAll: true}], {bubbling: true});
     }
@@ -192,7 +195,7 @@ export default class TileView extends ListView {
         }
     }
 
-    _shouldOpenExtendedMenu(isActionMenu: boolean, isContextMenu: boolean, item: TileCollectionItem): boolean {
+    private _shouldOpenExtendedMenu(isActionMenu: boolean, isContextMenu: boolean, item: TileCollectionItem): boolean {
         const isScalingTile = this._options.tileScalingMode !== 'none' &&
             this._options.tileScalingMode !== 'overlap';
         return this._options.actionMenuViewMode === 'preview' && !isActionMenu && !(isScalingTile && isContextMenu);
@@ -239,7 +242,7 @@ export default class TileView extends ListView {
         }
     }
 
-    protected _setHoveredItemPosition(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
+    private _setHoveredItemPosition(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
         const target = e.target as HTMLElement;
         const tileScalingMode = this._listModel.getTileScalingMode();
 
@@ -294,7 +297,7 @@ export default class TileView extends ListView {
         }
     }
 
-    protected _convertPositionToStyle(position: object): string {
+    private _convertPositionToStyle(position: object): string {
         let result = '';
         for (const key in position) {
             if (position.hasOwnProperty(key)) {
@@ -305,6 +308,10 @@ export default class TileView extends ListView {
     }
 
     private _setHoveredItem(self: TileView, item: TileCollectionItem, event: SyntheticEvent): void {
+        if (this._destroyed || !this._listModel || this._listModel.destroyed) {
+            return;
+        }
+
         // Элемент могут удалить, но hover на нем успеет сработать. Проверяем что элемент точно еще есть в модели.
         // Может прийти null, чтобы сбросить элемент
         const hasItem = item === null || !!this._listModel.getItemBySourceItem(item.getContents());
@@ -312,12 +319,7 @@ export default class TileView extends ListView {
             return;
         }
 
-        if (
-            !this._destroyed &&
-            this._listModel && !this._listModel.destroyed &&
-            this._listModel.getHoveredItem() !== item &&
-            !this._listModel.getActiveItem()
-        ) {
+        if (this._listModel.getHoveredItem() !== item && !this._listModel.getActiveItem()) {
             this._listModel.setHoveredItem(item);
         }
 
@@ -338,7 +340,7 @@ export default class TileView extends ListView {
         return item && this._options.actionMode === 'adaptive' && !!event;
     }
 
-    _getZoomCoefficient(): number {
+    private _getZoomCoefficient(): number {
         return this._options.tileScalingMode !== TILE_SCALING_MODE.NONE && this._options.tileScalingMode !== TILE_SCALING_MODE.OVERLAP
             ? ZOOM_COEFFICIENT
             : 1;
@@ -361,7 +363,7 @@ export default class TileView extends ListView {
         });
     }
 
-    getItemsPaddingContainerClasses(): string {
+    protected _getItemsPaddingContainerClasses(): string {
         let classes = 'controls-TileView__itemPaddingContainer';
 
         const itemPadding = this._getPadding('itemPadding');
@@ -393,11 +395,11 @@ export default class TileView extends ListView {
         return classes;
     }
 
-    _onItemWheel(): void {
+    protected _onItemWheel(): void {
         this.onScroll();
     }
 
-    _onScroll(): void {
+    protected _onScroll(): void {
         this.onScroll();
     }
 
@@ -405,44 +407,13 @@ export default class TileView extends ListView {
         return this._children.tileContainer;
     }
 
-    _onTileViewKeyDown(): void {}
-
-    private _getPositionInContainer(itemNewSize: object, itemRect: object, containerRect: object, zoomCoefficient: number, withoutCorrection: boolean = false): object {
-        const
-            additionalWidth = (itemNewSize.width - itemRect.width) / 2,
-            additionalHeightBottom = (itemNewSize.height - itemRect.height * zoomCoefficient),
-            additionalHeight = (itemNewSize.height - itemRect.height - additionalHeightBottom) / 2,
-            left = itemRect.left - (containerRect.left + additionalWidth),
-            top = itemRect.top - (containerRect.top + additionalHeight),
-            right = containerRect.right - (itemRect.right + additionalWidth),
-            bottom = containerRect.bottom - (itemRect.bottom + additionalHeight + additionalHeightBottom);
-
-        return withoutCorrection ? {left, right, top, bottom} : createPositionInBounds(top, right, bottom, left);
-    }
-
-    private _getPositionInDocument(position: object, containerRect: object, documentRect: object, withoutCorrection: boolean = false): object {
-        const
-            left = position.left + containerRect.left,
-            right = position.right + (documentRect.width - containerRect.right),
-            top = position.top + containerRect.top,
-            bottom = position.bottom + (documentRect.height - containerRect.bottom);
-
-        return withoutCorrection ? {left, right, top, bottom} : createPositionInBounds(top, right, bottom, left);
-    }
-
-    private _getItemStartPosition(itemContainerRect: object, containerRect: object): object {
-        return {
-            top: itemContainerRect.top,
-            left: itemContainerRect.left,
-            right: containerRect.width - itemContainerRect.right,
-            bottom: containerRect.height - itemContainerRect.bottom
-        };
-    }
+    protected _onTileViewKeyDown(): void {}
 
     private onScroll(): void {
         this._clearMouseMoveTimeout(this);
         this._listModel.setHoveredItem(null);
     }
+
     private _clearMouseMoveTimeout(): void {
         clearTimeout(this._mouseMoveTimeout);
         this._mouseMoveTimeout = null;

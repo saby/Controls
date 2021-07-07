@@ -1,4 +1,4 @@
-import BaseController from 'Controls/_popupTemplate/BaseController';
+import BaseController, {RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
 import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition, Controller} from 'Controls/popup';
 import StackStrategy from 'Controls/_popupTemplate/Stack/Opener/StackStrategy';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
@@ -19,7 +19,6 @@ import {Bus} from 'Env/Event';
  */
 
 const ACCORDEON_MIN_WIDTH = 50;
-const RIGHT_PANEL_WIDTH = 54;
 
 class StackController extends BaseController {
     TYPE: string = 'Stack';
@@ -528,9 +527,9 @@ class StackController extends BaseController {
                 stackRoot = stackRoot.parentElement as HTMLDivElement;
             }
             rootCoords = TargetCoords.get(stackRoot || document.body);
+            rootCoords.right -= RIGHT_PANEL_WIDTH;
         } else {
-            const offset = Controller.getRightTemplate() ? RIGHT_PANEL_WIDTH : 0;
-            rootCoords = BaseController.getRootContainerCoords(item, '.controls-Popup__stack-target-container', offset);
+            rootCoords = BaseController.getRootContainerCoords(item, '.controls-Popup__stack-target-container', RIGHT_PANEL_WIDTH);
         }
 
         // calc with scroll only on desktop devices, because stack popup has fixed position and can scroll with page

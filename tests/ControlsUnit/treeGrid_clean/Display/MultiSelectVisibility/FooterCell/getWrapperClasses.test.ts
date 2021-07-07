@@ -6,7 +6,7 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
 
     it('hasMultiSelectColumn() returns false, check first cell', () => {
         const mockedOwner = {
-            getColumnsConfig: () => [{}],
+            getGridColumnsConfig: () => [{}],
             getColumnsCount: () => 1,
             getStickyColumnsCount: () => 0,
             getExpanderSize: () => '',
@@ -30,12 +30,12 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
         });
         assert.match(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            createRegExpForTestMatchClass('controls-TreeGridView__footer__expanderPadding'));
+            createRegExpForTestMatchClass('controls-TreeGridView__expanderPadding'));
     });
 
     it('hasMultiSelectColumn() returns true, check first cell (checkbox cell)', () => {
         const mockedOwner = {
-            getColumnsConfig: () => [{}],
+            getGridColumnsConfig: () => [{}],
             getColumnsCount: () => 2,
             getStickyColumnsCount: () => 0,
             getExpanderSize: () => '',
@@ -60,12 +60,12 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
 
         assert.notMatch(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            createRegExpForTestMatchClass('controls-TreeGridView__footer__expanderPadding'));
+            createRegExpForTestMatchClass('controls-TreeGridView__expanderPadding'));
     });
 
     it('hasMultiSelectColumn() returns true, check second cell', () => {
         const mockedOwner = {
-            getColumnsConfig: () => [{}],
+            getGridColumnsConfig: () => [{}],
             getColumnsCount: () => 2,
             getStickyColumnsCount: () => 0,
             getExpanderSize: () => '',
@@ -90,7 +90,7 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
 
         assert.match(
             footerCell.getWrapperClasses('mockedTheme', 'mockedBG', 'mockedStyle', false),
-            createRegExpForTestMatchClass('controls-TreeGridView__footer__expanderPadding'));
+            createRegExpForTestMatchClass('controls-TreeGridView__expanderPadding'));
     });
 
 });

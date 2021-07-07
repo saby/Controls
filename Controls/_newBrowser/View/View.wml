@@ -10,7 +10,6 @@
                     name="masterList"
                     markedKey="{{_options.master.markedKey || _detailExplorerOptions.root}}"
                     style="master"
-                    newDesign="{{_options.masterNewDesign}}"
                     on:dragStart="_notifyHandler('masterDragStart')"
                     on:dragEnd="_notifyHandler('masterDragEnd')"
                     on:dragEnter="_notifyHandler('masterDragEnter')"
@@ -59,7 +58,6 @@
                         on:dragEnd="_notifyHandler('detailDragEnd')"
                         on:drawItems="_notifyHandler('drawItems')"
                         on:beforeItemsMove="_notifyHandler('detailBeforeItemsMove')"
-                        dataLoadCallback="{{_onDetailDataLoadCallback}}"
                         searchValue="{{_options.searchValue}}"
                         tileSize="{{_tileCfg.tileSize}}"
                         on:changeDragTarget="_notifyHandler('detailChangeDragTarget')"
@@ -124,6 +122,8 @@
         masterWidth="{{_options.master ? _options.master.width}}"
         masterMinWidth="{{_options.master ? _options.master.minWidth}}"
         masterMaxWidth="{{_options.master ? _options.master.maxWidth}}"
+        newDesign="{{_options.master.newDesign}}"
+        contrastBackground="{{_contrastBackground}}"
 >
 
     <ws:master>

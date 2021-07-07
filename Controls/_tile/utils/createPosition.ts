@@ -1,3 +1,10 @@
+/**
+ * одержит базовые методы для подсчета позиции элемента в document
+ */
+
+/**
+ * Интерфейс позиции элемента в document
+ */
 interface ITileItemPosition {
     left: number;
     top: number;
@@ -5,6 +12,13 @@ interface ITileItemPosition {
     bottom: number;
 }
 
+/**
+ * Считает и возвращает позицию элемента в document
+ * @param left
+ * @param top
+ * @param right
+ * @param bottom
+ */
 export function createPositionInBounds(
     left: number,
     top: number,

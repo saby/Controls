@@ -1,8 +1,8 @@
 import { mixin } from 'Types/util';
 import { ITreeItemOptions, TreeItem, IItemPadding, TMarkerClassName, IGroupNode } from 'Controls/display';
-import { IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions} from 'Controls/grid';
+import {IGridRowOptions, GridCell, GridRowMixin, IDisplaySearchValue, IDisplaySearchValueOptions, TColumns} from 'Controls/grid';
 import TreeGridCollection from './TreeGridCollection';
-import { IColumn } from 'Controls/grid';
+import { IColumn, IInitializeColumnsOptions } from 'Controls/grid';
 import { Model } from 'Types/entity';
 import TreeCheckboxCell from './TreeCheckboxCell';
 import {ITreeGridDataCellOptions} from './TreeGridDataCell';
@@ -21,6 +21,7 @@ export default class TreeGridDataRow<T extends Model = Model>
     readonly DisplaySearchValue: boolean = true;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
+    readonly EnumerableItem: boolean = true;
     readonly LadderSupport: boolean = true;
     readonly DraggableItem: boolean = true;
     protected _$searchValue: string;
@@ -29,6 +30,10 @@ export default class TreeGridDataRow<T extends Model = Model>
     constructor(options: IOptions<T>) {
         super(options);
         GridRowMixin.call(this, options);
+    }
+
+    setGridColumnsConfig(columns: TColumns): void {
+        this.setColumnsConfig(columns);
     }
 
     // region Expander
@@ -175,12 +180,13 @@ export default class TreeGridDataRow<T extends Model = Model>
         return false;
     }
 
-    protected _initializeColumns(): void {
+    protected _initializeColumns(options?: IInitializeColumnsOptions): void {
         super._initializeColumns({
             colspanStrategy: 'skipColumns',
             extensionCellsConstructors: {
                 multiSelectCell: TreeCheckboxCell
-            }
+            },
+            ...options
         });
     }
 }

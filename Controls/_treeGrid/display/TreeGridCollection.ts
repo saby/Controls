@@ -21,6 +21,8 @@ import {Model as EntityModel, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
 import {CrudEntityKey} from 'Types/source';
 import {TGroupNodeVisibility} from '../interface/ITreeGrid';
+import TreeGridHeader from 'Controls/_treeGrid/display/TreeGridHeader';
+import TreeGridTableHeader from 'Controls/_treeGrid/display/TreeGridTableHeader';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -62,6 +64,10 @@ export default class TreeGridCollection<
         GridMixin.call(this, options);
 
         this._setupProjectionFilters();
+
+        this.appendStrategy(itemsStrategy.NodeFooter, {
+            nodeFooterVisibilityCallback: this._$nodeFooterVisibilityCallback
+        });
     }
 
     protected _setupProjectionFilters(): void {
@@ -173,7 +179,7 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsProperty('setColumns', this._$columns);
+        this._updateItemsProperty('setColumnsConfig', this._$columns);
     }
 
     isLastItem(item: CollectionItem): boolean {
@@ -244,7 +250,9 @@ export default class TreeGridCollection<
     getAdditionalGroupConstructorParams() {
         return {
             ...super.getAdditionalGroupConstructorParams(),
-            colspanGroup: this._$colspanGroup
+            colspanGroup: this._$colspanGroup,
+            gridColumnsConfig: this._$columns,
+            columnsConfig: this._$columns
         };
     }
 
@@ -275,19 +283,24 @@ export default class TreeGridCollection<
 
     // region HasNodeWithChildren
 
-    protected _setHasNodeWithChildren(hasNodeWithChildren: boolean): void {
-        super._setHasNodeWithChildren(hasNodeWithChildren);
+    protected _setDisplayExpanderPadding(newValue: boolean) {
+        super._setDisplayExpanderPadding(newValue);
         if (this.getFooter()) {
-            this.getFooter().setHasNodeWithChildren(hasNodeWithChildren);
+            this.getFooter().setDisplayExpanderPadding(newValue);
+        }
+        if (this.getHeader()) {
+            this.getHeader().setDisplayExpanderPadding(newValue);
         }
     }
 
     // endregion HasNodeWithChildren
 
+
     // region itemsFactoryResolver
 
     protected _itemsFactoryResolver(superFactory: ItemsFactory<T>, options?: ITreeGridRowOptions<S>): ItemsFactory<T> {
-        options.columns = this._$columns;
+        options.columnsConfig = this._$columns;
+        options.gridColumnsConfig = this._$columns;
         options.colspanCallback = this._$colspanCallback;
         options.columnSeparatorSize = this._$columnSeparatorSize;
         options.rowSeparatorSize = this._$rowSeparatorSize;
@@ -327,25 +340,22 @@ export default class TreeGridCollection<
         return new TreeGridFooterRow({
             ...options,
             owner: this,
-            columns: options.footer,
+            columnsConfig: options.footer,
+            gridColumnsConfig: options.columns,
             shouldAddFooterPadding: options.itemActionsPosition === 'outside',
             rowTemplate: options.footerTemplate,
-            hasNodeWithChildren: this._hasNodeWithChildren
+            hasNodeWithChildren: this._hasNodeWithChildren,
+            hasNode: this._hasNode
         });
     }
 
-    // TODO по идее нужно это добавлять в Tree,
-    //  но т.к. Tree используется в старой модели, чтобы ничего не сломать, добавляю здесь
-    protected _createComposer(): itemsStrategy.Composer<any, TreeItem<any>> {
-        const composer = super._createComposer();
+    getHeaderConstructor(): typeof TreeGridHeader {
+        return this.isFullGridSupport() ? TreeGridHeader : TreeGridTableHeader;
+    }
 
-        // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
-        composer.append(itemsStrategy.NodeFooter, {
-            display: this,
-            nodeFooterVisibilityCallback: this._$nodeFooterVisibilityCallback
-        });
-
-        return composer;
+    protected _initializeHeader(options: IOptions<S, T>): void {
+        options.expanderSize = this.getExpanderSize();
+        super._initializeHeader(options);
     }
 
     protected setMetaResults(metaResults: EntityModel) {

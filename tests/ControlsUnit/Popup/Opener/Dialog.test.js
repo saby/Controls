@@ -3,8 +3,8 @@ define(
       'Controls/popupTemplate',
       'Controls/popup',
       'Controls/Application/SettingsController',
-      'Controls/_popupTemplate/Dialog/Opener/DialogStrategy',
-      'Controls/_popupTemplate/Dialog/Opener/DirectionUtil'
+      'Controls/_popupTemplate/Dialog/DialogStrategy',
+      'Controls/_popupTemplate/Dialog/DirectionUtil'
    ],
    (
       popupTemplate,
@@ -19,6 +19,7 @@ define(
          DialogController
       } = popupTemplate;
       const DialogOpener = popupLib.Dialog;
+      DialogStrategy = DialogStrategy.default;
       const mockedSettingsController = {
          storage: {
             'testDialogPosition': {
@@ -161,6 +162,20 @@ define(
             let position = DialogStrategy.getPosition(windowData, sizesTest, { popupOptions });
             assert.equal(position.left, 0);
             assert.equal(position.width, 500);
+         });
+
+         it('resetMargins', () => {
+            let windowData = {
+               width: 500,
+               height: 500,
+               topScroll: 0
+            };
+            let item = {
+               popupOptions: {},
+               targetCoords: {}
+            }
+            let position = DialogStrategy.getPosition(windowData, sizes, item);
+            assert.equal(position.margin, 0);
          });
 
          it('dialog popupoptions sizes config', () => {
@@ -420,6 +435,7 @@ define(
                   assert.strictEqual(item.position.left, 500);
                   assert.strictEqual(item.popupOptions.top, 200);
                   assert.strictEqual(item.popupOptions.left, 500);
+                  assert.strictEqual(item.dragged, true);
                   done();
                } catch (e) {
                   done(e);

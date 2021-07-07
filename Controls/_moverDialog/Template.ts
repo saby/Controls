@@ -1,19 +1,25 @@
-import {Control} from 'UI/Base';
-import {IControlOptions, TemplateFunction} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {Logger} from 'UI/Utils';
 import template = require('wml!Controls/_moverDialog/Template/Template');
-import {Record} from 'Types/entity';
+import cellTemplate = require('wml!Controls/_moverDialog/Template/CellTemplate');
+import {Model} from 'Types/entity';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
+import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import rk = require('i18n!Controls');
-import {TKeysSelection, TColumns} from 'Controls/interface';
+import {TColumns} from 'Controls/grid';
+import {IHierarchy, TKeysSelection} from 'Controls/interface';
 import 'css!Controls/moverDialog';
 
-
-export interface IMoverDialogTemplateOptions extends IControlOptions {
+export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy {
     displayProperty: string;
     root?: string|number;
     searchParam: string;
+
+    // @deprecated
     showRoot?: boolean;
+
+    rootVisible?: boolean;
     columns: TColumns;
     expandedItems: [];
     movedItems: TKeysSelection;
@@ -23,6 +29,8 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
     parentProperty: string;
     filter?: QueryWhereExpression<unknown>;
     headingCaption?: string;
+    rootTitle: string;
+    rootLabelVisible?: boolean;
 }
 
 /**
@@ -55,6 +63,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
     protected _itemActions: any[];
     protected _root: string|number;
     protected _expandedItems: any[];
+    protected _searchValue: string = '';
     protected _filter: QueryWhereExpression<unknown>;
     private _columns: TColumns;
 
@@ -65,8 +74,8 @@ export default class extends Control<IMoverDialogTemplateOptions> {
             showType: 2
         }];
         this._root = options.root;
+        this._filter = options.filter || {};
         this._expandedItems = options.expandedItems;
-        this._filter = options.filter;
 
         // TODO: сейчас прикладной программист передает в MoveDialog опцию columns, что плохо, он может повлиять на
         // отображение колонки, а диалог во всех реестрах должен выглядеть одинаково. Нужно убрать возможно передавать
@@ -74,13 +83,45 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         // Выписана задача: https://online.sbis.ru/opendoc.html?guid=aeaff20a-ee07-4d1b-8a9d-2528a269bc91
         this._columns = options.columns.slice();
         this._columns[0].textOverflow = 'ellipsis';
+
+        // Пока поддерживаем обе опции
+        if (options.showRoot) {
+            Logger.error('MoverDialog: Опция showRoot устарела и будет удалена в 5100. Необходимо использовать опцию rootVisible', this);
+        }
+        if (!options.displayProperty) {
+            Logger.warn('MoverDialog: Для корректной работы хлебных крошек необходимо указать опцию displayProperty', this);
+        }
+
+        if (options.rootVisible || options.showRoot) {
+            if (!options.rootTitle) {
+                Logger.error('MoverDialog: Для диалога перемещения необходимо указать опцию rootTitle', this);
+            }
+            this._columns[0].template = cellTemplate;
+            this._columns[0].templateOptions = {
+                rootLabelVisible: options.rootLabelVisible !== false
+            };
+        }
+
         this._onItemClick = this._onItemClick.bind(this);
         this._itemsFilterMethod = this._itemsFilterMethod.bind(this);
         this._itemActionVisibilityCallback = this._itemActionVisibilityCallback.bind(this);
+        this._dataLoadCallback = this._dataLoadCallback.bind(this);
     }
 
-    protected _itemsFilterMethod(item: Record): boolean {
+    resetSearch(): void {
+        this._searchValue = '';
+        this._filter = this._options.filter || {};
+    }
+
+    protected _onSearchValueChanged(e: SyntheticEvent, value: string): void {
+        if (this._searchValue !== value) {
+            this._searchValue = value === undefined || value === null ? '' : value;
+        }
+    }
+
+    protected _itemsFilterMethod(items: Model | Model[]): boolean {
         let result = true;
+        const item = Array.isArray(items) ? items[items.length - 1] : items;
 
         if (item.get) {
             result = this._options.movedItems.indexOf(item.get(this._options.keyProperty)) === -1;
@@ -89,12 +130,15 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         return result;
     }
 
-    protected _itemActionVisibilityCallback(action: object, item: Record): boolean {
+    protected _itemActionVisibilityCallback(action: object, item: Model): boolean {
         return item.get(this._options.hasChildrenProperty);
     }
 
-    protected _onItemClick(event: SyntheticEvent<MouseEvent>, item: Record): void {
-        if (!item.get(this._options.hasChildrenProperty)) {
+    protected _onItemClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
+        if (item.getKey() === 'root') {
+            this._applyMove(this._options.root);
+
+        } else if (!item.get(this._options.hasChildrenProperty)) {
             this._applyMove(item);
         }
     }
@@ -107,13 +151,37 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         return this._notify('beforeMarkedKeyChanged', [newKey]);
     }
 
-    protected _onItemActionsClick(event: SyntheticEvent<MouseEvent>, action: object, item: Record): void {
+    protected _onItemActionsClick(event: SyntheticEvent<MouseEvent>, action: object, item: Model): void {
         this._applyMove(item);
     }
 
-    protected _applyMove(item: Record): void {
+    protected _applyMove(item: Model): void {
         this._notify('sendResult', [item], {bubbling: true});
         this._notify('close', [], {bubbling: true});
+    }
+
+    protected _dataLoadCallback(recordSet: RecordSet): void {
+        if ((!this._searchValue || this._searchValue.length === 0) &&
+            this._root === this._options.root &&
+            (this._options.showRoot || this._options.rootVisible)) {
+            recordSet.add(new Model({
+                keyProperty: recordSet.getKeyProperty(),
+                rawData: this._getRootRawData()
+            }), 0);
+        }
+    }
+
+    /**
+     * Генерирует запись "В корень"
+     * @private
+     */
+    private _getRootRawData(): {[p: string]: string | number} {
+        return {
+            [this._options.parentProperty]: this._root || null,
+            [this._options.nodeProperty]: null,
+            [this._options.keyProperty]: 'root',
+            [this._options.displayProperty || 'title']: this._options.rootTitle
+        };
     }
 
     static getDefaultOptions = (): object => {
@@ -143,12 +211,23 @@ export default class extends Control<IMoverDialogTemplateOptions> {
  */
 
 /**
- * @name Controls/_moverDialog/Template#showRoot
+ * @name Controls/_moverDialog/Template#rootVisible
  * @cfg {Boolean} Разрешить перемещение записей в корень иерархии.
  * @default false
  * @remark
  * - true Отображается кнопка "В корень" над списком. Клик по кнопке перемещает записи в корень иерархии (см. {@link /materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo демо-пример}).
  * - false Кнопка скрыта.
+ */
+
+/**
+ * @name Controls/_moverDialog/Template#rootTitle
+ * @cfg {String} Заголовок корневой записи.
+ */
+
+/**
+ * @name Controls/_moverDialog/Template#rootLabelVisible
+ * @cfg {Boolean} Флаг, позволяющий включить или отключить пометку "(в корень)"
+ * @default true
  */
 
 /**
@@ -160,10 +239,10 @@ export default class extends Control<IMoverDialogTemplateOptions> {
 /**
  * @event Происходит при выборе раздела для перемещения записей.
  * @name Controls/_moverDialog/Template#sendResult
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Раздел, куда перемещаются выбранные записи.
  * @remark
- * Выбор раздела производится кликом по записи, кнопкам "Выбрать" и "В корень" (см. {@link showRoot}).
+ * Выбор раздела производится кликом по записи, кнопкам "Выбрать" и "В корень" (см. {@link rootVisible}).
  * Клик по папке не производит выбора раздела для перемещения.
  * Событие всплываемое (см. <a href="/doc/platform/developmentapl/interface-development/ui-library/events/">Работа с событиями</a>).
  * Событие происходит непосредственно перед событием {@link close}.
@@ -173,7 +252,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
 /**
  * @event Происходит при закрытии диалога перемещения записей.
  * @name Controls/_moverDialog/Template#close
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @remark
  * Событие всплываемое (см. <a href="/doc/platform/developmentapl/interface-development/ui-library/events/">Работа с событиями</a>).
  * Событие происходит непосредственно после события sendResult.

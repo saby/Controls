@@ -1,5 +1,5 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
-import {Control} from "UICore/Base";
+import {Control} from 'UICore/Base';
 import {IStickyPositionOffset} from 'Controls/_popup/interface/ISticky';
 
 export interface IDialogPopupOptions extends IBasePopupOptions {
@@ -17,7 +17,8 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
     maximize?: boolean;
     target?: HTMLElement | EventTarget | Control;
     offset?: IStickyPositionOffset;
-    restrictiveContainer?: string;
+    propStorageId?: string;
+    isCentered?: boolean;
 }
 
 /**
@@ -30,7 +31,7 @@ export interface IDialogOpener extends IOpener {
 }
 
 /**
- * @typedef {Object} IResizeDirection
+ * @typedef {Object} Controls/_popup/interface/IDialogOpener/IResizeDirection
  * @property {String} vertical
  * @property {String} horizontal
  */
@@ -79,7 +80,7 @@ export interface IResizeDirection {
  */
 /**
  * @name Controls/_popup/interface/IDialogOpener#resizeDirection
- * @cfg {IResizeDirection} Направление, в котором попап будет увеличиваться при динамическом изменении размеров контента.
+ * @cfg {Controls/_popup/interface/IDialogOpener/IResizeDirection.typedef} Направление, в котором попап будет увеличиваться при динамическом изменении размеров контента.
  * В этом случае противоположная сторона будет зафиксирована и не изменит свою позицию относительно окна браузера.
  * @demo Controls-demo/Popup/Dialog/ResizeDirection/Index
  */
@@ -281,7 +282,6 @@ export interface IResizeDirection {
  * @see destroy
  * @see isOpened
  */
-
 
 /**
  * Разрушает экземпляр класса.

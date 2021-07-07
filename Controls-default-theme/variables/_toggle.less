@@ -1,4 +1,4 @@
-.controls_theme-@{themeName} {
+.controls_toggle_theme-@{themeName} {
    // Переменные для кнопок с залипанием
    //
    // Обводка кнопок
@@ -7,8 +7,8 @@
 
    --secondary_toggled_border-thickness_toggleButton_button: 2px;
    --primary_toggled_border-thickness_toggleButton_button: 2px;
-   --secondary_toggled_border-color_toggleButton_toolButton: var(--secondary_color);
-   --secondary_toggled_border-color_toggleButton_pushButton: var(--readonly_marker-color);
+   --secondary_toggled_border-color_toggleButton_toolButton: var(--secondary_icon-color);
+   --secondary_toggled_border-color_toggleButton_pushButton: var(--secondary_icon-color);
    --secondary_border-color_toggleButton_pushButton: transparent;
 
 
@@ -22,10 +22,10 @@
    --secondary_hover_background-color_toggleButton_pushButton: transparent;
    --secondary_active_background-color_toggleButton_pushButton: transparent;
    --readonly_background-color_toggleButton_pushButton: transparent;
-   --secondary_toggled_background-color_toggleButton_pushButton: #f3f3f3;
+   --secondary_toggled_background-color_toggleButton_pushButton: var(--unaccented_active_same_background-color);
    --readonly_toggled_background-color_toggleButton_pushButton: transparent;
    --secondary_contrast_background-color_toggleButton_pushButton: transparent;
-   --secondary_contrast_hover_background-color_toggleButton_pushButton: #eaecee;
+   --secondary_contrast_hover_background-color_toggleButton_pushButton: var(--unaccented_hover_same_background-color);
    --secondary_contrast_active_background-color_toggleButton_pushButton: transparent;
    --readonly_contrast_background-color_toggleButton_pushButton: transparent;
    --secondary_contrast_toggled_background-color_toggleButton_pushButton: var(--secondary_toggled_background-color_toggleButton_pushButton);

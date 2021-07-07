@@ -1,6 +1,7 @@
 /**
  * @library Controls/treeGrid
  * @includes IGroupNodeColumn Controls/_treeGrid/interface/IGroupNodeColumn
+ * @includes ItemTemplate Controls/_treeGrid/interface/ItemTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -52,6 +53,9 @@ import TreeGridGroupDataCell from 'Controls/_treeGrid/display/TreeGridGroupDataC
 import TreeGridViewTable from './_treeGrid/TreeGridViewTable';
 import { IGroupNodeColumn } from 'Controls/_treeGrid/interface/IGroupNodeColumn';
 import { TGroupNodeVisibility } from 'Controls/_treeGrid/interface/ITreeGrid';
+import TreeGridHeaderRow from "Controls/_treeGrid/display/TreeGridHeaderRow";
+import TreeGridHeaderCell from "Controls/_treeGrid/display/TreeGridHeaderCell";
+import TreeGridTableHeaderRow from "Controls/_treeGrid/display/TreeGridTableHeaderRow";
 
 export {
     TreeGridFooterCell,
@@ -73,5 +77,8 @@ register('Controls/treeGrid:TreeGridNodeFooterRow', TreeGridNodeFooterRow, {inst
 register('Controls/treeGrid:TreeGridNodeFooterCell', TreeGridNodeFooterCell, {instantiate: false});
 register('Controls/treeGrid:TreeGridFooterRow', TreeGridFooterRow, {instantiate: false});
 register('Controls/treeGrid:TreeGridFooterCell', TreeGridFooterCell, {instantiate: false});
+register('Controls/treeGrid:TreeGridHeaderRow', TreeGridHeaderRow, {instantiate: false});
+register('Controls/treeGrid:TreeGridHeaderCell', TreeGridHeaderCell, {instantiate: false});
+register('Controls/treeGrid:TreeGridTableHeaderRow', TreeGridTableHeaderRow, {instantiate: false});
 register('Controls/treeGrid:TreeGridGroupDataRow', TreeGridGroupDataRow, {instantiate: false});
 register('Controls/treeGrid:TreeGridGroupDataCell', TreeGridGroupDataCell, {instantiate: false});

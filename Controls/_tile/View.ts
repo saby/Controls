@@ -1,6 +1,6 @@
 import {View as List} from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
-import TileView = require('./TileView');
+import TileView from './TileView';
 
 /**
  * Контрол "Плитка" позволяет отображать данные из различных источников в виде элементов плитки и располагать несколько элементов в одну строку. Контрол поддерживает широкий набор возможностей, позволяющих разработчику максимально гибко настраивать отображение данных.
@@ -98,7 +98,7 @@ Object.defineProperty(View, 'defaultProps', {
 /**
  * @name Controls/_tile/View#itemPadding
  * @cfg
- * @demo Controls-demo/Tile/ItemPadding/PaddingS/Index
+ * @demo Controls-demo/tileNew/ItemPadding/PaddingS/Index
  * @example
  * <pre class="brush: html">
  * <!-- WML -->

@@ -7,10 +7,14 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import * as cInstance from 'Core/core-instance';
 
+interface IDataOptionsValue {
+    sourceController?: SourceController;
+    keyProperty: string;
+    parentProperty: string;
+}
+
 interface IContainerOptions extends IControlOptions {
-    _dataOptionsValue: {
-        sourceController?: SourceController
-    };
+    _dataOptionsValue: IDataOptionsValue;
     sourceController?: SourceController;
 }
 
@@ -40,17 +44,19 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     protected _beforeUnmount(): void {
         if (this._sourceController) {
             this._sourceController.unsubscribe('itemsChanged', this._updateBreadCrumbsItems);
+            this._sourceController.unsubscribe('breadcrumbsDataChanged', this._updateBreadCrumbsItems);
             this._sourceController.destroy();
         }
     }
 
     protected _itemClickHandler(e: SyntheticEvent, item: Model): void {
-        if (this._sourceController) {
+        if (this._sourceController && this._options.sourceController) {
             this._sourceController.setRoot(item.getKey());
             this._sourceController.reload();
         } else {
             this._notify('rootChanged', [item.getKey()], {bubbling: true});
         }
+        this._notify('breadCrumbsItemClick', [item.getKey()], {bubbling: true});
     }
 
     protected _hoveredCrumbChanged(event: SyntheticEvent, item: Model): void {
@@ -81,9 +87,10 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         this._dragOnBreadCrumbs = false;
     }
 
-    private _subscribeItemsChanged(options): void {
-        this._sourceController = options.sourceController;
+    private _subscribeItemsChanged(sourceController): void {
+        this._sourceController = sourceController;
         this._sourceController.subscribe('itemsChanged', this._updateBreadCrumbsItems);
+        this._sourceController.subscribe('breadcrumbsDataChanged', this._updateBreadCrumbsItems);
     }
 
     private _updateBreadCrumbsItems(): void {
@@ -91,25 +98,36 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     }
 
     private _setBreadCrumbsItems(options): void {
-        let dataOptions = options._dataOptionsValue;
-        if (options.id) {
-            dataOptions = options._dataOptionsValue.listsConfigs[options.id]
-        }
-        if (dataOptions && dataOptions.breadCrumbsItems !== undefined) {
-            this._breadCrumbsItems = dataOptions.breadCrumbsItems;
-        } else if (this._sourceController !== options.sourceController) {
-            // FIXME пока страница не обернута в браузер, sourceController задается на опциях
-            this._subscribeItemsChanged(options);
+        let dataOptions = BreadCrumbsContainer._getContextOptions(options);
+
+        const isUpdated = this._updateSourceControllerSubscribe(options, dataOptions);
+
+        if (isUpdated) {
             this._updateBreadCrumbsItems();
         }
     }
 
+    private _updateSourceControllerSubscribe(options, dataOptions): boolean {
+        let sourceController = options.sourceController || dataOptions?.sourceController;
+        if (this._sourceController !== sourceController) {
+            this._subscribeItemsChanged(sourceController);
+            return true;
+        }
+    }
+
+    private static _getContextOptions(options): IDataOptionsValue {
+        if (options.id) {
+            return options._dataOptionsValue.listsConfigs[options.id];
+        }
+        return options._dataOptionsValue;
+    }
+
     private static _getKeyProperty(options): string {
-        return options._dataOptionsValue.keyProperty ||
+        return BreadCrumbsContainer._getContextOptions(options).keyProperty ||
             options.sourceController && options.sourceController.getKeyProperty();
     }
     private static _getParentProperty(options): string {
-        return options._dataOptionsValue.parentProperty ||
+        return BreadCrumbsContainer._getContextOptions(options).parentProperty ||
             options.sourceController && options.sourceController.getParentProperty();
     }
 }

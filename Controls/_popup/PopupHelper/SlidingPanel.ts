@@ -4,6 +4,7 @@ import {ISlidingPanelOptions, ISlidingPanelPopupOptions} from 'Controls/_popup/i
 import StackOpener from 'Controls/_popup/PopupHelper/Stack';
 import DialogOpener from 'Controls/_popup/PopupHelper/Dialog';
 import {detection} from 'Env/Env';
+import {Logger} from 'UI/Utils';
 import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
 
 const POPUP_CONTROLLER = 'Controls/popupSliding:Controller';
@@ -48,6 +49,7 @@ export default class SlidingPanel extends Base {
     open(popupOptions: ISlidingPanelPopupOptions): unknown {
         const adaptivePopupOptions = this._getPopupOptionsWithSizes(popupOptions);
         const desktopMode = this._getDesktopMode(adaptivePopupOptions);
+        this._validateOptions(popupOptions);
         if (detection.isPhone) {
             return super.open(adaptivePopupOptions, POPUP_CONTROLLER);
         } else {
@@ -148,5 +150,32 @@ export default class SlidingPanel extends Base {
         }
 
         return resultPopupOptions;
+    }
+
+    private _validateOptions({slidingPanelOptions}: ISlidingPanelPopupOptions): void {
+        const heightList = slidingPanelOptions.heightList ||
+            this._options?.slidingPanelOptions?.heightList;
+        if (heightList) {
+            this._validateHeightList(heightList);
+        } else if (!slidingPanelOptions.minHeight) {
+            Logger.error('Controls/popup:SlidingPanel: опция minHeight обязательна для заполнения');
+        }
+    }
+
+    protected _validateHeightList(heightList: ISlidingPanelOptions['heightList']): void {
+        const heightListLength = heightList.length;
+        if (heightListLength) {
+            if (heightListLength > 1) {
+                for (let i = 1; i < heightListLength; i++) {
+                    if (heightList[i] <= heightList[i - 1]) {
+                        Logger.error(`Controls/popup:SlidingPanel:
+                            опция heightList должна содержать список высот отсортированных по возрастанию`);
+                        break;
+                    }
+                }
+            }
+        } else {
+            Logger.error('Controls/popup:SlidingPanel: опция heightList должна содержать хотя бы одно значение');
+        }
     }
 }

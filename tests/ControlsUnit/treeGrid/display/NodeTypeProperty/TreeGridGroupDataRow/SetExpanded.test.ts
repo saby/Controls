@@ -28,10 +28,11 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/SetExp
             },
             keyProperty: 'id'
         }),
-        columns,
+        gridColumnsConfig: columns,
+        columnsConfig: columns,
         owner: {
             ...owner,
-            getColumnsConfig: () => columns
+            getGridColumnsConfig: () => columns
         }
     });
 

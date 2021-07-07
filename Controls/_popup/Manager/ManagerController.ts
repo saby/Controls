@@ -4,6 +4,8 @@
 import {Control} from 'UI/Base';
 import Container from 'Controls/_popup/Manager/Container';
 import {IPopupItem, IPopupOptions, IPopupController} from 'Controls/_popup/interface/IPopup';
+import {getModuleByName, loadModule} from 'Controls/_popup/utils/moduleHelper';
+import {Logger} from 'UI/Utils';
 
 interface IContentData {
     left: number;
@@ -21,10 +23,11 @@ export default {
     _container: null,
     _indicator: null,
     _contentData: null,
-    _rightTemplate: null,
+    _rightBottomTemplate: null,
     _popupHeaderTheme: undefined,
     _theme: undefined,
     _popupSettingsController: undefined,
+    _popupPageConfigLoaderModule: undefined,
     setManager(manager: Control): void {
         this._manager = manager;
     },
@@ -110,8 +113,18 @@ export default {
         return this._callManager('show', arguments);
     },
 
-    loadData(dataLoaders): Promise<unknown> {
-        return this._callManager('loadData', arguments);
+    loadData(dataLoaders: unknown[]): Promise<unknown> {
+        const loaderModule = this._callManager('getDataLoaderModule', arguments);
+        if (!loaderModule) {
+            const message = 'На приложении не задан загрузчик данных. Опция окна dataLoaders будет проигнорирована';
+            Logger.warn(message, this);
+            return undefined;
+        }
+        return new Promise((resolve, reject) => {
+            this._getModuleByModuleName(loaderModule, (DataLoader) => {
+                DataLoader.load(dataLoaders).then(resolve, reject);
+            });
+        });
     },
 
     isPopupCreating(id: string): boolean {
@@ -142,11 +155,30 @@ export default {
         return this._contentData;
     },
 
-    setRightTemplate(rightTemplate: string): void {
-        this._rightTemplate = rightTemplate;
+    setRightPanelBottomTemplate(rightTemplate: string): void {
+        this._rightBottomTemplate = rightTemplate;
+    },
+
+    getRightPanelBottomTemplate(): string {
+        return this._rightBottomTemplate;
+    },
+
+    setRightTemplate(): void {
+        // удалить метод, сейчас в качестве заглушки
     },
 
     getRightTemplate(): string {
-        return this._rightTemplate;
+        // удалить метод, сейчас в качестве заглушки
+    },
+
+    _getModuleByModuleName(moduleName: string, callback: Function): void {
+        const module = getModuleByName(moduleName);
+        if (module) {
+            callback(module);
+        } else {
+            loadModule(moduleName).then((loadedModule) => {
+                callback(loadedModule);
+            });
+        }
     }
 };

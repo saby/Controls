@@ -58,12 +58,6 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
         return itemsOrder.map((index) => items[index]);
     }
 
-    setNodeFooterVisibilityCallback(callback: TNodeFooterVisibilityCallback): void {
-        if (this._options.nodeFooterVisibilityCallback !== callback) {
-            this._options.nodeFooterVisibilityCallback = callback;
-        }
-    }
-
     at(index: number): T {
         const itemsOrder = this._getItemsOrder();
         const itemIndex = itemsOrder[index];
@@ -195,7 +189,8 @@ export default class NodeFooter<S extends Model = Model, T extends TreeItem<S> =
                     itemModule: options.itemModule || 'Controls/treeGrid:TreeGridNodeFooterRow',
                     contents: nodeFooterContent,
                     parent: item,
-                    hasMore: item.hasMoreStorage()
+                    hasMore: item.hasMoreStorage(),
+                    moreFontColorStyle: options.display.getMoreFontColorStyle()
                 });
                 options.nodeFooters.splice(index, 0, nodeFooter);
                 item.setNodeFooter(nodeFooter);

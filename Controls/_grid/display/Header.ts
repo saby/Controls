@@ -8,8 +8,8 @@ import HeaderRow, {IOptions as IHeaderRowOptions} from './HeaderRow';
 export interface IOptions<T> extends IHeaderRowOptions<T> {}
 
 export interface IHeaderBounds {
-    row: {start: number, end: number},
-    column: {start: number, end: number}
+    row: {start: number, end: number};
+    column: {start: number, end: number};
 }
 
 export default class Header<T> {
@@ -60,9 +60,15 @@ export default class Header<T> {
         });
     }
 
-    setColumns(newColumns: TColumns): void {
+    setColumnsConfig(newColumns: TColumns): void {
         this._$rows.forEach((row) => {
-            row.setColumns(newColumns);
+            row.setColumnsConfig(newColumns);
+        });
+    }
+
+    setGridColumnsConfig(newColumns: TColumns): void {
+        this._$rows.forEach((row) => {
+            row.setGridColumnsConfig(newColumns);
         });
     }
 
@@ -85,12 +91,12 @@ export default class Header<T> {
     protected _getGridHeaderBounds(options: IOptions<T>): IHeaderBounds {
         const bounds: IHeaderBounds = {
             row: {start: Number.MAX_VALUE, end: Number.MIN_VALUE},
-            column: {start: 1, end: options.columns.length + 1}
+            column: {start: 1, end: options.gridColumnsConfig.length + 1}
         };
 
-        for (let i = 0; i < options.header.length; i++) {
-            if (typeof options.header[i].startRow === 'number') {
-                bounds.row.start = Math.min(options.header[i].startRow, bounds.row.start);
+        for (let i = 0; i < options.columnsConfig.length; i++) {
+            if (typeof options.columnsConfig[i].startRow === 'number') {
+                bounds.row.start = Math.min(options.columnsConfig[i].startRow, bounds.row.start);
             } else {
                 // Одноуровневая шапка либо невалидная конфигурация шапки
                 bounds.row.start = 1;
@@ -98,8 +104,8 @@ export default class Header<T> {
                 break;
             }
 
-            if (typeof options.header[i].endRow === 'number') {
-                bounds.row.end = Math.max(options.header[i].endRow, bounds.row.end);
+            if (typeof options.columnsConfig[i].endRow === 'number') {
+                bounds.row.end = Math.max(options.columnsConfig[i].endRow, bounds.row.end);
             } else {
                 // Одноуровневая шапка либо невалидная конфигурация шапки
                 bounds.row.start = 1;

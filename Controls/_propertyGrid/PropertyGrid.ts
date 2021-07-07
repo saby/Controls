@@ -12,7 +12,6 @@ import {IPropertyGridOptions} from 'Controls/_propertyGrid/IPropertyGrid';
 import {default as IPropertyGridItem} from './IProperty';
 import {
     PROPERTY_GROUP_FIELD,
-    PROPERTY_NAME_FIELD,
     PROPERTY_TOGGLE_BUTTON_ICON_FIELD
 } from './Constants';
 import {groupConstants as constView} from '../list';
@@ -37,7 +36,7 @@ type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem
  *
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends UI/Base:Control
- * @mixes Controls/propertyGrid:IPropertyGrid
+ * @mixes Controls/interface/IPropertyGrid
  * @demo Controls-demo/PropertyGridNew/Group/Expander/Index
  *
  * @public
@@ -71,8 +70,8 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
 
     protected _beforeMount(options: IPropertyGridOptions): void {
         this._collapsedGroups = this._getCollapsedGroups(options.collapsedGroups);
+        this._toggledEditors = this._getToggledEditors(options.source, options.keyProperty);
         this._listModel = this._getCollection(options);
-        this._toggledEditors = this._getToggledEditors(options.source, this._listModel.getKeyProperty());
         if (options.captionColumnOptions || options.editorColumnOptions) {
             this._render = gridRenderTemplate;
         }
@@ -83,8 +82,8 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             this._listModel.setEditingObject(newOptions.editingObject);
         }
         if (newOptions.source !== this._options.source) {
+            this._toggledEditors = this._getToggledEditors(newOptions.source, newOptions.keyProperty);
             this._listModel = this._getCollection(newOptions);
-            this._toggledEditors = this._getToggledEditors(newOptions.source, this._listModel.getKeyProperty());
         } else if (newOptions.itemPadding !== this._options.itemPadding) {
             this._listModel.setItemPadding(newOptions.itemPadding);
         }
@@ -326,6 +325,18 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
 
     static _theme: string[] = ['Controls/propertyGrid'];
 
+    static defaultProps: Partial<IPropertyGridOptions> = {
+        keyProperty: 'name',
+        groupProperty: PROPERTY_GROUP_FIELD,
+        withoutLevelPadding: true,
+        itemsContainerPadding: {
+            top: 'm',
+            bottom: 'm',
+            left: 'm',
+            right: 'm'
+        }
+    };
+
     static getDefaultPropertyGridItem(): IPropertyGridItem {
         return {
             name: undefined,
@@ -338,21 +349,4 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             propertyValue: undefined
         };
     }
-
-    static getDefaultOptions(): Partial<IPropertyGridOptions> {
-        return {
-            keyProperty: 'name',
-            groupProperty: PROPERTY_GROUP_FIELD,
-            withoutLevelPadding: true
-        };
-    }
 }
-
-Object.defineProperty(PropertyGridView, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
-
-   get(): object {
-      return PropertyGridView.getDefaultOptions();
-   }
-});

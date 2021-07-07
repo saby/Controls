@@ -25,11 +25,9 @@ class DateRangeEditor extends Control<IControlOptions> {
     protected _dateRangeModule: Record<string, any> = null;
     protected _emptyCaption: string;
     protected _reseted: boolean = false;
-    protected _fontColorStyle: string;
 
     protected _beforeMount(options: IControlOptions): Promise<void>|void {
         this._templateName = 'Controls/dateRange:' + (options.editorMode === 'Selector' ? 'RangeSelector' : 'RangeShortSelector');
-        this._fontColorStyle = options.readOnly ? 'label' : options.fontColorStyle;
         this._reseted = isEqual(options.value, options.resetValue);
         return import('Controls/dateRange').then((dateRange) => {
             this._dateRangeModule = dateRange;
@@ -90,7 +88,7 @@ Object.defineProperty(DateRangeEditor, 'defaultProps', {
 /**
  * @event Происходит при изменении выбранного значения.
  * @name Controls/_filter/Editors/DateRange#textValueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} caption Строковое представление периода дат.
  */
 

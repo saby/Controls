@@ -8,7 +8,8 @@ import * as ViewModel from 'Controls/_input/Base/ViewModel';
 import * as unEscapeASCII from 'Core/helpers/String/unEscapeASCII';
 import {hasHorizontalScroll} from 'Controls/scroll';
 import {processKeydownEvent} from 'Controls/_input/resources/Util';
-import {IBaseOptions, PLACEHOLDER_VISIBILITY} from 'Controls/_input/interface/IBase';
+import {IBaseOptions} from 'Controls/_input/interface/IBase';
+import {PLACEHOLDER_VISIBILITY} from 'Controls/_interface/IInputPlaceholder';
 import template = require('wml!Controls/_input/Base/Base');
 import fieldTemplate = require('wml!Controls/_input/Base/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Base/ReadOnly');
@@ -199,8 +200,8 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     protected _horizontalPadding: string;
     private _isBrowserPlatform: boolean;
 
-    constructor(cfg: IBaseInputOptions) {
-        super(cfg);
+    constructor(cfg: IBaseInputOptions, context?: object) {
+        super(cfg, context);
 
         this._isIE = detection.isIE;
         this._ieVersion = detection.IEVersion;
@@ -259,7 +260,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
          * The state is not available until the control is mount to DOM. So hide the placeholder until then.
          */
         this._placeholderVisibility = (this._autoComplete === 'off' || this._hidePlaceholderUsingCSS) ?
-            PLACEHOLDER_VISIBILITY.EMPTY :
+            options.placeholderVisibility :
             PLACEHOLDER_VISIBILITY.HIDDEN;
     }
 
@@ -648,7 +649,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._updateSelectionByOptions(newOptions);
     }
 
-    private _getValue(options: IBaseInputOptions): string {
+    protected _getValue(options: IBaseInputOptions): string {
         if (options.hasOwnProperty('value')) {
             return options.value === undefined ? this._defaultValue : options.value;
         }

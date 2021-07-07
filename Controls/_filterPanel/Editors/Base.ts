@@ -9,12 +9,14 @@ export abstract class BaseEditor extends Control<IControlOptions> {
     protected _editorTarget: HTMLElement | EventTarget | Control<{}, void>;
 
     protected _notifyPropertyValueChanged(value: object, needCollapse?: boolean): void {
-        if (needCollapse || this._options.filterViewMode !== 'default') {
+        if (needCollapse || !this._options.applyButtonSticky) {
             this._hideApplyButton();
+            value.needCollapse = needCollapse;
             this._notify('propertyValueChanged', [value], {bubbling: true});
         } else {
             this._getApplyButtonSticky().open({
                 opener: null,
+                autofocus: false,
                 template: this._applyButtonTemplate,
                 targetPoint: {
                     horizontal: 'right'
@@ -41,7 +43,7 @@ export abstract class BaseEditor extends Control<IControlOptions> {
 
     private _getApplyButtonSticky(): StickyOpener {
         if (!this._applyButtonSticky) {
-            this._applyButtonSticky = new StickyOpener();
+            this._applyButtonSticky = this._options.applyButtonSticky;
         }
         return this._applyButtonSticky;
     }

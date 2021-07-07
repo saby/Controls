@@ -80,6 +80,12 @@ export default class TreeTileCollection<
         return 'none';
     }
 
+    protected _getChildrenArray(parent: T, withFilter?: boolean): T[] {
+        // фильтруем невидимые элементы, т.к. они нужны только для отрисовки, обрабатывать их никак не нужно
+        const childrenArray = super._getChildrenArray(parent, withFilter);
+        return childrenArray.filter((it) => !it['[Controls/_tile/display/mixins/InvisibleItem]']) as T[];
+    }
+
     protected _getItemsFactory(): ItemsFactory<T> {
         const parent = super._getItemsFactory();
 

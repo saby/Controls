@@ -6,6 +6,10 @@ import { mixin } from 'Types/util';
 import {IOptions} from 'Controls/_tile/display/mixins/TileItem';
 import InvisibleStrategy from './strategies/Invisible';
 
+/**
+ * Плиточная коллекция
+ * @author Панихин К.А.
+ */
 export default class TileCollection<
     S extends Model = Model,
     T extends TileCollectionItem<S> = TileCollectionItem<S>

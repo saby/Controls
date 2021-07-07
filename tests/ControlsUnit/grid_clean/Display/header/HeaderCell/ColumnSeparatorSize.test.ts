@@ -17,7 +17,7 @@ describe('Controls/grid_clean/Display/header/HeaderCell/ColumnSeparatorSize', ()
             getHeaderConfig: () => header,
             hasMultiSelectColumn: () => hasMultiSelectColumn,
             getStickyColumnsCount: () => stickyColumnsCount,
-            getColumnsConfig: () => columns,
+            getGridColumnsConfig: () => columns,
             hasItemActionsSeparatedCell: () => hasItemActionsSeparatedCell,
             hasColumnScroll: () => hasColumnScroll,
             getHoverBackgroundStyle: () => 'default',
@@ -33,8 +33,8 @@ describe('Controls/grid_clean/Display/header/HeaderCell/ColumnSeparatorSize', ()
             isStickyHeader: () => false
         } as undefined as GridCollection<Model>;
         return new GridHeader({
-            header,
-            columns,
+            columnsConfig: header,
+            gridColumnsConfig: columns,
             owner,
             headerModel: undefined,
             colspanCallback: ((item: EntityModel, column: IColumn, columnIndex: number, isEditing: boolean) => {
@@ -43,7 +43,7 @@ describe('Controls/grid_clean/Display/header/HeaderCell/ColumnSeparatorSize', ()
         });
     }
 
-    beforeEach('', () => {
+    beforeEach(() => {
         hasMultiSelectColumn = false;
         stickyColumnsCount = 0;
         hasItemActionsSeparatedCell = false;
