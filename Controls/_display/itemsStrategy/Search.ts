@@ -83,7 +83,7 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
             // В случае, когда группой является узел, то родителем хлебной крошки должна быть эта группа
             const parent = item.getParent() && item.getParent()['[Controls/treeGrid:TreeGridGroupDataRow]']
                 ? item.getParent()
-                : root
+                : root;
             breadCrumbs = display.createBreadcrumbsItem({
                 contents: null,
                 last,

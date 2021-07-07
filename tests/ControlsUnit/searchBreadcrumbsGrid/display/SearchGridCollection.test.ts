@@ -96,6 +96,22 @@ describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
       });
    });
 
+   it('setRoot', () => {
+      const items = new RecordSet({
+         rawData: [
+            { key: 11, parent: 1, type: null },
+            { key: 12, parent: 1, type: null },
+            { key: 13, parent: 1, type: null },
+            { key: 14, parent: 1, type: null },
+            { key: 15, parent: 1, type: null }
+         ],
+         keyProperty: 'key'
+      });
+      const collection = createCollectionForTest({collection: items, root: 1});
+      assert.exists(collection);
+      assert.doesNotThrow(collection.setRoot.bind(collection, null));
+   });
+
    it('Should create results when root contains single item', () => {
       // При наличии в корне единственного узла (даже если он развернут и у него есть дочерние элементы) - не
       // должны создаваться results.
