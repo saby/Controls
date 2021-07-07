@@ -16,7 +16,7 @@
          <div class="controls-FilterViewPanel__group-result-container">
             <div class="controls-FilterViewPanel__group-result_wrapper
                         {{_options.viewMode === 'filterPanelStack' ? 'controls-FilterViewPanel__group-result_wrapper-contrast'}}">
-               <div class="controls-FilterViewPanel__group-result">
+               <div class="controls-FilterViewPanel__group-result ws-ellipsis">
                   {{_options.groupItems[item].textValue}}
                </div>
                <ws:if data="{{_options.groupItems[item].afterEditorTemplate}}">
