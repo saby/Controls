@@ -42,7 +42,7 @@
                         name="startValueField"
                         mask="{{mask}}"
                         autocompleteMode="start"
-                        value="{{rangeModel.startValue}}"
+                        value="{{rangeModel.endValue}}"
                         dateConstructor="{{_options.dateConstructor}}"
                         valueValidators="{{startValueValidators}}"
                         validateByFocusOut="{{false}}"
@@ -70,7 +70,7 @@
                             name="endValueField"
                             mask="{{mask}}"
                             autocompleteMode="start"
-                            value="{{rangeModel.endValue}}"
+                            value="{{rangeModel.startValue}}"
                             _yearSeparatesCenturies="{{rangeModel.startValue}}"
                             dateConstructor="{{_options.dateConstructor}}"
                             valueValidators="{{endValueValidators}}"
@@ -98,7 +98,6 @@
         </div>
     </ws:else>
     <div attr:date="{{ today }}"
-         on:click="_todayCalendarClick()"
          title="{[Текущий период]}"
          data-qa="controls-PeriodDialog__header_calendar"
          class="controls-PeriodDialog__header_calendar">

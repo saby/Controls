@@ -40,7 +40,7 @@ export default {
     },
     calcValue(minValue: number, maxValue: number, ratio: number, perc: number): number {
         const rangeLength = maxValue - minValue;
-        const val = minValue + Math.max(Math.min(ratio, 1), 0) * rangeLength;
+        const val = minValue + Math.max(ratio, 0) * rangeLength;
         return parseFloat(val.toFixed(perc));
     },
     checkOptions(opts: ISliderBaseOptions | ISliderRangeOptions): void {

@@ -128,9 +128,9 @@ class DateTime extends Control<IDateBaseOptions> {
     }
 
     protected _inputCompletedHandler(e: SyntheticEvent<KeyboardEvent>, value: Date | WSDate, textValue: string): void {
-        e.stopImmediatePropagation();
-        this._model.autocomplete(textValue, this._options.autocompleteType, this._options.inputMode);
-        this._notify('inputCompleted', [this._model.value, this._model.displayValue]);
+        // e.stopImmediatePropagation();
+        // this._model.autocomplete(textValue, this._options.autocompleteType, this._options.inputMode);
+        // this._notify('inputCompleted', [this._model.value, this._model.displayValue]);
     }
 
     protected _valueChangedHandler(e: SyntheticEvent<KeyboardEvent>, value: Date | WSDate, textValue: string): void {
@@ -153,9 +153,9 @@ class DateTime extends Control<IDateBaseOptions> {
     protected _onKeyDown(event: SyntheticEvent<KeyboardEvent>): void {
         let key = event.nativeEvent.keyCode;
         if (key === constants.key.insert && !event.nativeEvent.shiftKey && !event.nativeEvent.ctrlKey && !this._options.readOnly) {
-            // on Insert button press current date should be inserted in field
-            this._model.setCurrentDate();
-            this._notify('inputCompleted', [this._model.value, this._model.textValue]);
+            // // on Insert button press current date should be inserted in field
+            // this._model.setCurrentDate();
+            // this._notify('inputCompleted', [this._model.value, this._model.textValue]);
         }
         if (key === constants.key.plus || key === constants.key.minus) {
             // on +/- buttons press date should be increased or decreased in field by one day if date is not empty

@@ -29,7 +29,7 @@ const minus: RegExp = /-/g;
 /**
  * <Minus>|<Digits_sequence>|<Decimal_splitter>
  */
-const validValues: RegExp = new RegExp(`^-|[0-9]+|[${decimalSplitters}]`, 'g');
+const validValues: RegExp = new RegExp(`^-|[0-9]|[а-я]|[a-z]+|[${decimalSplitters}]`, 'g');
 
 function syntaxValidate(value: string[]): string {
     let foundFirstSplitter: boolean = false;

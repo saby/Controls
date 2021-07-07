@@ -1,0 +1,50 @@
+<div attr:style="width: 100%;height: 100vh;background-color: #F7F6EE">
+    <div attr:style="width: 400px;margin: 0 auto;" class="ws-flexbox ws-flex-column">
+        <div attr:style="margin-top: 20px">
+            <h3>Большой выбор периода</h3>
+            <Controls.dateRange:Input
+                    bind:startValue="_startDate"
+                    bind:endValue="_endDate"
+                    mask="{{_mask}}"
+                    startTagStyle="{{'danger'}}"
+                    endTagStyle="{{'success'}}"/>
+        </div>
+        <div attr:style="margin-top: 20px">
+            <h3>Поле ввода времени</h3>
+            <Controls.input:DateBase
+                    on:deactivated="_dataTimeHandler()"
+                    bind:value="_endTime"
+                    mask="HH:mm"/>
+        </div>
+        <div attr:style="margin-top: 20px">
+            <h3>Однострочное поле ввода</h3>
+            <Controls.input:Text bind:value="_value1" attr:style="width:200px;font-family: Tahoma, Geneva, sans-serif;"/>
+        </div>
+        <div attr:style="margin-top: 20px">
+            <h3>Денежное поле</h3>
+            <Controls.input:Money on:valueChanged="_moneyHandler()" bind:value="_value2" attr:style="width:200px"/>
+        </div>
+        <div attr:style="margin-top: 20px">
+            <h3>Слайдер</h3>
+            <Controls.slider:Range
+                    attr:style="width:200px"
+                    maxValue="{{10}}"
+                    minValue="{{0}}"
+                    scaleStep="{{2}}"
+                    on:startValueChanged="_startHandler()"
+                    on:endValueChanged="_endHandler()"
+                    bind:startValue="_value3"
+                    bind:endValue="_value4"/>
+            <div attr:style="width:200px" class="ws-flexbox ws-justify-content-between">
+                <div class="ws-flexbox ws-align-items-center">
+                    <div attr:style="margin-right: 10px">ОТ</div>
+                    <Controls.input:Text on:valueChanged="_inputHandler()" placeholder="0" bind:value="_value5" attr:style="width:40px"/>
+                </div>
+                <div class="ws-flexbox ws-align-items-center">
+                    <div attr:style="margin-right: 10px">ДО</div>
+                    <Controls.input:Text placeholder="10" bind:value="_value6" attr:style="width:40px"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
