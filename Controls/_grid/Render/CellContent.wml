@@ -17,47 +17,54 @@
 
     </ws:if>
     <ws:else>
-        <ws:if data="{{ (gridColumn || itemData).config.tooltipProperty }}">
-            <Controls.Container.Async templateName="Controls/popup:InfoboxTarget">
-                <ws:partial template="{{content.resolvedTemplate}}"
-                            attr:class="{{ (gridColumn || itemData).getTooltipOverflowClasses() }}">
-                    <ws:content>
-                        <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
-                            <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
-                            <div class="{{ (gridColumn || itemData).getTextOverflowClasses() }}">
-                                <ws:partial template="{{ (gridColumn || itemData).getCellContentRender() }}"
-                                            value="{{ (gridColumn || itemData).getDefaultDisplayValue() }}"
-                                            searchValue="{{ (gridColumn || itemData).getSearchValue() }}"
-                                            scope="{{ (gridColumn || itemData).config }}"/>
-                            </div>
-                        </ws:if>
-                        <ws:else>
-                            <!-- Контент по умолчанию -->
-                            <div>{{ (gridColumn || itemData).getDefaultDisplayValue() }}</div>
-                        </ws:else>
-                    </ws:content>
-                    <ws:template>
-                        <div>{{ (gridColumn || itemData).getTooltip() }}</div>
-                    </ws:template>
-                </ws:partial>
-            </Controls.Container.Async>
-        </ws:if>
-        <ws:else>
-            <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
-                <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
-                <div class="{{ (gridColumn || itemData).getTextOverflowClasses() }}">
-                    <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
-                                attr:title="{{ (gridColumn || itemData).getTextOverflowTitle() }}"
-                                value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
-                                searchValue="{{(gridColumn || itemData).getSearchValue()}}"
-                                scope="{{(gridColumn || itemData).config}}"/>
-                </div>
-            </ws:if>
-            <ws:else>
-                <!-- Контент по умолчанию -->
-                {{ (gridColumn || itemData).getDefaultDisplayValue() }}
-            </ws:else>
-        </ws:else>
+        <ws:partial template="wml!Controls/_grid/Render/BasicLadderTemplate"
+                    ladderWrapper="{{ ladderWrapper }}"
+                    ladderProperty="{{(gridColumn || itemData).getDisplayProperty()}}"
+                    ladder="{{(gridColumn || itemData).ladder}}">
+            <ws:contentTemplate>
+                <ws:if data="{{ (gridColumn || itemData).config.tooltipProperty }}">
+                    <Controls.Container.Async templateName="Controls/popup:InfoboxTarget">
+                        <ws:partial template="{{content.resolvedTemplate}}"
+                                    attr:class="{{ (gridColumn || itemData).getTooltipOverflowClasses() }}">
+                            <ws:content>
+                                <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
+                                    <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
+                                    <div class="{{ (gridColumn || itemData).getTextOverflowClasses() }}">
+                                        <ws:partial template="{{ (gridColumn || itemData).getCellContentRender() }}"
+                                                    value="{{ (gridColumn || itemData).getDefaultDisplayValue() }}"
+                                                    searchValue="{{ (gridColumn || itemData).getSearchValue() }}"
+                                                    scope="{{ (gridColumn || itemData).config }}"/>
+                                    </div>
+                                </ws:if>
+                                <ws:else>
+                                    <!-- Контент по умолчанию -->
+                                    <div>{{ (gridColumn || itemData).getDefaultDisplayValue() }}</div>
+                                </ws:else>
+                            </ws:content>
+                            <ws:template>
+                                <div>{{ (gridColumn || itemData).getTooltip() }}</div>
+                            </ws:template>
+                        </ws:partial>
+                    </Controls.Container.Async>
+                </ws:if>
+                <ws:else>
+                    <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
+                        <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
+                        <div class="{{ (gridColumn || itemData).getTextOverflowClasses() }}">
+                            <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
+                                        attr:title="{{ (gridColumn || itemData).getTextOverflowTitle() }}"
+                                        value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
+                                        searchValue="{{(gridColumn || itemData).getSearchValue()}}"
+                                        scope="{{(gridColumn || itemData).config}}"/>
+                        </div>
+                    </ws:if>
+                    <ws:else>
+                        <!-- Контент по умолчанию -->
+                        {{ (gridColumn || itemData).getDefaultDisplayValue() }}
+                    </ws:else>
+                </ws:else>
+            </ws:contentTemplate>
+        </ws:partial>
     </ws:else>
 
     <ws:partial if="{{ afterContentTemplate }}"

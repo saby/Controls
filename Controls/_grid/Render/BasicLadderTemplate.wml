@@ -1,0 +1,10 @@
+<ws:if data="{{ladder && ladder[ladderProperty]}}">
+    <ws:partial
+            template="{{ ladderWrapper }}"
+            ladderProperty="{{ ladderProperty }}">
+        <ws:partial template="{{contentTemplate}}"/>
+    </ws:partial>
+</ws:if>
+<ws:else>
+    <ws:partial template="{{contentTemplate}}"/>
+</ws:else>
