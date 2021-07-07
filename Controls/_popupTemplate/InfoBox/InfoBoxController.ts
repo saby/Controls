@@ -1,11 +1,10 @@
-import Deferred = require('Core/Deferred');
 import {StickyController} from 'Controls/_popupTemplate/Sticky/StickyController';
-import themeConstantsGetter = require('Controls/_popupTemplate/InfoBox/Opener/resources/themeConstantsGetter');
+import themeConstantsGetter from 'Controls/_popupTemplate/InfoBox/Util/themeConstantsGetter';
+import * as Deferred from 'Core/Deferred';
 import * as cMerge from 'Core/core-merge';
-import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy');
+import StickyStrategy from 'Controls/_popupTemplate/Sticky/StickyStrategy';
 import {IPopupItem, IPopupSizes, IPopupPosition, Controller} from 'Controls/popup';
 import {constants} from 'Env/Env';
-import collection = require('Types/collection');
 import {Controller as ManagerController} from 'Controls/popup';
 
 interface IInfoBoxThemeConstants {
@@ -24,7 +23,7 @@ interface IInfoBoxSide {
     c: string;
 }
 
-function getConstants(themeName: string) {
+function getConstants(themeName: string): IInfoBoxThemeConstants {
     return themeConstantsGetter(`controls-InfoBox__themeConstants controls_popupTemplate_theme-${themeName}`, {
         ARROW_WIDTH: 'marginLeft',
         ARROW_H_OFFSET: 'marginRight',
@@ -122,7 +121,7 @@ class InfoBoxController extends StickyController {
     }
 
     resizeInner(item: IPopupItem, container: HTMLDivElement): boolean {
-        return super.elementUpdated.call(this, item, container);
+        return super.elementUpdated(item, container);
     }
 
     elementDestroyed(item: IPopupItem): Promise<null> {
@@ -154,10 +153,13 @@ class InfoBoxController extends StickyController {
         return initConstants().then(() => {
             if (item.popupOptions.target) {
                 // Calculate the width of the infobox before its positioning.
-                // It is impossible to count both the size and the position at the same time, because the position is related to the size.
-                cMerge(item.popupOptions, this._prepareConfig(item.popupOptions.position, item.popupOptions.target));
-            const sizes: IPopupSizes = {width: themeConstants.MAX_WIDTH, height: 1, margins: {left: 0, top: 0}};
-                const position: IPopupPosition = StickyStrategy.getPosition(this._getPopupConfig(item, sizes), this._getTargetCoords(item));
+                // It is impossible to count both the size and the position at the same time,
+                // because the position is related to the size.
+                const config = this._prepareInfoboxConfig(item.popupOptions.position, item.popupOptions.target);
+                cMerge(item.popupOptions, config);
+                const sizes: IPopupSizes = {width: themeConstants.MAX_WIDTH, height: 1, margins: {left: 0, top: 0}};
+                const popupConfig = this._getPopupConfig(item, sizes);
+                const position: IPopupPosition = StickyStrategy.getPosition(popupConfig, this._getTargetCoords(item));
                 this.prepareConfig(item);
                 item.position.maxWidth = position.width;
             }
@@ -173,7 +175,7 @@ class InfoBoxController extends StickyController {
     }
 
     prepareConfig(item: IPopupItem, container?: HTMLElement): IPopupItem {
-        cMerge(item.popupOptions, this._prepareConfig(item.popupOptions.position, item.popupOptions.target));
+        cMerge(item.popupOptions, this._prepareInfoboxConfig(item.popupOptions.position, item.popupOptions.target));
         return super.prepareConfig.apply(this, arguments);
     }
 
@@ -198,7 +200,7 @@ class InfoBoxController extends StickyController {
     }
 
     // Return the configuration prepared for StickyStrategy
-    private _prepareConfig(position: string, target: HTMLDivElement): IPopupItem {
+    private _prepareInfoboxConfig(position: string, target: HTMLDivElement): IPopupItem {
         const side: string = position[0];
         const alignSide: string = position[1];
         const topOrBottomSide: boolean = side === 't' || side === 'b';
@@ -244,13 +246,6 @@ class InfoBoxController extends StickyController {
             const targetWidth: number = target.offsetWidth || target.clientWidth;
             return this._getOffset(targetWidth, alignSide, themeConstants.ARROW_H_OFFSET, themeConstants.ARROW_WIDTH);
         }
-    }
-    private _findItemById(popupItems: collection.List<IPopupItem>, id: string): IPopupItem|null {
-        const index: number = popupItems && popupItems.getIndexByValue('id', id);
-        if (index > -1) {
-            return popupItems.at(index);
-        }
-        return null;
     }
 
     private _removeHiddenElement(item: IPopupItem): boolean {
