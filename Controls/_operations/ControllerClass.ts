@@ -107,20 +107,8 @@ export default class OperationsController {
     }
 
     executeAction(params: IExecuteCommandParams): Promise<void> | void {
-        const actionName: string = object.getPropertyValue(params.item, 'actionName');
-        if (actionName) {
-            ModulesLoader.loadAsync(actionName).then((actionModule) => {
-                const viewActionName = object.getPropertyValue(params.item, 'viewActionName');
-                const actionOptions = this._getActionOptions(params);
-                const actionClass = this._createAction(actionOptions, actionModule);
-                if (viewActionName) {
-                    ModulesLoader.loadAsync(viewActionName).then((viewActionModule) => {
-                        this._actionExecute(actionOptions, this._createAction({...actionOptions, action: actionClass}, viewActionModule));
-                    });
-                } else {
-                    this._actionExecute(actionOptions, actionClass);
-                }
-            });
+        if (params.action) {
+            params.action.execute && params.action.execute(params);
         }
     }
 
@@ -206,34 +194,6 @@ export default class OperationsController {
                 listForUpdate.splice(index, 1);
             }
         });
-    }
-
-    protected _actionExecute(actionOptions, action): void {
-        const result = action.execute(actionOptions);
-        if (result instanceof Promise) {
-            result.catch((error) => {
-                dataSourceError.process({error});
-            });
-        }
-    }
-
-    protected _createAction(actionParams: object, actionModule: IAction): IAction {
-        return new actionModule(actionParams);
-    }
-
-    private _getActionOptions(actionParams: IExecuteCommandParams): object {
-        const actionOptions = object.clone(object.getPropertyValue(actionParams.item, 'actionOptions')) || {};
-        merge(actionOptions, {
-            source: actionParams.source,
-            filter: actionParams.filter,
-            parentProperty: actionParams.parentProperty,
-            nodeProperty: actionParams.nodeProperty,
-            navigation: actionParams.navigation,
-            selection: actionParams.selection,
-            target: actionParams.target,
-            sourceController: actionParams.sourceController
-        });
-        return actionOptions;
     }
 
     private _getRegister(): RegisterClass {
