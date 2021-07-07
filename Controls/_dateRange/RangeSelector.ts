@@ -7,6 +7,7 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeSelector/RangeSelec
 import {Popup as PopupUtil, Base as dateUtils} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
+import * as monthCaptionTemplate from 'wml!Controls/_dateRange/DateSelector/monthCaptionTemplate';
 import 'css!Controls/dateRange';
 
 interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelectorOptions {
@@ -35,6 +36,7 @@ interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelect
  * @mixes Controls/interface:IOpenPopup
  * @mixes Controls/dateRange:ICaptionFormatter
  * @mixes Controls/interface:IDateRangeValidators
+ * @mixes Controls/interface:IMonthCaptionTemplate
  *
  * @public
  * @author Красильников А.С.
@@ -63,6 +65,7 @@ interface IRangeSelector extends IControlOptions, IDateRangeOptions, IBaseSelect
  */
 export default class RangeSelector extends BaseSelector<IRangeSelector> {
     protected _template: TemplateFunction = componentTmpl;
+    protected _monthCaptionTemplate: TemplateFunction = monthCaptionTemplate;
     protected _emptyCaption: string;
     EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 
@@ -152,6 +155,7 @@ export default class RangeSelector extends BaseSelector<IRangeSelector> {
                 rightFieldTemplate: this._options.rightFieldTemplate,
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
+                monthCaptionTemplate: this._options.monthCaptionTemplate,
                 captionFormatter: this._options.captionFormatter,
                 emptyCaption: this._emptyCaption,
                 closeButtonEnabled: true,

@@ -25,6 +25,7 @@ import 'css!Controls/dateRange';
  * @implements Controls/interface:IFontWeight
  * @mixes Controls/dateRange:ICaptionFormatter
  * @mixes Controls/dateRange:IDateSelector
+ * @mixes Controls/dateRange:IMonthCaptionTemplate
  *
  * @public
  * @author Красильников А.С.

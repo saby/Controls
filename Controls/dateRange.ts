@@ -24,6 +24,7 @@ export {default as RangeSelectorConsumer} from './_dateRange/RangeSelectorConsum
 export {default as DateSelectorConsumer} from './_dateRange/DateSelectorConsumer';
 export {default as RangeShortSelectorConsumer} from './_dateRange/RangeShortSelectorConsumer';
 export {IDateRangeSelectableOptions, IRangeSelectableOptions, TSelectionType} from 'Controls/_dateRange/interfaces/IDateRangeSelectable';
+export {default as IMonthCaptionTemplate, IMonthCaptionTemplateOptions} from 'Controls/_dateRange/interfaces/IMonthCaptionTemplate';
 export {IDateRangeOptions} from 'Controls/_dateRange/interfaces/IDateRange';
 import IDateRangeSelectable = require('Controls/_dateRange/interfaces/IDateRangeSelectable');
 import * as MonthCaptionTemplate from 'wml!Controls/_dateRange/DateSelector/monthCaptionTemplate';
