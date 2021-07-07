@@ -27,7 +27,7 @@
          recalculateLocationVisibleArea="{{recalculateLocationVisibleArea}}"
          on:keydown="_keyDownHandler()"
          attr:wrap="hard"
-         attr:spellcheck="{{options.spellCheck}}"
+         attr:spellcheck="{{options.spellCheck || false}}"
          attr:class="controls-InputBase__nativeField controls-Area__realField
                    controls-InputBase__nativeField_caret{{wasActionUser ? 'Filled' : 'Empty'}}
                    {{hidePlaceholderUsingCSS ? 'controls-InputBase__nativeField_hideCustomPlaceholder'}}
