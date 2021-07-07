@@ -39,10 +39,12 @@
                           controls-Slider__line__wrapper{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}
                           controls-Slider__line__wrapper{{_options.size=='m' ? '_big' : '_small'}}_{{_options.direction}}_theme-{{_options.theme}}">
                <div class="controls-Slider__line_{{_options.direction}}_theme-{{_options.theme}}
+                           controls-Slider__line controls-Slider__line_theme-{{_options.theme}}
                              controls-Slider__line{{_options.size=='m' ? '_big' : '_small'}}_{{_options.direction}}_theme-{{_options.theme}}
                              controls-Slider__line__empty controls-Slider__line__empty{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}">
                </div>
                <div class="controls-Slider__line_{{_options.direction}}_theme-{{_options.theme}}
+                           controls-Slider__line controls-Slider__line_theme-{{_options.theme}}
                              controls-Slider__line{{_options.size=='m' ? '_big' : '_small'}}_{{_options.direction}}_theme-{{_options.theme}}
                              controls-Slider__line__full controls-Slider__line__full{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}"
                     style="left: {{_options.direction === 'horizontal' ? _lineData.position + '%'}};

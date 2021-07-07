@@ -26,7 +26,7 @@ export default class ColumnsCollection<
 
     setDragPosition(position: IDragPosition<T>): void {
         if (position) {
-            const strategy = this.getStrategyInstance(this._dragStrategy) as ColumnsDrag<unknown>;
+            const strategy = this.getStrategyInstance(this._dragStrategy) as ColumnsDragStrategy<unknown>;
             const avatarItem = strategy.avatarItem;
             if (avatarItem.getColumn() !== position.dispItem.getColumn()) {
                 strategy.avatarItem.setColumn(position.dispItem.getColumn());

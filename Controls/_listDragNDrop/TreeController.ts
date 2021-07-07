@@ -84,6 +84,10 @@ export default class TreeController extends FlatController {
     * @param position - позиция относительно записи, на которую наведен курсор во время перемещения
     */
    calculateDragPosition(targetItem: TreeItem<Model>, position: TPosition): IDragPosition<TreeItem<Model>> {
+      if (targetItem === null) {
+         return super.calculateDragPosition(targetItem, position) as IDragPosition<TreeItem<Model>>;
+      }
+
       // Если перетаскиваем лист на узел, то позиция может быть только 'on'
       // Если нет перетаскиваемого элемента, то значит мы перетаскивам в папку другого реестра
       if (!this._draggableItem || !this._draggableItem.isNode() && targetItem.isNode()) {

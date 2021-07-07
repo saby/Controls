@@ -1,10 +1,10 @@
 import {Model, DestroyableMixin} from 'Types/entity';
 import {Logger} from 'UI/Utils';
-import {CONSTANTS, TEditableCollectionItem} from './Types';
+import {CONSTANTS} from './Types';
 import {CollectionEditor} from './CollectionEditor';
-import {mixin} from 'Types/util';
-import {Collection} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
+import {mixin} from 'Types/util';
+import {IEditableCollection, IEditableCollectionItem} from 'Controls/display';
 
 const ERROR_MSG = {
     COLLECTION_IS_NOT_DEFINED: 'IEditInPlaceOptions.collection is not defined. Option is required. It must be installed at least once.',
@@ -60,37 +60,44 @@ interface IEditInPlaceOptions {
      * @name Controls/_editInPlace/IEditInPlaceOptions#collection
      * @cfg {Collection.<Types/entity:Model>} Коллекция элементов.
      */
-    collection: Collection<Model>;
+    collection: IEditableCollection;
+}
 
+/**
+ * @interface Controls/_editInPlace/IEditInPlaceCallbacks
+ * @private
+ * @author Родионов Е.А.
+ */
+interface IEditInPlaceCallbacks {
     /**
-     * @name Controls/_editInPlace/IEditInPlaceOptions#onBeforeBeginEdit
+     * @name Controls/_editInPlace/IEditInPlaceCallbacks#onBeforeBeginEdit
      * @cfg {TBeforeBeginEditCallback} Функция обратного вызова перед запуском редактирования.
      */
     onBeforeBeginEdit?: TBeforeBeginEditCallback;
 
     /**
-     * @name Controls/_editInPlace/IEditInPlaceOptions#onAfterBeginEdit
+     * @name Controls/_editInPlace/IEditInPlaceCallbacks#onAfterBeginEdit
      * @cfg {Function} Функция обратного вызова после запуска редактирования.
-     * @param {Types/entity:Model} item Запись для которой запускается редактирование.
+     * @param {IEditableCollectionItem} item Запись для которой запускается редактирование.
      * @param {Boolean} isAdd Флаг, принимает значение true, если запись добавляется.
      * @void
      */
-    onAfterBeginEdit?: (item: Model, isAdd: boolean) => void;
+    onAfterBeginEdit?: (item: IEditableCollectionItem, isAdd: boolean) => void;
 
     /**
-     * @name Controls/_editInPlace/IEditInPlaceOptions#onBeforeEndEdit
+     * @name Controls/_editInPlace/IEditInPlaceCallbacks#onBeforeEndEdit
      * @cfg {TBeforeEndEditCallback} Функция обратного вызова перед завершением редактирования.
      */
     onBeforeEndEdit?: TBeforeEndEditCallback;
 
     /**
-     * @name Controls/_editInPlace/IEditInPlaceOptions#onAfterEndEdit
+     * @name Controls/_editInPlace/IEditInPlaceCallbacks#onAfterEndEdit
      * @cfg {Function} Функция обратного вызова после завершением редактирования.
-     * @param {Types/entity:Model} item Редактируемая запись.
+     * @param {IEditableCollectionItem} item Редактируемая запись.
      * @param {Boolean} isAdd Флаг, принимает значение true, если запись добавлялась.
      * @void
      */
-    onAfterEndEdit?: (item: Model, isAdd: boolean) => void;
+    onAfterEndEdit?: (item: IEditableCollectionItem, isAdd: boolean) => void;
 }
 
 /**
@@ -111,59 +118,63 @@ interface IEditInPlaceOptions {
  * @author Rodionov E.A.
  */
 export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
-    private _options: IEditInPlaceOptions;
+    private _options: IEditInPlaceOptions & IEditInPlaceCallbacks;
     private _collectionEditor: CollectionEditor;
     private _operationsPromises: {
         begin?: TAsyncOperationResult;
         end?: TAsyncOperationResult;
     } = {};
 
-    constructor(options: IEditInPlaceOptions) {
+    constructor(options: IEditInPlaceOptions & IEditInPlaceCallbacks) {
         super();
-        this.updateOptions(options);
+        if (this._validateOptions(options)) {
+            this._options = options;
+            this._collectionEditor = new CollectionEditor(this._options);
+        }
     }
 
     /**
      * Обновить опции контроллера.
      * @method
-     * @param {Partial.<Controls/_editInPlace/IEditInPlaceOptions>} newOptions Новые опции.
+     * @param {Controls/_editInPlace/IEditInPlaceOptions} newOptions Новые опции.
      * @void
      *
      * @public
      * @remark Все поля в новых опциях не являются обязательными, таким образом, есть возможность выборочного обновления.
      */
-    updateOptions(newOptions: Partial<IEditInPlaceOptions>): void {
-        const oldOptions: Partial<IEditInPlaceOptions> = this._options || {};
-        const hasCollection = !!newOptions.collection || !!oldOptions.collection;
-
-        if (!hasCollection) {
-            Logger.error(ERROR_MSG.COLLECTION_IS_NOT_DEFINED, this);
-        }
-        const getOptionValue = (optionName: keyof IEditInPlaceOptions) =>
-            newOptions.hasOwnProperty(optionName) ? newOptions[optionName] : oldOptions[optionName];
-
-        this._options = {
-            collection: getOptionValue('collection'),
-            onBeforeBeginEdit: getOptionValue('onBeforeBeginEdit'),
-            onAfterBeginEdit: getOptionValue('onAfterBeginEdit'),
-            onBeforeEndEdit: getOptionValue('onBeforeEndEdit'),
-            onAfterEndEdit: getOptionValue('onAfterEndEdit')
-        } as IEditInPlaceOptions;
-
-        if (!this._collectionEditor) {
-            this._collectionEditor = new CollectionEditor(this._options);
-        } else {
+    updateOptions(newOptions: IEditInPlaceOptions): void {
+        const combinedOptions = {...this._options, ...newOptions};
+        if (this._validateOptions(combinedOptions)) {
             this._collectionEditor.updateOptions(this._options);
+            this._options = combinedOptions;
         }
+    }
+
+    private _validateOptions(options: IEditInPlaceOptions): boolean {
+        if (!options.collection) {
+            Logger.error(ERROR_MSG.COLLECTION_IS_NOT_DEFINED, this);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Возвращает true, если в коллекции есть запущенное редактирование
+     * @method
+     * @return {Boolean}
+     * @public
+     */
+    isEditing(): boolean {
+        return this._collectionEditor.isEditing();
     }
 
     /**
      * Получить редактируемый элемент
      * @method
-     * @return {Types/entity:Model|undefined}
+     * @return {IEditableCollectionItem}
      * @public
      */
-    getEditingItem(): Model | undefined {
+    private _getEditingItem(): IEditableCollectionItem | undefined {
         return this._collectionEditor.getEditingItem();
     }
 
@@ -214,8 +225,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      *
      * @remark Завершение редактирования может быть отменено. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeEndEdit необхобимо вернуть константу отмены.
      */
-    commit(): TAsyncOperationResult {
-        return this._endEdit(true);
+    commit(strategy: 'hasChanges' | 'all' = 'all'): TAsyncOperationResult {
+        return this._endEdit(true, strategy);
     }
 
     /**
@@ -241,7 +252,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
-    getNextEditableItem(): TEditableCollectionItem {
+    getNextEditableItem(): IEditableCollectionItem {
         return this._collectionEditor.getNextEditableItem();
     }
 
@@ -251,13 +262,13 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
-    getPrevEditableItem(): TEditableCollectionItem {
+    getPrevEditableItem(): IEditableCollectionItem {
         return this._collectionEditor.getPrevEditableItem();
     }
 
     // tslint:disable-next-line:max-line-length
     private _endPreviousAndBeginEdit(item: Model | undefined, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
-        const editingItem = this.getEditingItem();
+        const editingItem = this._getEditingItem()?.contents;
 
         if (editingItem && item && editingItem.getKey() === item.getKey()) {
             return Promise.resolve();
@@ -275,7 +286,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     // TODO: Должен возвращать один промис, если вызвали несколько раз подряд
     private _beginEdit(item: Model | undefined, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
-        if (this.getEditingItem()) {
+        if (this._getEditingItem()) {
             return Promise.resolve({canceled: true});
         }
 
@@ -314,7 +325,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             (this._options.collection.getCollection() as unknown as RecordSet).acceptChanges();
 
             if (this._options.onAfterBeginEdit) {
-                this._options.onAfterBeginEdit(this._collectionEditor.getEditingItem(), isAdd);
+                this._options.onAfterBeginEdit(this._getEditingItem(), isAdd);
             }
         }).finally(() => {
             this._operationsPromises.begin = null;
@@ -324,10 +335,10 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
     }
 
     // TODO: Должен возвращать один промис, если вызвали несколько раз подряд
-    private _endEdit(commit: boolean): TAsyncOperationResult {
-        const editingItem = this.getEditingItem();
+    private _endEdit(commit: boolean, commitStrategy: 'hasChanges' | 'all' = 'all'): TAsyncOperationResult {
+        const editingCollectionItem = this._getEditingItem();
 
-        if (!editingItem) {
+        if (!editingCollectionItem) {
             return Promise.resolve();
         }
 
@@ -335,7 +346,12 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             return this._operationsPromises.end;
         }
 
-        const isAdd = this._options.collection.getItemBySourceKey(this.getEditingItem().getKey()).isAdd;
+        const editingItem = editingCollectionItem && editingCollectionItem.contents;
+        const isAdd = editingCollectionItem.isAdd;
+
+        if (commit && commitStrategy === 'hasChanges' && !editingItem.isChanged()) {
+            return Promise.resolve(this._collectionEditor.cancel());
+        }
 
         this._operationsPromises.end = new Promise((resolve) => {
             if (this._options.onBeforeEndEdit) {
@@ -352,7 +368,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             }
             this._collectionEditor[commit ? 'commit' : 'cancel']();
             (this._options.collection.getCollection() as unknown as RecordSet).acceptChanges();
-            this._options?.onAfterEndEdit(editingItem, isAdd);
+            this._options?.onAfterEndEdit(editingCollectionItem, isAdd);
         }).finally(() => {
             this._operationsPromises.end = null;
         }) as TAsyncOperationResult;

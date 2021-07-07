@@ -1,75 +1,57 @@
-<ws:template name="itemOutputTpl">
-   <ws:partial attr:class="{{itemData.calcCursorClasses(clickable, cursor)}}
-       {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
-       ' controls-ListView__itemV_withMarker controls-ListView__item__marked_' : ' controls-ListView__item__unmarked_') + itemData.style + '_theme-' + itemData.theme}}
-       {{highlightOnHover !== false && !itemData.isEditing() ? 'controls-ListView__item_highlightOnHover_' + itemData.hoverBackgroundStyle + '_theme_' + itemData.theme}}
-       controls-ListView__item_{{itemData.style}} controls-ListView__item_{{itemData.style}}_theme-{{itemData.theme}}
-       controls-ListView__item_showActions
-       {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-ListView__item_active_theme-' + itemData.theme}}
-       {{!!itemData.isEditing() ? ' controls-ListView__item_editing_theme-' + itemData.theme}}
-       {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
-       js-controls-ItemActions__swipeMeasurementContainer"
-       attr:key="{{itemData.item.getId()}}"
-       template="{{content}}"
-       theme="{{itemData.theme}}"/>
-</ws:template>
-<ws:template name="itemContentTpl">
-    <ws:if data="{{itemData.hasMultiSelect}}">
-       <ws:if data="{{!itemData.isAdd}}">
-          <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}} controls-ListView__checkbox_theme-{{itemData.theme}}">
-             <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{ itemData.isAdd || checkboxReadOnly }}"/>
-          </ws:partial>
-       </ws:if>
-       <ws:else>
-          <div class="{{'controls-ListView__groupContent__leftPadding_' + itemData.itemPadding.left + '_theme-' +itemData.theme}}"></div>
-       </ws:else>
+<ws:template name="localItemTemplateContent">
+    <ws:if data="{{ multiSelectVisibility && multiSelectVisibility !== 'hidden' }}">
+        <ws:partial template="{{ multiSelectTpl }}" attr:class="{{ (item || itemData).getMultiSelectClasses(theme) }}">
+            <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}" key="{{ (item || itemData).getContents().getKey() }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+        </ws:partial>
     </ws:if>
-
-   <ws:if data="{{marker !== false && itemData.markerVisibility !== 'hidden' && !itemData.isEditing() && itemData.isMarked()}}">
-      <div class="{{itemData.getMarkerClasses()}}"></div>
-   </ws:if>
-
-    <ws:if data="{{contentTemplate}}">
-        <div attr:class="{{itemData.spacingClassList}}{{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}">
+    <ws:if data="{{ (item || itemData).shouldDisplayMarker(marker) }}">
+        <div class="controls-ListView__itemV_marker controls-ListView__itemV_marker_{{style}}_theme-{{theme}}"></div>
+    </ws:if>
+    <ws:if data="{{ contentTemplate }}">
+        <div attr:class="{{ (item || itemData).getContentClasses(theme, style) }}">
             <div class="controls-ListView_content-template">
-                <ws:partial template="{{contentTemplate}}"
-                            itemData="{{itemData}}"
-                            itemActionsTemplate="{{itemActionsTemplate}}"
-                />
+                <ws:partial
+                        template="{{ contentTemplate }}"
+                        item="{{ item }}"
+                        itemData="{{ itemData }}"
+                        useNewModel="{{ true }}"
+                        useDisplayEditInPlace="{{false}}"
+                        searchValue="{{ searchValue }}"
+                        highlightOnHover="{{ highlightOnHover }}"
+                        itemActionsTemplate="{{ itemActionsTemplate }}"
+                        swipeTemplate="{{ swipeTemplate }}" />
             </div>
         </div>
     </ws:if>
     <ws:else>
-        <div attr:class="{{itemData.spacingClassList}}{{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}"><div class="controls-ListView_content-template">{{itemData.getPropValue(itemData.item, displayProperty || 'title')}}</div></div>
+        <div attr:class="{{ (item || itemData).getContentClasses(theme, style) }}">
+            <div class="controls-ListView_content-template">
+                {{ (item || itemData).getContents()[displayProperty || 'title'] }}
+            </div>
+        </div>
     </ws:else>
-
-    <ws:if data="{{itemData.hasVisibleActions() || itemData.isEditing()}}">
-        <ws:if data="{{itemData.isSwiped()}}">
-            <ws:partial template="{{swipeTemplate}}"
-                        itemData="{{itemData}}"
-                        itemActionsTemplate="{{itemActionsTemplate}}"
-                        highlightOnHover="{{highlightOnHover}}"/>
+    <ws:if data="{{ (item || itemData).hasVisibleActions() || (item || itemData).isEditing() }}">
+        <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
+            <ws:partial template="{{ swipeTemplate }}"
+                        highlightOnHover="{{ highlightOnHover }}" />
         </ws:if>
-        <ws:else data="{{itemData.itemActionsPosition !== 'custom'}}">
-            <ws:partial template="{{itemActionsTemplate}}"
-                        itemActionsClass="{{itemActionsClass}}"
-                        itemData="{{itemData}}"
-                        highlightOnHover="{{highlightOnHover}}"/>
+        <ws:else data="{{ itemActionsPosition !== 'custom' }}">
+            <ws:partial template="{{ itemActionsTemplate }}"
+                        itemActionsClass="{{ itemActionsClass }}"
+                        highlightOnHover="{{ highlightOnHover }}"/>
         </ws:else>
     </ws:if>
 </ws:template>
-<ws:if data="{{itemData.isStickedMasterItem}}">
-   <ws:partial template="itemOutputTpl">
-       <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
-      <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{itemData.style + '_sticked'}}">
-         <ws:partial template="itemContentTpl"/>
-      </Controls.scroll:StickyHeader>
-   </ws:partial>
+<ws:if data="{{(item || itemData).isSticked(style)}}">
+    <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
+    <Controls.scroll:StickyHeader
+            attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style) }}"
+            position="topbottom" backgroundStyle="{{style + '_sticked'}}">
+        <ws:partial template="localItemTemplateContent"/>
+    </Controls.scroll:StickyHeader>
 </ws:if>
 <ws:else>
-   <ws:partial template="itemOutputTpl" attr:class="{{backgroundColorStyle ? 'controls-ListView__item_background_' + backgroundColorStyle + '_theme-' + itemData.theme}}">
-      <div>
-         <ws:partial template="itemContentTpl"/>
-      </div>
-   </ws:partial>
+    <div attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style) }}">
+        <ws:partial template="localItemTemplateContent"/>
+    </div>
 </ws:else>

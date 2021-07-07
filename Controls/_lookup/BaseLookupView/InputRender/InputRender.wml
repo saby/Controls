@@ -46,6 +46,7 @@
                      template="{{_field.template}}"
                      value="{{_viewModel.displayValue}}"
                      isBrowserPlatform="{{_isBrowserPlatform}}"
+                     inputKey="{{ _inputKey }}"
                      hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
                      isEdge="{{_isEdge}}"
                      attr:class="controls-Lookup__fieldWrapper

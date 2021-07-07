@@ -85,6 +85,7 @@ import { TreeControl } from 'Controls/tree';
 export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
    _viewName = TreeGridView;
    _viewTemplate = TreeControl;
+   protected _supportNewModel: boolean = false;
 
    _getModelConstructor() {
       return TreeGridViewModel;

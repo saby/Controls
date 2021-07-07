@@ -163,10 +163,11 @@ class MenuRender extends Control<IMenuRenderOptions> {
     }
 
     private setListModelOptions(options: IMenuRenderOptions): void {
-        options.listModel.setItemsSpacings({
+        options.listModel.setItemPadding({
             top: 'null',
-            left: this.getLeftSpacing(options),
-            right: this.getRightSpacing(options)
+            bottom: 'menu-default',
+            left: this.getLeftPadding(options),
+            right: this.getRightPadding(options)
         });
         if (!options.searchValue && options.emptyText && !options.listModel.getItemBySourceKey(options.emptyKey)) {
             this.addEmptyItem(options.listModel, options);
@@ -213,7 +214,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return DiCreate(model, config);
     }
 
-    private getLeftSpacing(options: IMenuRenderOptions): string {
+    private getLeftPadding(options: IMenuRenderOptions): string {
         let leftSpacing = 'm';
         if (options.itemPadding.left) {
             leftSpacing = options.itemPadding.left;
@@ -221,7 +222,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return leftSpacing;
     }
 
-    private getRightSpacing(options: IMenuRenderOptions): string {
+    private getRightPadding(options: IMenuRenderOptions): string {
         let rightSpacing = 'm';
         if (!options.itemPadding.right) {
             if (options.multiSelect) {

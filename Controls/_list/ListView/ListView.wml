@@ -3,12 +3,18 @@
    <ws:if data="{{_listModel}}">
       <div name="itemsContainer" class="controls-ListViewV__itemsContainer">
          <ws:partial
-             template="wml!Controls/_list/resources/For"
-             listModel="{{ _listModel }}"
+             template="wml!Controls/_list/Render/For"
+             collection="{{ _listModel }}"
+             keyPrefix="listView-item"
+
+             style="{{ _options.style }}"
+             theme="{{ _options.theme }}"
 
              itemTemplate="{{ _itemTemplate }}"
+             itemTemplateProperty="{{ _options.itemTemplateProperty }}"
              groupTemplate="{{ _groupTemplate }}"
 
+             itemActionsPosition="{{ _options.itemActionsPosition }}"
              itemActionsTemplate="{{ _options.itemActionsTemplate }}"
              itemActionsClass="{{ _options.itemActionsClass }}"
              swipeTemplate="{{ _options.swipeTemplate }}"

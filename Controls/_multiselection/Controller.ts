@@ -2,16 +2,15 @@ import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { ISelectionObject as ISelection } from 'Controls/interface';
 import { Model } from 'Types/entity';
 import { CollectionItem } from 'Controls/display';
-import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
+import ISelectionStrategy from './SelectionStrategy/ISelectionStrategy';
 import {
    ISelectionControllerOptions,
-   ISelectionControllerResult,
-   ISelectionDifference,
+   IKeysDifference,
    ISelectionItem,
    ISelectionModel,
-   TKeys
+   TKeys,
+   ISelectionDifference
 } from './interface';
-import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
 
 /**
@@ -45,8 +44,6 @@ export class Controller {
       this._excludedKeys = options.excludedKeys.slice();
       this._strategy = options.strategy;
       this._searchValue = options.searchValue;
-
-      this._updateModel(this._selection);
    }
 
    /**
@@ -54,12 +51,32 @@ export class Controller {
     * @param {ISelectionControllerOptions} options Новые опции
     * @void
     */
-   update(options: ISelectionControllerOptions): void {
+   updateOptions(options: ISelectionControllerOptions): void {
       this._strategy.update(options.strategyOptions);
-      this._selectedKeys = options.selectedKeys.slice();
-      this._excludedKeys = options.excludedKeys.slice();
-      this._model = options.model;
       this._searchValue = options.searchValue;
+
+      if (this._model !== options.model) {
+         this._model = options.model;
+         this.setSelection(this.getSelection());
+      }
+   }
+
+   /**
+    * Возвращает текущий выбор элементов
+    * @return {ISelection} Текущий выбор элементов
+    */
+   getSelection(): ISelection {
+      return this._selection;
+   }
+
+   /**
+    * Проставляет выбранные элементы в модели
+    * @void
+    */
+   setSelection(selection: ISelection): void {
+      this._selection = selection;
+      this._strategy.setItems(this._model.getItems());
+      this._updateModel(selection);
    }
 
    /**
@@ -73,53 +90,46 @@ export class Controller {
    }
 
    /**
-    * Возвращает результат работы после конструктора
-    * @return {ISelectionControllerResult} Результат
+    * Возвращается разнице между новым выбором newSelection и текущим
+    * @param {ISelection} newSelection новый выбранные элементы
+    * @return {ISelectionDifference}
     */
-   getResultAfterConstructor(): ISelectionControllerResult {
-      return this._getResult(this._selection, this._selection);
-   }
+   getSelectionDifference(newSelection: ISelection): ISelectionDifference {
+      const
+          oldSelectedKeys = this._selection.selected,
+          oldExcludedKeys = this._selection.excluded,
+          newSelectedKeys = newSelection.selected,
+          newExcludedKeys = newSelection.excluded,
+          selectedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldSelectedKeys, newSelectedKeys),
+          excludedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldExcludedKeys, newExcludedKeys);
 
-   /**
-    * Очищает список выбранных элементов
-    * @return {ISelectionControllerResult} Результат
-    */
-   clearSelection(): ISelectionControllerResult {
-      const oldSelection = clone(this._selection);
-      this._clearSelection();
-      return this._getResult(oldSelection, this._selection);
-   }
-
-   /**
-    * Проставляет выбранные элементы в модели
-    * @remark Не уведомляет о изменениях в модели
-    * @void
-    */
-   restoreSelection(): void {
-      // На этот момент еще может не сработать update, поэтому нужно обновить items в стратегии
-      // TODO при переходе на новую модель изменить просто на this._model.getItems()
-      this._strategy.setItems(this._model.getDisplay().getItems());
-      this._updateModel(this._selection, true);
-   }
-
-   /**
-    * Проставляет выбранные элементы в модели
-    * @return {ISelectionControllerResult}
-    */
-   setSelectedKeys(selectedKeys: CrudEntityKey[], excludedKeys: CrudEntityKey[]): ISelectionControllerResult {
-      const selection = {
-         selected: selectedKeys,
-         excluded: excludedKeys
+      const selectedKeysDifference: IKeysDifference = {
+         keys: newSelectedKeys,
+         added: selectedKeysDiff.added,
+         removed: selectedKeysDiff.removed
       };
-      this._updateModel(selection);
-      return this._getResult(selection, selection);
+
+      const excludedKeysDifference: IKeysDifference = {
+         keys: newExcludedKeys,
+         added: excludedKeysDiff.added,
+         removed: excludedKeysDiff.removed
+      };
+
+      return { selectedKeysDifference, excludedKeysDifference };
+   }
+
+   /**
+    * Возвращает количество выбранных элементов
+    */
+   getCountOfSelected(): number|null {
+      return this._strategy.getCount(this._selection, this._model.getHasMoreData(), this._limit);
    }
 
    /**
     * Проверяет, что были выбраны все записи.
     * @param {boolean} [byEveryItem = true] true - проверять выбранность каждого элемента по отдельности.
     *  false - проверка происходит по наличию единого признака выбранности всех элементов.
-    * @return {ISelectionControllerResult}
+    * @return {ISelection}
     */
    isAllSelected(byEveryItem: boolean = true): boolean {
       return this._strategy.isAllSelected(
@@ -133,9 +143,9 @@ export class Controller {
    /**
     * Переключает состояние выбранности элемента
     * @param {CrudEntityKey} key Ключ элемента
-    * @return {ISelectionControllerResult}
+    * @return {ISelection}
     */
-   toggleItem(key: CrudEntityKey): ISelectionControllerResult {
+   toggleItem(key: CrudEntityKey): ISelection {
       const status = this._getItemStatus(key);
       let newSelection;
 
@@ -149,76 +159,82 @@ export class Controller {
          newSelection = this._strategy.select(this._selection, key);
       }
 
-      const result = this._getResult(this._selection, newSelection);
-      this._selection = newSelection;
-      return result;
+      return newSelection;
    }
 
    /**
     * Выбирает все элементы
-    * @return {ISelectionControllerResult}
+    * @return {ISelection}
     */
-   selectAll(): ISelectionControllerResult {
-      const newSelection = this._strategy.selectAll(this._selection);
-      const result = this._getResult(this._selection, newSelection);
-      this._selection = newSelection;
-      return result;
+   selectAll(): ISelection {
+      return this._strategy.selectAll(this._selection);
    }
 
    /**
     * Переключает состояние выбранности у всех элементов
-    * @return {ISelectionControllerResult}
+    * @return {ISelection}
     */
-   toggleAll(): ISelectionControllerResult {
-      const newSelection = this._strategy.toggleAll(this._selection, this._model.getHasMoreData());
-
-      const result = this._getResult(this._selection, newSelection);
-      this._selection = newSelection;
-      return result;
+   toggleAll(): ISelection {
+      return this._strategy.toggleAll(this._selection, this._model.getHasMoreData());
    }
 
    /**
     * Снимает выбор со всех элементов
-    * @return {ISelectionControllerResult}
+    * @return {ISelection}
     */
-   unselectAll(): ISelectionControllerResult {
-      const newSelection = this._strategy.unselectAll(this._selection);
-
-      const result = this._getResult(this._selection, newSelection);
-      this._selection = newSelection;
-      return result;
+   unselectAll(): ISelection {
+      return this._strategy.unselectAll(this._selection);
    }
 
    /**
-    * Обрабатываем удаление элементов из коллекции
+    * Обрабатывает удаление элементов из коллекции
     * @param {Array<CollectionItem<Model>>} removedItems Удаленные элементы
-    * @return {ISelectionControllerResult}
+    * @return {ISelection}
     */
-   handleRemoveItems(removedItems: Array<CollectionItem<Model>>): ISelectionControllerResult {
-      const oldSelection = clone(this._selection);
-      this._remove(this._getItemsKeys(removedItems));
-      return this._getResult(oldSelection, this._selection);
+   onCollectionRemove(removedItems: Array<CollectionItem<Model>>): ISelection {
+      this._strategy.setItems(this._model.getItems());
+
+      let keys = this._getItemsKeys(removedItems);
+      // Событие remove еще срабатывает при скрытии элементов, нас интересует именно удаление
+      keys = keys.filter((key) => !this._model.getCollection().getRecordById(key));
+
+      const selected = ArraySimpleValuesUtil.removeSubArray(this._selectedKeys.slice(), keys);
+      const excluded = ArraySimpleValuesUtil.removeSubArray(this._excludedKeys.slice(), keys);
+
+      return {selected, excluded};
    }
 
    /**
-    * Обрабатывает сброс элементов в список
-    * @return {ISelectionControllerResult}
+    * Обрабатывает сброс элементов в списке
+    * @return {ISelection|void}
     */
-   handleResetItems(): ISelectionControllerResult {
-      // TODO при переходе на новую модель изменить просто на this._model.getItems()
-      this._strategy.setItems(this._model.getDisplay().getItems());
+   onCollectionReset(): ISelection|void {
+      if (this._model.getCount() === 0 && this.isAllSelected()) {
+         return { selected: [], excluded: [] };
+      }
+
+      this._strategy.setItems(this._model.getItems());
       this._updateModel(this._selection);
-      return this._getResult(this._selection, this._selection);
+   }
+
+   /**
+    * Обрабатывает добавление новых элементов в коллекцию
+    * @param {Array<CollectionItem<Model>>} newItems Новые элементы
+    * @void
+    */
+   onCollectionReplace(newItems: Array<CollectionItem<Model>>): void {
+      this._strategy.setItems(this._model.getItems());
+      this._updateModel(this._selection, false, newItems);
    }
 
    /**
     * Обрабатывает добавление новых элементов в коллекцию
     * @param {Array<CollectionItem<Model>>} addedItems Новые элементы
-    * @return {ISelectionControllerResult}
+    * @void
     */
-   handleAddItems(addedItems: Array<CollectionItem<Model>>): ISelectionControllerResult {
+   onCollectionAdd(addedItems: Array<CollectionItem<Model>>): void {
+      this._strategy.setItems(this._model.getItems());
       this._updateModel(this._selection, false, addedItems);
-      return this._getResult(this._selection, this._selection);
    }
 
    // region rightSwipe
@@ -249,6 +265,19 @@ export class Controller {
    }
 
    /**
+    * Уничтожает все ссылки
+    * @void
+    */
+   destroy(): void {
+      this._model = null;
+      this._strategy = null;
+      this._selectedKeys = null;
+      this._excludedKeys = null;
+      this._limit = null;
+      this._searchValue = null;
+   }
+
+   /**
     * Устанавливает текущее состояние анимации записи по её ключу
     * @param key
     * @private
@@ -267,58 +296,12 @@ export class Controller {
 
    // endregion
 
-   private _clearSelection(): void {
-      this._selectedKeys = [];
-      this._excludedKeys = [];
-   }
-
-   private _remove(keys: TKeys): void {
-      this._excludedKeys = ArraySimpleValuesUtil.removeSubArray(this._excludedKeys.slice(), keys);
-      this._selectedKeys = ArraySimpleValuesUtil.removeSubArray(this._selectedKeys.slice(), keys);
-   }
-
    private _getItemStatus(key: CrudEntityKey): boolean {
       return this._model.getItemBySourceKey(key).isSelected();
    }
 
-   private _getCount(selection?: ISelection): number | null {
-      return this._strategy.getCount(selection || this._selection, this._model.getHasMoreData(), this._limit);
-   }
-
    private _getItemsKeys(items: Array<CollectionItem<Model>|Model>): TKeys {
       return items.map((item) => item instanceof CollectionItem ? item.getContents().getKey() : item.getKey());
-   }
-
-   private _getResult(oldSelection: ISelection, newSelection: ISelection): ISelectionControllerResult {
-      const
-         selectionCount = this._getCount(newSelection),
-         oldSelectedKeys = oldSelection.selected,
-         oldExcludedKeys = oldSelection.excluded,
-         // selectionCount будет равен нулю, если в списке не отмечено ни одного элемента
-         // или после выделения всех записей через "отметить всё", пользователь руками снял чекбоксы со всех записей
-         newSelectedKeys = selectionCount === 0 ? [] : newSelection.selected,
-         newExcludedKeys = selectionCount === 0 ? [] : newSelection.excluded,
-         selectedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldSelectedKeys, newSelectedKeys),
-         excludedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldExcludedKeys, newExcludedKeys);
-
-      const selectedDifference: ISelectionDifference = {
-         keys: newSelectedKeys,
-         added: selectedKeysDiff.added,
-         removed: selectedKeysDiff.removed
-      };
-
-      const excludedDifference: ISelectionDifference = {
-         keys: newExcludedKeys,
-         added: excludedKeysDiff.added,
-         removed: excludedKeysDiff.removed
-      };
-
-      return {
-         selectedKeysDiff: selectedDifference,
-         excludedKeysDiff: excludedDifference,
-         selectedCount: selectionCount,
-         isAllSelected: this._strategy.isAllSelected(newSelection, this._model.getHasMoreData(), this._model.getCount())
-      };
    }
 
    /**

@@ -78,7 +78,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
@@ -94,13 +94,13 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
         it('commit if current adding item has changes', () => {
             return editInPlace.add(newItem).then(() => {
-                editInPlace.getEditingItem().set('title', 'Changed');
+                collection.find((i) => i.isEditing()).contents.set('title', 'Changed');
 
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
@@ -116,7 +116,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         }
                     },
                     onAfterEndEdit: (item) => {
-                        if (savingStartedForItemWithKey === item.getKey()) {
+                        if (savingStartedForItemWithKey === item.contents.getKey()) {
                             wasSaved = true;
                         }
                     },
@@ -129,7 +129,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
                     assert.isTrue(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 2);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 2);
                 });
             });
         });
@@ -137,7 +137,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         it('commit if current editing item has changes', () => {
 
             return editInPlace.edit(items.at(0)).then((res) => {
-                editInPlace.getEditingItem().set('title', 'Changed');
+                collection.find((i) => i.isEditing()).contents.set('title', 'Changed');
 
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
@@ -153,7 +153,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         }
                     },
                     onAfterEndEdit: (item) => {
-                        if (savingStartedForItemWithKey === item.getKey()) {
+                        if (savingStartedForItemWithKey === item.contents.getKey()) {
                             wasSaved = true;
                         }
                     },
@@ -166,7 +166,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
                     assert.isTrue(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 2);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 2);
                 });
             });
         });
@@ -192,7 +192,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
                     assert.isTrue(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 2);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 2);
                 });
             });
         });
@@ -216,7 +216,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         }
                     },
                     onAfterEndEdit: (item) => {
-                        if (savingStartedForItemWithKey === item.getKey()) {
+                        if (savingStartedForItemWithKey === item.contents.getKey()) {
                             wasCanceled = true;
                         }
                     },
@@ -229,7 +229,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
                     assert.isTrue(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 2);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 2);
                 });
             });
         });
@@ -257,13 +257,13 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isTrue(result && result.canceled);
                     assert.isFalse(onBeforeBeginEditCalled);
                     assert.isFalse(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 });
             });
         });
 
         it('item given in arguments', () => {
-            assert.notExists(editInPlace.getEditingItem());
+            assert.isFalse(editInPlace.isEditing());
 
             editInPlace.updateOptions({
                 onBeforeBeginEdit: (options) => {
@@ -276,12 +276,12 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(result);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
             });
         });
 
         it('item given in callback', () => {
-            assert.notExists(editInPlace.getEditingItem());
+            assert.isFalse(editInPlace.isEditing());
 
             editInPlace.updateOptions({
                 onBeforeBeginEdit: (options) => {
@@ -295,7 +295,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(result);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
             });
         });
 
@@ -304,7 +304,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
@@ -325,7 +325,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
                 assert.isFalse(isPromiseRejected);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
@@ -346,7 +346,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
                 assert.isFalse(isPromiseRejected);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
@@ -355,7 +355,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
             });
         });
 
@@ -370,7 +370,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
             });
         });
 
@@ -383,7 +383,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 },
                 onAfterBeginEdit: (item, isAdd) => {
                     onAfterBeginEditCalled = true;
-                    assert.equal(item, editInPlace.getEditingItem());
+                    assert.equal(item.contents, collection.find((i) => i.isEditing()).contents);
                     assert.isFalse(isAdd);
                 }
             });
@@ -391,7 +391,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
             });
         });
 
@@ -403,16 +403,16 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 },
                 onAfterBeginEdit: (item, isAdd) => {
                     onAfterBeginEditCalled = true;
-                    assert.equal(item, collection.at(0).contents);
+                    assert.equal(item.contents, collection.at(0).contents);
                     assert.isFalse(isAdd);
-                    assert.isTrue(item.get('modified'));
+                    assert.isTrue(item.contents.get('modified'));
                 }
             });
             return editInPlace.edit(collection.at(0).contents).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
             });
         });
 
@@ -424,8 +424,8 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
-                assert.isFalse(editInPlace.getEditingItem().isChanged());
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
+                assert.isFalse(collection.find((i) => i.isEditing()).contents.isChanged());
             });
         });
     });
@@ -444,7 +444,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
@@ -460,13 +460,13 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
         it('commit if current adding item has changes', () => {
             return editInPlace.add(newItem).then(() => {
-                editInPlace.getEditingItem().set('title', 'Changed');
+                collection.find((i) => i.isEditing()).contents.set('title', 'Changed');
 
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
@@ -482,7 +482,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         }
                     },
                     onAfterEndEdit: (item) => {
-                        if (savingStartedForItemWithKey === item.getKey()) {
+                        if (savingStartedForItemWithKey === item.contents.getKey()) {
                             wasSaved = true;
                         }
                     },
@@ -502,7 +502,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
                     assert.isTrue(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), secondNewItem.getKey());
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), secondNewItem.getKey());
                 });
             });
         });
@@ -510,7 +510,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         it('commit if current editing item has changes', () => {
 
             return editInPlace.edit(items.at(0)).then((res) => {
-                editInPlace.getEditingItem().set('title', 'Changed');
+                collection.find((i) => i.isEditing()).contents.set('title', 'Changed');
 
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
@@ -526,7 +526,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         }
                     },
                     onAfterEndEdit: (item) => {
-                        if (savingStartedForItemWithKey === item.getKey()) {
+                        if (savingStartedForItemWithKey === item.contents.getKey()) {
                             wasSaved = true;
                         }
                     },
@@ -540,7 +540,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
                     assert.isTrue(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
                 });
             });
         });
@@ -566,7 +566,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
                     assert.isTrue(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
                 });
             });
         });
@@ -590,7 +590,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         }
                     },
                     onAfterEndEdit: (item) => {
-                        if (savingStartedForItemWithKey === item.getKey()) {
+                        if (savingStartedForItemWithKey === item.contents.getKey()) {
                             wasCanceled = true;
                         }
                     },
@@ -603,7 +603,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
                     assert.isTrue(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
                 });
             });
         });
@@ -631,13 +631,13 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isTrue(result && result.canceled);
                     assert.isFalse(onBeforeBeginEditCalled);
                     assert.isFalse(onAfterBeginEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 });
             });
         });
 
         it('item given in arguments', () => {
-            assert.notExists(editInPlace.getEditingItem());
+            assert.isFalse(editInPlace.isEditing());
 
             editInPlace.updateOptions({
                 onBeforeBeginEdit: (options) => {
@@ -650,12 +650,12 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(result);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
             });
         });
 
         it('item given in callback', () => {
-            assert.notExists(editInPlace.getEditingItem());
+            assert.isFalse(editInPlace.isEditing());
 
             editInPlace.updateOptions({
                 onBeforeBeginEdit: (options) => {
@@ -669,7 +669,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(result);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
             });
         });
 
@@ -678,7 +678,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
@@ -699,7 +699,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
                 assert.isFalse(isPromiseRejected);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
@@ -720,7 +720,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
                 assert.isFalse(isPromiseRejected);
-                assert.notExists(editInPlace.getEditingItem());
+                assert.isFalse(editInPlace.isEditing());
             });
         });
 
@@ -729,7 +729,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
             });
         });
 
@@ -744,7 +744,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
             });
         });
 
@@ -757,7 +757,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 },
                 onAfterBeginEdit: (item, isAdd) => {
                     onAfterBeginEditCalled = true;
-                    assert.equal(item, editInPlace.getEditingItem());
+                    assert.equal(item.contents, collection.find((i) => i.isEditing()).contents);
                     assert.isTrue(isAdd);
                 }
             });
@@ -765,7 +765,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
             });
         });
 
@@ -777,15 +777,15 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 },
                 onAfterBeginEdit: (item, isAdd) => {
                     onAfterBeginEditCalled = true;
-                    assert.isTrue(item.get('modified'));
-                    assert.isFalse(item.isChanged());
+                    assert.isTrue(item.contents.get('modified'));
+                    assert.isFalse(item.contents.isChanged());
                 }
             });
             return editInPlace.add(newItem).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
-                assert.equal(editInPlace.getEditingItem().getKey(), newItem.getKey());
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), newItem.getKey());
             });
         });
     });
@@ -827,7 +827,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             });
 
             it('cancel operation [sync callback]', () => {
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 editInPlace.updateOptions({
                     onBeforeEndEdit: () => {
                         onBeforeEndEditCalled = true;
@@ -838,12 +838,12 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isTrue(res && res.canceled);
                     assert.isTrue(onBeforeEndEditCalled);
                     assert.isFalse(onAfterEndEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 });
             });
 
             it('cancel operation [async callback]', () => {
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 editInPlace.updateOptions({
                     onBeforeEndEdit: () => {
                         onBeforeEndEditCalled = true;
@@ -854,13 +854,13 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isTrue(res && res.canceled);
                     assert.isTrue(onBeforeEndEditCalled);
                     assert.isFalse(onAfterEndEditCalled);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 });
             });
 
             it('error in before callback [sync callback]', () => {
                 let isPromiseRejected = false;
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 editInPlace.updateOptions({
                     onBeforeEndEdit: () => {
                         onBeforeEndEditCalled = true;
@@ -875,13 +875,13 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isTrue(onBeforeEndEditCalled);
                     assert.isFalse(onAfterEndEditCalled);
                     assert.isFalse(isPromiseRejected);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 });
             });
 
             it('error in before callback [async callback]', () => {
                 let isPromiseRejected = false;
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 editInPlace.updateOptions({
                     onBeforeEndEdit: () => {
                         onBeforeEndEditCalled = true;
@@ -896,22 +896,22 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isTrue(onBeforeEndEditCalled);
                     assert.isFalse(onAfterEndEditCalled);
                     assert.isFalse(isPromiseRejected);
-                    assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                    assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 });
             });
 
             it('correct [sync callback]', () => {
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 return editInPlace[operation]().then((result) => {
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeEndEditCalled);
                     assert.isTrue(onAfterEndEditCalled);
-                    assert.notExists(editInPlace.getEditingItem());
+                    assert.isFalse(editInPlace.isEditing());
                 });
             });
 
             it('correct [async callback]', () => {
-                assert.equal(editInPlace.getEditingItem().getKey(), 1);
+                assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 editInPlace.updateOptions({
                     onBeforeEndEdit: () => {
                         onBeforeEndEditCalled = true;
@@ -922,21 +922,21 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isUndefined(res);
                     assert.isTrue(onBeforeEndEditCalled);
                     assert.isTrue(onAfterEndEditCalled);
-                    assert.notExists(editInPlace.getEditingItem());
+                    assert.isFalse(editInPlace.isEditing());
                 });
             });
 
             it('callback arguments', () => {
-                const editingItem = editInPlace.getEditingItem();
+                const editingItem = collection.find((i) => i.isEditing());
                 editInPlace.updateOptions({
                     onBeforeEndEdit: (item: Model, willSave: boolean, isAdd: boolean) => {
                         onBeforeEndEditCalled = true;
-                        assert.equal(item, editingItem);
+                        assert.equal(item, editingItem.contents);
                         assert.isFalse(isAdd);
                     },
                     onAfterEndEdit: (item, isAdd) => {
                         onAfterEndEditCalled = true;
-                        assert.equal(item, editingItem);
+                        assert.equal(item.contents, editingItem.contents);
                         assert.isFalse(isAdd);
                     }
                 });

@@ -400,26 +400,6 @@ define([
             lv._onItemContextMenu({}, {});
             assert.isTrue(notifyStub.calledOnce);
          });
-         it('itemContextMenu event shouldn\'t fire during editing', function() {
-            var
-               model = new lists.ListViewModel({
-                  items: data,
-                  keyProperty: 'id',
-                  markedKey: null
-               }),
-               cfg = {
-                  listModel: model,
-                  keyProperty: 'id',
-                  contextMenuVisibility: true
-               },
-               lv = new lists.ListView(cfg);
-            lv.saveOptions(cfg);
-            lv._beforeMount(cfg);
-            sandbox.stub(model, 'isEditing').returns(true);
-            sandbox.stub(lv, '_notify').withArgs('itemContextMenu').throws('itemContextMenu event shouldn\'t fire during editing');
-
-            lv._onItemContextMenu({}, {});
-         });
       });
 
       it('debounced setHoveredItem', function() {

@@ -40,25 +40,31 @@ define('Controls/interface/IPromisedSelectable', [
 
    /**
     * @name Controls/interface/IPromisedSelectable#selectedKeys
-    * @cfg {Array.<Number|String>} Массив ключей выбранных элементов.
-    * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">демо-пример</a>
+    * @cfg {Array.<Number|String>} Набор ключей выбранных элементов.
+    * @demo Controls-demo/list_new/MultiSelect/AllSelected/Index В демо-примере по умолчанию выбраны все элементы.
     * @default []
     * @remark
     * Чтобы выбрать все элементы внутри узла, необходимо в selectedKeys передать значение {@link Controls/_interface/ISource#keyProperty keyProperty} этого узла.
     * Чтобы выбрать все элементы, необходимо в selectedKeys передать [null].
+    *
+    * Следующее примечание актуально только при работе с {@link Controls/operations:Panel Панелью действий}.
+    * Если все элементы списочного контрола выбраны через кнопку "Отметить"->"Все", тогда опции **selectedKeys** и **excludedKeys** для плоских списков (см. {@link Controls/list:View Плоский список} и {@link Controls/grid:View таблица}) будут установлены в значение **null**, а для иерархических (см. {@link Controls/treeGrid:View Дерево}, {@link Controls/tile:View Плитка} и {@link Controls/explorer:View Иерархический проводник}) — в значение **корень** (см. {@link Controls/explorer:IExplorer#root root}).
     * @example
     * В следующем примере создается список и выбираются все элементы, кроме двух. Последующие изменения, внесенные в selectedKeys и excludedKeys, будут синхронизированы посредством биндинга.
-    * TMPL:
-    * <pre>
-    *    <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys" />
+    * <pre class="brush: js">
+    * <!-- WML -->
+    * <Controls.operations:Controller
+    *     bind:selectedKeys="_selectedKeys"
+    *     bind:excludedKeys="_excludedKeys" />
     * </pre>
-    * JS:
-    * <pre>
-    *    _beforeMount: function() {
-    *       this._selectedKeys = [null];
-    *       this._excludedKeys = [1, 2];
-    *    }
+    * <pre class="brush: html">
+    * // JavaScript
+    * _selectedKeys: null,
+    * _excludedKeys: null,
+    * _beforeMount: function() {
+    *    this._selectedKeys = [null];
+    *    this._excludedKeys = [1, 2];
+    * }
     * </pre>
     * @see Controls/_interface/ISource#keyProperty
     * @see excludedKeys
@@ -92,24 +98,30 @@ define('Controls/interface/IPromisedSelectable', [
 
    /**
     * @name Controls/interface/IPromisedSelectable#excludedKeys
-    * @cfg {Array.<Number|String>} Набор ключей элементов, которые должны быть исключены из выборки.
-    * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">демо-пример</a>
+    * @cfg {Array.<Number|String>} Набор ключей элементов, которые исключены из выборки.
+    * @demo Controls-demo/list_new/MultiSelect/AllSelected/Index В демо-примере по умолчанию выбраны все элементы.
     * @default []
     * @remark
     * Узел будет отмечен как частично выбранный, если ключ любого из его дочерних элементов находится в excludedKeys. Такие узлы обычно отображаются с флагом в неопределенном состоянии рядом с ними.
+    *
+    * Следующее примечание актуально только при работе с {@link Controls/operations:Panel Панелью действий}.
+    * Если все элементы списочного контрола выбраны через кнопку "Отметить"->"Все", тогда опции **selectedKeys** и **excludedKeys** для плоских списков (см. {@link Controls/list:View Плоский список} и {@link Controls/grid:View таблица}) будут установлены в значение **null**, а для иерархических (см. {@link Controls/treeGrid:View Дерево}, {@link Controls/tile:View Плитка} и {@link Controls/explorer:View Иерархический проводник}) — в значение **корень** (см. {@link Controls/explorer:IExplorer#root root}).
     * @example
     * В следующем примере создается список и выбираются все элементы, кроме двух. Последующие изменения, внесенные в selectedKeys и excludedKeys, будут синхронизированы посредством биндинга.
-    * TMPL:
-    * <pre>
-    *    <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys" />
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.operations:Controller
+    *     bind:selectedKeys="_selectedKeys"
+    *     bind:excludedKeys="_excludedKeys" />
     * </pre>
-    * JS:
-    * <pre>
-    *    _beforeMount: function() {
-    *       this._selectedKeys = [null];
-    *       this._excludedKeys = [1, 2];
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * _selectedKeys: null,
+    * _excludedKeys: null,
+    * _beforeMount: function() {
+    *    this._selectedKeys = [null];
+    *    this._excludedKeys = [1, 2];
+    * }
     * </pre>
     * @see Controls/_interface/ISource#keyProperty
     * @see selectedKeys
@@ -261,4 +273,16 @@ define('Controls/interface/IPromisedSelectable', [
     * @see excludedKeys
     */
 
+
+   /**
+    * @event Происходит до изменения списка выбранных элементов.
+    * @name Controls/interface/IPromisedSelectable#beforeSelectionChanged
+    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {Controls/_multiselection/interface#ISelectionDifference} selectionDiff Изменение в списке выбранных элементов по сравнению с текущим выбором.
+    * @return {Controls/_interface/ISelectionObject} Список выбранных элементов
+    * @remark
+    * Из обработчика события можно вернуть новый список выбранных элементов.
+    * Либо можно вернуть промис с новым списком выбранных элементов.
+    * В этом месте можно повлият на список выбранных элементов, но аналогичный нужно положить в опции
+    */
 });

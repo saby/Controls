@@ -75,6 +75,7 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
 export default class View extends List {
    protected _viewName = TreeTileView;
    protected _viewTemplate = TreeControl;
+   protected _supportNewModel: boolean = false;
    protected _beforeMount(): void {
       this._viewModelConstructor = this._getModelConstructor();
    }

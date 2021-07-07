@@ -975,10 +975,10 @@ define([
                lnTreeControl = correctCreateTreeControl(lnCfg),
                treeGridViewModel = lnTreeControl._children.baseControl.getViewModel();
 
-            setTimeout(function() {
+            setTimeout(async function() {
                assert.deepEqual([], treeGridViewModel._model._expandedItems);
 
-               lnTreeControl._children.baseControl.setMarkedKey(1);
+               await lnTreeControl._children.baseControl.setMarkedKey(1);
 
                lnTreeControl._onTreeViewKeyDown({
                   stopImmediatePropagation: function() {

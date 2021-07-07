@@ -114,15 +114,21 @@
 }
 
 .controls-Slider__line_horizontal_theme-@{themeName} {
-  position: absolute;
   height: @track_thickness_slider;
   width: 100%;
 }
 
 .controls-Slider__line_vertical_theme-@{themeName} {
-  position: absolute;
   width: @track_thickness_slider;
   height: 100%;
+}
+
+.controls-Slider__line_theme-@{themeName} {
+  border-radius: @track_border-radius_slider;
+}
+
+.controls-Slider__line {
+  position: absolute;
 }
 
 // верхний отступ = высота ползунка - высота линии / 2

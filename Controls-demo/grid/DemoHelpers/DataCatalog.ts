@@ -1144,6 +1144,28 @@ const getPorts = () => {
                 displayProperty: 'taxBase'
             }
         ],
+        getColumnsDND: (): IColumn[] => [
+            {
+                width: '100px',
+                displayProperty: 'invoice'
+            },
+            {
+                width: '200px',
+                displayProperty: 'documentNum'
+            },
+            {
+                width: '200px',
+                displayProperty: 'taxBase'
+            },
+            {
+                width: '1fr',
+                displayProperty: 'description'
+            },
+            {
+                width: '200px',
+                displayProperty: 'document'
+            }
+        ],
         getDocumentSigns: (): Array<{ id: number, title: string }> => [
             {
                 id: 1,

@@ -95,24 +95,11 @@ export default class Drag<S extends Model, T extends CollectionItem<S> = Collect
     }
 
     getDisplayIndex(index: number): number {
-        const itemsOrder = this._getItemsOrder();
-        const sourceIndex = this.source.getDisplayIndex(index);
-        const overallIndex = sourceIndex + 1;
-        const itemIndex = itemsOrder.indexOf(overallIndex);
-
-        return itemIndex === -1 ? itemsOrder.length : itemIndex;
+        return this.source.getDisplayIndex(index);
     }
 
     getCollectionIndex(index: number): number {
-        const itemsOrder = this._getItemsOrder();
-        const itemIndex = itemsOrder[index];
-
-        let sourceIndex = itemIndex - 1;
-        if (sourceIndex >= 0) {
-            sourceIndex = this.source.getCollectionIndex(sourceIndex);
-        }
-
-        return sourceIndex;
+        return this.source.getCollectionIndex(index);
     }
 
     splice(start: number, deleteCount: number, added?: S[]): T[] {
@@ -169,6 +156,12 @@ export default class Drag<S extends Model, T extends CollectionItem<S> = Collect
             const key = item.getContents().getKey();
             return !this._options.draggedItemsKeys.includes(key);
         });
+
+        this.source.items.filter((item) => {
+            const key = item.getContents().getKey();
+            return this._options.draggedItemsKeys.includes(key);
+        }).forEach((it) => it.setMarked(false, true));
+
         if (!this._avatarItem) {
             this._avatarItem = this._createAvatarItem();
         }
@@ -183,14 +176,16 @@ export default class Drag<S extends Model, T extends CollectionItem<S> = Collect
 
     protected _createAvatarItem(): T {
         const protoItem = this._getProtoItem();
-        return this._createItem(protoItem?.getContents());
+        return this._createItem(protoItem);
     }
 
-    protected _createItem(contents: S): T {
+    protected _createItem(protoItem: T): T {
         const item = this.options.display.createItem({
-            contents
-        }) as unknown as T;
+            contents: protoItem?.getContents()
+        });
         item.setDragged(true, true);
+        item.setMarked(protoItem.isMarked(), true);
+        item.setSelected(protoItem.isSelected(), true);
         return item;
     }
 

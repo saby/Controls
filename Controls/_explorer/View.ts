@@ -471,7 +471,7 @@ var
 
    /**
     * @name Controls/_explorer/View#breadcrumbsDisplayMode
-    * @cfg {Boolean} Отображение крошек в несколько строк {@link Controls/breadcrumbs:HeadingPath#breadcrumbsDisplayMode}
+    * @cfg {Boolean} Отображение крошек в несколько строк {@link Controls/breadcrumbs:HeadingPath#displayMode}
     */
 
    /**
@@ -479,11 +479,11 @@ var
     * @cfg {String|Function} Шаблон отображения элемента в режиме "Плитка".
     * @default undefined
     * @remark
-    * Позволяет установить прикладной шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/tile:ItemTemplate}.
+    * Позволяет установить пользовательский шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/tile:ItemTemplate}.
     *
     * Также шаблон Controls/tile:ItemTemplate поддерживает {@link Controls/tile:ItemTemplate параметры}, с помощью которых можно изменить отображение элемента.
     *
-    * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
+    * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
     *
     * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/explorer/templates/ руководстве разработчика}.
     * @example
@@ -646,7 +646,10 @@ var
 
          const changeRoot = () => {
             _private.setRoot(this, item.getId());
-            this._isGoingFront = true;
+            // При search не должны сбрасывать маркер, так как он встанет на папку
+            if (this._options.searchNavigationMode !== 'expand') {
+               this._isGoingFront = true;
+            }
          };
 
          // Не нужно проваливаться в папку, если должно начаться ее редактирование.
@@ -658,11 +661,6 @@ var
             const hasEditOnClick = !!this._options.editingConfig && !!this._options.editingConfig.editOnClick;
             return hasEditOnClick && !clickEvent.target.closest(`.${EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE}`);
          };
-
-          const editingItem = this._children.treeControl.getEditingItem();
-          const closeEditing = (eItem: Model) => {
-              return eItem.isChanged() ? this.commitEdit() : this.cancelEdit();
-          };
 
          const shouldHandleClick = res !== false && !isNodeEditable();
 
@@ -683,10 +681,10 @@ var
               _private.setRestoredKeyObject(this, item);
 
              // Если в списке запущено редактирование, то проваливаемся только после успешного завершения.
-             if (!editingItem) {
+             if (!this._children.treeControl.isEditing()) {
                   changeRoot();
               } else {
-                 closeEditing(editingItem).then((result) => {
+                 this.commitEdit().then((result) => {
                      if (!(result && result.canceled)) {
                          changeRoot();
                      }

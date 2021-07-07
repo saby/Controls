@@ -1,4 +1,3 @@
-import {getDimensions as uDimension} from 'Controls/sizeUtils';
 import { IOptions, TVisibility, Visibility } from './interface';
 import { Collection, CollectionItem } from 'Controls/display';
 import { Model } from 'Types/entity';

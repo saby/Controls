@@ -78,52 +78,52 @@ define(
             assert.isTrue(isStopped);
          });
 
-         it('getLeftSpacing', function() {
+         it('getLeftPadding', function() {
             let menuRender = getRender();
             let renderOptions = {
                listModel: getListModel(),
                itemPadding: {}
             };
-            let leftSpacing = menuRender.getLeftSpacing(renderOptions);
+            let leftSpacing = menuRender.getLeftPadding(renderOptions);
             assert.equal(leftSpacing, 'm');
 
             renderOptions.multiSelect = true;
-            leftSpacing = menuRender.getLeftSpacing(renderOptions);
+            leftSpacing = menuRender.getLeftPadding(renderOptions);
             assert.equal(leftSpacing, 'm');
 
             renderOptions.itemPadding.left = 'xs';
-            leftSpacing = menuRender.getLeftSpacing(renderOptions);
+            leftSpacing = menuRender.getLeftPadding(renderOptions);
             assert.equal(leftSpacing, 'xs');
          });
 
-         it('getRightSpacing', function() {
+         it('getRightPadding', function() {
             let menuRender = getRender();
             let renderOptions = {
                listModel: getListModel(),
                itemPadding: {},
                nodeProperty: 'node'
             };
-            let rightSpacing = menuRender.getRightSpacing(renderOptions);
+            let rightSpacing = menuRender.getRightPadding(renderOptions);
             assert.equal(rightSpacing, 'm');
 
             let items = Clone(defaultItems);
             items[0].node = true;
             renderOptions.listModel = getListModel(items, 'node');
-            rightSpacing = menuRender.getRightSpacing(renderOptions);
+            rightSpacing = menuRender.getRightPadding(renderOptions);
             assert.equal(rightSpacing, 'menu-expander');
 
             renderOptions.itemPadding.right = 'xs';
-            rightSpacing = menuRender.getRightSpacing(renderOptions);
+            rightSpacing = menuRender.getRightPadding(renderOptions);
             assert.equal(rightSpacing, 'xs');
 
             renderOptions.itemPadding.right = null;
             renderOptions.multiSelect = true;
-            rightSpacing = menuRender.getRightSpacing(renderOptions);
+            rightSpacing = menuRender.getRightPadding(renderOptions);
             assert.equal(rightSpacing, 'menu-multiSelect');
 
             renderOptions.itemPadding.right = 'menu-close';
             renderOptions.multiSelect = true;
-            rightSpacing = menuRender.getRightSpacing(renderOptions);
+            rightSpacing = menuRender.getRightPadding(renderOptions);
             assert.equal(rightSpacing, 'menu-close-multiSelect');
          });
 

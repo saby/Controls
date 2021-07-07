@@ -1,4 +1,5 @@
 import {ControllerClass, Prefetch} from 'Controls/filter';
+import {SbisService} from 'Types/source';
 import {assert} from 'chai';
 
 function getFilterButtonItems(): any[] {
@@ -141,6 +142,107 @@ describe('Controls/filter:ControllerClass', () => {
             'testId2': 'value2'
         });
         assert.deepEqual(filterController.getFilterButtonItems(), newFilterItems);
+    });
+
+    describe('setFilter', () => {
+        const controller = new ControllerClass({});
+
+        it('check operations filter', () => {
+            const filter = {};
+            controller.update({
+                filter,
+                source: new SbisService({
+                    endpoint: {contract: '123'},
+                    keyProperty: 'id'
+                })
+            });
+            assert.deepEqual(controller.getFilter(), {});
+
+            controller.update({
+                filter,
+                selectedKeys: [1, 2],
+                excludedKeys: [3],
+                parentProperty: 'testParentProperty',
+                source: new SbisService({
+                    endpoint: {contract: '123'},
+                    keyProperty: 'id'
+                })
+            });
+            assert.isTrue('entries' in controller.getFilter());
+
+            controller._options.selectionViewMode = 'selected';
+            controller.update({
+                filter,
+                selectionViewMode: 'selected',
+                source: new SbisService({
+                    endpoint: {contract: '123'},
+                    keyProperty: 'id'
+                })
+            });
+            assert.isTrue('SelectionWithPath' in controller.getFilter());
+        });
+
+        it('check search filter in constructor', () => {
+            let filterController = new ControllerClass({
+                searchParam: 'title',
+                searchValue: 'test',
+                parentProperty: 'test',
+                minSearchLength: 3
+            });
+
+            assert.deepEqual(filterController.getFilter(), {
+                'Разворот': 'С разворотом',
+                'usePages': 'full',
+                title: 'test'
+            });
+
+            filterController = new ControllerClass({
+                searchValue: 'test',
+                minSearchLength: 3
+            });
+
+            assert.deepEqual(filterController.getFilter(), {});
+
+            filterController = new ControllerClass({
+                minSearchLength: 3,
+                searchParam: 'title',
+                searchValue: 'te'
+            });
+            assert.deepEqual(filterController.getFilter(), {});
+        });
+
+        it('check search filter on update', () => {
+            const filterController = new ControllerClass({
+                filter: { title: 'test' }
+            });
+            filterController.update({
+                filter: {
+                    title: 'test2'
+                }
+            });
+
+            assert.deepEqual(filterController.getFilter(), { title: 'test2' });
+
+            filterController.update({
+                filter: {
+                    title: 'test2'
+                },
+                searchValue: 'test',
+                searchParam: 'search_string',
+                minSearchLength: 3
+            });
+
+            assert.deepEqual(filterController.getFilter(), { title: 'test2', search_string: 'test' });
+
+            filterController._filter = null;
+            // filter options is not changed
+            filterController.update({
+                filter: {
+                    title: 'test2'
+                }
+            });
+            assert.deepEqual(filterController.getFilter(), {});
+        });
     });
 
     describe('updateHistory', () => {

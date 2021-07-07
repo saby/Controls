@@ -2612,7 +2612,7 @@ describe('Controls/_display/Collection', () => {
                 i++;
             });
             display.setSelectedItemsAll(true);
-            assert.strictEqual(i, 1);
+            assert.strictEqual(i, 8);
         });
     });
 
@@ -4257,31 +4257,21 @@ describe('Controls/_display/Collection', () => {
         )
     });
 
-    it('.getRowSpacing()', () => {
-        const rowSpacing = 'rowSpacing';
+    it('.getPadding()', () => {
+        const itemPadding = {
+            left: 'leftPadding',
+            right: 'rightPadding',
+            top: 'topPadding',
+            bottom: 'bottomPadding'
+        };
         const collection = new CollectionDisplay({
             collection: [],
-            rowSpacing
+            itemPadding
         });
-        assert.strictEqual(collection.getRowSpacing(), rowSpacing);
-    });
-
-    it('.getLeftSpacing()', () => {
-        const leftSpacing = 'leftSpacing';
-        const collection = new CollectionDisplay({
-            collection: [],
-            leftSpacing
-        });
-        assert.strictEqual(collection.getLeftSpacing(), leftSpacing);
-    });
-
-    it('.getRightSpacing()', () => {
-        const rightSpacing = 'rightSpacing';
-        const collection = new CollectionDisplay({
-            collection: [],
-            rightSpacing
-        });
-        assert.strictEqual(collection.getRightSpacing(), rightSpacing);
+        assert.strictEqual(collection.getLeftPadding(), itemPadding.left);
+        assert.strictEqual(collection.getRightPadding(), itemPadding.right);
+        assert.strictEqual(collection.getTopPadding(), itemPadding.top);
+        assert.strictEqual(collection.getBottomPadding(), itemPadding.bottom);
     });
 
     it('.setEditingConfig()', () => {

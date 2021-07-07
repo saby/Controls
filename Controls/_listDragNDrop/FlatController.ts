@@ -82,9 +82,13 @@ export default class FlatController {
       this._model.setDragPosition(position);
    }
 
-   /**
-    * Заканчивает драг'н'дроп в списке. Все записи отображаются обычным образом
-    */
+   getDraggableItem(): CollectionItem<Model> {
+      return this._draggableItem;
+   }
+
+    /**
+     * Заканчивает драг'н'дроп в списке. Все записи отображаются обычным образом
+     */
    endDrag(): void {
       this._draggableItem = null;
       this._dragPosition = null;
@@ -120,6 +124,14 @@ export default class FlatController {
     */
    calculateDragPosition(targetItem: CollectionItem<Model>, position?: TPosition): IDragPosition<CollectionItem<Model>> {
       let prevIndex = -1;
+
+      if (targetItem === null) {
+         return {
+            index: this._startIndex,
+            position: 'before',
+            dispItem: this._draggableItem
+         };
+      }
 
       // If you hover on a record that is being dragged, then the position should not change.
       if (this._draggableItem.getContents().getKey() === targetItem.getContents().getKey()) {

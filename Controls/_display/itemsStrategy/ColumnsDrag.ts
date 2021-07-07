@@ -12,15 +12,17 @@ export default class ColumnsDrag<S extends Model, T extends ColumnsCollectionIte
     extends Drag<S, T> {
     protected _createAvatarItem(): T {
         const protoItem = this._getProtoItem();
-        return this._createColumnsItem(protoItem?.getContents(), protoItem?.getColumn());
+        return this._createColumnsItem(protoItem, protoItem?.getColumn());
     }
 
-    private _createColumnsItem(contents: S, column?: number): T {
+    private _createColumnsItem(protoItem: T, column?: number): T {
         const item = this.options.display.createItem({
-            contents,
+            contents: protoItem?.getContents(),
             column
-        }) as unknown as T;
+        });
         item.setDragged(true, true);
+        item.setMarked(protoItem?.isMarked(), true);
+        item.setSelected(protoItem?.isSelected(), true);
         return item;
     }
 }

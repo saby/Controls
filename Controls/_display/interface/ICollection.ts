@@ -42,9 +42,10 @@ export interface ICollection<S, T> extends IBaseCollection<T> {
     getCollection(): ISourceCollection<S>;
     getDisplayProperty(): string;
     getMultiSelectVisibility(): string;
-    getRowSpacing(): string;
-    getRightSpacing(): string;
-    getLeftSpacing(): string;
+    getTopPadding(): string;
+    getBottomPadding(): string;
+    getRightPadding(): string;
+    getLeftPadding(): string;
     getItemUid(item: T): string;
     getMarkerVisibility(): string;
     notifyItemChange(item: T, properties?: object): void;

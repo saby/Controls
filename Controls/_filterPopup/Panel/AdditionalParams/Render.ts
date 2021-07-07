@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Collection, CollectionItem, GroupItem} from 'Controls/display';
+import {RecordSet} from 'Types/collection';
 import Clone = require('Core/core-clone');
 import * as template from 'wml!Controls/_filterPopup/Panel/AdditionalParams/Render/Render';
 import * as itemTemplate from 'wml!Controls/_filterPopup/Panel/AdditionalParams/Render/resources/ItemTemplate';
@@ -46,9 +47,12 @@ export default class AdditionalParamsRender extends Control<IAdditionalRenderOpt
         const items = Clone(options.source);
         return new Collection({
             keyProperty: options.keyProperty,
-            collection: items,
+            collection: new RecordSet({
+                rawData: items,
+                keyProperty: options.keyProperty
+            }) as any,
             group: options.groupProperty ? (item): string => {
-                return item[options.groupProperty];
+                return item.get(options.groupProperty);
             } : null
         });
     }
@@ -64,9 +68,9 @@ export default class AdditionalParamsRender extends Control<IAdditionalRenderOpt
         currentColumn: string): boolean {
         let column;
         if (item instanceof GroupItem) {
-            column = collection.getNext(item).getContents()[columnProperty];
+            column = collection.getNext(item).getContents().get(columnProperty);
         } else {
-            column = item.getContents()[columnProperty];
+            column = item.getContents().get(columnProperty);
         }
         return column === currentColumn;
     }
@@ -86,7 +90,7 @@ export default class AdditionalParamsRender extends Control<IAdditionalRenderOpt
     }
 
     protected _propertyChanged(event: Event, item: IFilterItem, property: string, value: any): void {
-        this._notify('propertyChanged', [item, property, value]);
+        this._notify('propertyChanged', [item.getRawData(), property, value]);
     }
 
     static _theme: string[] = ['Controls/filterPopup'];

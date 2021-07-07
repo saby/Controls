@@ -694,8 +694,8 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
 
     // region Edit in place
 
-    getEditingItem(): Model {
-        return this._children.baseControl.getEditingItem();
+    isEditing(): Model {
+        return this._children.baseControl.isEditing();
     },
 
     beginEdit(options) {

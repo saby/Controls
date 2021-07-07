@@ -1,6 +1,3 @@
-import {Model} from 'Types/entity';
-import {CollectionItem} from 'Controls/display';
-
 /**
  * @typedef {String} CONSTANTS
  * @description Набор констант, использующихся в редактировании по месту.
@@ -9,12 +6,6 @@ import {CollectionItem} from 'Controls/display';
 export enum CONSTANTS {
     CANCEL = 'Cancel'
 }
-
-/**
- * @typedef {CollectionItem.<Types/entity:Model>>} TEditableCollectionItem
- * @description Тип элемента редактируео коллекции.
- */
-export type TEditableCollectionItem<S extends Model = Model> = CollectionItem<S>;
 
 /**
  * @typedef {String|Number|Null} TKey

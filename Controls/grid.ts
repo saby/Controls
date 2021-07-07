@@ -10,6 +10,7 @@
  * @includes ColumnTemplate Controls/grid:ColumnTemplate
  * @includes ResultColumnTemplate Controls/grid:ResultColumnTemplate
  * @includes RowEditor Controls/grid:RowEditor
+ * @includes EditingEmptyTemplate Controls/grid:EditingEmptyTemplate
  * @includes IGridControl Controls/_grid/interface/IGridControl
  * @includes IColumn Controls/grid:IColumn
  * @includes ITagColumn Controls/_grid/interface/ITagColumn

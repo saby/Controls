@@ -700,5 +700,51 @@ define([
             });
          });
       });
+
+      describe('_updateShadowsVisibility', () => {
+         beforeEach(() => {
+            component._headers = {
+               header0: {
+                  inst: {
+                     shadowVisibility: 'visible',
+                     updateShadowVisibility: sinon.stub()
+                  }
+               },
+               header1: {
+                  inst: {
+                     shadowVisibility: 'lastVisible',
+                     updateShadowVisibility: sinon.stub()
+                  }
+               },
+                header2: {
+                  inst: {
+                     shadowVisibility: 'visible',
+                     updateShadowVisibility: sinon.stub()
+                  }
+               }
+            };
+            component._fixedHeadersStack.top = ['header0', 'header1', 'header2'];
+         });
+
+         [{
+            _headersStack: ['header0', 'header1', 'header2'],
+            resp: [true, false, true]
+         }, {
+            _headersStack: ['header1', 'header2', 'header0'],
+            resp: [true, false, true]
+         }, {
+            _headersStack: ['header2', 'header0', 'header1'],
+            resp: [true, true, true]
+         }].forEach((test, index) => {
+            it('test ' + index, () => {
+               component._isShadowVisible = { top: true, bottom: true };
+               component._headersStack.top = test._headersStack;
+               component._updateShadowsVisibility();
+               for (let i = 0; i < test.resp.length; i++) {
+                  sinon.assert.calledWith(component._headers['header' + i].inst.updateShadowVisibility, test.resp[i]);
+               }
+            });
+         });
+      });
    });
 });

@@ -15,17 +15,17 @@ import { default as ISelectionStrategy } from 'Controls/_multiselection/Selectio
 import {
    ISelectionItem,
    ISelectionModel,
-   ISelectionControllerResult,
    ISelectionControllerOptions,
    IFlatSelectionStrategyOptions,
-   ITreeSelectionStrategyOptions
+   ITreeSelectionStrategyOptions,
+   ISelectionDifference
 } from 'Controls/_multiselection/interface';
 
 export {
    ISelectionItem,
    SelectionController,
    ISelectionControllerOptions,
-   ISelectionControllerResult,
+   ISelectionDifference,
    ISelectionModel,
    ISelectionStrategy,
    FlatSelectionStrategy,

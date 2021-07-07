@@ -1,7 +1,8 @@
 <div class="controls-MenuButton controls-MenuButton_theme_{{_options.theme}} controls-MenuButton__Wrapper theme_{{_options.theme}}">
     <ws:if data="{{!_options.lazyItemsLoading && !_hasItems && _options.viewMode === 'link'}}">
-        <div class="controls-text controls-text-default_theme-{{_options.theme}}
-                     controls-fontsize-{{_fontSizeButton}}_theme-{{_options.theme}}">{{_options.caption}}</div>
+        <div class="controls-text controls-MenuButton__text controls-text-default_theme-{{_options.theme}}
+                     controls-fontsize-{{_fontSizeButton}}_theme-{{_options.theme}}"
+             title="{{_options.caption}}">{{_options.caption}}</div>
     </ws:if>
     <ws:else>
         <Controls.buttons:Button

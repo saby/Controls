@@ -153,15 +153,17 @@ class StickyHeaderController {
     }
     _updateShadowsVisibility(): void {
         for (const position of [POSITION.top, POSITION.bottom]) {
-            const headersStack: [] = this._fixedHeadersStack[position];
+            const headersStack: [] = this._headersStack[position];
             const lastHeaderId = headersStack[headersStack.length - 1];
             for (const headerId of headersStack) {
-                const header: TRegisterEventData = this._headers[headerId];
-                let visibility: boolean = this._isShadowVisible[position];
-                if (header.inst.shadowVisibility === SHADOW_VISIBILITY.lastVisible) {
-                    visibility = visibility && (headerId === lastHeaderId);
+                if (this._fixedHeadersStack[position].includes(headerId)) {
+                    const header: TRegisterEventData = this._headers[headerId];
+                    let visibility: boolean = this._isShadowVisible[position];
+                    if (header.inst.shadowVisibility === SHADOW_VISIBILITY.lastVisible) {
+                        visibility = visibility && (headerId === lastHeaderId);
+                    }
+                    header.inst.updateShadowVisibility(visibility);
                 }
-                header.inst.updateShadowVisibility(visibility);
             }
         }
     }

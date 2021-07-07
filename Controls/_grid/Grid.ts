@@ -69,6 +69,7 @@ import viewName = require('Controls/_grid/GridView');
 export default class Grid extends List /** @lends Controls/grid:View */ {
     _viewName = viewName;
     _viewTemplate = viewTemplate;
+    protected _supportNewModel: boolean = false;
 
     _getModelConstructor() {
         return GridViewModel;

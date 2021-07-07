@@ -695,7 +695,7 @@ define([
             const clickEvent = {
                target: {closest: () => {}}
             };
-            explorer._children.treeControl = { getEditingItem: () => {} };
+            explorer._children.treeControl = { isEditing: () => false };
             assert.doesNotThrow(() => { explorer._onItemClick(event, { get: () => true  }, clickEvent) });
             assert.equal(rootBefore, explorer._root);
             assert.doesNotThrow(() => { explorer._onItemClick(event, { get: () => false }, clickEvent) });
@@ -730,7 +730,7 @@ define([
                         assert.notEqual(rootBefore, explorer._root);
                      }
                   }),
-                  getEditingItem: () => {}
+                  isEditing: () => false
                }
             };
             const event = { stopPropagation: () => {} };
@@ -778,7 +778,7 @@ define([
                treeControl: {
                   _children: {
                   },
-                  getEditingItem: () => {},
+                  isEditing: () => false,
                   commitEdit: () => commitEditResult
                }
             };
@@ -877,6 +877,27 @@ define([
             assert.isTrue(isPropagationStopped);
             // Root wasn't changed
             assert.equal(root, 'itemId');
+
+            explorer._isGoingFront = false;
+            explorer.saveOptions({
+               searchNavigationMode: 'expand'
+            });
+            await new Promise((res) => {
+               explorer._onItemClick({
+                  stopPropagation: () => {
+                     isPropagationStopped = true;
+                  }
+               }, {
+                  get: () => true,
+                  getId: () => 'itemIdOneMore'
+               }, {
+                  nativeEvent: 123
+               });
+               setTimeout(() => {
+                  res();
+               }, 0);
+            });
+            assert.isFalse(explorer._isGoingFront);
          });
 
          it('_onBreadCrumbsClick', function() {
@@ -1254,7 +1275,7 @@ define([
                }
             };
             explorer._children.treeControl = {
-               getEditingItem: () => {}
+               isEditing: () => false
             };
 
             const mockEvent = { stopPropagation: () => {} };

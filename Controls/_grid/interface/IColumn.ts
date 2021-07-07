@@ -100,7 +100,7 @@ export interface IColumn {
      * @cfg {String} Имя поля, данные которого отображаются в колонке.
      * @demo Controls-demo/grid/Columns/CellNoClickable/Index В демо-примере в конфигурации колонок заданы свойства displayProperty со значениями number, country и capital.
      * @example
-     * <pre class="brush: html; highlight: [7,12,13]">
+     * <pre class="brush: html; highlight: [6,11,12]">
      * <Controls.grid:View
      *     keyProperty="id"
      *     source="{{_viewSource}}">
@@ -140,6 +140,8 @@ export interface IColumn {
      *         ]
      *     });
      * }
+     * </pre>
+     * @see template
      */
     displayProperty?: string;
     /**
@@ -147,8 +149,8 @@ export interface IColumn {
      * @cfg {String} Ширина колонки в браузерах, не поддерживающих {@link https://developer.mozilla.org/ru/docs/web/css/css_grid_layout CSS Grid Layout}.
      * @remark
      * В качестве значения свойства можно указать только пиксели (px) или проценты (%). Если свойство не задано, применяется значение "auto".
-     * @see width
      * @demo Controls-demo/grid/Columns/CellNoClickable/Index В демо-примере в конфигурации третьей колонки свойство compatibleWidth установлено в значение 98px.
+     * @see width
      */
     compatibleWidth?: string;
     /**
@@ -156,15 +158,15 @@ export interface IColumn {
      * @cfg {String|Function} Шаблон отображения ячейки.
      * @default undefined
      * @remark
-     * Позволяет установить прикладной шаблон отображения ячейки (**именно шаблон**, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ColumnTemplate}.
+     * Позволяет установить пользовательский шаблон отображения ячейки (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ColumnTemplate}.
      * 
-     * По умолчанию Controls/grid:ColumnTemplate отображает значение поля, имя которого задано в конфигурации колонки в свойстве {@link Controls/grid:IColumn#displayProperty displayProperty}. Также шаблон Controls/grid:ColumnTemplate поддерживает {@link Controls/grid:ColumnTemplate параметры}, с помощью которых можно изменить отображение ячейки.
+     * По умолчанию Controls/grid:ColumnTemplate отображает значение поля, имя которого задано в конфигурации колонки в свойстве {@link displayProperty}. Также шаблон Controls/grid:ColumnTemplate поддерживает {@link Controls/grid:ColumnTemplate параметры}, с помощью которых можно изменить отображение ячейки.
      * 
-     * При настройке прикладного шаблона Controls/grid:ColumnTemplate следует использовать директиву <a href="/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial">ws:partial</a>. Также в опцию template можно передавать и более сложные шаблоны, которые содержат иные директивы, например <a href="/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if">ws:if</a>. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ColumnTemplate.
+     * При настройке пользовательского шаблона следует использовать директиву <a href="/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial">ws:partial</a>. Также в опцию template можно передавать и более сложные шаблоны, которые содержат иные директивы, например <a href="/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if">ws:if</a>. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ColumnTemplate.
      * 
      * Дополнительно о работе с шаблоном вы можете прочитать в <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/">руководстве разработчика</a>.
      * @see Controls/grid:ColumnTemplate
-     * @demo Controls-demo/grid/Columns/Template/Index В демо-примере в конфигурации первой колонки задан шаблон отображения ячейки. В конфигурации шаблона переопределён контент ячейки в опции contentTemplate.
+     * @demo Controls-demo/grid/Columns/Template/Index В демо-примере в конфигурации первой колонки задан пользовательский шаблон отображения ячейки. В конфигурации шаблона переопределён контент ячейки в опции contentTemplate.
      * @example
      * В следующем примере показано, что шаблон отображения ячейки колонки задаётся из отдельного WML-файла.
      * <pre class="brush: js">
@@ -194,6 +196,7 @@ export interface IColumn {
      *     </ws:contentTemplate>
      * </ws:partial>
      * </pre>
+     * @see resultTemplate
      */
     template?: TemplateFunction;
     /**
@@ -202,11 +205,11 @@ export interface IColumn {
      * @default undefined
      * @demo Controls-demo/grid/Results/FromMeta/CustomResultsCells/Index
      * @remark
-     * Позволяет установить прикладной шаблон отображения ячейки в строке итогов (именно шаблон, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ResultColumnTemplate}.
+     * Позволяет установить пользовательский шаблон отображения ячейки в строке итогов (именно шаблон, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ResultColumnTemplate}.
      * 
      * Также шаблон {@link Controls/grid:ResultColumnTemplate} поддерживает параметры, с помощью которых можно изменить отображение ячейки.
      * 
-     * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию resultTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultColumnTemplate.
+     * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию resultTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultColumnTemplate.
      * 
      * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/column/ руководстве разработчика}.
      * 
@@ -229,28 +232,34 @@ export interface IColumn {
      *     </ws:columns>
      * </Controls.grid:View>
      * </pre>
+     * @see template
      */
     resultTemplate?: TemplateFunction;
     /**
      * @name Controls/grid:IColumn#align
-     * @cfg {TCellAlign} Выравнивание содержимого ячейки по горизонтали.
+     * @cfg {TCellAlign} Горизонтальное выравнивание для содержимого ячейки.
      * @default left
-     * @demo Controls-demo/grid/Columns/Align/Index В демо-примере для колонок задано горизонтальное выравнивание содержимого ячеек.
+     * @demo Controls-demo/grid/Columns/Align/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
+     * @see valign
      */
     align?: TCellAlign;
     /**
      * @name Controls/grid:IColumn#valign
-     * @cfg {TCellVerticalAlign} Выравнивание содержимого ячейки по вертикали.
+     * @cfg {TCellVerticalAlign} Вертикальное выравнивание для содержимого ячейки.
      * @default baseline
-     * @demo Controls-demo/grid/Columns/Valign/Index В демо-примере для колонок задано вертикальное выравнивание содержимого ячеек.
+     * @demo Controls-demo/grid/Columns/Valign/Index В демо-примере для каждой колонки задано собственное выравнивание содержимого ячеек.
      * @remark
      * См. {@link https://developer.mozilla.org/ru/docs/Web/CSS/align-items align-items}.
+     * @see align
      */
     valign?: TCellVerticalAlign;
     /**
      * @name Controls/grid:IColumn#stickyProperty
      * @cfg {String | Array} Имя поля, которое используется для настройки прилипания данных колонки к верхней границе таблицы. Чтобы сделать прилипание по двум полям в одной колонке, нужно передать массив из двух строк.
+     * @remark Подробнее о настройке колонок с прилипание читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/sticky/">руководстве разработчика</a>.
      * @default undefined
+     * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultilineWithHeader/Index В демо-примере прилипание задано для колонки "Время".
+     * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере прилипание задано для колонки с изображением колонки.
      */
     stickyProperty?: string;
     /**
@@ -269,8 +278,8 @@ export interface IColumn {
      * В случае, если одна и та же граница была определена на двух ячейках, приоритет отдается ячейке, для которой эта граница является левой.
      * Опция {@link Controls/grid:IColumn#columnSeparatorSize columnSeparatorSize} на колонке является приоритетной по сравнению с опцией {@link Controls/grid:View#columnSeparatorSize columnSeparatorSize} на таблице.
      * @example
-     * Разделитель только медлу первой и второй колонкой.
-     * <pre class="brush: js; highlight: [5,10]">
+     * Разделитель только между первой и второй колонками.
+     * <pre class="brush: html; highlight: [5,10]">
      * <Controls.grid:View
      *     keyProperty="id"
      *     source="{{_viewSource}}"
@@ -320,7 +329,8 @@ export interface IColumn {
      *     }
      * ]
      * </pre>
-     * @demo Controls-demo/grid/CellPadding/Index В демо-пример в конфигурации колонок заданы различные отступы для ячеек колонок.
+     * @demo Controls-demo/grid/CellPadding/Index В демо-примере в конфигурации колонок заданы различные отступы для ячеек колонок.
+     * @see template
      */
     cellPadding?: ICellPadding;
 }

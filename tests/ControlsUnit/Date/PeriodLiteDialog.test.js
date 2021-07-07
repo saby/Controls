@@ -282,7 +282,33 @@ define([
             chooseMonths: false,
             chooseQuarters: false,
             delta: -1,
-            result: 2004
+            result: 1989
+         }, {
+            year: new Date(2019, 0),
+            displayedRanges: [[new Date(2013, 0), new Date(2017, 0)], [new Date(2019, 0), new Date(2020, 0)],
+               [new Date(2022, 0), new Date(2033, 0)]],
+            chooseHalfyears: false,
+            chooseMonths: false,
+            chooseQuarters: false,
+            delta: -1,
+            result: 2029
+         }, {
+            year: new Date(2020, 0),
+            displayedRanges: [[new Date(2007, 0), null]],
+            chooseHalfyears: false,
+            chooseMonths: false,
+            chooseQuarters: false,
+            delta: -1,
+            result: 2021
+         }, {
+            year: new Date(2020, 0),
+            displayedRanges: [[new Date(2019, 0), new Date(2022, 0)], [new Date(2025, 0), new Date(2027, 0)],
+               [new Date(2030, 0), null]],
+            chooseHalfyears: false,
+            chooseMonths: false,
+            chooseQuarters: false,
+            delta: -1,
+            result: 2037
          }].forEach(function(options) {
             it('should update year', function() {
                const sandbox = sinon.sandbox.create(),
@@ -313,7 +339,7 @@ define([
             displayedRanges: [[new Date(2018, 0), new Date(2020, 0)]],
             delta: -1
          }, {
-            year: new Date(2018, 0),
+            year: new Date(2033, 0),
             displayedRanges: [[new Date(2018, 0), new Date(2020, 0)], [new Date(2022,0), null]],
             chooseHalfyears: false,
             chooseMonths: false,

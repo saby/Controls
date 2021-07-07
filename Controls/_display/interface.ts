@@ -1,5 +1,6 @@
 import IItemsStrategy from './IItemsStrategy';
-import {ICollectionItem} from "./interface/ICollectionItem";
+import {ICollectionItem} from './interface/ICollectionItem';
+import {ISourceCollection} from './interface/ICollection';
 
 export type TItemKey = string | number;
 
@@ -10,6 +11,11 @@ export interface IBaseCollection<S, T extends ICollectionItem> {
     find(predicate: (item: T) => boolean): T;
     nextVersion(): void;
     setEventRaising(enabled: boolean, analyze?: boolean): void;
+    getCollection(): ISourceCollection<S>;
+    getFirst(): T;
+    getNextByKey(key: TItemKey): T;
+    getPrevByKey(key: TItemKey): T;
+    createItem(constructorOptions): T;
     getCount?(): number;
     getNext?(item: T): T;
     getPrevious?(item: T): T;

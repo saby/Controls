@@ -43,6 +43,7 @@
                      hidePlaceholder="{{_hidePlaceholder}}"
                      hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
                      isBrowserPlatform="{{_isBrowserPlatform}}"
+                     inputKey="{{ _inputKey }}"
                      ieVersion="{{_ieVersion}}"
                      isEdge="{{_isEdge}}"/>
       </ws:else>

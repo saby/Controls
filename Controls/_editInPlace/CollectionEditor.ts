@@ -1,7 +1,7 @@
 import {DestroyableMixin, Model} from 'Types/entity';
-import {TEditableCollectionItem, TKey, TAddPosition} from './Types';
+import {TKey, TAddPosition} from './Types';
 import {mixin} from 'Types/util';
-import {Collection} from 'Controls/display';
+import {IEditableCollection, IEditableCollectionItem} from 'Controls/display';
 
 export const ERROR_MSG = {
     ADDING_ITEM_KEY_WAS_NOT_SET: 'Adding item key was not set. Key is required. You can set the key ' +
@@ -17,7 +17,7 @@ export const ERROR_MSG = {
 const ADDING_ITEM_EMPTY_KEY = 'ADDING_ITEM_EMPTY_KEY';
 
 interface ICollectionEditorOptions {
-    collection: Collection<Model>;
+    collection: IEditableCollection;
 }
 
 /**
@@ -40,16 +40,26 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
     }
 
     /**
-     * Получить редактируемый элемент
+     * Возвращает true, если в коллекции есть запущенное редактирование
      * @method
-     * @return {Types/entity:Model|undefined}
+     * @return {Boolean}
      * @public
      */
-    getEditingItem(): Model | undefined {
+    isEditing(): boolean {
+        return !!this.getEditingItem();
+    }
+
+    /**
+     * Получить редактируемый элемент
+     * @method
+     * @return {IEditableCollectionItem}
+     * @public
+     */
+    getEditingItem(): IEditableCollectionItem | undefined {
         if (this._editingKey === undefined) {
             return undefined;
         }
-        return this._options.collection.getItemBySourceKey(this._editingKey).contents;
+        return this._options.collection.getItemBySourceKey(this._editingKey);
     }
 
     private _validateOptions(options: Partial<ICollectionEditorOptions>): true | never {
@@ -187,7 +197,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
-    getNextEditableItem(): TEditableCollectionItem {
+    getNextEditableItem(): IEditableCollectionItem {
         return this._getNextEditableItem('after');
     }
 
@@ -197,12 +207,12 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
-    getPrevEditableItem(): TEditableCollectionItem {
+    getPrevEditableItem(): IEditableCollectionItem {
         return this._getNextEditableItem('before');
     }
 
-    private _getNextEditableItem(direction: 'before' | 'after'): TEditableCollectionItem {
-        let next: TEditableCollectionItem;
+    private _getNextEditableItem(direction: 'before' | 'after'): IEditableCollectionItem {
+        let next: IEditableCollectionItem;
         const collection = this._options.collection;
 
         if (this._editingKey === undefined) {

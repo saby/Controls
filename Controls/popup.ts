@@ -20,6 +20,7 @@
  * @includes IBaseOpener Controls/_popup/interface/IBaseOpener
  * @includes IPreviewerOptions Controls/_popup/interface/IPreviewer
  * @includes IInfoBoxOptions Controls/_popup/interface/IInfoBox
+ * @includes IInfoBoxPopupOptions Controls/_popup/interface/IInfoBoxOpener
  * @includes StickyOpener Controls/_popup/PopupHelper/Sticky
  * @includes StackOpener Controls/_popup/PopupHelper/Stack
  * @includes DialogOpener Controls/_popup/PopupHelper/Dialog
@@ -49,6 +50,7 @@
  * @includes IBaseOpener Controls/_popup/interface/IBaseOpener
  * @includes IPreviewerOptions Controls/_popup/interface/IPreviewer
  * @includes IInfoBoxOptions Controls/_popup/interface/IInfoBox
+ * @includes IInfoBoxPopupOptions Controls/_popup/interface/IInfoBoxOpener
  * @public
  * @author Крайнов Д.О.
  */
@@ -94,6 +96,7 @@ export {IConfirmationOptions} from './_popup/interface/IConfirmation';
 export {INotificationPopupOptions} from './_popup/interface/INotification';
 export {IPreviewerOptions} from './_popup/interface/IPreviewer';
 export {IInfoBoxOptions} from './_popup/interface/IInfoBox';
+export {IInfoBoxPopupOptions} from './_popup/interface/IInfoBoxOpener';
 
 export {isVDOMTemplate} from './_popup/utils/isVdomTemplate';
 

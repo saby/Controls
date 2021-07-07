@@ -72,6 +72,7 @@ export default class FilterControllerClass {
         if (options.prefetchParams) {
             this._filter = Prefetch.prepareFilter(this._filter, options.prefetchParams);
         }
+        this._updateFilter(options);
 
         if (options.useStore) {
             this._observeStore(options);
@@ -112,10 +113,13 @@ export default class FilterControllerClass {
     }
 
     update(newOptions: IFilterControllerOptions): void | boolean {
+        let filterButtonChanged;
+        let fastFilterChanged;
+        let filterChanged;
         if (!this._options.useStore) {
-            const filterButtonChanged = this._options.filterButtonSource !== newOptions.filterButtonSource;
-            const fastFilterChanged = this._options.fastFilterSource !== newOptions.fastFilterSource;
-            const filterChanged = !isEqual(this._options.filter, newOptions.filter);
+            filterButtonChanged = this._options.filterButtonSource !== newOptions.filterButtonSource;
+            fastFilterChanged = this._options.fastFilterSource !== newOptions.fastFilterSource;
+            filterChanged = !isEqual(this._options.filter, newOptions.filter);
 
             if (filterButtonChanged || fastFilterChanged) {
                 this._setFilterItems(
@@ -143,10 +147,10 @@ export default class FilterControllerClass {
             if (newOptions.historyId !== this._options.historyId) {
                 this._crudWrapper = null;
             }
-            return filterChanged || filterButtonChanged || fastFilterChanged;
         }
         this._options = newOptions;
-        this._updateFilter(this._filter, this._options);
+        this._updateFilter(this._options);
+        return filterChanged || filterButtonChanged || fastFilterChanged;
     }
 
     resetPrefetch(): void {
@@ -180,7 +184,6 @@ export default class FilterControllerClass {
 
     setFilter(filter: object): void {
         this._setFilter(Prefetch.prepareFilter(filter, this._options.prefetchParams));
-        this._updateFilter(filter, this._options);
     }
 
     handleDataLoad(items: RecordSet): void {
@@ -258,9 +261,9 @@ export default class FilterControllerClass {
         this._setIsFastProperty(this._filterButtonItems, this._fastFilterItems);
     }
 
-    private _updateFilter(filter: object, options: Partial<IFilterControllerOptions>): void {
-        this._prepareSearchFilter(filter, options);
-        this._prepareOperationsFilter(filter, options);
+    private _updateFilter(options: Partial<IFilterControllerOptions>): void {
+        this._prepareSearchFilter(this._filter, options);
+        this._prepareOperationsFilter(this._filter, options);
     }
 
     private _resolveItemsWithHistory(options: Partial<IFilterControllerOptions>,
@@ -656,7 +659,7 @@ export default class FilterControllerClass {
             preparedFilter[searchParam] = searchValue;
             _assignServiceFilters({}, preparedFilter, parentProperty);
         }
-        this._filter = preparedFilter;
+        this._setFilter(preparedFilter);
     }
 
     private _prepareOperationsFilter(filter: object,
@@ -681,7 +684,7 @@ export default class FilterControllerClass {
             preparedFilter[filterField] = selection;
         }
 
-        this._filter = preparedFilter;
+        this._setFilter(preparedFilter);
     }
 
     private _setFilter(filter: object): void {

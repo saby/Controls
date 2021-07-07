@@ -545,6 +545,14 @@ export default class ScrollController {
     }
 
     /**
+     * Метод позволяет узнать, применяется ли для отображения элементов виртуальный скролл
+     * @public
+     */
+    isAppliedVirtualScroll(): boolean {
+        return !!this._virtualScroll;
+    }
+
+    /**
      * Обработатывает добавление элементов в коллекцию
      * @param addIndex
      * @param items

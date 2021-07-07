@@ -137,9 +137,13 @@ export default class Controller {
     }
 
     getState(): IControlerState {
+        const source = this._options.source instanceof PrefetchProxy ?
+            this._options.source.getOriginal<ICrud>() :
+            this._options.source;
+
         return {
             keyProperty: this._options.keyProperty,
-            source: this._options.source,
+            source,
 
             filter: this._filter,
             sorting: this._options.sorting,

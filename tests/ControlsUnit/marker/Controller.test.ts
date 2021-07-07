@@ -27,45 +27,90 @@ describe('Controls/marker/Controller', () => {
 
    describe('updateOptions', () => {
       it('change options', () => {
-          const newModel = new ListViewModel({
-              items
-          });
           controller.updateOptions({
-              model: newModel, markerVisibility: 'onactivated'
+              model, markerVisibility: 'onactivated'
           });
 
-          assert.equal(controller._model, newModel);
+          assert.equal(controller._model, model);
           assert.equal(controller._markerVisibility, 'onactivated');
+          model.each((item) => assert.isFalse(item.isMarked()));
+      });
+
+      it('model changed', () => {
+         const newModel = new ListViewModel({
+            items
+         });
+         controller.updateOptions({
+            model: newModel, markerVisibility: 'onactivated'
+         });
+
+         assert.equal(controller._model, newModel);
+         assert.equal(controller._markerVisibility, 'onactivated');
+         assert.isTrue(newModel.getItemBySourceKey(1).isMarked());
+         assert.isFalse(newModel.getItemBySourceKey(2).isMarked());
+         assert.isFalse(newModel.getItemBySourceKey(3).isMarked());
+
+         assert.equal(newModel.getVersion(), 1);
+         assert.equal(newModel.getItemBySourceKey(1).getVersion(), 1);
+         assert.equal(newModel.getItemBySourceKey(2).getVersion(), 0);
+         assert.equal(newModel.getItemBySourceKey(3).getVersion(), 0);
       });
    });
 
-    describe('setMarkedKey', () => {
-        it('same key', () => {
-            controller = new MarkerController({model, markerVisibility: 'visible', markedKey: 1});
-            model.setItems(new RecordSet({
-                rawData: [
-                    {id: 1},
-                    {id: 2},
-                    {id: 3}
-                ],
-                keyProperty: 'id'
-            }));
+   describe('setMarkedKey', () => {
+      it('same key', () => {
+         controller = new MarkerController({model, markerVisibility: 'visible', markedKey: 1});
+         model.setItems(new RecordSet({
+             rawData: [
+                 {id: 1},
+                 {id: 2},
+                 {id: 3}
+             ],
+             keyProperty: 'id'
+         }));
 
-            assert.isFalse(model.getItemBySourceKey(1).isMarked());
-            controller.setMarkedKey(1);
-            assert.isTrue(model.getItemBySourceKey(1).isMarked());
-        });
+         assert.equal(model.getVersion(), 2);
+         assert.isFalse(model.getItemBySourceKey(1).isMarked());
 
-        it('another key', () => {
-            controller.setMarkedKey(1);
-            assert.isTrue(model.getItemBySourceKey(1).isMarked());
-            assert.isFalse(model.getItemBySourceKey(2).isMarked());
+         controller.setMarkedKey(1);
+         // Проверяем что маркер переставился на новый элемент
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+         assert.isFalse(model.getItemBySourceKey(2).isMarked());
+         assert.isFalse(model.getItemBySourceKey(3).isMarked());
 
-            controller.setMarkedKey(2);
-            assert.isFalse(model.getItemBySourceKey(1).isMarked());
-            assert.isTrue(model.getItemBySourceKey(2).isMarked());
-        });
-    });
+         // Проверяем что версия изменилась один раз
+         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(2).getVersion(), 0);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
+      });
+
+      it('another key', () => {
+         assert.equal(model.getVersion(), 0);
+         assert.isFalse(model.getItemBySourceKey(1).isMarked());
+
+         controller.setMarkedKey(1);
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+         assert.isFalse(model.getItemBySourceKey(2).isMarked());
+         assert.isFalse(model.getItemBySourceKey(3).isMarked());
+
+         // Проверяем что версия изменилась один раз
+         assert.equal(model.getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(2).getVersion(), 0);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
+
+         controller.setMarkedKey(2);
+         assert.isFalse(model.getItemBySourceKey(1).isMarked());
+         assert.isTrue(model.getItemBySourceKey(2).isMarked());
+
+         // Проверяем что версия изменилась один раз
+         assert.equal(model.getVersion(), 3);
+         assert.equal(model.getItemBySourceKey(1).getVersion(), 2);
+         assert.equal(model.getItemBySourceKey(2).getVersion(), 1);
+         assert.equal(model.getItemBySourceKey(3).getVersion(), 0);
+      });
+   });
 
    describe('calculateMarkedKeyForVisible', () => {
       it('same key', () => {
@@ -230,6 +275,99 @@ describe('Controls/marker/Controller', () => {
          const result = controller.onCollectionRemove(0, removedItems);
          assert.equal(result, null);
          removedItems.forEach((item) => assert.isFalse(item.isMarked()));
+      });
+   });
+
+   describe('onCollectionAdd', () => {
+      it('restore marker', () => {
+         controller.setMarkedKey(1);
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+
+         model.setItems(new RecordSet({
+            rawData: [
+               {id: 1},
+               {id: 2},
+               {id: 3}
+            ],
+            keyProperty: 'id'
+         }));
+         assert.isFalse(model.getItemBySourceKey(1).isMarked());
+
+         assert.equal(model.getVersion(), 3);
+         controller.onCollectionAdd([model.getItemBySourceKey(1)]);
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+         assert.isFalse(model.getItemBySourceKey(2).isMarked());
+         assert.isFalse(model.getItemBySourceKey(3).isMarked());
+         assert.equal(model.getVersion(), 4);
+      });
+   });
+
+   describe('onCollectionReplace', () => {
+      it('restore marker', () => {
+         controller.setMarkedKey(1);
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+
+         model.setItems(new RecordSet({
+            rawData: [
+               {id: 1},
+               {id: 2},
+               {id: 3}
+            ],
+            keyProperty: 'id'
+         }));
+         assert.isFalse(model.getItemBySourceKey(1).isMarked());
+
+         assert.equal(model.getVersion(), 3);
+         controller.onCollectionReplace([model.getItemBySourceKey(1)]);
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+         assert.isFalse(model.getItemBySourceKey(2).isMarked());
+         assert.isFalse(model.getItemBySourceKey(3).isMarked());
+         assert.equal(model.getVersion(), 4);
+      });
+   });
+
+   describe('onCollectionReset', () => {
+      it('exists marked item', () => {
+         controller.setMarkedKey(1);
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+
+         model.setItems(new RecordSet({
+            rawData: [
+               {id: 1},
+               {id: 2},
+               {id: 3}
+            ],
+            keyProperty: 'id'
+         }));
+         assert.isFalse(model.getItemBySourceKey(1).isMarked());
+
+         assert.equal(model.getVersion(), 3);
+         const newMarkedKey = controller.onCollectionReset();
+         assert.equal(newMarkedKey, 1);
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+         assert.isFalse(model.getItemBySourceKey(2).isMarked());
+         assert.isFalse(model.getItemBySourceKey(3).isMarked());
+         assert.equal(model.getVersion(), 4);
+      });
+
+      it('not exists marked item', () => {
+         controller.setMarkedKey(1);
+         assert.isTrue(model.getItemBySourceKey(1).isMarked());
+
+         model.setItems(new RecordSet({
+            rawData: [
+               {id: 2},
+               {id: 3}
+            ],
+            keyProperty: 'id'
+         }));
+
+         assert.equal(model.getVersion(), 3);
+         const newMarkedKey = controller.onCollectionReset();
+         assert.equal(newMarkedKey, 2);
+         assert.isFalse(model.getItemBySourceKey(2).isMarked());
+         assert.isFalse(model.getItemBySourceKey(3).isMarked());
+         assert.equal(model.getVersion(), 3);
       });
    });
 

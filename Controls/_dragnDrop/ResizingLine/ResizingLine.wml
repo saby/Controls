@@ -5,7 +5,7 @@
           controls-ResizingLine__areaWrapper_{{_options.orientation}}_theme-{{_options.theme}} controls-ResizingLine__areaWrapper_{{_options.orientation}}_direction-{{_options.direction}}">
             <ws:if data="{{_dragging}}">
                <div style="{{_styleArea}}"
-                    class="controls-ResizingLine__area_{{_options.orientation}} controls-ResizingLine__area_theme_{{_options.theme}}">
+                    class="controls-ResizingLine__area controls-ResizingLine__area_{{_options.orientation}} controls-ResizingLine__area_theme_{{_options.theme}}">
                </div>
                <div class="controls-ResizingLine__cursor controls-ResizingLine__cursor_{{_options.orientation}}"></div>
             </ws:if>

@@ -63,6 +63,11 @@ define('Controls/interface/IBreadCrumbs', [
     */
 
    /**
+    * @name Controls/interface/IBreadCrumbs#containerWidth
+    * @cfg {Number} Ширина контейнера крошек. Необходимо указывать для правильного расчета ширины вкладок.
+    */
+
+   /**
     * @event Controls/interface/IBreadCrumbs#itemClick Происходит после клика по хлебным крошкам.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Types/entity:Record} item Элемент, по которому произвели клик.

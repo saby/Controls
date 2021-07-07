@@ -91,3 +91,13 @@ export function loadSync<T>(name: string): T {
 export function clearCache(): void {
     cache = {};
 }
+
+/**
+ * Синхронно помечает модуль незагруженным в requirejs
+ * @param module Имя модуля в обычном (Foo/bar) или библиотечном (Foo/bar:baz) синтаксисе
+ * @protected
+ */
+export function unloadSync(module: string): void {
+    const parsedInfo: IParsedName = library.parse(module);
+    getModulesManager().unloadSync(parsedInfo.name);
+}

@@ -4,8 +4,8 @@
  * @includes Buttons Controls/_tabs/Buttons
  * @includes AdaptiveButtons Controls/_tabs/AdaptiveButtons
  * @includes ITabsButtons Controls/_tabs/interface/ITabsButtons
- * @includes ITabsAdaptiveButtonsOptions Controls/_tabs/AdaptiveButtons
- * @includes ITabsTemplateOptions Controls/_tabs/Buttons
+ * @includes ITabsAdaptiveButtonsOptions Controls/_tabs/ITabsAdaptiveButtonsOptions
+ * @includes ITabsTemplateOptions Controls/_tabs/ITabsTemplateOptions
  * @public
  * @author Крайнов Д.О.
  */
@@ -16,8 +16,8 @@
  * @includes Buttons Controls/_tabs/Buttons
  * @includes AdaptiveButtons Controls/_tabs/AdaptiveButtons
  * @includes ITabsButtons Controls/_tabs/interface/ITabsButtons
- * @includes ITabsAdaptiveButtonsOptions Controls/_tabs/AdaptiveButtons
- * @includes ITabsTemplateOptions Controls/_tabs/Buttons
+ * @includes ITabsAdaptiveButtonsOptions Controls/_tabs/ITabsAdaptiveButtonsOptions
+ * @includes ITabsTemplateOptions Controls/_tabs/ITabsTemplateOptions
  * @public
  * @author Крайнов Д.О.
  */

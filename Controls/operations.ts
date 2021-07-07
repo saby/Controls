@@ -31,7 +31,6 @@ import selectionToRecord = require('Controls/_operations/MultiSelector/selection
 import {default as Button} from './_operations/Button';
 import {default as SimpleMultiSelector} from 'Controls/_operations/__MultiSelector';
 import {default as MultiSelector} from 'Controls/_operations/MultiSelector';
-import FilterController from 'Controls/_operations/FilterController';
 import {default as MultiSelectorCheckbox} from 'Controls/_operations/MultiSelector/Checkbox';
 import {default as ControllerClass} from 'Controls/_operations/ControllerClass';
 
@@ -45,7 +44,6 @@ export {
    selectionToRecord,
    SimpleMultiSelector,
    MultiSelector,
-   FilterController,
    MultiSelectorCheckbox,
    ControllerClass
 };

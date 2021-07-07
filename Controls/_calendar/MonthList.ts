@@ -33,6 +33,7 @@ interface IModuleComponentOptions extends
     IDisplayedRangesOptions,
     IDayTemplateOptions,
     IDateConstructorOptions {
+    itemDataLoadRatio: number;
 }
 
 const ITEM_BODY_SELECTOR  = {
@@ -96,6 +97,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     protected _virtualPageSize: number;
     protected _errorViewConfig: parking.ViewConfig;
+    protected _threshold: number[];
     private _errorController: dataSourceError.Controller = new dataSourceError.Controller({});
 
     protected _beforeMount(options: IModuleComponentOptions, context?: object, receivedState?: TItems):
@@ -120,6 +122,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         this._positionToScroll = position;
         this._displayedPosition = position;
         this._lastNotifiedPositionChangedDate = normalizedPosition;
+        this._threshold = [0, 0.01, options.itemDataLoadRatio, 0.99, 1];
 
         if (this._extData) {
             if (receivedState) {
@@ -258,7 +261,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             return;
         }
 
-        const normalizedPosition: Date = this._normalizeDate(position)
+        const normalizedPosition: Date = this._normalizeDate(position);
 
         this._positionToScroll = position;
         this._lastNotifiedPositionChangedDate = normalizedPosition;
@@ -315,7 +318,10 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
                 // We select only those containers that are not fully displayed
                 // and intersect with the scrolled container in its upper part, or lie higher.
                 if (boundingClientRect.top - rootBounds.top <= 0) {
-                    if (boundingClientRect.bottom - rootBounds.top > 0) {
+                    // Из-за дробных пикселей при масштабе или на touch-устройствах могу дергаться элементы.
+                    // При этом возникает разница между boundingClientRect.bottom и rootBounds.top  меньше 1 пикселя.
+                    // Из-за этого неправильно расчитывается текущая дата.
+                    if (boundingClientRect.bottom - rootBounds.top >= 1) {
                         // If the bottom of the container lies at or below the top of the scrolled container, then we found the right date
                         date = entryDate;
                         break;
@@ -355,7 +361,8 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             index = this._displayedDates.indexOf(time),
             isDisplayed = index !== -1;
 
-        if (entry.nativeEntry.isIntersecting && !isDisplayed && entry.data.type === ITEM_TYPES.body) {
+        if (entry.nativeEntry.isIntersecting && entry.nativeEntry.intersectionRatio >= this._options.itemDataLoadRatio &&
+                !isDisplayed && entry.data.type === ITEM_TYPES.body) {
             this._displayedDates.push(time);
             this._enrichItemsDebounced();
         } else if (!entry.nativeEntry.isIntersecting && isDisplayed && entry.data.type === ITEM_TYPES.body) {
@@ -536,7 +543,8 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             dateConstructor: WSDate,
             displayedRanges: null,
             topShadowVisibility: 'visible',
-            bottomShadowVisibility: 'visible'
+            bottomShadowVisibility: 'visible',
+            itemDataLoadRatio: 0.1
         };
     }
 }

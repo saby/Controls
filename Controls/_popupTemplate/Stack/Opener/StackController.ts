@@ -108,7 +108,7 @@ class StackController extends BaseController {
     }
 
     workspaceResize(): boolean {
-        super.workspaceResize();
+        this._update();
         return !!this._stack.getCount();
     }
 

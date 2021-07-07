@@ -85,13 +85,11 @@ const maxPercentValue = 100;
  *             <ws:Object
  *                color="primary"
  *                start="{{0}}"
- *                end="{{10}}"
- *             </ws:Object>
+ *                end="{{10}}"/>
  *             <ws:Object
  *                color="danger"
  *                start="{{30}}"
- *                end="{{70}}"
- *             </ws:Object>
+ *                end="{{70}}"/>
  *          </ws:Array>
  *       </ws:intervals>
  *    </Controls.slider:Base>
