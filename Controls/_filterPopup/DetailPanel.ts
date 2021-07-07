@@ -170,7 +170,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
       filterHistoryItems: function(self, items: object[]): object[] {
          function getOriginalItem(self, historyItem: object): object {
             return find(self._items, (originalItem) => {
-               return originalItem.id === historyItem.id;
+               return originalItem.id === historyItem.id || originalItem.value[historyItem.id];
             });
          }
 
@@ -195,9 +195,12 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
                         originalItem = getOriginalItem(self, history[i]);
                         hasResetValue = originalItem && originalItem.hasOwnProperty('resetValue');
 
+                        if (!originalItem) {
+                           validResult = false;
+                           break;
+                        }
                         if (!hasResetValue || hasResetValue && !isEqual(value, getPropValue(originalItem, 'resetValue'))) {
                            validResult = true;
-                           break;
                         }
                      }
                   }
