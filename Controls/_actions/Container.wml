@@ -1,0 +1,5 @@
+<ws:partial template="{{_options.content}}"
+            scope="{{_options}}"
+            items="{{_operations}}"
+            on:itemClick="_toolbarItemClick()"
+/>

@@ -1,8 +1,11 @@
 import {Confirmation} from 'Controls/popup';
-export default class {
+import {MassAction} from 'Controls/actions';
+
+export default class extends MassAction {
     protected _name: string = '';
-    constructor(actionOptions: { name: string; }) {
-        this._name  = actionOptions.name;
+    constructor(options) {
+        super(options);
+        this._name  = options.actionOptions.name;
     }
     execute(meta: Record<string, any>): Promise<string> {
         const selectedKeys = meta.selection.selected;
@@ -17,5 +20,15 @@ export default class {
             type: 'ok'
         });
         return Promise.resolve('reload');
+    }
+
+    onSelectionChanged(items, selection): void {
+        if (this._$id === 'sum') {
+          if (selection.selected.length > 1) {
+              this._$iconStyle = 'success';
+          } else {
+              this._$iconStyle = 'label'
+          }
+        }
     }
 }
