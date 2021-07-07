@@ -85,13 +85,13 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
         if (!breadCrumbs) {
             // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
             if (display?.createBreadcrumbsItem) {
-                const breadcrumbsParent = !item.isRoot() && item.getParent()['[Controls/treeGrid:TreeGridGroupDataRow]']
+                const parent = item.getParent() && item.getParent()['[Controls/treeGrid:TreeGridGroupDataRow]']
                     ? item.getParent()
-                    : display.getRoot();
+                    : root;
                 breadCrumbs = display?.createBreadcrumbsItem({
                     contents: null,
                     last,
-                    parent: breadcrumbsParent,
+                    parent,
                     multiSelectVisibility: display?.getMultiSelectVisibility(),
                     multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
                 });
