@@ -20,6 +20,7 @@ export interface IBasePopupOptions {
     autofocus?: boolean;
     topPopup?: boolean;
     modal?: boolean;
+    autoClose?: boolean;
     closeOnOverlayClick?: boolean;
     eventHandlers?: IEventHandlers;
     isDefaultOpener?: boolean;
@@ -111,6 +112,12 @@ export interface IBasePopupOptions {
  * @cfg {String} Опция принимает строку, в которой содержится имя открываемого шаблона.
  * @remark
  * Шаблон задается строкой для того чтобы загружаться лениво при открытии окна.
+ */
+
+/**
+ * @name Controls/_popup/interface/IBasePopupOptions#autoClose
+ * @cfg {Boolean} Автоматически закрывать окно через 5 секунд после открытия.
+ * @default false
  */
 
 /**
