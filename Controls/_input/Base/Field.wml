@@ -16,7 +16,7 @@
             inputCallback="{{inputCallback}}"
             recalculateLocationVisibleArea="{{recalculateLocationVisibleArea}}"
             on:keydown="_keyDownHandler()"
-            attr:spellcheck="{{options.spellCheck}}"
+            attr:spellcheck="{{options.spellCheck || false}}"
             attr:readOnly="{{readOnly || ''}}"
             attr:autocorrect="off"
             attr:autocapitalize="off"
