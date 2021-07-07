@@ -26,6 +26,7 @@ export interface IGridControl extends IList {
 /**
  * @name Controls/_grid/display/interface/IGridControl#ladderProperties
  * @cfg {Array.<String>} Массив с именами полей, по которым строится {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенка}.
+ * @demo Controls-demo/gridNew/Ladder/BasicLadder/Index В демо-примере настроено отображение лесенки без использования прикладных шаблонов.
  * @demo Controls-demo/gridNew/Ladder/Sticky/Index В демо-примере настроено отображение данных "лесенкой" для свойств "photo" и "date". Дополнительно включено прилипание заголовка таблицы, а также прилипание по первой колонке (см. {@link Controls/grid:IColumn#stickyProperty stickyProperty}).
  * @demo Controls-demo/gridNew/LadderStickyMultiline/StickyMultiline/Index В демо-примере настроено отображение данных "лесенкой" для свойств "date" и "time". Дополнительно включено прилипание по первой колонке.
  * @example
