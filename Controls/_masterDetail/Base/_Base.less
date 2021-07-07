@@ -13,6 +13,8 @@
       background-color: @background-color_List-masterList;
       box-shadow: -15px 2px 4px -6px @background-color_List-masterList;
    }
+   //нужно чтобы движение границ, которое лежит в мастере, всегда было выше чем детейл, несмотря на его верстку.
+   z-index: 2;
 }
 
 .controls-MasterDetail_master-template {
@@ -33,6 +35,7 @@
 .controls-MasterDetail_details {
    background-color: @background-color_List-masterList-details;
    min-width: 1px;
+   z-index: 1;
 }
 
 .controls-MasterDetail_resizing-line {
