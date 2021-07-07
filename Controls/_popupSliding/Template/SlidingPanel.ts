@@ -84,7 +84,6 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
 
     protected _scrollStateChanged(event: SyntheticEvent<MouseEvent>, scrollState: object): void {
         this._scrollState = scrollState;
-        this._scrollAvailable = this._isScrollAvailable(this._options);
     }
 
     protected _getScrollAvailableHeight(): number {
