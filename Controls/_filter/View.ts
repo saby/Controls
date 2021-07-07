@@ -408,7 +408,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         };
         if (this._options.detailPanelOpenMode === 'stack' && !this._container.closest('.controls-StackTemplate')) {
             popupOptions.restrictiveContainer = '.sabyPage-MainLayout__workspaceWrapper';
-            //будет удалено в 4100
+            //будет удалено в 4100 по https://online.sbis.ru/opendoc.html?guid=bdc906ca-81fa-404e-9cb4-32d6daa3ed6f
             const rightPanel = document.getElementsByClassName('sabyPage-MainLayout__rightPanel')[0] as HTMLElement;
             popupOptions.templateOptions.rightPanelWidth = rightPanel && rightPanel.getBoundingClientRect()?.width;
         }
