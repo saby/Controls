@@ -116,8 +116,10 @@ export default class View extends Control<IOptions, IReceivedState> {
     protected _hasImageInItems: boolean = false;
     protected _itemToScroll: CrudEntityKey = null;
     protected _contrastBackground: boolean = true;
-    protected _listLoaded = false;
-    protected _tileLoaded = false;
+    protected _listLoaded: boolean = false;
+    protected _tileLoaded: boolean = false;
+    protected _masterLoading: boolean = false;
+    protected _detailLoading: boolean = false;
 
     /**
      * Опции для Controls/explorer:View в master-колонке
@@ -235,6 +237,16 @@ export default class View extends Control<IOptions, IReceivedState> {
                 this._newMasterVisibility = newMasterVisibility;
             } else {
                 this._masterVisibility = newMasterVisibility;
+            }
+        }
+
+        if (newOptions.loading !== this._options.loading) {
+            if (newOptions.loading) {
+                this._masterLoading = this._masterDataSource?.isLoading();
+                this._detailLoading = this._detailDataSource.isLoading();
+            } else {
+                this._masterLoading = false;
+                this._detailLoading = false;
             }
         }
     }
