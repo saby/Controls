@@ -121,6 +121,7 @@
    padding: var(--offset_xs) var(--offset_m);
    margin-left: calc(-1 * var(--offset_m));
    cursor: pointer;
+   overflow: hidden;
 }
 
 .controls-FilterViewPanel__group-result_wrapper-contrast {
@@ -129,6 +130,9 @@
 
 .controls-FilterViewPanel__group-result {
    font-size: var(--font-size_m);
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 }
 
 .controls-FilterViewPanel__propertyGrid.controls-PropertyGrid {
