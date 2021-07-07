@@ -14,6 +14,7 @@ export interface IColumnsRenderOptions extends IList {
     columnsCount: number;
     spacing: number;
     listModel: Collection;
+    availableWidth?: number;
 }
 
 export default class Columns extends ListView {
@@ -33,6 +34,9 @@ export default class Columns extends ListView {
 
     protected _beforeUpdate(options: IColumnsRenderOptions): void {
         super._beforeUpdate(options);
+        if (options.availableWidth && options.availableWidth !== this._options.availableWidth) {
+            this._options.listModel.setCurrentWidth(options.availableWidth, this._options.columnMinWidth);
+        }
         if (options.columnsCount !== this._options.columnsCount) {
             this._options.listModel.setColumnsCount(options.columnsCount);
         }
