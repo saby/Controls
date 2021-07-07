@@ -208,10 +208,10 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         if (this._useNativeScrollbar) {
             css += this._getOverflowClass();
             if (!this._options.scrollbarVisible) {
-                css += ' controls-Scroll__content_hideNativeScrollbar';
+                css += this._getHideNativeScrollbarCssClass();
             }
         } else {
-            css += ' controls-Scroll__content_hideNativeScrollbar';
+            css += this._getHideNativeScrollbarCssClass();
             if (this._overflowHidden) {
                 css += ' controls-Scroll__content_hidden';
             } else {
@@ -219,6 +219,17 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
             }
         }
         return css;
+    }
+
+    private _getHideNativeScrollbarCssClass(): string {
+        const css: string[] = [' controls-Scroll__content_hideNativeScrollbar'];
+        // На данный момент вертикальный скролбар скрывается костылями везде кроме chrome.
+        // Если вертикального скролбара нет, скрываем скролбары везде нативно.
+        // Если с этим решением проблем не будет, то надо быдет спилить костыли и для вертикального скролбара.
+        if (this._options.scrollOrientation === SCROLL_MODE.HORIZONTAL) {
+            css.push('controls-Scroll__content_hideNativeScrollbar_ff-ie-edge');
+        }
+        return css.join(' ');
     }
 
     private _getOverflowClass(): string {
