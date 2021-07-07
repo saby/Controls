@@ -16,6 +16,10 @@ define('Controls-demo/Popup/PopupPage',
             });
          },
 
+         _kek: function() {
+            return !!window.kek;
+         },
+
          openModalDialog: function () {
             this._children.modalDialog.open({});
          },

@@ -73,7 +73,7 @@
    <div>
       <Controls.buttons:Button name="notificationButton" caption="notification" on:click="openNotification()" attr:class="ControlsDemo-PopupPage__notificationButton"/>
    </div>
-   <div>
+   <div class="{{_kek();}}">
       <Controls.buttons:Button name="stackButton" caption="stack" on:click="openStack()" attr:class="ControlsDemo-PopupPage__stackButton"/>
    </div>
    <div>
