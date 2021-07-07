@@ -218,4 +218,17 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
         });
     });
 
+    describe('setOffsets', () => {
+        it('should update scrollbars styles.', () => {
+            const model: ScrollbarsModel = new ScrollbarsModel({
+                ...getScrollbarsDefaultOptions(),
+                scrollOrientation: 'vertical'
+            });
+
+            model.setOffsets({ top: 10, bottom: 20 });
+
+            assert.strictEqual(model._models.vertical.style, 'top: 10px; bottom: 20px;');
+        });
+    });
+
 });

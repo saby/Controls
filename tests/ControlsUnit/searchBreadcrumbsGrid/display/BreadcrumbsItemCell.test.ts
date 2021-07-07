@@ -42,9 +42,9 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemCell', () => {
 
    describe('getContentClasses', () => {
       it('getContentClasses', () => {
-         const expected = 'controls-Grid__row-cell__content_colspaned controls-Grid__cell_spacingLastCol_default' +
-            ' controls-Grid__row-cell_rowSpacingTop_default controls-Grid__row-cell_rowSpacingBottom_default' +
-            ' controls-Grid__cell_spacingFirstCol_default';
+         const expected = 'controls-Grid__row-cell__content controls-Grid__row-cell__content_colspaned' +
+             ' controls-Grid__cell_spacingLastCol_default controls-Grid__row-cell_rowSpacingTop_default' +
+             ' controls-Grid__row-cell_rowSpacingBottom_default controls-Grid__cell_spacingFirstCol_default';
          const cell = searchGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getContentClasses('default', 'default'), expected);
       });

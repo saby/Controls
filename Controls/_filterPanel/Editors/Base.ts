@@ -16,6 +16,7 @@ export abstract class BaseEditor extends Control<IControlOptions> {
         } else {
             this._getApplyButtonSticky().open({
                 opener: null,
+                autofocus: false,
                 template: this._applyButtonTemplate,
                 targetPoint: {
                     horizontal: 'right'

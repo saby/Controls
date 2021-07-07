@@ -658,7 +658,8 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
    private _getSelectedChildrenCount(node: TreeItem<Model>, selection: ISelection, deep: boolean): number|null {
       if (!node) {
-         return 0;
+         // Если узла нет, это значит что он не загружен, соответственно мы не можем посчитать кол-во выбранных детей
+         return null;
       }
 
       const children = node.getChildren(false);
@@ -693,7 +694,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                }
             }
          });
-      } else if (!node || this._hasChildren(node)) {
+      } else if (this._hasChildren(node)) {
          selectedChildrenCount = null;
       }
 

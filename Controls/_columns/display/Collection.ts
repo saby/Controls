@@ -163,7 +163,10 @@ export default class Collection<
                     }
                     const nextIndex = this._columnsIndexes[item.column + 1].pop();
                     this._columnsIndexes[item.column].push(nextIndex);
-                    const nextItem = this.getItemBySourceIndex(nextIndex) as CollectionItem<Model>;
+
+                    // При переносе в другой раздел, записи не удаляются из recordSet'a, а только из проекции.
+                    // Поэтому нужно смотреть на запись из проекции, а не recordSet.
+                    const nextItem = this.at(nextIndex) as CollectionItem<Model>;
                     nextItem.setColumn(item.column);
                 }
                 item.column++;

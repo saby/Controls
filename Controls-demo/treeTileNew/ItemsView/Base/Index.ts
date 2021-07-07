@@ -2,7 +2,7 @@
 // @ts-ignore
 import * as Template from 'wml!Controls-demo/treeTileNew/ItemsView/Base/Index';
 import {Control, TemplateFunction} from 'UI/Base';
-import {Gadgets, IData} from 'Controls-demo/Explorer_new/DataHelpers/DataCatalog';
+import {Gadgets, IData} from 'Controls-demo/explorerNew/DataHelpers/DataCatalog';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'UI/Vdom';

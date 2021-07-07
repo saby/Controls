@@ -697,7 +697,7 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'medium':
                 break;
             case 'rich':
-                styles += ` background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, ${gradientColor} 100%);`;
+                styles += ` background: linear-gradient(to bottom, ${gradientColor}00 0%, ${gradientColor} 100%);`;
                 break;
             case 'preview':
                 if (gradientType === 'custom') {

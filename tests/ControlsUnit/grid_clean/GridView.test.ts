@@ -109,42 +109,6 @@ describe('Controls/grid_clean/GridView', () => {
             };
         });
 
-        it('should contain class for item actions padding when everything fine', async () => {
-            const grid = await getGridView();
-            const classes = grid._getGridViewClasses(options);
-            assert.include(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
-        });
-
-        it('should contain class for item actions padding when results exists and position = \'top\'', async () => {
-            resultsPosition = 'top';
-            fakeResults = {};
-            const grid = await getGridView();
-            const classes = grid._getGridViewClasses(options);
-            assert.include(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
-        });
-
-        it('shouldn\'t contain class for item actions padding when results exists and position = \'bottom\'', async () => {
-            resultsPosition = 'bottom';
-            fakeResults = {};
-            const grid = await getGridView();
-            const classes = grid._getGridViewClasses(options);
-            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
-        });
-
-        it('shouldn\'t contain class for item actions padding when footer exists', async () => {
-            fakeFooter = {};
-            const grid = await getGridView();
-            const classes = grid._getGridViewClasses(options);
-            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
-        });
-
-        it('shouldn\'t contain class for item actions padding when itemActionsPosition = \'inside\'', async () => {
-            options.itemActionsPosition = 'inside';
-            const grid = await getGridView();
-            const classes = grid._getGridViewClasses(options);
-            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
-        });
-
         it('should contain class when dragging', async () => {
             const grid = await getGridView();
             grid._listModel.isDragging = () => true;

@@ -158,7 +158,7 @@ class StickyHeaderController {
             if (header.mode === 'stackable') {
                 if (header.fixedInitially || header.inst.offsetTop ||
                     type === TYPE_FIXED_HEADERS.allFixed || type === TYPE_FIXED_HEADERS.fixed) {
-                    height += header.inst.height;
+                    height += header.inst.height + header.inst.offsetTop;
                 }
                 replaceableHeight = 0;
             } else if (header.mode === 'replaceable') {
@@ -412,9 +412,10 @@ class StickyHeaderController {
                 // во время обсчета оффсетов запишет себе height = 0, а после, когда он покажется, по ресайз обсёрверу будет опять добавление
                 // в headersStack, т.к предыдущая высота была равна 0.
                 if (!inHeadersStack) {
-                    this._addToHeadersStack(header.id, position, true);
+                    const pos = StickyBlock.getStickyPosition({ position });
+                    this._addToHeadersStack(header.id, pos, true);
                 }
-            })
+            });
         }
     }
 

@@ -158,7 +158,7 @@ export default class OperationsPanel extends Control<IOperationsPanelOptions> {
    }
 
    protected _beforeUnmount(): void {
-      if (this._storeCallbackId) {
+      if (this._storeCallbackId && this._options.newDesign) {
          Store.unsubscribe(this._storeCallbackId);
          Store.dispatch('operationsPanelExpanded', false);
       }
