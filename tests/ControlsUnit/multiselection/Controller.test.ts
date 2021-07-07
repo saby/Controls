@@ -194,33 +194,106 @@ describe('Controls/_multiselection/Controller', () => {
          assert.deepEqual(result, { selected: [null], excluded: [] });
       });
 
-      it('filter is changed', () => {
-         controller.setSelection({ selected: [3], excluded: [] });
-         controller.updateOptions({
-            model,
-            strategy,
-            filter: {searchValue: 'a'},
-            strategyOptions: {
-               model
-            }
-         });
+      describe('filter is changed', () => {
+         it('selected one item, after filter it exists', () => {
+            controller.setSelection({ selected: [3], excluded: [] });
+            controller.updateOptions({
+               model,
+               strategy,
+               filter: {searchValue: 'a'},
+               strategyOptions: {
+                  model
+               }
+            });
 
-         let result = controller.toggleAll();
-         assert.deepEqual(result, { selected: [null], excluded: [3] });
+            let result = controller.toggleAll();
+            assert.deepEqual(result, { selected: [null], excluded: [3] });
 
-         controller.setSelection({ selected: [], excluded: [] });
-         controller.setSelection({ selected: [2222], excluded: [] });
-         controller.updateOptions({
-            model,
-            strategy,
-            filter: {searchValue: 'aф'},
-            strategyOptions: {
-               model
-            }
-         });
+            result = controller.toggleAll();
+            assert.deepEqual(result, { selected: [3], excluded: [] });
+         })
 
-         result = controller.toggleAll();
-         assert.deepEqual(result, { selected: [null], excluded: [] });
+         it('selected one item, after filter it not exists', () => {
+            controller.setSelection({ selected: [2222], excluded: [] });
+            controller.updateOptions({
+               model,
+               strategy,
+               filter: {searchValue: 'aф'},
+               strategyOptions: {
+                  model
+               }
+            });
+
+            let result = controller.toggleAll();
+            assert.deepEqual(result, { selected: [null], excluded: [2222] });
+
+            result = controller.toggleAll();
+            assert.deepEqual(result, { selected: [2222], excluded: [] });
+         })
+
+         it('selected items, after filter one of there not exists', () => {
+            controller.setSelection({ selected: [2, 3, 2222], excluded: [] });
+            controller.updateOptions({
+               model,
+               strategy,
+               filter: {searchValue: 'aф'},
+               strategyOptions: {
+                  model
+               }
+            });
+
+            let result = controller.toggleAll();
+            assert.deepEqual(result, { selected: [null], excluded: [2, 3, 2222] });
+
+            result = controller.toggleAll();
+            assert.deepEqual(result, { selected: [2, 3, 2222], excluded: [] });
+         })
+
+         it('tree, selected items, after filter one of there not exists', () => {
+            const model = new Tree({
+               collection: new RecordSet({
+                  keyProperty: ListData.KEY_PROPERTY,
+                  rawData: ListData.getItems()
+               }),
+               root: new Model({ rawData: { id: null }, keyProperty: ListData.KEY_PROPERTY }),
+               keyProperty: ListData.KEY_PROPERTY,
+               parentProperty: ListData.PARENT_PROPERTY,
+               nodeProperty: ListData.NODE_PROPERTY,
+               hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY
+            });
+
+            strategy = new TreeSelectionStrategy({
+               model,
+               selectDescendants: true,
+               selectAncestors: true,
+               rootId: null,
+               entryPath: [],
+               selectionType: 'all'
+            });
+
+            controller = new SelectionController({
+               model,
+               strategy,
+               selectedKeys: [],
+               excludedKeys: []
+            });
+
+            controller.setSelection({ selected: [3, 5], excluded: [] });
+            controller.updateOptions({
+               model,
+               strategy,
+               filter: {searchValue: 'aф'},
+               strategyOptions: {
+                  model
+               }
+            });
+
+            let result = controller.toggleAll();
+            assert.deepEqual(result, { selected: [null], excluded: [null, 3, 5] });
+
+            result = controller.toggleAll();
+            assert.deepEqual(result, { selected: [3, 5], excluded: [] });
+         })
       });
 
       it('filter is changed and selected all items', () => {
