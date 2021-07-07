@@ -65,6 +65,8 @@ export interface IOptions extends IControlOptions, ISourceOptions {
      */
     searchValue?: string;
 
+    loading?: boolean;
+
     /**
      * @cfg
      * Ф-ия, которая будет вызвана после получения данных для detail-колонки.
