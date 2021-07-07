@@ -437,7 +437,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             }
         };
         if (this._options.detailPanelOpenMode === 'stack' && !this._container.closest('.controls-StackTemplate')) {
-            popupOptions.restrictiveContainer = '.sabyPage-MainLayout__rightPanel';
+            popupOptions.restrictiveContainer = '.sabyPage-MainLayout__rightPanel_border.sabyPage-MainLayout__rightPanel';
         }
         Merge(popupOptions, panelPopupOptions);
         popupOptions.className += ` controls_popupTemplate_theme-${this._options.theme} controls_filter_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;
