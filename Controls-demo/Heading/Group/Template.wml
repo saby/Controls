@@ -1,0 +1,10 @@
+<div class="controlsDemo__ml2 controlsDemo_fixedWidth350">
+    <div attr:style="margin-bottom: 6px">Пример реализации отображения группы контролов заголовка</div>
+    <div class="controls-text-secondary">Title-icon-Counter-Separator</div>
+    <div class="ws-flexbox ws-align-items-center controls-Header_all__clickable">
+        <Controls.heading:Title caption="Заголовок" fontColorStyle="primary" fontSize="2xl"/>
+        <div class="icon-Vacation controls-icon_size-s controls-icon_style-secondary" attr:style="margin-left: 4px"></div>
+        <Controls.heading:Counter attr:style="margin-left: 4px" caption="462" fontColorStyle="unaccented" fontSize="2xl"/>
+        <Controls.heading:Separator style="secondary"/>
+    </div>
+</div>
