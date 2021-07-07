@@ -453,14 +453,6 @@ abstract class BaseController {
         if (BaseController.rootContainers[restrictiveContainer]) {
             return BaseController.rootContainers[restrictiveContainer];
         }
-
-        if (restrictiveContainer instanceof HTMLElement) {
-            const errorMessage = 'Неверное значение опции restrictiveContainer.' +
-                ' Опция принимает в качестве значения селектор (строку)';
-            Logger.error(`Controls/popup: ${errorMessage}`);
-            return;
-        }
-
         const restrictiveContainerNode = document?.querySelector(restrictiveContainer);
 
         if (restrictiveContainerNode) {
