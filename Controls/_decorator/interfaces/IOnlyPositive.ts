@@ -4,13 +4,13 @@ export interface IOnlyPositiveOptions {
 
 /**
  * @name Controls/_decorator/interfaces/IOnlyPositive#onlyPositive
- * @cfg {Boolean} Определяет, будут ли отображаться только положительные числа.
+ * @cfg {Boolean} Определяет, будут ли отображаться только неотрицательные числа.
  * @default false
  * @remark
- * true - только положительные числа.
- * false - положительные и отрицательные числа.
+ * true - только неотрицательные числа.
+ * false - все числа.
  * @example
- * В этом примере _inputValue в состоянии контрола будет хранить только положительные числа.
+ * В этом примере _inputValue в состоянии контрола будет хранить только неотрицательные числа.
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.input:Number bind:value="_inputValue" onlyPositive="{{true}}"/>
@@ -18,7 +18,7 @@ export interface IOnlyPositiveOptions {
  */
 
 /**
- * Интерфейс для контролов, которые поддерживают ввод положительных чисел.
+ * Интерфейс для контролов, которые поддерживают ввод неотрицательных чисел.
  * @public
  * @author Красильников А.С.
  */
