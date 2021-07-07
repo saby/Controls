@@ -7,10 +7,14 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import * as cInstance from 'Core/core-instance';
 
+interface IDataOptionsValue {
+    sourceController?: SourceController;
+    keyProperty: string;
+    parentProperty: string;
+}
+
 interface IContainerOptions extends IControlOptions {
-    _dataOptionsValue: {
-        sourceController?: SourceController
-    };
+    _dataOptionsValue: IDataOptionsValue;
     sourceController?: SourceController;
 }
 
@@ -92,10 +96,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     }
 
     private _setBreadCrumbsItems(options): void {
-        let dataOptions = options._dataOptionsValue;
-        if (options.id) {
-            dataOptions = options._dataOptionsValue.listsConfigs[options.id]
-        }
+        let dataOptions = BreadCrumbsContainer._getContextOptions(options);
 
         const isUpdated = this._updateSourceControllerSubscribe(options, dataOptions);
 
@@ -112,12 +113,19 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         }
     }
 
+    private static _getContextOptions(options): IDataOptionsValue {
+        if (options.id) {
+            return options._dataOptionsValue.listsConfigs[options.id];
+        }
+        return options._dataOptionsValue;
+    }
+
     private static _getKeyProperty(options): string {
-        return options._dataOptionsValue.keyProperty ||
+        return BreadCrumbsContainer._getContextOptions(options).keyProperty ||
             options.sourceController && options.sourceController.getKeyProperty();
     }
     private static _getParentProperty(options): string {
-        return options._dataOptionsValue.parentProperty ||
+        return BreadCrumbsContainer._getContextOptions(options).parentProperty ||
             options.sourceController && options.sourceController.getParentProperty();
     }
 }
