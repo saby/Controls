@@ -136,7 +136,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         try {
             if (!this._loadCalendarPopupPromise) {
                 this._loadCalendarPopupPromise = import('Controls/datePopup')
-                    .then((datePopup) => datePopup.loadCSS());
+                    .then((datePopup) => datePopup.default.loadCSS());
             }
             return this._loadCalendarPopupPromise;
         } catch (e) {

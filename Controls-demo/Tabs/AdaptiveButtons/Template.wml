@@ -1,5 +1,5 @@
 <div>
-    <div class="controlsDemo__cell controlsDemo__mb2">
+    <div class="controlsDemo__cell controlsDemo__mb2" attr:style="display: flex; flex-direction: column; align-items: flex-end">
         <div class="controls-text-label_theme-{{_options.theme}}">align=right</div>
         <div class="demo-TabButtons" style="width: {{_containerWidth}}px;">
             <Controls.tabs:AdaptiveButtons
@@ -18,6 +18,7 @@
                     bind:selectedKey="SelectedKey2"
                     keyProperty="id"
                     containerWidth="{{_containerWidth}}"
+                    displayProperty="caption"
                     items="{{_items2}}"
                     align="left"
             />

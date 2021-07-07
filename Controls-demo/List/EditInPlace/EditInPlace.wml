@@ -24,6 +24,7 @@
                             <Controls.validate:InputContainer>
                                 <ws:validators>
                                     <ws:Function value="{{ itemTemplate.itemData.item.title }}">Controls/validate:isRequired</ws:Function>
+                                    <ws:Function value="{{ itemTemplate.itemData.item.title }}">Controls-demo/List/EditInPlace/Validators:Validators.size</ws:Function>
                                 </ws:validators>
                                 <ws:content>
                                     <Controls.input:Text bind:value="itemTemplate.itemData.item.title"
@@ -37,6 +38,8 @@
         </ws:itemTemplate>
     </Controls.list:View>
 </ws:template>
+
+<ws:template name="captionTpl">{{caption}}</ws:template>
 <div class="editInPlaceDemo">
     <div>
         <h3>Simple list</h3>
@@ -53,12 +56,36 @@
         <div attr:style="padding: 15px; background-color: rgba(81,81,81,0.11); width: 150px;">
             <h3>Select options:</h3>
             <div>
-                <Controls.toggle:Checkbox bind:value="_editOnClick" caption="editOnClick" class="demo__editOnClick"/>
-                <Controls.toggle:Checkbox bind:value="_sequentialEditing" caption="sequentialEditing" class="demo__singleEdit"/>
-                <Controls.toggle:Checkbox bind:value="_autoAdd" caption="autoAdd" class="demo__autoAdd"/>
-                <Controls.toggle:Checkbox bind:value="_toolbarVisibility" caption="toolbarVisibility" class="demo__showToolbar"/>
-                <Controls.toggle:Checkbox bind:value="_handleItemClick" caption="_handleItemClick" class="demo__handleItemClick"/>
-                <Controls.toggle:Checkbox bind:value="_readOnly" caption="readOnly" class="demo__readOnly"/>
+                <Controls.toggle:Checkbox bind:value="_editOnClick" class="demo__editOnClick">
+                    <ws:caption>
+                        <ws:partial template="captionTpl" caption="editOnClick"/>
+                    </ws:caption>
+                </Controls.toggle:Checkbox>
+                <Controls.toggle:Checkbox bind:value="_sequentialEditing" class="demo__singleEdit">
+                    <ws:caption>
+                        <ws:partial template="captionTpl" caption="sequentialEditing"/>
+                    </ws:caption>
+                </Controls.toggle:Checkbox>
+                <Controls.toggle:Checkbox bind:value="_autoAdd" class="demo__autoAdd">
+                    <ws:caption>
+                        <ws:partial template="captionTpl" caption="autoAdd"/>
+                    </ws:caption>
+                </Controls.toggle:Checkbox>
+                <Controls.toggle:Checkbox bind:value="_toolbarVisibility" class="demo__showToolbar">
+                    <ws:caption>
+                        <ws:partial template="captionTpl" caption="toolbarVisibility"/>
+                    </ws:caption>
+                </Controls.toggle:Checkbox>
+                <Controls.toggle:Checkbox bind:value="_handleItemClick" class="demo__handleItemClick">
+                    <ws:caption>
+                        <ws:partial template="captionTpl" caption="handleItemClick"/>
+                    </ws:caption>
+                </Controls.toggle:Checkbox>
+                <Controls.toggle:Checkbox bind:value="_readOnly" class="demo__readOnly">
+                    <ws:caption>
+                        <ws:partial template="captionTpl" caption="readOnly"/>
+                    </ws:caption>
+                </Controls.toggle:Checkbox>
             </div>
         </div>
     </div>

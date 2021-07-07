@@ -54,6 +54,7 @@
    }
    &::after {
       content: '';
+      display: block;
       background: @marker_color_menu;
       width: @marker_width_menu;
       height: @marker_height_menu;
@@ -61,17 +62,14 @@
 }
 
 // Будет удалено после: https://online.sbis.ru/opendoc.html?guid=8b5f2552-e249-4783-b551-3e37b285aad5
-.ws-is-ie11 .controls-Menu__row_selected {
-   bottom: calc(50% - 1px);
-   transform: translateY(50%);
-}
-
-// Будет удалено после: https://online.sbis.ru/opendoc.html?guid=8b5f2552-e249-4783-b551-3e37b285aad5
-.ws-is-ie11 .controls-Menu__row_selected-multiLine_theme-@{themeName} {
+.ws-is-ie11 .controls-Menu__row_selected_theme-@{themeName} {
    top: 0;
    bottom: 0;
-   min-height: @item_height_menu;
-   transform: translateY(0);
+   line-height: @item_height_menu + 1;
+}
+
+.ws-is-ie11 .controls-Menu__row_selected-multiLine_theme-@{themeName} {
+   line-height: inherit;
 }
 
 .controls-Menu__row_pinned {

@@ -423,6 +423,23 @@ define(
                   done();
                }, 100);
             });
+            it('The selection is not saved to the model because control is destroyed.', function(done) {
+               ctrl._beforeMount({
+                  value: '1234567890'
+               });
+
+               ctrl._viewModel = ProxyCall.set(ctrl._viewModel, ['selection'], calls, true);
+
+               ctrl._getField().selectionStart = 10;
+               ctrl._getField().selectionEnd = 10;
+               ctrl._destroyed = true;
+               ctrl._clickHandler();
+
+               setTimeout(function() {
+                  assert.deepEqual(calls, []);
+                  done();
+               }, 100);
+            });
          });
          describe('Select event', function() {
             beforeEach(function() {

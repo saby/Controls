@@ -20,6 +20,10 @@ const MORE_BUTTON_TEXT = rk('Ещё...');
 interface IReceivedState {
     items: RecordSet<object>;
 }
+export interface ITabsAdaptiveButtonsOptions extends ITabsButtonsOptions {
+    align?: string;
+    containerWidth: number;
+}
 
 /**
  * Интерфейс для опций контрола адаптивных вкладок.
@@ -27,10 +31,6 @@ interface IReceivedState {
  * @public
  * @author Бондарь А.В.
  */
-export interface ITabsAdaptiveButtonsOptions extends ITabsButtonsOptions {
-    align?: string;
-    containerWidth: number;
-}
 /**
  * @name Controls/_tabs/ITabsAdaptiveButtonsOptions#align
  * @cfg {String} Выравнивание вкладок по правому или левому краю.

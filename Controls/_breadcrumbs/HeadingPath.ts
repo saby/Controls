@@ -1,5 +1,6 @@
-import Control = require('Core/Control');
-import BreadCrumbsUtil from './Utils';
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import {IBreadCrumbsOptions} from './interface/IBreadCrumbs';
+import PrepareDataUtil from './PrepareDataUtil';
 import {ItemsUtil} from 'Controls/list';
 import {tmplNotify} from 'Controls/eventUtils';
 import {applyHighlighter} from 'Controls/_breadcrumbs/resources/applyHighlighter';
@@ -7,26 +8,8 @@ import template = require('wml!Controls/_breadcrumbs/HeadingPath/HeadingPath');
 import Common from './HeadingPath/Common';
 import 'Controls/heading';
 import 'wml!Controls/_breadcrumbs/HeadingPath/Back';
-
-var _private = {
-   drawItems: function (self, options) {
-        self._backButtonCaption = ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.displayProperty);
-
-        //containerWidth is equal to 0, if path is inside hidden node. (for example switchableArea)
-        if (options.items.length > 1) {
-            self._breadCrumbsItems = options.items.slice(0, options.items.length - 1);
-            self._visibleItems = BreadCrumbsUtil.drawBreadCrumbsItems(self._breadCrumbsItems);
-            self._breadCrumbsClass = 'controls-BreadCrumbsPath__breadCrumbs_short';
-
-        } else {
-            self._visibleItems = null;
-            self._breadCrumbsItems = null;
-            self._backButtonClass = '';
-            self._breadCrumbsClass = '';
-        }
-        self._viewUpdated = true;
-    }
-};
+import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
+import {Record} from 'Types/entity';
 
 /**
  * Хлебные крошки с кнопкой "Назад".
@@ -45,7 +28,7 @@ var _private = {
  * @mixes Controls/_interface/IFontSize
  * @control
  * @public
- * @author Авраменко А.С.
+ * @author Бондарь А.В.
  * @demo Controls-demo/BreadCrumbs/PathPG
  * @see Controls/_breadcrumbs/Path
  */
@@ -62,7 +45,7 @@ var _private = {
  * @mixes Controls/_interface/IFontSize
  * @control
  * @public
- * @author Авраменко А.С.
+ * @author Бондарь А.В.
  *
  * @demo Controls-demo/BreadCrumbs/PathPG
  */
@@ -128,67 +111,154 @@ var _private = {
  *    </Controls.breadcrumbs:HeadingPath>
  * </pre>
  */
+interface IReceivedState {
+    items: Record[];
+}
 
-var BreadCrumbsPath = Control.extend({
-    _template: template,
-    _backButtonCaption: '',
-    _visibleItems: null,
-    _breadCrumbsItems: null,
-    _backButtonClass: '',
-    _breadCrumbsClass: '',
-    _viewUpdated: false,
+class BreadCrumbsPath extends Control<IBreadCrumbsOptions> {
+    protected _template: TemplateFunction = template;
+    protected _backButtonCaption: string = '';
+    protected _visibleItems: Record[] = null;
+    protected _breadCrumbsItems: Record[] = null;
+    protected _backButtonClass: string = '';
+    protected _breadCrumbsClass: string = '';
+    protected _notifyHandler: Function = tmplNotify;
+    protected _applyHighlighter: Function = applyHighlighter;
+    protected _getRootModel: Function = Common.getRootModel;
+    protected _width: number = 0;
+    protected _dotsWidth: number = 0;
+    protected _indexEdge: number = 0;
+    protected _items: Record[] = [];
+    protected _isHomeVisible: boolean = false;
+    protected calculateBreadcrumbsUtil: object;
+    protected _arrowWidth: number;
+    protected _paddingRight: number;
 
-    _beforeMount: function (options) {
-        if (options.items && options.items.length > 0) {
-            _private.drawItems(this, options);
+    protected _beforeMount(options?: IBreadCrumbsOptions, contexts?: object, receivedState?: IReceivedState): Promise<IReceivedState> | void {
+        this._prepareItems(options);
+        if (this._breadCrumbsItems) {
+            if (!options.containerWidth) {
+                this._visibleItems = PrepareDataUtil.drawBreadCrumbsItems(this._breadCrumbsItems);
+            } else {
+                //утилиту PrepareDataUtil для основных преобразований крошек грузим всегда. Утилиту для расчета ширины только тогда, когда нам передают containerWidth
+                const arrPromise = [import('Controls/_breadcrumbs/Utils')];
+                if (!receivedState) {
+                    arrPromise.push(loadFontWidthConstants());
+                }
+                return Promise.all(arrPromise).then((res) => {
+                    this.calculateBreadcrumbsUtil = res[0].default;
+                    this._arrowWidth = res[0].ARROW_WIDTH;
+                    this._paddingRight = res[0].PADDING_RIGHT;
+                    if (receivedState) {
+                        this._dotsWidth = this._getDotsWidth(options.fontSize);
+                        this._prepareData(options, options.containerWidth);
+                    } else {
+                        const getTextWidth = res[1];
+                        this._dotsWidth = this._getDotsWidth(options.fontSize, getTextWidth);
+                        this._prepareData(options, options.containerWidth, getTextWidth);
+                        return {
+                            items: options.items
+                        };
+                    }
+                });
+            }
         }
-    },
-    _beforeUpdate: function (newOptions) {
+    }
 
-        if (BreadCrumbsUtil.shouldRedraw(this._options.items, newOptions.items)) {
-            _private.drawItems(this, newOptions);
+    protected _beforeUpdate(newOptions: IBreadCrumbsOptions): void {
+        const isItemsChanged = newOptions.items && newOptions.items !== this._options.items;
+        const isContainerWidthChanged = newOptions.containerWidth !== this._options.containerWidth;
+        const isFontSizeChanged = newOptions.fontSize !== this._options.fontSize;
+        if (isItemsChanged) {
+            this._items = newOptions.items;
         }
-    },
-
-    _afterUpdate: function() {
-        if (this._viewUpdated) {
-            this._viewUpdated = false;
+        if (isContainerWidthChanged) {
+            this._width = newOptions.containerWidth;
         }
-    },
+        if (isFontSizeChanged) {
+            this._dotsWidth = this._getDotsWidth(newOptions.fontSize);
+        }
+        const isDataChange = isItemsChanged || isContainerWidthChanged || isFontSizeChanged;
 
-    _notifyHandler: tmplNotify,
-    _applyHighlighter: applyHighlighter,
-    _getRootModel: Common.getRootModel,
+        if (isDataChange) {
+            this._prepareItems(newOptions);
+            if (this._breadCrumbsItems) {
+                if (this._width) {
+                    this._calculateBreadCrumbsToDraw(this._breadCrumbsItems, newOptions);
+                } else {
+                    this._visibleItems = PrepareDataUtil.drawBreadCrumbsItems(this._breadCrumbsItems);
+                }
+            }
+        }
+    }
+    private _getDotsWidth(fontSize: string, getTextWidth: Function = this._getTextWidth): number {
+        const dotsWidth = getTextWidth('...', fontSize) + this._paddingRight;
+        return this._arrowWidth + dotsWidth;
+    }
+    private _prepareData(options: IBreadCrumbsOptions, width: number, getTextWidth: Function = this._getTextWidth): void {
+        if (options.items && options.items.length > 1) {
+            this._width = width;
+            this._calculateBreadCrumbsToDraw(this._breadCrumbsItems, options, getTextWidth);
+        }
+    }
+    private _getTextWidth(text: string, size: string  = 'xs'): number {
+        return getFontWidth(text, size);
+    }
+    private _calculateBreadCrumbsToDraw(items: Record[], options: IBreadCrumbsOptions, getTextWidth: Function = this._getTextWidth): void {
+        if (items && items.length > 0) {
+            this._visibleItems = this.calculateBreadcrumbsUtil.calculateItemsWithDots(items, options, 0, this._width, this._dotsWidth, getTextWidth);
+            this._visibleItems[0].hasArrow = false;
+            this._indexEdge = 0;
+        }
+    }
 
-    _onBackButtonClick: function (e: Event) {
+    private _onBackButtonClick(e: Event): void {
         Common.onBackButtonClick.call(this, e);
-    },
-    _onHomeClick: function () {
-       /**
-        * TODO: _options.root is actually current root, so it's wrong to use it. For now, we can take root from the first item. Revert this commit after:
-        * https://online.sbis.ru/opendoc.html?guid=93986788-48e1-48df-9595-be9d8fb99e81
-        */
-       this._notify('itemClick', [this._getRootModel(this._options.items[0].get(this._options.parentProperty), this._options.keyProperty)]);
-    },
+    }
+    private _onHomeClick(): void {
+        /**
+         * TODO: _options.root is actually current root, so it's wrong to use it. For now, we can take root from the first item. Revert this commit after:
+         * https://online.sbis.ru/opendoc.html?guid=93986788-48e1-48df-9595-be9d8fb99e81
+         */
+        this._notify('itemClick', [this._getRootModel(this._options.items[0].get(this._options.parentProperty), this._options.keyProperty)]);
+    }
 
-   _getCounterCaption: function(items) {
-      return items[items.length - 1].get('counterCaption');
-   }
-});
+    private _getCounterCaption(items): void{
+        return items[items.length - 1].get('counterCaption');
+    }
 
-BreadCrumbsPath.getDefaultOptions = function () {
-    return {
-        displayProperty: 'title',
-        root: null,
-        backButtonIconStyle: 'primary',
-        backButtonFontColorStyle: 'secondary',
-        showActionButton: true,
-        displayMode: 'default'
-    };
-};
+    private _prepareItems(options): void {
+        if (options.items && options.items.length > 0) {
+            this._backButtonCaption = ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.displayProperty);
+            //containerWidth is equal to 0, if path is inside hidden node. (for example switchableArea)
+            if (options.items.length > 1) {
+                this._breadCrumbsItems = options.items.slice(0, options.items.length - 1);
+                this._breadCrumbsClass = 'controls-BreadCrumbsPath__breadCrumbs_short';
+                this._isHomeVisible = true;
 
-BreadCrumbsPath._theme = ['Controls/crumbs', 'Controls/heading'];
-BreadCrumbsPath._styles = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
-BreadCrumbsPath._private = _private;
+            } else {
+                this._visibleItems = null;
+                this._breadCrumbsItems = null;
+                this._backButtonClass = '';
+                this._breadCrumbsClass = '';
+                this._isHomeVisible = false;
+            }
+        }
+    }
+
+    static _theme: string[] = ['Controls/crumbs', 'Controls/heading'];
+    static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
+    static getDefaultOptions() {
+        return {
+            displayProperty: 'title',
+            root: null,
+            backButtonIconStyle: 'primary',
+            backButtonFontColorStyle: 'secondary',
+            showActionButton: true,
+            displayMode: 'default',
+            fontSize: 'xs'
+        };
+    }
+}
 
 export default BreadCrumbsPath;

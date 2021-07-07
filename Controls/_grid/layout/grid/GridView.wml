@@ -14,7 +14,6 @@
     <ws:if data="{{ _isColumnScrollVisible }}">
         <Controls._grid.ScrollWrapper
                 name="horizontalScrollWrapper"
-                position="{{ _horizontalScrollPosition }}"
                 contentSize="{{ _contentSizeForHScroll }}"
                 gridSupport="full"
                 scrollWidth="{{ _horizontalScrollWidth }}"
@@ -30,8 +29,6 @@
                     listModel="{{_listModel}}"
                     itemTemplate="{{_itemTemplate}}"
                     multiSelectTpl="{{_options.multiSelectTpl}}"
-                    editingItemData="{{_options.editingItemData}}"
-                    isAdd="{{_options.isAdd}}"
                     itemActionsTemplate="{{_options.itemActionsTemplate}}"
                     itemActionsClass="{{_options.itemActionsClass}}"
                     groupTemplate="{{_groupTemplate}}"

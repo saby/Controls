@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper">
+    <Controls.grid:View
+            name="grid"
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            itemActions="{{_itemActions}}"
+            on:beforeBeginEdit="_beforeBeginEdit()"
+            itemsReadyCallback="{{_itemsReadyCallback}}"
+    >
+        <ws:editingConfig>
+            <ws:Object editOnClick="{{true}}" autoAdd="{{ true }}"/>
+        </ws:editingConfig>
+    </Controls.grid:View>
+</div>

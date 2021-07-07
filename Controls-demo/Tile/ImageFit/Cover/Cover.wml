@@ -5,9 +5,11 @@
       imageFit="cover"
       tileHeight="150"
       imageUrlResolver="{{_imageUrlResolver}}"
+      parentProperty="parent"
+      nodeProperty="parent@"
       imageWidthProperty="imageWidth"
       imageHeightProperty="imageHeight"
-      itemWidthProperty="width"
+      tileWidthProperty="width"
       imageProperty="image"
       keyProperty="id"
       source="{{_viewSource}}">

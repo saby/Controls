@@ -29,6 +29,31 @@ define([
          });
       });
 
+      describe('EventHandlers', function() {
+         [{
+            startValue: new Date(),
+            result: true
+         }, {
+            startValue: null,
+            result: true
+         }, {
+            startValue: 'string',
+            result: false
+         }].forEach(function (test) {
+            it('should close popup', function () {
+               const component = calendarTestUtils.createComponent(dateRange.RangeSelector, options);
+               const sandbox = sinon.createSandbox();
+
+               sandbox.stub(component._rangeModel, 'setRange');
+               const stubClosePopup = sandbox.stub(component, 'closePopup');
+               component._onResult(test.startValue);
+
+               assert.equal(stubClosePopup.called, test.result);
+               sandbox.restore();
+            });
+         });
+      });
+
       describe('_rangeChangedHandler', function() {
          it('should set range on model', function() {
             const

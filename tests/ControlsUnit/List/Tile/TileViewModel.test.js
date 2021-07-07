@@ -107,7 +107,7 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
 
       it('getMultiSelectClassList onhover selected', function() {
          tileViewModel.setMultiSelectVisibility('onhover');
-         tileViewModel.setSelectedItems([tileViewModel.getItemBySourceKey(2).getContents()], true);
+         tileViewModel.setSelectedItems([tileViewModel.getItemBySourceKey(2)], true);
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
          assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });

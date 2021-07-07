@@ -1,129 +1,53 @@
-import libHelper = require('Core/library');
+import { isLoaded, loadAsync, loadSync, clearCache, unloadSync } from 'Controls/Application/modulesLoader';
+import { ParkingController, Controller, ViewConfig } from 'Controls/error';
 import { IoC } from 'Env/Env';
 import rk = require('i18n!Controls');
-import { ParkingController, Controller, ViewConfig } from 'Controls/error';
 
-type Module = unknown;
-let cache: Record<string, Promise<Module>> = {};
-interface IParsedName {
-    name: string;
-    path: string[];
-}
+const ERROR_NOT_FOUND = 404;
 
 class ModuleLoader {
-    /**
-     * requirejs.defined работает не корректно. Возвращает true, хотя callback в defined(name, callback) ещё не был вызван.
-     */
-    private asyncLoadedModules: Record<string, boolean|void> = {};
+    loadAsync<T = unknown>(
+        name: string,
+        errorCallback?: (viewConfig: void | ViewConfig, error: unknown) => void
+    ): Promise<T> {
+        return loadAsync<T>(name).catch((error) => {
+            IoC.resolve('ILogger').error(`Couldn't load module "${name}"`, error);
 
-    private getFromLib(lib: Module, parsedName: IParsedName): Module {
-        let mod = lib;
-        const processed = [];
-        parsedName.path.forEach((property) => {
-            processed.push(property);
-            if (mod && typeof mod === 'object' && property in mod) {
-                mod = mod[property];
-            } else {
-                IoC.resolve('ILogger').error('Async module loading error',
-                    'Cannot find module "' + processed.join('.')
-                    + '" in library "' + parsedName.name + '".');
-            }
+            return new ParkingController(
+                {configField: Controller.CONFIG_FIELD}
+            ).process({error, mode: 'include'}).then((viewConfig: ViewConfig<{message: string}>) => {
+                if (errorCallback && typeof errorCallback === 'function') {
+                    errorCallback(viewConfig, error);
+                }
+
+                if (!viewConfig?.status || viewConfig.status !== ERROR_NOT_FOUND) {
+                    unloadSync(name);
+                }
+
+                const message = viewConfig?.options?.message;
+                throw new Error(message || rk('У СБИС возникла проблема'));
+            });
         });
-        return mod;
     }
 
-    loadAsync(name: string, errorCallback?: (viewConfig: void|ViewConfig, error: unknown) => void): Promise<Module> {
-        if (this.isLoaded(name)) {
-            return Promise.resolve(this.loadSync(name));
-        }
-
-        const parsedInfo: IParsedName = libHelper.parse(name);
-        const loadFromModule = (res) => {
-            return this.getFromLib(res, parsedInfo);
-        };
-        if (this.isCached(parsedInfo.name)) {
-            return cache[parsedInfo.name].then(loadFromModule);
-        }
-
-        let promiseResult = this.requireAsync(parsedInfo.name);
-        cache[parsedInfo.name] = promiseResult = promiseResult.then((res) => {
-            delete cache[parsedInfo.name];
-            this.asyncLoadedModules[parsedInfo.name] = true;
-            return res;
-        }, (error) => {
-            delete cache[parsedInfo.name];
-            const errorMessage = "Couldn't load module " + parsedInfo.name;
-            IoC.resolve('ILogger').error(errorMessage, error);
-            return new ParkingController({
-                configField: Controller.CONFIG_FIELD})
-                .process({error, mode: 'include'}).then((viewConfig) => {
-                    if (errorCallback && typeof errorCallback === 'function') {
-                        errorCallback(viewConfig, error);
-                    }
-                    const message = viewConfig?.options?.message;
-                    throw new Error(message || rk('У СБИС возникла проблема'));
-                });
-        });
-
-        return promiseResult.then(loadFromModule);
-    }
-
-    loadSync(name: string): Module {
-        const parsedInfo = libHelper.parse(name);
-        let loaded;
+    loadSync<T = unknown>(name: string): T {
         try {
-            loaded = this.requireSync(parsedInfo.name);
-        } catch (e) {
-            IoC.resolve('ILogger').error("Couldn't load module " + parsedInfo.name, e);
-            return null;
+            const loaded = loadSync<T>(name);
+            if (loaded) {
+                return loaded;
+            }
+        } catch (err) {
+            IoC.resolve('ILogger').error(`Couldn't load module "${name}"`, err);
         }
-        if (!loaded) {
-            return null;
-        }
-        return this.getFromLib(loaded, parsedInfo);
+        return null;
     }
 
-    /**
-     * Делаю проверку, что загруженный модуль имеет тип функции, т.к. может быть require уже реально загрузил.
-     * Текущее решение, нужно для случая, когда модуль реально возвращает пустой объект, и нужно
-     *   вернуть ответ, что модуль загружен.
-     * @param name имя модуля
-     */
     isLoaded(name: string): boolean {
-        const parsedInfo: IParsedName = libHelper.parse(name);
-        if (this.asyncLoadedModules[parsedInfo.name]) {
-            return true;
-        }
-
-        // Проверяем наличие, что бы не было сообщения в лог
-        if (!require.defined(parsedInfo.name)) {
-            return false;
-        }
-
-        const module = require(parsedInfo.name);
-        if (typeof module !== 'undefined' && (module instanceof Function || Object.keys(module).length > 0)) {
-            this.asyncLoadedModules[parsedInfo.name] = true;
-            return true;
-        }
-        return false;
-    }
-
-    private isCached(name: string): boolean {
-        return !!cache[name];
-    }
-
-    private requireSync(name: string): Module {
-        return require(name);
-    }
-
-    private requireAsync(name: string): Promise<undefined> {
-        return new Promise((resolve, reject) => {
-            require([name], resolve, reject);
-        });
+        return isLoaded(name);
     }
 
     clearCache(): void {
-        cache = {};
+        clearCache();
     }
 }
 

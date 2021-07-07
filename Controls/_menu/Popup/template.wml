@@ -28,8 +28,8 @@
                <ws:if data="{{_applyButtonVisible}}">
                   <div class="controls-DropdownList__applyButton
                         controls-Menu__applyButton_theme-{{_options.theme}}
-                        controls-Menu_{{_options.headerTemplate ? 'withHeader' +
-                        (_options.headerTemplate && _verticalDirection === 'top' ? '-reverse') : 'withoutHeader'}}__applyButton_theme-{{_options.theme}}
+                        controls-Menu_{{(_options.headerTemplate || _headingCaption || _headerTemplate) ? 'withHeader' +
+                        (_verticalDirection === 'top' ? '-reverse') : 'withoutHeader'}}__applyButton_theme-{{_options.theme}}
                         controls-Menu_{{_closeButtonVisibility ? 'withClose' : 'withoutClose'}}__applyButton_theme-{{_options.theme}}">
                      <Controls.buttons:Button viewMode="functionalButton"
                                               icon="icon-Yes"
@@ -65,7 +65,7 @@
                        emptyKey="{{_options.emptyKey}}"
                        searchParam="{{_options.searchParam}}"
                        multiSelect="{{_options.multiSelect}}"
-                       marker="{{_options.marker}}"
+                       markerVisibility="{{_options.markerVisibility}}"
                        emptyTemplate="{{_options.emptyTemplate}}"
                        source="{{_options.source}}"
                        navigation="{{_options.navigation}}"

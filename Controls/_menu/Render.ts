@@ -184,6 +184,9 @@ class MenuRender extends Control<IMenuRenderOptions> {
         if (options.parentProperty) {
             data[options.parentProperty] = options.root;
         }
+        if (options.nodeProperty) {
+            data[options.nodeProperty] = false;
+        }
         emptyItem.set(data);
         collection.prepend([emptyItem]);
 

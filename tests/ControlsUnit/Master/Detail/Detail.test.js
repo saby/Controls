@@ -160,6 +160,44 @@ define(['Controls/masterDetail'], function (masterDetail) {
          Control.destroy();
       });
 
+      it('_resizeHandler with propStorageId', () => {
+         const Control = new masterDetail.Base();
+         let isUpdateOffset = false;
+         Control._startResizeRegister = () => {};
+         Control._updateOffsetDebounced = () => isUpdateOffset = true;
+
+         Control._options = {
+            propStorageId: '123'
+         };
+         Control._container = {
+            closest: () => {
+               return false;
+            }
+         };
+         Control._resizeHandler();
+         assert.isTrue(isUpdateOffset);
+
+         Control.destroy();
+      });
+
+      it('_resizeHandler without propStorageId', () => {
+         const Control = new masterDetail.Base();
+         let isUpdateOffset = false;
+         Control._updateOffsetDebounced = () => isUpdateOffset = true;
+         Control._startResizeRegister = () => {};
+
+
+         Control._container = {
+            closest: () => {
+               return false;
+            }
+         };
+         Control._resizeHandler();
+         assert.isFalse(isUpdateOffset);
+
+         Control.destroy();
+      });
+
       it('masterWidthChanged', () => {
          const control = new masterDetail.Base();
          const sandbox = sinon.createSandbox();

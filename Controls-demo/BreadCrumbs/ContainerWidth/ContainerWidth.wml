@@ -1,0 +1,23 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Path</div>
+        <Controls.breadcrumbs:Path items="{{items0}}" keyProperty="id" containerWidth="{{_containerWidth}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Path - 1 crumb</div>
+        <Controls.breadcrumbs:Path items="{{items1}}" keyProperty="id" containerWidth="{{_containerWidth}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Path - 2 crumb</div>
+        <Controls.breadcrumbs:Path items="{{items2}}" keyProperty="id" containerWidth="{{_containerWidth}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">HeadingPath</div>
+        <Controls.breadcrumbs:HeadingPath attr:id="path"
+                                          items="{{items0}}"
+                                          parentProperty="parent"
+                                          keyProperty="id"
+                                          containerWidth="{{_containerWidthHeadingPath}}"
+        />
+    </div>
+</div>

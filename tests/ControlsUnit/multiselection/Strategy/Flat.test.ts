@@ -3,7 +3,8 @@
 import { assert } from 'chai';
 import { FlatSelectionStrategy } from 'Controls/multiselection';
 import { RecordSet } from 'Types/collection';
-import { Model, Record } from 'Types/entity';
+import { Model, Model } from 'Types/entity';
+import { Collection, CollectionItem } from 'Controls/display';
 
 describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
    const items = new RecordSet({
@@ -14,31 +15,22 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
       ],
       keyProperty: 'id'
    });
-   const strategy = new FlatSelectionStrategy({ items });
 
-   function compareArrays(actual: Record[], expected: Record[]): boolean {
-      if (actual.length !== expected.length) {
-         return false;
-      }
-      for (let i = 0; i < actual.length; i++) {
-         if (actual[i].getRawData().id !== expected[i].getRawData().id) {
-            return false;
-         }
-      }
-      return true;
-   }
+   const model = new Collection({collection: items, keyProperty: 'id'});
+
+   const strategy = new FlatSelectionStrategy({ items: model.getItems() });
 
    describe('select', () => {
       it('not selected', () => {
          let selection = { selected: [], excluded: [] };
-         selection = strategy.select(selection, [2]);
+         selection = strategy.select(selection, 2);
          assert.deepEqual(selection.selected, [2]);
          assert.deepEqual(selection.excluded, []);
       });
 
       it('selected all, but one', () => {
          let selection = { selected: [null], excluded: [2] };
-         selection = strategy.select(selection, [2]);
+         selection = strategy.select(selection, 2);
          assert.deepEqual(selection.selected, [null]);
          assert.deepEqual(selection.excluded, []);
       });
@@ -47,14 +39,14 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
    describe('unselect', () => {
       it('selected one', () => {
          let selection = { selected: [2], excluded: [] };
-         selection = strategy.unselect(selection, [2]);
+         selection = strategy.unselect(selection, 2);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
       });
 
       it('selected all', () => {
          let selection = { selected: [null], excluded: [] };
-         selection = strategy.unselect(selection, [2]);
+         selection = strategy.unselect(selection, 2);
          assert.deepEqual(selection.selected, [null]);
          assert.deepEqual(selection.excluded, [2]);
       });
@@ -126,35 +118,35 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
       it('not selected', () => {
          const selection = { selected: [], excluded: [] };
          const res = strategy.getSelectionForModel(selection);
-         assert.isTrue(compareArrays(res.get(true), []));
-         assert.isTrue(compareArrays(res.get(null), []));
-         assert.isTrue(compareArrays(res.get(false), [
-            new Record({ rawData: { id: 1 } }),
-            new Record({ rawData: { id: 2 } }),
-            new Record({ rawData: { id: 3 } })
-         ]));
+         assert.deepEqual(res.get(true), []);
+         assert.deepEqual(res.get(null), []);
+         assert.deepEqual(res.get(false), [
+             model.getItemBySourceKey(1),
+             model.getItemBySourceKey(2),
+             model.getItemBySourceKey(3)
+         ]);
       });
 
       it('selected one', () => {
          const selection = { selected: [1], excluded: [] };
          const res = strategy.getSelectionForModel(selection);
-         assert.isTrue(compareArrays(res.get(true), [ new Record({ rawData: { id: 1 } }) ]));
-         assert.isTrue(compareArrays(res.get(null), []));
-         assert.isTrue(compareArrays(res.get(false), [
-            new Record({ rawData: { id: 2 } }),
-            new Record({ rawData: { id: 3 } })
-         ]));
+         assert.deepEqual(res.get(true), [ model.getItemBySourceKey(1) ]);
+         assert.deepEqual(res.get(null), []);
+         assert.deepEqual(res.get(false), [
+             model.getItemBySourceKey(2),
+             model.getItemBySourceKey(3)
+         ]);
       });
 
       it('selected all, but one', () => {
          const selection = { selected: [null], excluded: [2] };
          const res = strategy.getSelectionForModel(selection);
-         assert.isTrue(compareArrays(res.get(true), [
-            new Record({ rawData: { id: 1 } }),
-            new Record({ rawData: { id: 3 } })
-         ]));
-         assert.isTrue(compareArrays(res.get(null), []));
-         assert.isTrue(compareArrays(res.get(false), [ new Record({ rawData: { id: 2 } }) ]));
+         assert.deepEqual(res.get(true), [
+             model.getItemBySourceKey(1),
+             model.getItemBySourceKey(3)
+         ]);
+         assert.deepEqual(res.get(null), []);
+         assert.deepEqual(res.get(false), [ model.getItemBySourceKey(2) ]);
       });
    });
 
@@ -216,10 +208,7 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
 
       it('empty model', () => {
          const strategy = new FlatSelectionStrategy({
-            items: new RecordSet({
-               rawData: [ ],
-               keyProperty: 'id'
-            })
+            items: []
          });
 
          const selection = { selected: [], excluded: [] };
@@ -228,14 +217,7 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
    });
 
    it('setItems', () => {
-      const newItems = new RecordSet({
-         rawData: [
-            { id: 1 },
-            { id: 2 },
-            { id: 3 }
-         ],
-         keyProperty: 'id'
-      });
+      const newItems = model.getItems();
       strategy.setItems(newItems);
       assert.equal(strategy._items, newItems);
    });

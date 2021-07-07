@@ -2619,13 +2619,10 @@ describe('Controls/_display/Collection', () => {
     describe('.setSelectedItems()', () => {
         it('should selected was given items', () => {
             display.setSelectedItems(
-                [list.at(0), list.at(1)],
+                [display.at(0), display.at(1)],
                 true
             );
-            const selected = [
-                display.getItemBySourceItem(list.at(0)),
-                display.getItemBySourceItem(list.at(1))
-            ];
+            const selected = [display.at(0), display.at(1)];
             display.each((item) => {
                 if (selected.indexOf(item) !== -1) {
                     assert.isTrue(item.isSelected());
@@ -2638,13 +2635,10 @@ describe('Controls/_display/Collection', () => {
         it('should deselect was given items', () => {
             display.setSelectedItemsAll(true);
             display.setSelectedItems(
-                [list.at(0), list.at(1)],
+                [display.at(0), display.at(1)],
                 false
             );
-            const deselect = [
-                display.getItemBySourceItem(list.at(0)),
-                display.getItemBySourceItem(list.at(1))
-            ];
+            const deselect = [display.at(0), display.at(1)];
             display.each((item) => {
                 if (deselect.indexOf(item) !== -1) {
                     assert.isFalse(item.isSelected());
@@ -2658,7 +2652,7 @@ describe('Controls/_display/Collection', () => {
             const notifyLaterSpy = spy(display, '_notifyLater');
 
             display.setSelectedItems(
-               [list.at(0), list.at(1)],
+               [display.at(0), display.at(1)],
                true,
                true
             );
@@ -3394,7 +3388,8 @@ describe('Controls/_display/Collection', () => {
 
         it('should fire "onCollectionChange" with valid item contents when work in events queue', () => {
             const getModel = (data) => new Model({
-                    rawData: data
+                keyProperty: 'id',
+                rawData: data
             });
             const list = new ObservableList({
                 items: [

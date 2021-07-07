@@ -17,6 +17,7 @@ import {ValidationStatus, IValidationStatus, IValidationStatusOptions} from 'Con
  * @public
  * @author Красильников А.С.
  * @mixes Controls/_interface/IValidationStatus
+ * @demo Controls-demo/Popup/TestInfoBox
  */
 
 type TArrowPosition = 'start' | 'end' | 'center';

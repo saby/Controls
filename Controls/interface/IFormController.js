@@ -341,11 +341,11 @@ define('Controls/interface/IFormController', [
    /**
     * @event Происходит перед сохранением записи.
     * @name Controls/interface/IFormController#requestCustomUpdate
-    * @cfg {Types/entity:Model} record Редактируемая запись.
+    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {Types/entity:Model} record Редактируемая запись.
     * @remark
     * В обработчике события можно отменить  базовую логику сохранения (вернуть true) или отложить ее для выполнения пользовательских действий перед сохранением (вернуть Promise<boolean>).
     * Используется, например, для асинхронной валидации или пользовательского сохранения записи.
-    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @example
     * Проверяет данные на сервере перед сохранением.
     * <pre class="brush: js">
@@ -358,6 +358,7 @@ define('Controls/interface/IFormController', [
    /*
     * @event Controls/interface/IFormController#requestCustomUpdate Happens before saving a record. In the event handler the basic saving logic can be canceled or deferred for user actions before saving. It's used, for example, for asynchronous validation or user saving of a record.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
+    * @param {Types/entity:Model} record Editable record.
     * @example
     * Check the data on the server before saving.
     * <pre>

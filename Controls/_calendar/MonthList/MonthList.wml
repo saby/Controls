@@ -1,6 +1,6 @@
 <Controls.dataSource:error.Container name="errorContainer" viewConfig="{{_errorViewConfig}}">
    <Controls.scroll:IntersectionObserverController
-         threshold="{{[0, 0.01, 0.99, 1]}}"
+         threshold="{{_threshold}}"
          observerName="monthList"
          on:intersect="_intersectHandler()">
       <Controls.scroll:Container

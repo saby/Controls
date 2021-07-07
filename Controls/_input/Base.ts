@@ -592,6 +592,7 @@ var Base = Control.extend({
         this._isMobileIOS = Env.detection.isMobileIOS;
         this._isEdge = Env.detection.isIE12;
         this._isBrowserPlatform = Env.constants.isBrowserPlatform;
+        this._inputKey = '_inputKey_' + Date.now();
 
         /**
          * Hide in chrome because it supports auto-completion of the field when hovering over an item
@@ -798,6 +799,9 @@ var Base = Control.extend({
          * Therefore, we remember the selection from the field at the next drawing cycle.
          */
         runDelayed(() => {
+            if (this._destroyed) {
+                return;
+            }
             this._viewModel.selection = this._getFieldSelection();
             this._currentVersionModel = this._viewModel.getVersion();
         });
@@ -1143,4 +1147,3 @@ Base.getOptionTypes = function () {
 };
 
 export = Base;
-

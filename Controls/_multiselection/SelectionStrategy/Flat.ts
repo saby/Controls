@@ -1,12 +1,12 @@
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 
-import { RecordSet } from 'Types/collection';
 import { ISelectionObject as ISelection } from 'Controls/interface';
 import { Model } from 'Types/entity';
-import { IFlatSelectionStrategyOptions, TKeys} from '../interface';
+import { IFlatSelectionStrategyOptions } from '../interface';
 import ISelectionStrategy from './ISelectionStrategy';
 import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
+import { CollectionItem } from 'Controls/display';
 
 const ALL_SELECTION_VALUE = null;
 
@@ -18,7 +18,7 @@ const ALL_SELECTION_VALUE = null;
  * @author Панихин К.А.
  */
 export class FlatSelectionStrategy implements ISelectionStrategy {
-   private _items: RecordSet;
+   private _items: Array<CollectionItem<Model>>;
 
    constructor(options: IFlatSelectionStrategyOptions) {
       this._items = options.items;
@@ -28,29 +28,37 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       this._items = options.items;
    }
 
-   setItems(items: RecordSet): void {
+   setItems(items: Array<CollectionItem<Model>>): void {
       this._items = items;
    }
 
-   select(selection: ISelection, keys: TKeys): ISelection {
+   select(selection: ISelection, key: CrudEntityKey): ISelection {
+      if (!this._getItem(key).SelectableItem) {
+         return selection;
+      }
+
       const cloneSelection = clone(selection);
 
       if (this._isAllSelected(cloneSelection)) {
-         ArraySimpleValuesUtil.removeSubArray(cloneSelection.excluded, keys);
+         ArraySimpleValuesUtil.removeSubArray(cloneSelection.excluded, [key]);
       } else {
-         ArraySimpleValuesUtil.addSubArray(cloneSelection.selected, keys);
+         ArraySimpleValuesUtil.addSubArray(cloneSelection.selected, [key]);
       }
 
       return cloneSelection;
    }
 
-   unselect(selection: ISelection, keys: TKeys): ISelection {
+   unselect(selection: ISelection, key: CrudEntityKey): ISelection {
+      if (!this._getItem(key).SelectableItem) {
+         return selection;
+      }
+
       const cloneSelection = clone(selection);
 
       if (this._isAllSelected(cloneSelection)) {
-         ArraySimpleValuesUtil.addSubArray(cloneSelection.excluded, keys);
+         ArraySimpleValuesUtil.addSubArray(cloneSelection.excluded, [key]);
       } else {
-         ArraySimpleValuesUtil.removeSubArray(cloneSelection.selected, keys);
+         ArraySimpleValuesUtil.removeSubArray(cloneSelection.selected, [key]);
       }
 
       return cloneSelection;
@@ -66,9 +74,6 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
-   /**
-    * Remove selection from all items.
-    */
    unselectAll(selection: ISelection): ISelection {
       const cloneSelection = clone(selection);
 
@@ -78,26 +83,27 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
-   /**
-    * Invert selection.
-    */
    toggleAll(selection: ISelection, hasMoreData: boolean): ISelection {
       let cloneSelection = clone(selection);
 
       if (this._isAllSelected(cloneSelection)) {
-         const excludedKeys: TKeys = cloneSelection.excluded.slice();
+         const excludedKeys = cloneSelection.excluded.slice();
          cloneSelection = this.unselectAll(cloneSelection);
-         cloneSelection = this.select(cloneSelection, excludedKeys);
+         excludedKeys.forEach((key) => cloneSelection = this.select(cloneSelection, key));
       } else {
-         const selectedKeys: TKeys = cloneSelection.selected.slice();
+         const selectedKeys = cloneSelection.selected.slice();
          cloneSelection = this.selectAll(cloneSelection);
-         cloneSelection = this.unselect(cloneSelection, selectedKeys);
+         selectedKeys.forEach((key) => cloneSelection = this.unselect(cloneSelection, key));
       }
 
       return cloneSelection;
    }
 
-   getSelectionForModel(selection: ISelection, limit?: number, items?: Model[]): Map<boolean|null, Model[]> {
+   getSelectionForModel(
+       selection: ISelection,
+       limit?: number,
+       items?: Array<CollectionItem<Model>>
+   ): Map<boolean, Array<CollectionItem<Model>>> {
       let selectedItemsCount = 0;
       const selectedItems = new Map();
       // IE не поддерживает инициализацию конструктором
@@ -113,7 +119,7 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
 
       const processingItems = items ? items : this._items;
       processingItems.forEach((item) => {
-         const itemId: CrudEntityKey = item.getKey();
+         const itemId: CrudEntityKey = item.getContents().getKey();
          const selected = (!limit || selectedItemsCount < limit)
             && (selection.selected.includes(itemId) || isAllSelected && !selection.excluded.includes(itemId));
 
@@ -129,7 +135,7 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
 
    getCount(selection: ISelection, hasMoreData: boolean, limit?: number): number|null {
       let countItemsSelected: number|null = null;
-      const itemsCount = this._items.getCount();
+      const itemsCount = this._items.length;
 
       if (this._isAllSelected(selection)) {
          if (!hasMoreData && (!limit || itemsCount <= limit)) {
@@ -164,5 +170,9 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
     */
    private _isAllSelected(selection: ISelection): boolean {
       return selection.selected.includes(ALL_SELECTION_VALUE);
+   }
+
+   private _getItem(key: CrudEntityKey): CollectionItem<Model> {
+      return this._items.find((item) => item.getContents().getKey() === key);
    }
 }

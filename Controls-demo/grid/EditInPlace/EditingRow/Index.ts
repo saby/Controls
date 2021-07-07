@@ -14,6 +14,7 @@ export default class extends Control {
     protected _documentSignMemory: Memory;
     private data: object[] = getPorts().getData().map((cur) => this.getData(cur));
     protected selectedKey: number = 1;
+    protected _fakeId: number = 100;
 
     private getData(data: object): object {
         for (const key in data) {
@@ -37,6 +38,29 @@ export default class extends Control {
             keyProperty: 'id',
             data: getPorts().getDocumentSigns()
         });
+    }
+
+    protected _onBeforeBeginEdit(e, options, isAdd) {
+        if (isAdd && !options.item) {
+            return {
+                item: new Model({
+                    keyProperty: 'id',
+                    rawData: {
+                        id: ++this._fakeId,
+                        name: '',
+                        invoice: 0,
+                        documentSign: 0,
+                        documentNum: 0,
+                        taxBase: 0,
+                        document: '',
+                        documentDate: null,
+                        serviceContract: null,
+                        description: '',
+                        shipper: null
+                    }
+                })
+            };
+        }
     }
 
     private onChange1 = (_: SyntheticEvent, name: string, item: Model, value: number): void => {

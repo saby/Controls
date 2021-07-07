@@ -7,10 +7,6 @@
    startValue="{{_options.startValue}}"
    endValue="{{_options.endValue}}"
 
-   selectionProcessing="{{_options.selectionProcessing}}"
-   selectionBaseValue="{{_options.selectionBaseValue}}"
-   selectionHoveredValue="{{_options.selectionHoveredValue}}"
-
    on:rangeChanged="_onRangeChangedHandler()"
    on:itemClick="_itemClickHandler()"
 >

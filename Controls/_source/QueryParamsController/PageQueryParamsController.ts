@@ -79,7 +79,7 @@ class PageQueryParamsController implements IQueryParamsController {
         if (this._options.hasMore === false) {
             addParams.meta.hasMore = false;
         }
-        
+
         return addParams;
     }
 
@@ -167,7 +167,7 @@ class PageQueryParamsController implements IQueryParamsController {
                     throw new Error('pageSize, переданный для единичной перезагрузки списка, должен нацело делиться на pageSize из опции navigation.sourceConfig.');
                 }
 
-                this._prevPage = this._page - 1;
+                this._prevPage = config.page - 1;
 
                 // если мы загрузили 0 страницу размера 30 , то мы сейчас на 2 странице размера 10
                 this._page = (config.page + 1) * pageSizeCoef - 1;

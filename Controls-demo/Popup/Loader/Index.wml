@@ -1,0 +1,6 @@
+<div>
+    <Controls.buttons:Button caption="Открыть стек" on:click="_openStack()"/>
+    <div>
+        Рекорд загрузится через секунду после открытия, вложения через 2.
+    </div>
+</div>

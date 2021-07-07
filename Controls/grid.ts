@@ -88,3 +88,7 @@ export {
     ColumnScroll,
     IColumnScrollOptions
 } from './_grid/resources/ColumnScroll';
+
+export {
+    JS_SELECTORS as DRAG_SCROLL_JS_SELECTORS
+} from './_grid/resources/DragScroll';

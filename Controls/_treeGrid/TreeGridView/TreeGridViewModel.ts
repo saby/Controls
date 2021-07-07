@@ -1,4 +1,4 @@
-import {GridViewModel, GridLayoutUtil, COLUMN_SCROLL_JS_SELECTORS} from 'Controls/grid';
+import {GridViewModel, GridLayoutUtil, COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS} from 'Controls/grid';
 import {
     getBottomPaddingRowIndex,
     getFooterIndex,
@@ -257,12 +257,12 @@ var
                         }
 
                         if (self._options.columnScroll && (index < self._options.stickyColumnsCount)) {
-                            classes += ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`;
+                            classes += ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE}`;
                         }
                     } else {
                         classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}_theme-${theme}`;
                         classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${current.itemPadding.right}_theme-${theme}`;
-                        classes += ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`;
+                        classes += ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE}`;
                     }
 
                     return classes;
@@ -334,10 +334,6 @@ var
                     hasColumnScroll: this._options.columnScroll,
                 },
                 hasEmptyTemplate = !!this._options.emptyTemplate;
-
-            if (this.getEditingItemData()) {
-                cfg.editingRowIndex = this.getEditingItemData().index;
-            }
 
             return {
                 getIndexByItem: (item) => getIndexByItem({item, ...cfg}),

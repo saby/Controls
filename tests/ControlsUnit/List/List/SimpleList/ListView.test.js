@@ -395,7 +395,7 @@ define([
                notifyStub = sandbox.stub(lv, '_notify').withArgs('itemContextMenu', [{}, {}, false]);
             lv.saveOptions(cfg);
             lv._beforeMount(cfg);
-            sandbox.stub(model, 'getEditingItemData').returns(null);
+            sandbox.stub(model, 'isEditing').returns(false);
 
             lv._onItemContextMenu({}, {});
             assert.isTrue(notifyStub.calledOnce);
@@ -415,7 +415,7 @@ define([
                lv = new lists.ListView(cfg);
             lv.saveOptions(cfg);
             lv._beforeMount(cfg);
-            sandbox.stub(model, 'getEditingItemData').returns({});
+            sandbox.stub(model, 'isEditing').returns(true);
             sandbox.stub(lv, '_notify').withArgs('itemContextMenu').throws('itemContextMenu event shouldn\'t fire during editing');
 
             lv._onItemContextMenu({}, {});

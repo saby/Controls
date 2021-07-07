@@ -31,16 +31,6 @@ define(
 
             assert.equal(true, Popup._isResized(oldOptions, newOptions));
          });
-         it('reseize Outer', (done) => {
-            const Popup = new PopupClass.default();
-            let wasUpdate = false;
-            let callOpenersUpdate = Popup._callOpenersUpdate;
-            Popup._callOpenersUpdate = () => {
-               wasUpdate = true; assert.equal(wasUpdate, true); done();
-            };
-            Popup._controlResizeOuterHandler();
-            Popup._callOpenersUpdate = callOpenersUpdate;
-         });
          it('_showIndicatorHandler', () => {
             const Popup = new PopupClass.default();
             let config = '';

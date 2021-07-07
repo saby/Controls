@@ -33,7 +33,7 @@
                 <ws:partial template="wml!Controls/_tabs/Buttons/ItemTemplate"
                             item="{{itemTemplate.item}}"
                             attr:class="controls-AdaptiveButtons__item"
-                            displayProperty="title" />
+                            displayProperty="{{_options.displayProperty}}" />
             </ws:itemTemplate>
             <ws:itemRightTemplate>
                 <ws:if data="{{_lastIndex < _items.getCount() - 1 && itemRightTemplate.index === _visibleItems.getCount() - 1 && _options.align === 'left'}}">

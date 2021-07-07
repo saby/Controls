@@ -1,7 +1,7 @@
 <div attr:class="controls-BreadCrumbsView controls-BreadCrumbsView_theme-{{_options.theme}}">
     <ws:if data="{{_options.visibleItems.length > 0}}">
         <div attr:class="controls-BreadCrumbsView__wrapper">
-            <ws:partial template="{{_options.displayMode === 'multiline' ? _itemsMultilineTemplate : _itemsTemplate}}"
+            <ws:partial template="{{_options.displayMode === 'multiline' || _options.containerWidth ? _calculatedItemsTemplate : _itemsTemplate}}"
                         displayProperty="{{ _options.displayProperty }}"
                         highlighter="{{_options.highlighter}}"
                         applyHighlighter="{{_applyHighlighter}}"

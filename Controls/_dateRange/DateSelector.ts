@@ -72,7 +72,7 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
    }
 
    _mouseEnterHandler(): void {
-      const loadCss = (datePopup) => datePopup.loadCSS();
+      const loadCss = (datePopup) => datePopup.default.loadCSS();
       this._startDependenciesTimer('Controls/datePopup', loadCss);
    }
 

@@ -20,7 +20,7 @@ class TestSource extends Memory {
             this._isExpandError = false;
             return Promise.reject(new fetch.Errors.HTTP({
                 httpError: 403,
-                message: '403',
+                message: '',
                 url: ''
             }));
         }

@@ -55,6 +55,10 @@ var
               displayProperties.group = cfg.groupingKeyCallback;
            }
 
+           if (cfg.hasChildrenProperty) {
+               displayProperties.hasChildrenProperty = cfg.hasChildrenProperty;
+           }
+
            if (cfg.groupProperty) {
                const groupProperty = cfg.groupProperty;
                displayProperties.group = (item) => {

@@ -117,20 +117,23 @@ var ItemsViewModel = BaseViewModel.extend({
     _getCurIndexForReset(startIndex: number): number {
         return startIndex;
     },
-
-    reset(): void {
-        this._startIndex = this._isSupportVirtualScroll() && !!this._startIndex ? this._startIndex : 0;
-        this._curIndex = this._getCurIndexForReset(this._startIndex);
-    },
-
-    isEnd: function() {
+    _getEndIndexForReset(): number {
         var endIndex;
         if (this._isSupportVirtualScroll()) {
             endIndex = !!this._stopIndex ? this._stopIndex : 0;
         } else {
             endIndex = (this._display ? this._display.getCount() : 0);
         }
-        return this._curIndex < endIndex;
+        return endIndex;
+    },
+    reset(): void {
+        this._startIndex = this._isSupportVirtualScroll() && !!this._startIndex ? this._startIndex : 0;
+        this._curIndex = this._getCurIndexForReset(this._startIndex);
+        this._endIndex = this._getEndIndexForReset();
+    },
+
+    isEnd: function() {
+        return this._curIndex < this._endIndex;
     },
 
     isShouldBeDrawnItem: function() {
@@ -391,7 +394,7 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     getItemById: function(id, keyProperty) {
-        return this._display ? ItemsUtil.getDisplayItemById(this._display, id, keyProperty) : undefined;
+        return this._display ? this._display.getItemBySourceKey(id) : undefined;
     },
 
     getItemBySourceKey: function(id) {

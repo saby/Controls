@@ -1,5 +1,6 @@
 import TreeItem from './TreeItem';
 import {List, IListOptions} from 'Types/collection';
+import BreadcrumbsItem from './BreadcrumbsItem';
 
 export interface IOptions<T> extends IListOptions<T> {
     owner?: T;
@@ -16,7 +17,7 @@ export default class TreeChildren<S, T = TreeItem<S>> extends List<T> {
     /**
      * Узел-владелец
      */
-    _$owner: TreeItem<S>;
+    _$owner: T;
 
     constructor(options: IOptions<T>) {
         super(options);
@@ -24,8 +25,8 @@ export default class TreeChildren<S, T = TreeItem<S>> extends List<T> {
         if (!(this._$owner instanceof Object)) {
             throw new TypeError('Tree children owner should be an object');
         }
-        if (!(this._$owner instanceof TreeItem)) {
-            throw new TypeError('Tree children owner should be an instance of Controls/display:TreeItem');
+        if (!(this._$owner instanceof TreeItem) && !(this._$owner instanceof BreadcrumbsItem)) {
+            throw new TypeError('Tree children owner should be an instance of Controls/display:TreeItem or Controls/display:BreadcrumbsItem');
         }
     }
 
@@ -33,7 +34,7 @@ export default class TreeChildren<S, T = TreeItem<S>> extends List<T> {
      * Возвращает узел-владелец
      * @return {Controls/_display/TreeItem}
      */
-    getOwner(): TreeItem<S> {
+    getOwner(): T {
         return this._$owner;
     }
 

@@ -384,9 +384,9 @@ define([
             component._container = {
                closest: () => false,
                offsetHeight: 10
-            }
+            };
             sinon.stub(component, '_notify');
-            component._fixationStateChangeHandler('', 'top')
+            component._fixationStateChangeHandler('', 'top');
             sinon.assert.calledWith(
                component._notify,
                'fixed',

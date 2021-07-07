@@ -317,6 +317,11 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggest._searchDelay = 'testDelay';
          suggest._searchEnd();
          assert.notEqual(options.searchDelay, suggest._searchDelay);
+
+         suggest._destroyed = false;
+         suggest._showContent = true;
+         suggest._searchEnd(null);
+         assert.isFalse(suggest._showContent);
       });
 
       it('Suggest::_private.searchErrback', function() {
@@ -986,8 +991,14 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestComponent._searchValue = '';
          suggestComponent._options.minSearchLength = 3;
          suggestComponent._options.searchParam = 'search';
+         suggestComponent._options.autoDropDown = true;
          suggestMod._InputController._private.openWithHistory(suggestComponent);
          assert.deepEqual(suggestComponent._filter, {search: '', historyKeys: [7, 8]});
+
+         suggestComponent._historyKeys = [];
+         suggestComponent._options.autoDropDown = false;
+         suggestMod._InputController._private.openWithHistory(suggestComponent);
+         assert.deepEqual(suggestComponent._filter, {search: ''});
       });
 
       it('Suggest::_private.getRecentKeys', function() {

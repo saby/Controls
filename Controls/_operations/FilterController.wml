@@ -1,3 +1,0 @@
-<ws:partial template="{{_options.content}}"
-            scope="{{_options}}"
-            filter="{{_filter}}"/>

@@ -5,6 +5,8 @@
       imageFit="none"
       tileHeight="300"
       imageProperty="image"
+      parentProperty="parent"
+      nodeProperty="parent@"
       keyProperty="id"
       source="{{_viewSource}}">
       <ws:itemTemplate>

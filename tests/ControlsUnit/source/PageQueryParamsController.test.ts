@@ -1,6 +1,6 @@
 import {default as PageQueryParamsController} from 'Controls/_source/QueryParamsController/PageQueryParamsController';
 import {RecordSet} from 'Types/collection';
-import {deepEqual} from 'assert';
+import {deepEqual , equal} from 'assert';
 
 describe('PageQueryParamsController', () => {
     it('prepareQueryParams', () => {
@@ -9,8 +9,8 @@ describe('PageQueryParamsController', () => {
             pageSize: 25
         }
         let controller = new PageQueryParamsController(sourceConfig);
-        
-        // без дополнительного sourceConfig 
+
+        // без дополнительного sourceConfig
         deepEqual(controller.prepareQueryParams(null, null, null), {
             meta: { navigationType: 'Page' },
             limit: 25,
@@ -29,10 +29,10 @@ describe('PageQueryParamsController', () => {
             offset: -25
         }, 'wrong params for prepareQueryParams without config and up direction');
 
-        // перезагрузка с переданным sourceConfig 
+        // перезагрузка с переданным sourceConfig
         let sourceConfigForReload = {
             page: 0,
-            pageSize: 50 
+            pageSize: 50
         }
 
         deepEqual(controller.prepareQueryParams(null, null, sourceConfigForReload), {
@@ -53,10 +53,10 @@ describe('PageQueryParamsController', () => {
         let callback = (params) => {
             deepEqual(params, expectedParams, 'wrong params calculated at test ' + testN )
         }
-        
+
         let sourceConfigForReload = {
             page: 0,
-            pageSize: 50 
+            pageSize: 50
         }
 
         beforeEach(() => {
@@ -66,7 +66,7 @@ describe('PageQueryParamsController', () => {
         afterEach(() => {
             controller.destroy();
         });
-        
+
         it('test 1. direction = null', () => {
             expectedParams = {
                 page: 0,
@@ -88,15 +88,14 @@ describe('PageQueryParamsController', () => {
             };
             controller.updateQueryProperties(list, 'up', null, callback);
         });
-        
+
         it('test 4. direction = null, with sourceConfig', () => {
             expectedParams = {
                 page: 1,
                 pageSize: 25
             };
             controller.updateQueryProperties(list, null, sourceConfigForReload, callback);
+            equal(controller.hasMoreData('up', void 0), false, 'wrong hasMoreData up');
         });
-        
-        
     });
 });

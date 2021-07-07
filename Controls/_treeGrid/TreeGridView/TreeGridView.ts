@@ -25,12 +25,6 @@ var
         _onLoadMoreClick(e, dispItem): void {
             this._notify('loadMoreClick', [dispItem]);
         },
-        _onNodeFooterClick(e, dispItem) {
-            if (e.target.closest('.js-controls-TreeGrid__nodeFooter__LoadMoreButton')) {
-                e.stopPropagation();
-                this._notify('loadMoreClick', [dispItem]);
-            }
-        },
         // protected
         _getFooterClasses(): string {
             let classes = ' controls-TreeGridView__footer';

@@ -13,6 +13,7 @@ import { CrudEntityKey } from 'Types/source';
 import { TMovePosition } from './Controllers/MoveController';
 import {IMovableList} from './interface/IMovableList';
 import {IRemovableList} from './interface/IRemovableList';
+import { RecordSet } from 'Types/collection';
 
 /**
  * Контрол «Плоский список» с пользовательским шаблоном элемента. Может загружать данные из источника данных.
@@ -121,6 +122,10 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
     reloadItem():Deferred {
         var listControl = this._children.listControl;
         return listControl.reloadItem.apply(listControl, arguments);
+    }
+
+    getItems(): RecordSet {
+        return this._children.listControl.getItems();
     }
 
     scrollToItem(key: string|number, toBottom: boolean, force: boolean): Promise<void> {

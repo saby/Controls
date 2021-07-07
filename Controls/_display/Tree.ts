@@ -98,10 +98,6 @@ function invertPropertyLogic(name: string): string {
 }
 
 function validateOptions<S, T>(options: IOptions<S, T>): IOptions<S, T> {
-    // FIXME: must process options before superclass constructor because it's immediately used in _composer
-    if (options && !options.hasChildrenProperty && options.loadedProperty) {
-        options.hasChildrenProperty = invertPropertyLogic(options.loadedProperty);
-    }
     return options;
 }
 
@@ -447,21 +443,10 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
         const parent = super._getItemsFactory();
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
-            let hasChildrenProperty = this._$hasChildrenProperty;
-            let invertLogic = false;
-
-            if (typeof hasChildrenProperty === 'string' && hasChildrenProperty[0] === '!') {
-                hasChildrenProperty = hasChildrenProperty.substr(1);
-                invertLogic = !invertLogic;
-            }
-
-            const hasChildren = object.getPropertyValue<boolean>(options.contents, hasChildrenProperty);
-            options.hasChildren = invertLogic ? !hasChildren : hasChildren;
-
+            options.hasChildren = object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty);
             if (!('node' in options)) {
                 options.node = object.getPropertyValue<boolean>(options.contents, this._$nodeProperty);
             }
-
             return parent.call(this, options);
         };
     }
@@ -694,4 +679,3 @@ Object.assign(Tree.prototype, {
     _$rootEnumerable: false,
     _root: null
 });
-

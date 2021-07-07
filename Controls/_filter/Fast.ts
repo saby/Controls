@@ -26,7 +26,7 @@ import {Model} from 'Types/entity';
        * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
        * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
        * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
-       * 
+       *
        * @class Controls/_filter/Fast
        * @extends Core/Control
        * @mixes Controls/interface/IFastFilter
@@ -79,6 +79,20 @@ import {Model} from 'Types/entity';
                });
             }
             return self._sourceController;
+         },
+
+         deleteUnserializablePropertiesFromState(collection: unknown[]): unknown[] {
+            const properties = ['dataLoadCallback', 'itemTemplate'];
+            chain.factory(collection).each((item: Record<string, any>) => {
+               if (item.properties) {
+                  Object.keys(item.properties).forEach((key: string): void => {
+                     if (properties.includes(key) && (item.properties[key] instanceof Function)) {
+                        delete item.properties[key];
+                     }
+                  });
+               }
+            });
+            return collection;
          },
 
           getSourceController: function(self, options) {
@@ -134,7 +148,7 @@ import {Model} from 'Types/entity';
             }
          },
 
-         reload: function(self) {
+         reload: function(self, needDeleteProperties: boolean = false) {
             if (self._loadDeferred && !self._loadDeferred.isReady()) {
                self._loadDeferred.cancel();
                self._loadDeferred = null;
@@ -153,7 +167,7 @@ import {Model} from 'Types/entity';
                   // history.Source не умеет сериализоваться - удаляем его из receivedState
                   return {
                      configs: deleteHistorySourceFromConfig(self._configs, '_source'),
-                     items: self._items
+                     items: needDeleteProperties && _private.deleteUnserializablePropertiesFromState(self._items)
                   };
                });
             });
@@ -394,7 +408,7 @@ import {Model} from 'Types/entity';
                _private.calculateStateSourceControllers(this._configs, this._items);
             } else if (options.items) {
                _private.prepareItems(this, options.items);
-               resultDef = _private.reload(this);
+               resultDef = _private.reload(this, options.task11801809936);
             } else if (options.source) {
                resultDef = _private.loadConfigFromSource(this, options);
             }

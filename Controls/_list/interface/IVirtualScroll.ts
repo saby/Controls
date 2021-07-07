@@ -41,5 +41,22 @@ export type IVirtualScrollMode = 'remove' | 'hide';
 
 /**
  * @name Controls/_list/interface/IVirtualScroll#virtualScrollConfig
- * @cfg {IVirtualScrollConfig} Конфигурация виртуального скроллинга. Виртуальный скроллинг работает только при включенной {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/navigation/ навигации}.
+ * @cfg {IVirtualScrollConfig} Конфигурация виртуального скроллинга.
+ * Виртуальный скроллинг работает только при включенной <a href="/doc/platform/developmentapl/interface-development/controls/list/list/navigation/">навигации</a>.
+ * @remark Подробнее о конфигурации виртуального скролла читайте <a href="/doc/platform/developmentapl/interface-development/controls/list/list/virtual-scroll/">здесь</a>.
+ * @example
+ * В следующем примере показана конфигурация виртуального скролла: в свойстве pageSize задан размер виртуальной страницы.
+ * Также задана конфигурация навигации в опции navigation.
+ * <pre class="brush: js; highlight: [4,5]">
+ * <Controls.scroll:Container ...>
+ *     <Controls.list:View
+ *         source="{{_viewSource}}"
+ *         keyProperty="id"
+ *         navigation="{{_options.navigation}}">
+ *         <ws:virtualScrollConfig pageSize="{{100}}"/>
+ *     </Controls.list:View>
+ * </Controls.scroll:Container>
+ * </pre>
+ * @demo Controls-demo/list_new/VirtualScroll/ConstantHeights/Default/Index
+ * @see Controls/interface/INavigation#navigation
  */

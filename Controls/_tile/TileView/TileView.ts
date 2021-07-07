@@ -65,7 +65,7 @@ var _private = {
         self._mouseMoveTimeout = null;
     },
     isTouch: function (self) {
-        return self._context.isTouch.isTouch;
+        return self._context?.isTouch?.isTouch;
     },
     getPositionStyle: function (position) {
         var result = '';

@@ -8,8 +8,8 @@ import PreviewerOpener from './Opener/Previewer';
 import {goUpByControlTree} from 'UI/Focus';
 
 /**
+ * Контрол, отображающий всплывающее окно - превьювер, относительно указанного элемента. Открытие превьювера вызывает событие, указанное в опции trigger. В один момент времени на странице может отображаться только один превьювер.
  * @class Controls/_popup/Previewer
- *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>

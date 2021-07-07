@@ -18,7 +18,7 @@ import {applied, Record} from 'Types/entity';
 import {isEqual} from 'Types/object';
 
 /**
- * Вспомогательный интерфейс для определения типа typeof object
+ * Вспомогательный интерфейс для определения типа typeof object.
  * @interface IType
  * @private
  * @author Аверкиев П.А.
@@ -42,7 +42,7 @@ type TStoreNavigationState = IPositionNavigationState | IPageNavigationState;
 /**
  * Фабрика для создания экземпляра контроллера запроса навигации.
  * @remark
- * Поддерживает два варианта - 'page' и 'position'
+ * Поддерживает два варианта - 'page' и 'position'.
  * @class Controls/_source/NavigationControllerFactory
  * @example
  * const cName:INavigationOptionValue<INavigationPageSourceConfig> = {source: 'page'};
@@ -80,7 +80,7 @@ class NavigationStoreFactory {
 export interface INavigationControllerOptions {
     /**
      * @name Controls/_source/NavigationController#navigation
-     * @cfg {Types/source:INavigationOptionValue<INavigationSourceConfig>} Опции навигации
+     * @cfg {Types/source:INavigationOptionValue<INavigationSourceConfig>} Опции навигации.
      */
     /*
      * @name Controls/_source/NavigationController#navigation
@@ -97,9 +97,9 @@ type NavigationRecord = Record<{
 }>;
 
 /**
- * Контроллер постраничной навигации
+ * Контроллер постраничной навигации.
  * @remark
- * Хранит состояние навигации INavigationOptionValue<INavigationSourceConfig> и вычисляет на его основании параметры для построения запроса Query
+ * Хранит состояние навигации INavigationOptionValue<INavigationSourceConfig> и вычисляет на его основании параметры для построения запроса Query.
  *
  * @class Controls/source/NavigationController
  *
@@ -138,12 +138,12 @@ export class NavigationController {
     }
 
     /**
-     * Строит запрос данных на основе переданных параметров filter и sorting
-     * Если в опцию navigation был передан объект INavigationOptionValue<INavigationSourceConfig>, его filter, sorting и настрйоки пейджинации
+     * Строит запрос данных на основе переданных параметров filter и sorting.
+     * Если в опцию navigation был передан объект INavigationOptionValue<INavigationSourceConfig>, его filter, sorting и настройки пейджинации
      * также одбавляются в запрос.
-     * @param userQueryParams {IQueryParams} Настройки фильтрации, сортировки
-     * @param navigationConfig {INavigationSourceConfig} Настройки навигации
-     * @param id {} Идентификатор запрашиваемого узла. По-умолчанию корневой узел.
+     * @param userQueryParams {IQueryParams} Настройки фильтрации, сортировки.
+     * @param navigationConfig {INavigationSourceConfig} Настройки навигации.
+     * @param id {} Идентификатор запрашиваемого узла. По-умолчанию - корневой узел.
      * @param direction {TNavigationDirection} Направление навигации.
      */
 
@@ -180,9 +180,9 @@ export class NavigationController {
     }
 
     /**
-     * Вычисляет следующее состояние контроллера параметров запроса: следующую страницу, или позицию
-     * @param list {Types/collection:RecordSet} объект, содержащий метаданные текущего запроса
-     * @param direction {TNavigationDirection} направление навигации ('up' или 'down')
+     * Вычисляет следующее состояние контроллера параметров запроса: следующую страницу или позицию.
+     * @param list {Types/collection:RecordSet} Объект, содержащий метаданные текущего запроса.
+     * @param direction {TNavigationDirection} Направление навигации ('up' или 'down').
      */
     /*
      * Calculates next query params controller state: next page, or position

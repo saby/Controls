@@ -244,7 +244,7 @@ var _private = {
 
    destroySearchController: function(self) {
       if (self._searchController) {
-         self._searchController.abort();
+         self._searchController.abort(true);
          self._searchController = null;
       }
    },

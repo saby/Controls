@@ -246,10 +246,12 @@ export default class VirtualScroll {
             heightDifference
         };
 
-        this._savedDirection = undefined;
-        this._oldRange = {...this._range};
-
         return paramsForRestore;
+    }
+
+    beforeRestoreScrollPosition(): void {
+        this._savedDirection = undefined;
+        this._oldRange = { ...this._range };
     }
 
     /**

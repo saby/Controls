@@ -161,6 +161,7 @@ export default class View extends Control<IViewOptions> {
         if (this._markerController) {
             this._markerController.setMarkedKey(item.getKey());
         }
+        this._notify('itemClick', [item, clickEvent]);
         // TODO fire 'markedKeyChanged' event
     }
 

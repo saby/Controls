@@ -42,15 +42,8 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     private _openerUnmounted: boolean = false;
     private _indicatorId: string = '';
     private _loadModulesPromise: Promise<ILoadDependencies|Error>;
-    private _openerUpdateCallback: Function;
-
-    protected _afterMount(): void {
-        this._openerUpdateCallback = this._updatePopup.bind(this);
-        this._notify('registerOpenerUpdateCallback', [this._openerUpdateCallback], {bubbling: true});
-    }
 
     protected _beforeUnmount(): void {
-        this._notify('unregisterOpenerUpdateCallback', [this._openerUpdateCallback], {bubbling: true});
         this._toggleIndicator(false);
         this._openerUnmounted = true;
         if (this._options.closePopupBeforeUnmount) {
@@ -221,7 +214,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
         }
     }
 
-    private _toggleIndicator(visible: boolean, cfg: TBaseOpenerOptions): void {
+    private _toggleIndicator(visible: boolean, cfg?: TBaseOpenerOptions): void {
         if (!this._options.showIndicator) {
             return;
         }
@@ -237,14 +230,6 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
             this._notify('hideIndicator', [this._indicatorId], {bubbling: true});
             this._indicatorId = null;
         }
-    }
-
-    protected _updatePopup(): void {
-        ManagerController.popupUpdated(this._getCurrentPopupId());
-    }
-
-    private _closeOnTargetScroll(): void {
-        this.close();
     }
 
     protected _getCurrentPopupId(): string {

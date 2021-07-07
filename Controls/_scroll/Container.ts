@@ -842,7 +842,9 @@ let
 
        _stickyHeaderFixedCallback(position: POSITION): void {
            // После того, как заголовки зафиксировались нужно пересчитать отображение скроллбара и теней.
-          this._forceUpdate();
+          if (this._displayState.canScroll) {
+              this._forceUpdate();
+          }
        },
 
       _updateShadowMode(event, shadowVisibleObject): void {
@@ -1179,6 +1181,7 @@ let
               if (!detection.isMobileIOS) {
                   this._stickyHeaderContext.updateConsumers();
               }
+              this._stickyHeaderController.setShadowVisibility(topShadowVisible, bottomShadowVisible);
           }
       },
 
@@ -1300,9 +1303,9 @@ let
       },
 
       _updatePlaceholdersSize: function(e, placeholdersSizes) {
-           this._topPlaceholderSizeChanged = true;
          if (this._topPlaceholderSize !== placeholdersSizes.top ||
             this._bottomPlaceholderSize !== placeholdersSizes.bottom) {
+            this._topPlaceholderSizeChanged = true;
             this._topPlaceholderSize = placeholdersSizes.top;
             this._bottomPlaceholderSize = placeholdersSizes.bottom;
             this._children.scrollWatcher.updatePlaceholdersSize(placeholdersSizes);

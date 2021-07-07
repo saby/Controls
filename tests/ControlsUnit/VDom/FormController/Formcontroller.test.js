@@ -637,6 +637,21 @@ define([
          });
       });
 
+      it('create record before mount check record state', () => {
+         let FC = new form.Controller();
+         FC._record = 'initModel';
+         const cfg = {
+            source: {
+               create: () => Promise.resolve(new entity.Record())
+            },
+            initializingWay: 'delayedCreate'
+         };
+         return FC._createRecordBeforeMount(cfg).then(() => {
+            assert.equal(FC._record, 'initModel');
+            FC.destroy();
+         });
+      });
+
       it('createHandler and readHandler ', () => {
          let FC = new form.Controller();
          FC._createHandler();

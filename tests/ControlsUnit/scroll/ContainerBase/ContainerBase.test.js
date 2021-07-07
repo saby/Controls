@@ -27,7 +27,7 @@ define([
             };
             sinon.stub(control, '_observeContentSize');
             sinon.stub(control, '_unobserveDeleted');
-            sinon.stub(control, '_sendByRegistrar');
+            sinon.stub(control, '_generateEvent');
             sinon.stub(control, '_sendByListScrollRegistrar');
             sinon.stub(control, '_sendScrollMoveAsync');
          });

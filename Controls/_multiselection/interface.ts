@@ -1,4 +1,4 @@
-import { IBaseCollection, ICollectionItem } from 'Controls/display';
+import { CollectionItem, IBaseCollection, ICollectionItem, TreeItem } from 'Controls/display';
 import { Model, relation } from 'Types/entity';
 import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
 import { RecordSet } from 'Types/collection';
@@ -97,12 +97,14 @@ export interface ISelectionControllerOptions {
  * @public
  * @author Панихин К.А.
  */
-export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOptions {
+export interface ITreeSelectionStrategyOptions {
    selectAncestors: boolean;
    selectDescendants: boolean;
    nodesSourceControllers?: Map<string, SourceController>;
    hierarchyRelation: relation.Hierarchy;
    rootId: CrudEntityKey;
+   entryPath: IEntryPathItem[];
+   items: Array<TreeItem<Model>>;
 }
 
 /**
@@ -113,7 +115,7 @@ export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOpt
  * @author Панихин К.А.
  */
 export interface IFlatSelectionStrategyOptions {
-   items: RecordSet;
+   items: Array<CollectionItem<Model>>;
 }
 
 /**
@@ -174,7 +176,7 @@ export interface ISelectionControllerResult {
  * Данные в рекорде
  * Используется чтобы определить состояние узла с незагруженными детьми
  */
-export interface IEntryPath {
+export interface IEntryPathItem {
    id: CrudEntityKey;
    parent: CrudEntityKey;
 }

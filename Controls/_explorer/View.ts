@@ -18,6 +18,7 @@ import {
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {ISelectionObject} from "../_interface/ISelectionType";
 import {CrudEntityKey} from "Types/source";
+import { RecordSet } from 'Types/collection';
 
 var
       HOT_KEYS = {
@@ -478,11 +479,11 @@ var
     * @cfg {String|Function} Шаблон отображения элемента в режиме "Плитка".
     * @default undefined
     * @remark
-    * Позволяет установить прикладной шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/tile:ItemTemplate}.
+    * Позволяет установить пользовательский шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/tile:ItemTemplate}.
     *
     * Также шаблон Controls/tile:ItemTemplate поддерживает {@link Controls/tile:ItemTemplate параметры}, с помощью которых можно изменить отображение элемента.
     *
-    * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
+    * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
     *
     * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/explorer/templates/ руководстве разработчика}.
     * @example
@@ -645,37 +646,63 @@ var
 
          const changeRoot = () => {
             _private.setRoot(this, item.getId());
-            this._isGoingFront = true;
+            // При search не должны сбрасывать маркер, так как он встанет на папку
+            if (this._options.searchNavigationMode !== 'expand') {
+               this._isGoingFront = true;
+            }
          };
 
-         // Не нужно проваливаться в папку, если должно начаться ее редактирование
+         // Не нужно проваливаться в папку, если должно начаться ее редактирование.
+         // TODO: После перехода на новую схему редактирования это должен решать baseControl или treeControl.
+         //    в данной реализации получается, что в дереве с возможностью редактирования не получится
+         //    развернуть узел кликом по нему (expandByItemClick).
+         //    https://online.sbis.ru/opendoc.html?guid=f91b2f96-d6e7-45d0-b929-a0030f0a2788
          const isNodeEditable = () => {
             const hasEditOnClick = !!this._options.editingConfig && !!this._options.editingConfig.editOnClick;
             return hasEditOnClick && !clickEvent.target.closest(`.${EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE}`);
          };
 
-         if (res !== false && item.get(this._options.nodeProperty) === ITEM_TYPES.node && !isNodeEditable()) {
-            // При проваливании ОБЯЗАТЕЛЬНО дополняем restoredKeyObject узлом, в который проваливаемся.
-            // Дополнять restoredKeyObject нужно СИНХРОННО, иначе на момент вызова restoredKeyObject опции уже будут
-            // новые и маркер запомнится не для того root'а. Ошибка:
-            // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
-            _private.setRestoredKeyObject(this, item);
-            if (!this._options.editingConfig) {
-               changeRoot();
-            } else {
-               this.commitEdit().addCallback((res = {}) => {
-                  if (!res.validationFailed) {
-                     changeRoot();
-                  }
-               });
-            }
+          const editingItem = this._children.treeControl.getEditingItem();
+          const closeEditing = (eItem: Model) => {
+              return eItem.isChanged() ? this.commitEdit() : this.cancelEdit();
+          };
 
-            // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.
-            // Мы не можем провалиться в папку, пока на другом элементе списка запущено редактирование.
-            return false;
-         }
+         const shouldHandleClick = res !== false && !isNodeEditable();
 
-         return res;
+         if (shouldHandleClick) {
+              const nodeType = item.get(this._options.nodeProperty);
+              const isSearchMode = this._viewMode === 'search';
+
+              // Проваливание возможно только в узел (ITEM_TYPES.node).
+              // Проваливание невозможно, если по клику следует развернуть узел/скрытый узел.
+              if ((!isSearchMode && this._options.expandByItemClick && nodeType !== ITEM_TYPES.leaf) || (nodeType !== ITEM_TYPES.node)) {
+                  return res;
+              }
+
+              // При проваливании ОБЯЗАТЕЛЬНО дополняем restoredKeyObject узлом, в который проваливаемся.
+              // Дополнять restoredKeyObject нужно СИНХРОННО, иначе на момент вызова restoredKeyObject опции уже будут
+              // новые и маркер запомнится не для того root'а. Ошибка:
+              // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
+              _private.setRestoredKeyObject(this, item);
+
+             // Если в списке запущено редактирование, то проваливаемся только после успешного завершения.
+             if (!editingItem) {
+                  changeRoot();
+              } else {
+                 closeEditing(editingItem).then((result) => {
+                     if (!(result && result.canceled)) {
+                         changeRoot();
+                     }
+                     return result;
+                 });
+              }
+
+              // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.
+              // Мы не можем провалиться в папку, пока на другом элементе списка запущено редактирование.
+              return false;
+          }
+
+          return res;
       },
       _onBreadCrumbsClick: function(event, item) {
           _private.cleanRestoredKeyObject(this, item.getId());
@@ -716,6 +743,10 @@ var
       reload: function(keepScroll, sourceConfig) {
          return this._children.treeControl.reload(keepScroll, sourceConfig);
       },
+      getItems(): RecordSet {
+         return this._children.treeControl.getItems();
+      },
+
       // todo removed or documented by task:
       // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac
       toggleExpanded: function(id) {

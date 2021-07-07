@@ -285,10 +285,10 @@ export default class Input extends BaseDropdown {
                 'controls-DropdownList__margin-head' : options.multiSelect ?
                     'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
                 ' theme_' + options.theme,
-            caption: options.caption || this._text ,
             allowPin: false,
             selectedItemsChangedCallback: this._prepareDisplayState.bind(this),
-            openerControl: this
+            openerControl: this,
+            needLoadSelectedItems: options.needLoadSelectedItems
          }
       };
    }

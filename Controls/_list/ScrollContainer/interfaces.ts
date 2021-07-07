@@ -22,6 +22,7 @@ export interface IScrollControllerResult {
     triggerOffset?: ITriggerOffset;
     activeElement?: TItemKey;
     scrollToActiveElement?: boolean;
+    shadowVisibility?: IShadowVisibility;
 }
 
 /**
@@ -61,6 +62,11 @@ export interface IPlaceholders {
 }
 
 export interface ITriggerState {
+    up: boolean;
+    down: boolean;
+}
+
+export interface IShadowVisibility {
     up: boolean;
     down: boolean;
 }

@@ -532,6 +532,63 @@ define(
             });
          });
 
+         describe('load items by selectedKeys', () => {
+            let dropdownController;
+            let newConfig;
+            let selectedKeys;
+            let loadedItems;
+            beforeEach(() => {
+               newConfig = { ...config };
+               dropdownController = getDropdownController(newConfig);
+
+               selectedKeys = ['1', '2'];
+               loadedItems = new collection.RecordSet({
+                  rawData: [{
+                     id: '1',
+                     title: 'Запись 1'
+                  }, {
+                     id: '2',
+                     title: 'Запись 2'
+                  }, {
+                     id: '3',
+                     title: 'Запись 3'
+                  }],
+                  keyProperty: 'id'
+               });
+            });
+
+            it('_getUnloadedSelectedKeys', () => {
+               let result = dropdownController._getUnloadedSelectedKeys(selectedKeys, loadedItems);
+               assert.isNull(result);
+
+               selectedKeys.push('8');
+               result = dropdownController._getUnloadedSelectedKeys(selectedKeys, loadedItems);
+               assert.deepEqual(result, ['8']);
+            });
+
+            it('_loadSelectedKeys', async () => {
+               let loadConfig;
+               dropdownController._loadItems = (params) => {
+                  loadConfig = params;
+
+                  // return new item;
+                  return Promise.resolve(new collection.RecordSet({
+                     rawData: [{
+                        id: '8',
+                        title: 'Запись 8'
+                     }],
+                     keyProperty: 'id'
+                  }));
+               };
+               selectedKeys.push('8');
+               dropdownController._source = 'testSource';
+               await dropdownController._loadSelectedKeys(newConfig, ['8'], loadedItems);
+               assert.deepEqual(loadConfig.filter, { id: ['8'] });
+               assert.equal(dropdownController._items.getCount(), 4);
+               assert.equal(dropdownController._items.at(0).getKey(), '8');
+            });
+         });
+
          it('_private::getItemsTemplates', () => {
             let dropdownController = getDropdownController(config);
 

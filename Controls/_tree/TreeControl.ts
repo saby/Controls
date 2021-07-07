@@ -403,6 +403,10 @@ const _private = {
         });
     },
 
+    getItems(): RecordSet {
+        return this._children.baseControl.getItems();
+    },
+
     getReloadableNodes: function(viewModel, nodeKey, keyProp, nodeProp) {
         var nodes = [];
         _private.nodeChildsIterator(viewModel, nodeKey, nodeProp, function(elem) {
@@ -687,20 +691,31 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
 
         return result;
     },
-    beginEdit: function(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.baseControl.beginEdit(options);
-    },
-    beginAdd: function(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.baseControl.beginAdd(options);
+
+    // region Edit in place
+
+    getEditingItem(): Model {
+        return this._children.baseControl.getEditingItem();
     },
 
-    cancelEdit: function() {
-        return this._options.readOnly ? Deferred.fail() : this._children.baseControl.cancelEdit();
+    beginEdit(options) {
+        return this._children.baseControl.beginEdit(options);
     },
 
-    commitEdit: function() {
-        return this._options.readOnly ? Deferred.fail() : this._children.baseControl.commitEdit();
+    beginAdd(options) {
+        return this._children.baseControl.beginAdd(options);
     },
+
+    cancelEdit() {
+        return this._children.baseControl.cancelEdit();
+    },
+
+    commitEdit() {
+        return this._children.baseControl.commitEdit();
+    },
+
+    // endregion
+
 
     // region mover
 

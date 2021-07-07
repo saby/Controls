@@ -493,7 +493,7 @@ define([
                   'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-default'
                ];
             testsPrepareExpanderClasses.forEach(function(item, i) {
-               cAssert.isClassesEqual(
+               cAssert.CssClassesAssert.include(
                    tree.TreeViewModel._private.getExpanderClasses(testsPrepareExpanderClasses[i].itemData, testsPrepareExpanderClasses[i].expanderIcon, undefined),
                    testsResultPrepareExpanderClasses[i],
                    'Invalid value "getExpanderClasses(...)" for step ' + i + '.'
@@ -694,22 +694,6 @@ define([
             assert.equal(model.getLastItem(), model.getItems().at(2));
          });
 
-         it('hasChildren should be true when an item gets added to an empty folder', function() {
-            var newItem = new entity.Record({
-               rawData: {
-                  'id': '4',
-                  'title': 'четыре',
-                  'parent': '3',
-                  'parent@': true
-               }
-            });
-            treeViewModel.setExpandedItems(['123', '234', '3']);
-            treeViewModel._editingItemData = {
-               item: newItem
-            };
-            treeViewModel._curIndex = 4;
-            assert.isTrue(treeViewModel.getCurrent().hasChildren);
-         });
 
          it('isExpandAll', function() {
             treeViewModel.setExpandedItems(['123', '234', '3']);

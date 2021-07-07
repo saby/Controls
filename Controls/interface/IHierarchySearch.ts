@@ -35,7 +35,7 @@ interface IHierarchySearch {
          * }
          * </pre>
          * <pre class="brush: html">
-         * <Layout.Browser parentProperty="Раздел" startingWith="root" searchParam="city" source="_source">
+         * <Layout.browsers:Browser parentProperty="Раздел" startingWith="root" searchParam="city" source="_source">
          *     <ws:search>
          *         <Controls.search:Input/>
          *     </ws:search>
@@ -44,7 +44,7 @@ interface IHierarchySearch {
          *             ...
          *         </Controls.explorer:View>
          *     <ws:content>
-         * </Layout.Browser>
+         * </Layout.browsers:Browser>
          * </pre>
          */
         startingWith: string;

@@ -2,20 +2,13 @@
 // tslint:disable:no-magic-numbers
 
 import { assert } from 'chai';
-import { FlatSelectionStrategy, TreeSelectionStrategy } from 'Controls/multiselection';
-import { relation } from 'Types/entity';
+import { TreeSelectionStrategy } from 'Controls/multiselection';
+import { Model } from 'Types/entity';
 import * as ListData from 'ControlsUnit/ListData';
 import { RecordSet } from 'Types/collection';
-import { Record } from "wasaby-cli/store/_repos/saby-types/Types/entity";
+import { Tree, TreeItem } from 'Controls/display';
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
-   const hierarchy = new relation.Hierarchy({
-      keyProperty: ListData.KEY_PROPERTY,
-      parentProperty: ListData.PARENT_PROPERTY,
-      nodeProperty: ListData.NODE_PROPERTY,
-      declaredChildrenProperty: ListData.HAS_CHILDREN_PROPERTY
-   });
-
    const nodesSourceControllers = {
       get(): object {
          return {
@@ -24,37 +17,41 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
       }
    };
 
+   const model = new Tree({
+      collection: new RecordSet({
+         keyProperty: ListData.KEY_PROPERTY,
+         rawData: ListData.getItems()
+      }),
+      root: new Model({ rawData: { id: null }, keyProperty: ListData.KEY_PROPERTY }),
+      keyProperty: ListData.KEY_PROPERTY,
+      parentProperty: ListData.PARENT_PROPERTY,
+      nodeProperty: ListData.NODE_PROPERTY,
+      hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY
+   });
+
    const strategy = new TreeSelectionStrategy({
       nodesSourceControllers,
       selectDescendants: false,
       selectAncestors: false,
-      hierarchyRelation: hierarchy,
       rootId: null,
-      items: new RecordSet({
-         keyProperty: ListData.KEY_PROPERTY,
-         rawData: ListData.getItems()
-      })
+      items: model.getItems()
    });
 
    const strategyWithDescendantsAndAncestors = new TreeSelectionStrategy({
       nodesSourceControllers,
       selectDescendants: true,
       selectAncestors: true,
-      hierarchyRelation: hierarchy,
       rootId: null,
-      items: new RecordSet({
-         keyProperty: ListData.KEY_PROPERTY,
-         rawData: ListData.getItems()
-      })
+      items: model.getItems()
    });
 
-   function toArray(array: Record[]): object[] {
-      function toObj(el: Record): object {
+   function toArray(array: TreeItem<Model>[]): object[] {
+      function toObj(el: TreeItem<Model>): object {
          return {
-            id: el.getRawData().id,
-            Раздел: el.getRawData().Раздел,
-            'Раздел@': el.getRawData()['Раздел@'],
-            'Раздел$': el.getRawData()['Раздел$']
+            id: el.getContents().getRawData().id,
+            Раздел: el.getContents().getRawData().Раздел,
+            'Раздел@': el.getContents().getRawData()['Раздел@'],
+            'Раздел$': el.getContents().getRawData()['Раздел$']
          };
       }
       return array.map((el) => toObj(el)).sort((e1, e2) => e1.id < e2.id ? -1 : 1);
@@ -63,40 +60,39 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    beforeEach(() => {
       strategy._rootId = null;
       strategyWithDescendantsAndAncestors._rootId = null;
-      strategy._items.setMetaData({});
    });
 
    describe('select', () => {
       it('not selected', () => {
          let selection = { selected: [], excluded: [] };
-         selection = strategy.select(selection, [6]);
+         selection = strategy.select(selection, 6);
          assert.deepEqual(selection.selected, [6]);
          assert.deepEqual(selection.excluded, []);
 
          selection = { selected: [], excluded: [] };
-         selection = strategy.select(selection, [1]);
+         selection = strategy.select(selection, 1);
          assert.deepEqual(selection.selected, [1]);
          assert.deepEqual(selection.excluded, []);
 
          selection = { selected: [], excluded: [] };
-         selection = strategy.select(selection, [2]);
+         selection = strategy.select(selection, 2);
          assert.deepEqual(selection.selected, [2]);
          assert.deepEqual(selection.excluded, []);
 
          selection = { selected: [], excluded: [2] };
-         selection = strategy.select(selection, [2]);
+         selection = strategy.select(selection, 2);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
       });
 
       it('has selected', () => {
          let selection = { selected: [3, 4], excluded: [] };
-         selection = strategyWithDescendantsAndAncestors.select(selection, [2]);
+         selection = strategyWithDescendantsAndAncestors.select(selection, 2);
          assert.deepEqual(selection.selected, [2]);
          assert.deepEqual(selection.excluded, []);
 
          selection = { selected: [3, 4], excluded: [] };
-         selection = strategy.select(selection, [2]);
+         selection = strategy.select(selection, 2);
          assert.deepEqual(selection.selected, [3, 4, 2]);
          assert.deepEqual(selection.excluded, []);
       });
@@ -106,56 +102,56 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
       it('selected node', () => {
          // выбран узел, в котором выбраны дети
          let selection = { selected: [2, 3], excluded: [] };
-         selection = strategy.unselect(selection, [2]);
+         selection = strategy.unselect(selection, 2);
          assert.deepEqual(selection.selected, [3]);
          assert.deepEqual(selection.excluded, []);
 
          // выбран узел, в котором выбраны дети
          selection = { selected: [2, 3], excluded: [] };
-         selection = strategyWithDescendantsAndAncestors.unselect(selection, [2]);
+         selection = strategyWithDescendantsAndAncestors.unselect(selection, 2);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
 
          // выбран узел, в котором исключены дети
          selection = { selected: [2], excluded: [3] };
-         selection = strategyWithDescendantsAndAncestors.unselect(selection, [2]);
+         selection = strategyWithDescendantsAndAncestors.unselect(selection, 2);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
 
          // выбран узел, в котором исключены дети
          selection = { selected: [2], excluded: [3] };
-         selection = strategy.unselect(selection, [2]);
+         selection = strategy.unselect(selection, 2);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
 
          // выбран узел без родителей и детей
          selection = { selected: [6], excluded: [] };
-         selection = strategy.unselect(selection, [6]);
+         selection = strategy.unselect(selection, 6);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
 
          // выбран узел со всеми детьми
          selection = { selected: [2], excluded: [] };
-         selection = strategyWithDescendantsAndAncestors.unselect(selection, [3]);
+         selection = strategyWithDescendantsAndAncestors.unselect(selection, 3);
          assert.deepEqual(selection.selected, [2]);
          assert.deepEqual(selection.excluded, [3]);
 
          // снимаем выбор с последнего ребенка
          selection = { selected: [2], excluded: [3] };
-         selection = strategyWithDescendantsAndAncestors.unselect(selection, [4]);
+         selection = strategyWithDescendantsAndAncestors.unselect(selection, 4);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
 
          // при снятии выбора с последнего выбранного ребенка, снимаем выбор со всех родителей
          selection = { selected: [1, 2], excluded: [3, 5] };
-         selection = strategyWithDescendantsAndAncestors.unselect(selection, [4]);
+         selection = strategyWithDescendantsAndAncestors.unselect(selection, 4);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
       });
 
       it('selected all', () => {
          let selection = { selected: [null], excluded: [null] };
-         selection = strategyWithDescendantsAndAncestors.unselect(selection, [4]);
+         selection = strategyWithDescendantsAndAncestors.unselect(selection, 4);
          assert.deepEqual(selection.selected, [null]);
          assert.deepEqual(selection.excluded, [null, 4]);
       });
@@ -163,12 +159,12 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
       it('unselect child', () => {
          // Снять выбор с последнего ближнего ребенка, но ребенок невыбранного ребенка выбран
          let selection = { selected: [1, 3], excluded: [4] };
-         selection = strategyWithDescendantsAndAncestors.unselect(selection, [5]);
+         selection = strategyWithDescendantsAndAncestors.unselect(selection, 5);
          assert.deepEqual(selection.selected, [1, 3]);
          assert.deepEqual(selection.excluded, [4, 5]);
 
          // Снять выбор с ребенка ребенка (проверка рекурсивной проверки выбранных детей)
-         selection = strategyWithDescendantsAndAncestors.unselect(selection, [3]);
+         selection = strategyWithDescendantsAndAncestors.unselect(selection, 3);
          assert.deepEqual(selection.selected, []);
          assert.deepEqual(selection.excluded, []);
       });
@@ -215,7 +211,7 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('with ENTRY_PATH', () => {
          // если есть ENTRY_PATH то удаляется только текущий корень и его дети
-         strategy._items.setMetaData({ENTRY_PATH: []});
+         strategy._entryPath = [];
          strategy._rootId = 2;
          let selection = { selected: [2, 5], excluded: [2, 3] };
          selection = strategy.unselectAll(selection);
@@ -245,6 +241,20 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          selection = strategy.toggleAll(selection);
          assert.deepEqual(selection.selected, [2]);
          assert.deepEqual(selection.excluded, []);
+      });
+
+      it('toggleAll after select all by one', () => {
+         let selection = { selected: [1, 2, 3, 4, 5, 6, 7], excluded: [] };
+
+         selection = strategy.unselect(selection, 2);
+
+         assert.deepEqual(selection.selected, [1, 3, 4, 5, 6, 7]);
+         assert.deepEqual(selection.excluded, []);
+
+         selection = strategy.toggleAll(selection);
+
+         assert.deepEqual(selection.selected, [null]);
+         assert.deepEqual(selection.excluded, [null, 1, 3, 4, 5, 6, 7]);
       });
    });
 
@@ -307,12 +317,8 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
               nodesSourceControllers,
               selectDescendants: true,
               selectAncestors: true,
-              hierarchyRelation: hierarchy,
               rootId: null,
-              items: new RecordSet({
-                  keyProperty: ListData.KEY_PROPERTY,
-                  rawData: ListData.getItems()
-              })
+              items: model.getItems()
           });
           const entryPath = [
               {parent: 6, id: 10},
@@ -322,9 +328,7 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
              selected: [10],
              excluded: []
           };
-          treeStrategyWithRootItems._items.setMetaData({
-              ENTRY_PATH: entryPath
-          });
+          treeStrategyWithRootItems._entryPath = entryPath;
           const result = treeStrategyWithRootItems.getSelectionForModel(selection);
           const unselectedKeys = toArray(result.get(false)).map((resultItem) => {
              return resultItem.id;
@@ -336,6 +340,14 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
           assert.deepEqual(unselectedKeys, [1, 2, 3, 4, 5, 7]);
           assert.isFalse(hasSelectedItems);
           assert.deepEqual(nullStateKeys, [6]);
+      });
+
+      it('selected node use selectAll and go to parent node', () => {
+         const selection = {selected: [1], excluded: [1]};
+         const res = strategy.getSelectionForModel(selection);
+         assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [1, 2, 5].includes(it.id)) );
+         assert.deepEqual(toArray(res.get(null)), [ ]);
+         assert.deepEqual(toArray(res.get(false)), ListData.getItems().filter((it) => ![1, 2, 5].includes(it.id)) );
       });
    });
 
@@ -385,7 +397,6 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const treeStrategyWithNodesMoreData = new TreeSelectionStrategy({
              selectAncestors: true,
              selectDescendants: true,
-             hierarchyRelation: hierarchy,
              nodesSourceControllers: {
                  get(): object {
                      return {
@@ -394,19 +405,16 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
                  }
              },
              rootId: null,
-             items: new RecordSet({
-                 keyProperty: ListData.KEY_PROPERTY,
-                 rawData: ListData.getItems()
-             })
+             items: model.getItems()
          });
          assert.isNull(treeStrategyWithNodesMoreData.getCount(selection, false));
-      })
+      });
    });
 
    describe('cases of go inside node and out it', () => {
       it('select node and go inside it', () => {
          let selection = { selected: [], excluded: [] };
-         selection = strategyWithDescendantsAndAncestors.select(selection, [2]);
+         selection = strategyWithDescendantsAndAncestors.select(selection, 2);
          strategyWithDescendantsAndAncestors._rootId = 2;
          const res = strategyWithDescendantsAndAncestors.getSelectionForModel(selection);
          assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [2, 3, 4].includes(it.id)) );
@@ -417,7 +425,7 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
       it('select leaf being inside node and go out it', () => {
          let selection = { selected: [], excluded: [] };
          strategyWithDescendantsAndAncestors._rootId = 1;
-         selection = strategyWithDescendantsAndAncestors.select(selection, [5]);
+         selection = strategyWithDescendantsAndAncestors.select(selection, 5);
          strategyWithDescendantsAndAncestors._rootId = null;
          const res = strategyWithDescendantsAndAncestors.getSelectionForModel(selection);
          assert.deepEqual(toArray(res.get(true)), [ ListData.getItems()[4] ] );
@@ -446,12 +454,8 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
             nodesSourceControllers,
             selectDescendants: false,
             selectAncestors: false,
-            hierarchyRelation: hierarchy,
             rootId: 5,
-            items: new RecordSet({
-               keyProperty: ListData.KEY_PROPERTY,
-               rawData: ListData.getItems()
-            })
+            items: model.getItems()
          });
          assert.isTrue(strategy.isAllSelected(selection, false, 7));
          assert.isTrue(strategy.isAllSelected(selection, true, 7, false));
@@ -474,12 +478,8 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
             nodesSourceControllers,
             selectDescendants: false,
             selectAncestors: false,
-            hierarchyRelation: hierarchy,
             rootId: null,
-            items: new RecordSet({
-               rawData: [],
-               keyProperty: 'id'
-            })
+            items: model.getItems()
          });
          const selection = { selected: [], excluded: [] };
          assert.isFalse(strategy.isAllSelected(selection, false, 0, true));
@@ -487,11 +487,8 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    });
 
    it('setItems', () => {
-      const newItems = new RecordSet({
-         keyProperty: ListData.KEY_PROPERTY,
-         rawData: ListData.getItems()
-      });
+      const newItems = model.getItems();
       strategy.setItems(newItems);
-      assert.equal(strategy._items, newItems);
+      assert.deepEqual(strategy._items, newItems);
    });
 });

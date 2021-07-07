@@ -4,8 +4,8 @@
             name="list"
             source="{{_viewSource}}"
             on:beforeBeginEdit="_onBeforeBeginEdit()"
-            groupingKeyCallback="{{_groupingKeyCallback}}">
-        <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}" addPosition="top"/>
+            groupingKeyCallback="{{_groupingKeyCallback}}"
+            editingConfig="{{_editingConfig}}">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
                 <ws:contentTemplate>
@@ -18,7 +18,13 @@
             </ws:partial>
         </ws:itemTemplate>
         <ws:footerTemplate>
-            <Controls.list:AddButton caption="Add record" on:click="_beginAdd()"/>
+            <Controls.list:AddButton caption="Add record" on:click="_beginAdd()" attr:style="margin-right: 20px"/>
+            <Controls.buttons:Button on:click="_setPosition('top')"
+                                     buttonStyle="{{ _addPosition === 'top' ? 'primary' : 'secondary' }}"
+                                     caption="Add position: TOP" attr:style="margin-right: 10px"/>
+            <Controls.buttons:Button on:click="_setPosition('bottom')"
+                                     buttonStyle="{{ _addPosition === 'bottom' ? 'primary' : 'secondary' }}"
+                                     caption="Add position: BOTTOM"/>
         </ws:footerTemplate>
     </Controls.list:View>
 </div>

@@ -11,6 +11,12 @@ export interface ITreeModel extends IModel {
    getPrevDragPosition(): IDragPosition<TreeItem<Model>>;
 }
 
+/**
+ * Контроллер, управляющий состоянием отображением драг'н'дропа в плоском списке
+ * @class Controls/_listDragNDrop/TreeController
+ * @public
+ * @author Панихин К.А.
+ */
 export default class TreeController extends FlatController {
    protected _model: ITreeModel;
    protected _draggableItem: TreeItem<Model>;
@@ -40,6 +46,11 @@ export default class TreeController extends FlatController {
       return false;
    }
 
+   /**
+    * Рассчитывает итоговую позицию для перемещения относительно папки в иерархическом списке
+    * @param targetItem - запись, на которую наведен курсор во время перемещения
+    * @param position - позиция относительно записи, на которую наведен курсор во время перемещения
+    */
    calculateDragPositionRelativeNode(
        targetItem: TreeItem<Model>,
        event: SyntheticEvent<MouseEvent>,
@@ -67,6 +78,11 @@ export default class TreeController extends FlatController {
       return dragPosition;
    }
 
+   /**
+    * Рассчитывает итоговую позицию для перемещения
+    * @param targetItem - запись, на которую наведен курсор во время перемещения
+    * @param position - позиция относительно записи, на которую наведен курсор во время перемещения
+    */
    calculateDragPosition(targetItem: TreeItem<Model>, position: TPosition): IDragPosition<TreeItem<Model>> {
       // Если перетаскиваем лист на узел, то позиция может быть только 'on'
       // Если нет перетаскиваемого элемента, то значит мы перетаскивам в папку другого реестра

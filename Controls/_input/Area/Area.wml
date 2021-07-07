@@ -38,6 +38,7 @@
                         wasActionUser="{{_wasActionUser}}"
                         value="{{_viewModel.displayValue}}"
                         isBrowserPlatform="{{_isBrowserPlatform}}"
+                        inputKey="{{ _inputKey }}"
                         hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
                         isEdge="{{_isEdge}}"/>
          </ws:else>

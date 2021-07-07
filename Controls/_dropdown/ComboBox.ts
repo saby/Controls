@@ -117,8 +117,8 @@ class ComboBox extends BaseDropdown {
       const controllerOptions = getDropdownControllerOptions(options);
       return { ...controllerOptions, ...{
             selectedKeys: [options.selectedKey],
+            markerVisibility: 'hidden',
             dataLoadCallback: options.dataLoadCallback,
-            marker: false,
             popupClassName: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup')
                            + ' controls-ComboBox-popup_theme-' + options.theme,
             typeShadow: 'suggestionsContainer',
@@ -198,8 +198,12 @@ class ComboBox extends BaseDropdown {
       }
    }
 
-   protected _deactivated(): void {
-      this.closeMenu();
+   protected _deactivated(event: SyntheticEvent<Event>): void {
+      // если фокус ушел в меню, не закрываем его
+      // TODO https://online.sbis.ru/opendoc.html?guid=b34ba2ef-fec0-42df-87d8-77541ec82c34
+      if (!event.nativeEvent.relatedTarget?.closest('.controls-Menu__popup')) {
+         this.closeMenu();
+      }
    }
 
    //FIXME delete after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3

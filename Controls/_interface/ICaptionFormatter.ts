@@ -1,7 +1,7 @@
 /**
  * Интерфейс для контролов, которые поддерживают метод captionFormatter
  *
- * @interface Controls/interface/ICaptionFormatter
+ * @interface Controls/_interface/ICaptionFormatter
  * @public
  * @author Красильников А.С.
  */
@@ -11,7 +11,7 @@ export interface ICaptionFormatterOptions {
 }
 
 /*
-  * @name Controls/interface/ICaptionFormatter#captionFormatter
+ * @name Controls/_interface/ICaptionFormatter#captionFormatter
  * @cfg {Function} Функция форматирования заголовка.
  * Аргументы функции:
  * <ol>

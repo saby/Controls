@@ -379,7 +379,13 @@ class FormController extends Control<IFormController, IReceivedState> {
         // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
         // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
         return cfg.source.create(cfg.createMetaData).then((record: Model) => {
-            this._setRecord(record);
+            const initializingWay = this._calcInitializingWay(cfg);
+            // Если initializingWay === Create, то нужно установить запись на состояние, чтобы на момент маунта
+            // Верстка была готова. Если этого не сделать, то опция record обновится только после маунта, т.к.
+            // раньше событие о вычитке записи мы пронотифаить не можем.
+            if (initializingWay === INITIALIZING_WAY.CREATE) {
+                this._setRecord(record);
+            }
             this._createdInMounting = {isError: false, result: record};
 
             if (this._isMount) {

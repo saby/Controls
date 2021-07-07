@@ -370,7 +370,7 @@ var
 
                 // при отсутствии поддержки grid (например в IE, Edge) фон выделенной записи оказывается прозрачным,
                 // нужно его принудительно установить как фон таблицы
-                if (!isFullGridSupport && !current.isEditing) {
+                if (!isFullGridSupport && !current.isEditing()) {
                     classLists.marked += _private.getBackgroundStyle({backgroundStyle, theme}, true);
                 }
 
@@ -517,9 +517,14 @@ var
             if (!self.isSupportLadder(self._options.ladderProperties)) {
                 return {};
             }
-            if (!self._ladder || self._options.stickyColumn) {
-                self.resetCachedItemData();
-            }
+
+            // Если при перестройке "лесенки" не сбрасывать кеш, то после добавления элементов по месту при скролле
+            // реестра ломается вёрстка, т.к. в span подставляются старые данные.
+            // см. https://online.sbis.ru/opendoc.html?guid=4fe3dd6f-c76b-45fa-b676-5914a896c7c9
+            // Предыдущая реализацию согласно док-там:
+            // см. https://online.sbis.ru/opendoc.html?guid=d3a0a646-9a22-4a61-be98-7c8570c7a295
+            // см. https://online.sbis.ru/opendoc.html?guid=458ac3b7-b899-4fff-8fcf-ae8168b67b80
+            self.resetCachedItemData();
 
             const hasVirtualScroll = !!self._options.virtualScrolling || Boolean(self._options.virtualScrollConfig);
             const displayStopIndex = self.getDisplay() ? self.getDisplay().getCount() : 0;
@@ -533,19 +538,6 @@ var
                 columns: self._options.columns,
                 stickyColumn: self._options.stickyColumn
             });
-            //Нужно сбросить кэш для записей, у которых поменялась конфигурация лесенки
-            if (self._ladder) {
-                for (let i = startIndex; i < stopIndex ; i++) {
-                    if (!isEqual(newLadder.stickyLadder[i], self._ladder.stickyLadder[i]) ||
-                        !isEqual(newLadder.ladder[i], self._ladder.ladder[i])) {
-
-                        const dispItem = self.getItemById(self.getItems()?.at(i)?.getId());
-                        if (dispItem) {
-                            self.resetCachedItemData(self._getDisplayItemCacheKey(dispItem));
-                        }
-                    }
-                }
-            }
             return newLadder;
         },
         getTableCellStyles(currentColumn): string {
@@ -726,9 +718,10 @@ var
 
             // Резолверы шаблонов. Передается объект, чтобы всегда иметь актуальные резолверы. Передача по ссылке
             // требуется например для построения таблицы с запущенным редактированием по месту. Редактирование строится
-            // до GridView и устанавливает editingItemData в которую передаются резолверы. На момент взятия itemData
+            // до GridView и устанавливает редактируемую запись в которую передаются резолверы. На момент взятия itemData
             // резолверов еще нет, поэтому передаем объект, позже Gridview запишет в него резолверы. С таким подходом
             // порядок маунтов не важен, главное, что все произойдет до маунта.
+            // TODO: Проверить, возможно стало неактуальным в 20.7000
             this._resolvers = {};
             this._model = this._createModel(cfg);
             this._onListChangeFn = function(event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
@@ -1542,10 +1535,6 @@ var
                 },
                 hasEmptyTemplate = !!this._options.emptyTemplate;
 
-            if (this.getEditingItemData()) {
-                cfg.editingRowIndex = this.getEditingItemData().index;
-            }
-
             return {
                 getIndexByItem: (item) => getIndexByItem({item, ...cfg}),
                 getIndexById: (id) => getIndexById({id, ...cfg}),
@@ -1608,18 +1597,6 @@ var
             current.isLastRow = (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData()) &&
                                  (this.getCount() - 1 === current.index);
 
-            // Если после последней записи идет добавление новой, не нужно рисовать широкую линию-разделитель между ними.
-            const editingItemData = this.getEditingItemData();
-            if (editingItemData) {
-                let index;
-                if (this._options.editingConfig.addPosition === 'top') {
-                    index = editingItemData.index - 1;
-                } else {
-                    index = editingItemData.index;
-                }
-                current.isLastRow = current.isLastRow  && (index - 1 < current.index);
-            }
-
             current.getColumnAlignGroupStyles = (columnAlignGroup: number) => (
                 _private.getColumnAlignGroupStyles(current, columnAlignGroup, self._shouldAddActionsCell())
             );
@@ -1657,9 +1634,6 @@ var
             // TODO: Разобраться, зачем это. По задаче https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
             if (current.columnScroll) {
                 current.rowIndex = this._calcRowIndex(current);
-                if (this.getEditingItemData() && (current.rowIndex >= this.getEditingItemData().rowIndex)) {
-                    current.rowIndex++;
-                }
             }
 
             if (current.isGroup) {
@@ -1933,25 +1907,6 @@ var
 
         nextModelVersion: function() {
             this._model.nextModelVersion.apply(this._model, arguments);
-        },
-
-        _setEditingItemData: function (itemData) {
-            this._model._setEditingItemData(itemData);
-
-            /*
-            * https://online.sbis.ru/opendoc.html?guid=8a8dcd32-104c-4564-8748-2748af03b4f1
-            * Нужно пересчитать и перерисовать записи после начала и завершения редактирования.
-            * При старте редактирования индексы пересчитываются, и, в случе если началось добавление, индексы записей после добавляемой увеличиваются на 1.
-            * При отмене добавления индексы нужно вернуть в изначальное состояние.
-            * */
-            // TODO: Разобраться, нужно ли. https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
-            if (this._options.columnScroll) {
-                this._nextModelVersion();
-            }
-        },
-
-        getEditingItemData(): object | null {
-            return this._model.getEditingItemData();
         },
 
         setItemActionVisibilityCallback: function(callback) {

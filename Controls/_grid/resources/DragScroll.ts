@@ -353,7 +353,6 @@ export class DragScroll {
         if (validateEvent(e)) {
             isGrabStarted = this._manageDragScrollStart(getCursorPosition(e), e.target as HTMLElement);
             if (isGrabStarted) {
-                e.preventDefault();
                 this._clearSelection();
             }
         } else {

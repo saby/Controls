@@ -79,19 +79,17 @@ const maxPercentValue = 100;
  * @example
  * Слайдер с закрашенным интервалом.
  * <pre class="brush:html">
- *    <Controls.slider:Base minValue={{0}} maxValue={{100}}>
+ *    <Controls.slider:Base minValue="{{0}}" maxValue="{{100}}">
  *       <ws:intervals>
  *          <ws:Array>
  *             <ws:Object
  *                color="primary"
- *                start={{0}}
- *                end={{10}}
- *             </ws:Object>
+ *                start="{{0}}"
+ *                end="{{10}}"/>
  *             <ws:Object
  *                color="danger"
- *                start={{30}}
- *                end={{70}}
- *             </ws:Object>
+ *                start="{{30}}"
+ *                end="{{70}}"/>
  *          </ws:Array>
  *       </ws:intervals>
  *    </Controls.slider:Base>
@@ -105,18 +103,18 @@ const maxPercentValue = 100;
  * @example
  * Colored slider.
  * <pre class="brush:html">
- *   <Controls.slider:Base minValue={{0}} maxValue={{100}}>
+ *   <Controls.slider:Base minValue="{{0}}" maxValue="{{100}}">
  *       <ws:intervals>
  *          <ws:Array>
  *             <ws:Object
  *                color="primary"
- *                start={{0}}
- *                end={{10}}
+ *                start="{{0}}"
+ *                end="{{10}}"
  *             </ws:Object>
  *             <ws:Object
  *                color="danger"
- *                start={{30}}
- *                end={{70}}
+ *                start="{{30}}"
+ *                end="{{70}}"
  *             </ws:Object>
  *          </ws:Array>
  *       </ws:intervals>
@@ -226,7 +224,9 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    protected _onDragNDropHandler(e: SyntheticEvent<Event>, dragObject) {
       if (!this._options.readOnly) {
          const box = this._children.area.getBoundingClientRect();
-         const ratio = Utils.getRatio(dragObject.position.x, box.left + window.pageXOffset, box.width);
+         const ratio = this._options.direction === 'vertical' ?
+             Utils.getRatio(dragObject.position.y, box.top + window.pageYOffset, box.height) :
+             Utils.getRatio(dragObject.position.x, box.left + window.pageXOffset, box.width);
          this._value = Utils.calcValue(this._options.minValue, this._options.maxValue, ratio, this._options.precision);
          this._setValue(this._value);
       }

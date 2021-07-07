@@ -5,6 +5,7 @@ import IPeriodLiteDialog from './interfaces/IPeriodLiteDialog';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dateRange/RangeShortSelector/RangeShortSelector');
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
+import {SyntheticEvent} from 'Vdom/Vdom';
 import dateControlsUtils from "./Utils";
 
 /**
@@ -68,26 +69,24 @@ interface IRangeShortSelectorOptions extends IControlOptions {
 
 export default class RangeShortSelector extends BaseSelector<IRangeShortSelectorOptions> {
     protected _template: TemplateFunction = template;
+    protected _fittingMode: string = 'overflow';
 
     protected _getPopupOptions(): IStickyPopupOptions {
         let className;
         const container = this._children.linkView.getPopupTarget();
-        let horizontalTargetPoint;
         if (!this._options.chooseMonths && !this._options.chooseQuarters && !this._options.chooseHalfyears) {
             className = 'controls-DateRangeSelectorLite__picker-years-only';
-            horizontalTargetPoint = 'center';
         } else {
             className = 'controls-DateRangeSelectorLite__picker-normal';
-            horizontalTargetPoint = 'right';
         }
 
         return {
             opener: this,
             target: container,
             className,
-            fittingMode: 'overflow',
+            fittingMode: this._fittingMode,
             direction: {
-                horizontal: horizontalTargetPoint
+                horizontal: 'center'
             },
             targetPoint: { horizontal: 'left' },
             eventHandlers: {
@@ -114,7 +113,7 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
                 displayedRanges: this._options.displayedRanges,
                 stubTemplate: this._options.stubTemplate,
                 captionFormatter: this._options.captionFormatter,
-                dateConstructor: this._options.dateConstructor
+                dateConstructor: this._options.dateConstructor,
             }
         };
     }
@@ -122,6 +121,13 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
     _mouseEnterHandler(): void {
         const loadCss = ({View}) => View.loadCSS();
         this._startDependenciesTimer('Controls/shortDatePicker', loadCss);
+    }
+
+    _sendResultHandler(event: SyntheticEvent, fittingMode: string): void {
+        if (typeof fittingMode === 'string') {
+            this._fittingMode = fittingMode;
+            this.openPopup();
+        }
     }
 
     shiftBack(): void {

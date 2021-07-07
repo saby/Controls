@@ -25,6 +25,7 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
     protected _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
     private _needNotifyResize: boolean = false;
     private _shouldSetMarginTop: boolean = false;
+    private _position: number = 0;
 
     protected _beforeMount(options: IHorizontalScrollWrapperOptions): void {
         this._localPositionHandler = options.positionChangeHandler;
@@ -37,6 +38,31 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
         }
     }
 
+    /*
+    * Устанавливает позицию thumb'a.
+    * Метод существует как временное решение ошибки ядра, когда обновлениие реактивного состояния родителя
+    * приводит к перерисовке всех дочерних шаблонов, даже если опция в них не передается.
+    * https://online.sbis.ru/opendoc.html?guid=5c209e19-b6b2-47d0-9b8b-c8ab32e133b0
+    *
+    * Ошибка ядра приводит к крайне низкой производительности горизонтального скролла(при изменении позиции
+    * перерисовываются записи)
+    * https://online.sbis.ru/opendoc.html?guid=16907a96-816e-4c76-9bdb-26bd6c4370b4
+    *
+    * После решения ошибки ядра, позиция thumb'a будет изменяться только по опциям, а _localPositionHandler
+    * заменен на полноценный _notify.
+    * _localPositionHandler - костыль созданный из за невозможности подписаться на событие не методом контрола,
+    * а проброшенным методом. При горизонтальном скролле таблица оборачивается в отдельный шаблон с целью объединить
+    * GridView, ColumnScroll и DragScroll.
+    * */
+    setPosition(position: number): void {
+        if (this._position !== position) {
+            this._position = position;
+            if (this._localPositionHandler) {
+                this._localPositionHandler(null, this._position);
+            }
+        }
+    }
+
     protected _afterRender(): void {
         if (this._needNotifyResize) {
             (this._children.columnScrollbar as Scrollbar).recalcSizes();
@@ -45,6 +71,9 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
     }
 
     _beforeUpdate(options: IHorizontalScrollWrapperOptions): void {
+        if (typeof options.position === 'number' && this._position !== options.position) {
+            this._position = options.position;
+        }
         const newStyle = this._getGridStyles(options);
         if (this._gridStyle !== newStyle) {
             this._gridStyle = newStyle;

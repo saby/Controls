@@ -167,25 +167,6 @@ describe('Controls/_display/TreeItemDecorator', () => {
         });
     });
 
-    describe('.isLoaded()', () => {
-        it('should return source has not children', () => {
-            const hasChildren = true;
-            const source = new TreeItem({hasChildren});
-            const item = new TreeItemDecorator({source});
-            assert.strictEqual(item.isLoaded(), !hasChildren);
-        });
-    });
-
-    describe('.setLoaded()', () => {
-        it('should set source has not children', () => {
-            const hasChildren = true;
-            const source = new TreeItem();
-            const item = new TreeItemDecorator({source});
-            item.setLoaded(hasChildren);
-            assert.strictEqual(source.isHasChildren(), !hasChildren);
-        });
-    });
-
     describe('.getChildrenProperty()', () => {
         it('should return source\'s children property', () => {
             const childrenProperty = 'foo';

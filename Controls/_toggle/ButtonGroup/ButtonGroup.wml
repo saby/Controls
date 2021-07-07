@@ -1,0 +1,26 @@
+<div class="controls-ButtonGroup">
+    <ws:template name="button">
+        <ws:partial template="Controls/buttons:ButtonTemplate"
+                    attr:class="controls-ButtonGroup__button"
+                    _buttonStyle="{{buttonStyle}}"
+                    _viewMode="button"
+                    _fontSize="m"
+                    _height="m"
+                    _fontColorStyle="{{fontColorStyle}}"
+                    _caption="{{itemData.get('caption')}}"/>
+    </ws:template>
+
+    <div class="controls-ButtonGroup__wrapper">
+        <ws:for data="index, itemData in _options.items">
+            <div class="controls-ButtonGroup__button
+            {{index !== _items.length - 1 ? 'controls-ButtonGroup__button_withMargin_theme-' + _options.theme}}">
+                <ws:partial template="button"
+                            itemData="{{itemData}}"
+                            buttonStyle="{{itemData[_options.keyProperty] === _options.selectedKey ? 'buttonGroupSelected' : 'buttonGroupUnselected'}}"
+                            fontColorStyle="{{itemData[_options.keyProperty] === _options.selectedKey ? 'buttonGroupSelected' : 'default'}}"
+                            on:click="_onItemClick(itemData)"
+                />
+            </div>
+        </ws:for>
+    </div>
+</div>

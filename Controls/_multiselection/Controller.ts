@@ -97,7 +97,8 @@ export class Controller {
     */
    restoreSelection(): void {
       // На этот момент еще может не сработать update, поэтому нужно обновить items в стратегии
-      this._strategy.setItems(this._model.getCollection());
+      // TODO при переходе на новую модель изменить просто на this._model.getItems()
+      this._strategy.setItems(this._model.getDisplay().getItems());
       this._updateModel(this._selection, true);
    }
 
@@ -139,13 +140,13 @@ export class Controller {
       let newSelection;
 
       if (status === true || status === null) {
-         newSelection = this._strategy.unselect(this._selection, [key]);
+         newSelection = this._strategy.unselect(this._selection, key);
       } else {
          if (this._limit && !this._excludedKeys.includes(key)) {
             this._increaseLimit([key]);
          }
 
-         newSelection = this._strategy.select(this._selection, [key]);
+         newSelection = this._strategy.select(this._selection, key);
       }
 
       const result = this._getResult(this._selection, newSelection);
@@ -204,6 +205,8 @@ export class Controller {
     * @return {ISelectionControllerResult}
     */
    handleResetItems(): ISelectionControllerResult {
+      // TODO при переходе на новую модель изменить просто на this._model.getItems()
+      this._strategy.setItems(this._model.getDisplay().getItems());
       this._updateModel(this._selection);
       return this._getResult(this._selection, this._selection);
    }
@@ -214,10 +217,7 @@ export class Controller {
     * @return {ISelectionControllerResult}
     */
    handleAddItems(addedItems: Array<CollectionItem<Model>>): ISelectionControllerResult {
-      const records = addedItems
-          .filter((item) => !item['[Controls/_display/GroupItem]']) // TODO заменить на проверку SelectableItem
-          .map((item) => item.getContents());
-      this._updateModel(this._selection, false, records);
+      this._updateModel(this._selection, false, addedItems);
       return this._getResult(this._selection, this._selection);
    }
 
@@ -336,7 +336,7 @@ export class Controller {
          const selectionForModel = this._strategy.getSelectionForModel(this._selection, this._limit);
 
          let itemStatus = false;
-         if (selectionForModel.get(true).filter((selectedItem) => selectedItem.getKey() === key).length > 0) {
+         if (selectionForModel.get(true).filter((selectedItem) => selectedItem.getContents().getKey() === key).length > 0) {
             itemStatus = true;
          }
 
@@ -355,7 +355,7 @@ export class Controller {
       });
    }
 
-   private _updateModel(selection: ISelection, silent: boolean = false, items?: Model[]): void {
+   private _updateModel(selection: ISelection, silent: boolean = false, items?: Array<CollectionItem<Model>>): void {
       const selectionForModel = this._strategy.getSelectionForModel(selection, this._limit, items, this._searchValue);
       // TODO думаю лучше будет занотифаить об изменении один раз после всех вызовов (сейчас нотифай в каждом)
       this._model.setSelectedItems(selectionForModel.get(true), true, silent);

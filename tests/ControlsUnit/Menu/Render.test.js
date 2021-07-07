@@ -38,6 +38,7 @@ define(
                         { n: 'id', t: 'Строка' },
                         { n: 'title', t: 'Строка' },
                         { n: 'parent', t: 'Строка' },
+                        { n: 'node', t: 'Строка' }
                      ]
                   },
                   keyProperty: 'id',
@@ -151,6 +152,11 @@ define(
                menuRender.addEmptyItem(renderOptions.listModel, {...renderOptions, parentProperty: 'parent', root: null});
                assert.equal(renderOptions.listModel.getCount(), 1);
                assert.equal(renderOptions.listModel.getCollection().at(0).get('parent'), null);
+            });
+
+            it('check nodeProperty', function() {
+               menuRender.addEmptyItem(renderOptions.listModel, {...renderOptions, nodeProperty: 'node'});
+               assert.equal(renderOptions.listModel.getCollection().at(0).get('node'), false);
             });
 
             it('check selected empty item', function() {

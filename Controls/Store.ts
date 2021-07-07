@@ -1,5 +1,8 @@
+import {getStore} from 'Application/Env';
+
 interface IStore {
-    getState: Record<string, unknown>;
+    getState: () => Record<string, unknown>;
+    get: (propertyName: string) => unknown;
     onPropertyChanged: (propertyName: string, callback: (data: unknown) => void) => string;
     unsubscribe: (id: string) => void;
     dispatch: (propertyName: string, data: unknown) => void;
@@ -18,26 +21,31 @@ interface ICtxState {
 }
 
 interface IState {
-    [ctxName: string]: string | ICtxState;
-    activeContext?: string;
+    [ctxName: string]: ICtxState;
 }
 
 const ID_SEPARATOR = '--';
+const PAGE_STATE_FIELD = 'pageState';
 
 /**
  *
  */
 class Store implements IStore {
-    private constructor() { }
-
-    state: IState;
-
     /**
      * Получение текущего стейта
      */
     getState(): ICtxState {
-        const state = this.state[this.state.activeContext] || {};
-        return state as ICtxState;
+        return Store._getActiveState();
+    }
+
+    /**
+     * Получение значения из текущего стейта
+     * @param propertyName название поля в стейте
+     */
+    get(propertyName: string): unknown {
+        const state = Store._getActiveState();
+
+        return state[propertyName];
     }
 
     /**
@@ -70,32 +78,29 @@ class Store implements IStore {
 
     // обновляем название актуального контекста в зависимости от урла (сейчас это делает OnlineSbisRu/_router/Router)
     updateStoreContext(contextName: string): void {
-        this.state.activeContext = contextName;
-        if (!this.state[this.state.activeContext]) {
-            this.state[this.state.activeContext] = {};
-        }
-    }
-
-    private _hasValue(propertyName: string): boolean {
-        return this.state[this.state.activeContext].hasOwnProperty(propertyName);
+        Store._setActiveContext(contextName);
     }
 
     private _setValue(propertyName: string, value: unknown): void {
-        if (!this._hasValue(propertyName)) {
-            this._defineProperty(propertyName);
+        const state = Store._getActiveState();
+
+        if (!state.hasOwnProperty(propertyName)) {
+            this._defineProperty(state, propertyName);
         }
-        this.state[this.state.activeContext]['_' + propertyName].value = value;
+        state['_' + propertyName].value = value;
+
+        Store._setActiveState(state);
     }
 
     // объявление поля в стейте
-    private _defineProperty(propertyName: string): void {
+    private _defineProperty(state: ICtxState, propertyName: string): void {
         // приватное поле с _ в котором лежит значение и колбэки
-        Object.defineProperty(this.state[this.state.activeContext], '_' + propertyName, {
+        Object.defineProperty(state, '_' + propertyName, {
             value: {value: undefined, callbacks: []},
             enumerable: false
         });
         // сеттер и геттер для публичного поля
-        Object.defineProperty(this.state[this.state.activeContext], propertyName, {
+        Object.defineProperty(state, propertyName, {
             set: function () {
                 // do nothing
             },
@@ -104,58 +109,82 @@ class Store implements IStore {
             },
             enumerable: true
         });
+
+        Store._setActiveState(state);
     }
 
     private _addCallback(propertyName: string, callbackFn: Function): string {
-        // создадим болванку с undefined если нужно
-        if (!this._hasValue(propertyName)) {
-            this._defineProperty(propertyName);
+        const state = Store._getActiveState();
+        const activeContext = Store._getActiveContext();
+
+        if (!state.hasOwnProperty(propertyName)) {
+            this._defineProperty(state, propertyName);
         }
-        const currentCallbacks = this.state[this.state.activeContext]['_' + propertyName].callbacks;
+        const currentCallbacks = state['_' + propertyName].callbacks;
         const newCallbackId = currentCallbacks.length > 0 ?
             currentCallbacks[currentCallbacks.length - 1].id.split(ID_SEPARATOR)[2] :
             0;
-        const id = [this.state.activeContext, '_' + propertyName, +newCallbackId + 1].join(ID_SEPARATOR);
+        const id = [activeContext, '_' + propertyName, +newCallbackId + 1].join(ID_SEPARATOR);
         currentCallbacks.push({id, callbackFn});
+
+        Store._setActiveState(state);
+
         return id;
     }
 
     private _removeCallback(id: string): void {
-        const [ctxName, propertyName, index]: string[] = id.split(ID_SEPARATOR);
-        this.state[ctxName][propertyName].callbacks = this.state[ctxName][propertyName].callbacks.reduce(
-            (acc, callbackObj) => {
-                if (callbackObj.id !== id) {
-                    acc.push(callbackObj);
-                }
-                return acc;
-            },
-            []
-        );
+        const state = Store._getState();
+        const [ctxName, propertyName]: string[] = id.split(ID_SEPARATOR);
 
+        state[ctxName][propertyName].callbacks = state[ctxName][propertyName].callbacks.reduce((acc, callbackObj) => {
+            if (callbackObj.id !== id) {
+                acc.push(callbackObj);
+            }
+            return acc;
+        }, []);
+
+        Store._setState(state[ctxName], ctxName);
     }
 
     private _notifySubscribers(propertyName: string): void {
-        this.state[this.state.activeContext]['_' + propertyName].callbacks.forEach(
+        const state = Store._getActiveState();
+
+        state['_' + propertyName].callbacks.forEach(
             (callbackObject: IStateCallback) => {
-                return callbackObject.callbackFn(this.state[this.state.activeContext][propertyName]);
+                return callbackObject.callbackFn(state[propertyName]);
             }
         );
     }
 
-    private static instance: Store;
+    static _getActiveState(): ICtxState {
+        const store = Store._getState();
+        const activeContext = Store._getActiveContext();
 
-    static getInstance(): Store {
-        if (!Store.instance) {
-            Store.instance = new Store();
-            Store.instance.state = {
-                activeContext: 'global',
-                global: {}
-            };
-        }
-        return Store.instance;
+        return store[activeContext] || {};
+    }
+
+    static _setActiveState(state: ICtxState): void {
+        const activeContext = Store._getActiveContext();
+        Store._setState(state, activeContext);
+    }
+
+    static _getState(): IState {
+        return getStore<Record<string, IState>>(PAGE_STATE_FIELD).get('value') || {};
+    }
+
+    static _setState(state: ICtxState, context: string): void {
+        const store = getStore<Record<string, IState>>(PAGE_STATE_FIELD).get('value') || {};
+        store[context] = state;
+        getStore<Record<string, IState>>(PAGE_STATE_FIELD).set('value', store);
+    }
+
+    static _getActiveContext(): string {
+        return getStore<Record<string, string>>(PAGE_STATE_FIELD).get('activeContext') || 'global' ;
+    }
+
+    static _setActiveContext(context: string): string {
+        return getStore<Record<string, string>>(PAGE_STATE_FIELD).set('activeContext', context);
     }
 }
 
-const instance = Store.getInstance();
-
-export default instance;
+export default new Store();

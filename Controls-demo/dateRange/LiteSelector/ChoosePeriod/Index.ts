@@ -4,7 +4,7 @@ import template = require("wml!Controls-demo/dateRange/LiteSelector/ChoosePeriod
 class DemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
-    static _styles: string[] = ['Controls-demo/Controls-demo'];
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/dateRange/LiteSelector/ChoosePeriod/Style'];
 }
 
 export default DemoControl;

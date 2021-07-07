@@ -23,4 +23,3 @@ Object.assign(Search.prototype, {
     _moduleName: 'Controls/display:Search',
     '[Controls/_display/Search]': true
 });
-

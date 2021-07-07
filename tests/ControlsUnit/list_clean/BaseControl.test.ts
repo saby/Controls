@@ -117,6 +117,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             baseControl._afterMount();
             baseControl._listViewModel = new ListViewModel(baseControlCfg.viewModelConfig);
+            baseControl._items = new RecordSet();
             baseControl._createSelectionController();
             assert.isFalse(!baseControl._listViewModel || !baseControl._listViewModel.getCollection());
             assert.isNotNull(baseControl._selectionController);
@@ -165,6 +166,18 @@ describe('Controls/list_clean/BaseControl', () => {
             BaseControl._private.handleListScrollSync(baseControl, 200);
             assert.isTrue(baseControl._pagingVisible);
         });
+        it('is viewport = 0', async () => {
+            baseControl.saveOptions(baseControlCfg);
+            await baseControl._beforeMount(baseControlCfg);
+            baseControl._beforeUpdate(baseControlCfg);
+            baseControl._afterUpdate(baseControlCfg);
+            baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
+            assert.isFalse(baseControl._pagingVisible);
+            baseControl._viewportSize = 0;
+            baseControl._viewSize = 800;
+            baseControl._mouseEnter(null);
+            assert.isFalse(baseControl._pagingVisible);
+        });
     });
     describe('BaseControl paging', () => {
         const baseControlCfg = {
@@ -211,7 +224,7 @@ describe('Controls/list_clean/BaseControl', () => {
 
             // эмулируем появление скролла
             await BaseControl._private.onScrollShow(baseControl, heightParams);
-            baseControl.updateShadowModeHandler({}, {top: 0, bottom: 0});
+            baseControl._updateShadowModeHandler({}, {top: 0, bottom: 0});
 
             assert.isTrue(!!baseControl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
 
@@ -249,7 +262,7 @@ describe('Controls/list_clean/BaseControl', () => {
 
             // эмулируем появление скролла
             await BaseControl._private.onScrollShow(baseControl, heightParams);
-            baseControl.updateShadowModeHandler({}, {top: 0, bottom: 0});
+            baseControl._updateShadowModeHandler({}, {top: 0, bottom: 0});
 
             assert.isTrue(!!baseControl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
 
@@ -286,7 +299,7 @@ describe('Controls/list_clean/BaseControl', () => {
 
             // эмулируем появление скролла
             await BaseControl._private.onScrollShow(baseControl, heightParams);
-            baseControl.updateShadowModeHandler({}, {top: 0, bottom: 0});
+            baseControl._updateShadowModeHandler({}, {top: 0, bottom: 0});
 
             assert.isTrue(!!baseControl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
 
@@ -323,7 +336,7 @@ describe('Controls/list_clean/BaseControl', () => {
 
             // эмулируем появление скролла
             await BaseControl._private.onScrollShow(baseControl, heightParams);
-            baseControl.updateShadowModeHandler({}, {top: 0, bottom: 0});
+            baseControl._updateShadowModeHandler({}, {top: 0, bottom: 0});
 
             assert.isTrue(!!baseControl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
 
@@ -342,6 +355,24 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl.__selectedPageChanged(null, 2);
             assert.equal(baseControl._currentPage, 2);
             assert.equal(baseControl._scrollPagingCtr._options.scrollParams.scrollTop, 400);
+        });
+
+        it('visible paging padding', async () => {
+            const cfgClone = {...baseControlCfg};
+            cfgClone.navigation.viewConfig.pagingMode = 'end';
+            baseControl.saveOptions(cfgClone);
+            await baseControl._beforeMount(cfgClone);
+            baseControl._container = {
+                clientHeight: 1000
+            };
+            baseControl._viewportSize = 400;
+            baseControl._getItemsContainer = () => {
+                return {children: []};
+            };
+            assert.isFalse(baseControl._isPagingPadding());
+            cfgClone.navigation.viewConfig.pagingMode = 'base';
+            await baseControl._beforeUpdate(cfgClone);
+            assert.isTrue(baseControl._isPagingPadding());
         });
     });
     describe('beforeUnmount', () => {
@@ -368,8 +399,8 @@ describe('Controls/list_clean/BaseControl', () => {
 
             baseControl.saveOptions(baseControlCfg);
             await baseControl._beforeMount(baseControlCfg);
-            baseControl._editInPlace = {
-                reset: () => {
+            baseControl._editInPlaceController = {
+                destroy: () => {
                     assert.isFalse(modelDestroyed, 'model is destroyed before editInPlace');
                     eipReset = true;
                 }
@@ -383,64 +414,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeUnmount();
             assert.isTrue(eipReset, 'editInPlace is not reset');
             assert.isTrue(modelDestroyed, 'model is not destroyed');
-
-        });
-    });
-    describe('BaseControl enterHandler', () => {
-        it('is enterHandler', function() {
-            let notified = false;
-            let notifiedCount = 0;// Количество событий
-            BaseControl._private.enterHandler({
-                _options: {
-                    useNewModel: false
-                },
-                getViewModel: function() {
-                    return {
-                        getMarkedItem: function() {
-                            return null;
-                        }
-                    };
-                },
-                _notify: function(e, item, options) {
-                    notified = true;
-                }
-            });
-            assert.isFalse(notified);
-            assert.isFalse(!!notifiedCount);
-
-            const myMarkedItem = {qwe: 123};
-            const mockedEvent = {
-                target: 'myTestTarget',
-                isStopped: function() {
-                    return false;
-                }
-            };
-
-            BaseControl._private.enterHandler({
-                _options: {
-                    useNewModel: false
-                },
-                getViewModel: function() {
-                    return {
-                        getMarkedItem: function() {
-                            return {
-                                getContents: function() {
-                                    return myMarkedItem;
-                                }
-                            };
-                        }
-                    };
-                },
-                _notify: function(e, args, options) {
-                    notified = true;
-                    notifiedCount++;
-                    assert.isTrue(e === 'itemClick' || e === 'itemActivate');
-                    assert.deepEqual(args, [myMarkedItem, mockedEvent]);
-                    assert.deepEqual(options, {bubbling: true});
-                }
-            }, mockedEvent);
-            assert.isTrue(notified);
-            assert.isTrue(notifiedCount === 2);
         });
     });
 });

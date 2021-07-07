@@ -16,6 +16,13 @@ export interface IModel {
    getIndex(item: CollectionItem<Model>): number;
 }
 
+/**
+ * Контроллер, управляющий состоянием отображением драг'н'дропа в плоском списке
+ * @class Controls/_listDragNDrop/FlatController
+ * @public
+ * @author Панихин К.А.
+ */
+
 export default class FlatController {
    protected _draggableItem: CollectionItem<Model>;
    protected _model: IModel;
@@ -27,15 +34,31 @@ export default class FlatController {
       this._model = model;
    }
 
+   /**
+    * Обновляет параметры контроллера
+    * @param model
+    */
    update(model: IModel): void {
       this._model = model;
    }
 
+   /**
+    * Запускает отображение в списке начала драг н дропа.
+    * Позволяет отобразить перетаскиеваемый элемент особым образом, отличным от остальных элементов.
+    * @param draggedKey - ключ записи, за которую осуществляется перетаскивание
+    * @param entity - сущность перемещения, содержит весь список перемещаемых записей
+    */
    startDrag(draggedKey: TKey, entity: ItemsEntity): void {
       const draggedItem = this._model.getItemBySourceKey(draggedKey);
       this.setDraggedItems(entity, draggedItem);
    }
 
+   /**
+    * Отображает перетаскивание в списке.
+    * Позволяет отобразить перетаскиеваемые элементы особым образом, отличным от остальных элементов.
+    * @param entity - сущность перемещения, содержит весь список перемещаемых записей
+    * @param draggedItem - запись, за которую осуществляется перетаскивание
+    */
    setDraggedItems(entity: ItemsEntity, draggedItem: CollectionItem<Model> = null): void {
       this._entity = entity;
 
@@ -46,6 +69,10 @@ export default class FlatController {
       this._model.setDraggedItems(draggableItemKey, entity.getItems());
    }
 
+   /**
+    * Отображает перетаскиваемые сущности в указанной позиции списка
+    * @param position - позиция в которой надо отобразить перемещаемые записи
+    */
    setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
       if (this._dragPosition === position) {
          return;
@@ -55,6 +82,9 @@ export default class FlatController {
       this._model.setDragPosition(position);
    }
 
+   /**
+    * Заканчивает драг'н'дроп в списке. Все записи отображаются обычным образом
+    */
    endDrag(): void {
       this._draggableItem = null;
       this._dragPosition = null;
@@ -62,18 +92,32 @@ export default class FlatController {
       this._model.resetDraggedItems();
    }
 
+   /**
+    * Возвращает true если в данный момент происходит перемещение
+    */
    isDragging(): boolean {
       return !!this._entity;
    }
 
+   /**
+    * Возвращает true если в данный момент происходит перемещение
+    */
    getDragPosition(): IDragPosition<CollectionItem<Model>> {
       return this._dragPosition;
    }
 
+   /**
+    * Возвращает сущность перемещаемых записей
+    */
    getDragEntity(): ItemsEntity {
       return this._entity;
    }
 
+   /**
+    * Рассчитывает итоговую позицию для перемещения
+    * @param targetItem - запись, на которую наведен курсор во время перемещения
+    * @param position - позиция относительно записи, на которую наведен курсор во время перемещения
+    */
    calculateDragPosition(targetItem: CollectionItem<Model>, position?: TPosition): IDragPosition<CollectionItem<Model>> {
       let prevIndex = -1;
 

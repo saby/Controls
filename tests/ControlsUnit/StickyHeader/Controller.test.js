@@ -333,21 +333,24 @@ define([
                      mode: 'stackable',
                      inst: {
                         height: 10,
-                        updateFixed: sinon.fake()
+                        updateFixed: sinon.fake(),
+                        updateShadowVisibility: sinon.fake()
                      }
                   },
                   sticky2: {
                      mode: 'stackable',
                      inst: {
                         height: 10,
-                        updateFixed: sinon.fake()
+                        updateFixed: sinon.fake(),
+                        updateShadowVisibility: sinon.fake()
                      }
                   },
                   sticky3: {
                      mode: 'stackable',
                      inst: {
                         height: 10,
-                        updateFixed: sinon.fake()
+                        updateFixed: sinon.fake(),
+                        updateShadowVisibility: sinon.fake()
                      }
                   }
                };
@@ -659,6 +662,88 @@ define([
             component._resizeObserverCallback(entries);
 
             assert.equal(component._elementsHeight.length, 0);
+         });
+      });
+
+      describe('hasShadowVisible', () => {
+         beforeEach(() => {
+            component._headers = {
+               header1: {
+                  inst: {
+                     shadowVisibility: 'hidden'
+                  }
+               },
+               header2: {
+                  inst: {
+                     shadowVisibility: 'lastVisible'
+                  }
+               }
+            };
+         });
+
+         [{
+            fixedHeaders: {
+               top: ['header1']
+            },
+            position: 'top',
+            resp: false
+         }, {
+            fixedHeaders: {
+               top: ['header2']
+            },
+            position: 'top',
+            resp: true
+         }].forEach((test) => {
+            it('should push new elements to array of heights', () => {
+               component._fixedHeadersStack = test.fixedHeaders;
+               assert.strictEqual(component.hasShadowVisible(test.position), test.resp);
+            });
+         });
+      });
+
+      describe('_updateShadowsVisibility', () => {
+         beforeEach(() => {
+            component._headers = {
+               header0: {
+                  inst: {
+                     shadowVisibility: 'visible',
+                     updateShadowVisibility: sinon.stub()
+                  }
+               },
+               header1: {
+                  inst: {
+                     shadowVisibility: 'lastVisible',
+                     updateShadowVisibility: sinon.stub()
+                  }
+               },
+                header2: {
+                  inst: {
+                     shadowVisibility: 'visible',
+                     updateShadowVisibility: sinon.stub()
+                  }
+               }
+            };
+            component._fixedHeadersStack.top = ['header0', 'header1', 'header2'];
+         });
+
+         [{
+            _headersStack: ['header0', 'header1', 'header2'],
+            resp: [true, false, true]
+         }, {
+            _headersStack: ['header1', 'header2', 'header0'],
+            resp: [true, false, true]
+         }, {
+            _headersStack: ['header2', 'header0', 'header1'],
+            resp: [true, true, true]
+         }].forEach((test, index) => {
+            it('test ' + index, () => {
+               component._isShadowVisible = { top: true, bottom: true };
+               component._headersStack.top = test._headersStack;
+               component._updateShadowsVisibility();
+               for (let i = 0; i < test.resp.length; i++) {
+                  sinon.assert.calledWith(component._headers['header' + i].inst.updateShadowVisibility, test.resp[i]);
+               }
+            });
          });
       });
    });

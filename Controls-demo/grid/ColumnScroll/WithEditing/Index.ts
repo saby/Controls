@@ -14,9 +14,15 @@ export default class extends Control {
         }
         return cur;
     });
+    
     protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
 
     protected _beforeMount(): void {
+        this._columns[2].width = '100px';
+        this._columns[3].width = '100px';
+        this._columns[4].width = '100px';
+        this._columns[5].width = '200px';
+
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: getCountriesStats().getData()

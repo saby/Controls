@@ -2,7 +2,7 @@ import * as Deferred from 'Core/Deferred';
 import {Memory, Query, DataSet} from 'Types/source';
 
 const SEARCH_DELAY = 35000;
-const SOURCE_DEFAULT_DELAY = 100;
+const SOURCE_DEFAULT_DELAY = 200;
 
 interface IOptions {
     source: Memory;

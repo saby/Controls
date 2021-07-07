@@ -9,6 +9,7 @@
    </ws:if>
    <ws:partial template="{{_options.template}}"
                scope="{{_options.templateOptions}}"
+               prefetchPromise="{{_options._prefetchPromise}}"
                attr:class="controls-Stack__content"
                stackMinimizedWidth="{{_options.stackMinimizedWidth}}"
                stackWidth="{{_options.stackWidth}}"

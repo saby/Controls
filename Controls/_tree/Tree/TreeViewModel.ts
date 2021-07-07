@@ -310,11 +310,16 @@ var
             if (!current.nodeProperty || !current.parentProperty) {
                 return;
             }
-            const theme = self._options.theme;
             const isRootChild = (item) => item.get(current.parentProperty) === null;
             const getChildCount = (dispItem) => self._display.getChildren(dispItem).getCount();
             const hasChildren = (dispItem) => !!getChildCount(dispItem);
-            const hasEditingInCurrent = (itemData) => !!self._editingItemData && self._editingItemData.item.get(itemData.parentProperty) === itemData.key;
+            const hasEditingInCurrent = (itemData) => {
+                if (self.isEditing()) {
+                    const editingItem = self.getDisplay().find((el) => el.isEditing()).contents;
+                    return editingItem.get(itemData.parentProperty) === itemData.key;
+                }
+                return false;
+            };
             const isNotLeaf = (item) => !!item && item.get && item.get(current.nodeProperty) !== null;
 
             const fillNodeFooter = (params: {

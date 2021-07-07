@@ -1,12 +1,12 @@
 import * as clone from 'Core/core-clone';
-import { Control } from 'UI/Base';
-import { Memory } from 'Types/source';
-import { isEqual } from 'Types/object';
-import { SyntheticEvent } from 'Vdom/Vdom';
-import { Model } from 'Types/entity';
-import { TItemKey, ISwipeConfig, ANIMATION_STATE } from 'Controls/display';
-import { IStickyPopupOptions } from 'Controls/popup';
-import { IMenuPopupOptions } from 'Controls/menu';
+import {Control} from 'UI/Base';
+import {Memory} from 'Types/source';
+import {isEqual} from 'Types/object';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {Model} from 'Types/entity';
+import {TItemKey, ISwipeConfig, ANIMATION_STATE} from 'Controls/display';
+import {IStickyPopupOptions} from 'Controls/popup';
+import {IMenuPopupOptions} from 'Controls/menu';
 import {
     TItemActionVisibilityCallback,
     TItemActionShowType,
@@ -21,9 +21,9 @@ import {
 import {IItemActionsItem} from './interface/IItemActionsItem';
 import {IItemActionsCollection} from './interface/IItemActionsCollection';
 import {IShownItemAction, IItemActionsContainer} from './interface/IItemActionsContainer';
-import { verticalMeasurer } from './measurers/VerticalMeasurer';
-import { horizontalMeasurer } from './measurers/HorizontalMeasurer';
-import { Utils } from './Utils';
+import {verticalMeasurer} from './measurers/VerticalMeasurer';
+import {horizontalMeasurer} from './measurers/HorizontalMeasurer';
+import {Utils} from './Utils';
 import {IContextMenuConfig} from './interface/IContextMenuConfig';
 
 const DEFAULT_ACTION_ALIGNMENT = 'horizontal';
@@ -88,7 +88,7 @@ export interface IControllerOptions {
      * Выравнивание опций записи, когда они отображаются в режиме swipe
      * Варианты: 'horizontal' | 'vertical'
      */
-    actionAlignment?: 'horizontal'|'vertical';
+    actionAlignment?: 'horizontal' | 'vertical';
     /**
      * Позиция заголовка для опций записи, когда они отображаются в режиме swipe.
      */
@@ -128,7 +128,7 @@ export class Controller {
     private _iconSize: TItemActionsSize;
 
     // вариант расположения опций в свайпе на момент инициализации
-    private _actionsAlignment: 'horizontal'|'vertical';
+    private _actionsAlignment: 'horizontal' | 'vertical';
 
     private _theme: string;
 
@@ -140,6 +140,8 @@ export class Controller {
 
     // Текущее позиционирование опций записи
     private _itemActionsPosition: TItemActionsPosition;
+
+    private _activeItemKey: any;
 
     /**
      * Метод инициализации и обновления параметров.
@@ -168,7 +170,7 @@ export class Controller {
             this._commonItemActions = options.itemActions;
             this._itemActionsProperty = options.itemActionsProperty;
             this._itemActionVisibilityCallback = options.visibilityCallback ||
-                                                 ((action: IItemAction, item: Model) => true);
+                ((action: IItemAction, item: Model) => true);
         }
         if (this._commonItemActions || this._itemActionsProperty) {
             result = this._updateItemActions(options.editingItem);
@@ -324,13 +326,24 @@ export class Controller {
      */
     setActiveItem(item: IItemActionsItem): void {
         this._collection.setActiveItem(item);
+        if (item && typeof item.getContents !== 'undefined' && typeof item.getContents().getKey !== 'undefined') {
+            this._activeItemKey = item.getContents().getKey();
+        }
     }
 
     /**
      * Возвращает текущий активный Item
      */
     getActiveItem(): IItemActionsItem {
-        return this._collection.getActiveItem();
+        let activeItem = this._collection.getActiveItem();
+
+        /**
+         * Проверяем что элемент существует, в противном случае пытаемся его найти.
+         */
+        if (activeItem === undefined && (typeof this._collection.getItemBySourceKey !== 'undefined' && this._activeItemKey)) {
+            activeItem = this._collection.getItemBySourceKey(this._activeItemKey);
+        }
+        return activeItem;
     }
 
     /**
@@ -471,8 +484,8 @@ export class Controller {
     private _collectActionsForItem(item: IItemActionsItem): IItemAction[] {
         const contents = Controller._getItemContents(item);
         const itemActions: IItemAction[] = this._itemActionsProperty
-                ? contents.get(this._itemActionsProperty)
-                : this._commonItemActions;
+            ? contents.get(this._itemActionsProperty)
+            : this._commonItemActions;
         return itemActions.filter((action) =>
             this._itemActionVisibilityCallback(action, contents)
         );
@@ -567,12 +580,12 @@ export class Controller {
             showed = [];
         } else if (actions.length > 1) {
             showed = actions.filter((action) =>
-                    !action.parent &&
-                    (
-                        action.showType === TItemActionShowType.TOOLBAR ||
-                        action.showType === TItemActionShowType.MENU_TOOLBAR
-                    )
-                );
+                !action.parent &&
+                (
+                    action.showType === TItemActionShowType.TOOLBAR ||
+                    action.showType === TItemActionShowType.MENU_TOOLBAR
+                )
+            );
             if (this._isMenuButtonRequired(actions)) {
                 showed.push({
                     id: null,
@@ -692,7 +705,7 @@ export class Controller {
      * @param action
      * @private
      */
-    private static _getTooltip(action: IItemAction): string|undefined {
+    private static _getTooltip(action: IItemAction): string | undefined {
         return action.tooltip || action.title;
     }
 

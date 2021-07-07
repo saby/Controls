@@ -1,9 +1,17 @@
 <div class="controls-PeriodLiteDialog controls-PeriodLiteDialog_theme-{{_options.theme}}
-            {{_getWidthCssClass()}} {{_options.popupClassName}}">
+            {{_getWidthCssClass()}} {{_options.popupClassName}}"
+            style="{{_popupHeightStyle}}">
    <ws:if data="{{_options.chooseMonths || _options.chooseQuarters || _options.chooseHalfyears}}">
-      <div class="controls-PeriodLiteDialog__currentValue
+      <div class="controls-PeriodLiteDialog__header">
+         <div class="controls-PeriodLiteDialog__currentValue
                   controls-PeriodLiteDialog__currentValue_theme-{{_options.theme}}"
-           on:click="_onHeaderClick()">{{_caption}}</div>
+              on:click="_onHeaderClick()">{{_caption}}
+         </div>
+         <div class="controls-PeriodLiteDialog__close_theme-{{_options.theme}}
+                     controls-icon controls-icon_size-m_theme-{{_options.theme}}"
+              on:click="_onHeaderClick()">
+         </div>
+      </div>
       <div class="controls-PeriodLiteDialog__bodyWrapper controls-PeriodLiteDialog__bodyWrapper_theme-{{_options.theme}}">
          <div class="controls-PeriodLiteDialog__yearWrapper {{_getYearWrapperCssClasses()}}
                      controls-PeriodLiteDialog__yearWrapper_theme-{{_options.theme}}
@@ -20,14 +28,18 @@
             >
                {{ _position.getFullYear() }}
             </div>
-            <Controls.buttons:ArrowButton attr:class="controls-PeriodLiteDialog__year-prev_theme-{{_options.theme}}"
-                                          direction="left"
-                                          attr:title="{[Предыдущий год]}"
-                                          on:click="_changeYear (-1)"/>
-            <Controls.buttons:ArrowButton attr:class="controls-PeriodLiteDialog__year-next_theme-{{_options.theme}}"
-                                          direction="right"
-                                          attr:title="{[Следующий год]}"
-                                          on:click="_changeYear (1)"/>
+            <div class="controls-PeriodLiteDialog__arrow-wrapper_theme-{{_options.theme}} controls-PeriodLiteDialog__year-prev_theme-{{_options.theme}}"
+                 on:click="_changeYear (-1)">
+               <svg class="controls-PeriodLiteDialog__arrowUp controls-PeriodLiteDialog__arrow_theme-{{_options.theme}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path xmlns="http://www.w3.org/2000/svg" d="M8,5l7,5.5h-2L8,6.8l-5,3.7H1L8,5z"/>
+               </svg>
+            </div>
+            <div class="controls-PeriodLiteDialog__arrow-wrapper_theme-{{_options.theme}} controls-PeriodLiteDialog__year-next_theme-{{_options.theme}}"
+                 on:click="_changeYear (1)">
+               <svg class="controls-PeriodLiteDialog__arrowDown controls-PeriodLiteDialog__arrow_theme-{{_options.theme}}" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                  <path xmlns="http://www.w3.org/2000/svg" d="M8,11L1,5.5h2l5,3.7l5-3.7h2L8,11z"/>
+               </svg>
+            </div>
          </div>
          <ws:partial
                  class="controls-PeriodLiteDialog__body controls-PeriodLiteDialog__body_theme-{{_options.theme}}
@@ -44,11 +56,21 @@
                  _isFullPicker="{{_isFullPicker}}"
          />
       </div>
+   <ws:if data="{{_isExpandButtonVisible}}">
+      <div class="controls-PeriodLiteDialog__footer_theme-{{_options.theme}} controls-PeriodLiteDialog__expandButton_theme-{{_options.theme}}">
+         <div class="controls-icon controls-icon_size-m_theme-{{_options.theme}} icon-AccordionArrow{{_isExpandedPopup ? 'Up' : 'Down'}} action-hover controls-PeriodLiteDialog__AccordionArrow"
+              on:click="_expandPopup()"></div>
+      </div>
+   </ws:if>
    </ws:if>
    <ws:if data="{{!_options.chooseMonths && !_options.chooseQuarters && !_options.chooseHalfyears}}">
       <div class="controls-PeriodLiteDialog__years-next controls-PeriodLiteDialog__years-next_theme-{{_options.theme}}">
-         <Controls.buttons:ArrowButton direction="up"
-                                       on:click="_changeYear (1)"/>
+         <div class="controls-PeriodLiteDialog__arrow-wrapper_theme-{{_options.theme}}"
+              on:click="_changeYear (1)">
+            <svg class="controls-PeriodLiteDialog__arrowUp controls-PeriodLiteDialog__arrow_theme-{{_options.theme}}" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+               <path xmlns="http://www.w3.org/2000/svg" d="M8,5l7,5.5h-2L8,6.8l-5,3.7H1L8,5z"/>
+            </svg>
+         </div>
       </div>
       <Controls.calendar:MonthList
               order="desc"
@@ -78,8 +100,12 @@
          </ws:yearTemplate>
       </Controls.calendar:MonthList>
       <div class="controls-PeriodLiteDialog__years-prev controls-PeriodLiteDialog__years-prev_theme-{{_options.theme}}">
-         <Controls.buttons:ArrowButton direction="down"
-                                       on:click="_changeYear (-1)"/>
+         <div class="controls-PeriodLiteDialog__arrow-wrapper_theme-{{_options.theme}}"
+              on:click="_changeYear (-1)">
+            <svg class="controls-PeriodLiteDialog__arrowDown controls-PeriodLiteDialog__arrow_theme-{{_options.theme}}" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+               <path xmlns="http://www.w3.org/2000/svg" d="M8,11L1,5.5h2l5,3.7l5-3.7h2L8,11z"/>
+            </svg>
+         </div>
       </div>
    </ws:if>
 </div>

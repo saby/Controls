@@ -209,7 +209,7 @@ var ListView = BaseControl.extend(
         },
 
         _onItemContextMenu: function(event, itemData) {
-           if (this._options.contextMenuEnabled !== false && this._options.contextMenuVisibility !== false && !this._options.listModel.getEditingItemData()) {
+           if (this._options.contextMenuEnabled !== false && this._options.contextMenuVisibility !== false && !this._options.listModel.isEditing()) {
                 this._notify('itemContextMenu', [itemData, event, false]);
             }
         },

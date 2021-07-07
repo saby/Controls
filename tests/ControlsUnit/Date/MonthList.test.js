@@ -21,7 +21,8 @@ define([
 ) {
    'use strict';
    let config = {
-      position: new Date(2018, 0, 1)
+      position: new Date(2018, 0, 1),
+      intersectionRatio: 0.5
    };
 
    ItemTypes = ItemTypes.default;
@@ -236,6 +237,35 @@ define([
             sandbox.restore();
          });
 
+         it('should update source if changed', function () {
+            const sandbox = sinon.createSandbox();
+            const oldSource = {
+               query: function () {
+                  return {
+                     then: function () {
+                        return 'source1';
+                     }
+                  };
+               }
+            };
+            const newSource = {
+               query: function () {
+                  return {
+                     then: function () {
+                        return 'source2';
+                     }
+                  };
+               }
+            };
+            const ml = calendarTestUtils.createComponent(calendar.MonthList, {});
+            ml._beforeUpdate({ source: oldSource });
+
+            const stub = sandbox.stub(ml, '_enrichItems');
+
+            ml._beforeUpdate({ source: newSource });
+
+            sinon.assert.calledOnce(stub);
+         });
       });
 
       describe('_afterUpdate', function() {
@@ -479,7 +509,8 @@ define([
                nativeEntry: {
                   boundingClientRect: { top: 10, bottom: 30 },
                   rootBounds: { top: 20 },
-                  isIntersecting: true
+                  isIntersecting: true,
+                  intersectionRatio: 0.5
                },
                data: {
                   date: new Date(2019, 0),
@@ -494,11 +525,39 @@ define([
                         then: function () {
                            return;
                         }
-                     }
+                     };
                   }
                }
             },
             resultDisplayedDates: [(new Date(2019, 0)).getTime()],
+            date: new Date(2019, 0)
+         }, {
+            title: 'Should\'t add date to displayed dates.',
+            entries: [{
+               nativeEntry: {
+                  boundingClientRect: { top: 10, bottom: 30 },
+                  rootBounds: { top: 20 },
+                  isIntersecting: true,
+                  intersectionRatio: 0.05
+               },
+               data: {
+                  date: new Date(2019, 0),
+                  type: ItemTypes.body
+               }
+            }],
+            displayedDates: [],
+            options: {
+               source: {
+                  query:function () {
+                     return {
+                        then: function () {
+                           return;
+                        }
+                     };
+                  }
+               }
+            },
+            resultDisplayedDates: [],
             date: new Date(2019, 0)
          }, {
             title: 'Should\'t add date to displayed dates if header item is has been shown.',
@@ -506,7 +565,8 @@ define([
                nativeEntry: {
                   boundingClientRect: { top: 10, bottom: 30 },
                   rootBounds: { top: 20 },
-                  isIntersecting: true
+                  isIntersecting: true,
+                  intersectionRatio: 0.5
                },
                data: {
                   date: new Date(2019, 0),
@@ -521,7 +581,7 @@ define([
                         then: function () {
                            return;
                         }
-                     }
+                     };
                   }
                }
             },
@@ -548,7 +608,7 @@ define([
                         then: function () {
                            return;
                         }
-                     }
+                     };
                   }
                }
             },
@@ -575,7 +635,7 @@ define([
                         then: function () {
                            return;
                         }
-                     }
+                     };
                   }
                }
             },
@@ -598,10 +658,11 @@ define([
                      };
                   }
                };
-               component._beforeMount(coreMerge(test.options, config, { preferSource: true }));
+               const options = coreMerge(test.options, component._options, { preferSource: true });
+               component._beforeMount(options);
                sandbox.stub(component, '_enrichItemsDebounced');
                component._displayedDates = test.displayedDates;
-               component._options = test.options;
+               component._options = options;
                component._intersectHandler(null, test.entries);
                assert.deepEqual(component._displayedDates, test.resultDisplayedDates);
                sandbox.restore();

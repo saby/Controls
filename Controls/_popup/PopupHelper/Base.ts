@@ -1,6 +1,7 @@
 import {IBasePopupOptions} from 'Controls/_popup/interface/IBaseOpener';
 import BaseOpener from 'Controls/_popup/Opener/BaseOpener';
 import * as randomId from 'Core/helpers/Number/randomId';
+import ManagerController from 'Controls/_popup/Manager/ManagerController';
 
 interface IOpenerStaticMethods {
     openPopup: (popupOptions: IBasePopupOptions) => Promise<string>;
@@ -33,6 +34,10 @@ export default class Base {
                 this._popupId = null;
             }
         };
+        if (config.dataLoaders) {
+            config._prefetchPromise = ManagerController.loadData(config.dataLoaders);
+        }
+
         this._opener.openPopup(config);
     }
 

@@ -71,6 +71,10 @@ define(
                updateConsumers: function() { }
             };
 
+            scroll._stickyHeaderController = {
+               setShadowVisibility: sinon.fake()
+            };
+
             scroll._isMounted = true;
 
             scroll._children.scrollBar = {
@@ -87,7 +91,8 @@ define(
                sinon.stub(scroll, '_adjustContentMarginsForBlockRender');
                scroll._stickyHeaderController = {
                   setCanScroll: sinon.fake(),
-                  init: sinon.fake()
+                  init: sinon.fake(),
+                  setShadowVisibility: sinon.fake()
                };
                scroll._afterMount();
                assert.isTrue(scroll._displayState.shadowEnable.top);
@@ -154,6 +159,14 @@ define(
             describe('ipad', function() {
                beforeEach(function () {
                   Env.detection.isMobileIOS = true;
+                  scroll._stickyHeaderController = {
+                     hasFixed: function () {
+                        return false;
+                     },
+                     hasShadowVisible: function() {
+                        return false;
+                     }
+                  };
                });
                afterEach(function () {
                   if (typeof window === 'undefined') {
@@ -165,28 +178,12 @@ define(
 
                it('should display top shadow if scrollTop > 0.', function () {
                   scroll._displayState.shadowVisible.top = true;
-                  scroll._stickyHeaderController = {
-                     hasFixed: function () {
-                        return false;
-                     },
-                     hasShadowVisible: function() {
-                        return false;
-                     }
-                  };
 
                   assert.isTrue(scroll._shadowVisible('top'));
                });
 
                it('should display left shadow if scrollLeft > 0.', function () {
                   scroll._displayState.shadowVisible.left = true;
-                  scroll._stickyHeaderController = {
-                     hasFixed: function () {
-                        return false;
-                     },
-                     hasShadowVisible: function() {
-                        return false;
-                     }
-                  };
 
                   assert.isTrue(scroll._shadowVisible('left'));
                });
@@ -194,14 +191,6 @@ define(
                it('should not display top shadow if scrollLeft < 0.', function () {
                   scroll._displayState.shadowVisible.left = true;
                   scroll._children.content.scrollLeft = -10;
-                  scroll._stickyHeaderController = {
-                     hasFixed: function () {
-                        return false;
-                     },
-                     hasShadowVisible: function() {
-                        return false;
-                     }
-                  };
 
                   assert.isFalse(scroll._verticalShadowVisible('left'));
                });
@@ -267,7 +256,6 @@ define(
                   scroll._stickyHeaderContext = {
                      updateConsumers: function() { }
                   };
-
                   scroll._updateStickyHeaderContext();
                   assert.strictEqual(scroll._stickyHeaderContext.shadowPosition, test.resultShadowPosition);
                });

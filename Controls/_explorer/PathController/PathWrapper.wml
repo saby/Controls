@@ -19,7 +19,7 @@
    <ws:if data="{{_options.stickyHeader}}">
       <Controls.scroll:StickyHeader
               mode="stackable"
-              shadowVisibility="{{_options.needShadow ? 'visible' : 'hidden'}}"
+              shadowVisibility="{{_options.needShadow ? 'lastVisible' : 'hidden'}}"
               fixedZIndex="{{5}}"
               backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
               attr:class="controls-Explorer__HeadingPath-{{_options.style}}_theme-{{_options.theme}}">

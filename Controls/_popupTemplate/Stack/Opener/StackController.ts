@@ -108,7 +108,7 @@ class StackController extends BaseController {
     }
 
     workspaceResize(): boolean {
-        super.workspaceResize();
+        this._update();
         return !!this._stack.getCount();
     }
 
@@ -500,8 +500,10 @@ class StackController extends BaseController {
             rootCoords = BaseController.getRootContainerCoords(item, '.controls-Popup__stack-target-container');
         }
 
-        // calc with scroll, because stack popup has fixed position only on desktop and can scroll with page
-        const leftPageScroll = detection.isMobilePlatform ? 0 : rootCoords.leftScroll;
+        // calc with scroll only on desktop devices, because stack popup has fixed position and can scroll with page
+        // except for safari, because windowSizes doesn't change at zoom, but there is information about leftScroll.
+
+        const leftPageScroll = detection.isMobilePlatform || detection.safari ? 0 : rootCoords.leftScroll;
         return {
             top: Math.max(rootCoords.top, 0),
             height: rootCoords.height,

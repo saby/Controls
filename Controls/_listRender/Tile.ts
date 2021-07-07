@@ -107,7 +107,7 @@ export default class TileRender extends BaseRender {
 
     protected _onItemMouseLeave(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem<unknown>): void {
         super._onItemMouseLeave(e, item);
-        if (!this._context.isTouch.isTouch && !item.isActive()) {
+        if (!this._isTouch() && !item.isActive()) {
             this._debouncedSetHoveredItem(null);
         }
     }
@@ -184,9 +184,13 @@ export default class TileRender extends BaseRender {
         }
     }
 
+    private _isTouch(): boolean {
+        return this._context?.isTouch?.isTouch;
+    }
+
     private _shouldProcessHover(): boolean {
         return (
-            !this._context.isTouch.isTouch &&
+            !this._isTouch() &&
             !document.body.classList.contains('ws-is-drag')
         );
     }

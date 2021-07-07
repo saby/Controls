@@ -17,58 +17,22 @@
 /**
  * @name Controls/_grid/interface/IGridControl#ladderProperties
  * @cfg {Array.<String>} Массив свойств, по которым происходит прилипание.
- * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">демо-пример</a>
+ * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере настроено отображение данных "лесенкой" для свойству "photo". Дополнительно включено прилипание заголовка таблицы.
+ * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultiline/Index В демо-примере настроено отображение данных "лесенкой" для свойствам "date" и "time".
  * @example
- * Пример 1. Шаблон лесенки задан в рамках шаблона родительского контрола.
- * <pre class="brush: html">
- *    <!-- MyControl.wml -->
- *    <div class="demoGrid">
- *       <Controls.grid:View ladderProperties="{{ ['date'] }}">
- *          <ws:columns>
- *             <ws:Array>
- *                <ws:Object width="1fr">
- *                   <ws:template>
- *                      <ws:partial template="Controls/grid:ColumnTemplate">
- *                         <ws:contentTemplate>
- *                            <ws:partial template="{{template.ladderWrapper}}" ladderProperty="date">
- *                               <div class="demoGrid__date">
- *                                  {{template.itemData.item['date']}}
- *                               </div>
- *                            </ws:partial>
- *                         </ws:contentTemplate>
- *                      </ws:partial>
- *                   </ws:template>
- *                </ws:Object>
- *             </ws:Array>
- *          </ws:columns>
- *       </Controls.grid:View>
- *    </div>
+ * <pre class="brush: js">
+ * protected _ladderProperties: string[] = ['date', 'time'];
  * </pre>
- *
- * Пример 2. Шаблон лесенки вынесен в отдельный шаблон.
- * <pre class="brush: html">
- *    <!-- MyControl.wml -->
- *    <div class="demoGrid">
- *       <Controls.grid:View
- *          ...
- *          ladderProperties="{{ ['date'] }}">
- *          <ws:columns>
- *             <ws:Array>
- *                <ws:Object width="1fr" template="wml!MyModule/MyTemplate" />
- *             </ws:Array>
- *          </ws:columns>
- *       </Controls.grid:View>
- *    </div>
+ * <pre class="brush: html; highlight: [6]">
+ * <Controls.grid:View
+ *     keyProperty="id"
+ *     source="{{_viewSource}}"
+ *     columns="{{_columns}}"
+ *     header="{{_header}}"
+ *     ladderProperties="{{_ladderProperties}}"/>
  * </pre>
- * <pre class="brush: html">
- *    <!-- MyTemplate.wml -->
- *    <ws:partial template="{{ladderWrapper}}" ladderProperty="date">
- *       <div class="demoGrid__date">
- *          {{itemData.item['date']}}
- *       </div>
- *    </ws:partial>
- * </pre>
+ * @remark Подробнее о конфигурации лесенки читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/">руководстве разработчика</a>.
+ * @see Controls/grid:IColumn#stickyProperty
  */
 
 /*
@@ -246,8 +210,8 @@
 /**
  * @name Controls/_grid/interface/IGridControl#stickyHeader
  * @cfg {Boolean} Закрепляет заголовок таблицы.
- * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">демо-пример</a>
+ * @demo Controls-demo/grid/Header/NoSticky/Index В демо-примере опция stickyHeader установлена в значение false.
+ * @demo Controls-demo/grid/Header/Sticky/Index В демо-примере опция stickyHeader установлена в значение true.
  * @default true
  */
 
@@ -393,9 +357,9 @@
  * @default undeined
  * @demo Controls-demo/grid/Results/ResultsTemplate/Index
  * @remark
- * Позволяет установить прикладной шаблон отображения строки итогов (именно шаблон, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона Controls/grid:ResultsTemplate.
+ * Позволяет установить пользовательский шаблон отображения строки итогов (именно шаблон, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона Controls/grid:ResultsTemplate.
  *
- * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию resultsTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultTemplate.
+ * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию resultsTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultTemplate.
  *
  * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/row/ руководстве разработчика}.
  *

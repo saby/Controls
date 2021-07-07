@@ -99,7 +99,7 @@ function applyPrefetchFromItems(filter: object, items: RecordSet): object {
     return  filter;
 }
 
-function prepareFilter(filter: Object, prefetchParams: IPrefetchParams): object {
+function prepareFilter(filter: Object, prefetchParams: IPrefetchHistoryParams): object {
     const clonedFiled = {...filter};
     return {...clonedFiled, ...prefetchParams || {}};
 }

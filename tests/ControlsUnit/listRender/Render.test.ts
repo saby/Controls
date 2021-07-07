@@ -215,7 +215,6 @@ describe('Controls/_listRender/Render', () => {
 
         assert.isTrue(itemClickFired, 'itemClick should be fired');
         assert.strictEqual(itemClickParameter, expectedContents);
-        assert.isTrue(itemClickBubbling, 'itemClick should be bubbling')
     });
 
     it('_onItemContextMenu()', () => {

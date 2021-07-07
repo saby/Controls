@@ -301,6 +301,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             instance.shiftRange('down');
 
             assert.deepEqual({direction: 'down', heightDifference: 180}, instance.getParamsToRestoreScroll());
+            instance.beforeRestoreScrollPosition();
 
             instance.shiftRange('up');
 
@@ -325,6 +326,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             // render items 5, 6, 7, 8
             instance.updateItemsHeights(getItemsHeightsData([3, 3, 3, 3]));
             instance.getParamsToRestoreScroll();
+            instance.beforeRestoreScrollPosition();
             // add 5 items and render items *0, *1, *2, *3, *4, 5, 6, 7, 8, *9 (* - new items)
             instance.addItems(0, 5, {up: true, down: false}, 'up');
             // @ts-ignore

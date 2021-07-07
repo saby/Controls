@@ -2,6 +2,8 @@
    <Controls.tile:View
       tileMode="static"
       displayProperty="title"
+      parentProperty="parent"
+      nodeProperty="parent@"
       imageFit="contain"
       tileHeight="300"
       imageProperty="image"

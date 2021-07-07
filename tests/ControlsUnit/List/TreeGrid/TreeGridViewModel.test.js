@@ -441,6 +441,9 @@ define(['Controls/treeGrid',
          let nodeFooter = model.getItemDataByItem.call(model).nodeFooters[0];
          assert.isTrue(nodeFooter.getColumnClasses(0).indexOf('controls-Grid_columnScroll__fixed') !== -1);
          assert.isTrue(nodeFooter.getColumnClasses(0, { colspan: false }).indexOf('controls-Grid_columnScroll__fixed') !== -1);
+
+         assert.isTrue(nodeFooter.getColumnClasses(0).indexOf('js-controls-ColumnScroll__notDraggable') !== -1);
+         assert.isTrue(nodeFooter.getColumnClasses(0, { colspan: false }).indexOf('js-controls-ColumnScroll__notDraggable') !== -1);
          assert.equal(nodeFooter.classes, nodeFooter.getColumnClasses(0));
 
          treeGrid.ViewModel.superclass.getItemDataByItem = originFn;

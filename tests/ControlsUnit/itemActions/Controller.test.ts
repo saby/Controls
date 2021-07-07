@@ -1680,6 +1680,13 @@ describe('Controls/_itemActions/Controller', () => {
             itemActionsController.setActiveItem(collection.getItemBySourceKey(2));
             assert.equal(itemActionsController.getActiveItem(), testingItem);
         });
+        it('correctly returns the active item when updating the source', () => {
+            const testingItem = collection.getItemBySourceKey(2);
+            itemActionsController.setActiveItem(collection.getItemBySourceKey(2));
+            // Эмулируем обновление source, при котором activeElement сбрасывается.
+            itemActionsController._collection.setActiveItem(undefined);
+            assert.equal(itemActionsController.getActiveItem(), testingItem);
+        });
     });
 
     describe('startSwipeCloseAnimation()', () => {
