@@ -40,6 +40,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     protected _beforeUnmount(): void {
         if (this._sourceController) {
             this._sourceController.unsubscribe('itemsChanged', this._updateBreadCrumbsItems);
+            this._sourceController.unsubscribe('breadcrumbsDataChanged', this._updateBreadCrumbsItems);
             this._sourceController.destroy();
         }
     }
@@ -85,6 +86,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     private _subscribeItemsChanged(sourceController): void {
         this._sourceController = sourceController;
         this._sourceController.subscribe('itemsChanged', this._updateBreadCrumbsItems);
+        this._sourceController.subscribe('breadcrumbsDataChanged', this._updateBreadCrumbsItems);
     }
 
     private _updateBreadCrumbsItems(): void {
