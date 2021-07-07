@@ -1,5 +1,3 @@
-
-
 import {IPopupTemplateBaseOptions} from 'Controls/_popupTemplate/interface/IPopupTemplateBase';
 export interface IPopupTemplateOptions extends IPopupTemplateBaseOptions {
     closeButtonViewMode?: string;

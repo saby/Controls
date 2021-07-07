@@ -7677,6 +7677,12 @@ define([
             assert.isFalse(notifySpy.withArgs('selectedKeysChanged').called);
 
             baseControl._insideDragging = undefined;
+
+            // Сбрасываем _documentDragging даже если в этом списке не было днд
+            dndController.isDragging = () => false;
+            baseControl._documentDragging = true;
+            baseControl._documentDragEnd({ entity: {} });
+            assert.isFalse(baseControl._documentDragging);
          });
 
          it('loadToDirection, drag all items', () => {

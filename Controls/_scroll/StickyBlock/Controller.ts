@@ -414,7 +414,7 @@ class StickyHeaderController {
                 if (!inHeadersStack) {
                     this._addToHeadersStack(header.id, position, true);
                 }
-            })
+            });
         }
     }
 

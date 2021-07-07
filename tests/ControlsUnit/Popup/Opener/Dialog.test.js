@@ -3,8 +3,8 @@ define(
       'Controls/popupTemplate',
       'Controls/popup',
       'Controls/Application/SettingsController',
-      'Controls/_popupTemplate/Dialog/Opener/DialogStrategy',
-      'Controls/_popupTemplate/Dialog/Opener/DirectionUtil'
+      'Controls/_popupTemplate/Dialog/DialogStrategy',
+      'Controls/_popupTemplate/Dialog/DirectionUtil'
    ],
    (
       popupTemplate,
@@ -19,6 +19,7 @@ define(
          DialogController
       } = popupTemplate;
       const DialogOpener = popupLib.Dialog;
+      DialogStrategy = DialogStrategy.default;
       const mockedSettingsController = {
          storage: {
             'testDialogPosition': {

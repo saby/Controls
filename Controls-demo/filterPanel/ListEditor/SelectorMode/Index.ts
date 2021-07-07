@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/filterPanel/View/Index';
+import * as Template from 'wml!Controls-demo/filterPanel/ListEditor/SelectorMode/Index';
 import * as stackTemplate from 'wml!Controls-demo/filterPanel/resources/MultiSelectStackTemplate/StackTemplate';
 import {isEqual} from 'Types/object';
 import {Memory} from 'Types/source';

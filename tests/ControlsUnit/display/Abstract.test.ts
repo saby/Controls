@@ -3,15 +3,11 @@ import { assert } from 'chai';
 import {
     Abstract as Display,
     Collection,
-    CollectionItem,
-    Enum as EnumDisplay,
-    Flags as FlagsDisplay
+    CollectionItem
 } from 'Controls/display';
 
 import {
-    List,
-    Enum as EnumType,
-    Flags as FlagsType
+    List
 } from 'Types/collection';
 
 describe('Controls/_display/Abstract', () => {
@@ -33,18 +29,6 @@ describe('Controls/_display/Abstract', () => {
             const collection = new List();
             const display = Display.getDefaultDisplay(collection);
             assert.instanceOf(display, Collection);
-        });
-
-        it('should return the special display for Enum', () => {
-            const collection = new EnumType();
-            const display = Display.getDefaultDisplay(collection);
-            assert.instanceOf(display, EnumDisplay);
-        });
-
-        it('should return the special display for Flags', () => {
-            const collection = new FlagsType();
-            const display = Display.getDefaultDisplay(collection);
-            assert.instanceOf(display, FlagsDisplay);
         });
 
         it('should throw an error for not IEnumerable', () => {

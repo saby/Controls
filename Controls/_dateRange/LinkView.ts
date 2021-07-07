@@ -64,8 +64,8 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
 
    protected _resetButtonVisible: boolean;
 
-   constructor(options: ILinkViewControlOptions) {
-      super(arguments);
+   constructor(options: ILinkViewControlOptions, context?: object) {
+      super(options, context);
       this._rangeModel = new DateRangeModel({
          dateConstructor: options.dateConstructor
       });

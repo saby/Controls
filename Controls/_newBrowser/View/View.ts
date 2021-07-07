@@ -116,6 +116,8 @@ export default class View extends Control<IOptions, IReceivedState> {
     protected _hasImageInItems: boolean = false;
     protected _itemToScroll: CrudEntityKey = null;
     protected _contrastBackground: boolean = true;
+    protected _listLoaded = false;
+    protected _tileLoaded = false;
 
     /**
      * Опции для Controls/explorer:View в master-колонке
@@ -144,8 +146,8 @@ export default class View extends Control<IOptions, IReceivedState> {
     //endregion
     //endregion
 
-    constructor() {
-        super();
+    constructor(options: IOptions, context?: object) {
+        super(options, context);
         this._onDetailDataLoadCallback = this._onDetailDataLoadCallback.bind(this);
     }
 
@@ -209,8 +211,18 @@ export default class View extends Control<IOptions, IReceivedState> {
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
-
-        this._userViewMode = newOptions.userViewMode;
+        if (this._userViewMode !== newOptions.userViewMode) {
+            this._userViewMode = newOptions.userViewMode;
+            // Если поменялся вьюмод вне списка и вьюха еще не загружена, то ждем события от explorer'a о смене вьюмода
+            if (this.viewMode === DetailViewMode.list && this._listLoaded ||
+                this.viewMode === DetailViewMode.tile && this._tileLoaded ||
+                this.viewMode === DetailViewMode.table ||
+                this.viewMode === DetailViewMode.search
+            ) {
+                this._updateContrastBackground();
+                this._updateDetailBgColor();
+            }
+        }
         this._detailExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.detail, newOptions.detail);
         this._masterExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.master, newOptions.master);
 
@@ -260,6 +272,11 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._updateMasterVisibility(options);
         this._updateDetailBgColor(options);
         this._updateContrastBackground();
+        if (this.viewMode === DetailViewMode.list) {
+            this._listLoaded = true;
+        } else if (this.viewMode === DetailViewMode.tile) {
+            this._tileLoaded = true;
+        }
         this._notify('viewModeChanged', [this.viewMode]);
     }
 

@@ -1,0 +1,19 @@
+<div>
+   <ws:if data="{{_options.historyId && (_historyItems.getCount() || _options.emptyHistoryTemplate)}}">
+      <div class="controls-FilterViewPanel__history-editors-container">
+         <div class="controls-FilterViewPanel__history-caption">{{rk('Ранее отбирались')}}</div>
+         <div class="controls-FilterViewPanel__history-editors">
+            <ws:for data="filter in _historyItems">
+               <div class="controls-FilterViewPanel__history-editor">
+                  <div class="controls-FilterViewPanel__history-editor_caption"
+                       on:click="_handleHistoryItemClick(filter)">
+                     {{_getItemText(filter)}}
+                  </div>
+                  <span class="{{filter.get('pinned') ? 'icon-PinOff controls-FilterViewPanel__pinned-icon' : 'icon-PinNull'}} secondary controls-FilterViewPanel__pin-icon"
+                        on:click="_onPinClick(filter)"> </span>
+               </div>
+            </ws:for>
+         </div>
+      </div>
+   </ws:if>
+</div>

@@ -3,7 +3,7 @@ import {getDimensions} from 'Controls/sizeUtils';
 export interface ITargetCoords extends ClientRect {
     topScroll: number;
     leftScroll: number;
-    boundingClientRect: ClientRect;
+    boundingClientRect?: ClientRect;
 }
 export function get(target: HTMLElement): ITargetCoords {
     if (!target) {

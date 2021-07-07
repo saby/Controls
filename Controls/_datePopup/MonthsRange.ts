@@ -37,8 +37,8 @@ class Component extends Control<IMonthsRangeOptions> {
 
     _selectionViewType: string;
 
-    constructor(options: IMonthsRangeOptions) {
-        super(options);
+    constructor(options: IMonthsRangeOptions, context?: object) {
+        super(options, context);
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
     }

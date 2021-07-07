@@ -14,10 +14,10 @@ export interface IEditableGrid {
     _options: {
         /**
          * @name Controls/_grid/interface/IEditableGrid#editingConfig
-         * @cfg {IEditingConfig | undefined} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
+         * @cfg {IGridEditingConfig | undefined} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
          * @demo Controls-demo/gridNew/EditInPlace/Toolbar/Index
          */
-        editingConfig?: IEditingConfig
+        editingConfig?: IGridEditingConfig
     };
 
     /**
@@ -67,7 +67,7 @@ export interface IEditableGrid {
      *
      * Перед запуском добавления по месту происходит событие {@link beforeBeginEdit beforeBeginEdit}, а после запуска — {@link afterBeginEdit afterBeginEdit}.
      *
-     * Вы можете задать позицию, в которой отображается шаблон редактирования строки. Для этого в опции {@link editingConfig} установите значение для параметра {@link IEditingConfig addPosition}. Шаблон редактирования строки может отображаться в начале и в конце списка, группы (если включена {@link Controls/interface/IGroupedList#groupProperty группировка}) или узла (для иерархических списков).
+     * Вы можете задать позицию, в которой отображается шаблон редактирования строки. Для этого в опции {@link editingConfig} установите значение для параметра {@link IGridEditingConfig addPosition}. Шаблон редактирования строки может отображаться в начале и в конце списка, группы (если включена {@link Controls/interface/IGroupedList#groupProperty группировка}) или узла (для иерархических списков).
      *
      * В случае, когда метод beginAdd вызван без аргументов, добавляемая запись будет создана при помощи установленного на списке источника данных путем вызова у него метода {@link Types/source:ICrud#create create}.
      * @demo Controls-demo/gridNew/EditInPlace/EditingCell/Index
@@ -154,7 +154,7 @@ export interface IEditableGrid {
 
 /**
  * @typedef {Enum} TEditingMode
- * @description Допустимые значения для свойства {@link IEditingConfig mode}.
+ * @description Допустимые значения для свойства {@link IGridEditingConfig mode}.
  * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
  * @demo Controls-demo/gridNew/EditInPlace/EditingCell/Index
  * @variant row Редактирование всей строки.
@@ -163,7 +163,7 @@ export interface IEditableGrid {
 type TEditingMode = 'row' | 'cell';
 
 /**
- * @typedef {Object} IEditingConfig
+ * @typedef {Object} IGridEditingConfig
  * @description Интерфейс объекта-конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
  * @property {Boolean} [addPosition=false] Автоматический запуск добавления по месту при инициализации {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}. По умолчанию отключено (false). Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/init/ здесь}.
  * @property {Boolean} [editOnClick=false] Запуск редактирования по месту при клике по элементу списка. Является частью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/basic/ базовой конфигурации} функционала редактирования по месту. По умолчанию отключено (false).
@@ -176,7 +176,7 @@ type TEditingMode = 'row' | 'cell';
  * @property {TEditingMode} [mode=row] Режим редактирования таблицы.
  * @property {Types/entity:Model} [item=undefined] Автоматический запуск редактирования/добавления по месту при инициализации списка. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/init/ здесь}.
  */
-export interface IEditingConfig {
+export interface IGridEditingConfig {
     autoAddOnInit?: boolean;
     editOnClick?: boolean;
     autoAdd?: boolean;
@@ -209,7 +209,7 @@ interface IOperationCanceledResult { canceled: true; }
 
 /**
  * @typedef {Enum} TAddPosition
- * @description Допустимые значения для свойства {@link IEditingConfig addPosition}.
+ * @description Допустимые значения для свойства {@link IGridEditingConfig addPosition}.
  * @variant top В начале.
  * @variant bottom В конце.
  */
@@ -223,12 +223,14 @@ type TAddPosition = 'top' | 'bottom';
  * @property {Types/entity:Model} [targetItem] Запись списка, рядом с которой будет запущено добавление по месту.
  * @property {Boolean} [shouldActivateInput] Флаг, определяющий, следует ли усстанавливать фокус в поле ввода, после старта добавления.
  * @property {TAddPosition} [addPosition] Позиция добавляемой записи. В случае, если в параметрах был передан targetItem, позиция определяется относительно его, иначе - всего списка.
+ * @property {Number} [columnIndex=undefined] Индекс редактируемой ячейки при старте редактирования. Доступно только при значении опции {@link IGridEditingConfig mode}="cell".
  */
 interface IItemAddOptions {
     item?: Model;
     targetItem?: Model;
     shouldActivateInput?: boolean;
     addPosition?: TAddPosition;
+    columnIndex?: number;
 }
 
 /**
@@ -237,10 +239,12 @@ interface IItemAddOptions {
  * @property {Types/entity:Model} [item] Запись, которая будет запущена на редактирование.
  * Если из обработчика события {@link beforeBeginEdit} также будет возвращена запись, то именно она будет запущена на редактирование вместо первоначальной.
  * @property {Boolean} [shouldActivateInput] Флаг, определяющий, следует ли усстанавливать фокус в поле ввода, после старта редактирования.
+ * @property {Number} [columnIndex=undefined] Индекс редактируемой ячейки при старте добавления. Доступно только при значении опции {@link IGridEditingConfig mode}="cell".
  */
 interface IItemEditOptions {
     item?: Model;
     shouldActivateInput?: boolean;
+    columnIndex?: number;
 }
 
 /**
@@ -286,8 +290,8 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  * Добавление элемента происходит в следующих случаях:
  * 1. вызов метода {@link beginAdd}.
  * 2. после окончания редактирования:
- *     * последнего (уже существующего) элемента списка (см. свойство {@link IEditingConfig autoAdd});
- *     * только что добавленного элемента списка (см. свойство {@link IEditingConfig autoAddByApplyButton}).
+ *     * последнего (уже существующего) элемента списка (см. свойство {@link IGridEditingConfig autoAdd});
+ *     * только что добавленного элемента списка (см. свойство {@link IGridEditingConfig autoAddByApplyButton}).
  * @returns {TBeforeBeginEditEventResult}
  * @example
  * В следующем примере показано, как запретить редактирование элемента, если он соответствует условию:
@@ -358,8 +362,8 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  * Добавление элемента происходит в следующих случаях:
  * 1. вызов метода {@link beginAdd}.
  * 2. после окончания редактирования:
- *     * последнего (уже существующего) элемента списка (см. свойство {@link IEditingConfig autoAdd}).
- *     * только что добавленного элемента списка (см. свойство {@link IEditingConfig autoAddByApplyButton}).
+ *     * последнего (уже существующего) элемента списка (см. свойство {@link IGridEditingConfig autoAdd}).
+ *     * только что добавленного элемента списка (см. свойство {@link IGridEditingConfig autoAddByApplyButton}).
  * @remark
  * Подпишитесь на событие, если необходимо что-либо сделать после начала редактирования (например, скрыть кнопку "Добавить").
  * Событие запускается, когда подготовка данных успешно завершена и возможно безопасно обновить пользовательский интерфейс.
@@ -398,8 +402,8 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  * Добавление элемента происходит в следующих случаях:
  * 1. вызов метода {@link beginAdd}.
  * 2. после окончания редактирования:
- *     * последнего (уже существующего) элемента списка (см. свойство {@link IEditingConfig autoAdd});
- *     * только что добавленного элемента списка (см. свойство {@link IEditingConfig autoAddByApplyButton}).
+ *     * последнего (уже существующего) элемента списка (см. свойство {@link IGridEditingConfig autoAdd});
+ *     * только что добавленного элемента списка (см. свойство {@link IGridEditingConfig autoAddByApplyButton}).
  * @returns {TBeforeEndEditEventResult}
  * @remark
  * Используйте событие, если необходимо проверить данные и отменить изменения. По умолчанию для сохранения изменений вызывается метод обновления списка.
@@ -435,8 +439,8 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  * Добавление элемента происходит в следующих случаях:
  * 1. вызов метода {@link beginAdd}.
  * 2. после окончания редактирования:
- *     * последнего (уже существующего) элемента списка (см. свойство {@link IEditingConfig autoAdd});
- *     * после окончания редактирования только что добавленного элемента списка (см. свойство {@link IEditingConfig autoAddByApplyButton}).
+ *     * последнего (уже существующего) элемента списка (см. свойство {@link IGridEditingConfig autoAdd});
+ *     * после окончания редактирования только что добавленного элемента списка (см. свойство {@link IGridEditingConfig autoAddByApplyButton}).
  * @remark
  * Подпишитесь на событие, если необходимо что-либо сделать после завершения редактирования (например, показать кнопку "Добавить").
  * Событие запускается, когда редактирование успешно завершено и возможно безопасно обновить пользовательский интерфейс.
@@ -492,6 +496,38 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
 // }
 //
 // /**
+//  * @typedef {Object} IGridItemEditOptions
+//  * @description Объект-конфигурации для запуска редактирования по месту.
+//  * @property {Types/entity:Model} [item] Запись, которая будет запущена на редактирование.
+//  * Если из обработчика события {@link beforeBeginEdit} также будет возвращена запись, то именно она будет запущена на редактирование вместо первоначальной.
+//  * @property {Boolean} [shouldActivateInput] Флаг, определяющий, следует ли усстанавливать фокус в поле ввода, после старта редактирования.
+//  * @property {Number} [columnIndex=undefined] Индекс редактируемой ячейки при старте редактирования. Доступно только при значении опции {@link IGridEditingConfig mode}="cell".
+//  */
+// export interface IGridItemEditOptions {
+//     item?: Model;
+//     shouldActivateInput?: boolean;
+//     columnIndex?: number;
+// }
+//
+// /**
+//  * @typedef {Object} IGridItemAddOptions
+//  * @description Объект-конфигурации для запуска добавления по месту.
+//  * @property {Types/entity:Model} [item] Запись, которая будет запущена на добавление.
+//  * Если из обработчика события {@link beforeBeginEdit} также будет возвращена запись, то именно она будет запущена на добавление вместо первоначальной.
+//  * @property {Types/entity:Model} [targetItem] Запись списка, рядом с которой будет запущено добавление по месту.
+//  * @property {Boolean} [shouldActivateInput] Флаг, определяющий, следует ли усстанавливать фокус в поле ввода, после старта добавления.
+//  * @property {TAddPosition} [addPosition] Позиция добавляемой записи. В случае, если в параметрах был передан targetItem, позиция определяется относительно его, иначе - всего списка.
+//  * @property {Number} [columnIndex=undefined] Индекс редактируемой ячейки при старте добавления. Доступно только при значении опции {@link IGridEditingConfig mode}="cell".
+//  */
+// export interface IGridItemAddOptions {
+//     item?: Model;
+//     targetItem?: Model;
+//     shouldActivateInput?: boolean;
+//     addPosition?: TAddPosition;
+//     columnIndex?: number;
+// }
+//
+// /**
 //  * Интерфейс для {@link /doc/platform/developmentapl/interface-development/controls/grid/ таблиц} с возможностью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
 //  *
 //  * @public
@@ -509,6 +545,81 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
 //          */
 //         editingConfig: IGridEditingConfig;
 //     };
+//
+//     /**
+//      * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
+//      * Использование метода в таблице с режимом "только чтение" невозможно.
+//      * @function
+//      * @param {IGridItemEditOptions} options Параметры редактирования.
+//      * @returns {TAsyncOperationResult}
+//      * @remark
+//      * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ панели действий элемента}.
+//      *
+//      * Promise разрешается после монтирования контрола в DOM.
+//      *
+//      * Перед запуском редактирования по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
+//      *
+//      * Формат полей редактируемой записи может отличаться от формата полей {@link Types/Collection:RecordSet}, отображаемый списком. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/code/#begin-edit-format здесь}.
+//      * @example
+//      * В следующем примере показано, как начать редактирование элемента.
+//      * <pre class="brush: html;">
+//      * <!-- WML -->
+//      * <Controls.list:View name="list" />
+//      * </pre>
+//      * <pre class="brush: js;">
+//      * // JavaScript
+//      * foo: function() {
+//      *    this._children.list.beginEdit({
+//      *       item: this._items.at(0)
+//      *    });
+//      * }
+//      * </pre>
+//      * @see beginAdd
+//      * @see commitEdit
+//      * @see cancelEdit
+//      * @see beforeBeginEdit
+//      * @see afterBeginEdit
+//      */
+//     beginEdit(options?: IGridItemEditOptions): TAsyncOperationResult;
+//
+//     /**
+//      * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ добавление по месту}.
+//      * Использование метода в списке с режимом "только чтение" невозможно.
+//      * @function
+//      * @param {IGridItemAddOptions} options Параметры добавления.
+//      * @returns {TAsyncOperationResult}
+//      * @remark
+//      * Promise разрешается после монтирования контрола в DOM.
+//      *
+//      * Перед запуском добавления по месту происходит событие {@link beforeBeginEdit beforeBeginEdit}, а после запуска — {@link afterBeginEdit afterBeginEdit}.
+//      *
+//      * Вы можете задать позицию, в которой отображается шаблон редактирования строки. Для этого в опции {@link editingConfig} установите значение для параметра {@link IGridEditingConfig addPosition}. Шаблон редактирования строки может отображаться в начале и в конце списка, группы (если включена {@link Controls/interface/IGroupedList#groupProperty группировка}) или узла (для иерархических списков).
+//      *
+//      * В случае, когда метод beginAdd вызван без аргументов, добавляемая запись будет создана при помощи установленного на списке источника данных путем вызова у него метода {@link Types/source:ICrud#create create}.
+//      * @demo Controls-demo/list_new/EditInPlace/AddItem/Index
+//      * @demo Controls-demo/list_new/EditInPlace/AddItemInBegin/Index Шаблон редактирования строки отображается в начале списка.
+//      * @demo Controls-demo/list_new/EditInPlace/AddItemInEnd/Index Шаблон редактирования строки отображается в конце списка.
+//      * @example
+//      * В следующем примере показано, как начать добавление элемента.
+//      *
+//      * <pre class="brush: html">
+//      * <!-- WML -->
+//      * <Controls.list:View name="list" />
+//      * </pre>
+//      *
+//      * <pre class="brush: js">
+//      * // JavaScript
+//      * foo: function() {
+//      *    this._children.list.beginAdd();
+//      * }
+//      * </pre>
+//      * @see beginEdit
+//      * @see commitEdit
+//      * @see cancelEdit
+//      * @see beforeBeginEdit
+//      * @see afterBeginEdit
+//      */
+//     beginAdd(options?: IGridItemAddOptions): TAsyncOperationResult;
 // }
 
 //#endregion

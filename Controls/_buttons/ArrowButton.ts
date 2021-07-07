@@ -23,6 +23,28 @@ export interface IArrowButtonOptions extends IControlOptions {
 class ArrowButton extends Control<IArrowButtonOptions>  {
     protected _template: TemplateFunction = template;
 
+    protected _getIconClass(): string {
+        let direction: string;
+        switch (this._options.direction) {
+            case 'down':
+                direction = 'Expand';
+                break;
+            case 'left':
+                direction = 'Left';
+                break;
+            case 'right':
+                direction = 'Right';
+                break;
+            case 'up':
+                direction = 'Collapse';
+                break;
+            default:
+                direction = 'Right';
+                break;
+        }
+        return `controls-ArrowButton_icon icon icon-Mark${direction}Bold controls-icon_size-${this._options.iconSize }`;
+    }
+
     protected _clickHandler(event: Event): void {
         if (this._options.readOnly) {
             event.stopPropagation();
@@ -32,7 +54,8 @@ class ArrowButton extends Control<IArrowButtonOptions>  {
     static getDefaultOptions(): object {
         return {
             inlineHeight: 's',
-            iconSize: 's'
+            iconSize: 's',
+            direction: 'right'
         };
     }
 }

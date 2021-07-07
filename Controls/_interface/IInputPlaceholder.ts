@@ -1,7 +1,24 @@
 
 export interface IInputPlaceholderOptions {
     placeholder?: string | Function;
+    placeholderVisibility?: PLACEHOLDER_VISIBILITY;
 }
+
+export const enum PLACEHOLDER_VISIBILITY {
+    EMPTY = 'empty',
+    EDITABLE = 'editable',
+    // Подробности установки данного значения в _beforeMount (_input/Base.ts).
+    HIDDEN = 'hidden'
+}
+
+/**
+ * @name Controls/_interface/IInputPlaceholder#placeholderVisibility
+ * @cfg {String} Определяет видимость подсказки.
+ * @variant editable Подсказка отображается, когда поле пустое и доступно для редактирования.
+ * @variant empty Подсказка отображается, когда поле пустое.
+ * @default editable
+ * @demo Controls-demo/Input/PlaceholderVisibility/Index
+ */
 
 /**
  * @name Controls/_interface/IInputPlaceholder#placeholder

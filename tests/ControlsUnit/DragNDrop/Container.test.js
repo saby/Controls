@@ -29,23 +29,38 @@ define([
       });
 
       it('updateDraggingTemplate', function() {
-         var
-            draggingTemplateOptions = {
+         var config = {
+            topPopup: true,
+            opener: null,
+            autofocus: false,
+            template: 'Controls/dragnDrop:DraggingTemplateWrapper',
+            templateOptions: {
+               draggingTemplateOptions: {
+                  position: {
+                     x: 1,
+                     y: 2
+                  },
+                  draggingTemplateOffset: 1
+               },
+               draggingTemplate: 'draggingTemplate'
+            },
+            top: 3,
+            left: 2
+         };
+         var draggingTemplateOptions = {
                position: {
                   x: 1,
                   y: 2
-               }
+               },
+               draggingTemplateOffset: 1
             },
             draggingTemplate = 'draggingTemplate';
-         let openTemplate;
-         let openTemplateOptions;
+         var result = {};
          container._controllerClass._dialogOpener.open = (options) => {
-            openTemplate = options.templateOptions.draggingTemplate;
-            openTemplateOptions = options.templateOptions.draggingTemplateOptions;
+            result = options;
          };
          container._updateDraggingTemplate(null, draggingTemplateOptions, draggingTemplate);
-         assert.equal(openTemplateOptions, draggingTemplateOptions);
-         assert.equal(openTemplate, draggingTemplate);
+         assert.deepEqual(result, config);
       });
    });
 });
