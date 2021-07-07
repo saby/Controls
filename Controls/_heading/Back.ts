@@ -41,7 +41,7 @@ const MODERN_IE_VERSION = 11;
  * @implements Controls/interface:IFontSize
  * @implements Controls/interface:IIconSize
  * @implements Controls/interface:IIconStyle
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Heading/Back/SizesAndStyles/Index
@@ -53,6 +53,7 @@ const MODERN_IE_VERSION = 11;
  * @cfg
  * @variant primary
  * @variant secondary
+ * @variant default
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
@@ -76,7 +77,7 @@ const MODERN_IE_VERSION = 11;
  * @implements Controls/interface:IFontSize
  * @implements Controls/interface:IIconSize
  * @implements Controls/interface:IIconStyle
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Heading/Back/SizesAndStyles/Index
@@ -100,7 +101,8 @@ class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, 
             caption: EntityDescriptor(String).required(),
             fontColorStyle: EntityDescriptor(String).oneOf([
                 'primary',
-                'secondary'
+                'secondary',
+                'default'
             ]),
             iconStyle: EntityDescriptor(String).oneOf([
                 'primary',
