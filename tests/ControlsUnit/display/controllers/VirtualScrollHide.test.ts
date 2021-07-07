@@ -32,7 +32,10 @@ describe('Controls/_display/controllers/VirtualScrollHide', () => {
         const collection = {
             _$version: 0,
             nextVersion: () => collection._$version++,
-            _$items: Array.from({ length: 100 }).map((_) => ({})),
+            _$items: Array.from({ length: 100 }).map((_) => ({
+                                                    StickableItem: true,
+                                                    isSticked: () => false
+            })),
             _$count: 100,
             getCount: () => collection._$count,
 

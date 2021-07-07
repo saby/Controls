@@ -66,14 +66,14 @@ export function isItemAtIndexHidden(
     const start = VirtualScroll.getStartIndex(collection);
     const stop = VirtualScroll.getStopIndex(collection);
     const current = collection.at(index);
-    const isSticky = current && current.isSticked && current.isSticked();
+    const isSticky = current && current.StickableItem && current.isSticked();
 
     if (isSticky) {
         let tempIndex = index + 1;
         let tempItem;
         while (tempIndex < start) {
             tempItem = collection.at(tempIndex);
-            if (tempItem && tempItem.isSticked && tempItem.isSticked()) {
+            if (tempItem && tempItem.StickableItem && tempItem.isSticked()) {
                 return true;
             }
             tempIndex++;
