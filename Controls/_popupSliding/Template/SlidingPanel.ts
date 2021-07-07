@@ -3,6 +3,8 @@ import * as template from 'wml!Controls/_popupSliding/Template/SlidingPanel/Slid
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IDragObject, Container} from 'Controls/dragnDrop';
 import {ISlidingPanelTemplateOptions} from 'Controls/_popupSliding/interface/ISlidingPanelTemplate';
+import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import {detection} from 'Env/Env';
 
 /**
  * Интерфейс для шаблона попапа-шторки.
@@ -53,6 +55,15 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
             this._scrollAvailable = scrollAvailable;
         }
         this._isPanelMounted = true;
+        if (detection.isMobileIOS) {
+            this._toggleScrollObserveForKeyboardClose(true);
+        }
+    }
+
+    protected _beforeUnmount(): void {
+        if (detection.isMobileIOS) {
+            this._toggleScrollObserveForKeyboardClose(false);
+        }
     }
 
     protected _isScrollAvailable({
@@ -252,6 +263,34 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      */
     private _getScrollTop(): number {
         return this._scrollState?.scrollTop || 0;
+    }
+
+    /**
+     * Фикс для сафари, чтобы при скролле убиралась клавиатура
+     * Вылезают проблемы с лишней белой полосой внизу
+     * @param container
+     * @param state
+     * @private
+     */
+    private _toggleScrollObserveForKeyboardClose(state: boolean): void {
+        if (state) {
+            RegisterUtil(this, 'scroll', this._scrollHandler.bind(this));
+        } else {
+            UnregisterUtil(this, 'scroll');
+        }
+    }
+
+    /**
+     * При скролле на сафари убираем фокус, чтобы клавиатура закрылась.
+     * Делаем это только если фокус в инпуте в текущей шторке(чтобы не было множественных вызовов, если шторок много)
+     */
+    private _scrollHandler(): void {
+        const focusedElement = document.activeElement;
+        const isFocusInsideCurrentPanel = focusedElement.closest('.controls-SlidingPanel') === this._container;
+        if (isFocusInsideCurrentPanel && focusedElement.tagName === 'INPUT') {
+            const newFocusElement = focusedElement.parentElement;
+            newFocusElement.focus();
+        }
     }
 
     static getDefaultOptions(): Partial<ISlidingPanelTemplateOptions> {
