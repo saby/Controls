@@ -7,6 +7,6 @@ export default class MonthCaptionTemplate extends Control<IControlOptions> {
     protected _value: Date =  new Date(2018, 0, 1);
 
     protected _getIconStyle(value: Date): string {
-        return value.getMonth() % 2 === 0 ? 'success' : 'danger';
+        return value.getMonth() % 2 === 0 ? 'success' : 'unaccented';
     }
 }
