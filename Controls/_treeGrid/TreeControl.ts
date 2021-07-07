@@ -117,6 +117,7 @@ var _private = {
         const listViewModel = self._children.baseControl.getViewModel();
         const item = dispItem.getContents();
         const nodeKey = item.getId();
+        const baseSourceController = self._children.baseControl.getSourceController();
         const expanded = !listViewModel.isExpanded(dispItem);
         const options = self._options;
         const nodeSourceControllers = _private.getNodesSourceControllers(self);
@@ -136,6 +137,7 @@ var _private = {
                 .load(filter, options.sorting)
                 .addCallbacks((list) => {
                     listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(nodeSourceControllers));
+                    baseSourceController.calculateState(list, nodeKey);
                     if (options.uniqueKeys) {
                         listViewModel.mergeItems(list);
                     } else {
@@ -206,6 +208,7 @@ var _private = {
     loadMore: function(self, dispItem) {
         const filter = cClone(self._options.filter);
         const listViewModel = self._children.baseControl.getViewModel();
+        const baseSourceController = self._children.baseControl.getSourceController();
         const nodeKey = dispItem.getContents().getId();
         const nodeSourceControllers = _private.getNodesSourceControllers(self);
 
@@ -213,6 +216,7 @@ var _private = {
         self._children.baseControl.showIndicator();
         nodeSourceControllers.get(nodeKey).load(filter, self._options.sorting, 'down').addCallbacks((list) => {
             listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(nodeSourceControllers));
+            baseSourceController.calculateState(list, nodeKey);
             if (self._options.uniqueKeys) {
                 listViewModel.mergeItems(list);
             } else {
