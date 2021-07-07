@@ -64,7 +64,7 @@ export function isItemAtIndexHidden(
     index: number
 ): boolean {
     const start = VirtualScroll.getStartIndex(collection);
-    const stop = VirtualScroll.getStartIndex(collection);
+    const stop = VirtualScroll.getStopIndex(collection);
     const current = collection.at(index);
     const isSticky = current && current.isSticked && current.isSticked();
 
