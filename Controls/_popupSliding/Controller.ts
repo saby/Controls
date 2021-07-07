@@ -5,7 +5,7 @@ import {
 } from 'Controls/popup';
 import * as PopupContent from 'wml!Controls/_popupSliding/SlidingPanelContent';
 import SlidingPanelStrategy, {AnimationState, ISlidingPanelItem} from './Strategy';
-import {detection} from 'Env/Env';
+import {constants} from 'Env/Env';
 
 /**
  * SlidingPanel Popup Controller
@@ -45,7 +45,7 @@ class Controller extends BaseController {
         return true;
     }
 
-    elementDestroyed(item: ISlidingPanelItem): Promise<undefined> {
+    elementDestroyed(item: ISlidingPanelItem): Promise<void> {
         // Если попап еще не замаунчен, то просто закрываем без анимации
         if (!this._isPopupOpened(item)) {
             this._finishPopupClosing(item);
@@ -195,14 +195,15 @@ class Controller extends BaseController {
     }
 
     /**
-     * Фикс для сафари, чтобы при свайпе по шторке не тянулся body.
-     * TODO: Нужно сделать какое-то общее решение для d'n'd
+     * Нужно для:
+     * 1. Сафари, чтобы body не тянулся
+     * 2. Для Android, чтобы при закрытии шторки не вызывалось обновление страницы(свайп вниз)
      * https://online.sbis.ru/opendoc.html?guid=2e549898-5980-49bc-b4b7-e0a27f02bf55
      * @param state
      * @private
      */
     private _toggleCancelBodyDragging(state: boolean): void {
-        if (detection.isMobileIOS) {
+        if (constants.isBrowserPlatform) {
             document.documentElement.style.overflow = state ? 'hidden' : '';
         }
     }
