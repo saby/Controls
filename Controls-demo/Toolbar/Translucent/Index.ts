@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/Toolbar/IsTranslucent/Template';
+import * as Template from 'wml!Controls-demo/Toolbar/Translucent/Template';
 import {Memory} from 'Types/source';
 import {data} from '../resources/toolbarItems';
 

@@ -3,11 +3,11 @@
       <Controls.buttons:Button
               attr:class="controls-Toolbar__menu
                              controls-Toolbar__menu_{{_options.direction}}-spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}
-                             {{_options.isTranslucent ? 'controls-Button_functionalButton_style-translucent'}}"
+                             {{_options.translucent ? 'controls-Button_functionalButton_style-translucent'}}"
               name="menuTarget"
-              viewMode="{{_options.isTranslucent ? 'functionalButton' : 'toolButton'}}"
-              buttonStyle="{{_options.isTranslucent ? 'pale'}}"
-              iconStyle="{{_options.isTranslucent ? 'contrast' : 'secondary'}}"
+              viewMode="{{_options.translucent ? 'functionalButton' : 'toolButton'}}"
+              buttonStyle="{{_options.translucent ? 'pale'}}"
+              iconStyle="{{_options.translucent ? 'contrast' : 'secondary'}}"
               tooltip="{[Открыть меню]}"
               iconSize="{{_options.iconSize === 'l' ? 'l' : 'm'}}"
               icon="icon-SettingsNew"
@@ -34,7 +34,7 @@
                         itemsSpacing="{{_options.itemsSpacing}}"
                         buttonTemplate="{{_buttonTemplate}}"
                         buttonTemplateOptions="{{ _getSimpleButtonTemplateOptionsByItem(item) }}"
-                        buttonClass="{{_options.isTranslucent ? 'controls-Button_functionalButton_style-translucent'}}"
+                        buttonClass="{{_options.translucent ? 'controls-Button_functionalButton_style-translucent'}}"
                         theme="{{_options.theme}}"
                         isFirstItem="{{_firstItem === item}}"
                         attr:data-qa="{{item[_options.keyProperty]}}"
