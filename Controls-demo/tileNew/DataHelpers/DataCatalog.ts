@@ -327,7 +327,7 @@ export const Gadgets = {
             imageViewMode: 'ellipse',
             imagePosition: 'right',
             'parent@': null,
-            gradientColor: 'yellow',
+            gradientColor: '#ffff00',
             imageHeight: 'l',
             image: explorerImages[8],
             isShadow: true
