@@ -248,7 +248,7 @@ import ParallelDeferred = require('Core/ParallelDeferred');
             }
             if (isValid) {
                if (pending.onPendingFail) {
-                  pending.onPendingFail(forceFinishValue, pending.def);
+                  pending.onPendingFail(forceFinishValue, pending.def, isInside);
                }
 
                // pending is waiting its def finish
