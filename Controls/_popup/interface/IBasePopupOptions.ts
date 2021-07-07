@@ -11,6 +11,7 @@ import {IDataLoader} from 'Controls/_popup/interface/IBaseOpener';
  */
 export interface IBasePopupOptions {
     id?: string;
+    content?: Control<IControlOptions, unknown> | TemplateFunction;
     className?: string;
     template?: Control<IControlOptions, unknown> | TemplateFunction | string;
     closeOnOutsideClick?: boolean;

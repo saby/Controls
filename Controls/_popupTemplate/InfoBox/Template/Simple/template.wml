@@ -1,4 +1,4 @@
-<Controls._popupTemplate.InfoBox stickyPosition="{{_options.stickyPosition}}"
+<Controls._popupTemplate.InfoBox.Template.InfoBox stickyPosition="{{_options.stickyPosition}}"
                                  closeButtonVisibility="{{false}}"
                                  style="{{_options.style}}"
                                  validationStatus="{{_options.validationStatus}}"
@@ -25,4 +25,4 @@
          </div>
       </ws:else>
    </div>
-</Controls._popupTemplate.InfoBox>
+</Controls._popupTemplate.InfoBox.Template.InfoBox>

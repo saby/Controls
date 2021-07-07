@@ -15,7 +15,6 @@ export interface IStickyPopupOptions extends IBasePopupOptions, IBackgroundStyle
 
     target?: TTarget;
     actionOnScroll?: TActionOnScroll;
-    restrictiveContainer?: string | HTMLElement | Control;
     targetPoint?: IStickyPosition;
     direction?: IStickyPosition;
     offset?: IStickyPositionOffset;

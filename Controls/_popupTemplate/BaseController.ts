@@ -305,7 +305,7 @@ abstract class BaseController implements IPopupController {
         return TargetCoords.get(this._getTargetNode(item));
     }
 
-    private _getTargetNode(item: IPopupItem): HTMLElement {
+    protected _getTargetNode(item: IPopupItem): HTMLElement {
         if (cInstance.instanceOfModule(item.popupOptions.target, 'UI/Base:Control')) {
             return item.popupOptions.target._container;
         }
