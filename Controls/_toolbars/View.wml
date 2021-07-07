@@ -7,7 +7,7 @@
               name="menuTarget"
               viewMode="{{_options.isTranslucent ? 'functionalButton' : 'toolButton'}}"
               buttonStyle="{{_options.isTranslucent ? 'pale'}}"
-              iconStyle="{{_options.isTranslucent ? 'contrast'}}"
+              iconStyle="{{_options.isTranslucent ? 'contrast' : 'secondary'}}"
               tooltip="{[Открыть меню]}"
               iconSize="{{_options.iconSize === 'l' ? 'l' : 'm'}}"
               icon="icon-SettingsNew"
