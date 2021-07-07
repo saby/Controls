@@ -48,16 +48,15 @@ abstract class BaseController {
 
     abstract popupDragEnd(item: IPopupItem): void;
 
-    abstract popupMouseEnter(item: IPopupItem): void;
-
-    abstract popupMouseLeave(item: IPopupItem): void;
-
     abstract elementAnimated(item: IPopupItem): boolean;
 
     _elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
         if (this._checkContainer(item, container, 'elementCreated')) {
             item.popupState = this.POPUP_STATE_CREATED;
             oldWindowManager.addZIndex(item.currentZIndex);
+            if (item.popupOptions.autoClose) {
+                this._closeByTimeout(item);
+            }
             return this.elementCreated && this.elementCreated.apply(this, arguments);
         }
     }
@@ -194,6 +193,21 @@ abstract class BaseController {
         return true;
     }
 
+    protected popupMouseEnter(item: IPopupItem): void {
+        if (item.popupOptions.autoClose) {
+            if (item.closeId) {
+                clearTimeout(item.closeId);
+                item.closeId = null;
+            }
+        }
+    }
+
+    protected popupMouseLeave(item: IPopupItem): void {
+        if (item.popupOptions.autoClose) {
+            this._closeByTimeout(item);
+        }
+    }
+
     protected _getPopupSizes(item: IPopupItem, container: HTMLDivElement): IPopupSizes {
         const containerSizes: IPopupSizes = this.getContentSizes(container);
 
@@ -213,6 +227,14 @@ abstract class BaseController {
             container = container[0];
         }
         return container;
+    }
+
+    private _closeByTimeout(item: IPopupItem): void {
+        const timeAutoClose = 5000;
+
+        item.closeId = setTimeout(() => {
+            ManagerController.remove(item.id);
+        }, timeAutoClose);
     }
 
     private _checkContainer(item: IPopupItem, container: HTMLDivElement, stage: string): boolean {
