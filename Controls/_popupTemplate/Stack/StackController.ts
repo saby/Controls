@@ -1,15 +1,15 @@
 import BaseController, {RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
-import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition, Controller} from 'Controls/popup';
-import StackStrategy from 'Controls/_popupTemplate/Stack/Opener/StackStrategy';
+import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition} from 'Controls/popup';
+import StackStrategy from 'Controls/_popupTemplate/Stack/StackStrategy';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
-import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
-import collection = require('Types/collection');
-import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
-import Deferred = require('Core/Deferred');
+import {List} from 'Types/collection';
+import getTargetCoords from 'Controls/_popupTemplate/TargetCoords';
 import {parse as parserLib} from 'Core/library';
-import StackContent from 'Controls/_popupTemplate/Stack/Opener/StackContent';
+import StackContent from 'Controls/_popupTemplate/Stack/Template/StackContent';
 import {detection} from 'Env/Env';
 import {Bus} from 'Env/Event';
+import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
+import * as Deferred from 'Core/Deferred';
 
 /**
  * Stack Popup Controller
@@ -22,7 +22,7 @@ const ACCORDEON_MIN_WIDTH = 50;
 
 class StackController extends BaseController {
     TYPE: string = 'Stack';
-    _stack: collection.List<IPopupItem> = new collection.List();
+    _stack: List<IPopupItem> = new List();
 
     private _sideBarVisible: boolean = true;
     private _positionBeforeUpdate: IPopupPosition;
@@ -526,7 +526,7 @@ class StackController extends BaseController {
             if (!contentIsBody && !isNewPageTemplate && stackRoot) {
                 stackRoot = stackRoot.parentElement as HTMLDivElement;
             }
-            rootCoords = TargetCoords.get(stackRoot || document.body);
+            rootCoords = getTargetCoords(stackRoot || document.body);
             rootCoords.right -= RIGHT_PANEL_WIDTH;
         } else {
             rootCoords = BaseController.getRootContainerCoords(item, '.controls-Popup__stack-target-container', RIGHT_PANEL_WIDTH);

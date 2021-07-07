@@ -1,12 +1,11 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_popupTemplate/Sticky/Sticky';
+import * as template from 'wml!Controls/_popupTemplate/Sticky/Template/Sticky';
 import {Controller as ManagerController} from 'Controls/popup';
-import {default as IPopupTemplateBase, IPopupTemplateBaseOptions} from './interface/IPopupTemplateBase';
-import 'css!Controls/popupTemplate';
+import {default as IPopupTemplateBase, IPopupTemplateBaseOptions} from 'Controls/_popupTemplate/interface/IPopupTemplateBase';
 import IBackgroundStyle, {IBackgroundStyleOptions} from 'Controls/_interface/IBackgroundStyle';
+import 'css!Controls/popupTemplate';
 
-interface IStickyTemplateOptions extends IControlOptions, IPopupTemplateBaseOptions,
-    IBackgroundStyle, IBackgroundStyleOptions {
+interface IStickyTemplateOptions extends IControlOptions, IPopupTemplateBaseOptions, IBackgroundStyleOptions {
     shadowVisible?: boolean;
 }
 
@@ -30,28 +29,30 @@ interface IStickyTemplateOptions extends IControlOptions, IPopupTemplateBaseOpti
  * @demo Controls-demo/PopupTemplate/Sticky/HeaderContentTemplate/Index
  */
 
-class StickyTemplate extends Control<IStickyTemplateOptions> implements IPopupTemplateBase {
+class StickyTemplate extends Control<IStickyTemplateOptions> implements IPopupTemplateBase, IBackgroundStyle {
+    readonly '[Controls/_popupTemplate/interface/IPopupTemplateBase]': boolean;
+    readonly '[Controls/_interface/IBackgroundStyle]': boolean;
 
     protected _template: TemplateFunction = template;
     protected _headerTheme: string;
 
     protected _beforeMount(options: IPopupTemplateBaseOptions): void {
-        this._headerTheme = this._getTheme();
+        this._headerTheme = StickyTemplate._getTheme();
     }
 
     protected _beforeUpdate(options: IPopupTemplateBaseOptions): void {
-        this._headerTheme = this._getTheme();
+        this._headerTheme = StickyTemplate._getTheme();
     }
 
     protected close(): void {
         this._notify('close', [], {bubbling: true});
     }
 
-    protected _proxyEvent(event, eventName): void {
+    protected _proxyEvent(event: Event, eventName: string): void {
         this._notify(eventName, [event]);
     }
 
-    private _getTheme(): string {
+    private static _getTheme(): string {
         return ManagerController.getPopupHeaderTheme();
     }
 

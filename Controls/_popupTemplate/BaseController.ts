@@ -1,5 +1,5 @@
 import {Controller as ManagerController, IPopupItem, IPopupPosition, IPopupSizes, IPopupController, IDragOffset} from 'Controls/popup';
-import * as TargetCoords from 'Controls/_popupTemplate/TargetCoords';
+import getTargetCoords from 'Controls/_popupTemplate/TargetCoords';
 import {Control} from 'UI/Base';
 import {goUpByControlTree} from 'UI/Focus';
 import {Logger} from 'UI/Utils';
@@ -209,10 +209,6 @@ abstract class BaseController implements IPopupController {
         return false;
     }
 
-    needRestoreFocus(): boolean {
-        return true;
-    }
-
     protected _getPopupSizes(item: IPopupItem, container: HTMLElement): IPopupSizes {
         const containerSizes: IPopupSizes = this.getContentSizes(container);
 
@@ -320,7 +316,7 @@ abstract class BaseController implements IPopupController {
                 leftScroll: 0
             };
         }
-        return TargetCoords.get(this._getTargetNode(item));
+        return getTargetCoords(this._getTargetNode(item));
     }
 
     protected _getTargetNode(item: IPopupItem): HTMLElement {
@@ -478,7 +474,7 @@ abstract class BaseController implements IPopupController {
                 popup.classList.remove(hiddenClass);
             }
 
-            const targetCoords = TargetCoords.get(restrictiveContainerNode);
+            const targetCoords = getTargetCoords(restrictiveContainerNode);
 
             if (isPopupHidden) {
                 popup.classList.add(hiddenClass);

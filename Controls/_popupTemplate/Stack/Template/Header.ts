@@ -1,10 +1,9 @@
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls/_popupTemplate/Stack/resources/Header');
-import {IStackTemplateOptions} from '../../Stack';
+import {Control, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_popupTemplate/Stack/Template/Header/Header';
+import {IStackTemplateOptions} from 'Controls/_popupTemplate/Stack/Template/Stack';
 import 'css!Controls/popupTemplate';
 
-class Header extends Control<IControlOptions> {
-    //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=33010df1-501e-4874-a02c-a5f45394a661
+class Header extends Control<IStackTemplateOptions> {
     protected _template: TemplateFunction = template;
     /**
      * Закрыть всплывающее окно
@@ -15,11 +14,10 @@ class Header extends Control<IControlOptions> {
          * @event maximized
          * Occurs when you click the expand / collapse button of the panels.
          */
-        const maximized = this._calculateMaximized(this._options);
+        const maximized = Header._calculateMaximized(this._options);
         this._notify('maximized', [!maximized], {bubbling: true});
     }
-    _calculateMaximized(options: IStackTemplateOptions): Boolean {
-        // TODO: https://online.sbis.ru/opendoc.html?guid=256679aa-fac2-4d95-8915-d25f5d59b1ca
+    private static _calculateMaximized(options: IStackTemplateOptions): Boolean {
         if (!options.stackMinimizedWidth && options.stackMinWidth && options.stackMaxWidth) {
             const middle = (options.stackMinWidth + options.stackMaxWidth) / 2;
             return options.stackWidth - middle > 0;

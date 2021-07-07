@@ -1,5 +1,5 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import * as template from 'wml!Controls/_popupTemplate/Stack/resources/RightPanel';
+import * as template from 'wml!Controls/_popupTemplate/Stack/Template/RightPanel/RightPanel';
 import {Controller as ManagerController} from 'Controls/popup';
 import 'css!Controls/popupTemplate';
 

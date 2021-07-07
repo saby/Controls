@@ -1,23 +1,21 @@
-import rk = require('i18n!Controls');
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls/_popupTemplate/Stack/Stack');
+import * as template from 'wml!Controls/_popupTemplate/Stack/Template/Stack/Stack';
+import * as rk from 'i18n!Controls';
 import {Controller as ManagerController} from 'Controls/popup';
-import {default as IPopupTemplate, IPopupTemplateOptions} from "./interface/IPopupTemplate";
+import {default as IPopupTemplate, IPopupTemplateOptions} from 'Controls/_popupTemplate/interface/IPopupTemplate';
 import 'css!Controls/popupTemplate';
 
-export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOptions{
-    headerBackgroundStyle: string,
+export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOptions {
+    headerBackgroundStyle: string;
     maximizeButtonVisibility?: boolean;
     workspaceWidth?: number;
     headerBorderVisible?: boolean;
-    //TODO: will be deleted after https://online.sbis.ru/opendoc.html?guid=256679aa-fac2-4d95-8915-d25f5d59b1ca
     maximized?: boolean;
     stackMaxWidth?: number;
     stackMinWidth?: number;
     stackMinimizedWidth?: number;
     stackWidth?: number;
     rightPanelOptions?: object;
-
 }
 
 const MINIMIZED_STEP_FOR_MAXIMIZED_BUTTON = 100;
@@ -78,7 +76,7 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
          */
         let calcMaximized = maximized;
         if (calcMaximized === undefined) {
-            calcMaximized = !this._calculateMaximized(this._options);
+            calcMaximized = !StackTemplate._calculateMaximized(this._options);
         }
         this._notify('maximized', [calcMaximized], {bubbling: true});
     }
@@ -87,17 +85,17 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
         this.toggleMaximizeState();
     }
 
-    private _calculateMaximized(options: IStackTemplateOptions) : boolean {
+    private _prepareTheme(): void {
+        this._headerTheme = ManagerController.getPopupHeaderTheme();
+    }
+
+    private static _calculateMaximized(options: IStackTemplateOptions): boolean {
         // TODO: https://online.sbis.ru/opendoc.html?guid=256679aa-fac2-4d95-8915-d25f5d59b1ca
         if (!options.stackMinimizedWidth && options.stackMinWidth && options.stackMaxWidth) {
             const middle = (options.stackMinWidth + options.stackMaxWidth) / 2;
             return options.stackWidth - middle > 0;
         }
         return options.maximized;
-    }
-
-    private _prepareTheme(): void {
-        this._headerTheme = ManagerController.getPopupHeaderTheme();
     }
 
     static getDefaultOptions(): IStackTemplateOptions {
