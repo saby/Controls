@@ -4,14 +4,16 @@ import CollectionItem from '../CollectionItem';
 import {DestroyableMixin, Model} from 'Types/entity';
 import {mixin} from 'Types/util';
 import PortionedSearchIndicator, { TPortionedSearchIndicatorPosition } from '../PortionedSearchIndicator';
+import {TemplateFunction} from "UI/Base";
 
-interface IOptions<S extends Model, T extends CollectionItem<S>> {
+interface IOptions<S extends Model, T extends CollectionItem<S>> extends IItemsStrategyOptions<S, T> {
     source: IItemsStrategy<S, T>;
-    display: Collection<S, T>;
+    portionedSearchTemplate: TemplateFunction|string;
+    continueSearchTemplate: TemplateFunction|string;
 }
 
 /**
- * Стратегия для создания индикаторов загрузки
+ * Стратегия для создания индикаторов порционного поиска
  *
  * @author Панихин К.А.
  * @private
@@ -34,8 +36,8 @@ export default class PortionedSearch<
 
     readonly '[Controls/_display/IItemsStrategy]': boolean = true;
 
-    get options(): IItemsStrategyOptions<S, T> {
-        return this.source.options;
+    get options(): IOptions<S, T> {
+        return this._options;
     }
 
     get source(): IItemsStrategy<S, T> {
@@ -147,7 +149,9 @@ export default class PortionedSearch<
     private _createIndicator(position: TPortionedSearchIndicatorPosition): void {
         const indicator = this.options.display.createItem({
             itemModule: 'Controls/display:PortionedSearchIndicator',
-            position
+            position,
+            portionedSearchTemplate: this.options.portionedSearchTemplate,
+            continueSearchTemplate: this.options.continueSearchTemplate
         }) as any as PortionedSearchIndicator;
 
         const indicatorName = this._getIndicatorName(position);

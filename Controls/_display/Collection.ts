@@ -3387,7 +3387,13 @@ export default class Collection<
             collapsedGroups: this._$collapsedGroups,
             hiddenGroupPosition: this._$hiddenGroupPosition,
             groupConstructor: this._getGroupItemConstructor()
-        }).append(LoadingIndicatorStrategy).append(PortionedSearchStrategy);
+        }).append(LoadingIndicatorStrategy, {
+            display: this
+        }).append(PortionedSearchStrategy, {
+            display: this,
+            portionedSearchTemplate: this._$portionedSearchTemplate,
+            continueSearchTemplate: this._$continueSearchTemplate
+        });
 
         this._userStrategies.forEach((us) => composer.append(us.strategy, us.options));
 

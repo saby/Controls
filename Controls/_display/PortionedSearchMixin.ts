@@ -6,11 +6,15 @@ import CollectionItem from './CollectionItem';
 import {default as PortionedSearchStrategy} from './itemsStrategy/PortionedSearch';
 import {IEnumerableComparatorSession} from 'Types/collection';
 import {TPortionedSearchIndicatorPosition} from './PortionedSearchIndicator';
+import {TemplateFunction} from "UI/Base";
 
 export default abstract class PortionedSearchMixin<
     S extends Model = Model,
     T extends CollectionItem<S> = CollectionItem<S>
 > {
+    protected _$portionedSearchTemplate: TemplateFunction|string;
+    protected _$continueSearchTemplate: TemplateFunction|string;
+
     startPortionedSearch(position: TPortionedSearchIndicatorPosition): void {
         const strategy = this._getPortionedSearchStrategy();
 
@@ -28,7 +32,8 @@ export default abstract class PortionedSearchMixin<
         const strategy = this._getPortionedSearchStrategy();
 
         const session = this._startUpdateSession();
-        // пытаемся скрывать оба индикатора, т.к. мы умеем в порционный поиск только в одну сторону
+        // пытаемся скрывать оба индикатора, т.к. мы умеем порционный поиск только в одну сторону и индикатор
+        // будет показываться только один. То есть таким способом мы точно скроем индикатор.
         const topIndicatorHidden = strategy.hideIndicator('top');
         const bottomIndicatorHidden = strategy.hideIndicator('bottom');
         if (topIndicatorHidden || bottomIndicatorHidden) {
@@ -62,5 +67,7 @@ export default abstract class PortionedSearchMixin<
 }
 
 Object.assign(PortionedSearchMixin.prototype, {
-    'Controls/display:PortionedSearchMixin': true
+    'Controls/display:PortionedSearchMixin': true,
+    _$portionedSearchTemplate: 'Controls/list:LoadingIndicatorTemplate',
+    _$continueSearchTemplate: 'Controls/list:ContinueSearchTemplate'
 });

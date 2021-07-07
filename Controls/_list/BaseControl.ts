@@ -5787,16 +5787,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    // TODO LI обработать клик по элементу
-    _continueSearch(): void {
-        _private.getPortionedSearch(this).continueSearch();
-    }
-
-    // TODO LI обработать клик по элементу
-    _abortSearch(): void {
-        _private.getPortionedSearch(this).abortSearch();
-    }
-
     _onDataError(errorConfig: IErrbackConfig): void {
         _private.processError(this, {
             error: errorConfig.error,
@@ -6192,7 +6182,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             collection: items,
             unique: true,
             emptyTemplateOptions: {items, filter: modelConfig.filter},
-            hasMoreData: _private.getHasMoreData(this)
+            hasMoreData: _private.getHasMoreData(this),
+            // TODO LI нужно переименовать в portionedSearchTemplate, но нужно переименовывать и у прикладников
+            portionedSearchTemplate: modelConfig.loadingIndicatorTemplate
         });
     }
 
@@ -6516,6 +6508,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
         }
         return Promise.resolve();
+    }
+
+    protected _onContinueSearchClick(): void {
+        _private.getPortionedSearch(this).continueSearch();
+    }
+
+    protected _onAbortSearchClick(): void {
+        _private.getPortionedSearch(this).abortSearch();
     }
 
     // endregion LoadingIndicator

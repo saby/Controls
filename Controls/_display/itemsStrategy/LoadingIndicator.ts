@@ -41,7 +41,7 @@ export default class LoadingIndicator<
     readonly '[Controls/_display/IItemsStrategy]': boolean = true;
 
     get options(): IItemsStrategyOptions<S, T> {
-        return this.source.options;
+        return this._options;
     }
 
     get source(): IItemsStrategy<S, T> {

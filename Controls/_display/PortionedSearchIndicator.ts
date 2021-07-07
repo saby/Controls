@@ -13,6 +13,8 @@ export default class PortionedSearchIndicator extends CollectionItem<null> {
 
     protected _$position: TPortionedSearchIndicatorPosition;
     protected _$displayPortionedSearch: boolean;
+    protected _$portionedSearchTemplate: TemplateFunction|string;
+    protected _$continueSearchTemplate: TemplateFunction|string;
 
     get key(): string {
         const prefix = this._$displayPortionedSearch ? 'portioned-search-' : 'continue-search-';
@@ -46,13 +48,11 @@ export default class PortionedSearchIndicator extends CollectionItem<null> {
     }
 
     getPortionedSearchTemplate(): TemplateFunction|string {
-        // TODO LI может быть прикладной темплейт
-        return 'Controls/list:LoadingIndicatorTemplate';
+        return this._$portionedSearchTemplate;
     }
 
     getContinueSearchTemplate(): TemplateFunction|string {
-        // TODO LI может быть прикладной темплейт
-        return 'Controls/list:ContinueSearchTemplate';
+        return this._$continueSearchTemplate;
     }
 
     getPortionedSearchClasses(): string {
@@ -79,5 +79,7 @@ Object.assign(PortionedSearchIndicator.prototype, {
     _moduleName: 'Controls/display:PortionedSearchIndicator',
     _instancePrefix: 'portioned-search-indicator-',
     _$position: null,
-    _$displayPortionedSearch: true
+    _$displayPortionedSearch: true,
+    _$portionedSearchTemplate: 'Controls/list:LoadingIndicatorTemplate',
+    _$continueSearchTemplate: 'Controls/list:ContinueSearchTemplate'
 });
