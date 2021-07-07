@@ -1,4 +1,5 @@
 import { default as View } from 'Controls/_treeGridNew/TreeGrid';
+import TreeGridView from 'Controls/_treeGridNew/TreeGridView';
 
 import * as GridItemTemplate from 'wml!Controls/_treeGridNew/render/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_treeGridNew/render/table/Item';
@@ -19,6 +20,7 @@ ItemTemplate.isWasabyTemplate = true;
 
 export {
     View,
+    TreeGridView,
     ItemTemplate,
     NodeFooterTemplate
 };

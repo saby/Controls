@@ -212,13 +212,13 @@ export class Controller {
     */
    private _getKey(item: CollectionItem<Model>): CrudEntityKey {
       let contents = item.getContents();
-      if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+      if (item['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]'] || item.breadCrumbs) {
          // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
       }
 
       // Для GroupItem нет ключа, в contents хранится не Model
-      if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/SearchSeparator]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
+      if (item['[Controls/_display/GroupItem]'] || item['[Controls/_searchBreadcrumbsGrid/SearchSeparator]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
          return null;
       }
 

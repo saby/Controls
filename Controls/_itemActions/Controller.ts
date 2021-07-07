@@ -451,7 +451,7 @@ export class Controller {
         let hasChanges = false;
         const changedItemsIds: Array<number | string> = [];
         const assignActionsOnItem = (item): void => {
-            if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_display/SearchSeparator]']) {
+            if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_searchBreadcrumbsGrid/SearchSeparator]']) {
                 const contents = Controller._getItemContents(item);
                 const actionsObject = this._fixActionsDisplayOptions(this._getActionsObject(item));
                 const itemChanged = Controller._setItemActions(item, actionsObject, this._actionMode);
@@ -769,7 +769,7 @@ export class Controller {
      */
     private static _getItemContents(item: IItemActionsItem): Model {
         let contents = item?.getContents();
-        if (item['[Controls/_display/BreadcrumbsItem]']) {
+        if (item['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]']) {
             contents = contents[(contents as any).length - 1];
         }
         return contents;

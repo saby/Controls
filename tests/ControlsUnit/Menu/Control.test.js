@@ -4,12 +4,13 @@ define(
       'Types/source',
       'Core/core-clone',
       'Controls/display',
+      'Controls/searchBreadcrumbsGrid',
       'Types/collection',
       'Types/entity',
       'Controls/list',
       'Controls/popup'
    ],
-   function(menu, source, Clone, display, collection, entity, ControlsConstants, popup) {
+   function(menu, source, Clone, display, searchBreadcrumbsGrid, collection, entity, ControlsConstants, popup) {
       describe('Menu:Control', function() {
          function getDefaultItems() {
             return [
@@ -858,7 +859,7 @@ define(
                searchParam: 'title',
                searchValue: 'searchText'
             });
-            assert.instanceOf(listModel, display.Search);
+            assert.instanceOf(listModel, searchBreadcrumbsGrid.Search);
          });
          // TODO тестируем только публичные методы
          // it('_itemActionClick', function() {

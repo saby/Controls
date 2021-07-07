@@ -3,7 +3,7 @@
                scope="{{_options}}"
                on:click="_onSearchItemClick(itemData.dispItem)"/>
 </ws:if>
-<ws:else data="{{itemData.dispItem && itemData.dispItem['[Controls/_display/SearchSeparator]']}}">
+<ws:else data="{{itemData.dispItem && itemData.dispItem['[Controls/_searchBreadcrumbsGrid/SearchSeparator]']}}">
    <ws:partial template="wml!Controls/_treeGrid/SearchView/SearchSeparatorTemplate" scope="{{_options}}"/>
 </ws:else>
 <ws:else>

@@ -1,0 +1,9 @@
+<div class="{{item.getItemClasses({
+                'highlightOnHover': highlightOnHover,
+                'theme': theme,
+                'style': style,
+                'cursor': cursor,
+                'clickable': clickable
+            })}}" style="{{item.getItemStyles()}}">
+   <span class="controls-TreeGrid__row__searchSeparator_line_horizontal_theme-{{theme}}"></span>
+</div>

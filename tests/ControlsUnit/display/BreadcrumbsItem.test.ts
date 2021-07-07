@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 
-import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
+import BreadcrumbsItem from 'Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItem';
 import { TreeItem } from 'Controls/display';
 
-describe('Controls/_display/BreadcrumbsItem', () => {
+describe('Controls/_searchBreadcrumbsGrid/BreadcrumbsItem', () => {
     describe('.getContents()', () => {
         it('should return tree branch', () => {
             const items = [];

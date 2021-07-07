@@ -3,7 +3,6 @@ import CollectionItem, {
     ISerializableState as ICollectionItemSerializableState
 } from './CollectionItem';
 import ExpandableMixin, {IOptions as IExpandableMixinOptions} from './ExpandableMixin';
-import BreadcrumbsItem from './BreadcrumbsItem';
 import Tree from './Tree';
 import {mixin} from 'Types/util';
 import TreeChildren from './TreeChildren';
@@ -16,7 +15,7 @@ export interface IOptions<T extends Model> extends ICollectionItemOptions<T>, IE
     childrenProperty?: string;
     hasChildren?: boolean;
     loaded?: boolean;
-    parent?: TreeItem<T> | BreadcrumbsItem<T>;
+    parent?: TreeItem<T>;
 }
 
 interface ISerializableState<T> extends ICollectionItemSerializableState<T> {
@@ -43,7 +42,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
     /**
      * Родительский узел
      */
-    protected _$parent: TreeItem<T> | BreadcrumbsItem<T>;
+    protected _$parent: TreeItem<T>;
 
     /**
      * Является узлом
@@ -140,7 +139,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
             let parentLevel = 0;
             if (parent instanceof TreeItem) {
                 parentLevel = parent.getLevel();
-            } else if (parent instanceof BreadcrumbsItem) {
+            } else if (parent['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]']) {
                 parentLevel = parent.getLevel();
             }
             return parentLevel + 1;

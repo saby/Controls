@@ -21,7 +21,6 @@ import {Object as EventObject} from 'Env/Event';
 import { TemplateFunction } from 'UI/Base';
 import { CrudEntityKey } from 'Types/source';
 import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
-import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
 import { Model } from 'Types/entity';
 import { IDragPosition } from './interface/IDragPosition';
 import TreeDrag from './itemsStrategy/TreeDrag';
@@ -671,7 +670,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     resetExpandedItems(): void {
-        this.getItems().filter((it) => it.isExpanded()).forEach((it) => it.setExpanded(false));
+        this.getItems().filter((it) => it.isExpanded && it.isExpanded()).forEach((it) => it.setExpanded(false));
         this._reBuildNodeFooters();
     }
 
@@ -874,7 +873,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 let item;
                 while (enumerator.moveNext()) {
                     item = enumerator.getCurrent();
-                    if (!(item instanceof TreeItem) && !(item instanceof BreadcrumbsItem)) {
+                    if (!(item instanceof TreeItem) && !(item['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]'])) {
                         continue;
                     }
                     if (item.getParent() === parent) {

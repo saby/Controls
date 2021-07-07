@@ -21,6 +21,5 @@ export {default as Direct} from './itemsStrategy/Direct';
 export {default as Group} from './itemsStrategy/Group';
 export {default as MaterializedPath} from './itemsStrategy/MaterializedPath';
 export {default as Root} from './itemsStrategy/Root';
-export {default as Search} from './itemsStrategy/Search';
 export {default as User} from './itemsStrategy/User';
 export {default as NodeFooter} from './itemsStrategy/NodeFooter';
