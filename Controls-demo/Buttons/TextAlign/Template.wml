@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo__maxWidth200">
+    <div class="controlsDemo__cell ws-flexbox ws-flex-column ws-flex-shrink-0 ws-flex-grow-0">
+        <div class="controls-text-label">textAlign=left</div>
+        <Controls.buttons:Button caption="left" buttonStyle="primary" textAlign="left"></Controls.buttons:Button>
+    </div>
+    <div class="controlsDemo__cell ws-flexbox ws-flex-column ws-flex-shrink-0 ws-flex-grow-0">
+        <div class="controls-text-label">textAlign=center</div>
+        <Controls.buttons:Button caption="center" buttonStyle="primary" textAlign="center"></Controls.buttons:Button>
+    </div>
+    <div class="controlsDemo__cell ws-flexbox ws-flex-column ws-flex-shrink-0 ws-flex-grow-0">
+        <div class="controls-text-label">textAlign=right</div>
+        <Controls.buttons:Button caption="right" buttonStyle="primary" textAlign="right"></Controls.buttons:Button>
+    </div>
+</div>
