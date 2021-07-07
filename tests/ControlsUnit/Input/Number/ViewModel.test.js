@@ -11,7 +11,7 @@ define(
                useGrouping: false,
                onlyPositive: false
             };
-            const model = new ViewModel(defaultOptions, null);
+            const model = new ViewModel.default(defaultOptions, null);
             const getSelection = function(value) {
                return {
                   start: value,
@@ -338,7 +338,7 @@ define(
                displayValue: '1000000000000000000000'
             }].forEach(function(test) {
                it(`value: ${test.value}, displayValue: ${test.displayValue}, options: ${JSON.stringify(test.options)}`, function() {
-                  const model = new ViewModel(test.options, null);
+                  const model = new ViewModel.default(test.options, null);
                   assert.equal(model._convertToDisplayValue(test.value), test.displayValue);
                });
             });
@@ -346,13 +346,13 @@ define(
 
          describe('_getStartingPosition', function() {
             it('123', function() {
-               const model = new ViewModel({}, '123');
+               const model = new ViewModel.default({}, '123');
 
                assert.equal(model.selection.start, 3);
                assert.equal(model.selection.end, 3);
             });
             it('123.456', function() {
-               const model = new ViewModel({}, '123.456');
+               const model = new ViewModel.default({}, '123.456');
 
                assert.equal(model.selection.start, 3);
                assert.equal(model.selection.end, 3);

@@ -1,4 +1,4 @@
-<div class="example-PositionLabels example-BaseDemoInput">
+<div class="example-PositionLabels {{_options.theme.indexOf('large')<0 ? 'example-BaseDemoInput' : 'controlsDemo_fixedWidth800'}}">
    <div class="example-Base__title">Position of labels</div>
    <div class="example-Base__specify">Left alignment</div>
    <div class="ws-flexbox">

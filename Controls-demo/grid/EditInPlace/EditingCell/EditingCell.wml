@@ -15,7 +15,8 @@
                                 on:afterEndEdit="_toggleAddButton()"
                                 multiSelectVisibility="visible"
                                 bind:selectedKeys="_selectedKeys"
-                                columns="{{_columns}}">
+                                columns="{{_columns}}"
+                                attr:class="controlsDemo__maxWidth800">
                             <ws:editingConfig>
                                 <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
                             </ws:editingConfig>

@@ -35,4 +35,13 @@
         </Router.router:Reference>
         <Controls-demo.list_new.Navigation.Direction.Index/>
     </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/MaxCountValue/Index' }}">
+            <a href="{{content.href}}">Подгрузка данных по скролу</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.MaxCountValue.Index/>
+    </div>
 </div>

@@ -14,6 +14,10 @@
     position: static;
   }
 
+  .controls-GridViewV__itemsContainer {
+    display: table-row-group;
+  }
+
   .controls-Grid__colgroup {
     display: table-column-group;
   }
@@ -28,6 +32,14 @@
 
   .controls-Grid__header {
     display: table-header-group;
+  }
+
+  .controls-GridView__emptyTemplate{
+    display: table-row;
+  }
+
+  .controls-GridView__emptyTemplate__cell {
+    display: table-cell;
   }
 
   .controls-Grid__header-cell {
@@ -75,10 +87,6 @@
     position: static;
   }
 
-  .controls-GridViewV__itemsContainer {
-    display: table-row-group;
-  }
-
   .controls-Grid__row {
     display: table-row;
   }
@@ -102,6 +110,10 @@
 
     // Решение - не панацея, проблемы которые вызывает данный хак, их описание и решение можно найти по хэштегам:
     //  + #grid_relativeCell_colspanCell
+    //  + #grid_relativeCell_checkBox_td
+
+    // Ошибки
+    // https://online.sbis.ru/opendoc.html?guid=25c8adb6-a789-44e3-931b-1b8d6bb0b511
 
     // #grid_relativeCell_td
     height: 0;
@@ -134,17 +146,6 @@
 
   .controls-Grid__cell_fixed {
     position: relative;
-  }
-
-  .controls-Grid__row-cell_colspaned {
-    // Когда в строке всего одна ячейка, height: 0px работает как жесткое ограничение, а не как min-height.
-    // Причина такого поведения не ясна.
-    // Описание хака, вызывающего проблему можно найти по хэштегу #grid_relativeCell_td.
-    // Но при колспане строки мы смело можем давать автовысоту, т.к. нет оснований для
-    // данного хака (высоты контента ячеек нужно выравнивать, когда их больше > 1).
-
-    // #grid_relativeCell_colspanCell
-    height: auto;
   }
 
   .controls-Grid__row-cell__content_colspaned {
@@ -180,12 +181,34 @@
     height: 100%;
   }
 
+  .controls-Grid__table__relative-cell-wrapper_singleCell {
+    // Когда в строке всего одна ячейка, height: 0px работает как жесткое ограничение, а не как min-height.
+    // Причина такого поведения не ясна.
+    // Описание хака, вызывающего проблему можно найти по хэштегу #grid_relativeCell_td.
+    // Но при колспане строки мы смело можем давать автовысоту, т.к. нет оснований для
+    // данного хака (высоты контента ячеек нужно выравнивать, когда их больше > 1).
+
+    // Важно! При правке этого функционала, необходимо прикрепить ссылку на ошибку в #grid_relativeCell_td!
+
+    // #grid_relativeCell_colspanCell
+    height: auto;
+  }
+
+  .controls-Grid__row-cell-checkbox_theme-@{themeName} .controls-Grid__table__relative-cell-wrapper_singleCell {
+    // При всем, описанном в #grid_relativeCell_td и #grid_relativeCell_colspanCell,
+    // не нужно ограничивать высоту ячейки под чекбокс, т.к. она должна тянуться на высоту, которую дает единственная ячейка с контентом.
+    // #grid_relativeCell_checkBox_td
+    // https://online.sbis.ru/opendoc.html?guid=a975f5c7-e503-47b8-9268-660596a37430
+
+    height: 100%;
+  }
+
   .controls-Grid__table__relative-cell-wrapper_rowSeparator-s_theme-@{themeName} {
-    min-height: @cell_min-height_grid - @item-separator_s_thickness_list;
+    min-height: @cell_min-height_grid;
   }
 
   .controls-Grid__table__relative-cell-wrapper_rowSeparator-l_theme-@{themeName} {
-    min-height: @cell_min-height_grid - @item-separator_l_thickness_list;
+    min-height: @cell_min-height_grid;
   }
 
   .controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV {

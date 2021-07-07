@@ -6,8 +6,7 @@
                <Controls.event:Register name="touchmoveDetect" register="touchmove" attr:fixCompatible="1">
                   <Controls.event:Register name="touchendDetect" register="touchend" attr:fixCompatible="1">
                      <Controls.event:Register name="mousedownDetect" register="mousedown" attr:fixCompatible="1">
-                        <Controls.popup:Global name="PopupGlobal">
-                        <Controls.popup:Manager name="Manager" theme="{{_themeName}}">
+                        <Controls.popup:Global name="PopupGlobal" theme="{{_themeName}}">
                            <Controls.Application.TouchDetector name="touchDetector">
                               <Controls.dragnDrop:Controller name="dragNDropContainer">
                                  <div>
@@ -21,7 +20,6 @@
                                  </div>
                               </Controls.dragnDrop:Controller>
                            </Controls.Application.TouchDetector>
-                        </Controls.popup:Manager>
                         </Controls.popup:Global>
                      </Controls.event:Register>
                   </Controls.event:Register>

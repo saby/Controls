@@ -22,7 +22,7 @@
 <ws:template name="leafTemplate">
    <ws:partial
       template="wml!Controls/_tile/TileView/TileTpl"
-      width="{{width}}"
+      width="{{width || itemData.itemWidth || itemData.defaultItemWidth}}"
       checkboxReadOnly="{{checkboxReadOnly}}"
       cursor="{{cursor}}"
       hasTitle="{{hasTitle}}"

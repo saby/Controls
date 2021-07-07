@@ -119,6 +119,15 @@
     <div class="controlsDemo__cell controlsDemo__maxWidth500">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Sorting/Index' }}">
+            <a href="{{content.href}}">Сортировка</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Sorting.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__maxWidth500">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Swipe/Index' }}">
             <a href="{{content.href}}">Swipe</a>
         </Router.router:Reference>

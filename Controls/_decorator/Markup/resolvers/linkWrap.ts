@@ -1,6 +1,3 @@
-/**
- * Created by rn.kondakov on 08.10.2019.
- */
 import { wrapLinksInString } from '../resources/linkDecorateUtils';
 
 /**
@@ -10,7 +7,7 @@ import { wrapLinksInString } from '../resources/linkDecorateUtils';
  *
  * @class Controls/_decorator/Markup/resolvers/linkWrap
  * @public
- * @author Кондаков Р.Н.
+ * @author Угриновский Н.В.
  */
 export default function linkWrap(value, parent) {
     if (typeof value === 'string') {

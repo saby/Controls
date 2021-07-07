@@ -46,7 +46,7 @@ describe('Controls/form:CrudController', () => {
 
             sinon.assert.calledWith(formController._notify, 'registerPending');
             actual.then(() => {
-                sinon.assert.calledWith(formController._notify, 'createSuccessed');
+                sinon.assert.calledWith(formController._notify, 'createsuccessed');
                 done();
             }).catch(() => {
                 done('should not go into the Promise.catch handler');
@@ -63,7 +63,7 @@ describe('Controls/form:CrudController', () => {
             actual.then(() => {
                 done('should not go into the Promise.then handler');
             }).catch(() => {
-                sinon.assert.calledWith(formController._notify, 'createFailed');
+                sinon.assert.calledWith(formController._notify, 'createfailed');
                 done();
             });
         });
@@ -78,7 +78,7 @@ describe('Controls/form:CrudController', () => {
 
             assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.then(() => {
-                assert.isTrue(stubNotify.calledWith('updateSuccessed'));
+                assert.isTrue(stubNotify.calledWith('updatesuccessed'));
                 done();
             }).catch(() => {
                 done('should not go into the Promise.catch handler');
@@ -99,7 +99,7 @@ describe('Controls/form:CrudController', () => {
             actual.then(() => {
                 done('should not go into the Promise.then handler');
             }).catch(() => {
-                assert.isTrue(stubNotify.calledWith('updateFailed'));
+                assert.isTrue(stubNotify.calledWith('updatefailed'));
                 done();
             });
 
@@ -120,7 +120,7 @@ describe('Controls/form:CrudController', () => {
 
             assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.then(() => {
-                assert.isTrue(stubNotify.calledWith('deleteSuccessed'));
+                assert.isTrue(stubNotify.calledWith('deletesuccessed'));
                 done();
             }).catch(() => {
                 done('should not go into the Promise.catch handler');
@@ -137,7 +137,7 @@ describe('Controls/form:CrudController', () => {
             actual.then(() => {
                 done('should not go into the Promise.then handler');
             }).catch(() => {
-                assert.isTrue(stubNotify.calledWith('deleteFailed'));
+                assert.isTrue(stubNotify.calledWith('deletefailed'));
                 done();
             });
         });

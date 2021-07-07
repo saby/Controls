@@ -1,0 +1,66 @@
+<div>
+    <ws:for data="index, size in _sizes">
+        <div class="{{size}}-container" style="border-bottom: 1px solid #000}}">
+            <h2>{{size}} font-size</h2>
+            <div class="controlsDemo__flex controlsDemo__flex-jc-sb controls-fontsize-{{size}}_theme-default" style="justify-content: space-around">
+                <div>
+                    <h3>Numbers</h3>
+                    <div class="controlsDemo__flex">
+                        <div>
+                            <ws:for data="index, symbol in _numSymbols">
+                                <div>
+                                    <span class="numbers-{{size}}">
+                                        {{symbol}}
+                                    </span>
+                                </div>
+                            </ws:for>
+                        </div>
+                    </div>
+                </div>
+                <div class="controlsDemo__ml2">
+                    <h3>Eng</h3>
+                    <div class="controlsDemo__flex">
+                        <div>
+                            <ws:for data="index, symbol in _engStrSymbols">
+                                <div>
+                                    <span class="eng-{{size}}">
+                                        {{symbol}}
+                                    </span>
+                                </div>
+                            </ws:for>
+                        </div>
+                    </div>
+                </div>
+                <div class="controlsDemo__ml2">
+                    <h3>Ru</h3>
+                    <div class="controlsDemo__flex">
+                        <div>
+                            <ws:for data="index, symbol in _ruStrSymbols">
+                                <div>
+                                    <span class="ru-{{size}}">
+                                        {{symbol}}
+                                    </span>
+                                </div>
+                            </ws:for>
+                        </div>
+                    </div>
+                </div>
+                <div class="controlsDemo__ml2">
+                    <h3>Other symbols</h3>
+                    <div class="controlsDemo__flex">
+                        <div>
+                            <ws:for data="index, symbol in _otherSymbols">
+                                <div>
+                                    <span class="other-{{size}}">
+                                        <ws:partial template="{{symbol}}"/>
+                                    </span>
+                                </div>
+                            </ws:for>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ws:for>
+    <textarea rows="50" cols="50"></textarea>
+</div>

@@ -30,7 +30,7 @@
               items="{{_historyItems}}"
               filterItems="{{_items}}"
               historyId="{{_historyId}}"
-              saveMode="{{_options.orientation === 'horizontal' ? 'favorite' : 'pinned'}}"
+              saveMode="{{_historySaveMode}}"
               orientation="{{_options.orientation}}"
               emptyTemplate="{{_options.emptyHistoryTemplate}}"
               on:historyChanged="_historyItemsChanged()"
@@ -52,12 +52,16 @@
              </div>
           </ws:if>
           <div class="controls-FilterPanel__header__buttons">
-             <ws:if data="{{_hasResetValue}}">
-                <Controls.buttons:Button viewMode="link" fontColorStyle="link" readOnly="{{!_isChanged || _options.readOnly}}" caption="{[По умолчанию]}"
-                                 on:click="_resetFilter()"
-                                 name="resetButton"
-                                 attr:tabindex="-1"
-                                 attr:class="controls-FilterPanel__resetButton"/>
+             <ws:if data="{{_hasResetValue && _isChanged}}">
+                <Controls.buttons:Button
+                   fontColorStyle="label"
+                   viewMode="linkButton"
+                   readOnly="{{_options.readOnly}}"
+                   caption="{[По умолчанию]}"
+                   on:click="_resetFilter()"
+                   name="resetButton"
+                   attr:tabindex="-1"
+                   attr:class="controls-FilterPanel__resetButton"/>
              </ws:if>
              <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{{_options.applyButtonCaption}}" on:click="_applyFilter()"
                               attr:tabindex="-1"

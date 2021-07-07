@@ -137,7 +137,7 @@ describe('Controls/_itemActions/measurers/VerticalMeasurer', () => {
                                 id: null,
                                 icon: 'icon-SwipeMenu',
                                 title: rk('Ещё'),
-                                _isMenu: true,
+                                isMenu: true,
                                 showType: 2
                             }
                         ]
@@ -198,7 +198,7 @@ describe('Controls/_itemActions/measurers/VerticalMeasurer', () => {
                                 id: null,
                                 icon: 'icon-SwipeMenu',
                                 title: rk('Ещё'),
-                                _isMenu: true,
+                                isMenu: true,
                                 showType: 2
                             }
                         ]
@@ -327,7 +327,7 @@ describe('Controls/_itemActions/measurers/VerticalMeasurer', () => {
                                 id: null,
                                 icon: 'icon-SwipeMenu',
                                 title: rk('Ещё'),
-                                _isMenu: true,
+                                isMenu: true,
                                 showType: 2
                             }
                         ]
@@ -381,7 +381,7 @@ describe('Controls/_itemActions/measurers/VerticalMeasurer', () => {
                                 id: null,
                                 icon: 'icon-SwipeMenu',
                                 title: rk('Ещё'),
-                                _isMenu: true,
+                                isMenu: true,
                                 showType: 2
                             }
                         ]
@@ -405,7 +405,7 @@ describe('Controls/_itemActions/measurers/VerticalMeasurer', () => {
                                 id: null,
                                 icon: 'icon-SwipeMenu',
                                 title: rk('Ещё'),
-                                _isMenu: true,
+                                isMenu: true,
                                 showType: 2
                             }
                         ]
@@ -520,7 +520,7 @@ describe('Controls/_itemActions/measurers/VerticalMeasurer', () => {
                         id: null,
                         icon: 'icon-SwipeMenu',
                         title: rk('Ещё'),
-                        _isMenu: true,
+                        isMenu: true,
                         showType: 2
                     }];
                 assert.deepEqual(

@@ -1,4 +1,4 @@
-import uDimension = require('Controls/Utils/getDimensions');
+import {getDimensions as uDimension} from 'Controls/sizeUtils';
 import { IMarkerModel, IOptions, TKey, TVisibility, Visibility } from './interface';
 import { CollectionItem } from 'Controls/display';
 import { Model } from 'Types/entity';
@@ -192,6 +192,16 @@ export class Controller {
       return newMarkedKey;
    }
 
+   /**
+    * Обработать добавление элементов
+    * @param newItems список новый элементов
+    */
+   handleAddItems(newItems: Array<CollectionItem<Model>>): void {
+      if (newItems.some((item) => this._getKey(item) === this._markedKey)) {
+         this.restoreMarker();
+      }
+   }
+
    /*
       TODO нужно выпилить этот метод при переписывании моделей. item.getContents() должен возвращать Record
        https://online.sbis.ru/opendoc.html?guid=acd18e5d-3250-4e5d-87ba-96b937d8df13
@@ -201,6 +211,12 @@ export class Controller {
       if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
          contents = contents[(contents as any).length - 1];
       }
+
+      // Для GroupItem нет ключа, в contents хранится не Model
+      if (item['[Controls/_display/GroupItem]']) {
+         return undefined;
+      }
+
       return contents.getKey();
    }
 

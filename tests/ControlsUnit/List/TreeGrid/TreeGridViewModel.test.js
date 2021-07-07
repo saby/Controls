@@ -91,31 +91,6 @@ define(['Controls/treeGrid',
          assert.isTrue(setRootCalled, 'Invalid call toggleExpanded on model instance.');
       });
 
-      it('getItemDataByItem', function() {
-         var
-            itemData,
-            originFn = treeGrid.ViewModel.superclass.getItemDataByItem;
-         treeGrid.ViewModel.superclass.getItemDataByItem = function() {
-            return {
-               item: {},
-               getCurrentColumn: function() {
-                  return {
-                     classList: {
-                        base: ''
-                     }
-                  };
-               }
-            };
-         };
-         itemData = treeGridViewModel.getItemDataByItem();
-         assert.isTrue(!!itemData.getLevelIndentClasses);
-         assert.isTrue(!!itemData.getCurrentColumn);
-         var
-            currentColumn = itemData.getCurrentColumn();
-         assert.equal(currentColumn.classList.base, ' controls-TreeGrid__row-cell_theme-default controls-TreeGrid__row-cell_default_theme-default controls-TreeGrid__row-cell__item_theme-default');
-         treeGrid.ViewModel.superclass.getItemDataByItem = originFn;
-      });
-
       it('getCurrent', function () {
 
          var itemTypes = {
@@ -171,7 +146,7 @@ define(['Controls/treeGrid',
          checkCellClasses(current.getCurrentColumn().classList.base, itemTypes.node);
          checkCellBackgroundClass(current.getCurrentColumn('danger').classList.base, 'danger');
 
-         assert.equal(current.getCurrentColumn().prepareExpanderClasses, current.prepareExpanderClasses);
+         assert.equal(current.getCurrentColumn().getExpanderClasses, current.getExpanderClasses);
          model.goToNext();
 
          current = model.getCurrent();
@@ -215,16 +190,70 @@ define(['Controls/treeGrid',
                 l_xl: 'controls-TreeGrid__row-levelPadding_size_xl_theme-default'
              };
 
-         assert.equal(expected.defaultOrNull, current.getLevelIndentClasses(null, null));
+         assert.equal(expected.defaultOrNull, current.getLevelIndentClasses({getExpanderSize: () => null}, null, null));
 
-         assert.equal(expected.onlyExpander_xs, current.getLevelIndentClasses('xs', null));
-         assert.equal(expected.onlyExpander_xl, current.getLevelIndentClasses('xl', null));
+         assert.equal(expected.onlyExpander_xs, current.getLevelIndentClasses({getExpanderSize: () => 'xs'}, 'xs', null));
+         assert.equal(expected.onlyExpander_xl, current.getLevelIndentClasses({getExpanderSize: () => 'xl'}, 'xl', null));
 
-         assert.equal(expected.onlyIndent_xxs, current.getLevelIndentClasses(null, 'xxs'));
-         assert.equal(expected.onlyIndent_m, current.getLevelIndentClasses(null, 'm'));
+         assert.equal(expected.onlyIndent_xxs, current.getLevelIndentClasses({getExpanderSize: () => null}, null, 'xxs'));
+         assert.equal(expected.onlyIndent_m, current.getLevelIndentClasses({getExpanderSize: () => null}, null, 'm'));
 
-         assert.equal(expected.s_m, current.getLevelIndentClasses('s', 'm'));
-         assert.equal(expected.l_xl, current.getLevelIndentClasses('l', 'xl'));
+         assert.equal(expected.s_m, current.getLevelIndentClasses({getExpanderSize: () => 's'}, 's', 'm'));
+         assert.equal(expected.l_xl, current.getLevelIndentClasses({getExpanderSize: () => 'l'}, 'l', 'xl'));
+      });
+
+      it('check last row with node footer', function() {
+         var initialColumns = [{
+               width: '1fr',
+               displayProperty: 'title'
+            }],
+            model = new treeGrid.ViewModel({
+               theme: theme,
+               items: new collection.RecordSet({
+                  keyProperty: 'id',
+                  rawData: [
+                     {
+                        id: 0, title: 'i0', parent: null, type: true
+                     }
+                  ]
+               }),
+               keyProperty: 'id',
+               nodeProperty: 'type',
+               parentProperty: 'parent',
+               columns: initialColumns
+            });
+
+         let originFn = treeGrid.ViewModel.superclass.getItemDataByItem;
+         treeGrid.ViewModel.superclass.getItemDataByItem = function() {
+            return {
+               item: {},
+               columns: initialColumns,
+               nodeFooters: [{key: 0}],
+               rowIndex: 1,
+               itemPadding: {},
+               isLastRow: true,
+               getCurrentColumn: function() {
+                  return {
+                     cellClasses: ''
+                  };
+               },
+               dispItem: {
+                  getParent: () => {
+                     return {
+                        getContents: () => {
+                           return {
+                              getKey: () => 0
+                           };
+                        }
+                     };
+                  }
+               },
+               columnScroll: true
+            };
+         };
+
+         assert.isFalse(model.getItemDataByItem.call(model).isLastRow);
+         treeGrid.ViewModel.superclass.getItemDataByItem = originFn;
       });
 
       it('check last row with node footer', function() {
@@ -592,8 +621,8 @@ define(['Controls/treeGrid',
          assert.isDefined(itemData.dispItem);
          assert.equal(itemData.dispItem, columnData.dispItem);
 
-         assert.isFunction(itemData.prepareExpanderClasses);
-         assert.equal(itemData.prepareExpanderClasses, columnData.prepareExpanderClasses);
+         assert.isFunction(itemData.getExpanderClasses);
+         assert.equal(itemData.getExpanderClasses, columnData.getExpanderClasses);
 
          assert.isFunction(itemData.getExpanderSize);
          assert.equal(itemData.getExpanderSize, columnData.getExpanderSize);

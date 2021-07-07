@@ -5,7 +5,7 @@
                 items="{{_items}}"
                 itemTemplateProperty="itemTemplate"
                 orientation="horizontal"
-                historyId="DEMO_HISTORY_ID_3">
+                historyId="EMPTY-DEMO_HISTORY_ID">
             <ws:emptyHistoryTemplate>
                 <div>Нет фильтров в истории</div>
             </ws:emptyHistoryTemplate>

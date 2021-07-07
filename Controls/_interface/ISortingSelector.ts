@@ -5,6 +5,7 @@
  * @class Controls/grid:SortingSelector
  * @extends Core/Control
  * @public
+ * @implements Controls/_interface/IFontColorStyle
  * @demo Controls-demo/grid/Sorting/SortingSelector/Index
  * @author Авраменко А.С.
  */

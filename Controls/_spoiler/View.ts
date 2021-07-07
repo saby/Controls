@@ -1,4 +1,4 @@
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 
 import {Control, TemplateFunction} from 'UI/Base';
 import {IHeading, IHeadingOptions, default as Heading} from 'Controls/_spoiler/Heading';
@@ -11,7 +11,7 @@ import Util from './Util';
 
 /**
  * Интерфейс опций контрола {@link Controls/spoiler:View}.
- * 
+ *
  * @interface Controls/_spoiler/IViewOptions
  * @public
  * @author Красильников А.С.
@@ -23,13 +23,13 @@ import Util from './Util';
  * @demo Controls-demo/Spoiler/HeaderRight/Index
  * @demo Controls-demo/Spoiler/HeadingLeft/Index
  */
-
+/**
+ * @name Controls/_spoiler/IViewOptions#content
+ * @cfg {TemplateFunction} Шаблон скрываемой области.
+ * @demo Controls-demo/Spoiler/View/Content/Index
+ */
 
 export interface IViewOptions extends IHeadingOptions {
-    /**
-     * Шаблон скрываемой области.
-     * @demo Controls-demo/Spoiler/View/Content/Index
-     */
     content: TemplateFunction;
     headerContentTemplate?: TemplateFunction;
 }
@@ -48,7 +48,6 @@ export interface IView extends IHeading {
  *
  * @class Controls/_spoiler/View
  * @extends UI/Base:Control
- * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IExpandable
  * @mixes Controls/spoiler:IHeadingOptions
  * @mixes Controls/spoiler:IViewOptions
@@ -65,7 +64,10 @@ class View extends Control<IViewOptions> implements IView {
 
     readonly '[Controls/_spoiler/IView]': boolean = true;
     readonly '[Controls/_spoiler/IHeading]': boolean = true;
+    readonly '[Controls/_interface/ITooltip]': boolean = true;
     readonly '[Controls/_interface/IFontSize]': boolean = true;
+    readonly '[Controls/_interface/IFontWeight]': boolean = true;
+    readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
     readonly '[Controls/_toggle/interface/IExpandable]': boolean = true;
 
     protected _beforeMount(options?: IViewOptions, contexts?: object, receivedState?: void): void {
@@ -91,3 +93,19 @@ class View extends Control<IViewOptions> implements IView {
 }
 
 export default View;
+
+/**
+ * @name Controls/_spoiler/View#headingFontSize
+ * @cfg {Enum} Размер шрифта заголовка.
+ * @see Controls/spoiler:Heading#fontSize
+ */
+/**
+ * @name Controls/_spoiler/View#headingFontWeight
+ * @cfg {Enum} Начертание шрифта заголовка.
+ * @see Controls/spoiler:Heading#fontWeight
+ */
+/**
+ * @name Controls/_spoiler/View#headingFontColorStyle
+ * @cfg {Enum} Стиль цвета текста и иконки заголовка.
+ * @see Controls/spoiler:Heading#fontColorStyle
+ */

@@ -18,7 +18,7 @@ define('Controls-demo/Example/Input/PositionLabels',
          }
       });
    
-      ModuleClass._styles = ['Controls-demo/Example/resource/Base', 'Controls-demo/Example/Input/PositionLabels/PositionLabels', 'Controls-demo/Example/resource/BaseDemoInput/BaseDemoInput'];
+      ModuleClass._styles = ['Controls-demo/Example/resource/Base', 'Controls-demo/Example/Input/PositionLabels/PositionLabels', 'Controls-demo/Example/resource/BaseDemoInput/BaseDemoInput', 'Controls-demo/Controls-demo'];
 
       return ModuleClass;
 });

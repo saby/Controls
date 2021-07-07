@@ -1,4 +1,4 @@
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import Base = require('Controls/_input/Base');
 import ViewModel = require('Controls/_input/Mask/ViewModel');
 import entity = require('Types/entity');

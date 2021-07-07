@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <div class="controlsDemo__inline-block" style="margin-right: 20px; margin-bottom: 20px;">
+    <div class="controlsDemo__inline-block" style="max-width: 620px; margin-right: 20px; margin-bottom: 20px;">
         <div style="margin-bottom: 20px;">
             <Controls.toggle:Checkbox bind:value="_rowSeparator1" caption="Show row separator"/>
             <Controls.toggle:Checkbox bind:value="_columnSeparator1" on:valueChanged="_togglePartialColumnSeparator()"
@@ -14,7 +14,7 @@
                 rowSeparatorSize="{{ _rowSeparator1 ? 's' }}"
         />
     </div>
-    <div class="controlsDemo__inline-block" style="margin-right: 20px; margin-bottom: 20px;">
+    <div class="controlsDemo__inline-block" style="max-width: 620px; margin-right: 20px; margin-bottom: 20px;">
         <div style="margin-bottom: 20px;">
             <Controls.toggle:Checkbox bind:value="_rowSeparator2" caption="Show row separator"/>
             <Controls.toggle:Checkbox bind:value="_columnSeparator2" caption="Show column separator"/>
@@ -29,7 +29,7 @@
                 columnSeparatorSize="{{ _columnSeparator2 ? 's' }}"
         />
     </div>
-    <div class="controlsDemo__inline-block" style="margin-right: 20px; margin-bottom: 20px;">
+    <div class="controlsDemo__inline-block" style="max-width: 620px; margin-right: 20px; margin-bottom: 20px;">
         <div style="margin-bottom: 20px;">
             <Controls.toggle:Checkbox bind:value="_rowSeparator3" caption="Show row separator"/>
             <Controls.toggle:Checkbox bind:value="_columnSeparator3" caption="Show column separator"/>

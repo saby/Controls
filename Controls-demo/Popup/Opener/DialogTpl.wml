@@ -1,4 +1,4 @@
-    <Controls.popupTemplate:Dialog headingCaption="Создание категории" closeButtonVisibility="true">
+    <Controls.popupTemplate:Dialog headingCaption="Создание категории" closeButtonVisibility="{{true}}">
         <ws:headerContentTemplate>
             <div ws-no-focus="true">
                 <Controls.buttons:Button caption="Button" attr:ws-no-focus="true" attr:tabindex="-1"/>

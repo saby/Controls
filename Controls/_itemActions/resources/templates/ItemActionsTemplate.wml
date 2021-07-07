@@ -2,7 +2,7 @@
     <div attr:class="controls-itemActionsV
         {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + (style ? style : 'default') + '_theme-' + theme }}
         {{itemData.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemData.itemPadding, theme, useNewModel)}}
-        {{itemData.getItemActionClasses(itemActionsPosition, theme)}}
+        {{itemData.getItemActionClasses(itemActionsPosition, theme, itemData.isLastRow, itemData.rowSeparatorSize)}}
         {{itemData.isEditing() ? 'controls-itemActionsV_editing_theme-' + theme}}
         {{itemData.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
         {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}

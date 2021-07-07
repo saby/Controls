@@ -85,6 +85,11 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
             'Incorrect result "prepareGridTemplateColumns without checkbox".');
       });
       it('Footer', function() {
+         let count = 0;
+         let listModel = {
+            getCount: () => count,
+            getEditingItemData: () => null
+         }
          var
              cfg = {
                 columns: [
@@ -100,7 +105,7 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
              gridView = new gridMod.GridView(cfg);
 
          gridView.saveOptions(cfg);
-
+         gridView._listModel = listModel;
 
          assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default');
 
@@ -112,6 +117,36 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
 
          gridView._options.itemPadding = undefined;
          assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_default_theme-default');
+      });
+      it('Footer with itemActionsPosition outside', function() {
+         let count = 0;
+         let editingItemData = {};
+         let listModel = {
+            getCount: () => count,
+            getEditingItemData: () => editingItemData
+         }
+         var
+             cfg = {
+                columns: [
+                   { displayProperty: 'field1', template: 'column1' },
+                   { displayProperty: 'field2', template: 'column2' }
+                ],
+                itemActionsPosition: 'outside',
+                needBottomPadding: false,
+                theme
+             },
+             gridView = new gridMod.GridView(cfg);
+
+         gridView.saveOptions(cfg);
+         gridView._listModel = listModel;
+
+         assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default controls-GridView__footer__itemActionsV_outside_theme-default');
+
+         editingItemData = null;
+         assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default');
+
+         count = 10;
+         assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default controls-GridView__footer__itemActionsV_outside_theme-default');
       });
       it('beforeUpdate', function() {
          var
@@ -399,6 +434,7 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
          gridView.saveOptions(cfg);
          gridView._listModel = {
             setBaseItemTemplateResolver: () => {},
+            setHeaderInEmptyListVisible: () => {},
             setColumnTemplate: () => {},
             setColumnScroll: (opts, silent) => {calledMethods.push(['setColumnScroll', silent])},
             setColumns: (opts, silent) => {calledMethods.push(['setColumns', silent])},
@@ -415,9 +451,10 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
          let gridView;
          let cfg;
          let contentContainer;
+         let tempCfg;
 
          beforeEach(() => {
-            const tempCfg = {
+            tempCfg = {
                multiSelectVisibility: 'visible',
                columnScroll: true,
                columns: [
@@ -611,6 +648,31 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                });
             });
 
+            it('should update columnScrollVisibilty in model after editingItemData has changed', () => {
+               const items = new collection.RecordSet({
+                  rawData: [],
+                  keyProperty: 'id'
+               });
+               const listModel = new gridMod.GridViewModel({ ...tempCfg, items });
+               const oldOptions = { ...cfg, listModel };
+               const newOptions = {...cfg, listModel, editingItemData: {id: 1}};
+
+               gridView._beforeMount(oldOptions);
+               gridView.saveOptions(oldOptions);
+               gridView._afterMount();
+               gridView._children.columnScrollContainer = {
+                  getElementsByClassName: (selector) => selector === 'controls-Grid_columnScroll' ? [{offsetWidth: 100, scrollWidth: 200}] : null
+               };
+
+               assert.notExists(gridView._listModel.getColumnScrollVisibility());
+
+               gridView._beforeUpdate(newOptions);
+               gridView.saveOptions(newOptions);
+               gridView._afterUpdate(newOptions);
+
+               assert.isTrue(gridView._listModel.getColumnScrollVisibility());
+            });
+
             it('should update column scroll sizes if options has been changed (only once per lifecycle)', () => {
                const oldOptions = {...cfg, multiSelectVisibility: 'hidden'};
                const newOptions = {...cfg, multiSelectVisibility: 'visible', stickyColumnsCount: 2};
@@ -632,6 +694,115 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                gridView._afterUpdate(oldOptions);
 
                assert.deepEqual(calledMethods, ['setStickyColumnsCount', 'setMultiSelectVisibility', 'updateSizes']);
+            });
+         });
+
+         describe('itemActions on touch device', () => {
+            let wasSwipeInited;
+            let wasSwipeClosed;
+            let swipeDirection;
+
+            const createTouchStartEvent = (touches) => ({
+               preventDefault: () => {},
+               nativeEvent: {
+                  touches: touches.map((t) => ({
+                     clientX: t
+                  }))
+               },
+               target: {
+                  closest: () => null
+               }
+            });
+
+            const createSwipeEvent = (direction, isFixed) => ({
+               stopPropagation: () => {},
+               nativeEvent: { direction },
+               target: {
+                  closest: () => isFixed
+               }
+            });
+
+            beforeEach(async() => {
+               wasSwipeInited = false;
+               wasSwipeClosed = false;
+
+               contentContainer.querySelector = (selector) => selector === '.controls-Grid_columnScroll__fixed:nth-child(2)' ? {
+                  getBoundingClientRect: () => ({
+                     left: 25
+                  }),
+                  offsetWidth: 25
+               } : null;
+               contentContainer.getBoundingClientRect = () => ({
+                  left: 0
+               });
+               gridView._children.columnScrollContainer.getBoundingClientRect = () => ({
+                  left: 0
+               });
+
+
+               gridView.saveOptions(cfg);
+               await gridView._afterMount();
+               gridView._notify = (eName, args) => {
+                  if (eName === 'itemSwipe') {
+                     wasSwipeInited = true;
+                     const event = args[1];
+                     swipeDirection = event.nativeEvent.direction;
+                  } else if (eName === 'closeSwipe') {
+                     wasSwipeClosed = true;
+                  }
+               };
+            });
+
+            // -->
+            describe('right swipe', () => {
+               it('on fixed area', () => {
+                  gridView._startDragScrolling(createTouchStartEvent([30]), 'touch');
+                  gridView._onItemSwipe(createSwipeEvent('right', true));
+
+                  assert.isTrue(wasSwipeInited);
+                  assert.equal(swipeDirection, 'right');
+                  assert.isFalse(gridView._leftSwipeCanBeStarted);
+               });
+               it('on scrollable area, out of available area for swipe', () => {
+                  gridView._startDragScrolling(createTouchStartEvent([55]), 'touch');
+                  gridView._onItemSwipe(createSwipeEvent('right', false));
+
+                  assert.isFalse(wasSwipeInited);
+                  assert.isFalse(gridView._leftSwipeCanBeStarted);
+               });
+               it('on scrollable area, into available area for swipe', () => {
+                  gridView._startDragScrolling(createTouchStartEvent([98]), 'touch');
+                  gridView._onItemSwipe(createSwipeEvent('right', false));
+
+                  assert.isFalse(wasSwipeInited);
+                  assert.isFalse(gridView._leftSwipeCanBeStarted);
+               });
+            });
+
+            // <--
+            describe('left swipe', () => {
+               it('on fixed area', () => {
+                  gridView._startDragScrolling(createTouchStartEvent([30]), 'touch');
+                  gridView._onItemSwipe(createSwipeEvent('left', true));
+
+                  assert.isFalse(wasSwipeInited);
+                  assert.isFalse(gridView._leftSwipeCanBeStarted);
+               });
+               it('on scrollable area, out of available area for swipe', () => {
+                  gridView._startDragScrolling(createTouchStartEvent([55]), 'touch');
+                  gridView._onItemSwipe(createSwipeEvent('left', false));
+
+                  assert.isFalse(wasSwipeInited);
+                  assert.isFalse(gridView._leftSwipeCanBeStarted);
+               });
+               it('on scrollable area, into available area for swipe', () => {
+                  gridView._startDragScrolling(createTouchStartEvent([98]), 'touch');
+                  gridView._onItemSwipe(createSwipeEvent('left', false));
+
+                  assert.isTrue(wasSwipeInited);
+                  assert.equal(swipeDirection, 'left');
+                  assert.isFalse(gridView._leftSwipeCanBeStarted);
+               });
             });
          });
 

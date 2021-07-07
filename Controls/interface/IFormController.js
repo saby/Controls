@@ -106,7 +106,9 @@ define('Controls/interface/IFormController', [
 
    /**
     * @name Controls/interface/IFormController#errorContainer
-    * @cfg {Controls/dataSource:error.IContainerConstructor} Компонент для отображения шаблона ошибки по данным от {@link Controls/_dataSource/_error/Controller}
+    * @cfg {Controls/dataSource:error.IContainerConstructor} Компонент для отображения ошибки, он оборачивает весь контент формы.
+    * Способ отображения ошибки (диалог, вместо контента или во всю страницу) настраивается через переопределение {@link errorController}.
+    * Данную опцию следует определять, если нужно как-то изменить раскладку контента в случае ошибки, если раскладка контрола {@link Controls/_dataSource/_error/Container}, который используется по умолчанию, не устраивает.
     */
 
    /**
@@ -210,105 +212,122 @@ define('Controls/interface/IFormController', [
     */
 
    /**
-    * @event Controls/interface/IFormController#createSuccessed Происходит, когда запись создана успешно.
+    * @event Происходит, когда запись создана успешно.
+    * @name Controls/interface/IFormController#createsuccessed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Types/entity:Model} Редактируемая запись.
+    * @param {Types/entity:Model} record Редактируемая запись.
+    * @see createfailed
     */
 
    /*
-    * @event Controls/interface/IFormController#createSuccessed Happens when record create successful
+    * @event Controls/interface/IFormController#createsuccessed Happens when record create successful
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Types/entity:Model} Editable record
     */
 
    /**
-    * @event Controls/interface/IFormController#createFailed Происходит, когда запись создать не удалось.
+    * @event Происходит, когда запись создать не удалось.
+    * @name Controls/interface/IFormController#createfailed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Error} Error
+    * @see createsuccessed
     */
 
    /*
-    * @event Controls/interface/IFormController#createFailed Happens when record create failed
+    * @event Controls/interface/IFormController#createfailed Happens when record create failed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Error} Error
     */
 
    /**
-    * @event Controls/interface/IFormController#readSuccessed Происходит, когда запись прочитана успешно.
+    * @event Происходит, когда запись прочитана успешно.
+    * @name Controls/interface/IFormController#readsuccessed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Types/entity:Model} Редактируемая запись.
+    * @param {Types/entity:Model} record Редактируемая запись.
+    * @see readfailed
     */
 
    /*
-    * @event Controls/interface/IFormController#readSuccessed Happens when record read successful
+    * @event Controls/interface/IFormController#readsuccessed Happens when record read successful
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Types/entity:Model} Editable record
     */
 
    /**
-    * @event Controls/interface/IFormController#readFailed Происходит, когда запись прочитать не удалось.
+    * @event Происходит, когда запись прочитать не удалось.
+    * @name Controls/interface/IFormController#readfailed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Error} Error
+    * @see readsuccessed
     */
 
    /*
-    * @event Controls/interface/IFormController#readFailed Happens when record read failed
+    * @event Controls/interface/IFormController#readfailed Happens when record read failed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Error} Error
     */
 
    /**
-    * @event Controls/interface/IFormController#updateSuccessed Происходит, когда запись обновлена успешно.
+    * @event Происходит, когда запись обновлена успешно.
+    * @name Controls/interface/IFormController#updatesuccessed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Types/entity:Model} Редактируемая запись.
-    * @param {String} Ключ редактируемой записи.
+    * @param {Types/entity:Model} record Редактируемая запись.
+    * @param {String} key Ключ редактируемой записи.
+    * @see updatefailed
     */
 
    /*
-    * @event Controls/interface/IFormController#updateSuccessed Happens when record update successful
+    * @event Controls/interface/IFormController#updatesuccessed Happens when record update successful
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Types/entity:Model} Editable record
     * @param {String} Editable record key
     */
 
    /**
-    * @event Controls/interface/IFormController#updateFailed Происходит, когда обновить запись не удалось.
+    * @event Происходит, когда обновить запись не удалось.
+    * @name Controls/interface/IFormController#updatefailed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Error} Error
+    * @see updatesuccessed
     */
 
    /*
-    * @event Controls/interface/IFormController#updateFailed Happens when record update failed
+    * @event Controls/interface/IFormController#updatefailed Happens when record update failed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Error} Error
     */
 
    /**
-    * @event Controls/interface/IFormController#deleteSuccessed Происходит, когда запись удалена успешно.
+    * @event Происходит, когда запись удалена успешно.
+    * @name Controls/interface/IFormController#deletesuccessed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Types/entity:Model} Редактируемая запись.
+    * @param {Types/entity:Model} record Редактируемая запись.
+    * @see deletefailed
     */
 
    /*
-    * @event Controls/interface/IFormController#deleteSuccessed Happens when record delete successful
+    * @event Controls/interface/IFormController#deletesuccessed Happens when record delete successful
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Types/entity:Model} Editable record
     */
 
    /**
-    * @event Controls/interface/IFormController#deleteFailed Происходит, когда запись удалить не удалось.
+    * @event Происходит, когда запись удалить не удалось.
+    * @name Controls/interface/IFormController#deletefailed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Error} Error
+    * @see deletesuccessed
     */
 
    /*
-    * @event Controls/interface/IFormController#deleteFailed Happens when record delete failed
+    * @event Controls/interface/IFormController#deletefailed Happens when record delete failed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Error} Error
     */
 
    /**
-    * @event Controls/interface/IFormController#isNewRecordChanged Происходит, когда запись инициализируется в источнике данных.
+    * @event Происходит, когда запись инициализируется в источнике данных.
+    * @name Controls/interface/IFormController#isNewRecordChanged
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Boolean} isNewRecord
     */
@@ -320,13 +339,16 @@ define('Controls/interface/IFormController', [
     */
 
    /**
-    * @event Controls/interface/IFormController#requestCustomUpdate Происходит перед сохранением записи.
+    * @event Происходит перед сохранением записи.
+    * @name Controls/interface/IFormController#requestCustomUpdate
+    * @cfg {Types/entity:Model} record Редактируемая запись.
+    * @remark
     * В обработчике события можно отменить  базовую логику сохранения (вернуть true) или отложить ее для выполнения пользовательских действий перед сохранением (вернуть Promise<boolean>).
     * Используется, например, для асинхронной валидации или пользовательского сохранения записи.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @example
     * Проверяет данные на сервере перед сохранением.
-    * <pre>
+    * <pre class="brush: js">
     *    _requestCustomUpdateHandler(): Promise<boolean> {
     *       return this._checkDataOnServer();
     *    }

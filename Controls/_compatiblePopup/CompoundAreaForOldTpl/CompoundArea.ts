@@ -15,6 +15,7 @@ import callNext = require('Core/helpers/Function/callNext');
 import cInstance = require('Core/core-instance');
 import { SyntheticEvent } from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
+import {Bus as EventBus} from 'Env/Event';
 
 function removeOperation(operation, array) {
    var idx = arrayFindIndex(array, function(op) {
@@ -211,7 +212,16 @@ var CompoundArea = CompoundContainer.extend([
       const item = this._getManagerConfig();
       const popupItems = Controller.getContainer()._popupItems;
       // Нотифай события делаю в следующий цикл синхронизации после выставления позиции окну.
-      this._notifyVDOM('managerPopupCreated', [item, popupItems], {bubbling: true});
+      EventBus.channel('popupManager').notify('managerPopupCreated', [item, popupItems]);
+   },
+
+   _notifyManagerPopupDestroyed(): void {
+      const item = this._getManagerConfig();
+      const options = item?.popupOptions;
+      const event = 'onClose';
+      if (options?._events[event]) {
+         options._events[event](event, []);
+      }
    },
 
    _getDialogClasses: function() {
@@ -403,7 +413,6 @@ var CompoundArea = CompoundContainer.extend([
    _beforeUnmount: function() {
       this.__parentFromCfg = null;
       this.__openerFromCfg = null;
-      this._parent = null;
       this._logicParent = null;
       if (this._options.popupComponent === 'recordFloatArea') {
          this.unsubscribeOnBeforeUnload();
@@ -1116,7 +1125,7 @@ var CompoundArea = CompoundContainer.extend([
             if (visible !== prevVisible) {
                // Совместимость с FloatArea. После реального изменении видимости, нужно сообщать об этом,
                // стреляя событием onAfterVisibilityChange
-               self._notifyCompound('onAfterVisibilityChange', visible);
+               self._notifyCompound('onAfterVisibilityChange', visible, prevVisible);
             }
          };
 
@@ -1198,6 +1207,13 @@ var CompoundArea = CompoundContainer.extend([
       if (this.isDestroyed()) {
          return;
       }
+
+      // Пока попап не создан, ему на событие onInit могли позвать destroy напрямую.
+      // Хоть у попапов и нельзя destroy звать напрямую, ставлю защиту
+      if (!this._isPopupCreated) {
+         this._notifyManagerPopupDestroyed();
+      }
+
       this._trackTarget(false);
 
       // Unregister CompoundArea's inner Event/Listener, before its

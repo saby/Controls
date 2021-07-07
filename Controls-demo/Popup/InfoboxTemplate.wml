@@ -5,19 +5,25 @@
                                  autoHide="{{true}}"
    >
       <ws:templateOptions closeButtonVisibility="{{false}}"/>
-      <ws:direction vertical="{{_verticalDirection ? 'bottom' : 'top'}}" horizontal="{{_horizontalDirection ? 'left' : 'right'}}"/>
-      <ws:targetPoint vertical="{{_verticalPoint ? 'bottom' : 'top'}}" horizontal="{{_horizontalPoint ? 'left' : 'right'}}"/>
+      <ws:direction vertical="{{_config[_selectedKeysSimple-1].direction.vertical}}" horizontal="{{_config[_selectedKeysSimple-1].direction.horizontal}}"/>
+      <ws:targetPoint vertical="{{_config[_selectedKeysSimple-1].targetPoint.vertical}}" horizontal="{{_config[_selectedKeysSimple-1].targetPoint.horizontal}}"/>
    </Controls.popup:Sticky>
 
    <Controls.buttons:Button name="stickyButton" caption="sticky" on:click="openSticky()" attr:class="ControlsDemo-InfoboxTemplate__stickyButton"/>
    <div style="margin-left: 20px;" class="ControlsDemo-InfoboxTemplate__blockOptions">
-      <span>direction vertical: </span><Controls.toggle:DoubleSwitch captions="{{['bottom','top']}}" bind:value="_verticalDirection" attr:class="ControlsDemo-InfoboxTemplate__verticalDirection"/>
-      <br />
-      <span>direction horizontal: </span><Controls.toggle:DoubleSwitch captions="{{['left','right']}}" bind:value="_horizontalDirection" attr:class="ControlsDemo-InfoboxTemplate__horizontalDirection"/>
-      <br />
-      <span>Point vertical: </span><Controls.toggle:DoubleSwitch captions="{{['bottom','top']}}" bind:value="_verticalPoint" attr:class="ControlsDemo-InfoboxTemplate__verticalPoint"/>
-      <br />
-      <span>Point horizontal: </span><Controls.toggle:DoubleSwitch captions="{{['left','right']}}" bind:value="_horizontalPoint" attr:class="ControlsDemo-InfoboxTemplate__horizontalPoint"/>
+      <Controls.dropdown:Input bind:selectedKeys="_selectedKeysSimple"
+                               keyProperty="id"
+                               displayProperty="title"
+                               attr:class="ControlsDemo-simple ControlsDemo-InputDropdown__item"
+                               source="{{_simpleItems}}"/>
+      <br/>
+      direction.vertical={{_config[_selectedKeysSimple-1].direction.vertical}}
+      <br/>
+      direction.horizontal={{_config[_selectedKeysSimple-1].direction.horizontal}}
+      <br/>
+      targetPoint.vertical={{_config[_selectedKeysSimple-1].targetPoint.vertical}}
+      <br/>
+      targetPoint.horizontal={{_config[_selectedKeysSimple-1].targetPoint.horizontal}}
+      <br/>
    </div>
-
 </div>

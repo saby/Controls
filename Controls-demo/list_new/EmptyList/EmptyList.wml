@@ -11,6 +11,16 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/EmptyList/Spacing/Index' }}">
+            <a href="{{content.href}}">Шаблон отображения пустого списка с отступом</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.EmptyList.Spacing.Index/>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/EmptyList/EmptyListWithFooter/Index' }}">
             <a href="{{content.href}}">Шаблон отображения пустого списка с футером</a>
         </Router.router:Reference>

@@ -4,7 +4,7 @@
                   itemData="{{itemData}}"
                   itemActionsTemplate="{{itemActionsTemplate}}"
                   itemActionsContainerStyles="{{itemActionsContainerStyles}}"
-                  attr:class="js-controls-ColumnScroll__notDraggable"
+                  attr:class="controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable"
                   highlightOnHover="{{highlightOnHover}}"
                   theme="{{itemData.theme}}"/>
    </ws:if>
@@ -13,7 +13,7 @@
                   itemActionsClass="{{itemActionsClass}}"
                   itemData="{{itemData}}"
                   itemActionsContainerStyles="{{itemActionsContainerStyles}}"
-                  attr:class="controls-Grid__itemAction js-controls-ColumnScroll__notDraggable"
+                  attr:class="controls-Grid__itemAction controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable"
                   highlightOnHover="{{highlightOnHover}}"
                   theme="{{itemData.theme}}"/>
    </ws:else>
@@ -36,6 +36,7 @@
     <!-- Не нужно ренднрить контент ячейки, если это не ячейка с colspanTemplate-->
     <ws:partial template="{{ renderSeparatedColumnContent !== false ? currentColumn.template : 'Controls/grid:ColumnTemplate' }}"
                 editArrowTemplate="{{editArrowTemplate}}"
+                itemActionsClass="{{itemActionsClass}}"
                 itemActionsTemplate="{{itemActionsTemplate}}"
                 attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
                             {{currentColumn.column.valign ?' controls-Grid__cell_valign_' + currentColumn.column.valign + ' controls-Grid__cell-content_full-height' : ''}}
@@ -44,7 +45,8 @@
                             {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}"
                 ladderWrapper="{{currentColumn.ladderWrapper}}"
                 expanderTemplate="{{itemData.expanderTemplate}}"
-                itemData="{{currentColumn}}" />
+                itemData="{{currentColumn}}"
+                tagTemplate="{{tagTemplate}}" />
 </ws:template>
 
 <ws:template name="COLUMN_CONTENT_WRAPPER">
@@ -62,7 +64,7 @@
 
    <!-- Колонка с чекбоксами -->
    <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
-      <ws:if data="{{!itemData.dispItem.isEditing()}}">
+      <ws:if data="{{!itemData.isAdd}}">
          <ws:partial template="{{multiSelectTpl}}" attr:class="{{ itemData.multiSelectClassList }}">
             <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
                                 checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
@@ -80,16 +82,17 @@
       <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 1 || !itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
          <ws:if data="{{!withoutLevelPadding && itemData.level > 1}}">
             <ws:for data="i in itemData.level - 1">
-               <div class="controls-TreeGrid__row-levelPadding {{itemData.getLevelIndentClasses(itemData.getExpanderSize(expanderSize), levelIndentSize)}}"></div>
+               <div class="controls-TreeGrid__row-levelPadding {{itemData.getLevelIndentClasses(itemData, expanderSize, levelIndentSize)}}"></div>
             </ws:for>
          </ws:if>
          <ws:if data="{{ itemData.shouldDrawExpander(itemData, expanderIcon) }}">
             <ws:partial template="{{itemData.expanderTemplate}}"
                         itemData="{{itemData}}"
-                        expanderIcon="{{expanderIcon}}" expanderSize="{{itemData.getExpanderSize(expanderSize)}}"/>
+                        expanderIcon="{{itemData.getExpanderIcon(expanderIcon)}}"
+                        expanderSize="{{itemData.getExpanderSize(expanderSize)}}"/>
          </ws:if>
-         <ws:else data="{{itemData.shouldDrawExpanderPadding(itemData, expanderIcon, itemData.getExpanderSize(expanderSize))}}">
-            <div class="{{itemData.getExpanderPaddingClasses(itemData.getExpanderSize(expanderSize), itemData.theme)}} js-controls-ListView__notEditable"></div>
+         <ws:else data="{{itemData.shouldDrawExpanderPadding(itemData, expanderIcon, expanderSize)}}">
+            <div class="{{itemData.getExpanderPaddingClasses(itemData, expanderSize)}} js-controls-ListView__notEditable"></div>
          </ws:else>
       </ws:if>
 
@@ -134,19 +137,19 @@
 
 <ws:template name="STICKY_LADDER_HEADER">
    <ws:if data="{{itemData.stickyLadder[stickyProperty].headingStyle && currentColumn.hiddenForLadder}}">
-      <div attr:class="controls-Grid__row-ladder-cell {{!!itemData.isActive() ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}} js-controls-ItemActions__swipeMeasurementContainer"
+      <div attr:class="controls-Grid__row-ladder-cell {{!!itemData.isActive() ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}"
            attr:key="{{itemData.key + stickyProperty + '_sticky_ladder'}}"
            attr:style="{{itemData.stickyLadder[stickyProperty].headingStyle}}">
 
          <ws:if data="{{itemData.stickyProperties[index]}}">
             <ws:if data="{{index === 1}}">
-               <div class="controls-Grid__row-additional_ladderWrapper" 
+               <div class="controls-Grid__row-additional_ladderWrapper"
                   style="{{ 'right: 0; left: -' + currentColumn.column.width }};">
                   <ws:partial template="STICKY_LADDER_HEADER_CONTENT" attr:class="{{itemData.getAdditionalLadderClasses()}}" attr:style="z-index: 1" currentColumn="{{currentColumn}}" stickyProperty="{{stickyProperty}}"/>
                </div>
             </ws:if>
             <ws:else>
-               <div class="controls-Grid__row-main_ladderWrapper" 
+               <div class="controls-Grid__row-main_ladderWrapper"
                   style="{{ 'left: 0; right: -' + currentColumn.column.width }};">
                   <ws:partial template="STICKY_LADDER_HEADER_CONTENT"  attr:style="z-index: 2" currentColumn="{{currentColumn}}" stickyProperty="{{stickyProperty}}"/>
                </div>
@@ -193,7 +196,7 @@
       <ws:if data="{{ itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode) }}">
          <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.itemActionsGridCellStyles}}" attr:key="{{itemData.key}}_{{itemData.getCurrentColumnKey()}}_actions"/>
       </ws:if>
-      <ws:else data="{{ itemData.isActionsColumn(itemData, currentColumn, colspan || colspanCurrentNode) }}">
+      <ws:else data="{{ itemData.shouldAddActionsCell && itemData.isActionsColumn(itemData, currentColumn, colspan || colspanCurrentNode) }}">
          <div attr:key="{{itemData.key}}_{{itemData.getCurrentColumnKey()}}_actionsStub"></div>
       </ws:else>
    </ws:if>
@@ -283,7 +286,3 @@
       </ws:else>
    </div>
 </ws:else>
-
-<ws:if data="{{itemData.nodeFooters.length > 0}}">
-   <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser" useNewNodeFooters="{{ itemData.useNewNodeFooters }}" nodeFooters="{{itemData.nodeFooters}}"/>
-</ws:if>

@@ -3,8 +3,8 @@ import {instanceOfModule} from 'Core/core-instance';
 import {constants} from 'Env/Env';
 import {DateTime} from 'Types/entity';
 import formatter = require('Types/formatter');
-import {dateMaskConstants} from 'Controls/Utils/DateControlsUtils';
-import dateUtils = require('Controls/Utils/Date');
+import {Range, Base as dateUtils} from 'Controls/dateUtils';
+
 import {getMaskType, DATE_MASK_TYPE, DATE_TIME_MASK_TYPE, TIME_MASK_TYPE} from './Utils';
 
 var _private = {
@@ -135,7 +135,7 @@ var _private = {
       if (valueModel.month.str === null) {
          valueModel.month.value = baseValue.getMonth();
       }
-      if (valueModel.date.str === null && self._mask !== dateMaskConstants.MM_YYYY) {
+      if (valueModel.date.str === null && self._mask !== Range.dateMaskConstants.MM_YYYY) {
          // Для контрола с маской MM/YYYY не имеет смысла сохранять дату между вводом дат т.к. это приводит
          // к неожиданным результатам. Например, была программно установлена дата 31.12.2018.
          // меняем месяц на 11. 31.11 несуществует. Можно скорректировать на 30.11.2018. Теперь пользователь
@@ -356,7 +356,11 @@ var ModuleClass = cExtend.extend({
          const actualMask: string = this._mask || mask;
          // Если дата имеет тип ДатаВремя, то при передачи на клиент она будет сконвертирована в часовой пояс клиента.
          // На сервере отрендерим дату в том же часовом поясе.
-         if (constants.isServerSide && instanceOfModule(value, 'Types/entity:DateTime')) {
+         // По факту тут проврка на DateTime.
+         // instanceOfModule(value, 'Types/entity:DateTime') не подходит т.к. Date и Time наследуются от DateTime,
+         // и проверка на 'Types/entity:DateTime' возвращает true для всех этих типов.
+         if (constants.isServerSide &&
+             !(instanceOfModule(value, 'Types/entity:Date') || instanceOfModule(value, 'Types/entity:Time'))) {
             const tzOffset: number = DateTime.getClientTimezoneOffset();
             dateString = formatter.date(value, actualMask, tzOffset);
          } else {

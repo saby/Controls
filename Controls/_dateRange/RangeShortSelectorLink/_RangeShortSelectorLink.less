@@ -1,0 +1,88 @@
+.controls-RangeShortSelectorLink {
+   display: inline-block;
+   .user-select();
+   white-space: nowrap;
+}
+
+.controls-RangeShortSelectorLink_theme-@{themeName} {
+   height: @height_rangeShortSelectorLink;
+   line-height: @height_rangeShortSelectorLink;
+}
+
+.controls-RangeShortSelectorLink-wrapper {
+   height: 100%;
+   width: 100%;
+   display: inline-flex;
+   align-items: baseline;
+   justify-content: center;
+}
+
+.controls-RangeShortSelectorLink__clear_theme-@{themeName} {
+   font-size: @arrow_icon-size_dateRangeSelector;
+   width: @arrow_width_dateRangeSelector;
+   color: @reset-button_icon-color_dateRangeSelector;
+   font-family: @icon_font-family_s;
+}
+
+.controls-RangeShortSelectorLink__arrow-next_theme-@{themeName} {
+   margin-left: @yearselector_arrow-next_margin_shortDatePicker;
+}
+
+.controls-RangeShortSelectorLink__arrow-prev_theme-@{themeName} {
+   margin-left: @yearselector_arrow-prev_margin_shortDatePicker;
+}
+
+.controls-RangeShortSelectorLink__prev,
+.controls-RangeShortSelectorLink__next {
+   font-weight: normal;
+   text-align: center;
+}
+
+.controls-RangeShortSelectorLink__style-readOnly_theme-@{themeName} {
+   color: @text-color;
+}
+
+.controls-RangeShortSelectorLink__style-clickable_theme-@{themeName} {
+   cursor: pointer;
+}
+
+.ws-is-hover {
+   .controls-RangeShortSelectorLink__value-hovered:hover {
+      text-decoration: underline;
+   }
+   .controls-RangeShortSelectorLink__style-hover_theme-@{themeName}:hover {
+      color: @link_hover_text-color;
+   }
+}
+
+.controls-RangeShortSelectorLink__value-wrapper {
+   //В разных браузерах, при нечетнром количестве пикселей при делении, разные браузеры округлят по разному.
+   //Из-за этого существует разница в 1px по высоте. Увиеличил высоту контейнера на 1px и прижал к низу.
+   display: flex;
+   justify-content: flex-start;
+   align-items: baseline;
+   flex-grow: 1;
+   text-align: center;
+   height: 100%;
+}
+
+.controls-RangeShortSelectorLink__value-wrapper-minWidth_theme-@{themeName} {
+   min-width: @min-width_dateRangeSelector;
+}
+
+.controls-RangeShortSelectorLink__value_theme-@{themeName} {
+   font-weight: @font-weight_dateRangeSelector;
+}
+
+.controls-RangeShortSelectorLink__clear {
+   cursor: pointer;
+   display: inline-block;
+   font-weight: normal;
+   text-align: center;
+   align-self: baseline;
+   line-height: 100%;
+
+   &::before {
+      content: "\ea27";
+   }
+}

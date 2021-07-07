@@ -2,7 +2,7 @@
    <ws:if data="{{_options.type === 'ok'}}">
       <div class="controls-ConfirmationDialog__button-standard_theme-{{_options.theme}}">
          <Controls.buttons:Button
-            ws-autofocus="{{true}}"
+            attr:ws-autofocus="{{true}}"
             buttonStyle="primary"
             inlineHeight="confirmation"
             fontSize="confirmation"
@@ -15,7 +15,7 @@
    <ws:else>
       <div class="controls-ConfirmationDialog__button-{{_options.type === 'yesnocancel' ? 'mini' : 'standard'}}_theme-{{_options.theme}}">
          <Controls.buttons:Button
-            ws-autofocus="{{true}}"
+            attr:ws-autofocus="{{true}}"
             inlineHeight="confirmation"
             fontSize="confirmation"
             buttonStyle="{{_options.primaryAction === 'yes' ? 'primary' : 'secondary'}}"

@@ -1,17 +1,16 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {descriptor as EntityDescriptor} from 'Types/entity';
-import {ICaption, ICaptionOptions, IFontSize, IFontSizeOptions,} from 'Controls/interface';
+import {ICaption, ICaptionOptions, IFontSize, IFontSizeOptions, IHref, IHrefOptions} from 'Controls/interface';
 import * as LabelTemplate from 'wml!Controls/_input/Label/Label';
 
-export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSizeOptions {
-   required?: boolean;
-   underline?: string | null;
-   href?: string;
+export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSizeOptions, IHrefOptions {
+    required?: boolean;
+    underline?: string | null;
 }
 
 /**
  * Текстовая метка для поля ввода.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
@@ -19,28 +18,46 @@ export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSi
  * @class Controls/_input/Label
  * @extends Core/Control
  *
- * @mixes Controls/_interface/ICaption
- * @mixes Controls/_interface/IFontSize
+ * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:ICaption
+ * @mixes Controls/interface:IHref
  *
  * @public
- * @demo Controls-demo/Input/Labels/Index
+ * @demo Controls-demo/Input/Label/Index
  *
  * @author Красильников А.С.
  */
+class Label extends Control<ILabelOptions> implements ICaption, IFontSize, IHref {
+    protected _template: TemplateFunction = LabelTemplate;
 
-/*
- * Represents the text label for a control.
- *
- * @class Controls/_input/Label
- * @extends Core/Control
- *
- * @mixes Controls/_interface/ICaption
- *
- * @public
- * @demo Controls-demo/Label/Label
- *
- * @author Красильников А.С.
- */
+    readonly '[Controls/_interface/IHref]': boolean = true;
+    readonly '[Controls/_interface/ICaption]': boolean = true;
+    readonly '[Controls/_interface/IFontSize]': boolean = true;
+
+    static _theme: string[] = ['Controls/input', 'Controls/Classes'];
+
+    static getDefaultOptions(): object {
+        return {
+            underline: 'none'
+        };
+    }
+
+    static getOptionTypes(): object {
+        return {
+            href: EntityDescriptor(String),
+            // Caption задается текстом, либо шаблоном. Шаблон приходит в виде объекта
+            caption: EntityDescriptor(Object, String).required(),
+            underline: EntityDescriptor(String).oneOf([
+                'none',
+                'fixed',
+                'hovered'
+            ]),
+            required: EntityDescriptor(Boolean)
+        };
+    }
+}
+
+export default Label;
 
 /**
  * @name Controls/_input/Label#required
@@ -68,44 +85,3 @@ export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSi
  * @variant fixed
  * @variant none
  */
-
-/**
- * @name Controls/_input/Label#href
- * @cfg {String} При клике по метке пользователь переходит по ссылке, URL которой задан в опции.
- */
-
-/*
- * @name Controls/_input/Label#href
- * @cfg {String} Contains a URL or a URL fragment that the hyperlink points to.
- */
-class Label extends Control<ILabelOptions> implements ICaption, IFontSize {
-   protected _template: TemplateFunction = LabelTemplate;
-
-   readonly '[Controls/_interface/ICaption]': true;
-   readonly '[Controls/_interface/IFontSize]': true;
-
-   static _theme: string[] = ['Controls/input', 'Controls/Classes'];
-
-   static getDefaultOptions(): object {
-      return {
-         underline: 'none'
-      };
-   }
-
-
-   static getOptionTypes(): object {
-      return {
-         href: EntityDescriptor(String),
-         //Caption задается текстом, либо шаблоном. Шаблон приходит в виде объекта
-         caption: EntityDescriptor(Object, String).required(),
-         underline: EntityDescriptor(String).oneOf([
-            'none',
-            'fixed',
-            'hovered'
-         ]),
-         required: EntityDescriptor(Boolean)
-      };
-   }
-}
-
-export default Label;

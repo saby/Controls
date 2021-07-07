@@ -1,7 +1,7 @@
 import {Logger} from 'UI/Utils';
 import Base = require('Controls/_input/Base');
 import entity = require('Types/entity');
-import ViewModel = require('Controls/_input/Number/ViewModel');
+import ViewModel from './Number/ViewModel';
 
 /**
  * Поле ввода числовых значений.

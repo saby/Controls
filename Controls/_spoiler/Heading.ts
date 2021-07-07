@@ -1,9 +1,19 @@
 import {Logger} from 'UI/Utils';
-import {isEqual} from 'Types/object';
 import {descriptor} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {ITooltip, ITooltipOptions, IExpandable, IExpandableOptions, IFontSize, IFontSizeOptions} from 'Controls/interface';
+import {
+    ITooltip,
+    ITooltipOptions,
+    IExpandable,
+    IExpandableOptions,
+    IFontSize,
+    IFontSizeOptions,
+    IFontWeight,
+    IFontWeightOptions,
+    TFontWeight,
+    IFontColorStyle,
+    IFontColorStyleOptions
+} from 'Controls/interface';
 import Util from './Util';
 
 // tslint:disable-next-line:ban-ts-ignore
@@ -20,7 +30,8 @@ type TIcon = 'ExpandLight' | 'CollapseLight';
  * @public
  * @author Красильников А.С.
  */
-export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IFontSizeOptions, ITooltipOptions {
+export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IFontSizeOptions, ITooltipOptions,
+    IFontWeightOptions, IFontColorStyleOptions {
     /**
      * Заголовок.
      * @type string | string[]
@@ -31,10 +42,10 @@ export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IF
      * Первый элемент соответствует expanded = true.
      * Второй элемент соответствует expanded = false.
      * Для изменения пары заголовков нужно передать новый массив.
-     * 
+     *
      * Полезные ссылки:
      * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_spoiler.less">переменные тем оформления</a>
-     * 
+     *
      * @demo Controls-demo/Spoiler/Heading/Captions/Index
      */
     captions: TCaptions;
@@ -46,14 +57,14 @@ export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IF
     captionPosition: 'left' | 'right';
 }
 
-export interface IHeading extends IExpandable, IFontSize, ITooltip {
+export interface IHeading extends IExpandable, IFontSize, ITooltip, IFontWeight, IFontColorStyle {
     readonly '[Controls/_spoiler/IHeading]': boolean;
 }
 
 /**
  * Графический контрол, отображаемый в виде загловка с состоянием развернутости.
  * Предоставляет пользователю возможность запуска события смены состояния развернутости при нажатии на него.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_spoiler.less">переменные тем оформления</a>
@@ -71,65 +82,58 @@ export interface IHeading extends IExpandable, IFontSize, ITooltip {
  * @demo Controls-demo/Spoiler/Heading/Index
  */
 class Heading extends Control<IHeadingOptions> implements IHeading {
-    protected _icon: TIcon = 'ExpandLight';
+    protected _icon: TIcon;
     protected _view: TView;
     protected _caption: string;
-    protected _expanded: boolean = false;
+    protected _expanded: boolean;
+    protected _fontWeight: TFontWeight;
+    protected _fontColorStyle: string;
 
     protected _template: TemplateFunction = template;
 
     readonly '[Controls/_spoiler/IHeading]': boolean = true;
+    readonly '[Controls/_interface/ITooltip]': boolean = true;
     readonly '[Controls/_interface/IFontSize]': boolean = true;
+    readonly '[Controls/_interface/IFontWeight]': boolean = true;
+    readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
     readonly '[Controls/_toggle/interface/IExpandable]': boolean = true;
 
-    private _needChangeCaption(options: IHeadingOptions, expanded: boolean): boolean {
-        const captions = options.captions;
-        const {captions: oldCaptions} = this._options;
-
-        if (captions instanceof Array && oldCaptions instanceof Array) {
-            return !isEqual(captions, oldCaptions) || this._needChangeStateByExpanded(expanded);
-        } else {
-            return captions !== oldCaptions;
-        }
-    }
-
-    private _needChangeStateByExpanded(expanded: boolean): boolean {
-        return expanded !== this._options.expanded;
+    private _updateState(options: IHeadingOptions): void {
+        this._view = Heading._calcView(this._expanded);
+        this._caption = Heading._calcCaption(options.captions, this._expanded);
+        this._fontWeight = Heading._calcFontWeight(this._expanded, options.fontWeight);
+        this._fontColorStyle = Heading._calcFontColorStyle(this._expanded, options.fontColorStyle);
     }
 
     protected _beforeMount(options?: IHeadingOptions, contexts?: object, receivedState?: void): Promise<void> | void {
-        this._expanded = Util._getExpanded(options, this._expanded);
-        this._updateStates(options, this._expanded);
+        this._expanded = Util._getExpanded(options, false);
+        this._updateState(options);
+
         return super._beforeMount(options, contexts, receivedState);
     }
 
     protected _beforeUpdate(options?: IHeadingOptions, contexts?: any): void {
-        this._updateStates(options, options.expanded);
+        if (options.hasOwnProperty('expanded') && this._options.expanded !== options.expanded) {
+            this._expanded = options.expanded;
+        }
+        this._updateState(options);
+
         super._beforeUpdate(options, contexts);
     }
 
-    protected _updateStates(options: IHeadingOptions, expanded: boolean): void {
-        if (this._needChangeCaption(options, expanded)) {
-            this._caption = Heading._calcCaption(options.captions, expanded);
+    protected _clickHandler(): void {
+        const expanded = !this._expanded;
+        if (!this._options.hasOwnProperty('expanded')) {
+            this._expanded = expanded;
         }
-        if (this._needChangeStateByExpanded(expanded)) {
-            this._icon = Heading._calcIcon(expanded);
-            this._view = Heading._calcView(expanded);
-        }
-    }
-
-    protected _clickHandler(event: SyntheticEvent<MouseEvent>): void {
-        this._expanded = !Util._getExpanded(this._options, this._expanded);
-        this._notify('expandedChanged', [this._expanded]);
-        this._updateStates(this._options, this._expanded);
-
+        this._notify('expandedChanged', [expanded]);
     }
 
     static _theme: string[] = ['Controls/spoiler', 'Controls/Classes'];
 
     private static _captionToString(caption?: string): string {
         if (typeof caption === 'string') {
-            return  caption;
+            return caption;
         }
 
         return '';
@@ -153,8 +157,20 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
         return expanded ? 'expanded' : 'collapsed';
     }
 
-    private static _calcIcon(expanded: boolean): TIcon {
-        return expanded ? 'CollapseLight' : 'ExpandLight';
+    protected static _calcFontWeight(expanded: boolean, fontWeight?: TFontWeight): TFontWeight {
+        if (fontWeight) {
+            return fontWeight;
+        }
+
+        return expanded ? 'bold' : 'default';
+    }
+
+    protected static _calcFontColorStyle(expanded: boolean, fontColorStyle?: string): string {
+        if (fontColorStyle) {
+            return fontColorStyle;
+        }
+
+        return expanded ? 'secondary' : 'label';
     }
 
     static getDefaultOptions(): Partial<IHeadingOptions> {
@@ -168,6 +184,8 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
     static getOptionTypes(): Partial<IHeadingOptions> {
         return {
             fontSize: descriptor(String),
+            fontWeight: descriptor(String),
+            fontColorStyle: descriptor(String),
             expanded: descriptor(Boolean),
             captions: descriptor(String, Array),
             captionPosition: descriptor(String).oneOf(['left', 'right'])
@@ -176,3 +194,30 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
 }
 
 export default Heading;
+
+/**
+ * @name Controls/_spoiler/Heading#fontWeight
+ * @cfg {Enum} Начертание шрифта.
+ * @variant bold
+ * @variant default
+ *
+ * @remark
+ * Когда опция не задана, то её значение определяется контролом в зависимости от состояния развернутости.
+ * В развернутом состоянии это bold, а в свётнутом это default.
+ *
+ * @demo Controls-demo/Spoiler/Heading/FontWeight/Index
+ * @see expanded
+ */
+/**
+ * @name Controls/_spoiler/Heading#fontColorStyle
+ * @cfg {Enum} Стиль цвета текста и иконки контрола.
+ * @variant label
+ * @variant secondary
+ *
+ * @remark
+ * Когда опция не задана, то её значение определяется контролом в зависимости от состояния развернутости.
+ * В развернутом состоянии это secondary, а в свётнутом это label.
+ *
+ * @demo Controls-demo/Spoiler/Heading/FontColorStyle/Index
+ * @see expanded
+ */

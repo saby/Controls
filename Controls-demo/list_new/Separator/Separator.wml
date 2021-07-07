@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlDemo_list-new_base">
+    <div class="controlsDemo__inline-block" style="margin-right: 20px;">
+        <Controls.list:View keyProperty="id" source="{{_viewSource}}" rowSeparatorSize="s"/>
+    </div>
+
+    <div class="controlsDemo__inline-block" style="margin-right: 20px;">
+        <Controls.list:View keyProperty="id" source="{{_viewSource}}" rowSeparatorSize="l"/>
+    </div>
+</div>

@@ -1,10 +1,13 @@
 import Env = require('Env/Env');
-import {getScrollbarWidth} from 'Controls/Utils/getScrollbarWidth'
+import {getScrollbarWidth} from 'Controls/sizeUtils';
 
 
 var _private = {
 
-    styleHideScrollbar: null,
+    styleHideScrollbar: {
+        vertical: null,
+        verticalHorizontal: null
+    },
 
     /**
      * Расчет ширины нативного скролла.
@@ -41,8 +44,8 @@ export = {
     calcStyleHideScrollbar: function (scrollMode) {
         var scrollbarWidth, styleHideScrollbar;
 
-        if (typeof _private.styleHideScrollbar === 'string') {
-            styleHideScrollbar = _private.styleHideScrollbar;
+        if (typeof _private.styleHideScrollbar[scrollMode] === 'string') {
+            styleHideScrollbar = _private.styleHideScrollbar[scrollMode];
         } else {
             scrollbarWidth = _private.calcScrollbarWidth(Env.detection);
             styleHideScrollbar = _private.calcStyleHideScrollbar(scrollbarWidth, scrollMode);
@@ -52,7 +55,7 @@ export = {
          * Do not cache on the server and firefox.
          */
         if (!(typeof window === 'undefined' || Env.detection.firefox)) {
-            _private.styleHideScrollbar = styleHideScrollbar;
+            _private.styleHideScrollbar[scrollMode] = styleHideScrollbar;
         }
 
         return styleHideScrollbar;

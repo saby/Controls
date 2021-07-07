@@ -1,0 +1,9 @@
+<div class="ws-inline-flexbox ws-flex-column" attr:style="background-color: rgb(255 179 128);">
+   <div class="ws-flexbox ws-align-items-baseline">
+      <div>прикладной контент слева</div>
+      <Controls.spoiler:Heading attr:class="controlsDemo__mr1 controlsDemo__ml1" captions="Заголовок"
+                                on:expandedChanged="_tmplNotify('expandedChanged')"/>
+      <div>прикладной контент справа</div>
+   </div>
+   <div class="ws-align-self-center">прикладной контент снизу</div>
+</div>

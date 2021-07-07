@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base.js';
 import * as template from 'wml!Controls/_list/EditInPlace/EditingRow';
-import * as scrollToElement from 'Controls/Utils/scrollToElement';
+import {scrollToElement} from 'Controls/scrollUtils';
 import { constants } from 'Env/Env';
 
 export interface IEditingRowOptions extends IControlOptions {
@@ -11,10 +11,6 @@ export default class EditingRow extends Control<IEditingRowOptions> {
     protected _template: TemplateFunction = template;
 
     protected _afterMount(options: IEditingRowOptions): void {
-        if (!options.columnScroll) {
-            this.activate();
-        }
-
         // TODO: this._container может быть не HTMLElement, а jQuery-элементом, убрать после https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
         const container = this._container.get ? this._container.get(0) : this._container;
 

@@ -22,10 +22,10 @@
                imageProerty="{{_options.imageProperty}}"
                itemData="{{itemData}}"/>
          </ws:if>
-         <div class="controls-listTemplates__tableCellTemplate__content-theme-{{_options.theme}} ws-ellipsis">
+         <div class="controls-listTemplates__tableCellTemplate__content-theme-{{_options.theme}}
+                     {{_options.imageViewMode !== 'none' ? 'controls-listTemplates__tableCellTemplate__content-withPhoto'}} ws-ellipsis">
             <ws:if data="{{contentTemplate}}">
                <ws:partial
-                  attr:class="ws-ellipsis"
                   template="{{contentTemplate}}"
                   itemData="{{itemData}}"/>
             </ws:if>

@@ -14,6 +14,8 @@ import {RecordSet} from 'Types/collection';
 import * as cInstance from 'Core/core-instance';
 import {PrefetchProxy} from 'Types/source';
 import * as Merge from 'Core/core-merge';
+import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
+import {error as dataSourceError} from 'Controls/dataSource';
 
 /**
  * Контроллер для выпадающих списков.
@@ -53,7 +55,7 @@ export default class _Controller implements IDropdownController {
       this._sticky = new StickyOpener();
    }
 
-   loadItems(): Promise<RecordSet> {
+   loadItems(): Promise<DropdownReceivedState> {
       return new Promise((resolve) => {
          this._loadItems(this._options).addCallback((items) => {
             const beforeMountResult = {};
@@ -70,15 +72,10 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   setItems(receivedState: {items?: RecordSet, history?: RecordSet}): Promise<RecordSet> {
+   setItems(items?: RecordSet): Promise<RecordSet> {
       return this._getSourceController(this._options).addCallback((sourceController) => {
-         this._setItems(receivedState.items);
+         this._setItems(items);
          sourceController.calculateState(this._items);
-
-         if (receivedState.history) {
-            this._source.setHistory(receivedState.history);
-            this._setItems(this._source.prepareItems(this._items));
-         }
 
          this._updateSelectedItems(this._options.emptyText, this._options.selectedKeys, this._options.keyProperty, this._options.selectedItemsChangedCallback);
          if (this._options.dataLoadCallback) {
@@ -87,6 +84,13 @@ export default class _Controller implements IDropdownController {
 
          return sourceController;
       });
+   }
+
+   setHistoryItems(history?: RecordSet): void {
+      if (history) {
+         this._source.setHistory(history);
+         this._setItems(this._source.prepareItems(this._items));
+      }
    }
 
    update(newOptions: IDropdownControllerOptions): Promise<RecordSet>|void {
@@ -133,7 +137,7 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   loadDependencies(): Promise<any> {
+   loadDependencies(): Promise<unknown[]> {
       const deps = [this._loadMenuTemplates(this._options)];
 
       if (!this._items) {
@@ -146,9 +150,7 @@ export default class _Controller implements IDropdownController {
    }
 
    setMenuPopupTarget(target): void {
-      if (!this.target) {
-         this.target = target;
-      }
+      this.target = target;
    }
 
    openMenu(popupOptions?: object): Promise<any> {
@@ -174,12 +176,12 @@ export default class _Controller implements IDropdownController {
       this._closeDropdownList();
    }
 
-   getPreparedItem(data, keyProperty) {
-      return this._prepareItem(data, keyProperty, this._source);
+   getPreparedItem(item: Model): Model {
+      return this._prepareItem(item, this._options.keyProperty, this._source);
    }
 
-   onSelectorResult(selectedItems): void {
-      var newItems = this._getNewItems(this._items, selectedItems, this._options.keyProperty);
+   handleSelectorResult(selectedItems: RecordSet): void {
+      const newItems = this._getNewItems(this._items, selectedItems, this._options.keyProperty);
 
       // From selector dialog records may return not yet been loaded, so we save items in the history and then load data.
       if (isHistorySource(this._source)) {
@@ -207,7 +209,7 @@ export default class _Controller implements IDropdownController {
       this._open();
    }
 
-   private _open(popupOptions?: object): Promise<any> {
+   private _open(popupOptions?: object): string|Promise<unknown[]> {
       if (this._options.readOnly) {
          return Promise.resolve();
       }
@@ -215,13 +217,13 @@ export default class _Controller implements IDropdownController {
          this._popupOptions =  popupOptions;
       }
       const openPopup = () => {
-         return this._sticky.open(this._getPopupOptions(this._popupOptions))
+         return this._sticky.open(this._getPopupOptions(this._popupOptions));
       };
 
       return this.loadDependencies().then(
           () => {
              const count = this._items.getCount();
-             if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerTemplate)) {
+             if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {
                 this._createMenuSource(this._items);
                 this._isOpened = true;
                 return openPopup();
@@ -229,8 +231,11 @@ export default class _Controller implements IDropdownController {
                 return Promise.resolve([this._items.at(0)]);
              }
           },
-          () => {
-             if (this._menuSource) {
+          (error) => {
+             // Если не загрузился модуль меню, то просто выводим сообщение о ошибке загрузки
+             if (!requirejs.defined('Controls/menu')) {
+                dataSourceError.process({error});
+             } else if (this._menuSource) {
                 return openPopup();
              }
           }
@@ -245,6 +250,8 @@ export default class _Controller implements IDropdownController {
       } else if (!this._loadItemsPromise || this._loadItemsPromise.resolved && !this._items) {
          if (this._options.source && !this._items) {
             this._loadItemsPromise = this._loadItems(this._options);
+         } else {
+            this._loadItemsPromise = Promise.resolve();
          }
       }
       return this._loadItemsPromise;
@@ -404,7 +411,7 @@ export default class _Controller implements IDropdownController {
       return newItems;
    }
 
-   private _prepareItem(item, keyProperty, source) {
+   private _prepareItem(item, keyProperty, source): Model {
       if (isHistorySource(source)) {
          return source.resetHistoryFields(item, keyProperty);
       } else {
@@ -434,7 +441,7 @@ export default class _Controller implements IDropdownController {
 
       if (isTemplateChanged('headTemplate') ||
           isTemplateChanged('itemTemplate') ||
-          isTemplateChanged('footerTemplate')) {
+          isTemplateChanged('footerContentTemplate')) {
          return true;
       }
    }
@@ -450,7 +457,7 @@ export default class _Controller implements IDropdownController {
    private _loadMenuTemplates(options: object): Promise<any> {
       if (!this._loadMenuTempPromise) {
          let templatesToLoad = ['Controls/menu'];
-         let templates = ['headTemplate', 'itemTemplate', 'footerTemplate'];
+         let templates = ['headTemplate', 'itemTemplate', 'footerContentTemplate'];
          templates.forEach((template) => {
             if (typeof options[template] === 'string') {
                templatesToLoad.push(options[template]);
@@ -503,9 +510,9 @@ export default class _Controller implements IDropdownController {
          closeButtonVisibility: false,
          emptyText: this._getEmptyText(),
          allowPin: this._options.allowPin && this._hasHistory(this._options),
-         keyProperty: this._hasHistory(this._options) ? 'copyOriginalId' : baseConfig.keyProperty,
+         keyProperty: isHistorySource(this._source) ? 'copyOriginalId' : baseConfig.keyProperty,
          headerTemplate: this._options.headTemplate || this._options.headerTemplate,
-         footerContentTemplate: this._options.footerContentTemplate || this._options.footerTemplate,
+         footerContentTemplate: this._options.footerContentTemplate,
          items: this._items,
          source: this._menuSource,
          filter: this._filter,

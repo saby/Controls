@@ -1,4 +1,6 @@
+import {IText} from 'Controls/decorator';
 import {VersionableMixin} from 'Types/entity';
+import {hasSelectionChanged} from './resources/Util';
 import {IInputType, ISelection, ISplitValue} from './resources/Types';
 
 abstract class BaseViewModel<TValue, TOptions extends {}> extends VersionableMixin {
@@ -101,6 +103,7 @@ abstract class BaseViewModel<TValue, TOptions extends {}> extends VersionableMix
         return this._displayValue.length;
     }
 
+    protected abstract _createText(splitValue: ISplitValue, inputType: IInputType): IText;
     protected abstract _convertToValue(displayValue: string): TValue;
     protected abstract _convertToDisplayValue(value: TValue | null): string;
 
@@ -111,7 +114,23 @@ abstract class BaseViewModel<TValue, TOptions extends {}> extends VersionableMix
         };
     }
 
-    abstract handleInput(splitValue: ISplitValue, inputType: IInputType): boolean;
+    handleInput(splitValue: ISplitValue, inputType: IInputType): boolean {
+        const text: IText = this._createText(splitValue, inputType);
+        const displayValueChanged: boolean = this._displayValue !== text.value;
+        const selectionChanged: boolean = hasSelectionChanged(this._selection, text.carriagePosition);
+
+        if (displayValueChanged) {
+            this._setDisplayValue(text.value);
+        }
+        if (selectionChanged) {
+            this._setSelection(text.carriagePosition);
+        }
+        if (displayValueChanged || selectionChanged) {
+            this._nextVersion();
+        }
+
+        return displayValueChanged;
+    }
 }
 
 export default BaseViewModel;

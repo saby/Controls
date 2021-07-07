@@ -163,7 +163,7 @@ const _private = {
 
             return result;
          },
-         addToHistory(self, filterButtonItems, fastFilterItems, historyId: string, prefetchParams?: IPrefetchHistoryParams): void {
+         addToHistory(self, filterButtonItems, fastFilterItems, historyId: string, prefetchParams?: IPrefetchHistoryParams): Promise<any> {
              const meta = self._updateMeta || { $_addFromData: true };
 
              function update() {
@@ -176,16 +176,16 @@ const _private = {
                      self._notify?.call(self, 'historySave', [historyData, filterButtonItems]);
                  }
 
-                 historyUtils.getHistorySource({historyId}).update(historyData, meta);
+                 return historyUtils.getHistorySource({historyId}).update(historyData, meta);
              }
 
              if (!historyUtils.getHistorySource({historyId}).historyReady()) {
                // Getting history before updating if it hasn’t already done
-               _private.getHistoryItems(self, historyId).addCallback(function() {
-                  update();
+               return _private.getHistoryItems(self, historyId).addCallback(function() {
+                  return update();
                });
             } else {
-               update();
+               return update();
             }
          },
 
@@ -520,7 +520,7 @@ function updateFilterHistory(cfg) {
             throw new Error('Controls/_filter/Controller::historyId is required');
          }
          _private.resolveFilterButtonItems(cfg.filterButtonItems, cfg.fastFilterItems);
-         _private.addToHistory({}, cfg.filterButtonItems, cfg.fastFilterItems, cfg.historyId);
+         return _private.addToHistory({}, cfg.filterButtonItems, cfg.fastFilterItems, cfg.historyId);
       }
 
       /**
@@ -806,10 +806,10 @@ const Container = Control.extend(/** @lends Controls/_filter/Container.prototype
                 if (options.useStore) {
                     const state = Store.getState();
                     _private.setFilterItems(this, state.filterSource, [], receivedState);
-                    _private.itemsReady(this, state.filter, receivedState);
+                    _private.itemsReady(this, filter, receivedState);
                 } else {
                     _private.setFilterItems(this, options.filterButtonSource, options.fastFilterSource, receivedState);
-                    _private.itemsReady(this, options.filter, receivedState);
+                    _private.itemsReady(this, filter, receivedState);
                 }
 
                 if (options.prefetchParams) {

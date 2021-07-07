@@ -107,7 +107,7 @@ export const verticalMeasurer: IMeasurer = {
             id: null,
             icon: 'icon-SwipeMenu',
             title: rk('Ещё'),
-            _isMenu: true,
+            isMenu: true,
             showType: TItemActionShowType.TOOLBAR
          });
       }

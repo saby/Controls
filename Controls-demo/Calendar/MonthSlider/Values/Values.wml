@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper demo-MonthSlider__values">
     <div class="controlsDemo__cell">
         <Controls.calendar:MonthSlider
                 attr:class="controlsDemo-MonthSlider__selected"

@@ -72,6 +72,24 @@ define(
                assert.isFalse(activated);
             });
 
+            it('_resetClick', function() {
+               let search = new searchMod.Input();
+               let eventPreventDefault = false;
+               let eventStopPropagation = false;
+               let event = {
+                  stopPropagation: () => {
+                     eventStopPropagation = true;
+                  },
+                  preventDefault: () => {
+                     eventPreventDefault = true;
+                  }
+               };
+
+               search._resetMousedown(event);
+               assert.isTrue(eventPreventDefault);
+               assert.isTrue(eventStopPropagation);
+            });
+
             it('Enter click', function() {
                let search = new searchMod.Input();
                let activated = false;

@@ -1,7 +1,7 @@
 import QueryParamsController from  'Controls/_source/QueryParamsController';
 import {IQueryParamsController} from 'Controls/_source/interface/IQueryParamsController';
 import {default as PageQueryParamsController} from 'Controls/_source/QueryParamsController/PageQueryParamsController';
-import {Direction, IAdditionalQueryParams} from 'Controls/source';
+import {Direction, IQueryParams} from 'Controls/source';
 import {IBaseSourceConfig, INavigationSourceConfig} from 'Controls/interface';
 import {Collection} from 'Controls/display';
 import {RecordSet} from 'Types/collection';

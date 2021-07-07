@@ -5,7 +5,7 @@ import * as cInstance from 'Core/core-instance';
 
 import {Controller as ErrorController, Mode as ErrorMode, ViewConfig as ErrorViewConfig} from 'Controls/_dataSource/error';
 import {Logger} from 'UI/Utils';
-import {IAdditionalQueryParams} from 'Controls/_interface/IAdditionalQueryParams';
+import {IQueryParams} from 'Controls/_interface/IQueryParams';
 
 export interface ICrudWrapperOptions {
     source: ICrud;
@@ -102,7 +102,7 @@ export interface ICrudWrapperOptions {
 
 export class CrudWrapper {
 
-    private readonly _source: ICrud;
+    private _source: ICrud;
     private readonly _errorController: ErrorController;
 
     private readonly _boundPromiseCatchCallback: (error: Error) => Promise<null>;
@@ -163,7 +163,7 @@ export class CrudWrapper {
 
     /**
      * Выполняет запрос на выборку
-     * @param [queryParams] Параметры для формирования запроса Query {@link Types/source/Query}
+     * @param [queryParams | queryParams[]] Параметры для формирования запроса Query {@link Types/source/Query} Если передать массив, то параметры буду склеены через union
      * @param [keyProperty] Поле, которое будет использоваться в качестве ключа возвращаемого рекордсета
      * @return Асинхронный результат выполнения: в случае успеха вернет {@link Types/_source/DataSet} - прочитаннные данные, в случае ошибки - Error.
      */
@@ -172,23 +172,23 @@ export class CrudWrapper {
      * @param [queryParams] Params to build Query {@link Types/source/Query}
      * @return Promise resolving created Record {@link Types/_entity/Record} and rejecting an Error.
      */
-    query(queryParams: IAdditionalQueryParams, keyProperty?: string): Promise<RecordSet> {
-        let query = new Query();
-        if (queryParams.filter) {
-            query = query.where(queryParams.filter);
+    query(queryParams: IQueryParams | IQueryParams[], keyProperty?: string): Promise<RecordSet> {
+
+        let query;
+        if (Array.isArray(queryParams)) {
+            const queriesArray = [];
+            queryParams.forEach((queriesParamsItem) => {
+                queriesArray.push(CrudWrapper._getQueryInstance(queriesParamsItem));
+            });
+            if (queriesArray.length > 1) {
+                query = queriesArray[0].union.apply(queriesArray[0], queriesArray.slice(1));
+            } else {
+                query = queriesArray[0];
+            }
+        } else {
+            query = CrudWrapper._getQueryInstance(queryParams);
         }
-        if (queryParams.offset) {
-            query = query.offset(queryParams.offset);
-        }
-        if (queryParams.limit) {
-            query = query.limit(queryParams.limit);
-        }
-        if (queryParams.sorting) {
-            query = query.orderBy(queryParams.sorting);
-        }
-        if (queryParams.meta) {
-            query = query.meta(queryParams.meta);
-        }
+
         return this._source.query(query).then((dataSet: DataSet) => {
             // TODO разобраться с типами. Похоже что PrefetchProxy отдает не DataSet
             if (keyProperty && dataSet.getKeyProperty && keyProperty !== dataSet.getKeyProperty()) {
@@ -214,6 +214,10 @@ export class CrudWrapper {
      */
     destroy(keys: number | string | number[] | string[], meta?: object): Promise<void> {
         return this._source.destroy(keys, meta).catch(this._boundPromiseCatchCallback);
+    }
+
+    updateOptions(newOptions: ICrudWrapperOptions): void {
+        this._source = newOptions.source;
     }
 
     /**
@@ -251,5 +255,25 @@ export class CrudWrapper {
             return false;
         }
         return true;
+    }
+
+    private static _getQueryInstance(queryParams: IQueryParams): Query {
+        let query = new Query();
+        if (queryParams.filter) {
+            query = query.where(queryParams.filter);
+        }
+        if (queryParams.offset) {
+            query = query.offset(queryParams.offset);
+        }
+        if (queryParams.limit) {
+            query = query.limit(queryParams.limit);
+        }
+        if (queryParams.sorting) {
+            query = query.orderBy(queryParams.sorting);
+        }
+        if (queryParams.meta) {
+            query = query.meta(queryParams.meta);
+        }
+        return query;
     }
 }

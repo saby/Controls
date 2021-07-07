@@ -2,6 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Record} from 'Types/entity';
 import * as template from 'wml!Controls-demo/StateIndicator/StandartStateIndicatorDemo';
 import * as popupTemplate from 'wml!Controls-demo/StateIndicator/template/template';
+import {detection} from 'Env/Env';
 
 import {Infobox} from 'Controls/popup';
 
@@ -99,7 +100,22 @@ export default class StandartStateIndicatorDemo extends Control<IControlOptions>
          template: popupTemplate,
          templateOptions: {data: this._datas[_item.parentElement.parentElement.getAttribute('index')]}
       };
-      this._children.IBOpener.open(config);
+      if (!detection.isMobilePlatform) {
+          this._children.IBOpener.open(config);
+      }
+   }
+
+   protected _clickHandler(event): void {
+       const config = {
+           target: event.target,
+           targetSide: 'top',
+           alignment: 'start',
+           template: popupTemplate,
+           templateOptions: {data: this._datas[event.currentTarget.getAttribute('index')]}
+       };
+       if (detection.isMobilePlatform) {
+           this._children.IBOpener.open(config);
+       }
    }
 
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/StateIndicator/StandartStateIndicatorDemo'];

@@ -10,6 +10,10 @@ define('Controls-demo/MasterDetail/Demo', [
 ], function(Control, template, data, cClone, source, itemTemplate, DemoSource, Env) {
    var ModuleClass = Control.extend({
       _template: template,
+      _markedKey: 0,
+      _markedKey2: 0,
+      _markedKey3: 0,
+
 
 
       _beforeMount: function() {

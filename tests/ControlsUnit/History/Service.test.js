@@ -67,12 +67,17 @@ define(['Controls/history', 'Core/Deferred', 'Env/Env', 'Application/Env', 'UI/U
 
       it('query in offline application', (done) => {
          const service = new history.Service({ historyId: 'testId' });
-         Env.detection.retailOffline = true;
+         Env.detection.isDesktop = true;
          const result = service.query();
-         Env.detection.retailOffline = false;
+         Env.detection.isDesktop = false;
          result.then((res) => {
             assert.isTrue(res.getAll().getCount() === 0);
-            done();
+            Env.detection.isDesktop = true;
+            service.update({$_addFromData: true}).then((updateRes) => {
+               assert.isUndefined(updateRes);
+               done();
+            });
+            Env.detection.isDesktop = false;
          });
       });
 

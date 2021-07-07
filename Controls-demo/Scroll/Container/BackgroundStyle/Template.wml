@@ -1,0 +1,27 @@
+<div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth300">
+    <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">
+        Controls.scroll:_ContainerNew с опцией backgroundStyle
+    </div>
+    <div class="controls-ControlsDemo__background">
+        <Controls.scroll:_ContainerNew
+              attr:class="controlsDemo__height300 controlsDemo_fixedWidth300"
+              backgroundStyle="myStyle">
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                anim id est laborum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                anim id est laborum.
+            </div>
+        </Controls.scroll:_ContainerNew>
+    </div>
+</div>

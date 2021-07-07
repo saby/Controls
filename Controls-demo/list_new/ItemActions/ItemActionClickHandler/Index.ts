@@ -32,5 +32,8 @@ export default class extends Control {
         this._clickedMessage = '';
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo'];
+    static _styles: string[] = [
+        'Controls-demo/Controls-demo',
+        'Controls-demo/list_new/ItemActions/ItemActionClickHandler/ItemActionClickHandler'
+    ];
 }

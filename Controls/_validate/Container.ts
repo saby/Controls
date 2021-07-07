@@ -47,12 +47,12 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
     protected _afterMount(): void {
         // Use listener without template.
         // Some people can add style to the container of validation, and some people can add style to the content.
-        RegisterUtil(this, 'scroll', this._scrollHandler.bind(this));
+        RegisterUtil(this, 'scroll', this._scrollHandler.bind(this), {listenAll: true});
         this._notify('validateCreated', [this], {bubbling: true});
     }
 
     protected _beforeUnmount(): void {
-        UnregisterUtil(this, 'scroll');
+        UnregisterUtil(this, 'scroll', {listenAll: true});
         this._notify('validateDestroyed', [this], {bubbling: true});
         if (this._isOpened) {
             this._forceCloseInfoBox();
@@ -77,7 +77,13 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
         return new Promise((resolve) => {
             const validators = this._options.validators || [];
             this.setValidationResult(null, validateConfig);
-            this._callValidators(validators, validateConfig).then(resolve);
+            this._callValidators(validators, validateConfig).then((validationResult) => {
+                const isValid = validationResult === null;
+                if (this._isOpened && isValid) {
+                    this._forceCloseInfoBox();
+                }
+                resolve(validationResult);
+            });
         });
 
     }
@@ -265,7 +271,7 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
                         const event = {
                             target: this._container
                         };
-                        GlobalPopup._openInfoBoxHandler(event, cfg);
+                        GlobalPopup.openInfoBoxHandler(event, cfg);
                     }
                 });
             });
@@ -306,7 +312,7 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
                 const event = {
                     target: this._container
                 };
-                GlobalPopup._closeInfoBoxHandler(event, delay);
+                GlobalPopup.closeInfoBoxHandler(event, delay);
             }
         }
         this._isOpened = false;

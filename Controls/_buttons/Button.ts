@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ActualApi from './ActualApi';
-import {IHref, IHrefOptions} from './interface/IHref';
 import {IButton, IButtonOptions} from './interface/IButton';
 import {IClick} from './interface/IClick';
 import {
@@ -19,7 +18,9 @@ import {
     IIconStyle,
     IIconStyleOptions,
     ITooltip,
-    ITooltipOptions
+    ITooltipOptions,
+    IHref,
+    IHrefOptions
 } from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import ButtonTemplate = require('wml!Controls/_buttons/Button');
@@ -131,7 +132,7 @@ export function getDefaultOptions(): object {
  *
  * @class Controls/_buttons/Button
  * @extends Core/Control
- * @mixes Controls/_buttons/interface/IHref
+ * @mixes Controls/interface:IHref
  * @mixes Controls/_buttons/interface/IButton
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_buttons/interface/IClick
@@ -156,7 +157,7 @@ export function getDefaultOptions(): object {
  *
  * @class Controls/_buttons/Button
  * @extends Core/Control
- * @mixes Controls/_buttons/interface/IHref
+ * @mixes Controls/interface:IHref
  * @mixes Controls/_buttons/interface/IButton
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_buttons/interface/IClick

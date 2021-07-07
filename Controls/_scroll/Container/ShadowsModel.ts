@@ -33,16 +33,23 @@ export default class ShadowsModel extends mixin<VersionableMixin>(VersionableMix
 
     updateScrollState(scrollState: IScrollState): void {
         for (let shadow of Object.keys(this._models)) {
-            this._models[shadow].updateScrollState(scrollState);
+            const isStateChanged = this._models[shadow].updateScrollState(scrollState);
+            if (isStateChanged) {
+                this._nextVersion();
+            }
         }
     }
 
     setStickyFixed(topFixed: boolean, bottomFixed: boolean): void {
+        let isStateChanged = false;
         if (this._models.top) {
-            this._models.top.setStickyFixed(topFixed)
+            isStateChanged = this._models.top.setStickyFixed(topFixed);
         }
         if (this._models.bottom) {
-            this._models.bottom.setStickyFixed(topFixed)
+            isStateChanged = this._models.bottom.setStickyFixed(bottomFixed);
+        }
+        if (isStateChanged) {
+            this._nextVersion();
         }
     }
 

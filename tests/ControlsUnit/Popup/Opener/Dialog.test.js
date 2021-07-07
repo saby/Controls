@@ -48,7 +48,7 @@ define(
             height: 960
          };
 
-         DialogController._getWindowSize = () => windowSize;
+         DialogController._getRestrictiveContainerSize = () => windowSize;
 
          it('Opener: getConfig', () => {
             let getDialogConfig = DialogOpener.default.prototype._getDialogConfig;
@@ -63,14 +63,16 @@ define(
             let windowData = {
                width: 1920,
                height: 1080,
-               scrollTop: 0
+               topScroll: 0
             };
             let position = DialogStrategy.getPosition(windowData, sizes, { popupOptions: {} });
             assert.equal(position.top, 390);
             assert.equal(position.left, 860);
 
-            windowData.scrollTop = 80;
-            windowData.scrollLeft = 20;
+            windowData.topScroll = 70;
+            windowData.leftScroll = 5;
+            windowData.top = 10;
+            windowData.left = 15;
             position = DialogStrategy.getPosition(windowData, sizes, { popupOptions: {} });
             assert.equal(position.top, 470);
             assert.equal(position.left, 880);
@@ -86,7 +88,7 @@ define(
             let windowData = {
                width: 300,
                height: 300,
-               scrollTop: 0
+               topScroll: 0
             };
             let position = DialogStrategy.getPosition(windowData, sizes, { popupOptions: {} });
             assert.equal(position.top, 0);
@@ -98,7 +100,7 @@ define(
             let windowData = {
                width: 700,
                height: 700,
-               scrollTop: 0
+               topScroll: 0
             };
             let popupOptions = {
                minHeight: 200
@@ -119,7 +121,7 @@ define(
             let windowData = {
                width: 500,
                height: 500,
-               scrollTop: 0
+               topScroll: 0
             };
 
             let sizesTest = { ...sizes };
@@ -138,7 +140,7 @@ define(
             let windowData = {
                width: 500,
                height: 500,
-               scrollTop: 0
+               topScroll: 0
             };
             let sizesTest = { ...sizes };
             sizesTest.width = 700;
@@ -157,7 +159,7 @@ define(
             let windowData = {
                width: 500,
                height: 500,
-               scrollTop: 0
+               topScroll: 0
             };
 
             let width = 800;
@@ -185,7 +187,7 @@ define(
             assert.equal(position.height, 400);
 
             popupOptions.maximize = true;
-            windowData.scrollTop = 10;
+            windowData.topScroll = 10;
             position = DialogStrategy.getPosition(windowData, sizesTest, { popupOptions });
             assert.equal(position.left, 0);
             assert.equal(position.top, 0);
@@ -253,7 +255,7 @@ define(
             assert.equal(item.position.minHeight, 10);
             assert.equal(item.position.maxHeight, 100);
 
-            DialogController._getWindowSize = () => windowSize;
+            DialogController._getRestrictiveContainerSize = () => windowSize;
 
             item.popupOptions = {};
             DialogController.getDefaultConfig(item);
@@ -275,7 +277,7 @@ define(
                   height: 960,
                };
 
-            DialogController._getWindowSize = () => windowData;
+            DialogController._getRestrictiveContainerSize = () => windowData;
             DialogController._fixCompatiblePosition(item);
             assert.equal(item.position.left, 785);
 
@@ -283,7 +285,7 @@ define(
                width: 1080,
                height: 960,
             };
-            DialogController._getWindowSize = () => windowData;
+            DialogController._getRestrictiveContainerSize = () => windowData;
             DialogController._fixCompatiblePosition(item);
 
             let calculateLeft = item.popupOptions.left - ((item.popupOptions.left + item.popupOptions.width) - windowData.width);
@@ -329,7 +331,7 @@ define(
             let windowData = {
                width: 800,
                height: 600,
-               scrollTop: 0
+               topScroll: 0
             };
             let position = DialogStrategy.getPosition(windowData, sizes, {
                position: itemPosition,
@@ -354,7 +356,7 @@ define(
             windowData = {
                width: 800,
                height: 600,
-               scrollTop: 0
+               topScroll: 0
             };
             position = DialogStrategy.getPosition(windowData, sizes, {
                position: itemPosition,

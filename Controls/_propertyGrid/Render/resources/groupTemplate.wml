@@ -13,11 +13,11 @@
             </ws:else>
         </div>
         <ws:if data="{{expanderVisible}}">
-            <div title="{{collectionItem.isExpanded() && !collapsedGroups[item] ? 'Свернуть' : 'Развернуть'}}"
+            <div title="{{!collapsedGroups[item] ? 'Свернуть' : 'Развернуть'}}"
                  class="controls-PropertyGrid__groupExpander
                     controls-icon
                     controls-icon_size-s_theme-{{theme}}
-                    {{collectionItem.isExpanded() && !collapsedGroups[item] ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}
+                    {{!collapsedGroups[item] ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}
                     controls-PropertyGrid__groupExpander_theme-{{theme}}"></div>
         </ws:if>
     </div>

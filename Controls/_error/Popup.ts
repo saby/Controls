@@ -1,5 +1,5 @@
 import { constants } from 'Env/Env';
-import { Confirmation, Dialog, IConfirmationOptions } from 'Controls/popup';
+import { Confirmation, Dialog, IConfirmationOptions, IBasePopupOptions } from 'Controls/popup';
 import { ViewConfig } from './Handler';
 import { Control } from 'UI/Base';
 
@@ -22,8 +22,7 @@ export interface IPopupHelper {
 
     openDialog<T extends IViewConfigMessage>(
         config: ViewConfig<T>,
-        opener: Control,
-        eventHandlers: Record<string, Function>): Promise<PopupId | void>;
+        dialogOptions: IBasePopupOptions): Promise<PopupId | void>;
 
     closeDialog(popupId: string): Promise<void>;
 }
@@ -74,14 +73,12 @@ export default class Popup implements IPopupHelper {
     /**
      * Открыть диалог. Если не удалось открыть платформенное диалоговое окно, будет показан браузерный alert.
      * @param config Конфигурация с шаблоном диалога и опциями для этого шаблона.
-     * @param opener Контрол, открывающий диалоговое окно.
-     * @param eventHandlers обработчики событий, передаваемые в шаблон диалога
+     * @param dialogOptions Опции для открытия диалога.
      * @returns Если диалог открылся, в промисе будет идентификатор окна, который надо использовать для закрытия
      * окна через {@link Controls/_popup/interface/IDialog#closePopup}.
      */
     openDialog<T extends IViewConfigMessage>(config: ViewConfig<T>,
-                                             opener: Control = null,
-                                             eventHandlers: Record<string, Function> = {}): Promise<PopupId | void> {
+                                             dialogOptions: IBasePopupOptions): Promise<PopupId | void> {
         return this.preloadPopup().then((popup) => {
             if (!popup) {
                 Popup.showDefaultDialog(config.options.message, config.options.details);
@@ -91,8 +88,8 @@ export default class Popup implements IPopupHelper {
             return popup.Dialog.openPopup({
                 template: config.template,
                 templateOptions: config.options,
-                opener,
-                eventHandlers
+                modal: true,
+                ...dialogOptions
             });
         });
     }
@@ -153,7 +150,9 @@ export default class Popup implements IPopupHelper {
     private static importThemes(cssNames: string[] = []): Promise<void> {
         return import('UI/theme/controller').then(({ getThemeController }) => {
             const tc = getThemeController();
-            cssNames.forEach((name) => { tc.get(name); });
+            cssNames.forEach((name) => {
+                tc.get(name);
+            });
         });
     }
 

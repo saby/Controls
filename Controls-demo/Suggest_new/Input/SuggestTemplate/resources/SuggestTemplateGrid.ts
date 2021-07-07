@@ -4,9 +4,9 @@ import headerTemplate = require('wml!Controls-demo/Suggest_new/Input/SuggestTemp
 
 class SuggestTemplateGrid extends Control{
    protected _template: TemplateFunction = controlTemplate;
-   protected _columns = null;
+   protected _columns: object[] = null;
 
-   _beforeMount() {
+   _beforeMount(): void {
       this._columns = [
          {
             displayProperty: 'title'

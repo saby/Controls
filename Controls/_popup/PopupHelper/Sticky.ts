@@ -19,37 +19,57 @@ export default class Sticky extends Base {
      * @function Controls/_popup/PopupHelper/Sticky#open
      * @param {PopupOptions} config Конфигурация прилипающего окна
      * @example
-     * <pre>
-     *    import {StickyOpener} from 'Controls/popup';
-     *    ...
-     *    this._sticky = new StickyOpener();
-     *    openSticky() {
-     *        this._sticky.open({
-     *          template: 'Example/MyStickyTemplate',
-     *          opener: this._children.myButton
-     *        });
-     *    }
+     * <pre class="brush: js">
+     * import {StickyOpener} from 'Controls/popup';
+     * ...
+     * this._sticky = new StickyOpener();
+     * openSticky() {
+     *     this._sticky.open({
+     *         template: 'Example/MyStickyTemplate',
+     *         opener: this._children.myButton
+     *     });
+     * }
      * </pre>
      * @see close
+     * @see destroy
      */
-
-    /**
-     * Метод для закрытия прилипающего окна
-     * @function Controls/_popup/PopupHelper/Sticky#close
-     * @example
-     * <pre>
-     *    import {StickyOpener} from 'Controls/popup';
-     *    ...
-     *    this._sticky = new StickyOpener();
-     *
-     *    closeSticky() {
-     *        this._sticky.close();
-     *    }
-     * </pre>
-     * @see open
-     */
-
     open(popupOptions: IStickyPopupOptions): void {
         return super.open(popupOptions);
     }
 }
+/**
+ * Метод для закрытия прилипающего окна
+ * @name Controls/_popup/PopupHelper/Sticky#close
+ * @function
+ * @example
+ * <pre class="brush: js">
+ * import {StickyOpener} from 'Controls/popup';
+ * ...
+ * this._sticky = new StickyOpener();
+ *
+ * closeSticky() {
+ *    this._sticky.close();
+ * }
+ * </pre>
+ * @see open
+ * @see destroy
+ */
+
+/**
+ * Разрушает экземпляр класса
+ * @name Controls/_popup/PopupHelper/Sticky#destroy
+ * @function
+ * @example
+ * <pre class="brush: js">
+ *    import {StickyOpener} from 'Controls/popup';
+ *    ...
+ *    this._sticky = new StickyOpener();
+ *
+ *    _beforeUnmount() {
+ *        this._sticky.destroy();
+ *        this._sticky = null;
+ *    }
+ * </pre>
+ * @see open
+ * @see close
+ */

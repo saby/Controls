@@ -1,3 +1,5 @@
+export type IInputType = 'insert' | 'delete' | 'deleteBackward' | 'deleteForward';
+
 export interface ISelection {
     start: number;
     end: number;
@@ -9,8 +11,6 @@ export interface ISplitValue {
     delete: string;
 }
 
-export type IInputType = 'insert' | 'delete' | 'deleteBackward' | 'deleteForward';
-
 /**
  * Область выделения текста в поле ввода.
  * @remark
@@ -21,12 +21,12 @@ export type IInputType = 'insert' | 'delete' | 'deleteBackward' | 'deleteForward
  * @author Красильников А.С.
  */
 /**
- * @name Controls/_input/resources/Types:ISelection
+ * @name Controls/_input/resources/Types:ISelection#start
  * @cfg {Number} Начало выделения области текста в поле ввода.
  * Значение указывает на порядковый номер первого символа в выделенном фрагменте относительно всего текста.
  */
 /**
- * @name Controls/_input/resources/Types:ISelection
+ * @name Controls/_input/resources/Types:ISelection#end
  * @cfg {Number} Конец выделения области текста в поле ввода.
  * Значение указывает на порядковый номер последнего символа в выделенном фрагменте относительно всего текста.
  */

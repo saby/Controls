@@ -1,9 +1,13 @@
 import BaseSelector from 'Controls/_dateRange/BaseSelector';
 import ILinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/DateSelector/DateSelector');
-import getOptions from 'Controls/Utils/datePopupUtils';
+import {Popup as PopupUtil} from 'Controls/dateUtils';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
+
 /**
- * Controls that allows user to select date value in calendar.
+ * Контрол позволяющий пользователю выбирать дату из календаря.
  *
  * @class Controls/_dateRange/DateSelector
  * @extends Core/Control
@@ -21,18 +25,38 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  *
  */
 
-var Component = BaseSelector.extend({
-   _template: componentTmpl,
+/**
+ * ENG
+ * Control that allows user to select date value in calendar.
+ *
+ * @class Controls/_dateRange/DateSelector
+ * @extends Core/Control
+ * @mixes Controls/interface/IDateRange
+ * @mixes Controls/interface/ILinkView
+ * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
+ * @mixes Controls/_interface/IDayTemplate
+ * @mixes Controls/_interface/IFontColorStyle
+ * @control
+ * @public
+ * @category Input
+ * @author Красильников А.С.
+ * @demo Controls-demo/Input/Date/Link
+ *
+ */
 
-   _getPopupOptions: function(event) {
+export default class DateSelector extends BaseSelector<IControlOptions> {
+   _template: TemplateFunction = componentTmpl;
+
+   protected _getPopupOptions(): IStickyPopupOptions {
       const container = this._children.linkView.getPopupTarget();
       return {
-         ...getOptions.getCommonOptions(this),
+         ...PopupUtil.getCommonOptions(this),
          target: container,
          template: 'Controls/datePopup',
          className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
          templateOptions: {
-            ...getOptions.getTemplateOptions(this),
+            ...PopupUtil.getTemplateOptions(this),
             headerType: 'link',
             calendarSource: this._options.calendarSource,
             dayTemplate: this._options.dayTemplate,
@@ -43,37 +67,41 @@ var Component = BaseSelector.extend({
             quantum: null
          }
       };
-   },
+   }
 
-   _onResult: function(value) {
+   _mouseEnterHandler(): void {
+      const loadCss = (datePopup) => datePopup.loadCSS();
+      this._startDependenciesTimer('Controls/datePopup', loadCss);
+   }
+
+   protected _onResult(value: Date): void {
       this._notify('valueChanged', [value]);
       this._children.opener.close();
       this._forceUpdate();
-   },
+   }
 
-   _rangeChangedHandler: function(event, value) {
+   protected _rangeChangedHandler(event: SyntheticEvent, value: Date): void {
       this._notify('valueChanged', [value]);
-   },
+   }
 
-   shiftBack: function () {
+   shiftBack(): void {
       this._children.linkView.shiftBack();
-   },
+   }
 
-   shiftForward: function () {
+   shiftForward(): void {
       this._children.linkView.shiftForward();
    }
 
-});
+   EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 
-Component.EMPTY_CAPTIONS = ILinkView.EMPTY_CAPTIONS;
+   static getDefaultOptions(): object {
+      return ILinkView.getDefaultOptions();
+   }
 
-Component.getDefaultOptions = function() {
-   return ILinkView.getDefaultOptions();
-};
+   static getOptionTypes(): object {
+      return ILinkView.getOptionTypes();
+   }
 
-Component.getOptionTypes = function() {
-   return ILinkView.getOptionTypes();
-};
-Component._theme = ['Controls/dateRange'];
+   static _theme: string[] = ['Controls/dateRange'];
 
-export default Component;
+}

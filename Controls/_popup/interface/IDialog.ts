@@ -18,6 +18,7 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
     top?: number;
     left?: number;
     maximize?: boolean;
+    restrictiveContainer?: string;
 }
 
 export interface IDialogOpener extends IOpener {
@@ -70,6 +71,46 @@ export interface IDialogOpener extends IOpener {
 /**
  * @name Controls/_popup/interface/IDialog#maximize
  * @cfg {Boolean} Определяет, должно ли всплывающее окно открываться на весь экран.
+ */
+
+/**
+ * @name Controls/_popup/interface/IDialog#restrictiveContainer
+ * @cfg {String} Опция задает контейнер (через <b>селектор</b>), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
+ * @remark
+ * Алгоритм поиска контейнера, внутри которого будут строиться окна:
+ * <ol>
+ *     <li>Если задана опция restrictiveContainer, то ищем глобальным поиском класс по селектору, заданному в опции.
+ *     Если ничего не нашли или опция не задана см. следующий шаг</li>
+ *     <li>Если опция не задана, то ищем глобальным селектором класс <b>controls-Popup__dialog-target-container</b></li>
+ *     <li>Если ничего не нашли, позиционируемся по body
+ * </ol>
+ *
+ * Класс controls-Popup__dialog-target-container является зарезервированным и должен быть объявлен на странице только 1 раз.
+ * Классом должен быть добавлен на контейнер, по которому позиционируются стековые окна по умолчанию.
+ * @example
+ * wml
+ * <pre>
+ *     <div class='myRestrictiveContainer'>Контейнер со своими размерами</div>
+ *     <Controls.buttons:Button caption="open dialog" on:click="_openDialog()"/>
+ * </pre>
+ *
+ * <pre class="brush: js">
+ * import {DialogOpener} from 'Controls/popup';
+ * _beforeMount(): void{
+ *    this._dialogOpener = new DialogOpener();
+ * }
+ * _openStack(): void {
+ *     const config = {
+ *          template: 'Controls-demo/Popup/TestDialog',
+ *          closeOnOutsideClick: true,
+ *          autofocus: true,
+ *          opener: null,
+ *          restrictiveContainer: '.myRestrictiveContainer'
+ *     };
+ *     this._dialogOpener.open(config);
+ * }
+ * </pre>
+ * @demo Controls-demo/Popup/Dialog/RestrictiveContainer/Index
  */
 
 /**

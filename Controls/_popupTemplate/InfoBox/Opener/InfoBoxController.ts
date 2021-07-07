@@ -3,7 +3,7 @@ import StickyController = require('Controls/_popupTemplate/Sticky/StickyControll
 import themeConstantsGetter = require('Controls/_popupTemplate/InfoBox/Opener/resources/themeConstantsGetter');
 import cMerge = require('Core/core-merge');
 import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy');
-import {IPopupItem, IPopupSizes, IPopupPosition} from 'Controls/popup';
+import {IPopupItem, IPopupSizes, IPopupPosition, Controller} from 'Controls/popup';
 
 import collection = require('Types/collection');
 
@@ -68,20 +68,29 @@ const INVERTED_SIDES: IInfoBoxSide = {
  */
 class InfoBoxController extends StickyController.constructor {
     _openedPopupId: string = null;
+    _checkHiddenId: number | null = null;
     TYPE: string = 'InfoBox';
 
     elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
         // Only one popup can be opened
         if (this._openedPopupId) {
-            require('Controls/popup').Controller.remove(this._openedPopupId);
+            Controller.remove(this._openedPopupId);
         }
         this._openedPopupId = item.id;
 
         // Not calculate the coordinates of target, when it is located on the hidden popup.
-        const popupContainer = item.popupOptions.target?.closest && item.popupOptions.target.closest('.controls-Popup');
-        if (popupContainer?.classList.contains('ws-hidden')) {
-            require('Controls/popup').Controller.remove(item.id);
+        if (InfoBoxController._removeHiddenElement(item)) {
             return false;
+        } else {
+            /**
+             * TODO: когда таргет скрывается через ws-hidden, на нём или родительских нодах, тогда нужно
+             * удалить инфобокс привязанный к нему. Точно узнать момент нельзя, поэтому делаем это через
+             * определённый интервал. Для корректного решения требуется выполнение задачи
+             * https://online.sbis.ru/opendoc.html?guid=a88a5697-5ba7-4ee0-a93a-221cce572430
+             */
+            this._checkHiddenId = setInterval(() => {
+                InfoBoxController._removeHiddenElement(item);
+            }, 1000);
         }
 
         // Remove the width and height obtained in getDefaultOptions
@@ -99,7 +108,7 @@ class InfoBoxController extends StickyController.constructor {
 
     elementUpdated(): boolean {
         // Hide popup then page scroll or resize
-        require('Controls/popup').Controller.remove(this._openedPopupId);
+        Controller.remove(this._openedPopupId);
         return true;
     }
 
@@ -109,7 +118,9 @@ class InfoBoxController extends StickyController.constructor {
 
     elementDestroyed(item: IPopupItem): Promise<null> {
         if (item.id === this._openedPopupId) {
+            clearInterval(this._checkHiddenId);
             this._openedPopupId = null;
+            this._checkHiddenId = null;
         }
         return (new Deferred()).callback();
     }
@@ -226,6 +237,16 @@ class InfoBoxController extends StickyController.constructor {
             return popupItems.at(index);
         }
         return null;
+    }
+
+    private static _removeHiddenElement(item: IPopupItem): boolean {
+        const targetHidden: boolean = InfoBoxController._getTargetNode(item).closest('.ws-hidden');
+        if (targetHidden) {
+            Controller.remove(item.id);
+            return true;
+        }
+
+        return false;
     }
 }
 export = new InfoBoxController();

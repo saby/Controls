@@ -143,21 +143,3 @@ export function formatData(format: IFormat, cleanText: IText): IText {
 
     return text;
 }
-
-// TODO: будет удалено по https://online.sbis.ru/opendoc.html?guid=3236bcfd-4ae8-4f90-a1c8-7e2caddde339
-interface IData {
-    value: string;
-    position: number;
-}
-export {clearData as getClearData};
-export function getFormatterData(format: IFormat, cleanData: IData): IData {
-    const data: IText = formatData(format, {
-        value: cleanData.value,
-        carriagePosition: cleanData.position
-    });
-
-    return {
-        value: data.value,
-        position: data.carriagePosition
-    };
-}

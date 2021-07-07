@@ -38,7 +38,7 @@ define('Controls-demo/dateRange/RelationController', [
       _beforeMount: function() {
       }
    });
-   ModuleClass._styles = ['Controls-demo/dateRange/RelationController'];
+   ModuleClass._styles = ['Controls-demo/dateRange/RelationController', 'Controls-demo/Controls-demo'];
 
    return ModuleClass;
 });

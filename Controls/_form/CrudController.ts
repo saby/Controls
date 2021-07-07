@@ -2,6 +2,7 @@ import rk = require('i18n!Controls');
 import {readWithAdditionalFields} from './crudProgression';
 import {Model} from 'Types/entity';
 import {Memory} from 'Types/source';
+import {CRUD_EVENTS} from './Crud';
 
 export default class CrudController {
     private readonly _crudOperationFinished: (result: string, args: [Error|Model, Model|string?, unknown?]) => void = null;
@@ -33,10 +34,10 @@ export default class CrudController {
         this._notifyRegisterPending([promise, {showLoadingIndicator: this._showLoadingIndicator}]);
         return new Promise((res, rej) => {
             promise.then((record: Model) => {
-                this._crudOperationFinished('createSuccessed', [record]);
+                this._crudOperationFinished(CRUD_EVENTS.CREATE_SUCCESSED, [record]);
                 res(record);
             }, (e: Error) => {
-                this._crudOperationFinished('createFailed', [e]);
+                this._crudOperationFinished(CRUD_EVENTS.CREATE_FAILED, [e]);
                 rej(e);
             });
         });
@@ -48,11 +49,11 @@ export default class CrudController {
         this._indicatorId = this._notifyIndicator('showIndicator', [{id, message}]);
         return new Promise((res, rej) => {
             readWithAdditionalFields(this._dataSource, key, readMetaData).then((record: Model) => {
-                this._crudOperationFinished('readSuccessed', [record]);
+                this._crudOperationFinished(CRUD_EVENTS.READ_SUCCESSED, [record]);
                 this._notifyIndicator('hideIndicator', [this._indicatorId]);
                 res(record);
             }, (e: Error) => {
-                this._crudOperationFinished('readFailed', [e]);
+                this._crudOperationFinished(CRUD_EVENTS.READ_FAILED, [e]);
                 this._notifyIndicator('hideIndicator', [this._indicatorId]);
                 rej(e);
             });
@@ -67,10 +68,10 @@ export default class CrudController {
             ]);
             return new Promise((res, rej) => {
                 resultUpdate.then((key) => {
-                    this._crudOperationFinished('updateSuccessed', [record, key, config]);
+                    this._crudOperationFinished(CRUD_EVENTS.UPDATE_SUCCESSED, [record, key, config]);
                     res(key);
                 }).catch((e: Error) => {
-                    this._crudOperationFinished('updateFailed', [e, record]);
+                    this._crudOperationFinished(CRUD_EVENTS.UPDATE_FAILED, [e, record]);
                     rej(e);
                 });
             });
@@ -85,10 +86,10 @@ export default class CrudController {
 
         return new Promise((res, rej) => {
             promise.then(() => {
-                this._crudOperationFinished('deleteSuccessed', [record]);
+                this._crudOperationFinished(CRUD_EVENTS.DELETE_SUCCESSED, [record]);
                 res();
             }, (e: Error) => {
-                this._crudOperationFinished('deleteFailed', [e]);
+                this._crudOperationFinished(CRUD_EVENTS.DELETE_FAILED, [e]);
                 rej(e);
             });
         });

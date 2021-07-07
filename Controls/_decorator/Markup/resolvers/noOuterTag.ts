@@ -1,9 +1,3 @@
-/**
- * Created by rn.kondakov on 06.12.2018.
- */
-
-
-
    /**
     *
     * Модуль с функцией получения html без внешнего тега.
@@ -12,7 +6,7 @@
     * 
     * @class Controls/_decorator/Markup/resolvers/noOuterTag
     * @public
-    * @author Кондаков Р.Н.
+    * @author Угриновский Н.В.
     */
 
    /*
@@ -22,7 +16,7 @@
     *
     * @class Controls/_decorator/Markup/resolvers/noOuterTag
     * @public
-    * @author Кондаков Р.Н.
+    * @author Угриновский Н.В.
     */    
    export default function noOuterTag(value, parent) {
       if (!parent && value[0] === 'div') {

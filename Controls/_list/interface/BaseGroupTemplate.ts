@@ -46,10 +46,8 @@ export default interface IBaseGroupTemplateOptions {
 
    /**
     * @name Controls/list:BaseGroupTemplate#textAlign
-    * @cfg {TextAlign|undefined} Горизонтальное выравнивание названия группы.
-    * @default undefined
-    * @remark
-    * В значении undefined заголовок выравнивается по центру.
+    * @cfg {TextAlign} Горизонтальное выравнивание названия группы.
+    * @default center
     */
    textAlign?: string;
    /**

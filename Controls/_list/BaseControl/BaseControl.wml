@@ -10,6 +10,16 @@
     </div>
 </ws:template>
 
+<ws:template name="continueSearch">
+    <ws:partial template="{{_options.continueSearchTemplate}}">
+        <ws:contentTemplate>
+            <div class="controls-BaseControl__continueSearch_caption" on:click="_continueSearch()">
+                {[Продолжить поиск]}
+            </div>
+        </ws:contentTemplate>
+    </ws:partial>
+</ws:template>
+
 <ws:template name="pagingTpl">
     <ws:if data="{{_pagingLabelData}}">
         <ws:if data="{{_options.navigation.viewConfig.totalInfo === 'extended'}}">
@@ -79,10 +89,7 @@
 </ws:template>
 <ws:template name="viewTpl">
     <div class="controls-ScrollController">
-        <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{!_isMounted ? 'display: none;'}}"></div>
-        <!-- Скрываем topLoadTrigger через display: none, чтобы он не срабатывал сразу после mount. Отступы ему ещё не установлены и он
-        сработает сразу после инициализации, хотя далеко не факт что это нужно. -->
-        <div name="topLoadTrigger" style="{{!_isMounted ? 'display: none'}}"></div>
+        <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTriggerUntilMount ? 'display: none;'}}"></div>
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: 1px;'}}"
@@ -95,6 +102,7 @@
                 editingItemData="{{_editingItemData}}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
                 isAdd="{{_editingItemData ? _editingItemData.isAdd : undefined}}"
+                on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
                 on:validateDestroyed="_onValidateDestroyed()"
                 on:animationend="_onItemSwipeAnimationEnd()"
@@ -156,7 +164,6 @@
             </ws:emptyTemplate>
         </ws:partial>
         <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
-        <div name="bottomLoadTrigger"></div>
         <ws:if data="{{_needScrollCalculation}}">
             <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>
         </ws:if>
@@ -178,6 +185,10 @@
          on:touchstart="_initItemActions(_options)">
         <div name="fakeFocusElem" tabindex="0" class="controls-BaseControl__fakeFocusElem"></div>
 
+        <ws:if data="{{_showContinueSearchButtonDirection === 'up'}}">
+            <ws:partial template="continueSearch"/>
+        </ws:if>
+
         <ws:if data="{{_listViewModel}}">
 
             <ws:partial if="{{ _shouldShowLoadingIndicator('beforeEmptyTemplate') }}" template="loadingIndicator"/>
@@ -192,14 +203,8 @@
 
         <ws:partial if="{{ _shouldShowLoadingIndicator('afterList') }}" template="loadingIndicator"/>
 
-        <ws:if data="{{_showContinueSearchButton}}">
-            <ws:partial template="{{_options.continueSearchTemplate}}">
-                <ws:contentTemplate>
-                    <div class="controls-BaseControl__continueSearch_caption" on:click="_continueSearch()">
-                        {[Продолжить поиск]}
-                    </div>
-                </ws:contentTemplate>
-            </ws:partial>
+        <ws:if data="{{_showContinueSearchButtonDirection === 'down'}}">
+            <ws:partial template="continueSearch"/>
         </ws:if>
 
         <ws:if data="{{_pagingVisible}}">
@@ -210,8 +215,11 @@
                     attr:class="controls-BaseControl__scrollPaging_theme-{{_options.theme}}"
                     contrastBackground="{{true}}"
                     scope="{{_pagingCfg}}"
+                    pagingMode="{{_options.navigation.viewConfig.pagingMode}}"
                     showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
-                    on:onArrowClick="__onPagingArrowClick()" />
+                    contentTemplate="{{_options.pagingContentTemplate}}"
+                    on:onArrowClick="__onPagingArrowClick()"
+                    on:selectedPageChanged="__selectedPageChanged()"/>
             </div>
         </ws:if>
         <Controls.event:Listener

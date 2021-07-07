@@ -1162,7 +1162,7 @@ define(
 
          testCases.forEach(function(item) {
             it(item.testName, function() {
-               var numberViewModel = new NumberViewModel(item.controlConfig, 0);
+               var numberViewModel = new NumberViewModel.default(item.controlConfig, 0);
 
                numberViewModel._displayValue = item.splitValue.before + item.splitValue.delete + item.splitValue.after;
                numberViewModel.handleInput(item.splitValue, item.inputType);
@@ -1171,7 +1171,7 @@ define(
          });
 
          it('getDisplayValue: only integers', function() {
-            var numberViewModel = new NumberViewModel({
+            var numberViewModel = new NumberViewModel.default({
                useGrouping: true
             }, 123456);
 
@@ -1179,7 +1179,7 @@ define(
          });
 
          it('getDisplayValue: integers and decimals', function() {
-            var numberViewModel = new NumberViewModel({
+            var numberViewModel = new NumberViewModel.default({
                useGrouping: true
             }, 123456.78);
 
@@ -1198,7 +1198,7 @@ define(
 
             getValueTests.forEach(function(test, i) {
                it('Test ' + i, function() {
-                  var numberViewModel = new NumberViewModel({
+                  var numberViewModel = new NumberViewModel.default({
                      useGrouping: true
                   }, test[0]);
 

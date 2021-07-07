@@ -5,6 +5,21 @@ import {readWithAdditionalFields} from './crudProgression';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
 
+export const enum CRUD_EVENTS {
+    CREATE_STARTED = 'createstarted',
+    CREATE_SUCCESSED = 'createsuccessed',
+    CREATE_FAILED = 'createfailed',
+    READ_STARTED = 'readstarted',
+    READ_SUCCESSED = 'readsuccessed',
+    READ_FAILED = 'readfailed',
+    UPDATE_STARTED = 'updatestarted',
+    UPDATE_SUCCESSED = 'updatesuccessed',
+    UPDATE_FAILED = 'updatefailed',
+    DELETE_STARTED = 'deletestarted',
+    DELETE_SUCCESSED = 'deletesuccessed',
+    DELETE_FAILED = 'deletefailed'
+}
+
 let CRUD = Control.extend({
     _template: tmpl,
     showLoadingIndicator: false,
@@ -33,11 +48,11 @@ let CRUD = Control.extend({
 
         let self = this;
         def.addCallback(function (record) {
-            self._notify('createSuccessed', [record]);
+            self._notify(CRUD_EVENTS.CREATE_SUCCESSED, [record]);
             return record;
         });
         def.addErrback(function (e) {
-            self._notify('createFailed', [e]);
+            self._notify(CRUD_EVENTS.CREATE_FAILED, [e]);
             return e;
         });
 
@@ -50,12 +65,12 @@ let CRUD = Control.extend({
         this._indicatorId = this._notify('showIndicator', [{id, message}], {bubbling: true});
 
         def.addCallback((record) => {
-            this._notify('readSuccessed', [record]);
+            this._notify(CRUD_EVENTS.READ_SUCCESSED, [record]);
             this._notify('hideIndicator', [this._indicatorId], {bubbling: true});
             return record;
         });
         def.addErrback((e: Error) => {
-            this._notify('readFailed', [e]);
+            this._notify(CRUD_EVENTS.READ_FAILED, [e]);
             this._notify('hideIndicator', [this._indicatorId], {bubbling: true});
             return e;
         });
@@ -75,10 +90,10 @@ let CRUD = Control.extend({
             ];
             this._notify('registerPending', argsPending, {bubbling: true});
             resultUpdate.addCallback((key) => {
-                    this._notify('updateSuccessed', [record, key, config]);
+                    this._notify(CRUD_EVENTS.UPDATE_SUCCESSED, [record, key, config]);
                     return key;
                 }).addErrback((error) => {
-                    this._notify('updateFailed', [error, record]);
+                    this._notify(CRUD_EVENTS.UPDATE_FAILED, [error, record]);
                     return error;
                 });
             return resultUpdate;
@@ -94,10 +109,10 @@ let CRUD = Control.extend({
 
         let self = this;
         def.addCallback(function () {
-            self._notify('deleteSuccessed', [record]);
+            self._notify(CRUD_EVENTS.DELETE_SUCCESSED, [record]);
         });
         def.addErrback(function (e) {
-            self._notify('deleteFailed', [e]);
+            self._notify(CRUD_EVENTS.DELETE_FAILED, [e]);
             return e;
         });
 
@@ -111,5 +126,4 @@ let CRUD = Control.extend({
     }
 });
 
-export = CRUD;
-
+export default CRUD;

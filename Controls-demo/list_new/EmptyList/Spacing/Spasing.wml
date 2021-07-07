@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlsDemo__maxWidth200  controlsDemo_list-new_EmptyTemplate">
+    <Controls.list:View keyProperty="id" source="{{_viewSource}}">
+        <ws:emptyTemplate>
+            <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">
+                <ws:contentTemplate>No data available!</ws:contentTemplate>
+            </ws:partial>
+        </ws:emptyTemplate>
+    </Controls.list:View>
+</div>

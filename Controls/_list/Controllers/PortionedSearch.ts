@@ -1,4 +1,5 @@
-const MAX_SEARCH_DURATION = 30000;
+const SEARCH_MAX_DURATION = 30 * 1000;
+const SEARCH_CONTINUED_MAX_DURATION = 2 * 60 * 1000;
 enum SEARCH_STATES {
   NOT_STARTED = 0,
   STARTED = 'started',
@@ -15,7 +16,7 @@ export interface IPortionedSearchOptions {
 }
 
 export default class PortionedSearch<PortionedSearchOptions> {
-    protected _searchTimer: number = null;
+    protected _searchTimer: NodeJS.Timeout = null;
     protected _searchState: SEARCH_STATES = 0;
     protected _options: IPortionedSearchOptions = null;
 
@@ -26,7 +27,7 @@ export default class PortionedSearch<PortionedSearchOptions> {
     startSearch(): void {
         if (this._getSearchState() === SEARCH_STATES.NOT_STARTED) {
             this._setSearchState(SEARCH_STATES.STARTED);
-            this._startTimer();
+            this._startTimer(SEARCH_MAX_DURATION);
             this._options.searchStartCallback();
         }
     }
@@ -46,7 +47,7 @@ export default class PortionedSearch<PortionedSearchOptions> {
     resetTimer(): void {
         if (!this._isSearchContinued()) {
             this._clearTimer();
-            this._startTimer();
+            this._startTimer(SEARCH_MAX_DURATION);
         }
     }
 
@@ -56,12 +57,14 @@ export default class PortionedSearch<PortionedSearchOptions> {
 
     continueSearch(): void {
         this._setSearchState(SEARCH_STATES.CONTINUED);
+        this._startTimer(SEARCH_CONTINUED_MAX_DURATION);
         this._options.searchContinueCallback();
     }
 
     stopSearch(): void {
+        this._clearTimer();
+
         if (!this._isSearchContinued()) {
-            this._clearTimer();
             this._stopSearch();
         }
     }
@@ -70,10 +73,10 @@ export default class PortionedSearch<PortionedSearchOptions> {
         this._clearTimer();
     }
 
-    private _startTimer(): void {
+    private _startTimer(duration: number): void {
         this._searchTimer = setTimeout(() => {
             this._stopSearch();
-        }, MAX_SEARCH_DURATION);
+        }, duration);
     }
 
     private _clearTimer(): void {

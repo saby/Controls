@@ -11,7 +11,6 @@
                         fontSize="{{_options.fontSize}}"
                         fontColorStyle="{{_options.fontColorStyle}}"
                         borderStyle="{{_options.borderStyle}}"
-                        on:mousedown="_mouseDownOnContainerHandler()"
                         on:mouseenter="_mouseEnterHandler()"
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">
@@ -38,6 +37,7 @@
                         template="{{_field.template}}"
                         wasActionUser="{{_wasActionUser}}"
                         value="{{_viewModel.displayValue}}"
+                        isBrowserPlatform="{{_isBrowserPlatform}}"
                         hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
                         isEdge="{{_isEdge}}"/>
          </ws:else>

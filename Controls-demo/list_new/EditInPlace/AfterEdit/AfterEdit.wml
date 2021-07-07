@@ -1,0 +1,24 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:View
+            name="list"
+            keyProperty="id"
+            source="{{_viewSource}}"
+            on:afterBeginEdit="_afterBeginEdit()"
+            on:afterEndEdit="_afterEndEdit()">
+        <ws:editingConfig editOnClick="{{true}}"/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.beforeBeginEditTitle }}">
+                        <ws:editorTemplate>
+                            <Controls.input:Text bind:value="itemTemplate.itemData.item.beforeBeginEditTitle"/>
+                        </ws:editorTemplate>
+                    </ws:partial>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.list:View>
+    <ws:if data="{{ _isShowAddButton }}">
+        <Controls.list:AddButton />
+    </ws:if>
+</div>

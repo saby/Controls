@@ -1,4 +1,4 @@
-import GetWidth = require('Controls/Utils/getWidth');
+import {getWidth} from 'Controls/sizeUtils';
 import {detection} from 'Env/Env';
 import CounterTemplate = require('wml!Controls/_lookup/SelectedCollection/CounterTemplate');
 
@@ -6,7 +6,7 @@ const LAST_IE_VERSION = 11;
 
 export = {
     getCounterWidth(itemsCount: number, theme: string, fontSize: string): number {
-        return itemsCount && GetWidth.getWidth(CounterTemplate({
+        return itemsCount && getWidth(CounterTemplate({
             itemsCount,
             theme,
             fontSize

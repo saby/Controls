@@ -26,14 +26,6 @@ class StackController extends BaseController {
     _stack: collection.List<IPopupItem> = new collection.List();
 
     private _sideBarVisible: boolean = true;
-    constructor(): void {
-        super();
-        if (document) {
-            //TODO: https://online.sbis.ru/opendoc.html?guid=38b056ea-33a7-4f3c-84e5-ab52de810925
-            window.addEventListener('resize', this._updateStackParentCoords, true);
-            window.addEventListener('scroll', this._updateStackParentCoords, true);
-        }
-    }
 
     elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
         const isSinglePopup = this._stack.getCount() < 2;
@@ -115,13 +107,8 @@ class StackController extends BaseController {
         return false;
     }
 
-    resizeOuter(): boolean {
-        StackController.stackParentCoords = {};
-        return super.resizeOuter.apply(this, arguments);
-    }
-
     workspaceResize(): boolean {
-        StackController.stackParentCoords = {};
+        super.workspaceResize();
         return !!this._stack.getCount();
     }
 
@@ -475,10 +462,6 @@ class StackController extends BaseController {
         item.popupOptions.className = className.trim();
     }
 
-    private _updateStackParentCoords(): void {
-        StackController.stackParentCoords = {};
-    }
-
     // TODO COMPATIBLE
     private _getSideBarWidth(): number {
         const sideBar = document.querySelector('.ws-float-area-stack-sidebar, .navSidebar__sideLeft, .online-Sidebar');
@@ -501,56 +484,28 @@ class StackController extends BaseController {
         }
     }
 
-    private static stackParentCoords = {};
-
     static calcStackParentCoords(item: IPopupItem): IPopupPosition {
-        const getRestrictiveContainer = (popupItem: IPopupItem) => {
-            if (popupItem.popupOptions.restrictiveContainer) {
-                return popupItem.popupOptions.restrictiveContainer;
-            }
-            // Проверяем, есть ли у родителя ограничивающий контейнер
-            if (popupItem.parentId) {
-                const parentItem = require('Controls/popup').Controller.find(popupItem.parentId);
-                return getRestrictiveContainer(parentItem);
-            }
-        };
-        const restrictiveContainerName = '.controls-Popup__stack-target-container';
-        const restrictiveContainer = getRestrictiveContainer(item);
-
-        let stackRoot: HTMLElement;
-
-        if (restrictiveContainer) {
-            if (StackController.stackParentCoords[restrictiveContainer]) {
-                return StackController.stackParentCoords[restrictiveContainer];
-            }
-            stackRoot = document.querySelector(restrictiveContainer);
-        }
-
-        if (!stackRoot) {
-            if (StackController.stackParentCoords[restrictiveContainerName]) {
-                return StackController.stackParentCoords[restrictiveContainerName];
-            }
-            stackRoot = document.querySelector(restrictiveContainerName);
-        }
-
-        if (!stackRoot && !isNewEnvironment()) {
-            stackRoot = document.querySelector('.ws-float-area-stack-root');
+        let rootCoords;
+        // TODO: Ветка для старой страницы
+        if (!isNewEnvironment()) {
+            let stackRoot = document.querySelector('.ws-float-area-stack-root');
             const isNewPageTemplate = document.body.classList.contains('ws-new-page-template');
             const contentIsBody = stackRoot === document.body;
             if (!contentIsBody && !isNewPageTemplate && stackRoot) {
                 stackRoot = stackRoot.parentElement as HTMLDivElement;
             }
+            rootCoords = TargetCoords.get(stackRoot || document.body);
+        } else {
+            rootCoords = BaseController.getRootContainerCoords(item, '.controls-Popup__stack-target-container');
         }
-        const targetCoords = TargetCoords.get(stackRoot || document.body);
+
         // calc with scroll, because stack popup has fixed position only on desktop and can scroll with page
-        const leftPageScroll = detection.isMobilePlatform ? 0 : targetCoords.leftScroll;
-        const position: IPopupPosition = {
-            top: Math.max(targetCoords.top, 0),
-            height: targetCoords.height,
-            right: document.documentElement.clientWidth - targetCoords.right + leftPageScroll
+        const leftPageScroll = detection.isMobilePlatform ? 0 : rootCoords.leftScroll;
+        return {
+            top: Math.max(rootCoords.top, 0),
+            height: rootCoords.height,
+            right: document.documentElement.clientWidth - rootCoords.right + leftPageScroll
         };
-        StackController.stackParentCoords[restrictiveContainer || restrictiveContainerName] = position;
-        return position;
     }
 }
 

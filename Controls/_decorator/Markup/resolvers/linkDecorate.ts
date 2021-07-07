@@ -1,6 +1,3 @@
-/**
- * Created by rn.kondakov on 23.10.2018.
- */
 import { clearNeedDecorateGlobals, needDecorate, getDecoratedLink } from '../resources/linkDecorateUtils';
 
 /**
@@ -79,7 +76,7 @@ import { clearNeedDecorateGlobals, needDecorate, getDecoratedLink } from '../res
  * </pre>
  * @class Controls/_decorator/Markup/resolvers/linkDecorate
  * @public
- * @author Кондаков Р.Н.
+ * @author Угриновский Н.В.
  */
 
 /*
@@ -89,7 +86,7 @@ import { clearNeedDecorateGlobals, needDecorate, getDecoratedLink } from '../res
  *
  * @class Controls/_decorator/Markup/resolvers/linkDecorate
  * @public
- * @author Кондаков Р.Н.
+ * @author Угриновский Н.В.
  */
 export default function linkDecorate(value, parent) {
     if (!parent) {

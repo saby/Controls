@@ -14,7 +14,14 @@ define([
          assert.equal('disabled', pg._stateForward, 'Wrong default state');
 
 
-         pg._initArrowDefaultStates({ backwardEnabled: true, forwardEnabled: true });
+          pg._initArrowDefaultStates({
+              arrowState: {
+                  begin: "visible",
+                  end: "visible",
+                  next: "visible",
+                  prev: "visible"
+              }
+          });
          assert.equal('normal', pg._stateBackward, 'Wrong default state');
          assert.equal('normal', pg._stateForward, 'Wrong default state');
       });

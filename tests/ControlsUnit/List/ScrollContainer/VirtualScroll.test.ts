@@ -1,23 +1,18 @@
 import controller from 'Controls/_list/ScrollContainer/VirtualScroll';
 import {assert} from 'chai';
 
-function generateContainer(itemsHeights: number[]): { children: object[] } {
-    return {
-        children: itemsHeights.map((item) => {
-            return {
-                getBoundingClientRect(): Partial<DOMRect> {
-                    return {
-                        height: item
-                    };
-                },
-                classList: {
-                    contains() {
-                        return false;
-                    }
-                }
-            };
-        })
-    };
+function getItemsHeightsData(itemsHeights: number[]): {itemsHeights: number[], itemsOffsets: number[]} {
+    let sum = 0;
+    let itemHeightsData = {itemsHeights: [], itemsOffsets: []};
+
+    for (let i = 0, len = itemsHeights.length; i < len; i++) {
+        const itemHeight = itemsHeights[i];
+
+        itemHeightsData.itemsHeights[i] = itemHeight;
+        itemHeightsData.itemsOffsets[i] = sum;
+        sum += itemHeight;
+    }
+    return itemHeightsData;
 }
 
 describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
@@ -91,52 +86,52 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
                 instance.shiftRangeToScrollPosition(160));
         });
     });
-    describe('.insertItems', () => {
+    describe('.addItems', () => {
         let instance: controller;
 
         beforeEach(() => {
             instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
         });
 
         it('at begining', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 120}},
-                instance.insertItems(0, 2, {up: false, down: false}));
+                instance.addItems(0, 2, {up: false, down: false}));
         });
         it('at middle', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 0}},
-                instance.insertItems(5, 2, {up: false, down: false}));
+                instance.addItems(5, 2, {up: false, down: false}));
         });
         it('at ending', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
-                instance.insertItems(3, 1, {up: false, down: false}));
+                instance.addItems(3, 1, {up: false, down: false}));
         });
         it('with up predictive direction', () => {
             assert.deepEqual({range: {start: 2, stop: 7}, placeholders: {top: 0, bottom: 0}},
-                instance.insertItems(0, 2, {up: false, down: false}, 'up'));
+                instance.addItems(0, 2, {up: false, down: false}, 'up'));
         });
         it('with down predictive direction', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
-                instance.insertItems(3, 1, {up: false, down: false}, 'down'));
+                instance.addItems(3, 1, {up: false, down: false}, 'down'));
         });
         it('with predictive direction and trigger visibility', () => {
                 assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
-                    instance.insertItems(3, 1, {up: false, down: true}, 'down'));
+                    instance.addItems(3, 1, {up: false, down: true}, 'down'));
         });
         it('lack of items, direction up', () => {
             instance.setOptions({pageSize: 10});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
             assert.deepEqual({range: {start: 0, stop: 6}, placeholders: {top: 0, bottom: 0}},
-                instance.insertItems(0, 1, {up: false, down: false}));
+                instance.addItems(0, 1, {up: false, down: false}));
         });
         it('without specified options', () => {
             instance.setOptions({pageSize: undefined, segmentSize: undefined});
             assert.deepEqual({range: {start: 0, stop: 55}, placeholders: {top: 0, bottom: 0}},
-                instance.insertItems(5, 50, {up: false, down: false}));
+                instance.addItems(5, 50, {up: false, down: false}));
         });
     });
     describe('.removeItems', () => {
@@ -146,7 +141,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
         });
 
         it('at begining', () => {
@@ -164,7 +159,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('remove more than a page', () => {
             instance.resetRange(5, 10);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60, 60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60, 60, 60, 60, 60, 60]));
 
             assert.deepEqual({range: {start: 0, stop: 3}, placeholders: {top: 0, bottom: 0}},
                 instance.removeItems(3, 7));
@@ -177,16 +172,16 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
             instance.resetRange(0, 4);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60]));
         });
         it('forcedShift === false', () => {
-            assert.deepEqual(instance.insertItems(0, 1, { up: true, down: false }),
+            assert.deepEqual(instance.addItems(0, 1, { up: true, down: false }),
                 { range: { start: 0, stop: 5 }, placeholders: { top: 0, bottom: 0 }});
             assert.deepEqual(instance.removeItems(5, 1),
                 { range: { start: 0, stop: 5 }, placeholders: { top: 0, bottom: 0 }});
         });
         it('forcedShift === true', () => {
-            assert.deepEqual(instance.insertItems(0, 1, { up: true, down: false }),
+            assert.deepEqual(instance.addItems(0, 1, { up: true, down: false }),
                 { range: { start: 0, stop: 5 }, placeholders: { top: 0, bottom: 0 }});
             assert.deepEqual(instance.removeItems(5, 1, true),
                 { range: { start: 0, stop: 4 }, placeholders: { top: 0, bottom: 60 }});
@@ -224,23 +219,23 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
-            instance.insertItems(0, 2, {up: false, down: false});
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
+            instance.addItems(0, 2, {up: false, down: false});
             assert.isFalse(instance.isNeedToRestorePosition);
         });
         it('after insert with predicted direction', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
-            instance.insertItems(0, 2, {up: false, down: false}, 'up');
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
+            instance.addItems(0, 2, {up: false, down: false}, 'up');
             assert.isTrue(instance.isNeedToRestorePosition);
         });
         it('after remove', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
             instance.removeItems(0, 1);
             assert.isFalse(instance.isNeedToRestorePosition);
         });
@@ -249,7 +244,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 600});
         instance.resetRange(0, 10);
         // @ts-ignore
-        instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60, 60, 60, 60, 60, 60]));
+        instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60, 60, 60, 60, 60, 60]));
 
         it('can`t scroll', () => {
             assert.isFalse(instance.canScrollToItem(6, false, true), 'Item is out of range');
@@ -276,7 +271,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 600});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
 
             assert.equal(4, instance.getActiveElementIndex(400));
             assert.equal(4, instance.getActiveElementIndex(500));
@@ -285,7 +280,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 600});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
 
             assert.equal(0, instance.getActiveElementIndex(0));
             assert.equal(0, instance.getActiveElementIndex(-20));
@@ -294,7 +289,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 600});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
 
             assert.equal(1, instance.getActiveElementIndex(2));
         });
@@ -315,8 +310,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
-            instance.insertItems(0, 2, {up: false, down: false}, 'up');
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
+            instance.addItems(0, 2, {up: false, down: false}, 'up');
             assert.deepEqual({direction: 'up', heightDifference: 0}, instance.getParamsToRestoreScroll());
         });
         it('after shift with recalculate indexes to both direction', () => {
@@ -324,16 +319,16 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             const instance = new controller({pageSize: 10, segmentSize: 5}, {viewport: 3, trigger: 1, scroll: 30});
             instance.resetRange(1, 40);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([3, 3, 3, 3, 3, 3, 3, 3, 3, 3]));
+            instance.updateItemsHeights(getItemsHeightsData([3, 3, 3, 3, 3, 3, 3, 3, 3, 3]));
             instance.shiftRange('up');
             // @ts-ignore
             // render items 5, 6, 7, 8
-            instance.updateItemsHeights(generateContainer([3, 3, 3, 3]));
+            instance.updateItemsHeights(getItemsHeightsData([3, 3, 3, 3]));
             instance.getParamsToRestoreScroll();
             // add 5 items and render items *0, *1, *2, *3, *4, 5, 6, 7, 8, *9 (* - new items)
-            instance.insertItems(0, 5, {up: true, down: false}, 'up');
+            instance.addItems(0, 5, {up: true, down: false}, 'up');
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([3, 3, 3, 3, 3, 3, 3, 3, 3, 3]));
+            instance.updateItemsHeights(getItemsHeightsData([3, 3, 3, 3, 3, 3, 3, 3, 3, 3]));
             assert.deepEqual({direction: 'up', heightDifference: -3}, instance.getParamsToRestoreScroll());
         });
     });
@@ -343,11 +338,11 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             instance.resetRange(0, 5);
             assert.isTrue(instance.rangeChanged);
             // @ts-ignore
-            instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
             assert.isFalse(instance.rangeChanged);
         });
     });
-    describe('.resizeView()', () => {
+    describe('.viewResize()', () => {
         let instance: controller;
 
         beforeEach(() => {
@@ -359,19 +354,19 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
 
             assert.isTrue(instance.rangeChanged);
             // @ts-ignore
-            instance.resizeView(300, 0, generateContainer([60, 60, 60, 60, 60]));
+            instance.viewResize(300, 0, getItemsHeightsData([60, 60, 60, 60, 60]));
             assert.isTrue(instance.rangeChanged);
         });
         it('correct shift range, after view resized', () => {
             instance.setOptions({pageSize: 3});
             instance.resetRange(3, 5);
             // @ts-ignore
-            instance.resizeView(180, 0, generateContainer([60, 60, 60]));
+            instance.viewResize(180, 0, getItemsHeightsData([60, 60, 60]));
             assert.deepEqual({range: {start: 1, stop: 5}, placeholders: {top: 0, bottom: 0}},
                 instance.shiftRange('up'));
         });
     });
-    describe('.resizeViewport()', () => {
+    describe('.viewportResize()', () => {
         let instance: controller;
 
         beforeEach(() => {
@@ -383,14 +378,15 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
 
             assert.isTrue(instance.rangeChanged);
             // @ts-ignore
-            instance.resizeViewport(300, 0, generateContainer([60, 60, 60, 60, 60]));
+            instance.viewportResize(300, 0, getItemsHeightsData([60, 60, 60, 60, 60]));
             assert.isTrue(instance.rangeChanged);
         });
         it('correct shift range, after viewport resized', () => {
             instance.setOptions({pageSize: 3});
             instance.resetRange(0, 5);
             // @ts-ignore
-            instance.resizeViewport(80, 0, generateContainer([60, 60, 60]));
+            instance.viewportResize(80, 0);
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60]));
             assert.deepEqual({range: {start: 2, stop: 4}, placeholders: {top: 120, bottom: 0}},
                 instance.shiftRange('down'));
         });
@@ -421,19 +417,17 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             assert.isFalse(instance.isRangeOnEdge('down'));
         });
     });
-    describe('.getItemContainerByIndex()', () => {
-        const instance = new controller({pageSize: 5, segmentSize: 1}, {});
-        instance.resetRange(2, 10);
+    describe('calculateVirtualScrollHeight', () => {
+        let instance: controller;
 
-        it('get correct value', () => {
-            const itemsContainer = generateContainer([60, 60, 60, 60, 60, 60]);
-
+        beforeEach(() => {
+            instance = new controller({pageSize: 5, segmentSize: 1}, {});
+            instance.resetRange(9, 10);
             // @ts-ignore
-            assert.equal(itemsContainer.children[0], instance.getItemContainerByIndex(2, itemsContainer));
-            // @ts-ignore
-            assert.isUndefined(instance.getItemContainerByIndex(0, itemsContainer));
-            // @ts-ignore
-            assert.isUndefined(instance.getItemContainerByIndex(10, itemsContainer));
+            instance.updateItemsHeights(getItemsHeightsData([10, 10, 10, 10, 10, 10, 10, 10, 10, 10]));
+        });
+        it('calculateVirtualScrollHeight', () => {
+            assert.equal(instance.calculateVirtualScrollHeight(), 100);
         });
     });
 });

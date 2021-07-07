@@ -1,0 +1,16 @@
+<div>
+    <div class="ControlsDemo-AsyncDemo__buttonContainer">
+        <Controls.buttons:Button readOnly="{{false}}" fontSize="l" caption="Изменить шаблонные опции" attr:class="ControlsDemo-AsyncDemo__navigationButton"
+            on:click="changeTemplateOptions()"/>
+        <Controls.buttons:Button readOnly="{{false}}" fontSize="l" caption="Изменить внутренние опции" attr:class="ControlsDemo-AsyncDemo__navigationButton"
+            on:click="changeInternalOptions()"/>
+    </div>
+    <Controls.Container.Async templateName="Controls-demo/Async/_asyncDemo/InternalOptionsTmpl" attr:class="ControlsDemo-AsyncDemo__container">
+        <ws:templateOptions
+            tmplOption="{{tmplOption}}">
+        </ws:templateOptions>
+        <ws:content>
+            <ws:partial template="{{ content.resolvedTemplate }}" internalOption="{{internalOption}}"></ws:partial>
+        </ws:content>
+    </Controls.Container.Async>
+</div>

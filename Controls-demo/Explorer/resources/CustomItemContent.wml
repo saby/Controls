@@ -1,6 +1,6 @@
 <div class="controls-TileView__imageWrapper js-controls-ItemActions__swipeMeasurementContainer">
    <div class="{{hasTitle ? 'controls-TileView__resizer_theme-' + itemData.theme}}" style="{{'padding-top: ' + (itemData.itemsHeight / width) * 100 + '%;'}}"></div>
-   <img class="controls-TileView__image demo-Explorer__image" src="{{itemData.item[itemData.imageProperty]}}"/>
+   <img class="controls-TileView__image" src="{{itemData.item[itemData.imageProperty]}}"/>
    <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
                template="{{swipeTemplate}}"
                itemData="{{itemData}}"

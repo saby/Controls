@@ -40,7 +40,8 @@
                             {{itemData.isRightSwiped() ? ' controls-ListView__item_rightSwipeAnimation'}} {{ cellClassName || '' }}"
                 ladderWrapper="{{currentColumn.ladderWrapper}}"
                 expanderTemplate="{{itemData.expanderTemplate}}"
-                itemData="{{currentColumn}}" />
+                itemData="{{currentColumn}}"
+                tagTemplate="{{tagTemplate}}"/>
 </ws:template>
 
 <ws:template name="COLUMN">
@@ -53,12 +54,12 @@
               {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}
               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
-              {{ colspan ? 'controls-Grid__row-cell_colspaned'}}
               {{ marker !== false ? currentColumn.classList.marked }}
               controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
             style="{{ currentColumn.tableCellStyles }}"
             colspan="{{(colspan === false && !!colspanLength) ? (currentColumn.columnIndex === (itemData.hasMultiSelect ? 1 : 0) ? colspanLength : 1) : itemData.getColspanFor((itemData.multiSelectVisibility !== 'hidden' && currentColumn.columnIndex == 0) ? 'multiSelectColumn' : (colspan || colspanCurrentNode ? 'node'))}}">
-            <div class="controls-TreeGridView__row-cell_innerWrapper {{ currentColumn.classList.relativeCellWrapper }} {{itemData.columnIndex === 0 && !itemData.hasMultiSelect ? currentColumn.classList.padding.left }}">
+            <div class="{{ itemData.getRelativeCellWrapperClasses(colspan, true) }}
+                        {{itemData.columnIndex === 0 && !itemData.hasMultiSelect ? currentColumn.classList.padding.left }}">
                 <!-- Маркер активной записи -->
                 <ws:if data="{{ marker !== false && itemData.markerVisibility !== 'hidden' && !itemData.isEditing() && itemData.isMarked() && currentColumn.columnIndex === 0 }}">
                     <div class="{{itemData.getMarkerClasses()}}"></div>
@@ -73,7 +74,7 @@
 
                 <!-- Контент колонки с чекбоксом -->
                 <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
-                    <ws:if data="{{!itemData.dispItem.isEditing()}}">
+                    <ws:if data="{{!itemData.isAdd}}">
                         <div class="{{ currentColumn.classList.padding.getAll() }} {{ cellClassName || '' }}">
                             <ws:partial template="{{multiSelectTpl}}" attr:class="{{ itemData.multiSelectClassList }}">
                                 <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
@@ -94,16 +95,16 @@
                     <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 1 || !itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
                         <ws:if data="{{!withoutLevelPadding && itemData.level > 1}}">
                             <ws:for data="i in itemData.level - 1">
-                                <div class="controls-TreeGrid__row-levelPadding {{itemData.getLevelIndentClasses(itemData.getExpanderSize(expanderSize), levelIndentSize)}}"></div>
+                                <div class="controls-TreeGrid__row-levelPadding {{itemData.getLevelIndentClasses(itemData, expanderSize, levelIndentSize)}}"></div>
                             </ws:for>
                         </ws:if>
                         <ws:if data="{{itemData.shouldDrawExpander(itemData, expanderIcon)}}">
-                            <ws:partial template="{{itemData.expanderTemplate}}" itemData="{{itemData}}" expanderIcon="{{expanderIcon}}"
+                            <ws:partial template="{{itemData.expanderTemplate}}" itemData="{{itemData}}" expanderIcon="{{itemData.getExpanderIcon(expanderIcon)}}"
                                         expanderSize="{{itemData.getExpanderSize(expanderSize)}}"/>
                         </ws:if>
                         <ws:else
-                                data="{{itemData.shouldDrawExpanderPadding(itemData, expanderIcon, itemData.getExpanderSize(expanderSize))}}">
-                            <div class="{{itemData.getExpanderPaddingClasses(itemData.getExpanderSize(expanderSize), itemData.theme)}} js-controls-ListView__notEditable"></div>
+                                data="{{itemData.shouldDrawExpanderPadding(itemData, expanderIcon, expanderSize)}}">
+                            <div class="{{itemData.getExpanderPaddingClasses(itemData, expanderSize)}} js-controls-ListView__notEditable"></div>
                         </ws:else>
                     </ws:if>
 
@@ -147,7 +148,7 @@
               controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
             colspan="1"
             style="width: 0; min-width: 0; max-width: 0; padding: 0px; overflow: visible; z-index: 3;">
-            <div class="controls-TreeGridView__row-cell_innerWrapper {{ currentColumn.classList.relativeCellWrapper }}">
+            <div class="{{ itemData.getRelativeCellWrapperClasses(colspan, false) }}">
                 <ws:partial template="itemActionsTemplateChooser"/>
             </div>
         </td>
@@ -169,7 +170,3 @@
        </ws:for>
    </ws:else>
 </tr>
-
-<ws:if data="{{itemData.nodeFooters.length > 0}}">
-    <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser" useNewNodeFooters="{{ itemData.useNewNodeFooters }}" nodeFooters="{{itemData.nodeFooters}}"/>
-</ws:if>

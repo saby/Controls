@@ -1,28 +1,33 @@
 <ws:template name="CollapseLight">
-    <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M13.6,10.38l-.84.85L8,6.48,3.21,11.23l-.81-.81L8,4.77Z"/></svg>
+   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <path d="M13.6,10.38l-.84.85L8,6.48,3.21,11.23l-.81-.81L8,4.77Z"/>
+   </svg>
 </ws:template>
 <ws:template name="ExpandLight">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8,11.23,2.4,5.58l.81-.81L8,9.52l4.79-4.75.81.85Z"/></svg>
+   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <path d="M8,11.23,2.4,5.58l.81-.81L8,9.52l4.79-4.75.81.85Z"/>
+   </svg>
 </ws:template>
-<div class="controls-SpoilerHeading" on:click="_clickHandler()" title="{{_options.tooltip}}">
-<div class="controls-SpoilerHeading__wrapper
+<div class="controls-SpoilerHeading controls-SpoilerHeading__{{_expanded ? 'expanded' : 'collapsed'}}" on:click="_clickHandler()" title="{{_options.tooltip}}">
+   <div class="controls-SpoilerHeading__wrapper
                controls-SpoilerHeading__wrapper_theme-{{_options.theme}}
                controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}">
-    <!--Базовая линия контрола определяется либо текстом, либо иконкой, в зависимости
-        от расположения в верстке. Иконка должна иметь такую же базовую линию как у
-        текста. Для этого добавляем пустой символ, который задаст базовую линию.-->
-    <div class="controls-SpoilerHeading__icon-baseline">&#65279;</div>
-    <div class="controls-SpoilerHeading__iconWrapper
+      <!--Базовая линия контрола определяется либо текстом, либо иконкой, в зависимости
+          от расположения в верстке. Иконка должна иметь такую же базовую линию как у
+          текста. Для этого добавляем пустой символ, который задаст базовую линию.-->
+      <div class="controls-SpoilerHeading__icon-baseline">&#65279;</div>
+      <div class="controls-SpoilerHeading__iconWrapper
                   controls-SpoilerHeading__iconWrapper_theme-{{_options.theme}}">
-        <ws:partial template="{{_icon}}"
-                    attr:class="controls-SpoilerHeading__icon
+         <ws:partial template="{{_expanded ? 'CollapseLight' : 'ExpandLight'}}"
+                     attr:class="controls-SpoilerHeading__icon
                                  controls-SpoilerHeading__icon_theme-{{_options.theme}}
-                                 controls-SpoilerHeading__icon_{{_view}}_theme-{{_options.theme}}"/>
-    </div>
-    <div class="controls-SpoilerHeading__caption ws-ellipsis
+                                 controls-SpoilerHeading__icon_fontColorStyle-{{_fontColorStyle}}_theme-{{_options.theme}}"/>
+      </div>
+      <div class="controls-SpoilerHeading__caption ws-ellipsis
+                  controls-fontweight-{{_fontWeight}}{{_fontWeight === 'default' ? '_theme-' + _options.theme}}
                   controls-SpoilerHeading__caption_{{_view}}
-                  controls-SpoilerHeading__caption_{{_view}}_theme-{{_options.theme}}
+                  controls-SpoilerHeading__caption_fontColorStyle-{{_fontColorStyle}}_theme-{{_options.theme}}
                   controls-SpoilerHeading__caption_captionPosition-{{_options.captionPosition}}">{{_caption}}
-    </div>
-</div>
+      </div>
+   </div>
 </div>

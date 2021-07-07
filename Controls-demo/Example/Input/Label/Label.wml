@@ -1,4 +1,4 @@
-<div class="example-Label ws-inline-flexbox ws-flex-column" on:labelClick="_labelClickHandler()">
+<div class="example-Label ws-inline-flexbox ws-flex-column controlsDemo_fixedWidth500" on:labelClick="_labelClickHandler()">
    <Controls-demo.Example.resource.BaseDemoInput title="Labels for input fields" blocker="{{true}}" attr:class="ControlsDemo-ExampleInput_labels1">
       <ws:contents>
          <ws:Array>

@@ -1,8 +1,7 @@
 import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
-import getItemsBySelection = require('Controls/Utils/getItemsBySelection');
+import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
 import {ContextOptions as dataOptions} from 'Controls/context';
-import {error as dataSourceError} from 'Controls/dataSource';
 
 var _private = {
     removeFromSource: function (self, items) {
@@ -42,12 +41,12 @@ var _private = {
         return Promise.resolve(afterItemsRemoveResult);
     },
 
-    updateDataOptions: function (self, dataOptions) {
-        if (dataOptions) {
-            self._items = dataOptions.items;
-            self._source = dataOptions.source;
-            self._filter = dataOptions.filter;
-            self._keyProperty = dataOptions.keyProperty;
+    updateDataOptions: function (self, newOptions, contextDataOptions) {
+        self._items = newOptions.items || contextDataOptions?.items;
+        if (contextDataOptions) {
+            self._source = contextDataOptions.source;
+            self._filter = contextDataOptions.filter;
+            self._keyProperty = contextDataOptions.keyProperty;
         }
     }
 };
@@ -55,13 +54,13 @@ var _private = {
 /**
  * Контрол для удаления элементов списка в recordSet и dataSource.
  * Контрол должен располагаться в том же контейнере (см. {@link Controls/list:DataContainer}), что и список.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FRemove">демо-пример</a>
  * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/actions/remover/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
- * 
+ *
  * @class Controls/_list/Remover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IRemovable
@@ -86,11 +85,11 @@ var _private = {
 
 var Remover = BaseAction.extend({
     _beforeMount: function (options, context) {
-        _private.updateDataOptions(this, context.dataOptions);
+        _private.updateDataOptions(this, options, context.dataOptions);
     },
 
     _beforeUpdate: function (options, context) {
-        _private.updateDataOptions(this, context.dataOptions);
+        _private.updateDataOptions(this, options, context.dataOptions);
     },
 
     removeItems(items: string[]): void {
@@ -101,7 +100,7 @@ var Remover = BaseAction.extend({
         // https://online.sbis.ru/opendoc.html?guid=080d3dd9-36ac-4210-8dfa-3f1ef33439aa
         itemsDeferred = items instanceof Array
             ? Deferred.success(items)
-            : getItemsBySelection(items, this._source, this._items, this._filter);
+            : getItemsBySelection(items, this._source, this._items, this._filter, null, this._options.selectionTypeForAllSelected);
 
         itemsDeferred.addCallback((items) => {
             _private.beforeItemsRemove(this, items).addCallback((result) => {

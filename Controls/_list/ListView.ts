@@ -273,6 +273,14 @@ var ListView = BaseControl.extend(
                 leftPadding = (this._options.itemPadding && this._options.itemPadding.left || 'default').toLowerCase();
             }
             return `controls-ListView__footer__paddingLeft_${leftPadding}_theme-${this._options.theme}`;
+        },
+
+        activateEditingRow(): boolean {
+            if (this._children.editingRow) {
+                this._children.editingRow.activate();
+                return true;
+            }
+            return false;
         }
     });
 

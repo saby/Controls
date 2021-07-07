@@ -10,9 +10,8 @@ import {IScrollState} from '../Utils/ScrollState';
 import {SCROLL_MODE} from './Type';
 
 interface ISerializeState {
-    overflowHidden: boolean,
-    styleHideScrollbar: string,
-    scrollContainerStyles: string
+    overflowHidden: boolean;
+    styleHideScrollbar: string;
 }
 
 export default class ScrollbarsModel extends mixin<VersionableMixin>(VersionableMixin) implements IVersionable {
@@ -29,7 +28,6 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
 
     private _models: object = {};
     private _canScroll: boolean = false;
-    private _scrollContainerStyles: string;
     private _overflowHidden: boolean;
     private _styleHideScrollbar: string;
 
@@ -40,24 +38,21 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
 
         if (receivedState) {
             this._overflowHidden = receivedState.overflowHidden;
-            this._styleHideScrollbar = receivedState.styleHideScrollbar;
-            this._scrollContainerStyles = receivedState.scrollContainerStyles;
+            this._styleHideScrollbar = receivedState.styleHideScrollbar ||
+                ScrollWidthUtil.calcStyleHideScrollbar(options.scrollMode);
         } else {
             this._overflowHidden = ScrollHeightFixUtil.calcHeightFix();
-            this._styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(options.scrollMode)
-            if (this._styleHideScrollbar === '') {
-                this._scrollContainerStyles = '';
-            }
+            this._styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(options.scrollMode);
         }
 
         // На мобильных устройствах используется нативный скролл, на других платформенный.
         this._useNativeScrollbar = detection.isMobileIOS || detection.isMobileAndroid;
 
         const scrollMode = options.scrollMode.toLowerCase();
-        if (scrollMode.indexOf('vertical') !== -1) {
+        if (options.scrollbarVisible && scrollMode.indexOf('vertical') !== -1) {
             this._models.vertical = new ScrollbarModel(SCROLL_DIRECTION.VERTICAL, options);
         }
-        if (scrollMode.indexOf('horizontal') !== -1) {
+        if (options.scrollbarVisible && scrollMode.indexOf('horizontal') !== -1) {
             this._models.horizontal = new ScrollbarModel(SCROLL_DIRECTION.HORIZONTAL, options);
         }
 
@@ -66,9 +61,8 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     serializeState(): ISerializeState {
         return {
             overflowHidden: this._overflowHidden,
-            styleHideScrollbar: this._styleHideScrollbar,
-            scrollContainerStyles: this._scrollContainerStyles
-        }
+            styleHideScrollbar: this._styleHideScrollbar
+        };
     }
 
     updateOptions(options: IScrollbarsOptions): void {
@@ -77,7 +71,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         }
     }
 
-    updateScrollState(scrollState: IScrollState): void {
+    updateScrollState(scrollState: IScrollState, container: HTMLElement): void {
         let changed: boolean = false;
         for (let scrollbar of Object.keys(this._models)) {
             changed = this._models[scrollbar].updateScrollState(scrollState) || changed;
@@ -87,36 +81,45 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
             this._canScroll = canScroll;
             changed = true;
         }
+
+        // Используем clientHeight в качестве offsetHeight если нижний скролбар не отбражается.
+        const isHorizontalScrollbarHidden = this._options.scrollMode === SCROLL_MODE.VERTICAL &&
+            !detection.firefox && !detection.isIE;
+        const overflowHidden = ScrollHeightFixUtil.calcHeightFix({
+            scrollHeight: scrollState.scrollHeight,
+            offsetHeight: isHorizontalScrollbarHidden ? scrollState.clientHeight : container.offsetHeight
+        });
+        if (overflowHidden !== this._overflowHidden) {
+            this._overflowHidden = overflowHidden;
+            changed = true;
+        }
+
         if (changed) {
             this._nextVersion();
         }
     }
 
     setOffsets(offsets: Offsets): void {
+        let changed: boolean = false;
         for (let scrollbar of Object.keys(this._models)) {
-            this._models[scrollbar].setOffsets(offsets);
+            changed = this._models[scrollbar].setOffsets(offsets) || changed;
         }
-    }
-
-    adjustContentMarginsForBlockRender(marginTop, marginRight): void {
-        if (!this._overflowHidden) {
-            this._scrollContainerStyles = this._styleHideScrollbar.replace(/-?[1-9]\d*/g, function(found) {
-                return parseInt(found, 10) + marginRight;
-            });
+        if (changed) {
+            this._nextVersion();
         }
     }
 
     get scrollContainerStyles() {
-        return !this._overflowHidden ? this._scrollContainerStyles : '';
+        return !this._overflowHidden ? this._styleHideScrollbar : '';
     }
 
     getScrollContainerClasses(): string {
         let css = '';
         if (this._useNativeScrollbar) {
-            css += ' controls-Scroll__content_auto'
+            css += ' controls-Scroll__content_auto';
         } else {
             css += ' controls-Scroll__content_hideNativeScrollbar';
-            if (this._overflowHidden || this._scrollContainerStyles === undefined) {
+            if (this._overflowHidden) {
                 css += ' controls-Scroll__content_hidden';
             } else {
                 css += this._options.scrollMode === SCROLL_MODE.VERTICAL ?
@@ -140,7 +143,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
     release(): boolean {
         if (this._showScrollbarOnHover) {
-            return true
+            return true;
         }
     }
     released(): boolean {
@@ -153,7 +156,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
 
     get isVisible(): boolean {
-        return !this._useNativeScrollbar;
+        return !this._useNativeScrollbar && this._showScrollbarOnHover;
     }
 
     get horizontal(): ScrollbarModel {

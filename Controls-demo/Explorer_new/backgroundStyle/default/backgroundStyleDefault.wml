@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper__padding-left">
     <div class="controlsDemo__cell controlsDemo__inline-block demo-ItemPaddingAll__vertical">
         <div class="ws-flexbox ws-flex-wrap">
-            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-first" style="width: 485px">
                 <Controls.list:DataContainer source="{{_headerSource}}" keyProperty="id">
                     <Controls.explorer:View
                             source="{{_headerSource}}"
@@ -19,7 +19,7 @@
                     </Controls.explorer:View>
                 </Controls.list:DataContainer>
             </div>
-            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-second" style="width: 475px">
                 <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
                     <Controls.explorer:View
                             source="{{_viewSource}}"

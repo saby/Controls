@@ -5,7 +5,7 @@
             itemActions="{{_itemActions}}"
             on:actionClick="_actionClick()"/>
     <ws:if data="{{_clickedMessage}}">
-        <div class="controlsDemo__wrapper">{{_clickedMessage || ''}}</div>
+        <div class="controlsDemo__wrapper controlsDemo_bg-red">{{_clickedMessage || ''}}</div>
         <div class="controlsDemo__wrapper controlsDemo__pt-none">
             <a href="#" class="controls-text-link_theme-default" on:click="_clearMessage()">Очистить</a>
         </div>

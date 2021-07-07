@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IExpandableOptions, IExpandable} from 'Controls/interface';
 import ButtonTemplate = require('wml!Controls/_operations/Button/Button');
 import {default as Store} from 'Controls/Store';
-import {DependencyTimer, isLeftMouseButton} from "Controls/Utils/FastOpen";
+import {DependencyTimer, isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {IoC} from 'Env/Env';
 import {SyntheticEvent} from "Vdom/Vdom";
 
@@ -11,7 +11,7 @@ export interface IOperationsButtonOptions extends IControlOptions, IExpandableOp
 
 /**
  * Контрол-кнопка, использующийся для показа и скрытия панели действий {@link Controls/operations:Panel}.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/operations/">руководство разработчика</a>

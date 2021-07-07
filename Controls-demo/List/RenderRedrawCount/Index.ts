@@ -87,4 +87,5 @@ export default class RenderRedrawDemo extends Control {
             title: `${key} list element`
         };
     }
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

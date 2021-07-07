@@ -39,12 +39,15 @@
    .baseline-fix();
 }
 .controls-BreadCrumbsView__crumb_theme-@{themeName} {
-  color: @item_text-color_default_breadcrumbsView;
   height: @height_breadcrumbsView;
   &:before {
     font-size: @line-height_breadcrumbsView;
   }
    padding-right: @droppable_border-thickness_breadcrumbsView;
+}
+
+.controls-BreadCrumbsView__crumb_color_theme-@{themeName} {
+   color: @item_text-color_default_breadcrumbsView;
 }
 
 .controls-BreadCrumbsView__crumb_withOverflow {
@@ -86,7 +89,6 @@
 .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
   right: 0;
   height: @height_breadcrumbsView;
-  color: @item_text-color_default_breadcrumbsView;
   &:before {
     font-size: @line-height_breadcrumbsView;
   }
@@ -169,7 +171,6 @@
 }
 .controls-BreadCrumbsView__arrow_theme-@{themeName}{
    .icon(@item_icon-size_default_breadcrumbsView);
-   color: @item_text-color_default_breadcrumbsView;
 }
 
 .controls-BreadCrumbsView__arrow_enabled {

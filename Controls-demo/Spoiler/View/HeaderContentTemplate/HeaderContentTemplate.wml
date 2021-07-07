@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Произвольное расположение заголовка</div>
+      <Controls.spoiler:View attr:class="ws-inline-flexbox ws-flex-column">
+         <ws:headerContentTemplate>
+            <Controls-demo.Spoiler.View.HeaderContentTemplate.HeaderContent/>
+         </ws:headerContentTemplate>
+         <ws:content>
+            <div class="ws-align-self-center controlsDemo__width100 controlsDemo__height300
+                        ws-flexbox ws-align-items-center ws-justify-content-center"
+                 attr:style="background-color: rgb(137 205 251);">
+               контентная область (скрываемая)
+            </div>
+         </ws:content>
+      </Controls.spoiler:View>
+   </div>
+</div>

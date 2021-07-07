@@ -20,18 +20,21 @@ import {Formatter} from 'Controls/decorator';
                // TODO: продумать механизм обработки ошибок в форматных полях.
                // https://online.sbis.ru/opendoc.html?guid=3236bcfd-4ae8-4f90-a1c8-7e2caddde339
                try {
+                  let data;
                   // TODO: нужен комментарий или удалить код. https://online.sbis.ru/opendoc.html?guid=3236bcfd-4ae8-4f90-a1c8-7e2caddde339
                   if (inputType === 'insert' && replacer) {
-                     return Formatter.getFormatterData(format, {
+                     data = Formatter.formatData(format, {
                         value: splitValue.before + splitValue.after,
-                        position: splitValue.before.replace(new RegExp(replacer + '*$', 'g'), '').length
+                        carriagePosition: splitValue.before.replace(new RegExp(replacer + '*$', 'g'), '').length
                      });
                   } else {
-                     return Formatter.getFormatterData(format, {
+                     data = Formatter.formatData(format, {
                         value: splitValue.before + splitValue.after,
-                        position: splitValue.before.length
+                        carriagePosition: splitValue.before.length
                      });
                   }
+                  const {value, carriagePosition: position} = data;
+                  return {value, position};
                } catch (e) {
                   return false;
                }
@@ -199,7 +202,7 @@ import {Formatter} from 'Controls/decorator';
              */
             input: function(splitValue, inputType, replacer, oldFormat, newFormat) {
                var value = splitValue.before + splitValue.delete + splitValue.after;
-               var clearData = Formatter.getClearData(oldFormat, value);
+               var clearData = Formatter.clearData(oldFormat, value);
                var clearSplitValue = InputProcessor.getClearSplitValue(splitValue, clearData);
                var result;
 

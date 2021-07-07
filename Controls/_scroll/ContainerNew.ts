@@ -1,4 +1,4 @@
-import {constants} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TemplateFunction} from 'UI/Base';
 import ContainerBase, {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
@@ -21,7 +21,7 @@ import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS} from './StickyH
 import {POSITION} from './Container/Type';
 
 interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, IShadows {
-
+    backgroundStyle: string;
 }
 
 /**
@@ -99,7 +99,15 @@ interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, I
  * </ul>
  */
 
+/**
+ * @name Controls/_scroll/ContainerNew#backgroundStyle
+ * @cfg {String} Определяет префикс стиля для настройки элементов которые зависят от цвета фона.
+ * @default default
+ * @demo Controls-demo/Scroll/BackgroundStyle/Index
+ */
+
 const SCROLL_BY_ARROWS = 40;
+const DEFAULT_BACKGROUND_STYLE = 'default';
 
 export default class Container extends ContainerBase<IContainerOptions> implements IScrollbars {
     readonly '[Controls/_scroll/Container/Interface/IScrollbars]': boolean = true;
@@ -116,10 +124,16 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _intersectionObserverController: Observer;
     protected _stickyHeaderController: StickyHeaderController;
 
+    protected _isOptimizeShadowEnabled: boolean;
+    protected _optimizeShadowClass: string;
+    protected _needUpdateContentSize: boolean = false;
+
     _beforeMount(options: IContainerOptions, context, receivedState) {
         this._shadows = new ShadowsModel(options);
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController(this);
+        this._isOptimizeShadowEnabled = this._getIsOptimizeShadowEnabled(options);
+        this._optimizeShadowClass = this._getOptimizeShadowClass(options);
 
         super._beforeMount(...arguments);
 
@@ -132,11 +146,11 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
         if (context.ScrollData?.pagingVisible) {
             this._paging = new PagingModel();
+            this._scrollCssClass = this._getScrollContainerCssClass(options);
         }
 
         super._afterMount();
 
-        this._adjustContentMarginsForBlockRender();
         this._stickyHeaderController.init(this._container);
     }
 
@@ -145,11 +159,22 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         if (context.ScrollData?.pagingVisible) {
             this._paging.isVisible = this._state.canVerticalScroll;
         }
+        this._isOptimizeShadowEnabled = this._getIsOptimizeShadowEnabled(options);
+        this._optimizeShadowClass = this._getOptimizeShadowClass();
+        // TODO: Логика инициализации для поддержки разных браузеров была скопирована почти полностью
+        //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
+        this._updateScrollContainerPaigingSccClass(options);
+        this._scrollbars.updateOptions(options);
+        this._shadows.updateOptions(options);
     }
 
     protected _afterUpdate() {
         super._afterUpdate(...arguments);
         this._stickyHeaderController.updateContainer(this._container);
+        if (this._needUpdateContentSize) {
+            this._needUpdateContentSize = false;
+            this._updateStateAndGenerateEvents({ scrollHeight: this._children.content.scrollHeight });
+        }
     }
 
     _beforeUnmount(): void {
@@ -168,26 +193,40 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!this._options.optimizeShadow) {
                 this._shadows.updateScrollState(this._state);
             }
-            this._scrollbars.updateScrollState(this._state);
+            // При инициализации не обновляем скрол бары. Инициализируем их по напедению мышкой.
+            if (this._isStateInitialized) {
+                this._scrollbars.updateScrollState(this._state, this._container);
+            }
+
             this._paging?.update(this._state);
+
             this._stickyHeaderController.setCanScroll(this._state.canVerticalScroll);
-            this._scrollCssClass = this._getScrollContainerCssClass(this._options);
+            this._stickyHeaderController.setShadowVisibility(
+                this._shadows.top.isStickyHeadersShadowsEnabled(),
+                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+
+            this._updateScrollContainerPaigingSccClass(this._options);
         }
         return isUpdated;
     }
 
+    protected _updateScrollContainerPaigingSccClass(options: IContainerOptions) {
+        const scrollCssClass = this._getScrollContainerCssClass(this._options);
+        if (this._scrollCssClass !== scrollCssClass) {
+            this._scrollCssClass = scrollCssClass;
+            this._needUpdateContentSize = true;
+        }
+    }
+
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
-        return this._scrollbars.getScrollContainerClasses();
+        let cssClass: string = this._scrollbars.getScrollContainerClasses();
+        if (this._paging?.isVisible) {
+            cssClass += ' controls-Scroll__content_paging';
+        }
+        return cssClass;
     }
 
-    private _adjustContentMarginsForBlockRender(): void {
-        let computedStyle = getComputedStyle(this._children.content);
-        let marginTop = parseInt(computedStyle.marginTop, 10);
-        let marginRight = parseInt(computedStyle.marginRight, 10);
-        this._scrollbars.adjustContentMarginsForBlockRender(marginTop, marginRight);
-    }
-
-    protected _draggingChangedHandler(event, dragging): void {
+    protected _draggingChangedHandler(event: SyntheticEvent, scrollbarOrientation: string, dragging: boolean): void {
         this._dragging = dragging;
 
         // if (!dragging && typeof this._scrollTopAfterDragEnd !== 'undefined') {
@@ -260,6 +299,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _mouseenterHandler(event) {
+        // Если до mouseenter не вычисляли скроллбар, сделаем это сейчас.
+        this._scrollbars.updateScrollState(this._state, this._container);
         if (this._scrollbars.take()) {
             this._notify('scrollbarTaken', [], {bubbling: true});
         }
@@ -309,9 +350,18 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._notify('intersect', [items]);
     }
 
-    protected _getOptimizeShadowClass(): string {
-        return `controls-Scroll__background-Shadow_style-${this._options.shadowStyle}_theme-${this._options.theme} ` +
-            `controls-Scroll__background-Shadow_top-${this._shadows.top.isVisibleShadowOnCSS}_bottom-${this._shadows.bottom.isVisibleShadowOnCSS}_style-${this._options.shadowStyle}_theme-${this._options.theme}`;
+    protected _getOptimizeShadowClass(options?: IContainerOptions): string {
+        const opts:IContainerOptions = options || this._options;
+        let style: string = '';
+        if (this._isOptimizeShadowEnabled) {
+            style += `controls-Scroll__background-Shadow_style-${opts.backgroundStyle}_theme-${opts.theme} ` +
+                `controls-Scroll__background-Shadow_top-${this._shadows.top.isVisibleShadowOnCSS}_bottom-${this._shadows.bottom.isVisibleShadowOnCSS}_style-${opts.shadowStyle}_theme-${opts.theme}`;
+        }
+        return style;
+    }
+
+    protected _getIsOptimizeShadowEnabled(options: IContainerOptions): boolean {
+        return options.optimizeShadow && !detection.isMobileIOS;
     }
 
     // StickyHeaderController
@@ -321,7 +371,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const top = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
         const bottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
         this._scrollbars.setOffsets({ top: top, bottom: bottom });
-        this._shadows.setStickyFixed(!!top, !!bottom);
+        this._shadows.setStickyFixed(
+            this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
+            this._stickyHeaderController.hasFixed(POSITION.BOTTOM) && this._stickyHeaderController.hasShadowVisible(POSITION.BOTTOM));
         this._notify('fixed', [top, bottom]);
     }
 
@@ -347,6 +399,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             topShadowVisibility: SHADOW_VISIBILITY.AUTO,
             bottomShadowVisibility: SHADOW_VISIBILITY.AUTO,
             shadowStyle: 'default',
+            backgroundStyle: DEFAULT_BACKGROUND_STYLE,
             scrollMode: 'vertical',
             optimizeShadow: true
         };

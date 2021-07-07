@@ -13,6 +13,7 @@ import {ControllerClass, Container as ValidateContainer, IValidateResult} from '
 import {IFormOperation} from 'Controls/interface';
 import {Confirmation} from 'Controls/popup';
 import CrudController from 'Controls/_form/CrudController';
+import {CRUD_EVENTS} from './Crud';
 
 interface IFormController extends IControlOptions {
     readMetaData?: object;
@@ -369,7 +370,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         // https://online.sbis.ru/opendoc.html?guid=78c34d53-8705-4e25-bbb5-0033e81d6152
         if (this._needDestroyRecord()) {
             const removePromise = this._tryDeleteNewRecord();
-            this._notifyToOpener('deletestarted', [this._record, this._getRecordId(), {removePromise}]);
+            this._notifyToOpener(CRUD_EVENTS.DELETE_STARTED, [this._record, this._getRecordId(), {removePromise}]);
         }
         this._crudController.hideIndicator();
         this._crudController = null;
@@ -430,24 +431,24 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     private _readRecordBeforeMountNotify(): void {
         if (!this._readInMounting.isError) {
-            this._notifyHandler('readSuccessed', [this._readInMounting.result]);
+            this._notifyHandler(CRUD_EVENTS.READ_SUCCESSED, [this._readInMounting.result]);
 
             // перерисуемся
             this._readHandler(this._record);
         } else {
-            this._notifyHandler('readFailed', [this._readInMounting.result]);
+            this._notifyHandler(CRUD_EVENTS.READ_FAILED, [this._readInMounting.result]);
         }
         this._readInMounting = null;
     }
 
     private  _createRecordBeforeMountNotify(): void {
         if (!this._createdInMounting.isError) {
-            this._notifyHandler('createSuccessed', [this._createdInMounting.result]);
+            this._notifyHandler(CRUD_EVENTS.CREATE_SUCCESSED, [this._createdInMounting.result]);
 
             // зарегистрируем пендинг, перерисуемся
             this._createHandler(this._record);
         } else {
-            this._notifyHandler('createFailed', [this._createdInMounting.result]);
+            this._notifyHandler(CRUD_EVENTS.CREATE_FAILED, [this._createdInMounting.result]);
         }
         this._createdInMounting = null;
     }
@@ -634,7 +635,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         const updateCallback = (result) => {
             // if result is true, custom update called and we dont need to call original update.
             if (result !== true) {
-                this._notifyToOpener('updateStarted', [this._record, this._getRecordId()]);
+                this._notifyToOpener(CRUD_EVENTS.UPDATE_STARTED, [this._record, this._getRecordId()]);
                 this._startFormOperations('save').then(() => {
                     const res = this._update(config).then(this._getData);
                     updateResult.dependOn(res);
@@ -646,7 +647,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         }
 
         // maybe anybody want to do custom update. check it.
-        const result = this._notify('requestCustomUpdate', [], {bubbling: true});
+        const result = this._notify('requestCustomUpdate', [this._record], {bubbling: true});
 
          // pending waiting while update process finished
          this._updatePromise = new Deferred();
@@ -781,6 +782,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     private _onCloseErrorDialog(): void {
+        this._hideError();
         if (!this._record) {
             this._notify('close', [], {bubbling: true});
         }
@@ -793,13 +795,13 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     private _notifyToOpener(eventName: string, args: [Model, string | number, object?]): void {
         const handlers = {
-            'updatestarted': '_getUpdateStartedData',
-            'updatesuccessed': '_getUpdateSuccessedData',
-            'createsuccessed': '_getCreateSuccessedData',
-            'readsuccessed': '_getReadSuccessedData',
-            'deletestarted': '_getDeleteStartedData',
-            'deletesuccessed': '_getDeleteSuccessedData',
-            'updatefailed': '_getUpdateFailedData'
+            [CRUD_EVENTS.CREATE_SUCCESSED]: '_getCreateSuccessedData',
+            [CRUD_EVENTS.UPDATE_STARTED]: '_getUpdateStartedData',
+            [CRUD_EVENTS.UPDATE_SUCCESSED]: '_getUpdateSuccessedData',
+            [CRUD_EVENTS.READ_SUCCESSED]: '_getReadSuccessedData',
+            [CRUD_EVENTS.DELETE_STARTED]: '_getDeleteStartedData',
+            [CRUD_EVENTS.DELETE_SUCCESSED]: '_getDeleteSuccessedData',
+            [CRUD_EVENTS.UPDATE_FAILED]: '_getUpdateFailedData'
         };
         const resultDataHandlerName = handlers[eventName.toLowerCase()];
         if (this[resultDataHandlerName]) {
@@ -810,7 +812,7 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     private _getUpdateStartedData(record: Model, key: string): IResultData {
         const config = this._getUpdateSuccessedData(record, key);
-        config.formControllerEvent = 'updateStarted';
+        config.formControllerEvent = CRUD_EVENTS.UPDATE_STARTED;
         return config;
     }
 
@@ -825,7 +827,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     private _getDeleteStartedData(record: Model, key: string, config: object): IResultData {
-        return this._getResultData('deletestarted', record, config);
+        return this._getResultData(CRUD_EVENTS.DELETE_STARTED, record, config);
     }
 
     private _getDeleteSuccessedData(record: Model): IResultData {
@@ -846,7 +848,7 @@ class FormController extends Control<IFormController, IReceivedState> {
             error,
             isNewRecord: this._isNewRecord
         };
-        return this._getResultData('updateFailed', record, additionalData);
+        return this._getResultData(CRUD_EVENTS.UPDATE_FAILED, record, additionalData);
     }
 
     private _getResultData(eventName: string, record: Model, additionalData?: IAdditionalData): IResultData {

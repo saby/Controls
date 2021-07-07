@@ -35,6 +35,7 @@
                            observerName="monthList"
                            data="{{ itemTemplate.itemData.item.getRawData() }}">
                         <ws:partial
+                              attr:class="controls-MonthList__template"
                               template="{{_getTemplate(itemTemplate.itemData.item)}}"
                               date="{{_idToDate(itemTemplate.itemData.item.id)}}"
                               extData="{{ _extData.getData(itemTemplate.itemData.item.id) }}"

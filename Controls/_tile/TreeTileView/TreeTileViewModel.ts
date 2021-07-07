@@ -63,7 +63,7 @@ var TreeTileViewModel = TreeViewModel.extend({
             current.zoomCoefficient = hoveredItem.zoomCoefficient;
         }
 
-        current = cMerge(current, this.getTileItemData());
+        current = cMerge(current, this.getTileItemData(dispItem));
         if (current.dispItem.isNode && current.dispItem.isNode()) {
             current.itemsHeight = this._options.nodesHeight || current.itemsHeight;
         }
@@ -93,8 +93,8 @@ var TreeTileViewModel = TreeViewModel.extend({
         return (itemData.item.get && itemData.item.get(itemData.displayProperty) || itemData.scalingMode !== 'none')
             && (!!itemData.isActive() || !!itemData.isSwiped() || !!itemData.isHovered);
     },
-    getTileItemData: function () {
-        var opts = this._tileModel.getTileItemData();
+    getTileItemData: function (dispItem) {
+        var opts = this._tileModel.getTileItemData(dispItem);
         opts.defaultFolderWidth = DEFAULT_FOLDER_WIDTH;
         if (this._options.tileSize) {
             opts.tileSize = this._options.tileSize;
@@ -140,6 +140,19 @@ var TreeTileViewModel = TreeViewModel.extend({
     setActiveItem: function (itemData) {
         this._tileModel.setActiveItem(itemData);
         TreeTileViewModel.superclass.setActiveItem.apply(this, arguments);
+    },
+
+    setDragItemData(itemData: any): void {
+        // Когда д-н-д начали перетаскивание увеличенной плитки, то все эти свойства сохраняются в draggedItemData.
+        // Из-за этого перетаскиваемая плитка остается увеличенной с position=fixed и не меняет позицию
+        itemData.isFixed = false;
+        itemData.isHovered = false;
+        itemData.position = null;
+        itemData.canShowActions = false;
+        itemData.isAnimated = false;
+        itemData.zoomCoefficient = null;
+
+        TreeTileViewModel.superclass.setDragItemData.apply(this, arguments);
     },
 
     setDragEntity: function (entity) {

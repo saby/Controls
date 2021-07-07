@@ -1,10 +1,10 @@
 define(
     [
-        'Controls/Utils/HasScrollbar'
+        'Controls/sizeUtils'
     ],
-    function (HasScrollbar) {
+    function (sizeUtils) {
         'use strict';
-        let hasScrollbar = HasScrollbar.hasScrollbar;
+        let hasScrollbar = sizeUtils.hasScrollbar;
         describe('Controls/Utils/HasScrollbar', function () {
             describe('hasScrollbar', function () {
                 it('hasScrollbar width', function () {

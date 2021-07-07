@@ -1,0 +1,1 @@
+<ws:partial template="{{_options.content}}" attr:class="{{!_isContentVisible ? 'ws-hidden'}}"/>

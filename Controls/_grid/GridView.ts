@@ -1,16 +1,19 @@
 import {TemplateFunction} from 'UI/Base';
-import {ListView} from 'Controls/list';
+import {ListView, CssClassList} from 'Controls/list';
 import * as GridLayoutUtil from 'Controls/_grid/utils/GridLayoutUtil';
 import * as GridIsEqualUtil from 'Controls/_grid/utils/GridIsEqualUtil';
 import {TouchContextField as isTouch} from 'Controls/context';
-import tmplNotify = require('Controls/Utils/tmplNotify');
-import {CssClassList} from '../Utils/CssClassList';
+import {tmplNotify} from 'Controls/eventUtils';
+import {prepareEmptyEditingColumns} from './utils/GridEmptyTemplateUtil';
 import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS, ColumnScroll} from './resources/ColumnScroll';
 import {JS_SELECTORS as DRAG_SCROLL_JS_SELECTORS, DragScroll} from './resources/DragScroll';
-import getDimensions = require("Controls/Utils/getDimensions");
+import {shouldAddActionsCell, shouldDrawColumnScroll, getAllowedSwipeType, isInLeftSwipeRange} from 'Controls/_grid/utils/GridColumnScrollUtil';
+
+import {getDimensions} from 'Controls/sizeUtils';
 
 import * as GridViewTemplateChooser from 'wml!Controls/_grid/GridViewTemplateChooser';
-import * as GridTemplate from 'wml!Controls/_grid/layout/common/GridView';
+import * as GridTemplate from 'wml!Controls/_grid/layout/grid/GridView';
+import * as TableTemplate from 'wml!Controls/_grid/layout/table/GridView';
 
 import * as GridHeader from 'wml!Controls/_grid/layout/grid/Header';
 import * as TableHeader from 'wml!Controls/_grid/layout/table/Header';
@@ -27,7 +30,6 @@ import * as ColumnTpl from 'wml!Controls/_grid/layout/common/ColumnContent';
 import * as GroupTemplate from 'wml!Controls/_grid/GroupTemplate';
 
 import {Logger} from 'UI/Utils';
-import {shouldAddActionsCell, shouldDrawColumnScroll} from 'Controls/_grid/utils/GridColumnScrollUtil';
 import { stickyLadderCellsCount } from 'Controls/_grid/utils/GridLadderUtil';
 import {SyntheticEvent} from "Vdom/Vdom";
 
@@ -48,6 +50,10 @@ var
         },
 
         getGridTemplateColumns(self, columns: Array<{width?: string}>, hasMultiSelect: boolean): string {
+            if (!columns) {
+                Logger.warn('You must set "columns" option to make grid work correctly!', self);
+                return '';
+            }
             let initialWidths = columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth()));
             let columnsWidths: string[] = [];
             const stickyCellsCount = stickyLadderCellsCount(columns, self._options.stickyColumn, self._options.listModel.getDragItemData());
@@ -73,9 +79,22 @@ var
         },
 
         setBaseTemplates(self: GridView, isFullGridSupport: boolean): void {
-            self._gridTemplate = GridTemplate;
             self._baseHeaderTemplate = isFullGridSupport ? GridHeader : TableHeader;
             self._baseResultsTemplate = isFullGridSupport ? GridResults : TableResults;
+
+            // Несмотря на то, что шаблон грида и таблицы отличается тольок типом тегов блока-обертки
+            // (div или table), использовать один шаблон нельзя.
+            // На этапе построения страницы браузер не воспринимает стили элементов и считает верстку
+            // div[display: table]>tr>td>div невалидной, т.к. tr не может лежать вне таблицы.
+            // Дальнейшее поведение разнится от браузера к браузеру:
+            // Chrome кладет невалидную верстку рядом с валидной, div[display: table], tr>td>div;
+            // IE вырезает невалидное, div[display: table]>div
+            // Эта особенность касается только тех случаев, когда верстка смешана изначально,
+            // если "находу" вставить tr в div, браузер пропустит проверки и принудительно вставит tr.
+            // Таким образом, ошибка будет заметна только при оживлении серверной верстки:
+            // с сервера прилетела верстка -> браузер поменял ее и отобразил -> верстка с сервера отличается
+            // от клиентской -> сгененрировалась новая верстка.
+            self._gridTemplate = isFullGridSupport ? GridTemplate : TableTemplate;
         },
 
         setHoveredCell(self, item, nativeEvent): void {
@@ -131,9 +150,7 @@ var
                             if (isOnMount && self._options.columnScrollStartPosition === 'end') {
                                 self._columnScrollController.setScrollPosition(newSizes.contentSize - newSizes.containerSize);
                             }
-                            self._contentSizeForHScroll = newSizes.contentSizeForScrollBar;
-                            self._horizontalScrollWidth = newSizes.scrollWidth;
-                            self._containerSize = newSizes.containerSize;
+                            self._saveColumnScrollSizes(newSizes);
                             self._updateColumnScrollData();
                             self._listModel?.setColumnScrollVisibility(self._isColumnScrollVisible());
                         }, true);
@@ -194,6 +211,7 @@ var
             _private.setGrabbing(self, false);
             self._dragScrollOverlayClasses = `${DRAG_SCROLL_JS_SELECTORS.OVERLAY} ${DRAG_SCROLL_JS_SELECTORS.OVERLAY_DEACTIVATED}`;
         },
+
         updateColumnScrollByOptions(self, oldOptions, newOptions): void {
             const columnScrollStatus = _private.actualizeColumnScroll(self, newOptions);
             if (columnScrollStatus === 'destroyed') {
@@ -203,17 +221,27 @@ var
             const stickyColumnsCountChanged = newOptions.stickyColumnsCount !== oldOptions.stickyColumnsCount;
             const multiSelectVisibilityChanged = newOptions.multiSelectVisibility !== oldOptions.multiSelectVisibility;
             const dragScrollingChanged = newOptions.dragScrolling !== oldOptions.dragScrolling;
+            let columnScrollChanged = false;
 
-            if (stickyColumnsCountChanged || multiSelectVisibilityChanged || self._columnsHaveBeenChanged) {
+            if (columnScrollStatus === 'actual') {
+                const isColumnScrollVisible = self._isColumnScrollVisible();
+                columnScrollChanged = self._listModel.getColumnScrollVisibility() !== isColumnScrollVisible;
+                if (columnScrollChanged) {
+                    self._listModel.setColumnScrollVisibility(isColumnScrollVisible);
+                }
+            }
+
+            if (columnScrollChanged ||
+                stickyColumnsCountChanged ||
+                multiSelectVisibilityChanged ||
+                self._columnsHaveBeenChanged) {
 
                 // Если горизонтльный скролл был только что создан, то он хранит актуальные размеры.
                 if (columnScrollStatus !== 'created') {
 
                     // Смена колонок может не вызвать событие resize на обёртке грида(ColumnScroll), если общая ширина колонок до обновления и после одинакова.
                     self._columnScrollController.updateSizes((newSizes) => {
-                        self._contentSizeForHScroll = newSizes.contentSizeForScrollBar;
-                        self._horizontalScrollWidth = newSizes.scrollWidth;
-                        self._containerSize = newSizes.containerSize;
+                        self._saveColumnScrollSizes(newSizes);
                         self._updateColumnScrollData();
                     }, true);
                 }
@@ -295,7 +323,7 @@ var
             this._listModel.setBaseItemTemplateResolver(this._resolveBaseItemTemplate.bind(this));
             this._listModel.setColumnTemplate(ColumnTpl);
             this._setResultsTemplate(cfg);
-            this._listModel.headerInEmptyListVisible = cfg.headerInEmptyListVisible;
+            this._listModel.setHeaderInEmptyListVisible(cfg.headerInEmptyListVisible);
 
             // Коротко: если изменить опцию модели пока gridView не построена, то они и не применятся.
             // Подробнее: GridView управляет почти всеми состояниями модели. GridControl создает модель и отдает ее
@@ -312,6 +340,7 @@ var
             // https://online.sbis.ru/opendoc.html?guid=756c49a6-13da-4e54-9333-fdd7a7fb6461
             this._getFooterClasses = this._getFooterClasses.bind(this);
             this._getFooterStyles = this._getFooterStyles.bind(this);
+            this._prepareColumnsForEmptyEditingTemplate = this._prepareColumnsForEmptyEditingTemplate.bind(this);
 
             return resultSuper;
         },
@@ -328,6 +357,11 @@ var
             GridView.superclass._beforeUpdate.apply(this, arguments);
             const self = this;
             const isColumnsScrollChanged = this._options.columnScroll !== newCfg.columnScroll;
+            if (this._options.headerInEmptyListVisible !== newCfg.headerInEmptyListVisible) {
+                if (this._listModel) {
+                    this._listModel.setHeaderInEmptyListVisible(newCfg.headerInEmptyListVisible);
+                }
+            }
             if (this._options.resultsPosition !== newCfg.resultsPosition) {
                 if (this._listModel) {
                     this._listModel.setResultsPosition(newCfg.resultsPosition);
@@ -340,7 +374,7 @@ var
                 this._listModel.setStickyColumnsCount(newCfg.stickyColumnsCount);
                 this._columnScrollController?.setStickyColumnsCount(newCfg.stickyColumnsCount, true);
             }
-            if (this._options.multiSelectVisibility !== newCfg.stickyColumnsCount) {
+            if (this._options.multiSelectVisibility !== newCfg.multiSelectVisibility) {
                 this._columnScrollController?.setMultiSelectVisibility(newCfg.multiSelectVisibility, true);
             }
 
@@ -370,9 +404,6 @@ var
             // TODO: Удалить по задаче https://online.sbis.ru/opendoc.html?guid=2c5630f6-814a-4284-b3fb-cc7b32a0e245.
             if (this._options.rowSeparatorVisibility !== newCfg.rowSeparatorVisibility) {
                 this._listModel.setRowSeparatorVisibility(newCfg.rowSeparatorVisibility);
-            }
-            if (this._options.rowSeparatorSize !== newCfg.rowSeparatorSize) {
-                this._listModel.setRowSeparatorSize(newCfg.rowSeparatorSize);
             }
             if (this._options.columnSeparatorSize !== newCfg.columnSeparatorSize) {
                 this._listModel.setColumnSeparatorSize(newCfg.columnSeparatorSize);
@@ -428,7 +459,8 @@ var
 
             // Для предотвращения скролла одной записи в таблице с экшнами.
             // _options._needBottomPadding почему-то иногда не работает.
-            if (this._options.itemActionsPosition === 'outside' &&
+            if ((this._listModel.getCount() || this._listModel.getEditingItemData()) &&
+                this._options.itemActionsPosition === 'outside' &&
                 !this._options._needBottomPadding &&
                 this._options.resultsPosition !== 'bottom') {
                 classList = classList.add(`controls-GridView__footer__itemActionsV_outside_theme-${this._options.theme}`);
@@ -456,9 +488,7 @@ var
                 const columnScrollStatus = _private.actualizeColumnScroll(this, this._options);
                 if (columnScrollStatus === 'actual') {
                     this._columnScrollController.updateSizes((newSizes) => {
-                        this._contentSizeForHScroll = newSizes.contentSizeForScrollBar;
-                        this._horizontalScrollWidth = newSizes.scrollWidth;
-                        this._containerSize = newSizes.containerSize;
+                        this._saveColumnScrollSizes(newSizes);
                         this._updateColumnScrollData();
                     });
                 }
@@ -635,6 +665,13 @@ var
                 scrollPosition: this._horizontalScrollPosition
             });
         },
+        _saveColumnScrollSizes(newSizes): void {
+            this._contentSizeForHScroll = newSizes.contentSizeForScrollBar;
+            this._horizontalScrollWidth = newSizes.scrollWidth;
+            this._containerSize = newSizes.containerSize;
+            this._fixedColumnsWidth = newSizes.fixedColumnsWidth;
+            this._scrollableColumnsWidth = newSizes.scrollableColumnsWidth;
+        },
         _getCorrectElement(element: HTMLElement): HTMLElement {
             // В FF целью события может быть элемент #text, у которого нет метода closest, в этом случае рассматриваем как цель его родителя.
             if (element && !element.closest && element.parentElement) {
@@ -665,9 +702,7 @@ var
                 const columnScrollStatus = _private.actualizeColumnScroll(this, this._options);
                 if (columnScrollStatus === 'actual') {
                     this._columnScrollController.updateSizes((newSizes) => {
-                        this._contentSizeForHScroll = newSizes.contentSizeForScrollBar;
-                        this._horizontalScrollWidth = newSizes.scrollWidth;
-                        this._containerSize = newSizes.containerSize;
+                        this._saveColumnScrollSizes(newSizes);
                         this._updateColumnScrollData();
                     });
                 }
@@ -686,7 +721,15 @@ var
                 if (startBy === 'mouse') {
                     isGrabbing = this._dragScrollController.onViewMouseDown(e);
                 } else {
-                    isGrabbing = this._dragScrollController.onViewTouchStart(e);
+                    // clientX - координата относительно документа, чтобы получить координату
+                    // относиттельно начала списка, нужно учесть отступ самого списка
+                    const touchClientX = e.nativeEvent.touches[0].clientX;
+                    const containerLeft = this._children.columnScrollContainer.getBoundingClientRect().left;
+                    if (!isInLeftSwipeRange(this._fixedColumnsWidth, this._scrollableColumnsWidth, touchClientX - containerLeft)) {
+                        isGrabbing = this._dragScrollController.onViewTouchStart(e);
+                    } else {
+                        this._leftSwipeCanBeStarted = true;
+                    }
                 }
                 _private.setGrabbing(this, isGrabbing);
             }
@@ -700,6 +743,9 @@ var
                     newPosition = this._dragScrollController.onViewTouchMove(e);
                 }
                 if (newPosition !== null) {
+                    if (startBy === 'touch') {
+                        this._notify('closeSwipe', []);
+                    }
                     this._columnScrollController.setScrollPosition(newPosition);
                     this._horizontalScrollPosition = this._columnScrollController.getScrollPosition();
                     this._updateColumnScrollData();
@@ -712,6 +758,7 @@ var
                     this._dragScrollController.onViewMouseUp(e);
                 } else {
                     this._dragScrollController.onViewTouchEnd(e);
+                    this._leftSwipeCanBeStarted = false;
                 }
                 _private.setGrabbing(this, false);
             }
@@ -739,9 +786,49 @@ var
         },
         _onDragScrollOverlayTouchEnd(e) {
             this._dragScrollController?.onOverlayTouchEnd(e);
+            this._leftSwipeCanBeStarted = false;
         },
         _onDragScrollOverlayMouseLeave(e) {
             this._dragScrollController?.onOverlayMouseLeave(e);
+        },
+        _onItemSwipe(event, itemData) {
+            event.stopPropagation();
+
+            if (this._isColumnScrollVisible() && this._dragScrollController) {
+                if (event.target.closest(`.${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}`)) {
+                    // По фиксированной колонке допустим только свайп вправо
+                    if (event.nativeEvent.direction === 'right') {
+                        this._notify('itemSwipe', [itemData, event]);
+                    }
+                } else {
+                    // Отличие настоящего свайпа от скроллирования условное.
+                    // Если свайп берет начало от определенной области в правой границе скроллируемой
+                    // области, то это свайп, иначе - скроллирование.
+                    // В скроллируемой области допустим только левфй свайп.
+                    if (this._leftSwipeCanBeStarted && event.nativeEvent.direction === 'left') {
+                        this._notify('itemSwipe', [itemData, event]);
+                    }
+                }
+            } else {
+                this._notify('itemSwipe', [itemData, event]);
+            }
+
+            this._leftSwipeCanBeStarted = false;
+        },
+
+        _prepareColumnsForEmptyEditingTemplate(columns, topSpacing, bottomSpacing) {
+            return prepareEmptyEditingColumns({
+                gridColumns: this._options.columns,
+                emptyTemplateSpacing: {
+                    top: topSpacing,
+                    bottom: bottomSpacing
+                },
+                isFullGridSupport: GridLayoutUtil.isFullGridSupport(),
+                hasMultiSelect: this._options.multiSelectVisibility !== 'hidden',
+                emptyTemplateColumns: columns,
+                itemPadding: this._options.itemPadding || {},
+                theme: this._options.theme
+            });
         }
     });
 

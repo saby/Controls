@@ -2,6 +2,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
    'use strict';
 
    describe('Controls/_tile/TreeTileView/TreeTileViewModel', function() {
+      const urlResolver = () => {};
       var
          treeTileViewModel = new TreeTileViewModel({
             tileMode: 'static',
@@ -11,6 +12,10 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             parentProperty: 'parent',
             nodeProperty: 'parent@',
             displayProperty: 'title',
+            imageWidthProperty: 'imageWidth',
+            imageHeightProperty: 'imageHeight',
+            imageFit: 'cover',
+            imageUrlResolver: urlResolver,
             groupingKeyCallback: function(item) {
                return item.get('group');
             },
@@ -213,7 +218,11 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             itemsHeight: 200,
             defaultShadowVisibility: 'visible',
             tileMode: 'dynamic',
-            displayProperty: 'title'
+            displayProperty: 'title',
+            imageWidthProperty: 'imageWidth',
+            imageHeightProperty: 'imageHeight',
+            imageFit: 'cover',
+            imageUrlResolver: urlResolver
          });
       });
       it('isScaled', function() {
@@ -266,6 +275,25 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             isSwiped: () => false
          };
          assert.isTrue(treeTileViewModel.isScaled(itemData));
+      });
+
+      it('setDragItemData', () => {
+         const itemData = {
+            isFixed: true,
+            isHovered: true,
+            position: { },
+            canShowActions: true,
+            isAnimated: true,
+            zoomCoefficient: 1
+         };
+
+         treeTileViewModel.setDragItemData(itemData);
+         assert.isFalse(itemData.isFixed);
+         assert.isFalse(itemData.isHovered);
+         assert.isNull(itemData.position);
+         assert.isFalse(itemData.canShowActions);
+         assert.isFalse(itemData.isAnimated);
+         assert.isNull(itemData.zoomCoefficient);
       });
    });
 });

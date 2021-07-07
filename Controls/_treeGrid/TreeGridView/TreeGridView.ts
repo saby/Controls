@@ -39,7 +39,7 @@ var
             // отключаем у подвала отступ под иконку узла. На шаблоне записи есть опция expanderIcon, отвечает стиль
             // иконки expander'а. Если она задана как none, экспандера не должно быть. Так может быть задано у всех записей.
             // Тогда у подвала нарисуется ненужный отступ, т.к. подвал ничего не знает про записи и их опции
-            if (this._options.expanderSize) {
+            if (this._options.expanderIcon !== 'none' && this._options.expanderSize) {
                 classes += ` controls-TreeGridView__footer__expanderPadding-${this._options.expanderSize.toLowerCase()}_theme-${this._options.theme}`;
             }
             return TreeGridView.superclass._getFooterClasses.apply(this, arguments) + classes;

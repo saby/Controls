@@ -1,6 +1,5 @@
 import rk = require('i18n!Controls');
-import BaseControl = require('Core/Control');
-import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
+import {proxyModelEvents} from 'Controls/eventUtils';
 import DateRangeModel from './DateRangeModel';
 import IDateLinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/LinkView/LinkView');
@@ -17,6 +16,8 @@ import {
  * @class Controls/_dateRange/LinkView
  * @extends Core/Control
  * @mixes Controls/interface/ILinkView
+ * @mixes Controls/_interface/IFontSize
+ * @mixes Controls/_interface/IFontColorStyle
  * @control
  * @private
  * @category Input
@@ -36,11 +37,13 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
    protected _styleClass = null;
    protected _valueEnabledClass = null;
    protected _viewMode = null;
-   protected _fontColorStyle = null;
+   protected _fontColorStyle: string = null;
+   protected _fontSize: string = null;
 
    protected _clearButtonVisible = null;
 
    protected _defaultFontColorStyle: string = 'link';
+   protected _defaultFontSize: string;
 
    constructor(options: ILinkViewControlOptions) {
       super(arguments);
@@ -51,6 +54,7 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
    }
 
    _beforeMount(options: ILinkViewControlOptions): void {
+      this._setDefaultFontSize(options.viewMode);
       this._rangeModel.update(options);
       this._updateCaption(options);
       this._updateStyles({}, options);
@@ -73,8 +77,13 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
           this._options.captionFormatter !== options.captionFormatter) {
          this._updateCaption(options);
       }
+      this._setDefaultFontSize(options.viewMode);
       this._updateStyles(this._options, options);
       this._updateClearButton(options);
+   }
+
+   private _setDefaultFontSize(viewMode: string): void {
+      this._defaultFontSize = viewMode === 'selector'? 'l' : 'm';
    }
 
    _beforeUnmount() {
@@ -122,10 +131,11 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
    }
 
    _updateStyles(options, newOption): void {
-      var changed = false;
-      if (options.viewMode !== newOption.viewMode || options.fontColorStyle !== newOption.fontColorStyle) {
+      this._fontColorStyle = newOption.fontColorStyle || this._defaultFontColorStyle;
+      this._fontSize = newOption.fontSize || this._defaultFontSize;
+      let changed = false;
+      if (options.viewMode !== newOption.viewMode) {
          this._viewMode = newOption.viewMode;
-         this._fontColorStyle = newOption.fontColorStyle || this._defaultFontColorStyle;
 
          changed = true;
       }
@@ -134,16 +144,15 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       }
       if (changed) {
          if (this._viewMode !== 'label') {
-            if (newOption.readOnly && !newOption.fontColorStyle) {
+            this._styleClass = '';
+            if (newOption.readOnly && !(newOption.fontColorStyle || newOption.fontSize)) {
                this._styleClass = `controls-DateLinkView__style-readOnly_theme-${newOption.theme}`;
-            } else {
-               this._styleClass =  `controls-text-${this._fontColorStyle}_theme-${newOption.theme}`;
-               if (newOption.clickable && !newOption.readOnly) {
-                  this._styleClass +=  ` controls-DateLinkView__style-clickable_theme-${newOption.theme}`;
-               }
-               if (this._viewMode === 'selector' && this._fontColorStyle === 'link' && !newOption.readOnly) {
-                  this._styleClass += ` controls-DateLinkView__style-hover_theme-${newOption.theme}`;
-               }
+            }
+            if (newOption.clickable && !newOption.readOnly) {
+               this._styleClass +=  ` controls-DateLinkView__style-clickable_theme-${newOption.theme}`;
+            }
+            if (this._viewMode === 'selector' && this._fontColorStyle === 'link' && !newOption.readOnly) {
+               this._styleClass += ` controls-DateLinkView__style-hover_theme-${newOption.theme}`;
             }
          } else {
             this._styleClass = null;

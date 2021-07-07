@@ -18,7 +18,7 @@ import {delay} from 'Types/function';
     * @class Controls/_decorator/Markup
     * @extends Core/Control
     * @category Decorator
-    * @author Кондаков Р.Н.
+    * @author Угриновский Н.В.
     * @public
     */
 
@@ -28,7 +28,7 @@ import {delay} from 'Types/function';
     * @class Controls/_decorator/Markup
     * @extends Core/Control
     * @category Decorator
-    * @author Кондаков Р.Н.
+    * @author Угриновский Н.В.
     * @public
     */
 

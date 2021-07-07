@@ -66,6 +66,15 @@ define(
             });
          });
 
+         it('historySaveMode', () => {
+            const cfg = Clone(config);
+            cfg.orientation = 'vertical';
+            cfg.historySaveMode = 'favorite';
+            let filterPanel = getFilterPanel(cfg);
+            filterPanel._beforeMount(cfg);
+            assert.isTrue(filterPanel._historySaveMode === 'favorite');
+         });
+
          it('Init::historyItems isReportPanel', function() {
             let historyConfig = {
                historyId: 'TEST_REPORT_PANEL_HISTORY_ID',

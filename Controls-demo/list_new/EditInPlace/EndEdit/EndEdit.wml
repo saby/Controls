@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper">
     <Controls.list:View
             name="list"
             keyProperty="id"

@@ -198,7 +198,7 @@
     height: 100%;
 }
 
-.controls-SelectedCollection__collection_singleLine_theme-@{themeName}::before,
+.controls-SelectedCollection__collection_singleLine::before,
 .controls-SelectedCollection__item_layout_twoColumns_theme-@{themeName}::before {
     content: '\200b';
     height: 100%;
@@ -206,8 +206,24 @@
     align-items: center;
 }
 
-.controls-SelectedCollection__collection_singleLine_theme-@{themeName}::before {
+.controls-SelectedCollection__collection_singleLine_fontSize-s_theme-@{themeName}::before {
+    font-size: @font-size_s_input;
+}
+
+.controls-SelectedCollection__collection_singleLine_fontSize-m_theme-@{themeName}::before {
     font-size: @font-size_m_input;
+}
+
+.controls-SelectedCollection__collection_singleLine_fontSize-l_theme-@{themeName}::before {
+    font-size: @font-size_l_input;
+}
+
+.controls-SelectedCollection__collection_singleLine_fontSize-xl_theme-@{themeName}::before {
+    font-size: @font-size_xl_input;
+}
+
+.controls-SelectedCollection__collection_singleLine_fontSize-2xl_theme-@{themeName}::before {
+    font-size: @font-size_2xl_input;
 }
 
 .controls-SelectedCollection__collectionItem_layout_oneRow_theme-@{themeName} {

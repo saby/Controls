@@ -36,7 +36,8 @@ class Store implements IStore {
      * Получение текущего стейта
      */
     getState(): ICtxState {
-        return this.state[this.state.activeContext] as ICtxState;
+        const state = this.state[this.state.activeContext] || {};
+        return state as ICtxState;
     }
 
     /**
@@ -146,7 +147,10 @@ class Store implements IStore {
     static getInstance(): Store {
         if (!Store.instance) {
             Store.instance = new Store();
-            Store.instance.state = {};
+            Store.instance.state = {
+                activeContext: 'global',
+                global: {}
+            };
         }
         return Store.instance;
     }

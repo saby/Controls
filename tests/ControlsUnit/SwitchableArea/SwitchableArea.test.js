@@ -7,18 +7,18 @@ define([
    var SwitchArea;
    var testItems = [
       {
-         id: '1'
+         key: '1'
       }, {
          key: '2'
       }, {
-         id: '3'
+         key: '3'
       }, {
          key: 0
       }
    ];
    var additionalTestItems = [
       {
-         id: '1',
+         key: '1',
          title: 'title'
       }
    ];

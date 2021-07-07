@@ -1,5 +1,4 @@
 <ws:partial template="{{_options.content}}" scope="{{ _options }}"
-            on:managerPopupBeforeDestroyed="_popupBeforeDestroyedHandler()"
             on:serviceError="_openDialogHandler()"
             on:openInfoBox="_openInfoBoxHandler()"
             on:closeInfoBox="_closeInfoBoxHandler()"

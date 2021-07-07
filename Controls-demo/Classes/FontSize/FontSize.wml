@@ -9,5 +9,7 @@
         <div class="controls-fontsize-3xl_theme-{{_options.theme}}">controls-fontsize-3xl_theme-{{_options.theme}}</div>
         <div class="controls-fontsize-4xl_theme-{{_options.theme}}">controls-fontsize-4xl_theme-{{_options.theme}}</div>
         <div class="controls-fontsize-5xl_theme-{{_options.theme}}">controls-fontsize-5xl_theme-{{_options.theme}}</div>
+        <div class="controls-fontsize-6xl_theme-{{_options.theme}}">controls-fontsize-6xl_theme-{{_options.theme}}</div>
+        <div class="controls-fontsize-7xl_theme-{{_options.theme}}">controls-fontsize-7xl_theme-{{_options.theme}}</div>
     </div>
 </div>

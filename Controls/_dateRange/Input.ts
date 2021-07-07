@@ -1,16 +1,14 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import {isValidDateRange} from 'Controls/validate';
 import {IDateRangeValidators, IDateRangeValidatorsOptions} from 'Controls/interface';
-import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
+import {proxyModelEvents} from 'Controls/eventUtils';
 import DateRangeModel from './DateRangeModel';
-import {getRangeValueValidators} from 'Controls/Utils/DateControlsUtils';
-import {StringValueConverter} from 'Controls/input';
-import {IDateTimeMask} from 'Controls/input';
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {Range, Popup as PopupUtil} from 'Controls/dateUtils';
+import {StringValueConverter, IDateTimeMask, ISelection} from 'Controls/input';
+import {tmplNotify} from 'Controls/eventUtils';
 import template = require('wml!Controls/_dateRange/Input/Input');
-import getOptions from 'Controls/Utils/datePopupUtils';
-import {ISelection} from 'Controls/input';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
+import {Logger} from 'UI/Utils';
 
 interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
 }
@@ -66,10 +64,14 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     protected _template: TemplateFunction = template;
     protected _proxyEvent: Function = tmplNotify;
 
+    private _dependenciesTimer: DependencyTimer = null;
+    private _loadCalendarPopupPromise: Promise<unknown> = null;
+
     protected _rangeModel;
 
     protected _startValueValidators: Function[] = [];
     protected _endValueValidators: Function[] = [];
+    private _shouldValidate: boolean;
 
     protected _beforeMount(options: IDateRangeInputOptions) {
         this._rangeModel = new DateRangeModel({dateConstructor: this._options.dateConstructor});
@@ -100,12 +102,12 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     openPopup(event: SyntheticEvent): void {
         var cfg = {
-            ...getOptions.getCommonOptions(this),
+            ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
             className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
             templateOptions: {
-                ...getOptions.getDateRangeTemplateOptions(this),
+                ...PopupUtil.getDateRangeTemplateOptions(this),
                 selectionType: this._options.selectionType,
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
@@ -119,14 +121,50 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         this._children.opener.open(cfg);
     }
 
+    protected _mouseEnterHandler(): void {
+        if (!this._dependenciesTimer) {
+            this._dependenciesTimer = new DependencyTimer();
+        }
+        this._dependenciesTimer.start(this._loadDependencies);
+    }
+
+    protected _mouseLeaveHandler(): void {
+        this._dependenciesTimer?.stop();
+    }
+
+    private _loadDependencies(): Promise<unknown> {
+        try {
+            if (!this._loadCalendarPopupPromise) {
+                this._loadCalendarPopupPromise = import('Controls/datePopup')
+                    .then((datePopup) => datePopup.loadCSS());
+            }
+            return this._loadCalendarPopupPromise;
+        } catch (e) {
+            Logger.error('shortDatePicker:', e);
+        }
+    }
+
     private _onResultWS3(event: SyntheticEvent, startValue: Date, endValue: Date): void {
         this._onResult(startValue, endValue);
+    }
+
+    protected _afterUpdate(options): void {
+        if (this._shouldValidate) {
+            this._shouldValidate = false;
+            this._children.startValueField.validate();
+            this._children.endValueField.validate();
+        }
     }
 
     private _onResult(startValue: Date, endValue: Date): void {
         this._rangeModel.setRange(startValue, endValue);
         this._children.opener.close();
         this._notifyInputCompleted();
+        /**
+         * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
+         * Валидация срабатывает раньше, чем значение меняется, поэтому откладываем ее до _afterUpdate
+         */
+        this._shouldValidate = true;
     }
 
     protected _inputControlHandler(event: SyntheticEvent, value: unknown, displayValue: string, selection: ISelection): void {
@@ -156,12 +194,12 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     private _updateStartValueValidators(validators?: Function[]): void {
         const startValueValidators: Function[] = validators || this._options.startValueValidators;
-        this._startValueValidators = getRangeValueValidators(startValueValidators, this._rangeModel, this._rangeModel.startValue);
+        this._startValueValidators = Range.getRangeValueValidators(startValueValidators, this._rangeModel, this._rangeModel.startValue);
     }
 
     private _updateEndValueValidators(validators?: Function[]): void {
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
-        this._endValueValidators = getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
+        this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
     }
 
     static _theme: string[] = ['Controls/dateRange', 'Controls/Classes'];

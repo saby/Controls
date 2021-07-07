@@ -50,11 +50,19 @@ class SliderBase extends Control<ISliderBaseOptions> {
         }
     }
 
-    _onMouseUp(event: SyntheticEvent<MouseEvent>): void {
+    protected _onDocumentDragEnd(event: SyntheticEvent<MouseEvent>): void {
         if (!this._options.readOnly) {
             this._isDrag = false;
         }
     }
+
+    protected _onDragStartHandler(e: SyntheticEvent<Event>, dragObject): void {
+        this._isDrag = true;
+        this._onDragNDropHandler(e, dragObject);
+    }
+
+    protected _onDragNDropHandler(e: SyntheticEvent<Event>, dragObject): void {}
+
     static getDefaultOptions() {
         return {
             size: 'm',

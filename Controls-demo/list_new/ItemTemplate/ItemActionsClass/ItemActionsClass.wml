@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__list_new-itemTepmlate-NoHighlightOnHover">
+    <Controls.list:View keyProperty="id"
+                        source="{{_viewSource}}"
+                        itemActions="{{_itemActions}}">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate"
+                        itemActionsClass="controls-itemActionsV_position_topRight"/>
+        </ws:itemTemplate>
+    </Controls.list:View>
+</div>

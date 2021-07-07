@@ -42,7 +42,7 @@
 </ws:template>
 
 <ws:partial template="Controls/list:ItemTemplate"
-            itemData="{{itemData}}">
+            scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial template="itemContentTpl"
                   scope="{{contentTemplate}}"

@@ -1,0 +1,50 @@
+<div class="controls-Search__expandable-search_theme-{{_options.theme}}">
+    <ws:if data="{{_expanded}}">
+        <div class="controls-Search__expandable-container_theme-{{_options.theme}}
+                    controls-Search__expandable-container-inlineWidth-{{_options.inlineWidth}}_theme-{{_options.theme}}">
+            <div class="controls-Search__expandable-input_theme-{{_options.theme}}
+                        controls-Search__expandable-input-inlineWidth-{{_options.inlineWidth}}_theme-{{_options.theme}}">
+                <ws:partial template="{{'Controls/search:Input'}}"
+                            name="searchInput"
+                            searchButtonVisible="{{_options.searchButtonVisible}}"
+                            constraint="{{_options.constraint}}"
+                            maxLength="{{_options.maxLength}}"
+                            trim="{{_options.trim}}"
+                            autoComplete="{{_options.autoComplete}}"
+                            leftFieldTemplate="{{_options.leftFieldTemplate}}"
+                            placeholder="{{_options.placeholder}}"
+                            rightFieldTemplate="{{_options.rightFieldTemplate}}"
+                            selectOnClick="{{_options.selectOnClick}}"
+                            textAlign="{{_options.textAlign}}"
+                            tooltip="{{_options.tooltip}}"
+                            borderStyle="{{_options.borderStyle}}"
+                            borderVisibility="{{_options.borderVisibility}}"
+                            fontColorStyle="{{_options.fontColorStyle}}"
+                            fontSize="{{_options.fontSize}}"
+                            inlineHeight="{{_options.inlineHeight}}"
+                            horizontalPadding="{{_options.horizontalPadding}}"
+                            tagStyle="{{_options.tagStyle}}"
+                            validationStatus="{{_options.validationStatus}}"
+                            inputCallback="{{_options.inputCallback}}"
+                            readOnly="{{_options.readOnly}}"
+                            theme="{{_options.theme}}"
+                            value="{{_options.value}}"
+                            attr:class="controls-Search__expandable-input controls-Search__input-inlineWidth-{{_options.inlineWidth}}_theme-{{_options.theme}}"
+                            on:searchClick="_tmplNotify('searchClick')"
+                            on:resetClick="_tmplNotify('resetClick')"
+                            on:valueChanged="_tmplNotify('valueChanged')"/>
+                <div class="controls-Search__expandable-reset-button controls-Search__expandable-reset-button_theme-{{_options.theme}} icon-Close"
+                     on:click="_handleCloseClick()">
+                </div>
+            </div>
+        </div>
+    </ws:if>
+    <ws:else>
+        <div class="controls-Search__expandable-button-container_theme-{{_options.theme}}">
+            <div class="controls-Search__expandable-button controls-Search__expandable-button_theme-{{_options.theme}}
+                    controls-Search__button_{{_options.readOnly ? 'readOnly' : 'enabled'}}
+                    controls-Search__searchButton_theme_{{_options.theme}}_color icon-Search2"
+                 on:click="_handleOpenClick()"></div>
+        </div>
+    </ws:else>
+</div>

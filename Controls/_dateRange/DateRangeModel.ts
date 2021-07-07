@@ -1,7 +1,7 @@
 import cExtend = require('Core/core-simpleExtend');
 import {ObservableMixin, VersionableMixin, DateTime} from 'Types/entity';
-import dateRangeUtil = require('Controls/Utils/DateRangeUtil');
-import DateUtil = require('Controls/Utils/Date');
+import getPeriodType = require('Core/helpers/Date/getPeriodType');
+import {Range, Base} from 'Controls/dateUtils';
 import CalendarUtils from './Utils';
 
 /**
@@ -18,8 +18,8 @@ import CalendarUtils from './Utils';
  */
 var _private = {
    setStartValue: function(self, value) {
-      const startValueResetTime = DateUtil.normalizeDate(self._startValue);
-      if (DateUtil.isDatesEqual(startValueResetTime, value)) {
+      const startValueResetTime = Base.normalizeDate(self._startValue);
+      if (Base.isDatesEqual(startValueResetTime, value)) {
          return false;
       }
       self._startValue = value;
@@ -27,8 +27,8 @@ var _private = {
       return true;
    },
    setEndValue: function(self, value) {
-      const endValueResetTime = DateUtil.normalizeDate(self._endValue);
-      if (DateUtil.isDatesEqual(endValueResetTime, value)) {
+      const endValueResetTime = Base.normalizeDate(self._endValue);
+      if (Base.isDatesEqual(endValueResetTime, value)) {
          return false;
       }
       self._endValue = value;
@@ -59,11 +59,11 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
    update: function(options) {
       this._options = options;
       var changed = false;
-      if (options.hasOwnProperty('startValue') && !DateUtil.isDatesEqual(options.startValue, this._startValue)) {
+      if (options.hasOwnProperty('startValue') && !Base.isDatesEqual(options.startValue, this._startValue)) {
          this._startValue = options.startValue;
          changed = true;
       }
-      if (options.hasOwnProperty('endValue') && !DateUtil.isDatesEqual(options.endValue, this._endValue)) {
+      if (options.hasOwnProperty('endValue') && !Base.isDatesEqual(options.endValue, this._endValue)) {
          this._endValue = options.endValue;
          changed = true;
       }
@@ -107,13 +107,77 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
       }
    },
 
+   _hitsDisplayedRange(date: Date, index: Number): boolean {
+      // Проверяем второй элемент массива на null. Если задан null в опции displayedRanges
+      // то можно бесконечно переключать период.
+      return this._options.displayedRanges[index][0] <= date &&
+          (this._options.displayedRanges[index][1] === null || this._options.displayedRanges[index][1] >= date);
+   },
+
+   _getDisplayedRange(range, direction): [Date, Date] {
+      const nextRange = Range.shiftPeriod(range[0], range[1], direction);
+      if (!this._options.displayedRanges) {
+         return nextRange;
+      }
+      // Берем любую из дат, т.к. нам нужно дата с точностью в год
+      const currentDate = new Date(range[0].getFullYear(), 0);
+      const nextDate = new Date(nextRange[0].getFullYear(), 0);
+
+      let arrayIndex;
+      const findCurrentDateArrayIndex = () => {
+         for (let index = 0; index < this._options.displayedRanges.length; index++) {
+            if (this._hitsDisplayedRange(currentDate, index)) {
+               return index;
+            }
+         }
+      };
+      arrayIndex = findCurrentDateArrayIndex();
+
+      // Проверяем год, на который переходим. Если оне не попадает в тот же массив что и текущий год - ищем ближайших
+      // год на который можно перейти в соседнем массиве
+      if (this._hitsDisplayedRange(nextDate, arrayIndex)) {
+         return nextRange;
+      }
+
+      // Высчитываем разница между startValue и endValue, чтобы оставить такой же промежуток
+      const periodType = getPeriodType(range[0], range[1]);
+      const intervals = {
+         month: 1,
+         quarter: 3,
+         halfyear: 6,
+         year: 12
+      };
+      const currentInterval = intervals[periodType];
+
+      const adjacentArray = this._options.displayedRanges[arrayIndex + direction];
+
+      if (this._options.displayedRanges[arrayIndex + direction]) {
+         let year, startValueMonth, endValueMonth;
+         const monthsInYear = 12;
+         if (direction === 1) {
+            startValueMonth = 0;
+            endValueMonth = currentInterval;
+            year = adjacentArray[0].getFullYear();
+         } else {
+            startValueMonth = monthsInYear - currentInterval;
+            endValueMonth = monthsInYear;
+            year = adjacentArray[1].getFullYear();
+         }
+         return [
+             new Date(year, startValueMonth, 1),
+             new Date(year, endValueMonth, 0)
+         ];
+      }
+      return range;
+   },
+
    /**
     * If you select a period of several whole months, quarters, six months, or years,
     * then shift it for the same period forward.
     */
    _shiftRange(direction: number): void {
       let range = this._prepareRange();
-      range = dateRangeUtil.shiftPeriod(range[0], range[1], direction);
+      range = this._getDisplayedRange(range, direction);
       if (this._hasRanges()) {
          range = this._rangeSelected(range);
       }
@@ -121,7 +185,7 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
    },
 
    shiftForward: function() {
-      this._shiftRange(dateRangeUtil.SHIFT_DIRECTION.FORWARD);
+      this._shiftRange(Range.SHIFT_DIRECTION.FORWARD);
    },
 
    /**
@@ -129,13 +193,13 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
     * it shifts it for the same period back.
     */
    shiftBack: function() {
-      this._shiftRange(dateRangeUtil.SHIFT_DIRECTION.BACK);
+      this._shiftRange(Range.SHIFT_DIRECTION.BACK);
    },
 
    _prepareRange(): Date[] {
       let range;
-      if (this._hasRanges()) {
-         //Если заданы кванты, то мы должны подстроить дату под них
+      if (this._hasRanges() && this._options.rangeSelectedCallback) {
+         //Если заданы кванты вместе с rangeSelectedCallback, то мы должны сначала подстроить дату под них
          range = CalendarUtils.updateRangeByQuantum(this.startValue, this.startValue, this._options.ranges);
       } else {
          range = [this.startValue, this.endValue];

@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/ImageFit/Contain/Index' }}">
+         <a href="{{content.href}}">Contain</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.ImageFit.Contain.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/ImageFit/Cover/Index' }}">
+         <a href="{{content.href}}">Cover</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.ImageFit.Cover.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/ImageFit/None/Index' }}">
+         <a href="{{content.href}}">None</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.ImageFit.None.Index/>
+   </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">value = null</div>
+        <Controls.toggle:CheckboxMarker bind:value="_value1" triState="true"></Controls.toggle:CheckboxMarker>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">value = true</div>
+        <Controls.toggle:CheckboxMarker bind:value="_value2"></Controls.toggle:CheckboxMarker>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">value = false</div>
+        <Controls.toggle:CheckboxMarker bind:value="_value3"></Controls.toggle:CheckboxMarker>
+    </div>
+</div>

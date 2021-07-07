@@ -56,7 +56,8 @@ define(
          let config = {
             icon: 'icon-medium icon-Doge icon-primary',
             viewMode: 'link',
-            style: 'secondary',
+            buttonStyle: 'secondary',
+            fontColorStyle: 'link',
             showHeader: true,
             keyProperty: 'id',
             source: new sourceLib.Memory({

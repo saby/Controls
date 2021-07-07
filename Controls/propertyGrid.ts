@@ -22,6 +22,9 @@
  * @includes StringEditor Controls/_propertyGrid/defaultEditors/String
  * @includes TextEditor Controls/_propertyGrid/defaultEditors/Text
  * @includes EnumEditor Controls/_propertyGrid/defaultEditors/Enum
+ * @includes NumberEditor Controls/_propertyGrid/defaultEditors/Number
+ * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
+ * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnumEditor
  * @includes IPropertyGrid Controls/_propertyGrid/IPropertyGrid
  * @includes IEditor Controls/_propertyGrid/IEditor
  * @includes IProperty Controls/_propertyGrid/IProperty
@@ -33,6 +36,10 @@ import BooleanEditor = require("Controls/_propertyGrid/defaultEditors/Boolean");
 import StringEditor = require("Controls/_propertyGrid/defaultEditors/String");
 import TextEditor = require("Controls/_propertyGrid/defaultEditors/Text");
 import EnumEditor = require("Controls/_propertyGrid/defaultEditors/Enum");
+import NumberEditor = require("Controls/_propertyGrid/defaultEditors/Number");
+import BooleanGroupEditor = require("Controls/_propertyGrid/extendedEditors/BooleanGroup");
+import FlatEnumEditor = require("Controls/_propertyGrid/extendedEditors/FlatEnum");
+
 import IPropertyGrid = require("Controls/_propertyGrid/IPropertyGrid");
 import IEditor = require("Controls/_propertyGrid/IEditor");
 import {default as IProperty} from 'Controls/_propertyGrid/IProperty';
@@ -44,6 +51,9 @@ export {
     StringEditor,
     TextEditor,
     EnumEditor,
+    NumberEditor,
+    BooleanGroupEditor,
+    FlatEnumEditor,
     IPropertyGrid,
     IEditor,
     IProperty,

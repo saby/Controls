@@ -5,6 +5,8 @@ define('Controls/interface/IBreadCrumbs', [
    /**
     * Интерфейс для хлебных крошек.
     *
+    * @mixes Control/interface:IBackgroundStyle
+    *
     * @interface Controls/interface/IBreadCrumbs
     * @public
     * @author Авраменко А.С.
@@ -47,19 +49,6 @@ define('Controls/interface/IBreadCrumbs', [
     * @name Controls/interface/IBreadCrumbs#parentProperty
     * @cfg {String} Name of the field that contains information about parent node.
     */
-
-   /**
-    * @name Controls/interface/IBreadCrumbs#backgroundStyle
-    * @cfg {string} Префикс стиля для настройки фона внутренних компонентов хлебных крошек с абсолютным позиционированием.
-    * @default default (фон цвета темы)
-    */
-
-   /*
-    * @name Controls/interface/IBreadCrumbs#backgroundStyle
-    * @cfg {string} Style prefix to configure background for breadcrumbs components with absolute positioning.
-    * @default default (theme background)
-    */
-
 
    /**
     * @name Controls/interface/IBreadCrumbs#displayProperty

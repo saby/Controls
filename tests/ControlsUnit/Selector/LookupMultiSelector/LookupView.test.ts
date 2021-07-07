@@ -2,7 +2,7 @@ import {default as Lookup} from 'Controls/_lookup/MultipleInput';
 import {Model} from 'Types/entity';
 import {List} from 'Types/collection';
 import {strictEqual, ok} from 'assert';
-import * as getWidthUtil from 'Controls/Utils/getWidth';
+import * as getWidthUtil from 'Controls/sizeUtils';
 
 function getItems(countItems: number): List<Model> {
    const items = [];

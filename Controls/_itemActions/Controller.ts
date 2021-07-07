@@ -4,7 +4,7 @@ import { Memory } from 'Types/source';
 import { isEqual } from 'Types/object';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { Model } from 'Types/entity';
-import { TItemKey, ISwipeConfig, ANIMATION_STATE, IBaseCollection, IItemActionsTemplateConfig } from 'Controls/display';
+import { TItemKey, ISwipeConfig, ANIMATION_STATE } from 'Controls/display';
 import { IStickyPopupOptions } from 'Controls/popup';
 import { IMenuPopupOptions } from 'Controls/menu';
 import {
@@ -18,6 +18,8 @@ import {
     TActionDisplayMode,
     TMenuButtonVisibility
 } from './interface/IItemAction';
+import {IItemActionsItem} from './interface/IItemActionsItem';
+import {IItemActionsCollection} from './interface/IItemActionsCollection';
 import {IShownItemAction, IItemActionsContainer} from './interface/IItemActionsContainer';
 import { verticalMeasurer } from './measurers/VerticalMeasurer';
 import { horizontalMeasurer } from './measurers/HorizontalMeasurer';
@@ -31,40 +33,6 @@ const DEFAULT_ACTION_CAPTION_POSITION = 'none';
 const DEFAULT_ACTION_POSITION = 'inside';
 
 const DEFAULT_ACTION_SIZE = 'm';
-
-export interface IItemActionsItem {
-    getActions(): IItemActionsContainer;
-    getContents(): Model;
-    setActions(actions: IItemActionsContainer, silent?: boolean): void;
-    setActive(active: boolean, silent?: boolean): void;
-    isActive(): boolean;
-    setSwiped(swiped: boolean, silent?: boolean): void;
-    isSwiped(): boolean;
-    isRightSwiped(): boolean;
-    isEditing(): boolean;
-}
-
-export interface IItemActionsCollection extends IBaseCollection<IItemActionsItem> {
-    setEventRaising?(raising: boolean, analyze?: boolean): void;
-    isActionsAssigned(): boolean;
-    setActionsAssigned(assigned: boolean): void;
-    setActionsTemplateConfig(config: IItemActionsTemplateConfig): void;
-    getActionsTemplateConfig(): IItemActionsTemplateConfig;
-    setSwipeConfig(config: ISwipeConfig): void;
-    getSwipeConfig(): ISwipeConfig;
-    setSwipeAnimation(state: ANIMATION_STATE): void;
-    getSwipeAnimation(): ANIMATION_STATE;
-
-    /**
-     * Было решено переместить get/setActiveItem в коллекцию, т.к.
-     * в TileView так организована работа с isHovered, isScaled и isAnimated и
-     * мы не можем снять эти состояния при клике внутри ItemActions
-     * @param item
-     */
-    setActiveItem(item: IItemActionsItem): void;
-    getActiveItem(): IItemActionsItem;
-    isEditing(): boolean;
-}
 
 /**
  * @interface Controls/_itemActions/IControllerOptions
@@ -128,15 +96,15 @@ export interface IControllerOptions {
     /**
      * Опция записи, которую необходимо тображать в свайпе, если есть editArrow
      */
-    editArrowAction: IItemAction;
+    editArrowAction?: IItemAction;
     /**
      * Видимость Опция записи, которую необходимо тображать в свайпе, если есть editArrow
      */
-    editArrowVisibilityCallback: TEditArrowVisibilityCallback;
+    editArrowVisibilityCallback?: TEditArrowVisibilityCallback;
     /**
      * Конфигурация для контекстного меню опции записи.
      */
-    contextMenuConfig: IContextMenuConfig;
+    contextMenuConfig?: IContextMenuConfig;
     /**
      * Редактируемая запись
      */
@@ -246,17 +214,50 @@ export class Controller {
      * Получает последний swiped элемент
      */
     getSwipeItem(): IItemActionsItem {
-        return this._collection.find((item) => item.isSwiped() || item.isRightSwiped());
+        return this._collection.find((item) => item.isSwiped());
+    }
+
+    // region rightSwipe
+
+    // TODO убрать по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
+    deactivateRightSwipe(): void {
+        this._collection.setSwipeAnimation(null);
+        const currentSwipedItem = this.getRightSwipeItem();
+        if (currentSwipedItem) {
+            this._setRightSwipeItem(null);
+            this._collection.nextVersion(); // Это надо тут ?
+        }
+    }
+
+    // TODO убрать по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
+    getRightSwipeItem(): IItemActionsItem {
+        return this._collection.find((item) => !!item.isRightSwiped && item.isRightSwiped());
+    }
+
+    // TODO убрать по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
+    private _setRightSwipeItem(key: TItemKey, silent?: boolean): void {
+        const oldSwipeItem = this.getRightSwipeItem();
+        const newSwipeItem = this._collection.getItemBySourceKey(key);
+
+        if (oldSwipeItem) {
+            oldSwipeItem.setRightSwiped(false, silent);
+        }
+        if (newSwipeItem) {
+            newSwipeItem.setRightSwiped(true, silent);
+        }
     }
 
     /**
      * Устанавливает состояние элемента rightSwiped
+     * TODO убрать по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
      * @param itemKey
      */
     activateRightSwipe(itemKey: TItemKey): void {
         this.setSwipeAnimation(ANIMATION_STATE.RIGHT_SWIPE);
-        this._setSwipeItem(itemKey);
+        this._setRightSwipeItem(itemKey);
     }
+
+    // endregion
 
     /**
      * Собирает конфиг выпадающего меню операций
@@ -282,7 +283,7 @@ export class Controller {
         }
 
         const target = isContextMenu ? null : this._getFakeMenuTarget(clickEvent.target as HTMLElement);
-        const isActionMenu = !!parentAction && !parentAction._isMenu;
+        const isActionMenu = !!parentAction && !parentAction.isMenu;
         const templateOptions = this._getActionsMenuTemplateConfig(isActionMenu, parentAction, menuActions);
 
         let menuConfig: IStickyPopupOptions = {
@@ -431,10 +432,10 @@ export class Controller {
 
     /**
      * Получает для указанного элемента коллекции набор опций записи для меню, отфильтрованный по parentAction
-     * Если parentAction - кнопка вызова специального меню или parentAction не указан, то элементы фильтруются по showType.
+     * Если parentAction - кнопка вызова меню или parentAction не указан, то элементы фильтруются по showType.
      * Если parentAction содержит id, то элементы фильтруются по parent===id.
-     * Если был сделан свайп по элементу, то возвращаются все доступные опции записи.
-     * @see http://axure.tensor.ru/standarts/v7/%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D1%82%D0%BD%D0%BE%D0%B5_%D0%BC%D0%B5%D0%BD%D1%8E__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_1_.html
+     * Если был сделан свайп по элементу, то возвращаются опции записи, отсутствующие в showed.
+     * @see http://axure.tensor.ru/standarts/v7/%D1%81%D0%B2%D0%B0%D0%B9%D0%BF__version_04_.html
      * @param item
      * @param parentAction
      * @private
@@ -442,12 +443,20 @@ export class Controller {
     private _getMenuActions(item: IItemActionsItem, parentAction: IShownItemAction): IItemAction[] {
         const actions = item.getActions();
         const allActions = actions && actions.all;
-        if (item.isSwiped() && parentAction._isMenu) {
-            return allActions;
-        }
         if (allActions) {
+            // Кроме как intersection all vs showed мы не можем знать, какие опции Measurer скрыл под кнопку "Ещё",
+            // Поэтому для свайпнутой записи имеет смысл показывать в меню те опции, которые отсутствуют в showed
+            // массиве или у которых showType MENU_TOOLBAR или MENU
+            // см. https://online.sbis.ru/opendoc.html?guid=f43a6f8e-84a5-4f22-b67f-4545bf586adc
+            // см. https://online.sbis.ru/opendoc.html?guid=91e7bea1-fa6c-483f-a5dc-860b084ab17a
+            // см. https://online.sbis.ru/opendoc.html?guid=b5751217-3833-441f-9eb6-53526625bc0c
+            if (item.isSwiped() && parentAction.isMenu) {
+                return allActions.filter((action) => (
+                    actions.showed.indexOf(action) === -1 || action.showType !== TItemActionShowType.TOOLBAR)
+                );
+            }
             return allActions.filter((action) => (
-                ((!parentAction || parentAction._isMenu) && action.showType !== TItemActionShowType.TOOLBAR) ||
+                ((!parentAction || parentAction.isMenu) && action.showType !== TItemActionShowType.TOOLBAR) ||
                 (!!parentAction && action.parent === parentAction.id)
             ));
         }
@@ -492,7 +501,6 @@ export class Controller {
      * Вычисляет конфигурацию, которая используется в качестве scope у itemActionsTemplate
      */
     private _updateActionsTemplateConfig(options: IControllerOptions): void {
-
         this._collection.setActionsTemplateConfig({
             toolbarVisibility: options.editingToolbarVisible,
             style: options.style,
@@ -533,7 +541,7 @@ export class Controller {
 
         if (this._editArrowAction && this._editArrowVisibilityCallback(item.getContents())) {
             this._addEditArrow(actions);
-            }
+        }
 
         let swipeConfig = Controller._calculateSwipeConfig(
             actions,
@@ -604,7 +612,7 @@ export class Controller {
     private _getActionsContainer(item: IItemActionsItem): IItemActionsContainer {
         let showed;
         const actions = this._collectActionsForItem(item);
-        if (this._collection.isEditing() && !item.isEditing()) {
+        if (this._isEditing(item)) {
             showed = [];
         } else if (actions.length > 1) {
             showed = actions.filter((action) =>
@@ -620,7 +628,7 @@ export class Controller {
                     icon: 'icon-ExpandDown',
                     style: 'secondary',
                     iconStyle: 'secondary',
-                    _isMenu: true
+                    isMenu: true
                 });
             }
         } else {
@@ -630,6 +638,16 @@ export class Controller {
             all: actions,
             showed
         };
+    }
+
+    /**
+     * Если в коллекции и у элементов есть методы для проверки редактирования,
+     * то учитываем их значение
+     * @param item
+     * @private
+     */
+    private _isEditing(item: IItemActionsItem): boolean {
+        return this._collection.isEditing() && !item.isEditing();
     }
 
     /**

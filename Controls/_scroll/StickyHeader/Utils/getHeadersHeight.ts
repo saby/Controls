@@ -10,6 +10,7 @@ interface ControlHTMLElement extends HTMLElement {
 }
 
 const STICKY_CONTROLLER_SELECTOR: string = '.controls-Scroll';
+const STICKY_CONTROLLER_MODULE_NAME_NEW: string = 'Controls/scroll:_ContainerNew';
 const STICKY_CONTROLLER_MODULE_NAME: string = 'Controls/scroll:Container';
 
 export function getHeadersHeight(element: HTMLElement, position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {
@@ -18,6 +19,6 @@ export function getHeadersHeight(element: HTMLElement, position: POSITION, type:
       return 0;
    }
    return controlsElement.controlNodes.find((control: ControlNode) => {
-      return control.control._moduleName === STICKY_CONTROLLER_MODULE_NAME;
+      return control.control._moduleName === STICKY_CONTROLLER_MODULE_NAME || control.control._moduleName === STICKY_CONTROLLER_MODULE_NAME_NEW;
    }).control.getHeadersHeight(position, type);
 }

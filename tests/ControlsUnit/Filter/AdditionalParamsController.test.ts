@@ -156,11 +156,16 @@ describe('AdditionalItemsController', () => {
             const controllerResult = itemsController.getResult();
             assert.isFalse(controllerResult.expanderVisible);
 
-            const updateControllerResult = itemsController.update({
+            let updateControllerResult = itemsController.update({
                 source: getItemsWithExpander(),
                 keyProperty: 'name'
             });
             assert.isTrue(updateControllerResult.expanderVisible);
+            updateControllerResult = itemsController.update({
+                source: defaultFilterItems,
+                keyProperty: 'name'
+            });
+            assert.isFalse(updateControllerResult.expanderVisible);
         });
 
         it('columns calculating', () => {

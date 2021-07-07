@@ -16,7 +16,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 import {view as constView} from 'Controls/Constants';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {TouchContextField} from 'Controls/context';
@@ -35,6 +34,7 @@ import {TKey} from 'Controls/_menu/interface/IMenuControl';
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_menu/interface/IMenuControl
+ * @mixes Controls/_menu/interface/IMenuBase
  * @demo Controls-demo/Menu/Control/Source/Index
  * @control
  * @category Popup
@@ -73,6 +73,18 @@ import {TKey} from 'Controls/_menu/interface/IMenuControl';
  */
 
 /**
+ * @name Controls/_menu/Control#selectedKeys
+ * @cfg {Array.<Number|String>} Массив ключей выбранных элементов.
+ * @demo Controls-demo/Menu/Control/SelectedKeys/Index
+ */
+
+/**
+ * @name Controls/_menu/Control#root
+ * @cfg {Number|String|null} Идентификатор корневого узла.
+ * @demo Controls-demo/Menu/Control/Root/Index
+ */
+
+/**
  * @event Controls/_menu/Control#itemClick Происходит при выборе элемента
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Выбранный элемент.
@@ -105,6 +117,8 @@ interface IMenuPosition {
 
 const SUB_DROPDOWN_DELAY = 400;
 
+const MAX_HISTORY_VISIBLE_ITEMS_COUNT = 10;
+
 export default class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     readonly '[Controls/_menu/interface/IMenuControl]': boolean = true;
     protected _template: TemplateFunction = ViewTemplate;
@@ -116,18 +130,19 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     protected _listModel: Collection<Model>;
     protected _moreButtonVisible: boolean = false;
     protected _expandButtonVisible: boolean = false;
-    protected _applyButtonVisible: boolean = false;
-    protected _closeButtonVisible: boolean = false;
+    protected _expander: boolean;
     private _sourceController: typeof SourceController = null;
     private _subDropdownItem: CollectionItem<Model>|null;
     private _selectionChanged: boolean = false;
     private _expandedItems: RecordSet;
     private _itemsCount: number;
+    private _visibleIds: TKey[] = [];
     private _openingTimer: number = null;
     private _closingTimer: number = null;
     private _isMouseInOpenedItemArea: boolean = false;
     private _expandedItemsFilter: Function;
     private _additionalFilter: Function;
+    private _limitHistoryFilter: Function;
     private _notifyResizeAfterRender: Boolean = false;
     private _itemActionsController: ItemActionsController;
 
@@ -146,8 +161,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                            receivedState?: void): Deferred<RecordSet> {
         this._expandedItemsFilter = this._expandedItemsFilterCheck.bind(this);
         this._additionalFilter = MenuControl._additionalFilterCheck.bind(this, options);
+        this._limitHistoryFilter = this._limitHistoryCheck.bind(this);
 
-        this._closeButtonVisible = options.itemPadding.right === 'menu-close';
         this._stack = new StackOpener();
         if (options.source) {
             return this._loadItems(options);
@@ -165,12 +180,14 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
 
         if (rootChanged || sourceChanged || filterChanged) {
+            this._closeSubMenu();
             result = this._loadItems(newOptions).then(() => {
                 this._notifyResizeAfterRender = true;
             });
         }
         if (this._isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
             this._setSelectedItems(this._listModel, newOptions.selectedKeys);
+            this._notify('selectedItemsChanged', [this._getSelectedItems()]);
         }
 
         return result;
@@ -187,6 +204,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             this._sourceController.cancelLoading();
             this._sourceController = null;
         }
+
         if (this._listModel) {
             this._listModel.destroy();
             this._listModel = null;
@@ -282,9 +300,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             if (this._options.multiSelect && this._selectionChanged &&
                 !this._isEmptyItem(treeItem.getContents()) && !MenuControl._isFixedItem(item)) {
                 this._changeSelection(key, treeItem);
-                this._updateApplyButton();
 
                 this._notify('selectedKeysChanged', [this._getSelectedKeys()]);
+                this._notify('selectedItemsChanged', [this._getSelectedItems()]);
             } else {
                 if (this._isTouch() && item.get(this._options.nodeProperty) && this._subDropdownItem !== treeItem) {
                     this._handleCurrentItem(treeItem, sourceEvent.currentTarget, sourceEvent.nativeEvent);
@@ -307,15 +325,15 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._selectionChanged = true;
     }
 
-    protected _applySelection(): void {
-        this._notify('applyClick', [this._getSelectedItems()]);
-    }
-
     protected _toggleExpanded(event: SyntheticEvent<MouseEvent>, value: boolean): void {
+        let toggleFilter = this._additionalFilter;
+        if (!this._options.additionalProperty) {
+            toggleFilter = this._limitHistoryFilter;
+        }
         if (value) {
-            this._listModel.removeFilter(this._additionalFilter);
+            this._listModel.removeFilter(toggleFilter);
         } else {
-            this._listModel.addFilter(this._additionalFilter);
+            this._listModel.addFilter(toggleFilter);
         }
         // TODO after deleting additionalProperty option
         // if (value) {
@@ -350,7 +368,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 }) as Model[]
             });
         }
-        this._stack.open(this._getSelectorDialogOptions(this._options, selectedItems));
+        this._stack.open(this._getSelectorDialogOptions(this._stack, this._options, selectedItems));
         this._notify('moreButtonClick', [selectedItems]);
     }
 
@@ -495,7 +513,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             Math.sign(firstSegment) === Math.sign(thirdSegment);
     }
 
-    private _getSelectorDialogOptions(options: IMenuControlOptions, selectedItems: List<Model>): object {
+    private _getSelectorDialogOptions(opener: StackOpener, options: IMenuControlOptions, selectedItems: List<Model>): object {
         const selectorTemplate: ISelectorTemplate = options.selectorTemplate;
         const selectorDialogResult: Function = options.selectorDialogResult;
 
@@ -504,7 +522,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             handlers: {
                 onSelectComplete: (event, result) => {
                     selectorDialogResult(event, result);
-                    this._stack.close();
+                    opener.close();
                 }
             }
         };
@@ -514,13 +532,14 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             // Т.к само меню закроется после открытия стекового окна,
             // в опенер нужно положить контрол, который останется на странице.
             opener: this._options.selectorOpener,
+            closeOnOutsideClick: true,
             templateOptions: templateConfig,
             template: selectorTemplate.templateName,
             isCompoundTemplate: options.isCompoundTemplate,
             eventHandlers: {
                 onResult: (result, event) => {
                     selectorDialogResult(event, result);
-                    this._stack.close();
+                    opener.close();
                 }
             }
         }, selectorTemplate.popupOptions || {});
@@ -565,24 +584,17 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return index <= this._itemsCount;
     }
 
+    private _limitHistoryCheck(item: Model): boolean {
+        let isVisible: boolean = true;
+        if (item && item.getKey) {
+            isVisible = this._visibleIds.includes(item.getKey());
+        }
+        return isVisible;
+    }
+
     private _isSelectedKeysChanged(newKeys: TSelectedKeys, oldKeys: TSelectedKeys): boolean {
         const diffKeys: TSelectedKeys = factory(newKeys).filter((key) => !oldKeys.includes(key)).value();
         return newKeys.length !== oldKeys.length || !!diffKeys.length;
-    }
-
-    private _updateApplyButton(): void {
-        const isApplyButtonVisible: boolean = this._applyButtonVisible;
-        const newSelectedKeys: TSelectedKeys = factory(this._listModel.getSelectedItems()).map(
-            (item: CollectionItem<Model>) =>
-                item.getContents().get(this._options.keyProperty)
-            ).value();
-        this._applyButtonVisible = this._isSelectedKeysChanged(newSelectedKeys, this._options.selectedKeys);
-
-        if (this._applyButtonVisible !== isApplyButtonVisible) {
-            scheduleCallbackAfterRedraw(this, (): void => {
-                this._notify('controlResize', [], {bubbling: true});
-            });
-        }
     }
 
     private _updateSwipeItem(newSwipedItem: CollectionItem<Model>, isSwipeLeft: boolean): void {
@@ -634,6 +646,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
         if (options.additionalProperty) {
             listModel.addFilter(this._additionalFilter);
+        } else if (options.allowPin && options.root === null && !this._expander) {
+            listModel.addFilter(this._limitHistoryFilter);
         }
         return listModel;
     }
@@ -681,13 +695,12 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 if (options.dataLoadCallback) {
                     options.dataLoadCallback(items);
                 }
-                this._createViewModel(items, options);
                 this._moreButtonVisible = options.selectorTemplate &&
                     this._getSourceController(options).hasMoreData('down');
                 this._expandButtonVisible = this._isExpandButtonVisible(
                     items,
-                    options.additionalProperty,
-                    options.root);
+                    options);
+                this._createViewModel(items, options);
 
                 return items;
             },
@@ -696,16 +709,28 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _isExpandButtonVisible(items: RecordSet,
-                                   additionalProperty: string,
-                                   root: string|number|null): boolean {
+                                   options: IMenuControlOptions): boolean {
         let hasAdditional: boolean = false;
 
-        if (additionalProperty && root === null) {
+        if (options.additionalProperty && options.root === null) {
             items.each((item: Model): void => {
                 if (!hasAdditional) {
-                    hasAdditional = item.get(additionalProperty) && !MenuControl._isHistoryItem(item);
+                    hasAdditional = item.get(options.additionalProperty) && !MenuControl._isHistoryItem(item);
                 }
             });
+        } else if (options.allowPin && options.root === null) {
+            this._visibleIds = [];
+            const itemsCount = factory(items).count((item) => {
+                const hasParent = item.get(options.parentProperty);
+                if (!hasParent)  {
+                    this._visibleIds.push(item.getKey());
+                }
+                return !hasParent;
+            }).value()[0];
+            hasAdditional = itemsCount > MAX_HISTORY_VISIBLE_ITEMS_COUNT + 1;
+            if (hasAdditional) {
+                this._visibleIds.splice(MAX_HISTORY_VISIBLE_ITEMS_COUNT);
+            }
         }
         return hasAdditional;
     }

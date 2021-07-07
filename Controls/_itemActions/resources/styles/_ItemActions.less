@@ -39,7 +39,6 @@
 
 .controls-itemActionsV_outside_theme-@{themeName} {
   right: 0;
-  bottom: -@height_outside_itemActions;
   height: @height_outside_itemActions;
   background-color: @background-color_outside_itemActions;
    padding-top: @offset-top_outside_itemActions;
@@ -61,6 +60,18 @@
     width: @item_clickableArea-size_outside_itemActions;
     height: @item_clickableArea-size_outside_itemActions;
   }
+}
+
+.controls-itemActionsV__outside_bottom_size-default_theme-@{themeName} {
+    bottom: -@height_outside_itemActions;
+}
+
+.controls-itemActionsV__outside_bottom_size-s_theme-@{themeName} {
+    bottom: -@height_outside_itemActions + @item-separator_s_thickness_list;
+}
+
+.controls-itemActionsV__outside_bottom_size-l_theme-@{themeName} {
+    bottom: -@height_outside_itemActions + @item-separator_l_thickness_list;
 }
 
 .controls-itemActionsV_outside-spacing_theme-@{themeName} {

@@ -187,7 +187,7 @@ define([
             component._onYearClick(null, 2000);
 
             sinon.assert.calledWith(
-               component._notify, 'sendResult', [new Date(2000, 0, 1), new Date(2000, 11, 31)], { bubbling: true });
+               component._notify, 'sendResult', [new entity.applied.Date(2000, 0, 1), new entity.applied.Date(2000, 11, 31)], { bubbling: true });
             sandbox.restore();
          });
          it('should not generate events if year selection is disabled', function() {
@@ -221,7 +221,7 @@ define([
             component._onHalfYearClick(null, 0, 2000);
 
             sinon.assert.calledWith(
-               component._notify, 'sendResult', [new Date(2000, 0, 1), new Date(2000, 5, 30)], { bubbling: true });
+               component._notify, 'sendResult', [new entity.applied.Date(2000, 0, 1), new entity.applied.Date(2000, 5, 30)], { bubbling: true });
             sandbox.restore();
          });
       });
@@ -234,7 +234,7 @@ define([
             component._onQuarterClick(null, 0, 2000);
 
             sinon.assert.calledWith(
-               component._notify, 'sendResult', [new Date(2000, 0, 1), new Date(2000, 2, 31)], { bubbling: true });
+               component._notify, 'sendResult', [new entity.applied.Date(2000, 0, 1), new entity.applied.Date(2000, 2, 31)], { bubbling: true });
             sandbox.restore();
          });
       });

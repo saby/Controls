@@ -12,6 +12,7 @@
  * @includes RowEditor Controls/grid:RowEditor
  * @includes IGridControl Controls/_grid/interface/IGridControl
  * @includes IColumn Controls/grid:IColumn
+ * @includes ITagColumn Controls/_grid/interface/ITagColumn
  * @includes IHeaderCell Controls/_grid/interface/IHeaderCell
  * @includes IPropStorage Controls/_grid/interface/IPropStorage
  * @public
@@ -40,6 +41,7 @@ import SortingSelector from 'Controls/_grid/SortingSelector';
 import RowEditor = require('wml!Controls/_grid/RowEditor');
 import * as ResultColumnTemplate from 'wml!Controls/_grid/layout/common/ResultCellContent';
 
+import * as EditingEmptyTemplate from 'wml!Controls/_grid/emptyTemplates/Editing';
 
 export {
     View,
@@ -59,6 +61,8 @@ export {
     RowEditor,
     SortingSelector,
 
+    EditingEmptyTemplate,
+
     GridLayoutUtil
 };
 
@@ -71,6 +75,8 @@ export {
     TCellVerticalAlign,
     TOverflow
 } from './_grid/interface/IColumn';
+
+export {ITagColumn} from './_grid/interface/ITagColumn';
 
 export {
     THeader,

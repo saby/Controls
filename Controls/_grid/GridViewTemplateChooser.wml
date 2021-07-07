@@ -18,6 +18,7 @@
                 _contentSizeForHScroll="{{ _contentSizeForHScroll }}"
                 _horizontalScrollPosition="{{ _horizontalScrollPosition }}"
                 _horizontalPositionChangedHandler="{{ _horizontalPositionChangedHandler }}"
+                _prepareColumnsForEmptyEditingTemplate="{{ _prepareColumnsForEmptyEditingTemplate }}"
                 _horizontalScrollWidth="{{ _horizontalScrollWidth }}"
                 _containerSize="{{ _containerSize }}"
 

@@ -352,6 +352,29 @@ define([
          assert.equal(2, iv.getVersion(), 'Incorrect version appendItems');
       });
 
+      it('SetItemPadding Silent', function() {
+         var cfg = {
+            items: data,
+            keyProperty: 'id',
+            displayProperty: 'title',
+            markerVisibility: 'visible'
+         };
+
+         var iv = new lists.ListViewModel({...cfg});
+         var result = false;
+         iv._nextModelVersion = function () {
+            result = true;
+         };
+         iv.setItemPadding('xs');
+         assert.isTrue(result, 'Incorrest setItemPadding result');
+
+         result = false;
+         iv.setItemPadding('xs', true);
+
+         assert.isFalse(result, 'Incorrest setItemPadding result');
+
+      });
+
       it('setMarkedKey', function() {
          const cfg = {
             items: data,
@@ -787,31 +810,35 @@ define([
             });
             it('getSpacingClassList', function() {
                const theme = 'default';
-               assert.equal(lists.ListViewModel._private.getSpacingClassList({
-                  itemPadding: {
+               assert.equal(lists.ListViewModel._private.getSpacingClassList(
+                  {
                      left: 'm',
                      right: 'XS'
                   },
-                  multiSelectVisibility: 'hidden',
-                  theme
-               }), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_default_theme-default controls-ListView__item_default-bottomPadding_default_theme-default` +
+                  '',
+                  theme,
+                  'hidden'
+               ), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_default_theme-default controls-ListView__item_default-bottomPadding_default_theme-default` +
                   ` controls-ListView__item-rightPadding_xs_theme-default controls-ListView__item-leftPadding_m_theme-default`);
-               assert.equal(lists.ListViewModel._private.getSpacingClassList({
-                  itemPadding: {
+               assert.equal(lists.ListViewModel._private.getSpacingClassList(
+                  {
                      left: 'XS',
                      right: 'm',
                      top: 'null',
                      bottom: 's'
                   },
-                  multiSelectVisibility: 'visible',
-                  theme
-               }), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_null_theme-default controls-ListView__item_default-bottomPadding_s_theme-default` +
+                  '',
+                  theme,
+                  'visible'
+               ), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_null_theme-default controls-ListView__item_default-bottomPadding_s_theme-default` +
                   ` controls-ListView__item-rightPadding_m_theme-default controls-ListView__itemContent_withCheckboxes_theme-default`);
             });
 
             it('check search value', function() {
+               var curVersion = lvm.getVersion();
                lvm.setSearchValue('test');
                assert.equal(lvm.getItemDataByItem(lvm._display.at(0)).searchValue, 'test');
+               assert.equal(lvm.getVersion(), curVersion + 1);
                lvm.setSearchValue(null);
             });
          });

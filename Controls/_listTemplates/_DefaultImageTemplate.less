@@ -25,6 +25,13 @@
    max-width: 100%;
 }
 
+/* ie не поддерживает clip-path на html элементах
+   Согласованное исключение https://online.sbis.ru/doc/1adda6e0-2c93-465b-b5d4-e1be21788ff2
+ */
+.ws-is-ie .controls-listTemplates__imageTemplate_image_viewMode-ellipse {
+   border-radius: 60px;
+}
+
 .controls-listTemplates__imageTemplate::after {
    content: "";
    display: block;
@@ -32,7 +39,6 @@
 }
 
 .controls-listTemplates__imageTemplate_image {
-   height: 100%;
    width: 100%;
    background-repeat: no-repeat;
    background-size: cover;

@@ -4,4 +4,6 @@
             on:scroll="_scrollHandler()"
             on:doScroll="_doScrollHandler()"
             on:register="_registerIt()"
-            on:unregister="_unRegisterIt()"/>
+            on:unregister="_unRegisterIt()"
+            on:enableVirtualNavigation="_enableVirtualNavigationHandler()"
+            on:disableVirtualNavigation="_disableVirtualNavigationHandler()"/>

@@ -13,7 +13,6 @@
                         borderStyle="{{_options.borderStyle}}"
                         validationStatus="{{_options.validationStatus}}"
                         wasActionByUser="{{_wasActionUser}}"
-                        on:mousedown="_mouseDownOnContainerHandler()"
                         on:mouseenter="_mouseEnterHandler()"
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">

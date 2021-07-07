@@ -134,80 +134,127 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
          assert.deepEqual(lookupPopup.Container._private.getSelectedKeys(options, context), ['testId', 2, 4]);
       });
 
-      it('prepareFilter', function() {
-         var filter = {
-            searchParam: 'test',
-            parent: 123
-         };
-         var source = new sourceLib.Memory();
-         var selection = operations.selectionToRecord({ selected: [1, 2], excluded: [3, 4] }, source.getAdapter());
-         var preparedFilter = lookupPopup.Container._private.prepareFilter({
-            filter,
-            selection,
-            searchParam: 'searchParam',
-            parentProperty: 'parent'
+      describe('prepareFilter', () => {
+         let filter, source;
+
+         beforeEach(() => {
+            source = new sourceLib.Memory();
+            filter = {
+               searchParam: 'test',
+               parent: 123
+            };
          });
 
-         assert.deepEqual(preparedFilter.selection.get('marked'), ['1', '2']);
-         assert.deepEqual(preparedFilter.selection.get('excluded'), ['3', '4']);
-         assert.isTrue(preparedFilter !== filter);
-         assert.isTrue(!preparedFilter.searchParam);
-         assert.isTrue(!preparedFilter.parent);
+         it('searchParam and parentProperty are deleted from filter on select', () => {
+            const selection = operations.selectionToRecord({ selected: [1, 2], excluded: [3, 4] }, source.getAdapter());
+            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+               filter,
+               selection,
+               searchParam: 'searchParam',
+               parentProperty: 'parent'
+            });
 
-         selection = operations.selectionToRecord({ selected: [null], excluded: [null] }, source.getAdapter());
-         preparedFilter = lookupPopup.Container._private.prepareFilter({
-            filter,
-            selection,
-            searchParam: 'searchParam'
+            assert.deepEqual(preparedFilter.selection.get('marked'), ['1', '2']);
+            assert.deepEqual(preparedFilter.selection.get('excluded'), ['3', '4']);
+            assert.isTrue(preparedFilter !== filter);
+            assert.isTrue(!preparedFilter.searchParam);
+            assert.isTrue(!preparedFilter.parent);
          });
-         assert.deepEqual(preparedFilter.selection.get('marked'), [null]);
-         assert.deepEqual(preparedFilter.selection.get('excluded'), [null]);
-         assert.isTrue(preparedFilter !== filter);
-         assert.isTrue(preparedFilter.searchParam === 'test');
 
-         selection = operations.selectionToRecord({ selected: ['testRoot'], excluded: [null] }, source.getAdapter());
-         preparedFilter = lookupPopup.Container._private.prepareFilter({
-            filter,
-            selection,
-            searchParam: 'searchParam',
-            root: 'testRoot'
+         it('searchParam not deleted from filter on select all', () => {
+            const selection = operations.selectionToRecord({ selected: [null], excluded: [null] }, source.getAdapter());
+            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+               filter,
+               selection,
+               searchParam: 'searchParam'
+            });
+            assert.deepEqual(preparedFilter.selection.get('marked'), [null]);
+            assert.deepEqual(preparedFilter.selection.get('excluded'), [null]);
+            assert.isTrue(preparedFilter !== filter);
+            assert.isTrue(preparedFilter.searchParam === 'test');
          });
-         assert.isTrue(preparedFilter.searchParam === 'test');
 
-         selection = operations.selectionToRecord({ selected: [1], excluded: [null] }, source.getAdapter());
-         preparedFilter = lookupPopup.Container._private.prepareFilter({
-            filter,
-            selection,
-            searchParam: 'searchParam',
-            root: 1
-         });
-         assert.isTrue(preparedFilter.searchParam === 'test');
-      });
+         it('searchParam not deleted from filter on select all in hierarchy list', () => {
+            let selection = operations.selectionToRecord({ selected: ['testRoot'], excluded: [null] }, source.getAdapter());
+            let preparedFilter = lookupPopup.Container._private.prepareFilter({
+               filter,
+               selection,
+               searchParam: 'searchParam',
+               root: 'testRoot'
+            });
+            assert.isTrue(preparedFilter.searchParam === 'test');
 
-      it('prepare filter with selected node and searchParam', () => {
-         const filter = {
-            searchParam: 'test',
-            parent: 123
-         };
-         const source = new sourceLib.Memory();
-         const selection = operations.selectionToRecord({ selected: [1, 2], excluded: [3, 4] }, source.getAdapter());
-         const items = new collection.RecordSet({
-            rawData: [
-               {
-                  id: 1,
-                  isNode: true
-               }
-            ]
+            selection = operations.selectionToRecord({ selected: [1], excluded: [null] }, source.getAdapter());
+            preparedFilter = lookupPopup.Container._private.prepareFilter({
+               filter,
+               selection,
+               searchParam: 'searchParam',
+               root: 1
+            });
+            assert.isTrue(preparedFilter.searchParam === 'test');
          });
-         const preparedFilter = lookupPopup.Container._private.prepareFilter({
-            filter,
-            selection,
-            searchParam: 'searchParam',
-            root: 1,
-            nodeProperty: 'isNode',
-            items
+
+         it('entries and selectionWithPath are deleted from filter on select', () => {
+            filter = {
+               searchParam: 'test',
+               parent: 123,
+               entries: [],
+               selectionWithPath: []
+            };
+            source = new sourceLib.Memory();
+            const selection = operations.selectionToRecord({ selected: [1, 2], excluded: [3, 4] }, source.getAdapter());
+            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+               filter,
+               selection,
+               searchParam: 'searchParam',
+               parentProperty: 'parent'
+            });
+            assert.isUndefined(preparedFilter.entries);
+            assert.isUndefined(preparedFilter.selectionWithPath);
          });
-         assert.equal(preparedFilter.searchParam, 'test');
+
+         it('prepare filter with selected node and searchParam', () => {
+            const selection = operations.selectionToRecord({ selected: [1, 2], excluded: [3, 4] }, source.getAdapter());
+            const items = new collection.RecordSet({
+               rawData: [
+                  {
+                     id: 1,
+                     isNode: true
+                  }
+               ]
+            });
+            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+               filter,
+               selection,
+               searchParam: 'searchParam',
+               root: 1,
+               nodeProperty: 'isNode',
+               items
+            });
+            assert.equal(preparedFilter.searchParam, 'test');
+         });
+
+         it('prepare filter with selected node and searchParam, selectionType is node', () => {
+            const selection = operations.selectionToRecord({ selected: [1, 2], excluded: [3, 4] }, source.getAdapter());
+            const items = new collection.RecordSet({
+               rawData: [
+                  {
+                     id: '1',
+                     isNode: true
+                  }
+               ]
+            });
+            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+               filter,
+               selection,
+               searchParam: 'searchParam',
+               root: 'testRoot',
+               nodeProperty: 'isNode',
+               items,
+               selectionType: 'node'
+            });
+            assert.isUndefined(preparedFilter.searchParam);
+         });
       });
 
       it('prepareResult', function() {

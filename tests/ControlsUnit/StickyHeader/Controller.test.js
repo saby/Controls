@@ -28,7 +28,8 @@ define([
                },
                height: 10,
                resetSticky: sinon.fake(),
-               restoreSticky: sinon.fake()
+               restoreSticky: sinon.fake(),
+               updateShadowVisibility: sinon.fake()
             }
          };
       },
@@ -44,7 +45,8 @@ define([
                },
                height: 10,
                resetSticky: sinon.fake(),
-               restoreSticky: sinon.fake()
+               restoreSticky: sinon.fake(),
+               updateShadowVisibility: sinon.fake()
             },
             container: {
                getBoundingClientRect() {
@@ -64,7 +66,8 @@ define([
          container = {
             scrollTop: 0,
             scrollHeight: 100,
-            clientHeight: 100
+            clientHeight: 100,
+            children: [{}]
          };
          component._canScroll = true;
          sinon.stub(StickyHeaderUtils, 'isHidden').returns(false);
@@ -80,12 +83,14 @@ define([
          it('should update value from true to false and should not register waiting headers', function() {
             sinon.stub(component, '_registerDelayed');
             component.setCanScroll(false);
+            component._initialized = true;
             assert.isFalse(component._canScroll);
             sinon.assert.notCalled(component._registerDelayed);
          });
          it('should update value from false to true and register waiting headers', function() {
             sinon.stub(component, '_registerDelayed');
             component._canScroll = false;
+            component._initialized = true;
             component.setCanScroll(true);
             assert.isTrue(component._canScroll);
             sinon.assert.called(component._registerDelayed);
@@ -189,11 +194,11 @@ define([
             result: true,
          }, {
             position: 'top',
-            scrollTop: 10,
+            offset: 10,
             result: false,
          }, {
             position: 'bottom',
-            clientHeight: 50,
+            offset: 10,
             result: false,
          }].forEach(function(test) {
             it(`should set correct fixedInitially. position: ${test.position}`, function() {
@@ -204,9 +209,7 @@ define([
                   data = getRegisterObject(test);
 
                component.init(container);
-               component._container.scrollTop = test.scrollTop || 0;
-               component._container.scrollHeight = test.scrollHeight || 100;
-               component._container.clientHeight = test.clientHeight || 100;
+               sinon.stub(data.inst, 'getOffset').returns(test.offset || 0);
                return component.registerHandler(event, data, true).then(function() {
                   if (test.result) {
                      assert.isTrue(component._headers[data.id].fixedInitially);
@@ -287,7 +290,8 @@ define([
                         return offset;
                      },
                      resetSticky: sinon.fake(),
-                     restoreSticky: sinon.fake()
+                     restoreSticky: sinon.fake(),
+                     updateShadowVisibility: sinon.fake()
                   }
                };
                component.registerHandler(event, header, true);
@@ -490,14 +494,19 @@ define([
             assert.equal(component.getHeadersHeight('bottom'), 0);
             assert.equal(component.getHeadersHeight('top', 'allFixed'), 0);
             assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0);
+            assert.equal(component.getHeadersHeight('top', 'fixed'), 0);
+            assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0);
          });
          it('should return the correct height after a new header has been registered.', function () {
             sinon.stub(component, '_observeStickyHeader');
+            component.init(container);
             return component.registerHandler(event, data, true).then(function() {
                assert.equal(component.getHeadersHeight('top'), 0);
                assert.equal(component.getHeadersHeight('bottom'), 0);
-               assert.equal(component.getHeadersHeight('top', 'allFixed'), 0);
+               assert.equal(component.getHeadersHeight('top', 'allFixed'), 10);
                assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0);
+               assert.equal(component.getHeadersHeight('top', 'fixed'), 0);
+               assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0);
             });
          });
          it('should return the correct height after a new replaceable header has been registered and fixed.', function () {
@@ -515,6 +524,8 @@ define([
                assert.equal(component.getHeadersHeight('bottom'), 0);
                assert.equal(component.getHeadersHeight('top', 'allFixed'), 10);
                assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0);
+               assert.equal(component.getHeadersHeight('top', 'fixed'), 10);
+               assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0);
             });
          });
 
@@ -529,7 +540,8 @@ define([
                   },
                   height: 10,
                   resetSticky: sinon.fake(),
-                  restoreSticky: sinon.fake()
+                  restoreSticky: sinon.fake(),
+                  updateShadowVisibility: sinon.fake()
                },
                container: {
                   getBoundingClientRect() {
@@ -544,12 +556,17 @@ define([
                   fixedPosition: 'top',
                   prevPosition: '',
                   height: 10,
-                  shadowVisible: true
+                  shadowVisible: true,
+                  inst: {
+                     updateShadowVisibility: sinon.fake()
+                  }
                });
                assert.equal(component.getHeadersHeight('top'), 0);
                assert.equal(component.getHeadersHeight('bottom'), 0);
                assert.equal(component.getHeadersHeight('top', 'allFixed'), 10);
                assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0);
+               assert.equal(component.getHeadersHeight('top', 'fixed'), 10);
+               assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0);
             });
          });
 
@@ -567,6 +584,8 @@ define([
                assert.equal(component.getHeadersHeight('bottom'), 0);
                assert.equal(component.getHeadersHeight('top', 'allFixed'), 10);
                assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0);
+               assert.equal(component.getHeadersHeight('top', 'fixed'), 10);
+               assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0);
             });
          });
       });

@@ -1,12 +1,12 @@
 define([
-   'Controls/Utils/CssClassList'
-], function(CssClassListUtil) {
+   'Controls/list'
+], function(list) {
 
    'use strict';
    describe('Controls.Utils.CssClassList', () => {
 
 
-      let CssClassList = CssClassListUtil.CssClassList;
+      let CssClassList = list.CssClassList;
 
       it('method "add()" should return this instance of CssClassList', () => {
          let

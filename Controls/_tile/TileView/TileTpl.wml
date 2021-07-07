@@ -42,7 +42,8 @@
                      width="{{width || itemData.defaultItemWidth}}"/>
       </ws:if>
       <ws:else>
-         <ws:partial template="{{imageWrapper}}"/>
+         <ws:partial template="wml!Controls/_tile/TileView/TileImageTemplate"
+                     scope="{{_options}}"/>
          <ws:if data="{{itemData.item[itemData.displayProperty] || (itemData.hasVisibleActions() || itemData.isEditing())}}">
             <ws:if data="{{titleStyle === 'accent'}}">
                <div class="controls-TileView__title_accent_theme-{{theme}}"
@@ -90,29 +91,13 @@
    </div>
 </ws:template>
 
-<ws:template name="imageWrapperTpl">
-   <div attr:class="controls-TileView__imageWrapper {{titleStyle === 'accent' ? 'controls-TileView__imageWrapper_accent'}}">
-      <ws:partial template="{{content}}"/>
-   </div>
-</ws:template>
-
-<ws:template name="imageTpl">
-   <img attr:class="controls-TileView__image" src="{{itemData.item[itemData.imageProperty]}}"/>
-</ws:template>
-
 <ws:if data="{{invisible}}">
    <div attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}} controls-TileView__item_invisible" attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.defaultItemWidth) + 'px; flex-basis: ' + (width || itemData.defaultItemWidth) + 'px;'}}"></div>
 </ws:if>
 <ws:else>
    <ws:if data="{{itemData.tileMode === 'dynamic'}}">
       <ws:partial template="itemTpl" attr:style="{{'-ms-flex-preferred-size: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; flex-basis: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; height: ' + (height || itemData.itemsHeight) + 'px; max-width: ' + (width || itemData.defaultItemWidth) + 'px;'}}">
-         <ws:partial template="defaultContentTpl">
-            <ws:imageWrapper>
-               <ws:partial template="imageWrapperTpl" attr:class="{{( titleStyle === undefined && hasTitle ) || titleStyle === 'partial' ? 'controls-TileView__imageWrapper_reduced_theme-' + theme}} {{itemData.isAnimated ? ' controls-TileView__item_animated'}}" attr:style="{{'height: ' + (itemData.isAnimated && itemData.zoomCoefficient ? itemData.zoomCoefficient * itemData.itemsHeight : itemData.itemsHeight) + 'px;'}}">
-                  <ws:partial template="imageTpl"/>
-               </ws:partial>
-            </ws:imageWrapper>
-         </ws:partial>
+         <ws:partial template="defaultContentTpl"/>
       </ws:partial>
    </ws:if>
    <ws:else>
@@ -120,16 +105,7 @@
          <ws:if data="{{!staticHeight}}">
             <div style="{{'padding-top: ' + (itemData.itemsHeight / (width || itemData.defaultItemWidth)) * 100 + '%;'}}"></div>
          </ws:if>
-         <ws:partial template="defaultContentTpl">
-            <ws:imageWrapper>
-               <ws:partial template="imageWrapperTpl">
-                  <ws:if data="{{!staticHeight}}">
-                     <div attr:class="{{hasTitle ? 'controls-TileView__resizer_theme-' + theme}}" style="{{'padding-top: ' + (itemData.itemsHeight / (width || itemData.defaultItemWidth)) * 100 + '%;'}}"></div>
-                  </ws:if>
-                  <ws:partial template="imageTpl"/>
-               </ws:partial>
-            </ws:imageWrapper>
-         </ws:partial>
+         <ws:partial template="defaultContentTpl"/>
       </ws:partial>
    </ws:else>
 </ws:else>

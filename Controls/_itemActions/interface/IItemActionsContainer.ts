@@ -25,9 +25,9 @@ export interface IShownItemAction extends IItemAction {
     showIcon?: boolean;
 
     /**
-     * Определяет, что опция является меню
+     * Флаг опция вызова меню
      */
-    _isMenu?: boolean;
+    isMenu?: boolean;
 }
 
 export interface IItemActionsContainer {

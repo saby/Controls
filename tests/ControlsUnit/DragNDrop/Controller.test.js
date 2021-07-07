@@ -18,7 +18,14 @@ define([
             }
          },
          type: type,
-         buttons: 1
+         buttons: 1,
+         target: {
+            closest: () => false,
+            classList: {
+               add: () => true,
+               remove: () => true
+            }
+         }
       };
       if (type === 'touchstart' || type === 'touchmove') {
          result.touches = [{
@@ -60,6 +67,16 @@ define([
          assert.isTrue(dragnDrop.Container._isDragStarted(startEvent, createNativeEvent('mousemove', 20, 14), true));
          assert.isTrue(dragnDrop.Container._isDragStarted(startEvent, createNativeEvent('mousemove', 16, 10), true));
          assert.isTrue(dragnDrop.Container._isDragStarted(startEvent, createNativeEvent('mousemove', 20, 6), true));
+      });
+      it('class controls-DragNDrop__notDraggable does`t start drag', function() {
+         var controller = new dragnDrop.Container();
+         var event = createSyntheticEvent('mousedown', 20, 10);
+         var sandbox = sinon.createSandbox();
+         sandbox.stub(controller, '_registerMouseMove');
+         event.target.closest = (value) => value === '.controls-DragNDrop__notDraggable';
+         controller.startDragNDrop({}, event);
+
+         sinon.assert.notCalled(controller._registerMouseMove);
       });
       it('_beforeUnmount', function() {
          var controller = new dragnDrop.Container();

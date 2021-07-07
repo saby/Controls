@@ -1,0 +1,56 @@
+/*A double selector is needed so that the "position" specified on the block that wraps the StickyHeader does not work.*/
+/*Will be fixed by: https://online.sbis.ru/opendoc.html?guid=2c58d954-7fd6-4cb0-8f6a-f17d89622004*/
+.controls-StickyHeader.controls-StickyHeader_position {
+   position: sticky;
+}
+
+// Прилипающий заголовок дергается при скролле в горизонтальных списках на macOS, т.к. на корневой ноде списка висит свойство transformX.
+// Устанавливаем свойство will-change для оптимизации данного кейса.
+.ws-is-desktop-safari {
+   .controls-StickyHeader {
+      will-change: transform;
+   }
+}
+
+.controls-StickyHeader__observationTargetTop,
+.controls-StickyHeader__observationTargetBottom {
+   // Если сверстано так, что положение скрол контейнера выражается дробными числами(например ширины элементов страницы
+   // заданы через проценты), IntersectionObserver всегда считает что триггеры невидимы. В обработчике приходит
+   // правильное положение но, isIntersecting равен false. При последующем скрытии триггера событие не стреляет.
+   // Даже если мы правильно вычислим текущее состояние, мы теряем следующее сбытие о скрытии.
+   // Сдвинем триггеры от края на 1px.
+   // Пробовал расширять root через rootMargin. В обработчике кординаты root правильно изменились, но все равно
+   // isIntersecting равен false.
+   left: 1px;
+   right: 0;
+   height: 1px;
+   // В safari 13 неправильно рассчитывается ширина, через left: 0; right: 0; Ограничим ее.
+   // safari 13 (iPad, iOS) и chrome (iPad) случае max-width: 1px считают, что scrollWidth элемента 1px, тогда как его offsetWidth 0px.
+   // в результате начинает рассчёты StickyHeader тогда, когда это не нужно
+   width: 0;
+   position: absolute;
+}
+
+.controls-StickyHeader__observationTargetTop {
+   top: -2px;
+}
+
+.controls-StickyHeader__observationTargetBottom {
+   bottom: -2px;
+}
+
+.controls-StickyHeader__shadow-bottom {
+   bottom: -@shadow_thickness_scroll;
+   background: linear-gradient(
+      to bottom,
+      @shadow_start-color_scroll, @shadow_end-color_scroll
+   );
+}
+
+.controls-StickyHeader__shadow-top {
+   top: -@shadow_thickness_scroll;
+   background: linear-gradient(
+      to top,
+      @shadow_start-color_scroll, @shadow_end-color_scroll
+   );
+}

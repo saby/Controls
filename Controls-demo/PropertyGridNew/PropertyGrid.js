@@ -1,24 +1,23 @@
-define("Controls-demo/PropertyGridNew/PropertyGrid",
+define('Controls-demo/PropertyGridNew/PropertyGrid',
    [
-      "Core/Control",
-      "wml!Controls-demo/PropertyGridNew/PropertyGrid",
+      'Core/Control',
+      'wml!Controls-demo/PropertyGridNew/PropertyGrid',
 
       'Types/collection',
    ],
    function(Control, template, collection) {
-      "use strict";
+      'use strict';
 
       var PropertyGrid = Control.extend({
          _template: template,
 
          _beforeMount: function() {
-
             this._editingObject = {
                description: 'This is http://mysite.com',
                tileView: true,
                showBackgroundImage: true,
-               siteUrl: "http://mysite.com",
-               videoSource: "http://youtube.com/video",
+               siteUrl: 'http://mysite.com',
+               videoSource: 'http://youtube.com/video',
                backgroundType: new collection.Enum({
                   dictionary: ['Фоновое изображение', 'Заливка цветом'],
                   index: 0
@@ -37,24 +36,24 @@ define("Controls-demo/PropertyGridNew/PropertyGrid",
                   type: 'text'
                },
                {
-                  name: "tileView",
-                  caption: "Список плиткой",
-                  group: "boolean"
+                  name: 'tileView',
+                  caption: 'Список плиткой',
+                  group: 'boolean'
                },
                {
-                  name: "showBackgroundImage",
-                  caption: "Показывать изображение",
-                  group: "boolean"
+                  name: 'showBackgroundImage',
+                  caption: 'Показывать изображение',
+                  group: 'boolean'
                },
                {
-                  caption: "URL",
-                  name: "siteUrl",
-                  group: "string"
+                  caption: 'URL',
+                  name: 'siteUrl',
+                  group: 'string'
                },
                {
-                  caption: "Источник видео",
-                  name: "videoSource",
-                  group: "string"
+                  caption: 'Источник видео',
+                  name: 'videoSource',
+                  group: 'string'
                },
                {
                   caption: 'Тип фона',

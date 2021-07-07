@@ -53,6 +53,7 @@ export default {
             /**
              * @name Controls/_dateRange/interfaces/ILinkView#nextArrowVisibility
              * @cfg {Boolean} Отображает стрелку перехода к следующему периоду.
+             * @demo Controls-demo/dateRange/LiteSelector/ArrowVisibility/Index
              * @default false
              */
 
@@ -66,6 +67,7 @@ export default {
             /**
              * @name Controls/_dateRange/interfaces/ILinkView#prevArrowVisibility
              * @cfg {Boolean} Отображает стрелку перехода к предыдущему периоду.
+             * @demo Controls-demo/dateRange/LiteSelector/ArrowVisibility/Index
              * @default false
              */
 

@@ -5,7 +5,7 @@ import cClone = require('Core/core-clone');
 var _private = {
    updateLoadStatus: function(selectedKey, self) {
       self._items.find(function(item) {
-         return selectedKey === item.id || selectedKey === item.key;
+         return selectedKey === item.key;
       }).loaded = true;
    },
 
@@ -17,11 +17,11 @@ var _private = {
          factory(self._items).each(function(item) {
             if (item.get) {
                if (item.get('loaded')) {
-                  loadedItems.push(item.get('id') || item.get('key'));
+                  loadedItems.push(item.get('key'));
                }
             } else {
                if (item.loaded) {
-                  loadedItems.push(item.id || item.key);
+                  loadedItems.push(item.key);
                }
             }
          });
@@ -32,11 +32,11 @@ var _private = {
       // TODO https://online.sbis.ru/opendoc.html?guid=c206e7a9-9d96-4a20-b386-d44d0f8ef4dc. Восстанавливаем все загруженные вкладки
       factory(self._items).each(function(item) {
          if (item.get) {
-            if (loadedItems.indexOf(item.get('id') || item.get('key')) > -1) {
+            if (loadedItems.indexOf(item.get('key')) > -1) {
                item.set('loaded', true);
             }
          } else {
-            if (loadedItems.indexOf(item.id || item.key) > -1) {
+            if (loadedItems.indexOf(item.key) > -1) {
                item.loaded = true;
             }
          }

@@ -20,6 +20,7 @@ export interface ViewConfig<TOptions = object> extends ParkingViewConfig<TOption
      */
     mode?: Mode;
     status?: HTTPStatus;
+    readonly processed?: boolean;
 }
 
 export type ProcessedError = Error & { processed?: boolean; };

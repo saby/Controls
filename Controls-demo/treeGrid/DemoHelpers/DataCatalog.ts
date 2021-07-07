@@ -5,7 +5,7 @@ import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 import { IHeader } from 'Controls-demo/types';
 import { IColumn } from 'Controls/_grid/interface/IColumn';
 
-interface IData {
+export interface IData {
    id: number;
    parent?: null | number;
    'parent@'?: null | Boolean;

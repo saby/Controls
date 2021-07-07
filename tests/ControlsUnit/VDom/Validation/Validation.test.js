@@ -2,7 +2,8 @@ define([
    'Controls/validate',
    'Core/Deferred',
    'ControlsUnit/resources/ProxyCall',
-], function(validateMod, Deferred, ProxyCall) {
+   'Types/function'
+], function(validateMod, Deferred, ProxyCall, types) {
    'use strict';
 
    function getValidator(validateResult, readOnly) {
@@ -130,6 +131,7 @@ define([
       });
       it('activateFirstValidField', (done) => {
          let Controller = new validateMod.ControllerClass();
+         Controller.scrollToInvalidContainer = () => {};
          let validator1 = getValidator();
          let validator2 = getValidator(null, true);
          let validator3 = getValidator('Error');
@@ -145,13 +147,17 @@ define([
 
       it('openInfoBox at first valid container', (done) => {
          let Controller = new validateMod.ControllerClass();
+         Controller.scrollToInvalidContainer = () => {};
          let validator1 = getValidator('Error');
 
+         const sandBox = sinon.createSandbox();
+         sandBox.replace(types, 'delay', () => {validator1.openInfoBox()});
          Controller._validates.push(validator1);
          Controller.submit().then(() => {
             assert.equal(validator1._activateCall, true);
             assert.equal(validator1._isOpened, true);
             Controller.destroy();
+            sandBox.restore();
             done();
          });
       });
@@ -197,10 +203,13 @@ define([
 
       it('submit', (done) => {
          let Controller = new validateMod.ControllerClass();
+         Controller.scrollToInvalidContainer = () => {};
          let validator1 = getValidator(true);
          let validator2 = getValidator(false);
          Controller.addValidator(validator1);
          Controller.addValidator(validator2);
+         const sandBox = sinon.createSandbox();
+         sandBox.replace(types, 'delay', () => {validator1.openInfoBox()});
 
          Controller.submit().then((result) => {
             assert.equal(validator1._validateCall, true, 'is validate1 call');
@@ -211,6 +220,21 @@ define([
 
             assert.equal(validator1._activateCall, true, 'is validate1 activate');
             assert.equal(validator2._activateCall, false, 'is validate2 activate');
+            Controller.destroy();
+            sandBox.restore();
+            done();
+         }).catch((error) => {
+            done(error);
+         });
+      });
+      it('closeInfobox by submit ', (done) => {
+         let validCtrl = new validateMod.Container();
+         let Controller = new validateMod.ControllerClass();
+         validCtrl._isOpened = true;
+         validCtrl._validationResult = true;
+         Controller._validates.push(validCtrl);
+         Controller.submit().then(() => {
+            assert.strictEqual(validCtrl._isOpened, false);
             Controller.destroy();
             done();
          }).catch((error) => {

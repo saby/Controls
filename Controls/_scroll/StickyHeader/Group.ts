@@ -1,4 +1,4 @@
-import {SyntheticEvent} from "Vdom/Vdom";
+import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {
     isStickySupport,
@@ -11,15 +11,15 @@ import {
     getGapFixSize
 } from 'Controls/_scroll/StickyHeader/Utils';
 import template = require('wml!Controls/_scroll/StickyHeader/Group');
-import {SHADOW_VISIBILITY} from './_StickyHeader';
-import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import {SHADOW_VISIBILITY} from './Utils';
+import {RegisterClass} from 'Controls/event';
 import fastUpdate from './FastUpdate';
 
 /**
  * Allows you to combine sticky headers with the same behavior. It is necessary if you need to make
  * several headers fixed at the same level, which should simultaneously stick and stick out.
  * Behaves like one fixed header.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
@@ -64,8 +64,9 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
 }
 
 export default class Group extends Control<IStickyHeaderGroupOptions> {
-    protected _template: TemplateFunction = template;
     private _index: number = null;
+    private _updateFixedRegister: RegisterClass = new RegisterClass({register: 'updateFixed'});
+    protected _template: TemplateFunction = template;
     protected _isStickySupport: boolean = false;
 
     protected _fixed: boolean = false;
@@ -80,6 +81,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         bottom: 0
     };
     protected _isFixed: boolean = false;
+    protected _isShadowVisibleByController: boolean = true;
 
     protected _headers: IHeadersMap = {};
     protected _isRegistry: boolean = false;
@@ -89,6 +91,18 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     protected _beforeMount(options: IControlOptions, context): void {
         this._isStickySupport = isStickySupport();
         this._index = getNextId();
+    }
+
+    protected _beforeUnmount(): void {
+        this._updateFixedRegister.destroy();
+    }
+
+    protected _registerHandler(event, registerType, component, callback, config): void {
+        this._updateFixedRegister.register(event, registerType, component, callback, config);
+    }
+
+    protected _unregisterHandler(event, registerType, component, config): void {
+        this._updateFixedRegister.unregister(event, component, config);
     }
 
     getOffset(parentElement: HTMLElement, position: POSITION): number {
@@ -146,7 +160,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
             if (!!fixedHeaderData.fixedPosition) {
                 this._stickyHeadersIds[fixedHeaderData.fixedPosition].push(fixedHeaderData.id);
                 if (this._isFixed === true) {
-                    this._children.stickyFixed.start(this._stickyHeadersIds[fixedHeaderData.fixedPosition]);
+                    this._updateFixedRegister.start(event, this._stickyHeadersIds[fixedHeaderData.fixedPosition]);
                 }
             } else if (!!fixedHeaderData.prevPosition && this._stickyHeadersIds[fixedHeaderData.prevPosition].indexOf(fixedHeaderData.id) > -1) {
                 this._stickyHeadersIds[fixedHeaderData.prevPosition].splice(this._stickyHeadersIds[fixedHeaderData.prevPosition].indexOf(fixedHeaderData.id), 1);
@@ -185,6 +199,16 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         }
     }
 
+    protected updateShadowVisibility(isVisible: boolean): void {
+        if (this._isShadowVisibleByController !== isVisible) {
+            this._isShadowVisibleByController = isVisible;
+            for (const id in this._headers) {
+                this._headers[id].inst.updateShadowVisibility(isVisible);
+            }
+        }
+    }
+
+
     protected _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {
         event.stopImmediatePropagation();
         if (register) {
@@ -202,7 +226,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
             }
 
             if (this._isFixed) {
-                this._children.stickyFixed.start([data.id].concat(this._stickyHeadersIds[data.position]));
+                this._updateFixedRegister.start(event, [data.id].concat(this._stickyHeadersIds[data.position]));
             }
 
             // Register group after first header is registered

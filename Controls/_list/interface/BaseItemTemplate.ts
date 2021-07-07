@@ -16,13 +16,13 @@ export type TCursor = 'default' | 'pointer' | 'right';
 export default interface IBaseItemTemplateOptions {
    /**
     * @name Controls/list:BaseItemTemplate#highlightOnHover
-    * @cfg {Boolean} Когда опция установлена в значение true, элемент будет подсвечиваться при наведении курсора мыши.
+    * @cfg {Boolean} В значении false элементы списка не будут подсвечиваться при наведении курсора мыши.
     * @default true
     */
    highlightOnHover?: boolean;
    /**
     * @name Controls/list:BaseItemTemplate#cursor
-    * @cfg {TCursor} Тип {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах элемента списка.
+    * @cfg {TCursor} Вид {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах элемента списка.
     * @default pointer
     */
    cursor?: TCursor;
@@ -46,6 +46,8 @@ export default interface IBaseItemTemplateOptions {
    /**
     * @name Controls/interface/IItemTemplate#checkboxReadOnly
     * @cfg {boolean} Флаг, позволяющий установить у checkbox в multiSelect режим "только для чтения".
+    * @remark
+    * В значении true режим "только для чтения" включен.
     * @default false
     */
    /*

@@ -5,7 +5,7 @@ import * as rk from 'i18n!ControlsUnit';
 
 import { IItemAction, IShownItemAction } from 'Controls/_itemActions/interface/IItemAction';
 import { horizontalMeasurer } from 'Controls/_itemActions/measurers/HorizontalMeasurer';
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import {DOMUtil} from 'Controls/sizeUtils';
 
 describe('Controls/_itemActions/measurers/HorizontalMeasurer', () => {
     it('needIcon', () => {
@@ -131,7 +131,7 @@ describe('Controls/_itemActions/measurers/HorizontalMeasurer', () => {
                         id: null,
                         icon: 'icon-SwipeMenu',
                         title: rk('Ещё'),
-                        _isMenu: true,
+                        isMenu: true,
                         showType: 2
                     })
                 },
@@ -161,7 +161,7 @@ describe('Controls/_itemActions/measurers/HorizontalMeasurer', () => {
                 id: null,
                 icon: 'icon-SwipeMenu',
                 title: rk('Ещё'),
-                _isMenu: true,
+                isMenu: true,
                 showType: 2
             });
             const result = {
@@ -202,7 +202,7 @@ describe('Controls/_itemActions/measurers/HorizontalMeasurer', () => {
                 id: null,
                 icon: 'icon-SwipeMenu',
                 title: rk('Ещё'),
-                _isMenu: true,
+                isMenu: true,
                 showType: 2
             });
 
@@ -262,7 +262,7 @@ describe('Controls/_itemActions/measurers/HorizontalMeasurer', () => {
                         id: null,
                         icon: 'icon-SwipeMenu',
                         title: rk('Ещё'),
-                        _isMenu: true,
+                        isMenu: true,
                         showType: 2
                     })
                 },
@@ -390,7 +390,7 @@ describe('Controls/_itemActions/measurers/HorizontalMeasurer', () => {
                     id: null,
                     icon: 'icon-SwipeMenu',
                     title: rk('Ещё'),
-                    _isMenu: true,
+                    isMenu: true,
                     showType: 2
                 }
             ];

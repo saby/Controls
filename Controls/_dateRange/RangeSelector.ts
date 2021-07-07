@@ -5,7 +5,9 @@ import {IDateRangeOptions} from "./interfaces/IDateRange";
 import ILinkView from './interfaces/ILinkView';
 import IDateRangeSelectable = require('./interfaces/IDateRangeSelectable');
 import componentTmpl = require('wml!Controls/_dateRange/RangeSelector/RangeSelector');
-import getOptions from 'Controls/Utils/datePopupUtils';
+import {Popup as PopupUtil} from 'Controls/dateUtils';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 
 /**
  * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре.
@@ -25,6 +27,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @mixes Controls/_interface/IDayTemplate
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
  * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IOpenPopup
  * @control
  * @public
@@ -58,10 +61,10 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @demo Controls-demo/Input/Date/RangeLink
  *
  */
-var Component = BaseSelector.extend({
-    _template: componentTmpl,
+export default class RangeSelector extends BaseSelector<IControlOptions> {
+    _template: TemplateFunction = componentTmpl;
 
-    _updateRangeModel: function(options) {
+    _updateRangeModel(options: IDateRangeOptions): void {
         const opts: IDateRangeOptions = {};
 
         if (options.hasOwnProperty('endValue')) {
@@ -76,15 +79,15 @@ var Component = BaseSelector.extend({
         opts.rangeSelectedCallback = options.rangeSelectedCallback;
         opts.selectionType = options.selectionType;
         opts.ranges = options.ranges;
-        Component.superclass._updateRangeModel.call(this, opts);
-    },
+        super._updateRangeModel.call(this, opts);
+    }
 
-    _getPopupOptions: function() {
+    protected _getPopupOptions(): IStickyPopupOptions {
         const container = this._children.linkView.getPopupTarget();
         const ranges = this._options.ranges;
         let className = 'controls-DatePopup__selector-marginTop_theme-' + this._options.theme;
         if (this._options.popupClassName) {
-           className += `${this._options.popupClassName} `;
+            className += `${this._options.popupClassName} `;
         }
         if ((ranges && ('days' in ranges || 'weeks' in ranges)) ||
             ((!ranges || isEmpty(ranges)) && this._options.minRange === 'day')) {
@@ -93,12 +96,12 @@ var Component = BaseSelector.extend({
             className += ' controls-DatePopup__selector-marginLeft-withoutModeBtn_theme-' + this._options.theme;
         }
         return {
-            ...getOptions.getCommonOptions(this),
+            ...PopupUtil.getCommonOptions(this),
             target: container,
             template: 'Controls/datePopup',
             className,
             templateOptions: {
-                ...getOptions.getDateRangeTemplateOptions(this),
+                ...PopupUtil.getDateRangeTemplateOptions(this),
                 headerType: 'link',
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
@@ -114,28 +117,32 @@ var Component = BaseSelector.extend({
                 rangeSelectedCallback: this._options.rangeSelectedCallback
             }
         };
-    },
+    }
 
-    shiftBack: function () {
+    _mouseEnterHandler(): void {
+        const loadCss = (datePopup) => datePopup.loadCSS();
+        this._startDependenciesTimer('Controls/datePopup', loadCss);
+    }
+
+    shiftBack(): void {
         this._children.linkView.shiftBack();
-    },
+    }
 
-    shiftForward: function () {
+    shiftForward(): void {
         this._children.linkView.shiftForward();
     }
 
-});
+    static getDefaultOptions(): object {
+        return coreMerge(coreMerge({
+            minRange: 'day',
+        }, IDateRangeSelectable.getDefaultOptions()), ILinkView.getDefaultOptions());
+    }
 
-Component.EMPTY_CAPTIONS = ILinkView.EMPTY_CAPTIONS;
+    static getOptionTypes(): object {
+        return coreMerge(coreMerge({}, IDateRangeSelectable.getOptionTypes()), ILinkView.getOptionTypes());
+    }
 
-Component.getDefaultOptions = function () {
-    return coreMerge(coreMerge({
-        minRange: 'day',
-    }, IDateRangeSelectable.getDefaultOptions()), ILinkView.getDefaultOptions());
-};
+    static _theme: string[] = ['Controls/dateRange'];
 
-Component.getOptionTypes = function () {
-    return coreMerge(coreMerge({}, IDateRangeSelectable.getOptionTypes()), ILinkView.getOptionTypes());
-};
-Component._theme = ['Controls/dateRange'];
-export default Component;
+    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
+}

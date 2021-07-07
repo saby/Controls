@@ -8,21 +8,21 @@
  * import {showType} from 'Controls/Utils/Toolbar';
  *  .....
  * this._defaultItems = [
- *               {
- *                 id: '1',
- *                 showType: showType.TOOLBAR,
- *                 icon: 'icon-Time icon-medium',
- *                 '@parent': false,
- *                 parent: null
- *                },
- *                {
- *                 id: '3',
- *                 icon: 'icon-Print icon-medium',
- *                 title: 'Распечатать',
- *                 '@parent': false,
- *                 parent: null
- *                 }
- *               };
+ *     {
+ *         id: '1',
+ *         showType: showType.TOOLBAR,
+ *         icon: 'icon-Time icon-medium',
+ *         '@parent': false,
+ *         parent: null
+ *     },
+ *     {
+ *         id: '3',
+ *         icon: 'icon-Print icon-medium',
+ *         title: 'Распечатать',
+ *         '@parent': false,
+ *         parent: null
+ *      }
+ *  ];
  * </pre>
  * @class Controls/Utils/Toolbar
  * @public
@@ -37,21 +37,21 @@
  * import {showType} from 'Controls/Utils/Toolbar';
  *  .....
  * this._defaultItems = [
- *               {
- *                 id: '1',
- *                 showType: showType.TOOLBAR,
- *                 icon: 'icon-Time icon-medium',
- *                 '@parent': false,
- *                 parent: null
- *                },
- *                {
- *                 id: '3',
- *                 icon: 'icon-Print icon-medium',
- *                 title: 'Распечатать',
- *                 '@parent': false,
- *                 parent: null
- *                 }
- *               };
+ *     {
+ *         id: '1',
+ *         showType: showType.TOOLBAR,
+ *         icon: 'icon-Time icon-medium',
+ *         '@parent': false,
+ *         parent: null
+ *     },
+ *     {
+ *         id: '3',
+ *         icon: 'icon-Print icon-medium',
+ *         title: 'Распечатать',
+ *         '@parent': false,
+ *         parent: null
+ *      }
+ *  ];
  * </pre>
  * @class Controls/Utils/Toolbar
  * @public

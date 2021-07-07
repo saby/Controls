@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Controls.toggle:CheckboxGroup attr:class="ControlsDemo-CheckboxGroup__item_width"
+        <Controls.toggle:CheckboxGroup attr:class="ControlsDemo-CheckboxGroup__hierarchy"
                                        source="{{_source}}"
                                        parentProperty="parent"
                                        nodeProperty="node"

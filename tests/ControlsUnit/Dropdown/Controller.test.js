@@ -269,6 +269,21 @@ define(
                });
             });
 
+            it('_getloadItemsPromise', () => {
+               let errorCathed = false;
+               dropdownController._items = null;
+               dropdownController._loadItemsPromise = null;
+               dropdownController._options.source = null;
+               let promise = dropdownController._getloadItemsPromise();
+
+               try {
+                  promise.then(() => {});
+               } catch (error) {
+                  errorCathed = true;
+               }
+               assert.isFalse(errorCathed);
+            });
+
             it('without loaded items', () => {
                let configItems = clone(config),
                   selectedItems = [];
@@ -633,7 +648,7 @@ define(
                assert.equal(resultPopupConfig.opener, 'test');
             });
 
-            it('templateOptions', () => {
+            it('check merge popupOptions', () => {
                dropdownController._popupOptions = {
                   opener: 'test'
                };
@@ -645,6 +660,20 @@ define(
                assert.equal(resultPopupConfig.target, 'testTarget');
                assert.equal(resultPopupConfig.testPopupOptions, 'testValue');
                assert.equal(resultPopupConfig.opener, 'test');
+            });
+
+            it('check keyProperty option', () => {
+               dropdownController._popupOptions = { };
+               dropdownController._options.keyProperty = 'key';
+               dropdownController._source = new history.Source({});
+               let resultPopupConfig = dropdownController._getPopupOptions();
+
+               assert.equal(resultPopupConfig.templateOptions.keyProperty, 'copyOriginalId');
+
+               dropdownController._source = 'originalSource';
+               resultPopupConfig = dropdownController._getPopupOptions();
+
+               assert.equal(resultPopupConfig.templateOptions.keyProperty, 'key');
             });
          });
 
@@ -693,13 +722,13 @@ define(
                         title: 'testTitle'
                      }]
                   });
-                  dropdownController._options.footerTemplate = null;
+                  dropdownController._options.footerContentTemplate = null;
                   dropdownController._options.emptyText = null;
                   openConfig = null;
                });
 
                it('with footer', async() => {
-                  dropdownController._options.footerTemplate = {};
+                  dropdownController._options.footerContentTemplate = {};
 
                   await dropdownController.openMenu({ testOption: 'testValue' });
                   assert.equal(openConfig.testOption, 'testValue');
@@ -764,7 +793,7 @@ define(
 
          it('_private::getSourceController', function() {
             let dropdownController = getDropdownController(config);
-            dropdownController.setItems(configLazyLoad);
+            dropdownController.setItems(configLazyLoad.items);
             assert.isNotOk(dropdownController._sourceController);
 
             return new Promise((resolve) => {

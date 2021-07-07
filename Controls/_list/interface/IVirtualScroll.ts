@@ -10,10 +10,10 @@ export interface IVirtualScrollConfig {
 /**
  * @typedef {object} IVirtualScrollConfig
  * @property {number} pageSize Размер виртуальной страницы указывает максимальное количество одновременно отображаемых элементов в списке.
- * @property {IVirtualScrollMode} mode Режим скрытия записей в виртуальном скроллинге
- * @property {number} [viewportHeight=undefined] Высота вьюпорта контейнера в котором лежит список
- * @property {number} segmentSize Количество подгружаемых элементов при скроллировании
- * @property {string} [itemHeightProperty=undefined] Поле в элементе, которое содержит его высоту для оптимистичного рендеринга
+ * @property {IVirtualScrollMode} mode Режим скрытия элементов в виртуальном скроллинге.
+ * @property {number} [viewportHeight=undefined] Высота вьюпорта контейнера, в котором лежит список.
+ * @property {number} segmentSize Количество подгружаемых элементов при скроллировании.
+ * @property {string} [itemHeightProperty=undefined] Поле в элементе, которое содержит его высоту для оптимистичного рендеринга.
  */
 
 /**
@@ -34,12 +34,12 @@ export interface IVirtualScrollConfig {
 
 /**
  * @typedef {String} IVirtualScrollMode
- * @variant remove Скрытые записи удаляются из DOM.
- * @variant hide Скрытые записи скрываются из DOM с помощью ws-hidden.
+ * @variant remove Скрытые элементы удаляются из DOM.
+ * @variant hide Скрытые элементы скрываются из DOM с помощью ws-hidden.
  */
 export type IVirtualScrollMode = 'remove' | 'hide';
 
 /**
  * @name Controls/_list/interface/IVirtualScroll#virtualScrollConfig
- * @cfg {IVirtualScrollConfig} Конфигурация виртуального скроллинга. Начиная с версии 20.4100 виртуальный скроллинг работает только при включенной навигации.
+ * @cfg {IVirtualScrollConfig} Конфигурация виртуального скроллинга. Виртуальный скроллинг работает только при включенной {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/navigation/ навигации}.
  */

@@ -8,6 +8,10 @@ import {default as headerTemplate} from 'Controls/_menu/Popup/headerTemplate';
 import {Controller as ManagerController, IStickyPopupOptions} from 'Controls/popup';
 import {RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
+import {Model} from 'Types/entity';
+import {TSelectedKeys} from 'Controls/interface';
+import {CollectionItem} from 'Controls/display';
+import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
@@ -23,6 +27,35 @@ import {factory} from 'Types/chain';
  * @category Popup
  * @author Герасимов А.М.
  */
+
+/**
+ * @name Controls/_menu/Popup#closeButtonVisibility
+ * @cfg {Boolean} Видимость кнопки закрытия.
+ * @remark В значении true кнопка отображается.
+ * @demo Controls-demo/Menu/Popup/CloseButtonVisibility/Index
+ * @example
+ * <pre class="brush: html; highlight: [6]">
+ * <!-- WML -->
+ * <Controls.menu:Popup
+ *       keyProperty="key"
+ *       displayProperty="title"
+ *       source="{{_source}}"
+ *       closeButtonVisibility="{{true}}">
+ * </Controls.menu:Popup>
+ * </pre>
+ * <pre class="brush: js">
+ * // JS
+ * this._source = new Memory({
+ *    keyProperty: 'key',
+ *    data: [
+ *       {key: 1, title: 'Yaroslavl'},
+ *       {key: 2, title: 'Moscow'},
+ *       {key: 3, title: 'St-Petersburg'}
+ *    ]
+ * });
+ * </pre>
+ */
+
 const SEARCH_DEPS = ['Controls/list:DataContainer', 'Controls/search:Controller', 'Controls/search:Input', 'Controls/search:InputContainer'];
 
 class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
@@ -35,6 +68,8 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     protected _closeButtonVisibility: boolean;
     protected _verticalDirection: string = 'bottom';
     protected _horizontalDirection: string = 'right';
+    protected _applyButtonVisible: boolean = false;
+    protected _selectedItems: Model[] = null;
 
     protected _beforeMount(options: IMenuPopupOptions): Promise<void>|void {
         this._headerTheme = this._getTheme();
@@ -106,6 +141,35 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
             popupOptions.direction.horizontal = this._horizontalDirection;
             popupOptions.targetPoint.horizontal = this._horizontalDirection;
         }
+    }
+
+    protected _setSelectedItems(event: SyntheticEvent<MouseEvent>, items: Model[]): void {
+        this._selectedItems = items;
+        this._updateApplyButton();
+    }
+
+    private _updateApplyButton(): void {
+        const isApplyButtonVisible: boolean = this._applyButtonVisible;
+        const newSelectedKeys: TSelectedKeys = factory(this._selectedItems).map(
+            (item: CollectionItem<Model>) =>
+                item.get(this._options.keyProperty)
+        ).value();
+        this._applyButtonVisible = this._isSelectedKeysChanged(newSelectedKeys, this._options.selectedKeys);
+
+        if (this._applyButtonVisible !== isApplyButtonVisible) {
+            scheduleCallbackAfterRedraw(this, (): void => {
+                this._notify('controlResize', [], {bubbling: true});
+            });
+        }
+    }
+
+    private _isSelectedKeysChanged(newKeys: TSelectedKeys, oldKeys: TSelectedKeys): boolean {
+        const diffKeys: TSelectedKeys = factory(newKeys).filter((key) => !oldKeys.includes(key)).value();
+        return newKeys.length !== oldKeys.length || !!diffKeys.length;
+    }
+
+    protected _applyButtonClick(): void {
+        this._notify('sendResult', ['applyClick', this._selectedItems], {bubbling: true});
     }
 
     private _setCloseButtonVisibility(options: IMenuPopupOptions): void {

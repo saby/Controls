@@ -36,7 +36,7 @@ export default interface IDateRangeValidators {
  * Поле ввода периода с валидатором, который проверяет, что в поле ввода начала периода введено значение.
  * Так же этот валидатор устанавливается в поле ввода в диалоге выбора периода, который открывается
  * по клику на кнопку рядом с полями ввода.
- * 
+ *
  * <pre class="brush: html">
  * <Controls.dateRange:Input>
  *    <ws:startValueValidators>
@@ -44,12 +44,12 @@ export default interface IDateRangeValidators {
  *          <ws:Function>Controls/validate:isRequired</ws:Function>
  *       </ws:Array>
  *    </ws:startValueValidators>
- * </Controls.input:DateBase>
+ * </Controls.dateRange:Input>
  * </pre>
- * 
+ *
  * Поле ввода с прикладным валидатором, который проверяет, что начало периода лежит в интервале между _startValue
  * и _endValue.
- * 
+ *
  * <pre class="brush: html">
  * <Controls.dateRange:Input>
  *    <ws:startValueValidators>
@@ -62,7 +62,7 @@ export default interface IDateRangeValidators {
  *          </ws:Object>
  *       </ws:Array>
  *    </ws:startValueValidators>
- * </Controls.input:DateBase>
+ * </Controls.dateRange:Input>
  * </pre>
  *
  * @see Controls/_interface/IDateRangeValidators#endValueValidators
@@ -81,7 +81,7 @@ export default interface IDateRangeValidators {
  * Поле ввода периода с валидатором, который проверяет, что в поле ввода коца периода введено значение.
  * Так же этот валидатор устанавливается в поле ввода в диалоге выбора периода, который открывается
  * по клику на кнопку рядом с полями ввода.
- * 
+ *
  * <pre class="brush: html">
  * <Controls.dateRange:Input>
  *     <ws:endValueValidators>
@@ -89,12 +89,12 @@ export default interface IDateRangeValidators {
  *             <ws:Function>Controls/validate:isRequired</ws:Function>
  *         </ws:Array>
  *     </ws:endValueValidators>
- * </Controls.input:DateBase>
+ * </Controls.dateRange:Input>
  * </pre>
- * 
+ *
  * Поле ввода с прикладным валидатором, который проверяет, что конец периода лежит в интервале между _startValue
  * и _endValue.
- * 
+ *
  * <pre class="brush: html">
  * <Controls.dateRange:Input>
  *     <ws:endValueValidators>
@@ -107,7 +107,7 @@ export default interface IDateRangeValidators {
  *             </ws:Object>
  *         </ws:Array>
  *     </ws:endValueValidators>
- * </Controls.input:DateBase>
+ * </Controls.dateRange:Input>
  * </pre>
  *
  * @see Controls/_interface/IDateRangeValidators#startValueValidators
@@ -122,7 +122,7 @@ export default interface IDateRangeValidators {
  *
  * @example
  * Включаем срабатывание валидации только по внешнему тригеру. Например при валидации формы.
- * 
+ *
  * <pre class="brush: html">
  * <Controls.input:Date validateByFocusOut="{{false}}"/>
  * </pre>

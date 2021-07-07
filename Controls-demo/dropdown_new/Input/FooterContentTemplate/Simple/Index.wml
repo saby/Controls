@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">Выпадающий список с footerTemplate</div>
+        <Controls.dropdown:Input bind:selectedKeys="_selectedKeys"
+                                 keyProperty="id"
+                                 displayProperty="title"
+                                 multiSelect="{{true}}"
+                                 source="{{_source}}">
+            <ws:footerContentTemplate>
+                footerTemplate
+            </ws:footerContentTemplate>
+        </Controls.dropdown:Input>
+    </div>
+</div>

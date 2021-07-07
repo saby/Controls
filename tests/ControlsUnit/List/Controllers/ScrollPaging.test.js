@@ -17,8 +17,12 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 });
                 chai_1.assert.equal('top', spInstance._curState, 'Wrong curState after ctor');
                 chai_1.assert.deepEqual({
-                    backwardEnabled: false,
-                    forwardEnabled: true,
+                    arrowState: {
+                        begin: "readonly",
+                        end: "visible",
+                        next: "visible",
+                        prev: "readonly"
+                    }
                 }, result, 'Wrong pagingCfg after ctor');
             });
             it('middle position', function () {
@@ -35,8 +39,12 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 });
                 chai_1.assert.equal('middle', spInstance._curState, 'Wrong curState after ctor');
                 chai_1.assert.deepEqual({
-                    backwardEnabled: true,
-                    forwardEnabled: true,
+                    arrowState: {
+                        begin: "visible",
+                        end: "visible",
+                        next: "visible",
+                        prev: "visible"
+                    }
                 }, result, 'Wrong pagingCfg after ctor');
             });
             it('top position', function () {
@@ -53,8 +61,12 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 });
                 chai_1.assert.equal('bottom', spInstance._curState, 'Wrong curState after ctor');
                 chai_1.assert.deepEqual({
-                    backwardEnabled: true,
-                    forwardEnabled: false,
+                    arrowState: {
+                        begin: "visible",
+                        end: "readonly",
+                        next: "readonly",
+                        prev: "visible"
+                    }
                 }, result, 'Wrong pagingCfg after ctor');
             });
         });
@@ -78,8 +90,12 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 });
                 chai_1.assert.equal('bottom', spInstance._curState, 'Wrong curState after updateScrollParams');
                 chai_1.assert.deepEqual({
-                    backwardEnabled: true,
-                    forwardEnabled: false,
+                    arrowState: {
+                        begin: "visible",
+                        end: "readonly",
+                        next: "readonly",
+                        prev: "visible"
+                    }
                 }, result, 'Wrong pagingCfg after scroll');
             });
         });

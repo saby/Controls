@@ -52,7 +52,7 @@ export = {
         } else {
             width = this._calculateValue(popupOptions, containerSizes.width, windowData.width, parseInt(popupOptions.width, 10), popupOptions.maxWidth, popupOptions.minWidth);
             height = this._calculateValue(popupOptions, containerSizes.height, windowData.height, parseInt(popupOptions.height, 10), popupOptions.maxHeight, popupOptions.minHeight);
-            left = this._getLeftCoord(windowData.width, width || containerSizes.width, popupOptions) + (windowData.scrollLeft || 0);
+            left = this._getLeftCoord(windowData.width, width || containerSizes.width, popupOptions) + ((windowData.leftScroll + windowData.left) || 0);
 
             // Если диалоговое окно открыто через touch, то позиционируем его в самом верху экрана.
             // Это решает проблемы с показом клавиатуры и прыжком контента из-за изменившегося scrollTop.
@@ -113,7 +113,8 @@ export = {
             return 0;
         }
         const middleCoef = 2;
-        let scrollTop: number = windowData.scrollTop || 0;
+        const top = windowData.topScroll + windowData.top;
+        let scrollTop: number = top || 0;
 
         // только на ios13 scrollTop больше чем нужно. опытным путем нашел коэффициент
         if (this._isIOS13()) {

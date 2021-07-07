@@ -9,12 +9,17 @@ import { Object as EventObject } from 'Env/Event';
 import {isEqual} from 'Types/object';
 import { IObservable } from 'Types/collection';
 import { Model } from 'Types/entity';
-import { CollectionItem, IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig, ANIMATION_STATE } from 'Controls/display';
-import { CssClassList } from "../Utils/CssClassList";
+import { CollectionItem, IEditingConfig, ISwipeConfig, ANIMATION_STATE } from 'Controls/display';
+import { CssClassList } from "./resources/utils/CssClassList";
 import {Logger} from 'UI/Utils';
-import {IItemAction} from 'Controls/itemActions';
+import {IItemAction, IItemActionsTemplateConfig} from 'Controls/itemActions';
 import { IDragPosition, IFlatItemData } from 'Controls/listDragNDrop';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
+import { IItemPadding } from './interface/IList';
+
+interface IListSeparatorOptions {
+    rowSeparatorSize?: null | 's' | 'l';
+}
 
 /**
  *
@@ -22,35 +27,44 @@ import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
  * @private
  */
 
-var _private = {
+const _private = {
     updateIndexes: function(self, startIndex, stopIndex) {
         self._startIndex = startIndex;
         self._stopIndex = stopIndex;
     },
-    getItemPadding: function(cfg) {
-        const itemPadding = cfg.itemPadding || {};
+    getItemPadding(itemPadding: IItemPadding = {}): IItemPadding {
         const normalizeValue = (side) => (itemPadding[side] || 'default').toLowerCase();
         return {
             left: normalizeValue('left'),
             right: normalizeValue('right'),
             top: normalizeValue('top'),
-            bottom: normalizeValue('bottom'),
+            bottom: normalizeValue('bottom')
         };
     },
-    getSpacingClassList: function(cfg) {
+    getSpacingClassList(
+        itemPaddingProperty: object,
+        styleProperty: string,
+        theme: string,
+        multiSelectVisibility: string,
+        rowSeparatorSize: string
+    ): string {
         let classList = '';
-        const itemPadding = _private.getItemPadding(cfg);
-        const style = cfg.style === 'masterClassic' || !cfg.style ? 'default' : cfg.style;
+        const itemPadding = _private.getItemPadding(itemPaddingProperty);
+        const style = styleProperty === 'masterClassic' || !styleProperty ? 'default' : styleProperty;
 
-        classList += ` controls-ListView__itemContent controls-ListView__itemContent_${style}_theme-${cfg.theme}`;
-        classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${cfg.theme}`;
-        classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${cfg.theme}`;
-        classList += ` controls-ListView__item-rightPadding_${itemPadding.right}_theme-${cfg.theme}`;
+        classList += ` controls-ListView__itemContent controls-ListView__itemContent_${style}_theme-${theme}`;
+        classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${theme}`;
+        classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${theme}`;
+        classList += ` controls-ListView__item-rightPadding_${itemPadding.right}_theme-${theme}`;
 
-        if (cfg.multiSelectVisibility !== 'hidden') {
-            classList += ' controls-ListView__itemContent_withCheckboxes' + `_theme-${cfg.theme}`;
+        if (multiSelectVisibility !== 'hidden') {
+            classList += ' controls-ListView__itemContent_withCheckboxes' + `_theme-${theme}`;
         } else {
-            classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase() + `_theme-${cfg.theme}`;
+            classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase() + `_theme-${theme}`;
+        }
+
+        if (rowSeparatorSize) {
+            classList += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}_theme-${theme}`;
         }
 
         return classList;
@@ -131,14 +145,17 @@ var _private = {
         };
         itemsModelCurrent.isEditing = (): boolean => itemsModelCurrent.dispItem.isEditing();
         itemsModelCurrent.isMarked = (): boolean => itemsModelCurrent.dispItem.isMarked();
-        itemsModelCurrent.getItemActionClasses = (itemActionsPosition: string, theme?: string): string => (
+        itemsModelCurrent.getItemActionClasses = (itemActionsPosition: string, theme?: string, isLastRow?: boolean, rowSeparatorSize?: string): string => (
             itemsModelCurrent.dispItem.getItemActionClasses ?
-                itemsModelCurrent.dispItem.getItemActionClasses(itemActionsPosition, theme) : ''
+                itemsModelCurrent.dispItem.getItemActionClasses(itemActionsPosition, theme, isLastRow, rowSeparatorSize) : ''
         );
         itemsModelCurrent.getItemActionPositionClasses = (itemActionsPosition: string, itemActionsClass: string, itemPadding: {top?: string, bottom?: string}, theme: string, useNewModel?: boolean): string => (
             itemsModelCurrent.dispItem.getItemActionPositionClasses ?
                 itemsModelCurrent.dispItem.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemPadding, theme, useNewModel) : ''
         );
+    },
+    getSeparatorSizes(options: IListSeparatorOptions): IListSeparatorOptions['rowSeparatorSize'] {
+        return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;
     }
 };
 
@@ -161,6 +178,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         _private.updateIndexes(self, 0, self.getCount());
 
         this._reloadedKeys = {};
+        this.options = cfg;
+        this.options.rowSeparatorSize = _private.getSeparatorSizes(this.options);
     },
     setItemPadding: function(itemPadding, silent = false) {
         this._options.itemPadding = itemPadding;
@@ -168,8 +187,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             this._nextModelVersion();
         }
     },
-    getItemPadding: function() {
-        return _private.getItemPadding(this._options);
+    getItemPadding(): object {
+        return _private.getItemPadding(this._options.itemPadding);
     },
     getItemDataByItem: function() {
         const self = this;
@@ -182,6 +201,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             itemsModelCurrent._listViewModelCached = true;
         }
 
+        const theme = this.getDisplay() ? this.getDisplay().getTheme() : self._options.theme;
         // New Model compatibility
         _private.addNewModelCompatibilityForItem(itemsModelCurrent);
 
@@ -191,13 +211,14 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.markerVisibility = this._options.markerVisibility;
         itemsModelCurrent.itemTemplateProperty = this._options.itemTemplateProperty;
         itemsModelCurrent.isStickedMasterItem = itemsModelCurrent._isSelected && this._isSupportStickyMarkedItem();
-        itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options);
-        itemsModelCurrent.itemPadding = _private.getItemPadding(this._options);
+        itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options.itemPadding, this._options.style, theme, this._options.multiSelectVisibility, this._options.rowSeparatorSize);
+        itemsModelCurrent.itemPadding = _private.getItemPadding(this._options.itemPadding);
         itemsModelCurrent.hasMultiSelect = !!this._options.multiSelectVisibility && this._options.multiSelectVisibility !== 'hidden';
         itemsModelCurrent.multiSelectClassList = itemsModelCurrent.hasMultiSelect ?
             _private.getMultiSelectClassList(itemsModelCurrent, this._options.multiSelectVisibility === 'onhover') : '';
         itemsModelCurrent.calcCursorClasses = this._calcCursorClasses;
         itemsModelCurrent.backgroundStyle = this._options.backgroundStyle || this._options.style;
+        itemsModelCurrent.hoverBackgroundStyle = this._options.hoverBackgroundStyle || this._options.style;
         if (itemsModelCurrent.isGroup) {
             itemsModelCurrent.isStickyHeader = this._options.stickyHeader;
             itemsModelCurrent.virtualScrollConfig = this._isSupportVirtualScroll();
@@ -206,13 +227,13 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.getMarkerClasses = (): string => {
             const style = this._options.style || 'default';
             return `controls-ListView__itemV_marker
-                    controls-ListView__itemV_marker_${style}_theme-${self._options.theme}
-                    controls-ListView__itemV_marker_${style}_topPadding-${itemsModelCurrent.itemPadding.top}_theme-${self._options.theme}
-                    controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}_theme-${self._options.theme}`;
+                    controls-ListView__itemV_marker_${style}_theme-${theme}
+                    controls-ListView__itemV_marker_${style}_topPadding-${itemsModelCurrent.itemPadding.top}_theme-${theme}
+                    controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}_theme-${theme}`;
         };
 
         if (itemsModelCurrent.isGroup) {
-            itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent, self._options.theme);
+            itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent, theme);
         }
 
         if (this._editingItemData && itemsModelCurrent.key === this._editingItemData.key) {
@@ -224,7 +245,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             if (this._draggingItemData && this._draggingItemData.key === itemsModelCurrent.key) {
                 itemsModelCurrent.isDragging = true;
             }
-            if (dragItems.indexOf(itemsModelCurrent.key) !== -1) {
+            if (dragItems.indexOf(itemsModelCurrent.key) !== -1 && this._draggingItemData) {
                 itemsModelCurrent.isVisible = this._draggingItemData.key === itemsModelCurrent.key ? !this._dragTargetPosition : false;
             }
             if (this._draggingItemData && this._dragTargetPosition && this._dragTargetPosition.index === itemsModelCurrent.index) {
@@ -521,7 +542,9 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     _onBeginCollectionChange: function(action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
-        _private.updateIndexes(this, 0, this.getCount());
+        if (!this._isSupportVirtualScroll()) {
+            _private.updateIndexes(this, 0, this.getCount());
+        }
     },
     isValidItemForMarkedKey: function (item) {
         return item && !this._isGroup(item) && item.getId;
@@ -743,7 +766,10 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     setSearchValue: function(value) {
-        this._options.searchValue = value;
+        if (value !== this._options.searchValue) {
+            this._options.searchValue = value;
+            this._nextModelVersion();
+        }
     },
 
     __calcSelectedItem: function(display, selKey, keyProperty) {
@@ -765,6 +791,10 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
     markItemReloaded: function(key) {
         this._reloadedKeys[key] = ++this._singleItemReloadCount;
+    },
+    setRowSeparatorSize(rowSeparatorSize: IListSeparatorOptions['rowSeparatorSize']): void {
+        this._options.rowSeparatorSize = _private.getSeparatorSizes({rowSeparatorSize});
+        this._nextModelVersion();
     }
 });
 

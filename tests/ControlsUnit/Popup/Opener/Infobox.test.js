@@ -31,18 +31,22 @@ define(
                   maxWidth: 20
                },
                popupOptions: {
-                  maxWidth: 50
+                  maxWidth: 50,
+                  target: {
+                     closest: () => false
+                  }
                }
             };
             let prepareConfig = popupTemplate.InfoBoxController._prepareConfig;
             popupTemplate.InfoBoxController._prepareConfig = () => true;
             let prepareConfigPublic = popupTemplate.InfoBoxController.prepareConfig;
             popupTemplate.InfoBoxController.prepareConfig = () => true;
-            popupTemplate.InfoBoxController.elementCreated( item, container);
+            popupTemplate.InfoBoxController.elementCreated(item, container);
             popupTemplate.InfoBoxController._prepareConfig = prepareConfig;
             popupTemplate.InfoBoxController.prepareConfig = prepareConfigPublic;
             assert.equal(container.style.maxWidth, 100);
             assert.isUndefined(item.position.maxWidth);
+            popupTemplate.InfoBoxController.elementDestroyed(item);
          });
 
          it('getCustomZIndex', () => {

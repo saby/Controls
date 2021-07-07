@@ -7,6 +7,7 @@ import { TemplateFunction } from 'UI/Base';
 
 import { IDragPosition, ITreeItemData } from 'Controls/listDragNDrop';
 import { ItemsEntity } from 'Controls/dragnDrop';
+import {Logger} from 'UI/Utils';
 import { TreeChildren, TreeItem } from 'Controls/display';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 
@@ -55,6 +56,10 @@ var
             // Выпилить в 19.200 https://online.sbis.ru/opendoc.html?guid=4e0354e9-0519-4714-a67c-a1af433820aa
             if (cfg.expanderVisibility) {
                 return cfg.expanderVisibility;
+            }
+            // TODO: Удалить #rea_1179794968
+            if (typeof cfg.expanderDisplayMode !== 'undefined') {
+                Logger.warn('TreeGrid: option expanderDisplayMode is deprecated and will be removed in first next major version after 15.6000. Use expanderVisibility.');
             }
             return cfg.expanderDisplayMode === 'adaptive' ? 'hasChildren' : 'visible';
         },
@@ -145,7 +150,9 @@ var
                 }
             }
         },
-        shouldDrawExpander: function(itemData, expanderIcon) {
+
+        shouldDrawExpander(itemData, tmplExpanderIcon): boolean {
+            const expanderIcon = itemData.getExpanderIcon(tmplExpanderIcon);
             if (expanderIcon === 'none' || itemData.item.get(itemData.nodeProperty) === null) {
                 return false;
             }
@@ -153,24 +160,31 @@ var
             // Show expander icon if it is not equal 'none' or render leafs
             return (itemData.expanderVisibility !== 'hasChildren' || itemData.thereIsChildItem && itemData.hasChildItem);
         },
-        shouldDrawExpanderPadding: function(itemData, expanderIcon, expanderSize) {
+        shouldDrawExpanderPadding(itemData, tmplExpanderIcon, tmplExpanderSize): boolean {
+            const expanderIcon = itemData.getExpanderIcon(tmplExpanderIcon);
+            const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
+
             if (itemData.expanderVisibility === 'hasChildren') {
                 return itemData.thereIsChildItem && expanderIcon !== 'none';
             } else {
                 return !expanderSize && expanderIcon !== 'none';
             }
         },
-        getExpanderPaddingClasses: function(expanderSize, theme, isNodeFooter) {
-            let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__${isNodeFooter ? 'node-footer' : 'row'}-expanderPadding` + `_theme-${theme}`;
-            expanderPaddingClasses += ' controls-TreeGrid__row-expanderPadding_size_' + (expanderSize || 'default') + `_theme-${theme}`;
+        getExpanderPaddingClasses(itemData, tmplExpanderSize, isNodeFooter): string {
+            const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
+            let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__${isNodeFooter ? 'node-footer' : 'row'}-expanderPadding` + `_theme-${itemData.theme}`;
+            expanderPaddingClasses += ' controls-TreeGrid__row-expanderPadding_size_' + (expanderSize || 'default') + `_theme-${itemData.theme}`;
             return expanderPaddingClasses;
         },
-        prepareExpanderClasses: function(itemData, expanderIcon, expanderSize, theme) {
-            var
-                itemType = itemData.item.get(itemData.nodeProperty),
-                expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`,
-                style = itemData.style || 'default',
-                expanderIconClass;
+        getExpanderClasses(itemData, tmplExpanderIcon, tmplExpanderSize): string {
+            const expanderIcon = itemData.getExpanderIcon(tmplExpanderIcon);
+            const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
+            const theme = itemData.theme;
+            const style = itemData.style || 'default';
+            const itemType = itemData.item.get(itemData.nodeProperty);
+
+            let expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`;
+            let expanderIconClass = '';
 
             expanderClasses += ' controls-TreeGrid__row_' + style + '-expander_size_' + (expanderSize || 'default') + `_theme-${theme} `;
             expanderClasses += EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE;
@@ -199,6 +213,24 @@ var
             expanderClasses += expanderIconClass + (itemData.isExpanded ? '_expanded' : '_collapsed') + `_theme-${theme}`;
 
             return expanderClasses;
+        },
+        getLevelIndentSize(expanderSize: string, levelIndentSize: string): string {
+            const sizes = ['null', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl'];
+            let resultLevelIndentSize;
+
+            if (expanderSize && levelIndentSize) {
+                if (sizes.indexOf(expanderSize) >= sizes.indexOf(levelIndentSize)) {
+                    resultLevelIndentSize = expanderSize;
+                } else {
+                    resultLevelIndentSize = levelIndentSize;
+                }
+            } else if (!expanderSize && !levelIndentSize) {
+                resultLevelIndentSize = 'default';
+            } else {
+                resultLevelIndentSize = expanderSize || levelIndentSize;
+            }
+
+            return resultLevelIndentSize;
         },
         prepareCollapsedItems: function(expandedItems, collapsedItems) {
             if (_private.isExpandAll(expandedItems) && collapsedItems) {
@@ -297,11 +329,15 @@ var
                     item: params.dispItem.getContents(),
                     dispItem: params.dispItem,
                     level: params.dispItem.getLevel(),
-                    getExpanderPaddingClasses: _private.getExpanderPaddingClasses,
+                    shouldDrawExpanderPadding: (expanderIcon, expanderSize) => _private.shouldDrawExpanderPadding(current, expanderIcon, expanderSize),
+                    getExpanderPaddingClasses: (tmplExpanderSize) => _private.getExpanderPaddingClasses(current, tmplExpanderSize, true),
                     multiSelectVisibility: self._options.multiSelectVisibility,
                     template: params.template,
                     hasMoreStorage: !!params.hasMoreStorage,
-                    getExpanderSize: (tplExpanderSize) => tplExpanderSize || self._options.expanderSize
+                    getExpanderSize: (tplExpanderSize) => tplExpanderSize || self._options.expanderSize,
+                    getLevelIndentClasses: (expanderSize: string, levelIndentSize: string) => {
+                        return current.getLevelIndentClasses(current, expanderSize, levelIndentSize);
+                    }
                 });
             };
 
@@ -539,6 +575,7 @@ var
             return this._options.nodeFooterTemplate;
         },
 
+        // TODO: Удалить #rea_1179794968
         setExpanderDisplayMode: function(expanderDisplayMode) {
             this._options.expanderDisplayMode = expanderDisplayMode;
             this._nextModelVersion();
@@ -569,21 +606,40 @@ var
                 current._treeViewModelCached = true;
             }
 
+
+            current.getExpanderIcon = (tmplExpanderIcon) => tmplExpanderIcon || this._options.expanderIcon;
+            current.getExpanderSize = (tmplExpanderSize) => tmplExpanderSize || this._options.expanderSize;
+
+            // 1. Нужен ли экспандер.
+            current.shouldDrawExpander = _private.shouldDrawExpander;
+
+            // 2. Классы экспандера.
+            current.getExpanderClasses = _private.getExpanderClasses;
+
+            // 3. Нужны ли отступы под экспандер
+            current.shouldDrawExpanderPadding = _private.shouldDrawExpanderPadding;
+
+            // 4. Отступы под экспандер
+            current.getExpanderPaddingClasses = _private.getExpanderPaddingClasses;
+
+
+            current.expanderVisibility = _private.getExpanderVisibility(this._options);
+            current.getLevelIndentSize = _private.getLevelIndentSize;
+            current.getLevelIndentClasses = (itemData, tmplExpanderSize: string, levelIndentSize: string): string => {
+                const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
+                const correctLevelIndentSize = _private.getLevelIndentSize(expanderSize, levelIndentSize);
+                return `controls-TreeGrid__row-levelPadding_size_${correctLevelIndentSize}_theme-${current.theme}`;
+            };
+
             current.isExpanded = current.item.get && this.isExpanded(dispItem);
             current.parentProperty = this._options.parentProperty;
             current.nodeProperty = this._options.nodeProperty;
-            current.expanderVisibility = _private.getExpanderVisibility(this._options);
             current.thereIsChildItem = this._thereIsChildItem;
             current.hasChildItem = !current.isGroup && _private.hasChildItem(this, current.key);
-            current.shouldDrawExpander = _private.shouldDrawExpander;
-            current.shouldDrawExpanderPadding = _private.shouldDrawExpanderPadding;
-            current.getExpanderPaddingClasses = _private.getExpanderPaddingClasses;
-            current.prepareExpanderClasses = _private.prepareExpanderClasses;
-
-            current.getExpanderSize = (tplExpanderSize) => tplExpanderSize || this._options.expanderSize;
 
             // todo https://online.sbis.ru/opendoc.html?guid=0649e69a-d507-4024-9f99-c70205f535ef
             current.expanderTemplate = this._options.expanderTemplate;
+            current.footerContentTemplate = this._options.footerContentTemplate;
 
             if (current.item.get) {
                 current.level = current.dispItem.getLevel();
@@ -601,7 +657,7 @@ var
 
             current.useNewNodeFooters = this._options.useNewNodeFooters;
             if (current.item.get) {
-               _private.setNodeFooterIfNeed(this, current);
+                _private.setNodeFooterIfNeed(this, current);
             }
             return current;
         },
@@ -738,6 +794,9 @@ var
         setParentProperty(parentProperty: string): void {
             if (parentProperty !== this._options.parentProperty) {
                 this._options.parentProperty = parentProperty;
+                if (this._display) {
+                    this._display.setParentProperty(parentProperty);
+                }
             }
         },
         setHasChildrenProperty(hasChildrenProperty: string): void {

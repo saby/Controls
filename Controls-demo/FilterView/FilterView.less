@@ -1,28 +1,35 @@
 .controls-demo-FilterView {
    display: flex;
-   margin: 20px auto;
    align-items: flex-start;
+   max-width: 100%;
+   margin: 0 auto;
 }
 
 .controls-demo-FilterView__column {
    display: flex;
    flex-direction: column;
-   width: 450px;
-   margin-left: 100px;
+   max-width: 60%;
 }
 
 .controls-demo-FilterView__item {
-   margin: 15px;
-   width: 100%;
+   margin: 0 20px 20px;
+   max-width: 100%;
 }
 
 .controls-demo-FilterView__itemWrapper {
-   height: 32px;
+   min-height: 32px;
 }
 
 .controls-demo-FilterView__itemButton {
-   max-width: 450px;
    margin-top: 5px;
+   max-width: 100%;
+}
+
+.controls-demo-FilterView__item-onlyFast {
+   display: inline-flex;
+   flex-direction: column;
+   align-items: baseline;
+   margin-right: 35px;
 }
 
 .controls-demo-FilterView-operationTemplateItem {

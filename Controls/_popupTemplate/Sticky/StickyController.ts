@@ -54,23 +54,6 @@ const _private = {
         newCfg.direction = newCfg.direction || {};
         newCfg.offset = newCfg.offset || {};
 
-        if (newCfg.horizontalAlign && typeof (config.horizontalAlign) === 'object') {
-            if ('side' in newCfg.horizontalAlign) {
-                newCfg.direction.horizontal = newCfg.horizontalAlign.side;
-            }
-            if ('offset' in newCfg.horizontalAlign) {
-                newCfg.offset.horizontal = newCfg.horizontalAlign.offset;
-            }
-        }
-
-        if (newCfg.verticalAlign && typeof (config.verticalAlign) === 'object') {
-            if ('side' in newCfg.verticalAlign) {
-                newCfg.direction.vertical = newCfg.verticalAlign.side;
-            }
-            if ('offset' in newCfg.verticalAlign) {
-                newCfg.offset.vertical = newCfg.verticalAlign.offset;
-            }
-        }
         if (typeof config.fittingMode === 'string') {
             newCfg.fittingMode = {
                 vertical: config.fittingMode,
@@ -122,37 +105,20 @@ const _private = {
         className += ' controls-Popup-corner-horizontal-' + cfg.targetPoint.horizontal;
         className += ' controls-Popup-align-horizontal-' + cfg.direction.horizontal;
         className += ' controls-Popup-align-vertical-' + cfg.direction.vertical;
-        className += ' controls-Sticky__reset-margins';
         return className;
     },
 
     removeOrientationClasses(cfg) {
         if (cfg.popupOptions.className) {
-            cfg.popupOptions.className = cfg.popupOptions.className.replace(/controls-Popup-corner\S*|controls-Popup-align\S*|controls-Sticky__reset-margins/g, '').trim();
+            cfg.popupOptions.className = cfg.popupOptions.className.replace(/controls-Popup-corner\S*|controls-Popup-align\S*/g, '').trim();
         }
-    },
-
-    getTargetNode(cfg): HTMLElement {
-        if (cInstance.instanceOfModule(cfg.popupOptions.target, 'UI/Base:Control')) {
-            return cfg.popupOptions.target._container;
-        }
-        return cfg.popupOptions.target || (document && document.body);
     },
 
     updateStickyPosition(item, position): void {
         const newStickyPosition = {
             targetPoint: position.targetPoint,
             direction: position.direction,
-            offset: position.offset,
-            horizontalAlign: { // TODO: to remove
-                side: position.direction.horizontal,
-                offset: position.offset.horizontal
-            },
-            verticalAlign: { // TODO: to remove
-                side: position.direction.vertical,
-                offset: position.offset.vertical
-            },
-            corner: position.corner // TODO: to remove
+            offset: position.offset
         };
         // быстрая проверка на равенство простых объектов
         if (JSON.stringify(item.popupOptions.stickyPosition) !== JSON.stringify(newStickyPosition)) {
@@ -291,8 +257,14 @@ class StickyController extends BaseController {
         const scrollTop = scroll?.scrollTop;
         container.style.maxHeight = item.popupOptions.maxHeight ? item.popupOptions.maxHeight + 'px' : '100vh';
         container.style.maxWidth = item.popupOptions.maxWidth ? item.popupOptions.maxWidth + 'px' : '100vw';
-        container.style.width = 'auto';
-        container.style.height = 'auto';
+
+        // Если значения явно заданы на опциях, то не сбрасываем то что на контейнере
+        if (!item.popupOptions.width) {
+            container.style.width = 'auto';
+        }
+        if (!item.popupOptions.height) {
+            container.style.height = 'auto';
+        }
 
         /* end: We remove the set values that affect the size and positioning to get the real size of the content */
 
@@ -442,7 +414,7 @@ class StickyController extends BaseController {
                 leftScroll: 0
             };
         }
-        return TargetCoords.get(_private.getTargetNode(cfg));
+        return TargetCoords.get(StickyController._getTargetNode(cfg));
     }
 
     private _printTargetRemovedWarn(): void {
@@ -452,6 +424,13 @@ class StickyController extends BaseController {
     private _isTargetVisible(item): boolean {
         const targetCoords = this._getTargetCoords(item, {});
         return !!targetCoords.width;
+    }
+
+    protected static _getTargetNode(cfg): HTMLElement {
+        if (cInstance.instanceOfModule(cfg.popupOptions.target, 'UI/Base:Control')) {
+            return cfg.popupOptions.target._container;
+        }
+        return cfg.popupOptions.target || (document && document.body);
     }
 }
 

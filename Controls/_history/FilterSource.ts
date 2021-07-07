@@ -454,11 +454,13 @@ var Source = CoreExtend.extend([entity.OptionsToPropertyMixin], {
          serData = JSON.stringify(data, _private.getSerialize(this).serialize);
 
          return _private.getSourceByMeta(this, meta).update(serData, meta).addCallback(function (dataSet) {
-            _private.updateRecent(
-               self,
-               _private.getRawHistoryItem(self, dataSet.getRawData(), serData, item ? item.get('HistoryId') : self.historySource.getHistoryId())
-            );
-            return dataSet.getRawData();
+            if (dataSet) {
+               _private.updateRecent(
+                   self,
+                   _private.getRawHistoryItem(self, dataSet.getRawData(), serData, item ? item.get('HistoryId') : self.historySource.getHistoryId())
+               );
+            }
+            return dataSet?.getRawData() || '';
          });
       }
       return _private.getSourceByMeta(this, meta).update(data, meta);

@@ -141,6 +141,11 @@ class Base extends Control<IMasterDetail> {
     private _getSettings(options: IMasterDetail): Promise<object> {
         return getSettings([options.propStorageId]);
     }
+    private _dragStartHandler(): void {
+        if (!this._minOffset && !this._maxOffset && this._canResizing) {
+            this._updateOffset(this._options);
+        }
+    }
 
     private _setSettings(width: number): void {
         const propStorageId = this._options.propStorageId;
@@ -181,9 +186,6 @@ class Base extends Control<IMasterDetail> {
 
     protected _afterMount(options: IMasterDetail): void {
         this._prevCurrentWidth = this._currentWidth;
-        if (this._canResizing) {
-            this._updateOffset(options);
-        }
     }
 
     protected _beforeUpdate(options: IMasterDetail): void {

@@ -1,0 +1,47 @@
+<div class="controls-AdaptiveButtons">
+    <ws:template name="templateMore">
+        <div class="controls-AdaptiveButtons__more controls-AdaptiveButtons__more_theme_{{_options.theme}} controls-AdaptiveButtons__more_align_{{_options.align}}" >
+            <div class="controls-AdaptiveButtons__more__text controls-AdaptiveButtons__more__text_align_{{_options.align}}">
+            <Controls.dropdown:Button
+                        			 name="menuButton"
+                        			 keyProperty="{{_options.keyProperty}}"
+                        			 caption="{[Еще]}..."
+                        			 parentProperty="parent"
+                        			 nodeProperty="@parent"
+                        			 source="{{_menuSource}}"
+                        			 buttonStyle="secondary"
+                        			 viewMode="link"
+                        			 filter="{{_filter}}"
+                        			 selectedKeys="{{_selectedKey}}"
+                        			 lazyItemsLoading="{{true}}"
+                        			 on:menuItemActivate="_menuItemClickHandler()"
+                        		  />
+            </div>
+        </div>
+    </ws:template>
+    <div class="controls-AdaptiveButtons__wrapper {{_lastIndex < _items.getCount() - 1 ? 'controls-AdaptiveButtons__wrapper_incomplete'}} controls-AdaptiveButtons__wrapper_align_{{_options.align}}">
+        <Controls._tabs.Buttons selectedKey="{{_selectedKey}}"
+                                keyProperty="{{_options.keyProperty}}"
+                                items="{{_visibleItems}}"
+                                style="{{_options.style}}"
+                                align="{{_options.align}}"
+                                on:selectedKeyChanged="_selectedKeyHandler()">
+            <ws:itemTemplate>
+                <ws:partial template="wml!Controls/_tabs/Buttons/ItemTemplate"
+                            item="{{itemTemplate.item}}"
+                            attr:class="controls-AdaptiveButtons__item"
+                            displayProperty="title" />
+            </ws:itemTemplate>
+            <ws:itemRightTemplate>
+                <ws:if data="{{_lastIndex < _items.getCount() - 1 && itemRightTemplate.index === _visibleItems.getCount() - 1 && _options.align === 'left'}}">
+                    <ws:partial template="templateMore" />
+                </ws:if>
+            </ws:itemRightTemplate>
+            <ws:itemLeftTemplate>
+                <ws:if data="{{_lastIndex < _items.getCount() - 1 && itemLeftTemplate.index === 0 && _options.align === 'right'}}">
+                    <ws:partial template="templateMore" />
+                </ws:if>
+            </ws:itemLeftTemplate>
+        </Controls._tabs.Buttons>
+    </div>
+</div>

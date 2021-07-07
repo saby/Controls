@@ -23,8 +23,9 @@ import DataContext = require('Core/DataContext');
  *    });
  * </pre>
  *
- * @class Controls/_scroll/Scroll/Context
+ * @class Controls/_scroll/Context
  * @extends Core/DataContext
+ * @demo Controls-demo/Scroll/Context/Index
  * @control
  * @private
  * @author Красильников А.С.

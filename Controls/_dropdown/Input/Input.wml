@@ -1,5 +1,6 @@
 <Controls.popup:InfoboxTarget targetSide="bottom"
                               trigger="{{_needInfobox ? 'hover' : 'demand'}}"
+                              name="infoboxTarget"
                               on:click="_handleClick()"
                               on:mousedown="_handleMouseDown()"
                               on:mouseenter="_handleMouseEnter()"
@@ -21,7 +22,7 @@
                     hasMoreText="{{_hasMoreText}}"
                     isEmptyItem="{{_isEmptyItem && !_options.multiSelect}}"
                     readOnly="{{_options.readOnly}}"
-                    footerTemplate="{{_options.footerTemplate}}"/>
+                    footerTemplate="{{_options.footerTemplate || _options.footerContentTemplate}}"/>
     </ws:content>
     <ws:template>
         <ws:partial template="wml!Controls/_dropdown/Input/resources/infoBoxContentTemplate"

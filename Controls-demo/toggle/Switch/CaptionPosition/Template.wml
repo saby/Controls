@@ -1,11 +1,11 @@
-<div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
+    <div class="controlsDemo__cell demo-switchPosition__default">
         <div class="controls-text-label_theme-{{_options.theme}}">default switch</div>
         <Controls.toggle:Switch attr:class="demo-switch__element"
                                 bind:value="_value"
                                 caption="state"/>
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-switchPosition__left">
         <div class="controls-text-label_theme-{{_options.theme}}">captionPosition="left"</div>
         <Controls.toggle:Switch bind:value="_value2"
                                 captionPosition="left"

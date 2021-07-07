@@ -3,8 +3,8 @@ import controlTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/Item
 
 class SuggestTemplate extends Control{
    protected _template: TemplateFunction = controlTemplate;
-   protected _itemActions: Memory;
-   protected _beforeMount() {
+   protected _itemActions: object[];
+   protected _beforeMount(): void {
       this._itemActions = [
          {
             id: 1,

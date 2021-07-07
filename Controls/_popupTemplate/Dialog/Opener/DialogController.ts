@@ -117,6 +117,7 @@ class DialogController extends BaseController {
     }
 
     resizeOuter(item: IPopupItem, container: HTMLDivElement): boolean {
+        this._resetRootContainerCoords();
         // На ios ресайз страницы - это зум. Не реагируем на него.
         if (!detection.isMobileIOS) {
             return this._elementUpdated(item, container);
@@ -153,7 +154,7 @@ class DialogController extends BaseController {
         // After popup will be transferred to the synchronous change of coordinates,
         // we need to return the calculation of the position with the keyboard.
         // Positioning relative to body
-        item.position = DialogStrategy.getPosition(this._getWindowSize(), sizes, item);
+        item.position = DialogStrategy.getPosition(this._getRestrictiveContainerSize(item), sizes, item);
         this._fixCompatiblePosition(item);
     }
 
@@ -166,7 +167,7 @@ class DialogController extends BaseController {
             if (item.popupOptions.left !== undefined) {
                 // Calculating the left position when reducing the size of the browser window
                 const differenceWindowWidth: number =
-                    (item.popupOptions.left + item.popupOptions.width) - this._getWindowSize().width;
+                    (item.popupOptions.left + item.popupOptions.width) - this._getRestrictiveContainerSize(item).width;
                 if (differenceWindowWidth > 0) {
                     item.position.left = item.popupOptions.left - differenceWindowWidth;
                 } else {
@@ -223,14 +224,8 @@ class DialogController extends BaseController {
         item.position.left = item.popupOptions.left || defaultCoordinate;
     }
 
-    private _getWindowSize(): IWindow {
-        //TODO: https://online.sbis.ru/opendoc.html?guid=e049a729-ff28-46a4-9122-76e198ab30bd
-        return {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            scrollTop: window.scrollY,
-            scrollLeft: window.scrollX
-        };
+    private _getRestrictiveContainerSize(item: IDialogItem): IWindow {
+        return BaseController.getRootContainerCoords(item, '.controls-Popup__dialog-target-container');
     }
 }
 

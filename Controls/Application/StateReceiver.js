@@ -1,7 +1,6 @@
 define('Controls/Application/StateReceiver', ['Core/core-extend',
    'Core/Serializer',
-   'View/Executor/Utils',
-   'UI/Utils'], function(extend, Serializer, Utils, UIUtils) {
+   'UI/Utils'], function(extend, Serializer, UIUtils) {
    function getDepsFromSerializer(slr) {
       var moduleInfo;
       var deps = {};
@@ -27,6 +26,42 @@ define('Controls/Application/StateReceiver', ['Core/core-extend',
       return deps;
    }
 
+   //todo перенести в Serializer
+   var componentOptsReArray = [
+      {
+         toFind: /\\/g, // экранируем слеш первым
+         toReplace: '\\\\'
+      },
+      {
+         toFind: /<\/(script)/gi,
+         toReplace: '<\\/$1'
+      },
+      {
+         toFind: /'/g,
+         toReplace: '\\u0027'
+      },
+      {
+         toFind: /\u2028/g,
+         toReplace: '\\u000a'
+      },
+      {
+         toFind: /\u2029/g,
+         toReplace: '\\u000a'
+      },
+      {
+         toFind: /\n/g,
+         toReplace: '\\u000a'
+      },
+      {
+         toFind: /\r/g,
+         toReplace: '\\u000d'
+      },
+      {
+         toFind: /[^\\]\\u000a/g,
+         toReplace: '\\\\u000a'
+      }
+   ];
+
    var SRec = extend.extend({
       receivedStateObjectsArray: null,
       _deserialized: null,
@@ -50,7 +85,7 @@ define('Controls/Application/StateReceiver', ['Core/core-extend',
 
          slr = new Serializer();
          var serializedState = JSON.stringify(serializedMap, slr.serialize);
-         Utils.Common.componentOptsReArray.forEach(function(re) {
+         componentOptsReArray.forEach(function(re) {
             serializedState = serializedState.replace(re.toFind, re.toReplace);
          });
          serializedState = serializedState.replace(/\\"/g, '\\\\"');

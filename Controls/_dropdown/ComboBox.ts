@@ -3,7 +3,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/ComboBox/ComboBox');
 import * as Utils from 'Types/util';
 import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -12,7 +12,7 @@ import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
-import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import {isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {generateStates} from 'Controls/input';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions {
@@ -35,13 +35,11 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @class Controls/_dropdown/ComboBox
  * @extends Core/Control
  * @implements Controls/_interface/ISource
- * @implements Controls/interface/IItemTemplate
+ * @implements Controls/_menu/interface/IMenuBase
  * @implements Controls/_interface/IFilterChanged
  * @implements Controls/_interface/ISingleSelectable
- * @implements Controls/interface/IDropdownEmptyText
  * @implements Controls/interface/IInputPlaceholder
  * @implements Controls/interface/IDropdown
- * @implements Controls/_interface/INavigation
  * @control
  * @public
  * @category Input
@@ -107,13 +105,8 @@ class ComboBox extends BaseDropdown {
       return loadItems(this._controller, receivedState, options.source);
    }
 
-   _beforeUpdate(options: IComboboxOptions): void {
-      const containerNode = this._getContainerNode(this._container);
-
-      if (this._width !== containerNode.offsetWidth) {
-         this._width = containerNode.offsetWidth;
-      }
-      this._controller.update(this._getControllerOptions(options));
+   protected _beforeUpdate(newOptions: IComboboxOptions): void {
+      this._controller.update(this._getControllerOptions(newOptions));
    }
 
    _getControllerOptions(options: IComboboxOptions): object {
@@ -141,12 +134,9 @@ class ComboBox extends BaseDropdown {
    }
 
    _getMenuPopupConfig(): IStickyPopupOptions {
-      if (!this._width) {
-         this._width = this._getContainerNode(this._container).offsetWidth;
-      }
       return {
          templateOptions: {
-            width: this._width
+            width: this._getContainerNode(this._container).offsetWidth
          },
          eventHandlers: {
             onOpen: this._onOpen.bind(this),
@@ -198,7 +188,7 @@ class ComboBox extends BaseDropdown {
 
    protected _onResult(action: string, data): void {
       if (action === 'itemClick') {
-         const item = this._controller.getPreparedItem(data, this._options.keyProperty);
+         const item = this._controller.getPreparedItem(data);
          this._selectedItemsChangedHandler([item]);
          this._controller.handleSelectedItems(item);
       }

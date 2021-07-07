@@ -5,7 +5,6 @@ import {RecordSet} from 'Types/collection';
  * Интерфейс конфигурации для меню опции записи.
  * @remark
  * Набор опций передается объектом. Заданный объект мержится с минимальным объектом опций, отдаваемых в меню по-умолчанию.
- * В качестве ключей можно использовать следующие свойства:
  * @interface Controls/_itemActions/interface/IContextMenuConfig
  * @public
  * @author Аверкиев П.А.

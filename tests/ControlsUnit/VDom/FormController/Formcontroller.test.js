@@ -559,12 +559,15 @@ define([
 
       it('requestCustomUpdate isNewRecord', (done) => {
          let FC = new form.Controller();
+         const sandbox = sinon.createSandbox();
          FC._isNewRecord = true;
-         FC._notify = () => true;
+         sandbox.stub(FC, '_notify').returns(true);
          FC.update().then(() => {
             assert.equal(FC._isNewRecord, false);
+            assert.deepEqual(FC._notify.args[0], ['requestCustomUpdate', [FC._record], {bubbling: true}]);
             done();
             FC.destroy();
+            sandbox.restore();
          });
       });
       it('requestCustomUpdate', () => {
@@ -577,7 +580,7 @@ define([
             return true;
          };
          FC._notifyToOpener = (eventName) => {
-            if ( eventName === 'updateStarted') {
+            if ( eventName === 'updatestarted') {
                update = true;
                FC.destroy();
             }
@@ -644,6 +647,34 @@ define([
          assert.equal(FC._wasRead, true);
          assert.equal(FC._isNewRecord, false);
          FC.destroy();
+      });
+
+      describe('_onCloseErrorDialog()', () => {
+         let fc;
+
+         beforeEach(() => {
+            fc = new form.Controller();
+            fc.__error = {};
+            sinon.stub(fc, '_notify');
+         });
+
+         afterEach(() => {
+            sinon.reset();
+         });
+
+         it('without record', () => {
+            fc._onCloseErrorDialog();
+            assert.isNotOk(fc.__error, 'resets viewConfig of error container');
+            assert.isTrue(fc._notify.calledOnce, 'notifies "close"');
+            assert.deepEqual(fc._notify.getCall(0).args, ['close', [], { bubbling: true }]);
+         });
+
+         it('with record', () => {
+            fc._record = {};
+            fc._onCloseErrorDialog();
+            assert.isNotOk(fc.__error, 'resets viewConfig of error container');
+            assert.isNotOk(fc._notify.called, 'does not notify "close"');
+         });
       });
    });
 });

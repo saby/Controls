@@ -35,11 +35,13 @@ var _private = {
 
 var Text = Base.extend({
     _defaultValue: '',
+    _punycodeToUnicode: null,
 
     _getViewModelOptions: function (options) {
         return {
             maxLength: options.maxLength,
-            constraint: options.constraint
+            constraint: options.constraint,
+            punycodeToUnicode: this._punycodeToUnicode
         };
     },
 
@@ -60,10 +62,20 @@ var Text = Base.extend({
         Text.superclass._changeHandler.apply(this, arguments);
     },
 
-    _beforeMount: function (options) {
-        Text.superclass._beforeMount.apply(this, arguments);
+    _syncBeforeMount: function(options): void {
+        Text.superclass._beforeMount.call(this, options);
 
         _private.validateConstraint(options.constraint);
+    },
+
+    _beforeMount: function (options) {
+        if (options.convertPunycode) {
+            return this._loadConverterPunycode().then(() => {
+                this._syncBeforeMount(options);
+            });
+        }
+
+        this._syncBeforeMount(options);
     },
 
     _beforeUpdate: function (newOptions) {
@@ -72,6 +84,18 @@ var Text = Base.extend({
         if (this._options.constraint !== newOptions.constraint) {
             _private.validateConstraint(newOptions.constraint);
         }
+    },
+
+    _loadConverterPunycode: function (): Promise<void> {
+        return new Promise((resolve) => {
+            require(['/cdn/Punycode/1.0.0/punycode.js'],
+                () => {
+                    this._punycodeToUnicode = Punycode.toUnicode;
+                    resolve();
+                },
+                resolve
+            );
+        });
     }
 });
 
@@ -79,6 +103,7 @@ Text.getDefaultOptions = function () {
     var defaultOptions = Base.getDefaultOptions();
 
     defaultOptions.trim = false;
+    defaultOptions.convertPunycode = false;
 
     return defaultOptions;
 };

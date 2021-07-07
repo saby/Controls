@@ -25,7 +25,9 @@ define(
             id: 'text',
             items: defaultItems.clone(),
             selectedKeys: [],
-            multiSelect: true
+            multiSelect: true,
+            theme: 'testTheme',
+            nodeProperty: 'node'
          };
 
          let getList = function (config) {
@@ -44,7 +46,10 @@ define(
                emptyText: defaultConfig.emptyText,
                emptyKey: defaultConfig.emptyKey,
                hasApplyButton: defaultConfig.hasApplyButton,
-               hasClose: true
+               hasClose: true,
+               iconSize: defaultConfig.iconSize,
+               theme: defaultConfig.theme,
+               nodeProperty: defaultConfig.nodeProperty
          });
             let list = getList(defaultConfig);
             list._beforeMount(defaultConfig);

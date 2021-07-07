@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper">
+   <Controls.tile:View
+      tileMode="static"
+      displayProperty="title"
+      imageFit="cover"
+      tileHeight="150"
+      imageUrlResolver="{{_imageUrlResolver}}"
+      imageWidthProperty="imageWidth"
+      imageHeightProperty="imageHeight"
+      itemWidthProperty="width"
+      imageProperty="image"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:ItemTemplate"
+            scope="{{itemTemplate}}"
+            hasTitle="{{false}}"/>
+      </ws:itemTemplate>
+   </Controls.tile:View>
+</div>

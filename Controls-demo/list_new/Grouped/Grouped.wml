@@ -72,6 +72,15 @@
                 </Router.router:Reference>
                 <Controls-demo.list_new.Grouped.RightTemplate.Index />
             </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/list_new/Grouped/OnGroupCollapsed/Index' }}">
+                    <a href="{{content.href}}">Обработка нажатия на заголовок группы</a>
+                </Router.router:Reference>
+                <Controls-demo.list_new.Grouped.OnGroupCollapsed.Index />
+            </div>
         </div>
     </Controls.scroll:Container>
 </div>

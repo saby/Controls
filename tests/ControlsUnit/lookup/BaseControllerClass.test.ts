@@ -1,6 +1,6 @@
 import {default as BaseControllerClass, ILookupBaseControllerOptions} from 'Controls/_lookup/BaseControllerClass';
 import {Memory, SbisService} from 'Types/source';
-import {RecordSet} from 'Types/collection';
+import {RecordSet, List} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {deepStrictEqual, ok} from 'assert';
 import {stub} from 'sinon';
@@ -98,8 +98,9 @@ describe('Controls/_lookup/BaseControllerClass', () => {
 
             return new Promise((resolve) => {
                 const errorStub = stub(error, 'process');
-                controller.loadItems().then(() => {
+                controller.loadItems().then((result) => {
                     ok(errorStub.calledOnce);
+                    ok(result instanceof List);
                     errorStub.restore();
                     resolve();
                 });

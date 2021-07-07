@@ -71,6 +71,18 @@ define(
                result = ScrollWidthUtil._private.calcStyleHideScrollbar(17, 'verticalHorizontal', {}, {});
                assert.equal(result, 'margin: 0 -17px -17px 0;');
             });
+            it('calcStyleHideScrollbar with cached value', function() {
+               ScrollWidthUtil._private.styleHideScrollbar.vertical = 'margin: 0 -17px -0px 0;';
+               ScrollWidthUtil._private.styleHideScrollbar.verticalHorizontal = 'margin: 0 -17px -17px 0;';
+
+               result = ScrollWidthUtil.calcStyleHideScrollbar('vertical');
+               assert.equal(result, 'margin: 0 -17px -0px 0;');
+               result = ScrollWidthUtil.calcStyleHideScrollbar('verticalHorizontal');
+               assert.equal(result, 'margin: 0 -17px -17px 0;');
+
+               ScrollWidthUtil._private.styleHideScrollbar.vertical = null;
+               ScrollWidthUtil._private.styleHideScrollbar.verticalHorizontal = null;
+            });
          });
       });
    }

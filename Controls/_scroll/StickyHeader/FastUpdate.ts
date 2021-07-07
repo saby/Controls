@@ -1,5 +1,3 @@
-import {detection} from 'Env/Env';
-
 /**
  * Класс с помощью которого компонуем считывание размеров с фиксированных заголовков. Перед считыванием размеров,
  * сбрасываем position: sticky если это нужно. Затем производим измерения. Возвращаем position: sticky.
@@ -25,9 +23,11 @@ class FastUpdate {
 
     _promise: Promise<void>;
 
-    resetSticky(elements: Element[]): void {
-        elements.forEach(element => {
-            this._stickyContainersForReset.push({container: element})
+    resetSticky(elements: HTMLElement[]): void {
+        elements.forEach((element) => {
+            if (!this._stickyContainersForReset.find((e) => e.container === element)) {
+                this._stickyContainersForReset.push({ container: element });
+            }
         });
     }
 

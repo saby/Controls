@@ -1,41 +1,43 @@
-<ws:if data="{{_options._useSpan}}">
-    <span attr:class="controls-BaseButton
-                controls-Button_{{_viewMode}} controls-Button_{{_viewMode}}_theme-{{_options.theme}}
-                {{_hoverIcon ? ' controls-Button_hoverIcon'}} controls-Button_{{_options.readOnly ? 'readonly' : 'clickable'}}
-                {{_toggled ? ' controls-Button_toggled' : ''}}
-                controls-Button_{{_viewMode}}_style-{{_buttonStyle}}{{_toggled ? '_toggled' : ''}}_theme-{{_options.theme}}
-                controls-Button_bg{{_contrastBackground ? '-contrast' : '-same'}}_theme-{{_options.theme}}
-                {{_height ? ' controls-inlineheight-' + _height + '_theme-' + _options.theme}}
-                {{_height ? ' controls-Button-inlineheight-' + _height + '_theme-' + _options.theme}}
-                {{_height ? ' controls-Button_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}
-                controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}"
-          attr:title="{{_options.tooltip}}">
-        <span attr:class="controls-BaseButton__wrapper
-                            controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}_theme-{{_options.theme}}
-                            controls-Button__wrapper_viewMode-{{_viewMode}}
-                            {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}">
-            <ws:if data="{{!!_icon}}">
-                <i attr:class="controls-Button__icon controls-BaseButton__icon controls-icon {{_icon}}
-                                {{_iconSize ? 'controls-icon_size-' + _iconSize + '_theme-' + _options.theme}}
-                                {{_iconStyle ? 'controls-icon_style-' + _iconStyle + '_theme-' + _options.theme}}"/>
-            </ws:if>
-            <ws:if data="{{!!_caption}}">
-               <span attr:class="controls-BaseButton__text
-                {{_options.readOnly ? ' controls-Button__text_readonly_' + _viewMode + '_theme-' + _options.theme :
-                 (_fontColorStyle ?  ' controls-text-' + _fontColorStyle + '_theme-' + _options.theme +
-                                ' controls-Button__text-' + _fontColorStyle + '_viewMode-' + _viewMode + '_theme-' + _options.theme :
-                                                                'controls-Button__text_clickable_theme-' + _options.theme)}}
-                                    {{_hasIcon ? ' controls-Button__text_captionPosition_' + _captionPosition + '_theme-' + _options.theme}}
-                                    controls-Button__text_viewMode-{{_viewMode}}_theme-{{_options.theme}}">
-                  <ws:if data="{{_stringCaption}}">{{_caption}}</ws:if>
-                  <ws:else><ws:partial template="{{_caption}}"/></ws:else>
-               </span>
-            </ws:if>
-        </span>
+<ws:template name="buttonTemplate">
+    <span attr:class="controls-BaseButton__wrapper
+                                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}_theme-{{_options.theme}}
+                                controls-Button__wrapper_viewMode-{{_viewMode}}
+                                {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}">
+        <ws:if data="{{!!_icon}}">
+            <i attr:class="controls-Button__icon controls-BaseButton__icon controls-icon {{_icon}}
+                                    {{_iconSize ? 'controls-icon_size-' + _iconSize + '_theme-' + _options.theme}}
+                                        {{_iconStyle ? 'controls-icon_style-' + _iconStyle + '_theme-' + _options.theme}}"/>
+        </ws:if>
+        <ws:if data="{{!!_caption}}">
+            <span attr:class="controls-BaseButton__text
+                    {{_options.readOnly ? ' controls-Button__text_readonly_' + _viewMode + '_theme-' + _options.theme :
+                     (_fontColorStyle ?  ' controls-text-' + _fontColorStyle + '_theme-' + _options.theme +
+                                    ' controls-Button__text-' + _fontColorStyle + '_viewMode-' + _viewMode + '_theme-' + _options.theme :
+                                                                    'controls-Button__text_clickable_theme-' + _options.theme)}}
+                                        {{_hasIcon ? ' controls-Button__text_captionPosition_' + _captionPosition + '_theme-' + _options.theme}}
+                                        controls-Button__text_viewMode-{{_viewMode}}_theme-{{_options.theme}}">
+                <ws:if data="{{_stringCaption}}">{{_caption}}</ws:if>
+                <ws:else><ws:partial template="{{_caption}}"/></ws:else>
+            </span>
+        </ws:if>
     </span>
-</ws:if>
-<ws:else>
-    <a attr:class="controls-BaseButton
+</ws:template>
+
+<ws:template name="buttonWrapperTemplate">
+    <ws:if data="{{_options.href}}">
+        <a attr:href="{{_options.href}}">
+            <ws:partial template="buttonTemplate"/>
+        </a>
+    </ws:if>
+    <ws:else>
+        <span >
+            <ws:partial template="buttonTemplate"/>
+        </span>
+    </ws:else>
+</ws:template>
+
+<ws:partial template="buttonWrapperTemplate"
+            attr:class="controls-BaseButton
                 controls-Button_{{_viewMode}} controls-Button_{{_viewMode}}_theme-{{_options.theme}}
                 {{_hoverIcon ? ' controls-Button_hoverIcon'}} controls-Button_{{_options.readOnly ? 'readonly' : 'clickable'}}
                 {{_toggled ? ' controls-Button_toggled' : ''}}
@@ -45,29 +47,5 @@
                 {{_height ? ' controls-Button-inlineheight-' + _height + '_theme-' + _options.theme}}
                 {{_height ? ' controls-Button_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}
                 controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}"
-       attr:title="{{_options.tooltip}}"
-       attr:href="{{_options.href}}">
-        <span attr:class="controls-BaseButton__wrapper
-                            controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}_theme-{{_options.theme}}
-                            controls-Button__wrapper_viewMode-{{_viewMode}}
-                            {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}">
-            <ws:if data="{{!!_icon}}">
-                <i attr:class="controls-Button__icon controls-BaseButton__icon controls-icon {{_icon}}
-                                {{_iconSize ? 'controls-icon_size-' + _iconSize + '_theme-' + _options.theme}}
-                                {{_iconStyle ? 'controls-icon_style-' + _iconStyle + '_theme-' + _options.theme}}"/>
-            </ws:if>
-            <ws:if data="{{!!_caption}}">
-               <span attr:class="controls-BaseButton__text
-                {{_options.readOnly ? ' controls-Button__text_readonly_' + _viewMode + '_theme-' + _options.theme :
-                 (_fontColorStyle ?  ' controls-text-' + _fontColorStyle + '_theme-' + _options.theme +
-                                ' controls-Button__text-' + _fontColorStyle + '_viewMode-' + _viewMode + '_theme-' + _options.theme :
-                                                                'controls-Button__text_clickable_theme-' + _options.theme)}}
-                                    {{_hasIcon ? ' controls-Button__text_captionPosition_' + _captionPosition + '_theme-' + _options.theme}}
-                                    controls-Button__text_viewMode-{{_viewMode}}_theme-{{_options.theme}}">
-                  <ws:if data="{{_stringCaption}}">{{_caption}}</ws:if>
-                  <ws:else><ws:partial template="{{_caption}}"/></ws:else>
-               </span>
-            </ws:if>
-        </span>
-    </a>
-</ws:else>
+            attr:title="{{_options.tooltip}}"
+/>

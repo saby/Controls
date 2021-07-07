@@ -45,7 +45,7 @@ describe('Controls/form:Crud', () => {
 
             assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.finally(() => {
-                assert.isTrue(stubNotify.calledWith('createSuccessed'));
+                assert.isTrue(stubNotify.calledWith('createsuccessed'));
                 done();
             });
         });
@@ -57,7 +57,7 @@ describe('Controls/form:Crud', () => {
 
             assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.finally(() => {
-                assert.isTrue(stubNotify.calledWith('createFailed'));
+                assert.isTrue(stubNotify.calledWith('createfailed'));
                 done();
             });
         });
@@ -72,7 +72,7 @@ describe('Controls/form:Crud', () => {
 
             assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.finally(() => {
-                assert.isTrue(stubNotify.calledWith('updateSuccessed'));
+                assert.isTrue(stubNotify.calledWith('updatesuccessed'));
                 done();
             });
 
@@ -88,7 +88,7 @@ describe('Controls/form:Crud', () => {
 
             assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.finally(() => {
-                assert.isTrue(stubNotify.calledWith('updateFailed'));
+                assert.isTrue(stubNotify.calledWith('updatefailed'));
                 done();
             });
 
@@ -109,7 +109,7 @@ describe('Controls/form:Crud', () => {
 
             assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.finally(() => {
-                assert.isTrue(stubNotify.calledWith('deleteSuccessed'));
+                assert.isTrue(stubNotify.calledWith('deletesuccessed'));
                 done();
             });
         });
@@ -121,7 +121,7 @@ describe('Controls/form:Crud', () => {
 
             assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.finally(() => {
-                assert.isTrue(stubNotify.calledWith('deleteFailed'));
+                assert.isTrue(stubNotify.calledWith('deletefailed'));
                 done();
             });
         });

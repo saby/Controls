@@ -7,8 +7,7 @@
         on:mousemove="_mouseMoveAndTouchMoveHandler()"
         on:touchmove="_mouseMoveAndTouchMoveHandler()"
         on:mouseleave="_mouseLeaveAndTouchEndHandler()"
-        on:touchend="_mouseLeaveAndTouchEndHandler()"
-        on:mouseup="_onMouseUp()">
+        on:touchend="_mouseLeaveAndTouchEndHandler()">
       <div class="controls-Slider__mainSlider{{_options.size=='m' ? '_big' : '_small'}}_theme-{{_options.theme}}
          controls-Slider__mainSlider{{_options.size=='m' ? '_big' : '_small'}}__offset_{{_options.borderVisible ? 'withBorder' : 'withoutBorder'}}_theme-{{_options.theme}}" name="area">
          <ws:for data="key, point in _pointData">
@@ -28,7 +27,8 @@
             </ws:if>
          </ws:for>
          <Controls.dragnDrop:Container name="dragNDrop"
-                                       on:dragstart="_onDragNDropHandler()"
+                                       on:documentDragEnd="_onDocumentDragEnd()"
+                                       on:dragstart="_onDragStartHandler()"
                                        on:dragmove="_onDragNDropHandler()"
                                        on:dragend="_onDragNDropHandler()">
             <div class="controls-Slider__line__wrapper_theme-{{_options.theme}}

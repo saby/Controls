@@ -116,7 +116,7 @@ export interface IColumn {
      * @default Controls/grid:ColumnTemplate
      * @remark
      * Подробнее о параметрах шаблона Controls/grid:ColumnTemplate читайте {@link Controls/grid:ColumnTemplate здесь}.
-     * Подробнее о создании пользовательского шаблона читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/column/ здесь}.
+     * Подробнее о создании пользовательского шаблона читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/columns/extend/#template здесь}.
      *
      */
     template?: TemplateFunction;

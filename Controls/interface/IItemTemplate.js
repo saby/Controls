@@ -45,7 +45,7 @@ define('Controls/interface/IItemTemplate', [
     * </pre>
     * @see Controls/interface/IItemTemplate#itemTemplateProperty
     * @see Controls/list:ItemTemplate
-    */workspaseWidth
+    */
 
    /*
     * @name Controls/interface/IItemTemplate#itemTemplate
@@ -77,7 +77,7 @@ define('Controls/interface/IItemTemplate', [
 
    /**
     * @name Controls/interface/IItemTemplate#itemTemplateProperty
-    * @cfg {String|undefined} Имя поля элемента, которое содержит имя шаблона отображения элемента. С помощью этой настройки отдельным элементам можно задать собственный шаблон отображения.
+    * @cfg {String|undefined} Имя поля элемента, которое содержит имя <a href="/doc/platform/developmentapl/interface-development/controls/list/list/item-template/">шаблона отображения элемента</a>. С помощью этой настройки отдельным элементам можно задать собственный шаблон отображения.
     * @demo Controls-demo/list_new/ItemTemplate/ItemTemplateProperty/Index
     * @default undefined
     * @remark

@@ -1,6 +1,6 @@
 import {date as dateFormat} from 'Types/formatter';
 import {descriptor} from 'Types/entity';
-import dateUtil = require('Controls/Utils/Date');
+import {Base as dateUtil} from 'Controls/dateUtils';
 
 /**
  * Интерфейс для контролов, которые отображают месяц.
@@ -15,7 +15,7 @@ export default {
 
             /**
              * @name Controls/_calendar/interfaces/IMonth#month
-             * @cfg {Date|String} Месяц, с которого откроется календарь.
+             * @cfg {Date|String} Отображаемый месяц.
              * @remark
              * Строка должна быть формата ISO 8601.
              * Дата игнорируется.
@@ -51,14 +51,24 @@ export default {
 
             /**
              * @name Controls/_calendar/interfaces/IMonth#dayFormatter
-             * @cfg {Function} Возможность поменять конфигурацию для дня.
-             * В функцию приходит объект даты.
-             * Опция необходима для производственных каленадарей.
+             * @cfg {Function} Коллбэк функция вызываемая перед отображением дня. Используется для переопределения стандартного отображения дня.
+             * Метод получает в аргумент объект даты.
+             * Метод должен возвращать конфигурацию для отображения дня в виде объекта.
+             * Возможные поля для конфигурации
+             * <ul>
+             *     <li>today - назначить число сегодняшней датой</li>
+             *     <li>readOnly - установить число в режим только для чтения</li>
+             *     <li>date - изменить дату</li>
+             *     <li>selectionEnabled - включить курсор при наведении на ячейку </li>
+             *     <li>weekend - назначить число выходным</li>
+             * </ul>
              * @default undefined
+             * @demo Controls-demo/Calendar/MonthView/dayFormatter/Index
              */
             dayFormatter: undefined,
 
             /**
+             * ENG
              * @typedef {String} Mode
              * @variant current Only the current month is displayed
              * @variant extended 6 weeks are displayed. The first week of the current month is complete,
@@ -67,6 +77,14 @@ export default {
              */
 
             /**
+             * @name Controls/_calendar/interfaces/IMonth#mode
+             * @cfg {String} Режим отображения месяца
+             * @variant extended - расширенный режим, в котором будут отображены 6 недель
+             * @variant current - отобразиться нынешний месяц
+             * @default current
+             */
+            /**
+             * ENG
              * @name Controls/_calendar/interfaces/IMonth#mode
              * @cfg {String} Month view mode
              * @default current

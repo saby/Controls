@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-RadioGroup__group1">
         <div class="controls-text-label_theme-{{_options.theme}}">valid status</div>
         <Controls.toggle:RadioGroup
                 bind:selectedKey="_selectedKey"
@@ -8,7 +8,7 @@
                 validationStatus="valid"
         />
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-RadioGroup__group2">
         <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__cell">invalid status</div>
         <Controls.toggle:RadioGroup
                 bind:selectedKey="_selectedKey2"
@@ -18,7 +18,7 @@
                 validationStatus="invalid"
         />
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-RadioGroup__group3">
         <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__cell">invalidAccent status</div>
         <Controls.toggle:RadioGroup
                 bind:selectedKey="_selectedKey3"

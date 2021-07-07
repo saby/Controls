@@ -1,5 +1,5 @@
 import {detection} from 'Env/Env';
-import getDimensions = require('Controls/Utils/getDimensions');
+import {getDimensions} from 'Controls/sizeUtils';
 
 let lastId = 0;
 
@@ -8,13 +8,21 @@ export const enum POSITION {
     bottom = 'bottom'
 }
 
+export const enum SHADOW_VISIBILITY {
+    visible = 'visible',
+    hidden = 'hidden',
+    lastVisible = 'lastVisible'
+}
+
 /**
  * @typedef {String} TYPE_FIXED_HEADERS
  * @variant initialFixed учитываются высоты заголовков которые были зафиксированы изначально
+ * @variant fixed зафиксированные в данный момент заголовки
  * @variant allFixed высота всех заголовков, если бы они были зафиксированы
  */
 export const enum TYPE_FIXED_HEADERS {
     initialFixed  = 'initialFixed',
+    fixed = 'fixed',
     allFixed = 'allFixed'
 }
 
@@ -29,6 +37,7 @@ export type TRegisterEventData = {
    container: HTMLElement;
    position?: string;
    mode?: string;
+   shadowVisibility: SHADOW_VISIBILITY;
 };
 
 export type IFixedEventData = {

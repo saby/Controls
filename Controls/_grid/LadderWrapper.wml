@@ -1,6 +1,6 @@
 <!-- https://online.sbis.ru/opendoc.html?guid=e0706ee1-a476-4fc0-9a08-ac90f9a97f1c -->
-<ws:partial template="{{content}}" 
-            fix1177531473="{{itemData.getVersion()}}" 
-            attr:class="controls-Grid__row-cell__ladder-content 
-                        {{(stickyProperty === ladderProperty || !stickyProperty) && itemData.ladder[ladderProperty].ladderLength >= 1 ? '' : 'controls-Grid__row-cell__ladder-content_hiddenForLadder'}}  
+<ws:partial template="{{content}}"
+            fix1177531473="{{itemData.getVersion()}}"
+            attr:class="controls-Grid__row-cell__ladder-content
+                        {{(stickyProperty === ladderProperty || !stickyProperty) && itemData.ladder[ladderProperty].ladderLength >= 1 || !itemData.ladder ? '' : 'controls-Grid__row-cell__ladder-content_hiddenForLadder'}}
                         {{itemData.getLadderContentClasses(stickyProperty, ladderProperty)}}"/>

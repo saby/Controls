@@ -71,6 +71,13 @@ define(
             };
 
             scroll._isMounted = true;
+
+            scroll._children.scrollBar = {
+               _position: 0,
+               setScrollPosition: function (value) {
+                  scroll._children.scrollBar._position = value;
+               }
+            };
          });
 
          describe('_afterMount', function() {
@@ -272,7 +279,7 @@ define(
                   closest: () => {}
                };
                scroll._stickyHeaderController = {
-                  setCanScroll: () => undefined,
+                  setCanScroll: () => { return { then: () => undefined }; },
                   resizeHandler: () => undefined
                };
             });
@@ -329,7 +336,7 @@ define(
                   closest: () => {}
                };
                scroll._stickyHeaderController = {
-                  setCanScroll: sinon.stub(),
+                  setCanScroll: sinon.stub().returns({ then: () => undefined}),
                   resizeHandler: () => undefined
                };
             });
@@ -429,6 +436,24 @@ define(
                   sinon.assert.notCalled(scroll._notify);
                   sandbox.restore();
                });
+            });
+            it('Should set position to scrollbar', function () {
+               const scrollTop = 100;
+               scroll._children.scrollBar._position = 0;
+               scroll._scrollTop = scrollTop;
+               scroll._displayState = { canScroll: true };
+               scroll._scrollbarTaken();
+               assert.equal(scroll._children.scrollBar._position, scrollTop);
+            });
+
+            it('Should not set position to scrollbar', function () {
+               const scrollTop = 100;
+               scroll._children.scrollBar._position = 0;
+               scroll._scrollTop = scrollTop;
+               scroll._showScrollbarOnHover = false;
+               scroll._scrollbarTaken();
+               assert.notEqual(scroll._children.scrollBar._position, scrollTop);
+               scroll._showScrollbarOnHover = true;
             });
          });
 
@@ -1076,6 +1101,13 @@ define(
                      assert.equal(result, test.result);
                   });
                });
+            });
+
+            describe('_updatePlaceholdersSize', function() {
+               it('should stop popagation event', function() {
+                  scroll._updatePlaceholdersSize(event, { top: 0, bottom: 0 });
+                  sinon.assert.called(event.stopImmediatePropagation);
+                  });
             });
          });
       });

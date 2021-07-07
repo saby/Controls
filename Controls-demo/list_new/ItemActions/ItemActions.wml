@@ -3,6 +3,15 @@
     <div class="controlsDemo__cell controlsDemo__mr4">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/ItemActions/Base/Index' }}">
+            <a href="{{content.href}}">Контекстное меню</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.ItemActions.Base.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsPosition/Index' }}">
             <a href="{{content.href}}">Положение операций над записью</a>
         </Router.router:Reference>

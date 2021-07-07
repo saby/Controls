@@ -44,15 +44,25 @@
 }
 
 .controls-Menu__row_selected_theme-@{themeName} {
+   position: absolute;
+   display: inline-flex;
+   align-items: baseline;
+   left: 0;
+   &::before {
+      content: '\200b';
+      font-size: inherit;
+   }
    &::after {
       content: '';
       background: @marker_color_menu;
       width: @marker_width_menu;
       height: @marker_height_menu;
-      position: absolute;
-      left: 0;
-      top: (@item_height_menu - @marker_height_menu) / 2;
    }
+}
+
+.ws-is-ie .controls-Menu__row_selected {
+   top: 50%;
+   transform: translateY(-50%);
 }
 
 .controls-Menu__row_pinned {
@@ -88,6 +98,10 @@
 
 .controls-Menu__icon {
    .flex-shrink(0);
+}
+
+.controls-Menu__icon-invisible {
+   height: 0;
 }
 
 .controls-Menu__icon-left_theme-@{themeName} {
@@ -254,27 +268,6 @@
    align-items: center;
    width: 100%;
    cursor: pointer;
-}
-
-.controls-Menu__applyButton_theme-@{themeName} {
-   position: absolute;
-   z-index: 2;
-}
-
-.controls-Menu_withHeader__applyButton_theme-@{themeName} {
-   top: (@item_height_menu - @apply-button_inline-height_menuPopup) / 2;
-}
-
-.controls-Menu_withoutHeader__applyButton_theme-@{themeName} {
-   top: (@item_height_menu - @apply-button_inline-height_menuPopup) / 2 + @content_padding-top_sticky;
-}
-
-.controls-Menu_withClose__applyButton_theme-@{themeName} {
-   right: @close-button_offset-right_sticky + @width_closeButton_link + @apply-button_offset_menuPopup;
-}
-
-.controls-Menu_withoutClose__applyButton_theme-@{themeName} {
-   right: @apply-button_offset_menuPopup;
 }
 
 .controls-Menu__footer_moreButton_theme-@{themeName} {

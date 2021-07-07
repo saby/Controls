@@ -9,11 +9,11 @@ import {goUpByControlTree} from 'UI/Focus';
 
 /**
  * @class Controls/_popup/Previewer
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
- * 
+ *
  * @extends Core/Control
  * @control
  * @mixes Controls/_popup/interface/IPreviewer
@@ -188,6 +188,9 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
             }
             event.preventDefault();
             event.stopPropagation();
+            // preventDefault stopped the focus => active elements don't deactivated.
+            // activate control manually
+            this.activate();
         }
     }
 

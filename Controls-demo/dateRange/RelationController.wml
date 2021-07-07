@@ -13,22 +13,22 @@
             bind:endValue1="_endValue1"
             bind:startValue2="_startValue2"
             bind:endValue2="_endValue2">
-         <div>
+         <div class="controlsDemo-dateRange-RelationController__row controlsDemo_fixedWidth350">
             <Controls.dateRange:RelationWrapper
                   number="{{0}}"
                   ranges="{{content.ranges}}">
-               <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector1"/>
+               <Controls.dateRange:RangeShortSelector attr:class="demo-dateRange-RelationController__selector1"/>
             </Controls.dateRange:RelationWrapper>
             <Controls.dateRange:RelationWrapper
                   number="{{1}}"
                   ranges="{{content.ranges}}"
                   >
-               <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector2"/>
+               <Controls.dateRange:RangeShortSelector attr:class="demo-dateRange-RelationController__selector2"/>
             </Controls.dateRange:RelationWrapper>
             <Controls.dateRange:RelationWrapper
                   number="{{2}}"
                   ranges="{{content.ranges}}">
-               <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector3"/>
+               <Controls.dateRange:RangeShortSelector attr:class="demo-dateRange-RelationController__selector3"/>
             </Controls.dateRange:RelationWrapper>
             <Controls.dateRange:RelationButton
                attr:class="controlsDemo-dateRange-RelationController__relationButton"

@@ -2,7 +2,7 @@
    <ws:partial attr:class="{{itemData.calcCursorClasses(clickable, cursor)}}
        {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
        ' controls-ListView__itemV_withMarker controls-ListView__item__marked_' : ' controls-ListView__item__unmarked_') + itemData.style + '_theme-' + itemData.theme}}
-       {{highlightOnHover !== false && !itemData.isEditing() ? 'controls-ListView__item_highlightOnHover_' + itemData.style + '_theme_' + itemData.theme}}
+       {{highlightOnHover !== false && !itemData.isEditing() ? 'controls-ListView__item_highlightOnHover_' + itemData.hoverBackgroundStyle + '_theme_' + itemData.theme}}
        controls-ListView__item_{{itemData.style}} controls-ListView__item_{{itemData.style}}_theme-{{itemData.theme}}
        controls-ListView__item_showActions
        {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-ListView__item_active_theme-' + itemData.theme}}
@@ -15,7 +15,7 @@
 </ws:template>
 <ws:template name="itemContentTpl">
     <ws:if data="{{itemData.hasMultiSelect}}">
-       <ws:if data="{{!itemData.dispItem.isEditing()}}">
+       <ws:if data="{{!itemData.isAdd}}">
           <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}} controls-ListView__checkbox_theme-{{itemData.theme}}">
              <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{ itemData.isAdd || checkboxReadOnly }}"/>
           </ws:partial>

@@ -20,7 +20,7 @@ import {resetFilter} from 'Controls/_filter/resetFilterUtils';
 import mergeSource from 'Controls/_filter/Utils/mergeSource';
 import * as defaultItemTemplate from 'wml!Controls/_filter/View/ItemTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {DependencyTimer} from 'Controls/Utils/FastOpen';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
 import {load} from 'Core/library';
 
 /**
@@ -346,8 +346,12 @@ var _private = {
 
     loadItems: function(self, item) {
         var options = item.editorOptions;
-
-        self._configs[item.name] = Merge(self._configs[item.name] || {}, CoreClone(options));
+        /* FIXME: Костыль, dataLoadCallback не должен попадать в receivedState.
+           Т.к прикладники биндят на контекст, то эта функция становится анонимной и она не может сериализоваться
+           Нужно все переписать по задаче:
+           https://online.sbis.ru/opendoc.html?guid=50fcb57f-2934-4f6f-b4f0-ea1c92309737
+         */
+        self._configs[item.name] = Merge(self._configs[item.name] || {}, CoreClone(options), {ignoreRegExp: /dataLoadCallback/});
         self._configs[item.name].emptyText = item.emptyText;
         self._configs[item.name].emptyKey = item.hasOwnProperty('emptyKey') ? item.emptyKey : null;
         self._configs[item.name].sourceController = null;

@@ -16,9 +16,9 @@ import {IDisplayedRanges, IDisplayedRangesOptions} from 'Controls/interface';
 import {IDateConstructor, IDateConstructorOptions} from 'Controls/interface';
 import {IDayTemplate, IDayTemplateOptions} from 'Controls/interface';
 import {IntersectionObserverSyntheticEntry} from 'Controls/scroll';
-import dateUtils = require('Controls/Utils/Date');
-import getDimensions = require("Controls/Utils/getDimensions");
-import scrollToElement = require('Controls/Utils/scrollToElement');
+import {Base as dateUtils} from 'Controls/dateUtils';
+import {getDimensions} from 'Controls/sizeUtils';
+import {scrollToElement} from 'Controls/scrollUtils';
 import template = require('wml!Controls/_calendar/MonthList/MonthList');
 import monthTemplate = require('wml!Controls/_calendar/MonthList/MonthTemplate');
 import yearTemplate = require('wml!Controls/_calendar/MonthList/YearTemplate');
@@ -35,11 +35,12 @@ interface IModuleComponentOptions extends
     IDateConstructorOptions {
 }
 
-const enum ITEM_BODY_SELECTOR {
-    year = '.controls-MonthList__year-months',
-    month = '.controls-MonthViewVDOM',
-    day = '.controls-MonthViewVDOM__item'
-}
+const ITEM_BODY_SELECTOR  = {
+    day: '.controls-MonthViewVDOM__item',
+    month: '.controls-MonthViewVDOM',
+    year: '.controls-MonthList__year-months',
+    mainTemplate: '.controls-MonthList__template'
+};
 
 const enum VIEW_MODE {
     month = 'month',
@@ -129,7 +130,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
                 this._extData.updateData(receivedState);
             } else {
                 const displayedDates = this._getDisplayedRanges(normalizedPosition, options.virtualPageSize, options.viewMode);
-                return this._extData.enrichItems(displayedDates);
+                return this._extData.enrichItems(displayedDates).catch((error: Error) => this._errorHandler(error));
             }
         }
     }
@@ -338,7 +339,9 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
     }
 
     private _updateDisplayedItems(entry: IntersectionObserverSyntheticEntry): void {
-        if (!this._options.source) {
+
+        //TODO: убрать `!entry.data` после https://online.sbis.ru/opendoc.html?guid=fee96058-62bc-4af3-8a74-b9d3b680f8ef
+        if (!this._options.source || !entry.data) {
             return;
         }
 
@@ -389,8 +392,10 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
                 if (notResetPositionToScroll) {
                     this._forceUpdate();
                 } else {
+                    if (+this._lastPositionFromOptions === +this._positionToScroll) {
+                        this._lastPositionFromOptions = null;
+                    }
                     this._positionToScroll = null;
-                    this._lastPositionFromOptions = null;
                 }
             }
         }
@@ -441,21 +446,37 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
     }
 
     private _findElementByDate(date: Date): HTMLElement {
-        let element: HTMLElement;
+        let element: HTMLElement | null;
+        const templates = {
+            day: {
+                condition: date.getDate() !== 1,
+                dateId: date
+            },
+            month: {
+                condition: date.getMonth() !== 0,
+                dateId: dateUtils.getStartOfMonth(date)
+            },
+            // В шаблоне может использоваться headerTemplate, нужно подскроллить к месяцу/году под ним
+            year: {
+                condition: true,
+                dateId: dateUtils.getStartOfYear(date)
+            },
+            // В случае, если используется кастомный шаблон, пытаемся подскроллить к нему
+            mainTemplate: {
+                condition: true,
+                dateId: dateUtils.getStartOfYear(date)
+            }
+        };
 
-        if (date.getDate() !== 1) {
-            element = this._getElementByDate(ITEM_BODY_SELECTOR.day, monthListUtils.dateToId(date));
+        for (const item in templates) {
+            const element =  this._getElementByDate(
+                ITEM_BODY_SELECTOR[item],
+                monthListUtils.dateToId(templates[item].dateId)
+            );
+            if (element && templates[item].condition) {
+                return element;
+            }
         }
-        if (!element && date.getMonth() !== 0) {
-            element = this._getElementByDate(
-                ITEM_BODY_SELECTOR.month, monthListUtils.dateToId(dateUtils.getStartOfMonth(date)));
-        }
-        if (!element) {
-            element = this._getElementByDate(
-                ITEM_BODY_SELECTOR.year,
-                monthListUtils.dateToId(dateUtils.getStartOfYear(date)));
-        }
-        return element;
     }
 
     private _getNormalizedContainer(): HTMLElement {

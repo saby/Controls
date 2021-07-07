@@ -4,9 +4,10 @@ define(
       'Core/core-clone',
       'Types/source',
       'Types/collection',
+      'Types/entity',
       'Controls/popup'
    ],
-   (dropdown, Clone, sourceLib, collection, popup) => {
+   (dropdown, Clone, sourceLib, collection, entity, popup) => {
       describe('Input/Dropdown', () => {
          let items = [
             {
@@ -319,29 +320,32 @@ define(
                      title: 'Запись 3'
                   }]
                }),
-               selectedItems = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  },
-                  {
-                     id: '9',
-                     title: 'Запись 9'
-                  },
-                  {
-                     id: '10',
-                     title: 'Запись 10'
-                  }]
+               selectedItems = new collection.List({
+                  items: [new entity.Model({
+                     keyProperty: 'key',
+                     rawData: {
+                        id: '1',
+                        title: 'Запись 1'
+                     }
+                  }),
+                  new entity.Model({
+                     keyProperty: 'key',
+                     rawData: {
+                        id: '9',
+                        title: 'Запись 9'
+                     }
+                  })]
                });
+            let selectedKeys;
             ddl._controller._items = curItems;
+            ddl._notify = (e, data) => {
+               if (e === 'selectedKeysChanged') {
+                  selectedKeys = data[0];
+               }
+            };
             let newItems = [ {
                id: '9',
                title: 'Запись 9'
-            },
-            {
-               id: '10',
-               title: 'Запись 10'
             },
             {
                id: '1',
@@ -360,16 +364,39 @@ define(
             ddl._selectorResult(selectedItems);
             assert.deepEqual(newItems, ddl._controller._items.getRawData());
             assert.isOk(ddl._controller._menuSource);
+            assert.deepEqual(selectedKeys, ['1', '9']);
          });
 
-         it('controller options', function() {
+         describe('controller options', function() {
             const ddl = getDropdown(config);
-            const result = ddl._getControllerOptions({
-               nodeFooterTemplate: 'testNodeFooterTemplate'
+
+            it('check options', () => {
+               const result = ddl._getControllerOptions({
+                  nodeFooterTemplate: 'testNodeFooterTemplate'
+               });
+
+               assert.equal(result.nodeFooterTemplate, 'testNodeFooterTemplate');
+               assert.isOk(result.selectorOpener);
+               assert.include(result.popupClassName, 'controls-DropdownList__margin');
             });
 
-            assert.equal(result.nodeFooterTemplate, 'testNodeFooterTemplate');
-            assert.isOk(result.selectorOpener);
+            it('popupClassName with header', () => {
+               const result = ddl._getControllerOptions({
+                  nodeFooterTemplate: 'testNodeFooterTemplate',
+                  headerContentTemplate: 'template'
+               });
+
+               assert.include(result.popupClassName, 'controls-DropdownList__margin-head');
+            });
+
+            it('popupClassName with multiSelect', () => {
+               const result = ddl._getControllerOptions({
+                  nodeFooterTemplate: 'testNodeFooterTemplate',
+                  multiSelect: true
+               });
+
+               assert.include(result.popupClassName, 'controls-DropdownList_multiSelect__margin');
+            });
          });
 
          it('_deactivated', function() {

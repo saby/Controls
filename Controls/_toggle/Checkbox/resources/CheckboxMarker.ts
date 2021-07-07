@@ -15,10 +15,10 @@ export interface ICheckboxMarkerOptions extends IControlOptions {
  * @public
  * @author Красильников А.С.
  * @category Toggle
- * @demo Controls-demo/toggle/Checkbox/Base/Index
+ * @demo Controls-demo/toggle/CheckboxMarker/Index
  */
 /**
- * @name Controls/_toggle/Checkbox#triState
+ * @name Controls/_toggle/CheckboxMarker#triState
  * @cfg {Boolean} Определяет, разрешено ли устанавливать чекбоксу третье состояние — "не определен" (null).
  * @default False
  * @remark
@@ -27,7 +27,7 @@ export interface ICheckboxMarkerOptions extends IControlOptions {
  * Если установлен режим triState, то значение может быть "null".
  */
 /**
- * @name Controls/_toggle/Checkbox#value
+ * @name Controls/_toggle/CheckboxMarker#value
  * @cfg {Boolean|null} Значение, которое определяет текущее состояние.
  * @default False
  * @remark

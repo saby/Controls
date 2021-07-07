@@ -1,19 +1,12 @@
-/**
- * Created by rn.kondakov on 24.10.2018.
- */
 define([
    'Controls/decorator',
    'Controls/_decorator/Markup/resources/template',
    'Controls/_decorator/Markup/resources/linkDecorateUtils',
-   'Controls/Application',
-   'UI/Base',
    'Env/Env'
 ], function(
    decorator,
    template,
    linkDecorateUtils,
-   Application,
-   Base,
    Env
 ) {
    'use strict';
@@ -77,15 +70,6 @@ define([
          },
          'https://ya.ru'
       ],
-      httpLinkNode = ['a',
-         {
-            'class': 'asLink',
-            rel: 'noreferrer noopener',
-            href: 'http://ya.ru',
-            target: '_blank'
-         },
-         'http://ya.ru'
-      ],
       wwwLinkNode = ['a',
          {
             'class': 'asLink',
@@ -94,33 +78,6 @@ define([
             target: '_blank'
          },
          'www.ya.ru'
-      ],
-      ftpLinkNode = ['a',
-         {
-            'class': 'asLink',
-            rel: 'noreferrer noopener',
-            href: 'ftp://ya.ru',
-            target: '_blank'
-         },
-         'ftp://ya.ru'
-      ],
-      fileLinkNode = ['a',
-         {
-            'class': 'asLink',
-            rel: 'noreferrer noopener',
-            href: 'file://ya.ru',
-            target: '_blank'
-         },
-         'file://ya.ru'
-      ],
-      smbLinkNode = ['a',
-         {
-            'class': 'asLink',
-            rel: 'noreferrer noopener',
-            href: 'smb://ya.ru',
-            target: '_blank'
-         },
-         'smb://ya.ru'
       ],
       decoratedLinkService,
       currentVersion = '2',
@@ -261,11 +218,15 @@ define([
             assert.equal(decorator.Converter.jsonToHtml(['p', 'some text']), '<div><p>some text</p></div>');
          });
          it('escape', function() {
-            var json = ['p', { title: '"&lt;<>' }, '&gt;&lt;><&#39;'];
+            var json = ['p', { title: '"&lt;<>' }, '&gt;&lt;><&#39;&#'];
             var vdomTemplate = template({ _options: { 'value': json } }, {}, undefined, true);
-            equalsHtml(decorator.Converter.jsonToHtml(json), '<div><p title="&quot;&amp;lt;&lt;&gt;">&amp;gt;&amp;lt;&gt;&lt;&amp;#39;</p></div>');
-            assert.equal(vdomTemplate[0].children[0].children[0].children, '&amp;gt;&amp;lt;><&amp;#39;');
+            equalsHtml(decorator.Converter.jsonToHtml(json), '<div><p title="&quot;&amp;lt;&lt;&gt;">&amp;gt;&amp;lt;&gt;&lt;&amp;#39;&amp;#</p></div>');
+            assert.equal(vdomTemplate[0].children[0].children[0].children, '&amp;gt;&amp;lt;><&amp;#39;&amp;#');
             assert.equal(vdomTemplate[0].children[0].hprops.attributes.title, '"&amp;lt;<>');
+         });
+         it('without escape', () => {
+            const json = ['p', {style: 'background: url("source.com/param1=1&param2=2");'}];
+            equalsHtml(decorator.Converter.jsonToHtml(json), `<div><p style="background: url("source.com/param1=1&param2=2");"></p></div>`)
          });
          it('one big', function() {
             var json = [['p', 'text&amp;'], ['p', deepNode], ['p', attributedNode], ['p', linkNode], ['p', simpleNode]];
@@ -1092,12 +1053,12 @@ define([
          });
 
          it('email - 1', function() {
-            var parentNode = ['p', 'rn.kondakov@tensor.ru'];
+            var parentNode = ['p', 'sm.body@tensor.ru'];
             var goodResultNode = [[], ['a',
                {
-                  href: 'mailto:rn.kondakov@tensor.ru'
+                  href: 'mailto:sm.body@tensor.ru'
                },
-               'rn.kondakov@tensor.ru'
+               'sm.body@tensor.ru'
             ]];
             var checkResultNode = linkDecorateUtils.wrapLinksInString(parentNode[1], parentNode);
             assert.deepEqual(goodResultNode, checkResultNode);
@@ -1116,27 +1077,27 @@ define([
          });
 
          it('email in brackets', function() {
-            var parentNode = ['p', 'text(rn.kondakov@tensor.ru)text'];
+            var parentNode = ['p', 'text(sm.body@tensor.ru)text'];
             var goodResultNode = [[], 'text(', ['a',
                {
-                  href: 'mailto:rn.kondakov@tensor.ru'
+                  href: 'mailto:sm.body@tensor.ru'
                },
-               'rn.kondakov@tensor.ru'
+               'sm.body@tensor.ru'
             ], ')text'];
             var checkResultNode = linkDecorateUtils.wrapLinksInString(parentNode[1], parentNode);
             assert.deepEqual(goodResultNode, checkResultNode);
          });
 
          it('email with wrong domain', function() {
-            var parentNode = ['p', 'rn.kondakov@tensor.rux'];
-            var goodResultNode = 'rn.kondakov@tensor.rux';
+            var parentNode = ['p', 'sm.body@tensor.rux'];
+            var goodResultNode = 'sm.body@tensor.rux';
             var checkResultNode = linkDecorateUtils.wrapLinksInString(parentNode[1], parentNode);
             assert.deepEqual(goodResultNode, checkResultNode);
          });
 
          it('email with an emoji', function() {
-            var parentNode = ['p', 'rn.kondakov@tensor😊.ru'];
-            var goodResultNode = 'rn.kondakov@tensor😊.ru';
+            var parentNode = ['p', 'sm.body@tensor😊.ru'];
+            var goodResultNode = 'sm.body@tensor😊.ru';
             var checkResultNode = linkDecorateUtils.wrapLinksInString(parentNode[1], parentNode);
             assert.deepEqual(goodResultNode, checkResultNode);
          });
@@ -1675,118 +1636,6 @@ define([
             var checkFromString = linkDecorateUtils.getDecoratedLink(parentNode[1]);
             assert.deepEqual(expectedFromString, checkFromString);
          });
-      });
-   });
-   describe('Controls.Application headJson options', function() {
-      var realBuildnumber;
-      var realResourceRoot;
-      var realGetAppData;
-      var app;
-
-      before(function() {
-         app = new Application();
-         app._getResourceUrl = function (str) { return str + '?testversion'}
-         realBuildnumber = global.contents.buildnumber;
-         global.contents.buildnumber = '0';
-         realResourceRoot = global.wsConfig.resourceRoot;
-         global.wsConfig.resourceRoot = '/test/';
-         realGetAppData = Base.AppData.getAppData;
-         Base.AppData.getAppData = function() {
-            return {};
-         };
-      });
-
-      after(function() {
-         global.contents.buildnumber = realBuildnumber;
-         global.wsConfig.resourceRoot = realResourceRoot;
-         Base.AppData.getAppData = realGetAppData;
-      });
-
-      it('script with module scr', function() {
-         var json = [['script', { src: '/test/Controls/_decorator/Markup.js' }]];
-         app._beforeMount({ headJson: json });
-         var goodHtml = '<script src="/test/Controls/_decorator/Markup.js?testversion"></script>';
-         var checkHtml = template({
-            _options: {
-               value: app.headJson[0],
-               validHtml: app.headValidHtml,
-               tagResolver: app.headTagResolver.bind(app)
-            }
-         }, {});
-         equalsHtml(goodHtml, checkHtml);
-      });
-
-      it('link with module href', function() {
-         var json = [['link', { href: '/test/Controls/_decorator/Markup/resolvers/highlight.css' }]];
-         app._beforeMount({ headJson: json });
-         var goodHtml = '<link href="/test/Controls/_decorator/Markup/resolvers/highlight.css?testversion" />';
-         var checkHtml = template({
-            _options: {
-               value: app.headJson[0],
-               validHtml: app.headValidHtml,
-               tagResolver: app.headTagResolver.bind(app)
-            }
-         }, {});
-         equalsHtml(goodHtml, checkHtml);
-      });
-
-      it('script with non-module scr', function() {
-         var json = [['script', { src: 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js' }]];
-         app._beforeMount({ headJson: json });
-         var goodHtml = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js?testversion"></script>';
-         var checkHtml = template({
-            _options: {
-               value: app.headJson[0],
-               validHtml: app.headValidHtml,
-               tagResolver: app.headTagResolver.bind(app)
-            }
-         }, {});
-         equalsHtml(goodHtml, checkHtml);
-      });
-
-      it('link with non-module href', function() {
-         var json = [['link', { src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' }]];
-         app._beforeMount({ headJson: json });
-         var goodHtml = '<link src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css?testversion" />';
-         var checkHtml = template({
-            _options: {
-               value: app.headJson[0],
-               validHtml: app.headValidHtml,
-               tagResolver: app.headTagResolver.bind(app)
-            }
-         }, {});
-         equalsHtml(goodHtml, checkHtml);
-      });
-
-      it('module link in an attribute that is not a link', function() {
-         var json = [['meta', {
-            name: '/test/Controls/_decorator/Markup.js',
-            content: 'yes'
-         }]];
-         app._beforeMount({ headJson: json });
-         var goodHtml = '<meta name="/test/Controls/_decorator/Markup.js" content="yes" />';
-         var checkHtml = template({
-            _options: {
-               value: app.headJson[0],
-               validHtml: app.headValidHtml,
-               tagResolver: app.headTagResolver.bind(app)
-            }
-         }, {});
-         equalsHtml(goodHtml, checkHtml);
-      });
-
-      it('just a title', function() {
-         var json = [['title', 'SABY']];
-         app._beforeMount({ headJson: json });
-         var goodHtml = '<title>SABY</title>';
-         var checkHtml = template({
-            _options: {
-               value: app.headJson[0],
-               validHtml: app.headValidHtml,
-               tagResolver: app.headTagResolver.bind(app)
-            }
-         }, {});
-         equalsHtml(goodHtml, checkHtml);
       });
    });
 });

@@ -1,7 +1,2 @@
-export default function proxyModelEvents(component, model, eventNames) {
-    eventNames.forEach(function(eventName) {
-        model.subscribe(eventName, function(event, value) {
-            component._notify(eventName, value);
-        });
-    });
-}
+import {proxyModelEvents} from 'Controls/eventUtils';
+export default proxyModelEvents;

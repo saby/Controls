@@ -1,12 +1,13 @@
 <div class="controls-Cut
             controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight_theme-{{_options.theme}}">
    <ws:partial template="{{_options.content}}"/>
-   <ws:if data="{{_lines !== null}}">
+   <ws:if data="{{_options.lines !== null && !_expanded}}">
       <div class="controls-Cut__ellipsisWrapper
                controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height_theme-{{_options.theme}}">
          <div class="controls-Cut__ellipsis
-                  controls-Cut__ellipsis_theme-{{_options.theme}}"
-              on:click="_expand()">...</div>
+                     controls-Cut__ellipsis_theme-{{_options.theme}}
+                     controls-background-{{_options.backgroundStyle}}_theme-{{_options.theme}}"
+              on:click="_clickOnEllipsisHandler()">...</div>
       </div>
    </ws:if>
 </div>

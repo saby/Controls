@@ -138,11 +138,11 @@ class Container extends Control<IControlOptions> {
     }
 
     protected _popupDeactivated(event: Event, popupId: string, data: boolean): void {
-        this._notify('popupDeactivated', [popupId, data], {bubbling: true});
+        ManagerController.notifyToManager('popupDeactivated', [popupId, data]);
     }
 
     protected _popupActivated(event: Event, popupId: string, data: boolean): void {
-        this._notify('popupActivated', [popupId, data], {bubbling: true});
+        ManagerController.notifyToManager('popupActivated', [popupId, data]);
     }
 
     protected _overlayClickHandler(event: Event): void {

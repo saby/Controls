@@ -22,6 +22,7 @@ export class Controller {
    private _excludedKeys: TKeys = [];
    private _strategy: ISelectionStrategy;
    private _limit: number|undefined;
+   private _searchValue: string;
 
    private get _selection(): ISelection {
       return {
@@ -39,6 +40,7 @@ export class Controller {
       this._selectedKeys = options.selectedKeys.slice();
       this._excludedKeys = options.excludedKeys.slice();
       this._strategy = options.strategy;
+      this._searchValue = options.searchValue;
 
       this._updateModel(this._selection);
    }
@@ -53,6 +55,7 @@ export class Controller {
       this._selectedKeys = options.selectedKeys.slice();
       this._excludedKeys = options.excludedKeys.slice();
       this._model = options.model;
+      this._searchValue = options.searchValue;
    }
 
    /**
@@ -298,7 +301,7 @@ export class Controller {
    }
 
    private _updateModel(selection: ISelection, silent: boolean = false, items?: Model[]): void {
-      const selectionForModel = this._strategy.getSelectionForModel(selection, this._limit, items);
+      const selectionForModel = this._strategy.getSelectionForModel(selection, this._limit, items, this._searchValue);
       // TODO думаю лучше будет занотифаить об изменении один раз после всех вызовов (сейчас нотифай в каждом)
       this._model.setSelectedItems(selectionForModel.get(true), true, silent);
       this._model.setSelectedItems(selectionForModel.get(false), false, silent);

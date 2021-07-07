@@ -204,7 +204,6 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
 
    protected _mouseDownAndTouchStartHandler(event: SyntheticEvent<MouseEvent | TouchEvent>): void {
       if (!this._options.readOnly) {
-         this._isDrag = true;
          this._value = this._getValue(event);
          const pointName = this._getClosestPoint(this._value, this._startValue, this._endValue);
          if (pointName === 'start') {

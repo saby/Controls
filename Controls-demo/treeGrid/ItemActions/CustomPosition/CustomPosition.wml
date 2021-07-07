@@ -7,6 +7,10 @@
             itemActions="{{_itemActions}}"
             itemActionsPosition="custom"
             name="gridView">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/treeGrid:ItemTemplate"
+                        itemActionsClass="my-super-class"/>
+        </ws:itemTemplate>
         <ws:columns>
             <ws:Array>
                 <ws:Object displayProperty="title" width="200px"/>
@@ -15,7 +19,7 @@
                     <ws:template>
                         <ws:partial template="Controls/grid:ColumnTemplate">
                             <ws:contentTemplate>
-                                <ws:partial template="{{contentTemplate.itemActionsTemplate}}" />
+                                <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="{{contentTemplate.itemActionsClass}}"/>
                             </ws:contentTemplate>
                         </ws:partial>
                     </ws:template>

@@ -1,6 +1,6 @@
 import { CollectionItem, IBaseCollection } from 'Controls/display';
 import { Model, relation } from 'Types/entity';
-import { TKeysSelection as TKeys, TSelectedKey as TKey} from 'Controls/interface';
+import { TKeysSelection as TKeys, TSelectedKey as TKey, TSelectionType} from 'Controls/interface';
 import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
 import { RecordSet } from 'Types/collection';
 import { Controller as SourceController } from 'Controls/source';
@@ -72,6 +72,7 @@ export interface ISelectionControllerOptions {
    excludedKeys: TKeys;
    strategy?: ISelectionStrategy;
    strategyOptions?: ITreeSelectionStrategyOptions;
+   searchValue?: string;
 }
 
 /**

@@ -26,15 +26,11 @@ import buttonLib = require('Controls/buttons');
    }
 
    function cssStyleGeneration(options) {
-      const currentButtonClass = options.originalOptions ? {} :
-          buttonLib.ActualApi.styleToViewMode(options.style);
-
       // для каждого размера вызывающего элемента создаем класс, который выравнивает popup через margin.
-      let offsetClassName = 'controls-MenuButton_' + (currentButtonClass.viewMode || options.viewMode);
+      let offsetClassName = 'controls-MenuButton_' + (options.viewMode);
 
       if ((!options.icon || options.viewMode === 'toolButton' || options.viewMode === 'functionalButton')) {
-         const currentHeight = options.originalOptions ? options.inlineHeight :
-             buttonLib.ActualApi.actualHeight(options.size, options.inlineHeight, options.viewMode) || options.size;
+         const currentHeight = options.inlineHeight || options.fontSize;
          offsetClassName += ('__' + currentHeight);
 
       } else if (options.icon) {

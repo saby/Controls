@@ -3,7 +3,7 @@ define([
    'Controls/_breadcrumbs/HeadingPath',
    'Controls/_breadcrumbs/Path',
    'Controls/_breadcrumbs/Utils',
-   'Controls/Utils/FontLoadUtil',
+   'Controls/_breadcrumbs/resources/FontLoadUtil',
    'Core/Deferred',
    'Types/entity'
 ], function(

@@ -11,6 +11,7 @@
          <Controls.dragnDrop:ResizingLine attr:class="controls-MasterDetail_resizing-line"
                                           minOffset="{{_minOffset}}"
                                           maxOffset="{{_maxOffset}}"
+                                          on:dragStart="_dragStartHandler()"
                                           on:offset="_offsetHandler()"/>
       </ws:if>
    </div>

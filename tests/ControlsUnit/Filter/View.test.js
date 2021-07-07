@@ -1301,6 +1301,21 @@ define(
                });
             });
 
+            it('ignore load callback in receivedState', () => {
+               const self = { _configs: {}};
+               const item = {
+                  name: 'test',
+                  editorOptions: {
+                     dataLoadCallback: () => { return false; },
+                     field: 'test'
+                  }
+               };
+
+               filter.View._private.loadItems(self, item);
+               assert.isUndefined(self._configs.test.dataLoadCallback);
+               assert.strictEqual(self._configs.test.field, 'test');
+            });
+
             it('_private:getPopupConfig historySource', function() {
                hSource.prepareItems = () => {
                   return new collection.RecordSet({ rawData: Clone(defaultItems[1]) });

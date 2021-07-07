@@ -11,7 +11,7 @@ export function formattedValueToValue(formattedValue, options: IOptions): string
     const format = FormatBuilder.getFormat(options.mask, options.formatMaskChars, options.replacer);
 
     if (formattedValue.match(format.searchingGroups)) {
-        return Formatter.getClearData(format, formattedValue).value;
+        return Formatter.clearData(format, formattedValue).value;
     }
 
     Logger.error('Некорректные данные. Проверьте значение на соответствие маске.');

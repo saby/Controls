@@ -18,6 +18,7 @@ type TAfterUpdateSizesCallback = (params: {
     containerSize: number;
     contentSize: number;
     fixedColumnsWidth: number;
+    scrollableColumnsWidth: number;
     contentSizeForScrollBar: number;
     scrollWidth: number;
 }) => void;
@@ -261,6 +262,7 @@ export class ColumnScroll {
                 containerSize: this._containerSize,
                 contentSize: this._contentSize,
                 fixedColumnsWidth: this._fixedColumnsWidth,
+                scrollableColumnsWidth: this._containerSize - this._fixedColumnsWidth,
                 contentSizeForScrollBar: this._contentSizeForHScroll,
                 scrollWidth: this._scrollWidth
             });

@@ -292,12 +292,23 @@ define([
 
          it('promise is canceled on second getCount call', () => {
             let isCountPromiseCanceled = false;
-            instance._getCount(selection, null, selectionCountConfig)
+            instance._getCount(selection, null, selectionCountConfig);
             instance._countPromise.cancel = () => {
                isCountPromiseCanceled = true;
-            }
+            };
             instance._getCount(selection, null, selectionCountConfig);
             assert.isTrue(isCountPromiseCanceled);
+         });
+
+         it('promise is canceled and reset', () => {
+            let isCountPromiseCanceled = false;
+            instance._getCount(selection, null, selectionCountConfig);
+            instance._countPromise.cancel = () => {
+               isCountPromiseCanceled = true;
+            };
+            instance._getCount(selection, 6, selectionCountConfig);
+            assert.isTrue(isCountPromiseCanceled);
+            assert.isNull(instance._countPromise);
          });
       });
    });

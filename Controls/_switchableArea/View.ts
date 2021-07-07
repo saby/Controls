@@ -78,11 +78,11 @@ class View extends Control<ISwitchableOptions> {
         let selectedKey;
         factory(options.items).each((item) => {
             if (item.get) {
-                if (options.selectedKey === item.get('id') || options.selectedKey === item.get('key')) {
+                if (options.selectedKey === item.get('key')) {
                     selectedKey = options.selectedKey;
                 }
             } else {
-                if (options.selectedKey === item.id || options.selectedKey === item.key) {
+                if (options.selectedKey === item.key) {
                     selectedKey = options.selectedKey;
                 }
             }
@@ -91,9 +91,9 @@ class View extends Control<ISwitchableOptions> {
         if (selectedKey === undefined) {
             Logger.error('SwitchableArea: Incorrect selectedKey', this);
             if (options.items instanceof Array) {
-                selectedKey = options.items[0].id || options.items[0].key;
+                selectedKey = options.items[0].key;
             } else {
-                selectedKey = options.items.at(0).get('id') || options.items.at(0).get('key');
+                selectedKey = options.items.at(0).get('key');
             }
         }
 

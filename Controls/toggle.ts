@@ -6,7 +6,7 @@
  * @includes DoubleSwitch Controls/_toggle/DoubleSwitch
  * @includes RadioGroup Controls/_toggle/RadioGroup
  * @includes Checkbox Controls/_toggle/Checkbox
- * @includes CheckboxMarker Controls/_toggle/Checkbox/resources/CheckboxMarker
+ * @includes CheckboxMarker Controls/_toggle/CheckboxMarker
  * @includes CheckboxGroup Controls/_toggle/CheckboxGroup
  * @includes Separator Controls/_toggle/Separator
  * @includes BigSeparator Controls/_toggle/BigSeparator

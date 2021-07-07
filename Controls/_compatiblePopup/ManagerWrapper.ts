@@ -5,7 +5,7 @@
 import Control = require('Core/Control');
 import Controller from 'Controls/Popup/Compatible/ManagerWrapper/Controller';
 import template = require('wml!Controls/_compatiblePopup/ManagerWrapper/ManagerWrapper');
-import {Controller as ControllerPopup} from 'Controls/popup';
+import {Controller as ControllerPopup, ManagerClass} from 'Controls/popup';
 import {setController, IPopupSettingsController} from 'Controls/Application/SettingsController';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import {Bus} from 'Env/Event';
@@ -20,7 +20,7 @@ var ManagerWrapper = Control.extend({
       this._loadViewSettingsController();
    },
 
-   _afterMount: function() {
+   _afterMount: function(cfg) {
       Controller.registerManager(this);
 
       // Add handlers to events when children are created
@@ -33,6 +33,9 @@ var ManagerWrapper = Control.extend({
       this._mouseupPage = this._eventRegistratorHandler.bind(this, 'mouseupDetect');
 
       this._toggleWindowHandlers(true);
+
+      this._popupManager = new ManagerClass();
+      this._popupManager.init(cfg);
    },
 
    _loadViewSettingsController: function() {
@@ -84,6 +87,8 @@ var ManagerWrapper = Control.extend({
       window[actionName]('touchend', this._touchendPage);
       window[actionName]('mousedown', this._mousedownPage);
       window[actionName]('mouseup', this._mouseupPage);
+      window[actionName]('workspaceResize', this._workspaceResizePage);
+      window[actionName]('pageScrolled', this._pageScrolled);
    },
 
    startResizeEmitter(event: Event): void {
@@ -117,9 +122,17 @@ var ManagerWrapper = Control.extend({
       this._eventRegistratorHandler('mousedownDetect', event);
       var Manager = ControllerPopup.getManager();
       if (Manager) {
-         Manager._mouseDownHandler(event);
+         Manager.mouseDownHandler(event);
       }
    },
+
+    _workspaceResizePage: function (event, ...args) {
+        this._popupManager.eventHandler.apply(this._popupManager, ['workspaceResize', args]);
+    },
+
+    _pageScrolled: function (event, ...args) {
+        this._popupManager.eventHandler.apply(this._popupManager, ['pageScrolled', args]);
+    },
 
    registerListener: function(event, registerType, component, callback) {
       this._listenersSubscribe('_registerIt', event, registerType, component, callback);
@@ -196,6 +209,7 @@ var ManagerWrapper = Control.extend({
       if (window) {
          this._toggleWindowHandlers(false);
       }
+      this._popupManager.destroy();
    }
 
 });

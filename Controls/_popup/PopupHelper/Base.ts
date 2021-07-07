@@ -36,4 +36,12 @@ export default class Base {
     isOpened(): boolean {
         return BaseOpener.isOpened(this._popupId);
     }
+
+    destroy(): void {
+        if (this.isOpened()) {
+            this.close();
+        }
+        this._popupId = null;
+        this._opener = null;
+    }
 }

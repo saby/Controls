@@ -82,6 +82,61 @@ define([
       });
 
       describe('.shiftForward', function() {
+         [{
+            startValue: new Date(2019, 11),
+            endValue: new Date(2019, 11),
+            displayedRanges: [[new Date(2018, 0), new Date(2020, 0)]]
+         }, {
+            startValue: new Date(2020, 1),
+            endValue: new Date(2020, 1),
+            displayedRanges: [[new Date(2017, 0), new Date(2020, 0)]]
+         }, {
+            startValue: new Date(2020, 0),
+            endValue: new Date(2020, 0),
+            displayedRanges: [[new Date(2017, 0), new Date(2020, 0)], [new Date(2025, 0), new Date(2030, 0)]]
+         }, {
+            startValue: new Date(2020, 9),
+            endValue: new Date(2020, 12, 0),
+            displayedRanges: [[new Date(2020, 0), new Date(2022, 0)]]
+         }, {
+            startValue: new Date(2020, 0),
+            endValue: new Date(2022, 0),
+            displayedRanges: [[new Date(2019, 0), null]]
+         }].forEach(function (test) {
+            it(`should shift forward with displayedRanges`, function () {
+               let model = new dateRange.DateRangeModel({});
+               model.update({ startValue: test.startValue, endValue: test.endValue, displayedRanges: test.displayedRanges });
+
+               model.shiftForward();
+
+               assert.notEqual(test.startValue.getTime(), model.startValue.getTime());
+               assert.notEqual(test.endValue.getTime(), model.endValue.getTime());
+            });
+         });
+
+         [{
+            startValue: new Date(2019, 11),
+            endValue: new Date(2020, 0, 0),
+            displayedRanges: [[new Date(2018, 0), new Date(2019, 0)]]
+         }, {
+            startValue: new Date(2020, 0),
+            endValue: new Date(2021, 0),
+            displayedRanges: [[new Date(2017, 0), new Date(2020, 0)]]
+         }, {
+            startValue: new Date(2020, 9),
+            endValue: new Date(2020, 12, 0),
+            displayedRanges: [[new Date(2017, 0), new Date(2020, 0)]]
+         }].forEach(function (test) {
+            it(`should not shift forward with displayedRanges`, function () {
+               let model = new dateRange.DateRangeModel({});
+               model.update({ startValue: test.startValue, endValue: test.endValue, displayedRanges: test.displayedRanges });
+
+               model.shiftForward();
+
+               assert.equal(test.startValue.getTime(), model.startValue.getTime());
+               assert.equal(test.endValue.getTime(), model.endValue.getTime());
+            });
+         });
          [
             {
                start: new Date(2018, 0, 1),
@@ -137,6 +192,22 @@ define([
                   new Date(endValue.getFullYear(), endValue.getMonth(), endValue.getDate() + 3)];
             },
             result: [new Date(2019, 0, 10), new Date(2019, 0, 15)]
+         }, {
+            startValue: new Date(2019, 0, 7),
+            endValue: new Date(2019, 0, 9),
+            selectionType: 'quantum',
+            ranges: {
+               'days': [3]
+            },
+            result: [new Date(2019, 0, 10), new Date(2019, 0, 12)]
+         }, {
+            startValue: new Date(2019, 0, 7),
+            endValue: new Date(2019, 0, 13),
+            selectionType: 'quantum',
+            ranges: {
+               'days': [7]
+            },
+            result: [new Date(2019, 0, 14), new Date(2019, 0, 20)]
          }].forEach(function (test) {
             it('should shift period with quantum forward', function () {
                let model = new dateRange.DateRangeModel();
@@ -158,6 +229,57 @@ define([
       });
 
       describe('.shiftBack', function() {
+         [{
+            startValue: new Date(2019, 7),
+            endValue: new Date(2019, 7),
+            displayedRanges: [[new Date(2019, 0), new Date(2020, 0)]]
+         }, {
+            startValue: new Date(2020, 1),
+            endValue: new Date(2020, 1),
+            displayedRanges: [[new Date(2017, 0), new Date(2020, 0)]]
+         }, {
+            startValue: new Date(2020, 0),
+            endValue: new Date(2020, 2, 0),
+            displayedRanges: [[new Date(2015, 0), new Date(2017, 0)], [new Date(2020, 0), new Date(2030, 0)]]
+         }, {
+            startValue: new Date(2020, 9),
+            endValue: new Date(2020, 11),
+            displayedRanges: [[new Date(2020, 0), new Date(2022, 0)]]
+         }, {
+            startValue: new Date(2020, 0),
+            endValue: new Date(2022, 0),
+            displayedRanges: [[null, new Date(2023, 0)]]
+         }].forEach(function (test) {
+            it(`should shift back with displayedRanges`, function () {
+               let model = new dateRange.DateRangeModel({});
+               model.update({ startValue: test.startValue, endValue: test.endValue, displayedRanges: test.displayedRanges });
+
+               model.shiftBack();
+
+               assert.notEqual(test.startValue.getTime(), model.startValue.getTime());
+               assert.notEqual(test.endValue.getTime(), model.endValue.getTime());
+            });
+         });
+
+         [{
+            startValue: new Date(2019, 0),
+            endValue: new Date(2019, 0),
+            displayedRanges: [[new Date(2019, 0), new Date(2019, 0)]]
+         }, {
+            startValue: new Date(2017, 0),
+            endValue: new Date(2017, 0),
+            displayedRanges: [[new Date(2017, 0), new Date(2020, 0)]]
+         }].forEach(function (test) {
+            it(`should not shift forward with displayedRanges`, function () {
+               let model = new dateRange.DateRangeModel({});
+               model.update({ startValue: test.startValue, endValue: test.endValue, displayedRanges: test.displayedRanges });
+
+               model.shiftBack();
+
+               assert.equal(test.startValue.getTime(), model.startValue.getTime());
+               assert.equal(test.endValue.getTime(), model.endValue.getTime());
+            });
+         });
          [
             {
                start: new Date(2018, 0, 1),
@@ -212,6 +334,22 @@ define([
                   new Date(endValue.getFullYear(), endValue.getMonth(), endValue.getDate() + 3)];
             },
             result: [new Date(2019, 0, 4), new Date(2019, 0, 9)]
+         }, {
+            startValue: new Date(2019, 0, 7),
+            endValue: new Date(2019, 0, 9),
+            selectionType: 'quantum',
+            ranges: {
+               'days': [3]
+            },
+            result: [new Date(2019, 0, 4), new Date(2019, 0, 6)]
+         }, {
+            startValue: new Date(2019, 0, 7),
+            endValue: new Date(2019, 0, 13),
+            selectionType: 'quantum',
+            ranges: {
+               'days': [7]
+            },
+            result: [new Date(2018, 11, 31), new Date(2019, 0, 6)]
          }].forEach(function (test) {
             it('should shift period with quantum back', function () {
                let model = new dateRange.DateRangeModel();

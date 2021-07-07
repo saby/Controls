@@ -24,7 +24,7 @@
                                      attr:id="ControlsDemo-Markup__resolverSelect"
                                      keyProperty="id"
                                      on:onMenuItemActivate="_updateResolver()"
-                                     style="linkAdditional4" />
+                                     buttonStyle="linkAdditional4" />
       </div>
       <div class="ControlsDemo-Markup__block">
          <Controls.input:Label name="myLabel3" caption="json массив: {{ strJson }}" />

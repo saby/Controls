@@ -1,4 +1,4 @@
-define(['Controls/_grid/utils/GridLadderUtil', 'Types/collection', 'Controls/display'], function(Util, Collection, Display) {
+define(['Controls/_grid/utils/GridLadderUtil', 'Types/collection', 'Controls/display', 'Env/Env'], function(Util, Collection, Display, Env) {
 
    describe('Controls/_grid/GridLadderUtil', function() {
       it('isSupportLadder', function() {
@@ -31,6 +31,9 @@ define(['Controls/_grid/utils/GridLadderUtil', 'Types/collection', 'Controls/dis
          assert.strictEqual(Util.stickyLadderCellsCount([{ title: 'photo', stickyProperty: 'photo' }]), 1);
          assert.strictEqual(Util.stickyLadderCellsCount([{ title: 'photo', stickyProperty: ['date', 'time'] }]), 2);
          assert.strictEqual(Util.stickyLadderCellsCount([{ title: 'photo', stickyProperty: 'photo' }], undefined, {}), 0);
+         Env.detection.isIE = true;
+         assert.strictEqual(Util.stickyLadderCellsCount([{ title: 'photo', stickyProperty: ['date', 'time'] }]), 0);
+         Env.detection.isIE = false;
       });
       it('prepareLadder', function() {
          const date1 = new Date(2017, 00, 01);
@@ -63,9 +66,10 @@ define(['Controls/_grid/utils/GridLadderUtil', 'Types/collection', 'Controls/dis
          }];
          const resultLadder = {
             0: { date: { ladderLength: 1 } },
-            1: { date: { ladderLength: 4 } },
+            1: { date: { ladderLength: 3 } },
             2: { date: { } },
             3: { date: { } },
+            4: { date: { ladderLength: 2 } },
             5: { date: { } },
             6: { date: { ladderLength: 1 } },
             7: { date: { ladderLength: 3 } },
@@ -87,8 +91,14 @@ define(['Controls/_grid/utils/GridLadderUtil', 'Types/collection', 'Controls/dis
             },
             3: {
                photo: {
-                  ladderLength: 4,
-                  headingStyle: 'grid-row: span 4'
+                  ladderLength: 1,
+                  headingStyle: 'grid-row: span 1'
+               }
+            },
+            4: {
+               photo: {
+                  headingStyle: 'grid-row: span 4',
+                  ladderLength: 4
                }
             },
             5: {

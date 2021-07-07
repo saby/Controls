@@ -1,0 +1,38 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Окно добавления в избранные фильтры</div>
+      <Controls.filterPopup:_EditDialog
+              keyProperty="id"
+              items="{{_items}}">
+      </Controls.filterPopup:_EditDialog>
+   </div>
+
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Окно добавления в избранные фильтры с editedTextValue</div>
+      <Controls.filterPopup:_EditDialog
+              keyProperty="id"
+              editedTextValue="My filter"
+              items="{{_items}}">
+      </Controls.filterPopup:_EditDialog>
+   </div>
+
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Окно добавления в избранные фильтры с isClient</div>
+      <Controls.filterPopup:_EditDialog
+              keyProperty="id"
+              isClient="{{true}}"
+              items="{{_items}}">
+      </Controls.filterPopup:_EditDialog>
+   </div>
+
+
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Окно добавления в избранные фильтры с isFavorite и editedTextValue</div>
+      <Controls.filterPopup:_EditDialog
+              keyProperty="id"
+              editedTextValue="My filter"
+              isFavorite="{{true}}"
+              items="{{_items}}">
+      </Controls.filterPopup:_EditDialog>
+   </div>
+</div>

@@ -189,14 +189,14 @@ class PendingClass {
     hasPendings(): boolean {
         let hasPending = false;
         Object.keys(this._pendings).forEach((root) => {
-            if (this.hasRegisteredPendings(root)) {
+            if (this.hasRegisteredPendings(root, false)) {
                 hasPending = true;
             }
         });
         return hasPending;
     }
 
-    hasRegisteredPendings(root: string = null): boolean {
+    hasRegisteredPendings(root: string = null, withCompatible: boolean = true): boolean {
         let hasPending = false;
         const pendingRoot = this._pendings[root] || {};
         Object.keys(pendingRoot).forEach((key) => {
@@ -205,8 +205,8 @@ class PendingClass {
             if (pending.validate) {
                 isValid = pending.validate();
             } else if (pending.validateCompatible) {
-                // ignore compatible pendings
-                isValid = false;
+                // ignore compatible pendings from beforeunload handler
+                isValid = withCompatible ? pending.validateCompatible() : false;
             }
 
             // We have at least 1 active pending

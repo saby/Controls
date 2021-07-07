@@ -2,9 +2,9 @@
     <ws:for data="index, item in _options.items">
         <ws:if data="{{ _viewModel._items[index].loaded }}">
             <ws:partial template="{{ _options.itemTemplate }}"
-                        currentItemKey="{{ item.id || item.key}}"
-                        attr:class="{{ _selectedKey !== item.id && _selectedKey!== item.key ? 'ws-hidden' }}"
-                        key="{{ item.id || item.key }}"
+                        currentItemKey="{{ item.key}}"
+                        attr:class="{{ _selectedKey!== item.key ? 'ws-hidden' }}"
+                        key="{{ item.key }}"
                         autofocus="{{ item.autofocus }}"
                         itemTemplate="{{ item.itemTemplate }}"
                         selectedKey="{{ _options.selectedKey }}"

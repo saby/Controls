@@ -492,6 +492,7 @@ export default class SearchControllerClass {
     }
 
     private _setPath(path: RecordSet): void {
+        this._path = path;
         if (this._options.pathChangedCallback) {
             this._options.pathChangedCallback(path);
         }

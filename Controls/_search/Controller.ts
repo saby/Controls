@@ -1,6 +1,6 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_search/Controller');
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import {ContextOptions as DataOptions} from 'Controls/context';
 import {RecordSet} from 'Types/collection';
 import {default as SearchController} from 'Controls/_search/ControllerClass';

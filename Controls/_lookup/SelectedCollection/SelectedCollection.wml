@@ -1,6 +1,6 @@
 <div class="controls-SelectedCollection__collection
             controls-SelectedCollection__collection_{{_options.itemsLayout !== 'oneRow' ? 'multiLine' : 'singleLine'}}
-            controls-SelectedCollection__collection_{{_options.itemsLayout !== 'oneRow' ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}
+            controls-SelectedCollection__collection_{{_options.itemsLayout !== 'oneRow' ? 'multiLine' : 'singleLine'}}_fontSize-{{_options.fontSize || 'm'}}_theme-{{_options.theme}}
             controls-SelectedCollection__collection-{{_options.itemsLayout}}"
      style="min-width: {{_options.collectionWidth}}px; max-width: {{_options.collectionWidth}}px;">
    <ws:if data="{{_options.items.getCount() > _options.maxVisibleItems}}">

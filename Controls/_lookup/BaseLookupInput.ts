@@ -4,7 +4,7 @@ import * as template from 'wml!Controls/_lookup/BaseLookupInput/BaseLookupInput'
 import * as clearRecordsTemplate from 'wml!Controls/_lookup/BaseLookupView/resources/clearRecordsTemplate';
 import * as showSelectorTemplate from 'wml!Controls/_lookup/BaseLookupView/resources/showSelectorTemplate';
 import {UnregisterUtil, RegisterUtil} from 'Controls/event';
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import {DOMUtil} from 'Controls/sizeUtils';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {List} from 'Types/collection';
 import {Model} from 'Types/entity';
@@ -12,9 +12,10 @@ import {constants} from 'Env/Env';
 import {ITextOptions, IValueOptions, IBaseOptions} from 'Controls/input';
 import {IFontSizeOptions} from 'Controls/interface';
 import {isEqual} from 'Types/object';
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 import {ICrudPlus} from 'Types/source';
 import {IHashMap} from 'Types/declarations';
+import InputRenderLookup = require("./BaseLookupView/InputRender");
 
 const KEY_CODE_F2 = 113;
 
@@ -43,8 +44,13 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     private _infoboxOpened: boolean = false;
     private _needSetFocusInInput: boolean = false;
     private _suggestState: boolean = false;
+    private _subscribedOnResizeEvent: boolean = false;
     protected _maxVisibleItems: number = 0;
     protected _listOfDependentOptions: string[];
+
+    protected _children: {
+        inputRender: typeof InputRenderLookup;
+    };
 
     protected _inheritorBeforeMount(options: ILookupInputOptions): void {
         const itemsCount = this._items.getCount();
@@ -86,14 +92,16 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
         if (!this._isInputActive(newOptions)) {
             this.closeSuggest();
         }
+
+        this._subscribeOnResizeEvent(newOptions);
     }
 
     protected _afterMount(options: ILookupInputOptions): void {
-        RegisterUtil(this, 'controlResize', this._resize.bind(this));
-
         if (!this._isEmpty()) {
             this._calculateSizes(options);
         }
+
+        this._subscribeOnResizeEvent(options);
     }
 
     protected _beforeUnmount(): void {
@@ -192,7 +200,7 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     }
 
     private _isInputActive(options: ILookupInputOptions): boolean {
-        return !options.readOnly && this._isInputVisible(options);
+        return !options.readOnly && this._isInputVisible(options) && (this._isEmpty() || options.multiSelect);
     }
 
     private _openInfoBox(event: SyntheticEvent, config: IHashMap<unknown>): void {
@@ -319,8 +327,19 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
         return !this._isEmpty() && !!(this._maxVisibleItems || this._options.readOnly);
     }
 
+    private _subscribeOnResizeEvent(options: ILookupInputOptions): void {
+        if (!this._subscribedOnResizeEvent && this._isNeedCalculatingSizes(options)) {
+            RegisterUtil(this, 'controlResize', this._resize);
+            this._subscribedOnResizeEvent = true;
+        }
+    }
+
     closeSuggest(): void {
         this._suggestState = false;
+    }
+
+    paste(value: string): void {
+        this._children.inputRender.paste(value);
     }
 
     protected abstract _calculateSizes(options: ILookupInputOptions): void;

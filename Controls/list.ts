@@ -26,6 +26,8 @@
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
  * @includes IClickableView Controls/_list/interface/IClickableView
+ * @includes IListNavigation Controls/_list/interface/IListNavigation
+ * @includes IReloadableList Controls/_list/interface/IReloadableList
  * @public
  * @author Крайнов Д.О.
  */
@@ -56,6 +58,7 @@
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
  * @includes IClickableView Controls/_list/interface/IClickableView
+ * @includes IListNavigation Controls/_list/interface/IListNavigation
  * @public
  * @author Крайнов Д.О.
  */
@@ -70,7 +73,7 @@ import LoadingIndicatorTemplate = require('wml!Controls/_list/LoadingIndicatorTe
 import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
 import Mover = require('Controls/_list/Mover');
 import Remover = require('Controls/_list/Remover');
-import DataContainer = require('Controls/_list/Data');
+import {default as DataContainer} from 'Controls/_list/Data';
 import _forTemplate = require('wml!Controls/_list/resources/For');
 import EditingTemplate = require('wml!Controls/_list/EditingTemplateChooser');
 import BaseEditingTemplate = require('wml!Controls/_list/EditInPlace/baseEditingTemplate');
@@ -95,7 +98,9 @@ import {IVirtualScrollConfig} from './_list/interface/IVirtualScroll';
 import {VirtualScroll} from './_list/ScrollContainer/VirtualScroll';
 import {default as ScrollController} from './_list/ScrollController';
 import {IList} from './_list/interface/IList';
-import {default as DataController} from 'Controls/_list/Data/ControllerClass';
+import IListNavigation from './_list/interface/IListNavigation';
+import { CssClassList, createClassListCollection} from 'Controls/_list/resources/utils/CssClassList';
+import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
 
 import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 
@@ -133,6 +138,9 @@ export {
     BaseControl,
     ScrollEmitter,
     SearchItemsUtil,
+    CssClassList,
+    createClassListCollection,
+    getItemsBySelection,
     ItemsView,
     ItemsViewModel,
     LoadingIndicatorTemplate,
@@ -143,7 +151,7 @@ export {
     IList,
     VirtualScroll,
     ScrollController,
-    DataController,
+    IListNavigation,
 
     // @deprecated
     _itemActionsForTemplate,

@@ -4,6 +4,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IPopupOptions} from 'Controls/_popup/interface/IPopup';
 import {RegisterClass, RegisterUtil, UnregisterUtil} from 'Controls/event';
+import ManagerController from 'Controls/_popup/Manager/ManagerController';
 
 import * as template from 'wml!Controls/_popup/Manager/Popup';
 import * as PopupContent from 'wml!Controls/_popup/Manager/PopupContent';
@@ -53,11 +54,6 @@ class Popup extends Control<IPopupControlOptions> {
 
     protected _isEscDown: boolean = false;
 
-    // _moduleName is assign in the callback of require.
-    // Private modules are not visible for this mechanism,
-    // _moduleName must be specified manually for them.
-    // It is necessary for checking relationship between popups.
-    protected _moduleName: string = 'Controls/_popup/Manager/Popup';
     private _resizeRegister: RegisterClass;
     private _isDragStarted: boolean;
 
@@ -68,7 +64,7 @@ class Popup extends Control<IPopupControlOptions> {
     }
 
     protected _beforePaintOnMount(): void {
-        this._notify('popupBeforePaintOnMount', [this._options.id], {bubbling: true});
+        ManagerController.notifyToManager('popupBeforePaintOnMount', [this._options.id]);
     }
 
     protected _beforeMount(options: IPopupControlOptions): void {
@@ -99,10 +95,10 @@ class Popup extends Control<IPopupControlOptions> {
         if (this.waitForPopupCreated) {
             this.callbackCreated = (() => {
                 this.callbackCreated = null;
-                this._notify('popupCreated', [this._options.id], {bubbling: true});
+                ManagerController.notifyToManager('popupCreated', [this._options.id]);
             });
         } else {
-            this._notify('popupCreated', [this._options.id], {bubbling: true});
+            ManagerController.notifyToManager('popupCreated', [this._options.id]);
             this.activatePopup();
         }
     }
@@ -112,7 +108,7 @@ class Popup extends Control<IPopupControlOptions> {
     }
 
     protected _afterRender(oldOptions: IPopupOptions): void {
-        this._notify('popupAfterUpdated', [this._options.id], {bubbling: true});
+        ManagerController.notifyToManager('popupAfterUpdated', [this._options.id]);
 
         if (this._isResized(oldOptions, this._options)) {
             this._startResizeRegister();
@@ -135,7 +131,6 @@ class Popup extends Control<IPopupControlOptions> {
         }
         UnregisterUtil(this, 'scroll');
         UnregisterUtil(this, 'controlResize');
-        this._notify('popupDestroyed', [this._options.id], {bubbling: true});
     }
 
     protected _registerHandler(event, registerType, component, callback, config): void {
@@ -151,39 +146,39 @@ class Popup extends Control<IPopupControlOptions> {
      */
     protected _close(): void {
         if (!this._isDragStarted) {
-            this._notify('popupClose', [this._options.id], {bubbling: true});
+            ManagerController.notifyToManager('popupClose', [this._options.id]);
         }
     }
 
     protected _maximized(event: SyntheticEvent<Event>, state: boolean): void {
-        this._notify('popupMaximized', [this._options.id, state], {bubbling: true});
+        ManagerController.notifyToManager('popupMaximized', [this._options.id, state]);
     }
 
     protected _popupDragStart(event: SyntheticEvent<Event>, offset: number): void {
         this._isDragStarted = true;
-        this._notify('popupDragStart', [this._options.id, offset], {bubbling: true});
+        ManagerController.notifyToManager('popupDragStart', [this._options.id, offset]);
     }
 
     protected _popupDragEnd(): void {
         this._isDragStarted = false;
-        this._notify('popupDragEnd', [this._options.id], {bubbling: true});
+        ManagerController.notifyToManager('popupDragEnd', [this._options.id]);
     }
 
     protected _popupMouseEnter(event: SyntheticEvent<MouseEvent>, popupEvent: SyntheticEvent<MouseEvent>): void {
-        this._notify('popupMouseEnter', [this._options.id, popupEvent], {bubbling: true});
+        ManagerController.notifyToManager('popupMouseEnter', [this._options.id, popupEvent]);
     }
 
     protected _popupMouseLeave(event: SyntheticEvent<MouseEvent>, popupEvent: SyntheticEvent<MouseEvent>): void {
-        this._notify('popupMouseLeave', [this._options.id, popupEvent], {bubbling: true});
+        ManagerController.notifyToManager('popupMouseLeave', [this._options.id, popupEvent]);
     }
 
     protected _popupResizingLine(event: SyntheticEvent<Event>, offset: number): void {
-        this._notify('popupResizingLine', [this._options.id, offset], {bubbling: true});
+        ManagerController.notifyToManager('popupResizingLine', [this._options.id, offset]);
     }
 
     protected _animated(event: SyntheticEvent<AnimationEvent>): void {
         this._startResizeRegister(event);
-        this._notify('popupAnimated', [this._options.id], {bubbling: true});
+        ManagerController.notifyToManager('popupAnimated', [this._options.id]);
     }
 
     protected _registerOpenerUpdateCallback(event: SyntheticEvent<Event>, callback: UpdateCallback): void {
@@ -203,15 +198,14 @@ class Popup extends Control<IPopupControlOptions> {
         }
     }
 
-    protected _showIndicatorHandler(event: Event): string {
+    protected _showIndicatorHandler(event: Event, config: object = {}, promise?: Promise<any>): string {
         // Вернул для индикаторов, вызванных из кода
-        const args = this._prepareEventArs(event, arguments);
-        const config = args[0];
+        event.stopPropagation();
         if (typeof config === 'object') {
             config.popupId = this._options.id;
         }
         // catch showIndicator and add popupId property for Indicator.
-        return this._notify('showIndicator', args, {bubbling: true}) as string;
+        return this._notify('showIndicator', [config, promise], {bubbling: true}) as string;
     }
 
     protected _registerPendingHandler(event: Event): string {
@@ -247,7 +241,7 @@ class Popup extends Control<IPopupControlOptions> {
     }
 
     protected _controlResizeOuterHandler(): void {
-        this._notify('popupResizeOuter', [this._options.id], {bubbling: true});
+        ManagerController.notifyToManager('popupResizeOuter', [this._options.id]);
 
         // After updating popup position we will updating the position of the popups open with it.
         runDelayed(this._callOpenersUpdate.bind(this));
@@ -257,7 +251,7 @@ class Popup extends Control<IPopupControlOptions> {
         // Children controls can notify events while parent control isn't mounted
         // Because children's afterMount happens before parent afterMount
         if (this._isPopupMounted) {
-            this._notify('popupResizeInner', [this._options.id], {bubbling: true});
+            ManagerController.notifyToManager('popupResizeInner', [this._options.id]);
         }
     }
 
@@ -267,7 +261,7 @@ class Popup extends Control<IPopupControlOptions> {
      */
     protected _sendResult(event: SyntheticEvent<Event>, ...args: any[]): void {
         const popupResultArgs = [this._options.id].concat(args);
-        this._notify('popupResult', popupResultArgs, {bubbling: true});
+        ManagerController.notifyToManager('popupResult', popupResultArgs);
     }
 
     /**
@@ -335,5 +329,14 @@ class Popup extends Control<IPopupControlOptions> {
         };
     }
 }
+
+// _moduleName is assign in the callback of require.
+// Private modules are not visible for this mechanism,
+// _moduleName must be specified manually for them.
+// It is necessary for checking relationship between popups.
+// Значение теперь нужно присваивать до выполнения конструктора.
+Object.assign(Popup.prototype, {
+    _moduleName: 'Controls/_popup/Manager/Popup'
+});
 
 export default Popup;

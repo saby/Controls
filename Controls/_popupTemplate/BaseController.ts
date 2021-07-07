@@ -1,8 +1,8 @@
 import Deferred = require('Core/Deferred');
 import Utils = require('Types/util');
-import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import oldWindowManager from 'Controls/_popupTemplate/_oldWindowManager';
-import {Controller as ManagerController, IPopupItem, IPopupSizes} from 'Controls/popup';
+import {Controller as ManagerController, IPopupItem, IPopupPosition, IPopupSizes} from 'Controls/popup';
+import * as TargetCoords from 'Controls/_popupTemplate/TargetCoords';
 
 export interface IDragOffset {
     x: number;
@@ -25,6 +25,13 @@ abstract class BaseController {
     POPUP_STATE_START_DESTROYING: string = 'startDestroying'; // Окно начало удаление, перед всеми операциями по закрытию детей и пендингов
     POPUP_STATE_DESTROYING: string = 'destroying'; // Окно в процессе удаления (используется где есть операции перед удалением, например анимация)
     POPUP_STATE_DESTROYED: string = 'destroyed'; // Окно удалено из верстки
+
+    constructor(): void {
+        if (document) {
+            window.addEventListener('resize', this._resetRootContainerCoords, true);
+            window.addEventListener('scroll', this._resetRootContainerCoords, true);
+        }
+    }
 
     abstract elementCreated(item: IPopupItem, container: HTMLDivElement): boolean;
 
@@ -149,10 +156,12 @@ abstract class BaseController {
     }
 
     protected resizeOuter(item: IPopupItem, container: HTMLDivElement): boolean {
+        this._resetRootContainerCoords();
         return this._elementUpdated(item, container);
     }
 
     protected workspaceResize(): boolean {
+        this._resetRootContainerCoords();
         return false;
     }
 
@@ -204,6 +213,43 @@ abstract class BaseController {
             width: Math.round(sizes?.width),
             height: Math.round(sizes?.height)
         };
+    }
+
+    protected _resetRootContainerCoords(): void {
+        BaseController.rootContainers = {};
+    }
+
+    private static rootContainers = {};
+
+    static getRootContainerCoords(item: IPopupItem, baseRootSelector: string): IPopupPosition {
+        const getRestrictiveContainer = (popupItem: IPopupItem) => {
+            if (popupItem.popupOptions.restrictiveContainer) {
+                return popupItem.popupOptions.restrictiveContainer;
+            }
+            // Проверяем, есть ли у родителя ограничивающий контейнер
+            if (popupItem.parentId) {
+                const parentItem = require('Controls/popup').Controller.find(popupItem.parentId);
+                return getRestrictiveContainer(parentItem);
+            }
+        };
+        const itemRestrictiveContainer = getRestrictiveContainer(item);
+        const bodySelector = 'body';
+
+        const restrictiveContainers = [itemRestrictiveContainer, baseRootSelector, bodySelector];
+        for (const restrictiveContainer of restrictiveContainers) {
+            if (restrictiveContainer) {
+                if (BaseController.rootContainers[restrictiveContainer]) {
+                    return BaseController.rootContainers[restrictiveContainer];
+                }
+                const restrictiveContainerNode = document.querySelector(restrictiveContainer);
+                // Если не нашли контейнер, то игнорируем опцию
+                if (!restrictiveContainerNode) {
+                    continue;
+                }
+                const targetCoords = TargetCoords.get(restrictiveContainerNode);
+                return BaseController.rootContainers[restrictiveContainer] = targetCoords;
+            }
+        }
     }
 }
 

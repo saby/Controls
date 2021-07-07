@@ -1,0 +1,10 @@
+<Controls.suggestPopup:ListContainer attr:class="{{_options.classListWrapper}}" attr:style="min-width: 600px;">
+    <Controls.explorer:View displayProperty="title"
+                            parentProperty="parent"
+                            nodeProperty="parent@"
+                            keyProperty="id"
+                            viewMode="search"
+                            root="{{null}}"
+                            columns="{{_options.viewColumns}}">
+    </Controls.explorer:View>
+</Controls.suggestPopup:ListContainer>

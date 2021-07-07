@@ -69,11 +69,13 @@ define(
             data._beforeMount(dataOptions).then(() => {
                data._dataOptionsContext = new contexts.ContextOptions();
                const prefetchSource = data._dataOptionsContext.prefetchSource;
-               var loadDef = data._beforeUpdate({source: newSource, idProperty: 'id'})
+               const newFilter = {test: 'testFilter'};
+               var loadDef = data._beforeUpdate({source: newSource, idProperty: 'id', filter: newFilter});
                assert.isTrue(data._loading);
                loadDef.addCallback(function() {
                   try {
                      assert.isTrue(data._dataOptionsContext.prefetchSource !== prefetchSource);
+                     assert.deepEqual(data._filter, newFilter);
                      assert.isFalse(data._loading);
                      done();
                   } catch (e) {
@@ -81,6 +83,22 @@ define(
                   }
                });
             });
+         });
+
+         it('filter and navigation changed', async () => {
+            const dataOptions = {source: source, keyProperty: 'id'};
+            const data = getDataWithConfig(dataOptions);
+            data._dataOptionsContext = new contexts.ContextOptions();
+
+            const newNavigation = {view: 'page', source: 'page', sourceConfig: {pageSize: 2, page: 0, hasMore: false}};
+            const newFilter = {title: 'Ivan'};
+            await data._beforeMount(dataOptions);
+            data.saveOptions(dataOptions);
+            data._beforeUpdate({source: source, idProperty: 'id', filter: newFilter, navigation: newNavigation});
+
+            assert.deepEqual(data._dataOptionsContext.navigation, newNavigation);
+            assert.deepEqual(data._dataOptionsContext.filter, newFilter);
+            assert.deepEqual(data._filter, newFilter);
          });
 
          it('source and filter/navigation changed', async () => {
@@ -103,12 +121,14 @@ define(
                filter: newFilter
             });
             assert.isUndefined(data._dataOptionsContext.navigation);
+            assert.deepStrictEqual(data._filter, newFilter);
 
             return new Promise((resolve, reject) => {
                loadDef
                   .addCallback(() => {
                      assert.deepEqual(data._dataOptionsContext.navigation, newNavigation);
                      assert.deepEqual(data._dataOptionsContext.filter, newFilter);
+                     assert.deepEqual(data._filter, newFilter);
                      resolve();
                   })
                   .addErrback((error) => {
@@ -127,7 +147,10 @@ define(
             data._beforeMount({source: newSource, idProperty: 'id'}, {}, sourceData);
 
             assert.deepEqual(data._items, sourceData);
-            assert.isTrue(!!data._dataController._prefetchSource);
+
+            // TODO тест для совместимости, чтоб ничего не разломать
+            const prefSource = data._sourceController.getState().prefetchSource;
+            assert.isTrue(!!prefSource);
 
             resetCallback();
          });
@@ -147,9 +170,12 @@ define(
             let resetCallback = setNewEnvironmentValue(true);
 
             data._beforeMount({source: prefetchSource, idProperty: 'id'}, {}, sourceData);
-            assert.isTrue(data._dataController._prefetchSource.getOriginal() === memory);
-            assert.isTrue(data._dataController._prefetchSource !== prefetchSource);
-            assert.equal(data._dataController._prefetchSource._$data.query, sourceData);
+
+            // TODO тест для совместимости, чтоб ничего не разломать
+            const prefSource = data._sourceController.getState().prefetchSource;
+            assert.isTrue(prefSource.getOriginal() === memory);
+            assert.isTrue(prefSource !== prefetchSource);
+            assert.equal(prefSource._$data.query, sourceData);
 
             resetCallback();
          });
@@ -168,9 +194,12 @@ define(
             let data = getDataWithConfig({source: prefetchSource, keyProperty: 'id'});
 
             await data._beforeMount({source: prefetchSource, idProperty: 'id'}, {}, sourceData);
-            assert.isTrue(data._dataController._prefetchSource.getOriginal() === memory);
-            assert.isTrue(data._dataController._prefetchSource !== prefetchSource);
-            assert.equal(data._dataController._prefetchSource._$data.query, sourceData);
+
+            // TODO тест для совместимости, чтоб ничего не разломать
+            const prefSource = data._sourceController.getState().prefetchSource;
+            assert.isTrue(prefSource.getOriginal() === memory);
+            assert.isTrue(prefSource !== prefetchSource);
+            assert.equal(prefSource._$data.query, sourceData);
          });
 
          it('_beforeMount without source', () => {
@@ -213,11 +242,14 @@ define(
             let data = getDataWithConfig(options);
             await data._beforeMount(options);
 
+            const prefetchSource = data._dataOptionsContext.prefetchSource;
             const currentItems = data._items;
             const newItems = new collection.RecordSet();
 
             data._itemsReadyCallbackHandler(newItems);
             assert.isTrue(data._items === newItems);
+            assert.isTrue(data._dataOptionsContext.items === newItems);
+            assert.isTrue(data._dataOptionsContext.prefetchSource === prefetchSource);
          });
 
          it('data source options tests', function(done) {
@@ -232,8 +264,11 @@ define(
 
             //new source received in _beforeUpdate
             data._beforeUpdate({source: source}).addCallback(function() {
-               assert.isTrue(data._dataController._options.source === source);
-               assert.isTrue(!!data._dataController._prefetchSource);
+               assert.isTrue(data._sourceController._options.source === source);
+
+               // TODO тест для совместимости, чтоб ничего не разломать
+               const prefSource = data._sourceController.getState().prefetchSource;
+               assert.isTrue(!!prefSource);
                done();
             });
          });
@@ -296,6 +331,7 @@ define(
                });
                data._itemsChanged(event, newList);
                assert.isTrue(!data._items.getRecordById(0), 'items changed instead of prefetchSource');
+               assert.isTrue(!!data._items.getRecordById(1), 'items changed instead of prefetchSource');
                assert.isTrue(propagationStopped);
                done();
             });
@@ -309,7 +345,10 @@ define(
                data._beforeMount(config).addCallback(function() {
                   data._filterChanged(null, {test1: 'test1'});
                   assert.isTrue(config.source === data._dataOptionsContext.prefetchSource);
-                  assert.deepEqual(data._filter, {test1: 'test1'});
+
+                  // TODO тест для совместимости, чтоб ничего не разломать
+                  const filter = data._sourceController.getState().filter;
+                  assert.deepEqual(filter, {test1: 'test1'});
                   resolve();
                });
             });
@@ -346,8 +385,10 @@ define(
             var data = getDataWithConfig(config);
 
             data._beforeMount(config).then(function() {
-               assert.isTrue(!!data._dataController._prefetchSource);
-               assert.equal(data._dataController._options.source, source);
+               // TODO тест для совместимости, чтоб ничего не разломать
+               const prefetchSource = data._sourceController.getState().prefetchSource;
+               assert.isTrue(!!prefetchSource);
+               assert.equal(data._sourceController._options.source, source);
                assert.isTrue(dataLoadErrbackCalled);
                done();
             });

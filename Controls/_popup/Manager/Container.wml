@@ -31,7 +31,8 @@
                    min-width: {{item.position.minWidth !== undefined ? item.position.minWidth + 'px'}};
                    max-height: {{item.position.maxHeight !== undefined ? item.position.maxHeight + 'px'}};
                    min-height: {{item.position.minHeight !== undefined ? item.position.minHeight + 'px'}};
-                   height: {{item.position.height === undefined ? 'auto': item.position.height + 'px'}};"
+                   height: {{item.position.height === undefined ? 'auto': item.position.height + 'px'}};
+                   margin: {{item.position.margin !== undefined ? item.position.margin + 'px'}};"
                                        scope="{{item.popupOptions}}"
                                        position="{{item.position}}"
         />

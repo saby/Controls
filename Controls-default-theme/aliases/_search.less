@@ -53,7 +53,7 @@
 @reset-button_icon-color_searchInput:                                       @label_text-color;
 @reset-button_hover_icon-color_searchInput:                                 @reset-button_icon-color_searchInput;
 @reset-button_active_icon-color_searchInput:                                @reset-button_icon-color_searchInput;
-@reset-button_offset-left_searchInput:                                     @offset_2xs;
+@reset-button_offset-left_searchInput:                                      @offset_2xs;
 
 // Курсор
 
@@ -69,3 +69,16 @@
 @text-color_searchMisspell:                                                 @link_text-color;
 @text-color_hover_searchMisspell:                                           @link_hover_text-color;
 @text-color_active_searchMisspell:                                          @link_hover_text-color;
+
+
+// Переменные для разворачиваемого поиска
+
+@icon-size-expandableSearch:                                                @icon-size_m;
+@input_m-width-expandableSearch:                                            184px;
+@input_l-width-expandableSearch:                                            300px;
+@input_container_l-width-expandableSearch:                                  @input_l-width-expandableSearch + @icon-size-expandableSearch + @close-button_shadow-width-expandableSearch;
+@input_container_m-width-expandableSearch:                                  @input_m-width-expandableSearch + @icon-size-expandableSearch + @close-button_shadow-width-expandableSearch;
+@close-button_icon-background-expandableSearch:                             #FFF;
+@close-button_shadow-start-color-expandableSearch:                          rgba(255, 255, 255, 1);
+@close-button_shadow-end-color-expandableSearch:                            rgba(255, 255, 255, 0.6);
+@close-button_shadow-width-expandableSearch:                                10px;

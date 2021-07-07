@@ -46,7 +46,8 @@
 @placeholder-color_inputText:                         #6B6B6B;
 @invalid_focus_background-color_inputText:            @background-color;
 @invalid_focus_background-color:                      transparent;
-@caret-color_fill_inputText:                          #6b6b6b;
+@caret-color_fill_inputText:                          @text-color;
+@caret-color_empty_inputText:                         @text-color;
 
 // Т.к в тёмной теме сейчас два цвета фона(основной и для всплывающих панелей)
 @background-color_hover_inputText:                    transparent;
@@ -82,6 +83,7 @@
 
 //dropdown
 @item_background-color_menu:                          #383d44;
+@empty-item_text-color_dropdownSelector:               @secondary_color;
 
 //notification
 @secondary_marker_color_notification:                 @secondary_color;
@@ -155,6 +157,7 @@
 @history_heading_text-color_filterPanel:                 @secondary_text-color;
 
 @history_item_pin-button_icon-color_filterPanel:         @secondary_color;
+@history_item_pin-button_toggled_icon-color_filterPanel: @secondary_color;
 @history_item_pin-button_hover_icon-color_filterPanel:   #ff7033;
 @history_vertical_item_text-color_filterPanel:           @secondary_color;
 @history_vertical_item_hover_text-color_filterPanel:     @item_hover_text-color_filterPanel;
@@ -206,6 +209,7 @@
 @master_separator_color_list:                                               #535c68;
 
 @item_separator_s_color_list:                                               #4a515a;
+@item_separator_l_color_list:                                               #4a515a;
 @item_edge_separator_s_color_list:                                          #6b6b6b;
 
 @master_item_background-color_list:                                         #30343b;
@@ -219,6 +223,7 @@
 @columnscroll_shadow-start-color_grid:                                      rgba(0,0,0,0.15);
 @columnscroll_shadow-end-color_grid:                                        rgba(0,0,0,0);
 @columnscroll_separator_color_grid:                                         #393E46;
+@column_separator_s_color_grid:                                             #4a515a;
 
 //treeGrid
 @node_expander_icon-color_treeGrid:                                         #545b67;

@@ -162,7 +162,13 @@ define(
                ctrl._beforeMount({
                   value: '0.00'
                });
-               assert.equal(ctrl._tooltip, '0.00');
+               assert.equal(ctrl._tooltip, '0');
+            });
+            it('value: "0.12"', function() {
+               ctrl._beforeMount({
+                  value: '0.12'
+               });
+               assert.equal(ctrl._tooltip, '0.12');
             });
             it('value: "0.00", tooltip: ""', function() {
                ctrl._beforeMount({

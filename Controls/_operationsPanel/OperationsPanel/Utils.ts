@@ -1,16 +1,15 @@
 import toolbars = require('Controls/toolbars');
 import {showType} from 'Controls/Utils/Toolbar';
-import getWidthUtil = require('Controls/Utils/getWidth');
 import { Logger } from 'UI/Utils';
 import {Record} from 'Types/entity';
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import {DOMUtil, getWidth} from 'Controls/sizeUtils';
 
    var MENU_WIDTH = 0;
 
    var _private = {
       initializeConstants: function() {
          if (!MENU_WIDTH) {
-            MENU_WIDTH = window && getWidthUtil.getWidth('<span class="controls-Toolbar__menuOpen"><i class="icon-medium icon-ExpandDown"/></span>');
+            MENU_WIDTH = window && getWidth('<span class="controls-Toolbar__menuOpen"><i class="icon-medium icon-ExpandDown"/></span>');
          }
       },
 

@@ -1,6 +1,3 @@
-/**
- * Created by rn.kondakov on 15.02.2019.
- */
 import base64 = require('Core/base64');
 import { constants } from 'Env/Env';
 import * as objectMerge from 'Core/core-merge';
@@ -137,7 +134,7 @@ function isLinkGoodForDecorating(linkNode) {
  *
  * @class Controls/_decorator/Markup/resources/linkDecorateUtils
  * @private
- * @author Кондаков Р.Н.
+ * @author Угриновский Н.В.
  */
 
 /**

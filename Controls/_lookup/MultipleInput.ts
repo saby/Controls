@@ -4,7 +4,7 @@ import {default as BaseLookupInput, ILookupInputOptions} from 'Controls/_lookup/
 import showSelector from 'Controls/_lookup/showSelector';
 import {default as BaseLookup} from 'Controls/_lookup/BaseLookup';
 import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
-import {getWidth} from 'Controls/Utils/getWidth';
+import {getWidth} from 'Controls/sizeUtils';
 import * as showSelectorTemplate from 'wml!Controls/_lookup/BaseLookupView/resources/showSelectorTemplate';
 import * as inputRender from 'wml!Controls/_lookup/MultipleInput/resources/inputRender';
 

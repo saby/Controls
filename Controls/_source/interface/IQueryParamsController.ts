@@ -1,4 +1,4 @@
-import {IAdditionalQueryParams, Direction} from 'Controls/_interface/IAdditionalQueryParams';
+import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
 import {Collection} from 'Controls/display';
@@ -41,7 +41,7 @@ export interface IQueryParamsController {
         direction: Direction,
         callback?: Function,
         config?: IBaseSourceConfig
-    ): IAdditionalQueryParams|IAdditionalQueryParams[];
+    ): IQueryParams|IQueryParams[];
 
     /**
      * Метод для разрушения текущего объекта IQueryParamsController

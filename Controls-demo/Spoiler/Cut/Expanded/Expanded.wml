@@ -1,0 +1,34 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Without option expanded</div>
+      <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.spoiler:Cut>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">expanded=false</div>
+      <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" expanded="{{false}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.spoiler:Cut>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">expanded=true</div>
+      <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" expanded="{{true}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.spoiler:Cut>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">bind on state</div>
+      <Controls.spoiler:Cut attr:style="width: 200px;" lines="{{3}}" bind:expanded="_expanded">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.spoiler:Cut>
+   </div>
+</div>

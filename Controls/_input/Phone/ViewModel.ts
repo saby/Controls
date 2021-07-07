@@ -36,7 +36,7 @@ var ViewModel = BaseViewModel.extend({
     _convertToValue: function (displayValue) {
         _private.updateFormat(this, displayValue);
 
-        return Formatter.getClearData(this._format, displayValue).value;
+        return Formatter.clearData(this._format, displayValue).value;
     },
 
     _convertToDisplayValue: function (value) {
@@ -44,9 +44,9 @@ var ViewModel = BaseViewModel.extend({
 
         _private.updateFormat(this, stringValue);
 
-        return Formatter.getFormatterData(this._format, {
+        return Formatter.formatData(this._format, {
             value: stringValue,
-            position: 0
+            carriagePosition: 0
         }).value;
     },
 
@@ -60,7 +60,7 @@ var ViewModel = BaseViewModel.extend({
          */
         const clearSplitValue = InputProcessor.getClearSplitValue(
             splitValue,
-            Formatter.getClearData(this._format, this._displayValue)
+            Formatter.clearData(this._format, this._displayValue)
         );
         if (!clearSplitValue.delete) {
             switch (inputType) {

@@ -95,6 +95,10 @@ define(['Controls/_list/Controllers/PortionedSearch'], function(PortionedSearch)
          clock.tick(31000);
          assert.isFalse(searchStopped);
          assert.isFalse(searchStarted);
+
+         clock.tick(120000);
+         assert.isTrue(searchStopped);
+         assert.isFalse(searchStarted);
       });
 
       it('resetTimer', () => {

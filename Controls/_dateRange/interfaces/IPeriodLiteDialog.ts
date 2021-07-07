@@ -27,6 +27,7 @@ export default {
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseMonths
              * @cfg {Boolean} В значении false недоступен выбор месяца.
+             * @demo Controls-demo/dateRange/LiteSelector/ChoosePeriod/Index
              * @default true
              */
 
@@ -40,6 +41,7 @@ export default {
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseQuarters
              * @cfg {Boolean} В значении false недоступен выбор квартала.
+             * @demo Controls-demo/dateRange/LiteSelector/ChoosePeriod/Index
              * @default true
              */
 
@@ -53,6 +55,7 @@ export default {
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseHalfyears
              * @cfg {Boolean} В значении false недоступен выбор полугодия.
+             * @demo Controls-demo/dateRange/LiteSelector/ChoosePeriod/Index
              * @default true
              */
 
@@ -66,6 +69,7 @@ export default {
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseYears
              * @cfg {Boolean} В значении false недоступен выбор года.
+             * @demo Controls-demo/dateRange/LiteSelector/ChoosePeriod/Index
              * @default true
              */
 

@@ -12,7 +12,7 @@
             <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="filter">
                <ws:contentTemplate>
                   <div class="controls-FilterDropdown__contentTemplate">
-                     <ws:partial template="{{_options.contentTemplate}}" class="controls-Dropdown__item_style-filter
+                     <ws:partial template="{{_options.contentTemplate}}" class="controls-Dropdown__item_style-filter_theme-{{_options.theme}}
                       {{!contentTemplate.icon ? 'controls-FilterDropdown__content_text'}}"/>
                   </div>
                </ws:contentTemplate>
@@ -24,6 +24,6 @@
       </ws:contentTemplate>
    </Controls.dropdown:Input>
    <ws:if data="{{_options.showCross}}">
-      <span class="controls-FilterDropdown__reset icon-Close" on:click="_resetHandler()"></span>
+      <span class="controls-FilterDropdown__reset_theme-{{_options.theme}} icon-Close" on:click="_resetHandler()"></span>
    </ws:if>
 </div>

@@ -929,6 +929,11 @@ define([
          assert.equal(treeControl._nodesSourceControllers.size, 2);
          assert.isTrue(treeControl._nodesSourceControllers.get(1).hasMoreData('down', 1));
          assert.isFalse(treeControl._nodesSourceControllers.get(2).hasMoreData('down', 2));
+         treeControl._nodesSourceControllers.clear();
+         items.setMetaData({more: 106});
+         tree.TreeControl._private.afterReloadCallback(treeControl, treeControl._options, items);
+         assert.isFalse(treeControl._nodesSourceControllers.get(1).hasMoreData('down', 1));
+         assert.isFalse(treeControl._nodesSourceControllers.get(2).hasMoreData('down', 2));
       });
 
       describe('List navigation', function() {
@@ -1003,35 +1008,49 @@ define([
          });
       });
       it('TreeControl._beforeUpdate name of property', function() {
-         var
-            source = new sourceLib.Memory({
-               data: [],
-               keyProperty: 'id'
-            }),
-            treeControl = correctCreateTreeControl({
-               columns: [],
-               source: source,
-               items: new collection.RecordSet({
-                  rawData: [],
+         return new Promise((resolve, reject) => {
+            var
+               source = new sourceLib.Memory({
+                  data: [
+                     { id: 1, type: true, parentKey: null },
+                     { id: 2, type: true, parentKey: null },
+                     { id: 11, type: null, parentKey: 1 }
+                  ],
                   keyProperty: 'id'
                }),
-               keyProperty: 'id',
-               parentProperty: 'parent',
-               nodeProperty: 'type'
-            }),
-            treeGridViewModel = treeControl._children.baseControl.getViewModel();
-         treeControl._beforeUpdate({
-            root: 'testRoot',
-            parentProperty: 'parentKey',
-            nodeProperty: 'itemType',
-            hasChildrenProperty: 'hasChildren'
+               treeControl = correctCreateTreeControl({
+                  columns: [],
+                  source: source,
+                  items: new collection.RecordSet({
+                     rawData: [],
+                     keyProperty: 'id'
+                  }),
+                  keyProperty: 'id',
+                  parentProperty: 'parent',
+                  nodeProperty: 'type'
+               }),
+               treeGridViewModel = treeControl._children.baseControl.getViewModel();
+            setTimeout(() => {
+               treeControl._beforeUpdate({
+                  root: 'testRoot',
+                  parentProperty: 'parentKey',
+                  nodeProperty: 'itemType',
+                  hasChildrenProperty: 'hasChildren'
+               });
+               try {
+                  assert.equal(treeGridViewModel._options.parentProperty, 'parentKey');
+                  assert.equal(treeGridViewModel._model._options.parentProperty, 'parentKey');
+                  assert.equal(treeGridViewModel._model._display.getParentProperty(), 'parentKey');
+                  assert.equal(treeGridViewModel._options.nodeProperty, 'itemType');
+                  assert.equal(treeGridViewModel._model._options.nodeProperty, 'itemType');
+                  assert.equal(treeGridViewModel._options.hasChildrenProperty, 'hasChildren');
+                  assert.equal(treeGridViewModel._model._options.hasChildrenProperty, 'hasChildren');
+                  resolve();
+               } catch (e) {
+                  reject(e);
+               }
+            }, 10);
          });
-         assert.equal(treeGridViewModel._options.parentProperty, 'parentKey');
-         assert.equal(treeGridViewModel._model._options.parentProperty, 'parentKey');
-         assert.equal(treeGridViewModel._options.nodeProperty, 'itemType');
-         assert.equal(treeGridViewModel._model._options.nodeProperty, 'itemType');
-         assert.equal(treeGridViewModel._options.hasChildrenProperty, 'hasChildren');
-         assert.equal(treeGridViewModel._model._options.hasChildrenProperty, 'hasChildren');
       });
       describe('propStorageId', function() {
          let origSaveConfig = SettingsController.saveConfig;

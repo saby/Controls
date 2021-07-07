@@ -1,9 +1,7 @@
-<div>
-   <div class="controls-MoveDialog controls-MoveDialog_theme-{{_options.theme}}">
-      <Controls.popupTemplate:Dialog
-              headingCaption="{[Выбор раздела]}"
-              headerContentTemplate="{{_options.headerContentTemplate}}"
-              bodyContentTemplate="{{_options.bodyContentTemplate}}">
-      </Controls.popupTemplate:Dialog>
-   </div>
+<div class="controls-MoveDialog controls-MoveDialog_theme-{{_options.theme}}">
+   <Controls.popupTemplate:Dialog
+           headingCaption="{[Выбор раздела]}"
+           headerContentTemplate="{{_options.headerContentTemplate}}"
+           bodyContentTemplate="{{_options.bodyContentTemplate}}">
+   </Controls.popupTemplate:Dialog>
 </div>

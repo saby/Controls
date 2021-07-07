@@ -1,6 +1,5 @@
 import { TKeysSelection as TKeys, ISelectionObject as ISelection} from 'Controls/interface';
 import { Model } from 'Types/entity';
-import { CollectionItem } from 'Controls/display';
 import { IFlatSelectionStrategyOptions, ITreeSelectionStrategyOptions } from '../interface';
 import { RecordSet } from 'Types/collection';
 
@@ -63,7 +62,7 @@ export default interface ISelectionStrategy {
     * @param items Список элементов для которых нужно определить состояние выбранности
     * @return {Map<boolean|null, Model[]>} мапа, в которой для каждого состояния хранится соответствующий список элементов
     */
-   getSelectionForModel(selection: ISelection, limit?: number, items?: Model[]): Map<boolean|null, Model[]>;
+   getSelectionForModel(selection: ISelection, limit?: number, items?: Model[], searchValue?: string): Map<boolean|null, Model[]>;
 
    /**
     * Получить количество выбранных элементов

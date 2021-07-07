@@ -312,6 +312,11 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
             data: new collection.RecordSet({items: [1]})
          });
          assert.isFalse(suggest._loading);
+
+         suggest._destroyed = true;
+         suggest._searchDelay = 'testDelay';
+         suggest._searchEnd();
+         assert.notEqual(options.searchDelay, suggest._searchDelay);
       });
 
       it('Suggest::_private.searchErrback', function() {
@@ -432,7 +437,7 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
                assert.deepEqual(data[0].templateOptions.filter, suggest._filter);
             }
          };
-
+         suggest._filter = {};
          suggest._moreClick();
          assert.isTrue(isNotifyShowSelector);
       });
@@ -785,8 +790,9 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          sandbox.restore();
       });
 
-      it('Suggest::_updateSuggestState', function() {
+      it('Suggest::_updateSuggestState', async() => {
          var compObj = getComponentObject();
+         let suggestOpened = false;
          compObj._options.fitler = {};
          compObj._options.searchParam = 'testSearchParam';
          compObj._options.minSearchLength = 3;
@@ -809,11 +815,28 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestMod._InputController._private.updateSuggestState(suggestComponent);
          assert.deepEqual(suggestComponent._filter, {testSearchParam: 'test'});
 
+
+         suggestMod._InputController._private.open = () => {
+            suggestOpened = true;
+         };
          compObj._options.autoDropDown = false;
          compObj._options.minSearchLength = 10;
          suggestComponent._filter = {};
          suggestMod._InputController._private.updateSuggestState(suggestComponent);
-         assert.deepEqual(suggestComponent._filter, {});
+         assert.deepEqual(suggestComponent._filter, {testSearchParam: 'test', historyKeys: suggestComponent._historyKeys});
+         assert.isTrue(suggestOpened);
+
+         suggestMod._InputController._private.getRecentKeys = () => {
+            return Deferred.success(null);
+         };
+
+         suggestOpened = false;
+         compObj._options.autoDropDown = false;
+         suggestComponent._historyKeys = null;
+         suggestComponent._filter = {};
+         await suggestMod._InputController._private.updateSuggestState(suggestComponent);
+         assert.deepEqual(suggestComponent._filter, {testSearchParam: 'test'});
+         assert.isFalse(suggestOpened);
       });
 
       it('Suggest::_missSpellClick', function() {
@@ -1013,10 +1036,14 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
             });
          suggestComponent._options.suggestTemplate = {};
 
-         let templateOptions = suggestMod._InputController._private.getTemplateOptions(suggestComponent, suggestComponent);
+         const filter = {
+            historyKeys: [1, 2, 3]
+         };
+         let templateOptions = suggestMod._InputController._private.getTemplateOptions(suggestComponent, filter);
 
          suggestComponent._notify = (items, data) => {
             assert.deepEqual(data[0], templateOptions);
+            assert.deepEqual(templateOptions.templateOptions.filter, {});
             return true;
          };
 

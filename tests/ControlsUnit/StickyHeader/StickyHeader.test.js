@@ -1,6 +1,6 @@
 define([
    'Env/Env',
-   'Controls/_scroll/StickyHeader/_StickyHeader',
+   'Controls/_scroll/StickyHeader',
    'Controls/_scroll/StickyHeader/Utils',
    'Controls/_scroll/StickyHeader/FastUpdate',
    'Controls/scroll',
@@ -33,7 +33,7 @@ define([
       options = {
       };
 
-   describe('Controls/_scroll/StickyHeader/_StickyHeader', function() {
+   describe('Controls/_scroll/StickyHeader', function() {
       describe('Initialisation', function() {
          it('should set correct header id', function() {
             const component = createComponent(StickyHeader, options);
@@ -101,6 +101,7 @@ define([
             component._observer = {
                disconnect: sinon.fake()
             };
+            sinon.stub(component, '_resetTopBottomStyles');
 
             component._beforeUnmount();
             assert.isUndefined(component._observeHandler);
@@ -112,13 +113,11 @@ define([
       describe('_onScrollStateChangedOld', function() {
          it('canScroll', function () {
             const component = createComponent(StickyHeader, {});
-            sinon.stub(component, '_forceUpdate');
             component._model = {
                fixedPosition: 'top'
             };
             component._onScrollStateChangedOld('canScroll');
             assert.isTrue(component._canScroll);
-            sinon.assert.called(component._forceUpdate);
          });
 
          it('cantScroll', function () {
@@ -267,13 +266,10 @@ define([
                   }
                }
             };
-            sinon.stub(component, '_forceUpdate');
 
             assert.strictEqual(component._stickyHeadersHeight.top, null);
             component.top = 20;
             assert.strictEqual(component._stickyHeadersHeight.top, 20);
-            sinon.assert.called(component._forceUpdate);
-            sinon.restore();
             return FastUpdate._promise.then(() => {
                assert.strictEqual(component._container.style.top, '20px');
             });
@@ -299,14 +295,11 @@ define([
             component._container = {
                style: { top: null }
             };
-            sinon.stub(component, '_forceUpdate');
 
             assert.strictEqual(component._stickyHeadersHeight.bottom, null);
             component.bottom = 20;
             assert.strictEqual(component._stickyHeadersHeight.bottom, 20);
             assert.strictEqual(component._container.style.bottom, '20px');
-            sinon.assert.called(component._forceUpdate);
-            sinon.restore();
          });
 
          it('should not force update if bottom did not changed', function () {
@@ -363,22 +356,16 @@ define([
             component._isFixed = false;
             component._canScroll = true;
             component._model = { fixedPosition: false };
-            sinon.stub(component, '_forceUpdate');
             component.updateFixed([component._index]);
             assert.isTrue(component._isFixed);
-            sinon.assert.called(component._forceUpdate);
-            sinon.restore();
          });
          it('should turn off a shadow and generate force update if the corresponding identifier is not passed.', function() {
             const component = createComponent(StickyHeader, {});
             component._isFixed = true;
             component._canScroll = true;
             component._model = { fixedPosition: false };
-            sinon.stub(component, '_forceUpdate');
             component.updateFixed(['someId']);
             assert.isFalse(component._isFixed);
-            sinon.assert.called(component._forceUpdate);
-            sinon.restore();
          });
          it('should not apply force update if the shadow has not changed.', function() {
             const component = createComponent(StickyHeader, {});
@@ -447,11 +434,36 @@ define([
       });
 
       describe('_isShadowVisible', function() {
+         it('should show shadow', function() {
+            const component = createComponent(StickyHeader, {});
+            component._context = {};
+            component._model = { fixedPosition: 'top' };
+            component._isFixed = true;
+            component._scrollState = {
+               verticalPosition: 'middle'
+            };
+            assert.isTrue(component._isShadowVisible('bottom'));
+         });
+
+         it('should not show shadow if it disabled by controller', function() {
+            const component = createComponent(StickyHeader, {});
+            component._context = {};
+            component._model = { fixedPosition: 'top' };
+            component._isFixed = true;
+            component._scrollState = {
+               verticalPosition: 'middle'
+            };
+            component.updateShadowVisibility(false);
+            assert.isFalse(component._isShadowVisible('bottom'));
+         });
+
          it('should not show shadow displayed outside scroll container', function() {
             const component = createComponent(StickyHeader, {});
             component._context = {};
             assert.isFalse(component._isShadowVisible('top'));
          });
+
+
       });
    });
 

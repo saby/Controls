@@ -92,6 +92,7 @@
 .controls-Search__buttons {
    display: flex;
    align-self: center;
+   align-items: center;
 }
 
 .controls-Search__button_enabled {
@@ -175,6 +176,107 @@
 
 .controls-Search__nativeField_theme_@{themeName}_caretFilled {
    caret-color: @caret-color_fill_searchInput;
+}
+
+.controls-Search__expandable-search_theme-@{themeName} {
+   height: @icon-size-expandableSearch;
+   width: @icon-size-expandableSearch;
+}
+
+.controls-Search__expandable-container_theme-@{themeName} {
+   height: @icon-size-expandableSearch;
+   overflow: hidden;
+   position: relative;
+}
+
+.controls-Search__expandable-container-inlineWidth-m_theme-@{themeName} {
+   width: @input_container_m-width-expandableSearch;
+}
+
+.controls-Search__expandable-container-inlineWidth-l_theme-@{themeName} {
+   width: @input_container_l-width-expandableSearch;
+}
+
+.controls-Search__expandable-input_theme-@{themeName} {
+   position: absolute;
+   display: flex;
+   flex-direction: row;
+   left: 0;
+}
+
+.controls-Search__expandable-input-inlineWidth-m_theme-@{themeName} {
+   animation: inputRightMoveSearch 0.3s;
+}
+
+.controls-Search__expandable-input-inlineWidth-l_theme-@{themeName} {
+   animation: inputRightMoveWideSearch 0.3s;
+}
+
+.controls-Search__input-inlineWidth-l_theme-@{themeName} {
+   width: @input_l-width-expandableSearch;
+}
+
+.controls-Search__input-inlineWidth-m_theme-@{themeName} {
+   width: @input_m-width-expandableSearch;
+}
+
+.controls-Search__expandable-reset-button_theme-@{themeName} {
+   .icon-size(@icon-size-expandableSearch);
+   color: @reset-button_icon-color_searchInput;
+   cursor: pointer;
+   background: @close-button_icon-background-expandableSearch;
+   &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: @close-button_shadow-width-expandableSearch;
+      background: linear-gradient(to right, @close-button_shadow-start-color-expandableSearch, @close-button_shadow-end-color-expandableSearch);
+   }
+}
+
+.controls-Search__expandable-button-container_theme-@{themeName} {
+   overflow: hidden;
+   width: @icon-size-expandableSearch;
+}
+
+.controls-Search__expandable-button_theme-@{themeName} {
+   .icon-size(@icon-size-expandableSearch);
+   animation: iconLeftMove 0.3s;
+}
+
+.controls-Search__expandable-input-base_theme-@{themeName} {
+   display: inline-block;
+}
+
+@keyframes inputRightMoveWideSearch {
+   0% {
+      transform: translateX(-@input_container_l-width-expandableSearch);
+   }
+
+   100% {
+      transform: translateX(0);
+   }
+}
+
+@keyframes inputRightMoveSearch {
+   0% {
+      transform: translateX(-@input_container_m-width-expandableSearch);
+   }
+
+   100% {
+      transform: translateX(0);
+   }
+}
+
+@keyframes iconLeftMove {
+   0% {
+      transform: translateX(@icon-size-expandableSearch);
+   }
+
+   100% {
+      transform: translateX(0);
+   }
 }
 
 //ios doesn't support dynamic color change of caret

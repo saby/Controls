@@ -9,7 +9,7 @@
 
     <ws:if data="{{ wrapEditingRow }}">
         <!-- Во время редактирования строки View не должна слушать событие click и mouseDown -->
-        <Controls._list.EditInPlace.EditingRow columnScroll="{{ itemData.columnScroll }}" on:deactivated="_onRowDeactivated()">
+        <Controls._list.EditInPlace.EditingRow name="editingRow" on:deactivated="_onRowDeactivated()">
             <ws:partial
                     template="{{ (itemData.item.get && itemData.item.get(itemData.itemTemplateProperty)) || itemTemplate }}"
                     itemData="{{ itemData }}"
@@ -100,12 +100,20 @@
                         attr:key="{{ editingItemData.key }}_addingBefore"
                         wrapEditingRow="{{ true }}"/>
 
-            <!-- Текущая запись. Скрыта, если она перетаскивается. -->
-            <ws:partial if="{{ listModel.getCurrent().isVisible !== false }}"
-                        template="ITEM"
-                        wrapEditingRow="{{ editingItemData && (editingItemData.key === listModel.getCurrent().key) }}"
-                        itemData="{{ listModel.getCurrent() }}"
-                        attr:key="{{ listModel.getCurrent().key }}"/>
+            <!-- [ЗАПИСЬ] Текущая запись. Скрыта, если она перетаскивается драг-н-дропом. -->
+            <ws:if data="{{ listModel.getCurrent().isVisible !== false }}">
+
+                <ws:partial template="ITEM"
+                            wrapEditingRow="{{ editingItemData && (editingItemData.key === listModel.getCurrent().key) }}"
+                            itemData="{{ listModel.getCurrent() }}"
+                            attr:key="{{ listModel.getCurrent().key }}"/>
+
+                <!-- Подвалы узлов для дерева. Живем так до перехода на новую модель или до ws:fragment. -->
+                <!-- В записи подвал не вывести, т.к. редатируемая строка оборачивается в контрол. Контрол может принять только один корневой элемент. -->
+                <ws:if data="{{ listModel.getCurrent().nodeFooters && listModel.getCurrent().nodeFooters.length > 0 }}">
+                    <ws:partial template="{{ listModel.getCurrent().footerContentTemplate }}" itemData="{{ listModel.getCurrent() }}"/>
+                </ws:if>
+            </ws:if>
 
             <!-- Добавление записи после текущей -->
             <ws:partial if="{{ editingItemData && isAdd && listModel.getCurrent().index === editingItemData.index - 1 && editingItemData.addPosition !== 'top'}}"

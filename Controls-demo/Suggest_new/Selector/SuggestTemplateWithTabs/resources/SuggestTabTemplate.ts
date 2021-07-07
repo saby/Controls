@@ -5,7 +5,7 @@ import controlTemplate = require('wml!Controls-demo/Suggest_new/Selector/Suggest
 class SuggestTabTemplate extends Control{
    protected _template: TemplateFunction = controlTemplate;
    protected _tabsOptions: object = null;
-   _beforeMount () {
+   protected _beforeMount(): void {
       this._tabsOptions = {
          source: new Memory({
             keyProperty: 'id',

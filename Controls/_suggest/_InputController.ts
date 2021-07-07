@@ -99,8 +99,10 @@ var _private = {
             }
 
             _private.setFilter(self, filter, self._options);
-            _private.open(self);
 
+            if (self._historyKeys.length || self._options.autoDropDown) {
+               _private.open(self);
+            }
             return self._historyKeys;
          });
       } else {
@@ -213,9 +215,9 @@ var _private = {
       return emptyTemplate && emptyTemplate.templateName ? emptyTemplate.templateName : emptyTemplate;
    },
    updateSuggestState: function(self) {
-      var shouldSearch = _private.shouldSearch(self, self._searchValue);
+      const shouldSearch = _private.shouldSearch(self, self._searchValue);
 
-      if (self._options.historyId && self._options.autoDropDown && !shouldSearch && !self._options.suggestState) {
+      if (self._options.historyId && !shouldSearch && !self._options.suggestState) {
          _private.openWithHistory(self);
       } else if (shouldSearch || self._options.autoDropDown && !self._options.suggestState) {
          _private.setFilter(self, self._options.filter, self._options);
@@ -315,6 +317,7 @@ var _private = {
    },
 
    getTemplateOptions(self, filter): IStackPopupOptions {
+      delete filter[HISTORY_KEYS_FIELD];
       return {
          templateOptions: {
             filter: filter,
@@ -567,21 +570,22 @@ var SuggestLayout = Control.extend({
       }
    },
    _searchEnd: function(result) {
-      if (this._options.suggestState && this._loading) {
-         this._loading = false;
+      if (!this._destroyed) {
+         if (this._options.suggestState && this._loading) {
+            this._loading = false;
 
-         // _searchEnd may be called synchronously, for example, if local source is used,
-         // then we must check, that indicator was created
-         if (this._children.indicator) {
-            this._children.indicator.hide();
+            // _searchEnd may be called synchronously, for example, if local source is used,
+            // then we must check, that indicator was created
+            if (this._children.indicator) {
+               this._children.indicator.hide();
+            }
+         }
+         this._searchDelay = this._options.searchDelay;
+         _private.processResultData(this, result);
+         if (this._options.searchEndCallback) {
+            this._options.searchEndCallback();
          }
       }
-      this._searchDelay = this._options.searchDelay;
-      _private.processResultData(this, result);
-      if (this._options.searchEndCallback) {
-         this._options.searchEndCallback();
-      }
-      this._forceUpdate();
    },
    _searchErrback: function(error) {
       _private.searchErrback(this, error);

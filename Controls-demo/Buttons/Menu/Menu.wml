@@ -5,7 +5,7 @@
          <Controls.dropdown:Button
                  keyProperty="id"
                  iconStyle="secondary"
-                 style="primary"
+                 buttonStyle="primary"
                  viewMode="button"
                  caption="+ Add"
                  source="{{_createMemory(_oneItem)}}"
@@ -17,7 +17,7 @@
          <Controls.dropdown:Button
                  keyProperty="id"
                  iconStyle="secondary"
-                 style="primary"
+                 buttonStyle="primary"
                  viewMode="button"
                  caption="Create"
                  source="{{_createMemory(_simpleItems)}}"
@@ -29,7 +29,7 @@
          <h4>Icons</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="primary"
+                 buttonStyle="primary"
                  viewMode="button"
                  caption="Download"
                  source="{{_createMemory(_iconsItems)}}"
@@ -41,7 +41,7 @@
          <h4>Subparagraphs</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="primary"
+                 buttonStyle="primary"
                  viewMode="button"
                  caption="Reports"
                  itemTemplateProperty="myTemplate"
@@ -58,12 +58,14 @@
                  iconSize="m"
                  iconStyle="primary"
                  itemTemplateProperty="myTemplate"
-                 style="primary"
+                 buttonStyle="primary"
                  viewMode="button"
                  source="{{_createMemory(_commentItems)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__comments"
                  tooltip="Add">
-            <ws:headConfig caption="Add" menuStyle="titleHead"/>
+            <ws:headerTemplate>
+               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+            </ws:headerTemplate>
          </Controls.dropdown:Button>
       </div>
       <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__noIconsWrapper">
@@ -72,7 +74,7 @@
                  keyProperty="id"
                  caption="Topic +"
                  itemTemplate="wml!Controls-demo/Buttons/Menu/itemTemplateComment"
-                 style="primary"
+                 buttonStyle="primary"
                  dropdownClassName="demo-menu"
                  viewMode="button"
                  source="{{_createMemory(_themesItems)}}"
@@ -87,18 +89,20 @@
                  keyProperty="id"
                  icon="icon-AddButtonNew"
                  iconSize="m"
-                 style="secondary"
+                 buttonStyle="secondary"
                  viewMode="button"
                  source="{{_createMemory(_simpleAdd)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText1"
                  tooltip="Add">
-            <ws:headConfig caption="Add" menuStyle="titleHead"/>
+            <ws:headerTemplate>
+               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+            </ws:headerTemplate>
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
                  keyProperty="id"
                  icon="icon-AddButtonNew"
                  iconSize="m"
-                 style="secondary"
+                 buttonStyle="secondary"
                  viewMode="button"
                  source="{{_createMemory(_simpleAdd2)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText2"
@@ -111,7 +115,7 @@
                  keyProperty="id"
                  icon="icon-AddButtonNew"
                  iconSize="m"
-                 style="secondary"
+                 buttonStyle="secondary"
                  viewMode="button"
                  source="{{_createMemory(_simpleAdd3)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText3"
@@ -127,34 +131,40 @@
                  icon="icon-AddButtonNew"
                  iconSize="s"
                  viewMode="toolButton"
-                 style="secondary"
+                 buttonStyle="secondary"
                  source="{{_createMemory(_iconAdd)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeader"
                  tooltip="Add">
-            <ws:headConfig caption="Add"/>
+            <ws:headerTemplate>
+               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+            </ws:headerTemplate>
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
                  keyProperty="id"
                  icon="icon-AddButtonNew"
                  viewMode="toolButton"
-                 style="secondary"
+                 buttonStyle="secondary"
                  inlineHeight="l"
                  source="{{_createMemory(_iconAddMedium)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeaderBig"
                  tooltip="Add">
-            <ws:headConfig caption="Add"/>
+            <ws:headerTemplate>
+               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+            </ws:headerTemplate>
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
                  keyProperty="id"
                  icon="icon-AddButtonNew"
                  viewMode="functionalButton"
-                 style="secondary"
+                 buttonStyle="secondary"
                  iconStyle="contrast"
                  inlineHeight="l"
                  source="{{_createMemory(_iconAddMedium)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeaderCircle"
                  tooltip="Add">
-            <ws:headConfig caption="Add"/>
+            <ws:headerTemplate>
+               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+            </ws:headerTemplate>
          </Controls.dropdown:Button>
       </div>
 
@@ -163,7 +173,7 @@
          <Controls.dropdown:Button
                  keyProperty="id"
                  icon="icon-AddButtonNew"
-                 style="primary"
+                 buttonStyle="primary"
                  viewMode="button"
                  iconSize="m"
                  iconStyle="primary"
@@ -185,7 +195,8 @@
          <h4>Menu with icon button</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  viewMode="link"
                  icon="icon-Save"
                  iconSize="s"
@@ -196,7 +207,8 @@
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  iconSize="m"
                  viewMode="link"
                  icon="icon-Save"
@@ -212,7 +224,8 @@
          <h4>Menu with multiple levels</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  viewMode="link"
                  caption="Document"
                  parentProperty="parent"
@@ -227,7 +240,7 @@
          <h4>With inactive items</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="primary"
+                 buttonStyle="primary"
                  viewMode="button"
                  caption="Document"
                  parentProperty="parent"
@@ -241,7 +254,7 @@
          <h4>Grouping in the menu</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="primary"
+                 buttonStyle="primary"
                  iconStyle="primary"
                  viewMode="button"
                  icon="icon-AddButtonNew"
@@ -274,7 +287,7 @@
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="primary"
+                 buttonStyle="primary"
                  caption="One group"
                  iconStyle="primary"
                  iconSize="s"
@@ -294,7 +307,8 @@
                  keyProperty="id"
                  parentProperty="parent"
                  nodeProperty="@parent"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  viewMode="link"
                  caption="hierarchy"
                  source="{{_createMemory(_multilevelHierarchyItems)}}">
@@ -312,7 +326,8 @@
                  groupingKeyCallback="{{_groupingKeyCallback}}"
                  groupTemplate="Controls/dropdown:GroupTemplate"
                  attr:class="ControlsDemo__additionalItems"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  viewMode="link"
                  icon="icon-Linked"
                  iconSize="m"
@@ -324,7 +339,8 @@
          <h4>Big menu</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  viewMode="link"
                  caption="Big menu"
                  source="{{_createMemory(_bigItems)}}">
@@ -334,7 +350,8 @@
          <h4>Scrolling in the menu</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  viewMode="link"
                  caption="Subtask"
                  icon="icon-Check"
@@ -346,7 +363,8 @@
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  viewMode="link"
                  caption="Subtask"
                  icon="icon-Check"
@@ -361,7 +379,8 @@
          <h4 id="noItems">No items with footer</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 style="secondary"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
                  viewMode="link"
                  caption="Add"
                  source="{{_createMemory([])}}"
@@ -379,7 +398,8 @@
    <div class="ControlsDemo-ButtonsMenu__wrapper ControlsDemo-ButtonsMenu-bottom-right">
       <Controls.dropdown:Button
               keyProperty="id"
-              style="secondary"
+              buttonStyle="secondary"
+              fontColorStyle="link"
               viewMode="link"
               caption="Document"
               parentProperty="parent"
@@ -395,7 +415,8 @@
       <h4>The menu opens down and left</h4>
       <Controls.dropdown:Button
               keyProperty="id"
-              style="secondary"
+              buttonStyle="secondary"
+              fontColorStyle="link"
               viewMode="link"
               caption="Document"
               parentProperty="parent"

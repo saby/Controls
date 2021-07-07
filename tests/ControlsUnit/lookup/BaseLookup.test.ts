@@ -3,9 +3,8 @@ import {ILookupOptions} from 'Controls/_lookup/BaseLookup';
 import {assert} from 'chai';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
-import {stub} from 'sinon';
-import {SyntheticEvent} from 'Vdom/Vdom';
 import {RecordSet} from 'Types/collection';
+import * as sinon from 'sinon';
 
 async function getBaseLookup(options?: ILookupOptions): Promise<Lookup> {
     const lookupOptions = options || {
@@ -43,6 +42,18 @@ function getSource(): Memory {
 }
 
 describe('Controls/lookup:Input', () => {
+
+    it('paste method', async () => {
+        const lookup = await getBaseLookup();
+        const pasteStub = sinon.stub();
+        lookup._children.inputRender = {
+            paste: pasteStub
+        };
+
+        lookup.paste('test123');
+
+        assert.isTrue(pasteStub.withArgs('test123').called);
+    });
 
     describe('_beforeMount', () => {
 
@@ -87,6 +98,42 @@ describe('Controls/lookup:Input', () => {
             const lookup = await getBaseLookup();
             lookup._addItem(new Model());
             assert.deepStrictEqual(lookup._items.getCount(), 1);
+        });
+
+    });
+
+    describe('_notifyChanges', () => {
+
+        it('item added', async () => {
+            const lookup = await getBaseLookup();
+            let added, deleted;
+            lookup._options.selectedKeys = [1];
+            lookup._lookupController.getSelectedKeys = () => { return [1, 3]};
+            lookup._notify = (action, data) => {
+                if (action === 'selectedKeysChanged') {
+                    added = data[1];
+                    deleted = data[2];
+                }
+            };
+            lookup._notifyChanges();
+            assert.deepEqual(added, [3]);
+            assert.deepEqual(deleted, []);
+        });
+
+        it('item deleted and added', async () => {
+            const lookup = await getBaseLookup();
+            let added, deleted;
+            lookup._options.selectedKeys = [1, 4, 5];
+            lookup._lookupController.getSelectedKeys = () => { return [1, 4, 6]};
+            lookup._notify = (action, data) => {
+                if (action === 'selectedKeysChanged') {
+                    added = data[1];
+                    deleted = data[2];
+                }
+            };
+            lookup._notifyChanges();
+            assert.deepEqual(added, [6]);
+            assert.deepEqual(deleted, [5]);
         });
 
     });

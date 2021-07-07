@@ -54,6 +54,7 @@ export default interface ISearch {
  * Нулевая задержка имеет смысл для локальных данных, но может создавать большую нагрузку для удаленных данных.
  * Значение задается в миллисекундах.
  * @default 500
+ * @demo Controls-demo/dropdown_new/Search/SearchDelay/Index
  * @example
  * В этом примере поиск начнется после 1 сек задержки.
  * <pre>
@@ -67,6 +68,7 @@ export default interface ISearch {
  * @remark
  * A zero-delay makes sense for local data (more responsive), but can produce a lot of load for remote data, while being less responsive.
  * Value is set in milliseconds.
+ * @demo Controls-demo/dropdown_new/Search/SearchDelay/Index
  * @example
  * In this example search will start after 1s delay.
  * <pre>
@@ -78,6 +80,7 @@ export default interface ISearch {
  * @name Controls/_interface/ISearch#minSearchLength
  * @cfg {Number} Минимальное количество символов, которое пользователь должен ввести для выполнения поискового запроса.
  * @default 3
+ * @demo Controls-demo/dropdown_new/Search/MinSearchLength/Index
  * @remark
  * Ноль подойдет для локальных данных с несколькими элементами, но более высокое значение следует использовать, когда поиск одного символа может соответствовать нескольким тысячам элементов.
  * @example
@@ -92,6 +95,7 @@ export default interface ISearch {
  * @cfg {Number} The minimum number of characters a user must type before a search is performed.
  * @remark
  * Zero is useful for local data with just a few items, but a higher value should be used when a single character search could match a few thousand items.
+ * @demo Controls-demo/dropdown_new/Search/MinSearchLength/Index
  * @example
  * In this example search starts after typing 2 characters.
  * <pre>
@@ -103,6 +107,7 @@ export default interface ISearch {
  * @name Controls/_interface/ISearch#searchParam
  * @cfg {String} Имя поля фильтра, в значение которого будет записываться текст для поиска.
  * Фильтр с этим значением будет отправлен в поисковой запрос в источнику данных.
+ * @demo Controls-demo/dropdown_new/Search/SearchParam/Index
  * @example
  * В этом примере вы можете найти город, введя название города.
  * <pre>
@@ -113,6 +118,7 @@ export default interface ISearch {
 /*
  * @name Controls/_interface/ISearch#searchParam
  * @cfg {String} Name of the field that search should operate on. Search value will insert in filter by this parameter.
+ * @demo Controls-demo/dropdown_new/Search/SearchParam/Index
  * @example
  * In this example you can search city by typing city name.
  * <pre>

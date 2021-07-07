@@ -1,5 +1,5 @@
 /**
- * Интерфейс для поддержки навигации по спискам.
+ * Интерфейс для контролов, поддерживающих навигацию.
  *
  * @interface Controls/_interface/INavigation
  * @public
@@ -213,14 +213,14 @@ export interface INavigationOptions<U> {
  * Подробнее о конфигурации навигации по списку читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/navigation/ руководстве разработчика}.
  * @example
  * В этом примере в списке будут отображаться 2 элемента.
- * <pre>
+ * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.list:View
  *    keyProperty="id"
  *    source="{{_source}}"
  *    navigation="{{_navigation}}" />
  * </pre>
- * <pre>
+ * <pre class="brush: js">
  * // JavaScript
  * _beforeMount: function(options) {
  *    this._source = new Memory({
@@ -250,13 +250,6 @@ export interface INavigationOptions<U> {
  *    };
  * }
  * </pre>
- */
-
-/**
- * @event Controls/_interface/INavigation#navigationParamsChanged Оповещает о смене параметров навигации.
- * 
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {IBaseSourceConfig} params Параметры, с которыми происходила последнаяя загрузка данных в списке.
  */
 
 /*

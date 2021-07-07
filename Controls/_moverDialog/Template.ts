@@ -32,6 +32,7 @@ interface IMoverDialogTemplate extends IControlOptions {
  * @mixes Controls/_grid/interface/IGridControl
  * @mixes Controls/_tree/interface/ITreeControlOptions
  * @mixes Controls/_list/interface/IList
+ * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_explorer/interface/IExplorer
  * @mixes Controls/_interface/INavigation
  * @control

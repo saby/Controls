@@ -18,7 +18,7 @@ define('Controls-demo/Example/Input/Label',
          }
       });
    
-      ModuleClass._styles = ['Controls-demo/Example/resource/Base'];
+      ModuleClass._styles = ['Controls-demo/Example/resource/Base', 'Controls-demo/Controls-demo'];
 
       return ModuleClass;
 });

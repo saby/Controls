@@ -72,6 +72,7 @@ class ResizingLine extends Control<IControlOptions, IResizingLine> {
 
     protected _onStartDragHandler(): void {
         this._dragging = true;
+        this._notify('dragStart');
     }
 
     protected _onDragHandler(event: SyntheticEvent<MouseEvent>, dragObject): void {

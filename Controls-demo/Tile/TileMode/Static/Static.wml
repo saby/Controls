@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+   <Controls.tile:View
+      tileMode="static"
+      displayProperty="title"
+      tileHeight="200"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      tileScalingMode="outside"
+      imageProperty="image"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:ItemTemplate"
+            scope="{{itemTemplate}}"
+            hasTitle="{{false}}"/>
+      </ws:itemTemplate>
+   </Controls.tile:View>
+</div>

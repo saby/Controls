@@ -1,16 +1,13 @@
-<div class="controls-Label controls-Label_underline_{{_options.underline}}_theme-{{_options.theme}}">
+<a class="controls-Label controls-Label_underline_{{_options.underline}}_theme-{{_options.theme}}" href="{{_options.href}}">
    <div class="controls-Label__wrapper">
       <div class="controls-Label__caption
                {{_options.fontSize ? 'controls-fontsize-' + _options.fontSize : 'controls-Label__caption'}}_theme-{{_options.theme}}
                controls-Label__caption_underline_{{_options.underline}}_theme-{{_options.theme}}
                controls-Label__caption_underline_{{_options.underline}}_{{_options.readOnly ? 'read' : 'edit'}}_theme-{{_options.theme}}">
          <ws:partial template="{{_options.caption}}"/>
-         <ws:if data="{{_options.href}}">
-            <a class="controls-Label__fakeLink" href="{{_options.href}}"></a>
-         </ws:if>
       </div>
       <ws:if data="{{_options.required}}">
          <div class="controls-Label__asterisk controls-Label__asterisk_theme-{{_options.theme}}">&nbsp;*</div>
       </ws:if>
    </div>
-</div>
+</a>

@@ -10,6 +10,7 @@ define(
          it('_contentMouseDownHandler', () => {
             let PWInstance = new popup.PreviewerTarget();
             var result;
+            PWInstance.activate = () => {};
             PWInstance._isPopupOpened = function() {
                return false;
             };

@@ -13,7 +13,7 @@
                                          attr:class="controls-demo_MasterDetail_master_search_input"/>
                </div>
                <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
-                  <Controls.masterDetail:List selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
+                  <Controls.masterDetail:List bind:markedKey="_markedKey" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
                      <Controls.grid:View
                              source="{{_masterSource}}"
                              keyProperty="id"
@@ -68,7 +68,7 @@
                                       attr:class="controls-demo_MasterDetail_master_search_input"/>
             </div>
             <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
-               <Controls.masterDetail:List selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
+               <Controls.masterDetail:List bind:markedKey="_markedKey2" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
                   <Controls.list:View
                      style="master"
                      backgroundStyle="master"
@@ -130,7 +130,7 @@
                                          attr:class="controls-demo_MasterDetail_master_search_input"/>
                </div>
                <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
-                  <Controls.masterDetail:List selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
+                  <Controls.masterDetail:List bind:markedKey="_markedKey3" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
                      <Controls.treeGrid:View
                         source="{{_masterSource}}"
                         keyProperty="id"

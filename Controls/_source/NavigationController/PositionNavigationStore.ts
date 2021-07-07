@@ -60,7 +60,7 @@ class PositionNavigationStore implements INavigationStore {
             this._position = cfg.position instanceof Array ? cfg.position : [cfg.position];
         } else {
             // Default value of position
-            cfg.position = [null];
+            this._position = [null];
         }
         if (cfg.direction !== undefined) {
             this._direction = PositionNavigationStore._convertDirection(cfg.direction);

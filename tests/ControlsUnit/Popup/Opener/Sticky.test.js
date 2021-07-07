@@ -101,18 +101,18 @@ define(
             cfg.popupOptions.target = new UIBase.Control({});
             cfg.popupOptions.target._container = '123';
             assert.equal(cfg.popupOptions.target._container,
-               StickyController._private.getTargetNode(cfg));
+               StickyController.constructor._getTargetNode(cfg));
             cfg.popupOptions.target.destroy();
 
             //Тестируем: передаем в опцию target domNode
             cfg.popupOptions.target = '222';
             assert.equal(cfg.popupOptions.target,
-               StickyController._private.getTargetNode(cfg));
+               StickyController.constructor._getTargetNode(cfg));
 
             //Тестируем: передаем не контрол и не domNode
             cfg.popupOptions.target = null;
             assert.equal(document && document.body,
-               StickyController._private.getTargetNode(cfg));
+               StickyController.constructor._getTargetNode(cfg));
          });
 
          it('Sticky updated classes', () => {
@@ -241,7 +241,7 @@ define(
             let position = StickyStrategy.getPosition(cfg, targetCoords);
             assert.equal(position.left, 200);
             assert.equal(position.bottom, 800);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
 
             // 2 position
             cfg = getPositionConfig();
@@ -252,7 +252,7 @@ define(
             position = StickyStrategy.getPosition(cfg, targetCoords);
             assert.equal(position.left, 400);
             assert.equal(position.top, 200);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
 
             // 3 position
             cfg = getPositionConfig();
@@ -264,7 +264,7 @@ define(
             position = StickyStrategy.getPosition(cfg, targetCoords);
             assert.equal(position.right, 600);
             assert.equal(position.top, 400);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
 
             // 4 position
             cfg = getPositionConfig();
@@ -276,7 +276,7 @@ define(
             position = StickyStrategy.getPosition(cfg, targetCoords);
             assert.equal(position.right, 800);
             assert.equal(position.bottom, 600);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
          });
 
 
@@ -305,7 +305,7 @@ define(
             let position = StickyStrategy.getPosition(cfg, targetC);
             assert.equal(position.top, 410);
             assert.equal(position.right, 590);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
          });
 
          it('Sticky default Config', () => {
@@ -342,7 +342,7 @@ define(
             let position = StickyStrategy.getPosition(cfg, targetCoords);
             assert.equal(position.left, 410);
             assert.equal(position.top, 210);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
 
             cfg = getPositionConfig();
             cfg.targetPoint.horizontal = 'left';
@@ -357,7 +357,7 @@ define(
             position = StickyStrategy.getPosition(cfg, targetCoords);
             assert.equal(position.right, 790);
             assert.equal(position.bottom, 590);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
          });
 
          it('Sticky revert position', () => {
@@ -370,7 +370,7 @@ define(
             let position = StickyStrategy.getPosition(cfg, targetCoords);
             assert.equal(position.left, 200);
             assert.equal(position.top, 400);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
 
             cfg = getPositionConfig();
             cfg.sizes.width = 400;
@@ -388,7 +388,7 @@ define(
             targetCoords.leftScroll = 0;
             assert.equal(position.left, 400);
             assert.equal(position.bottom, 600);
-            assert.equal(Object.keys(position).length, 4);
+            assert.equal(Object.keys(position).length, 5);
 
             const newTargetCoords = {
                top: 450,
@@ -424,7 +424,7 @@ define(
             assert.equal(position.left, 200);
             assert.equal(position.bottom, 800);
             assert.equal(position.height, 200);
-            assert.equal(Object.keys(position).length, 5);
+            assert.equal(Object.keys(position).length, 6);
 
             cfg = getPositionConfig();
             cfg.fittingMode = {
@@ -441,7 +441,7 @@ define(
             assert.equal(position.right, 800);
             assert.equal(position.bottom, 600);
             assert.equal(position.width, 200);
-            assert.equal(Object.keys(position).length, 5);
+            assert.equal(Object.keys(position).length, 6);
          });
 
 
@@ -461,7 +461,7 @@ define(
             assert.equal(position.left, 200);
             assert.equal(position.bottom, 800);
             assert.equal(position.height, 200);
-            assert.equal(Object.keys(position).length, 5);
+            assert.equal(Object.keys(position).length, 6);
          });
 
          it('Sticky fittingMode', () => {

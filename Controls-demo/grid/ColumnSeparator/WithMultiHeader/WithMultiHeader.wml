@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper" style="max-width: 620px">
     <div style="margin-bottom: 20px;">
         <Controls.toggle:Checkbox bind:value="_rowSeparator" caption="Show row separator"/>
         <Controls.toggle:Checkbox bind:value="_columnSeparator" caption="Show column separator"/>

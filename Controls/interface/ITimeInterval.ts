@@ -14,7 +14,7 @@ import {TimeInterval} from 'Types/entity';
  * @interface Controls/interface/ITimeInterval
  * @public
  * @author Красильников А.С.
- */ 
+ */
 interface ITimeInterval {
     readonly _options: {
         /**
@@ -57,28 +57,14 @@ interface ITimeInterval {
          * </ol>
          * If some part of the TimeInterval is missing, they will be autocompleted.
          * For example, for mask 'HH:mm:ss' - input of '1 : 1: 1' will be transformed to '01:01:01' value.
-         */         
+         */
         mask: 'HH:MM' | 'HHH:MM' | 'HHHH:MM' | 'HH:MM:SS' | 'HHH:MM:SS' | 'HHHH:MM:SS';
 
         /**
          * @name Controls/interface/ITimeInterval#value
-         * @cfg {Object} Значение поля.
-         * @remark
-         * Значение TimeInterval должно быть установлено с использованием объекта TimeInterval:
-         * Например: value = new TimeInterval('P20DT3H1M5S'),  value = new TimeInterval({days: 1, minutes: 5}) и т.д.
-         * Подробнее {@link https://wi.sbis.ru/docs/js/Types/entity/TimeInterval/ Types/entity:TimeInterval}.
-         * @see Types/entity:TimeInterval
+         * @cfg {Types/entity:TimeInterval} Значение поля.
+         * @demo Controls-demo/Input/TimeInterval/Base/Index
          */
-
-        /*
-         * @name Controls/interface/ITimeInterval#value
-         * @cfg {Object} TimeInterval.
-         * @remark
-         * TimeInterval value should be set with TimeInterval object usage:
-         * For example: value = new TimeInterval('P20DT3H1M5S'),  value = new TimeInterval({days: 1, minutes: 5}) e t.c.
-         * More information in Types/entity:TimeInterval
-         * @see Types/entity:TimeInterval
-         */         
         value: TimeInterval;
     };
 }

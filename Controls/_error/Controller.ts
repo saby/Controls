@@ -69,8 +69,10 @@ export function getPopupHelper(): IPopupHelper {
  */
 export default class ErrorController {
     private __controller: ParkingController<ViewConfig>;
+    private _mode?: Mode;
 
     constructor(options: Config, private _popupHelper: IPopupHelper = getPopupHelper()) {
+        this._mode = options?.viewConfig?.mode;
         this.__controller = new ParkingController<ViewConfig>({
             configField: ErrorController.CONFIG_FIELD,
             ...options
@@ -117,18 +119,31 @@ export default class ErrorController {
     process<TError extends ProcessedError = ProcessedError>(
         config: HandlerConfig<TError> | TError
     ): Promise<ViewConfig | void> {
-        const _config = ErrorController._prepareConfig<TError>(config);
+        const _config = this._prepareConfig<TError>(config);
 
         if (!ErrorController._isNeedHandle(_config.error)) {
             return Promise.resolve();
         }
 
         return this.__controller.process(_config).then((handlerResult: ViewConfig | void) => {
+            /**
+             * Ошибка может быть уже обработана, если в соседние контролы прилетела одна ошибка от родителя.
+             * Проверяем, обработана ли ошибка каким-то из контроллеров.
+             */
+            if (!ErrorController._isNeedHandle(_config.error)) {
+                return;
+            }
+
             if (!handlerResult) {
                 return this._getDefault(_config);
             }
 
-            _config.error.processed = true;
+            /**
+             * Обработчик может вернуть флаг processed === false в том случае,
+             * когда он точно знает, что его ошибку нужно обработать всегда,
+             * даже если она была обработана ранее
+             */
+            _config.error.processed = handlerResult.processed !== false;
             return {
                 status: handlerResult.status,
                 mode: handlerResult.mode || _config.mode,
@@ -176,7 +191,7 @@ export default class ErrorController {
                 return id;
             }
         };
-    };
+    }
 
     private static _isNeedHandle(error: ProcessedError & CanceledError): boolean {
         return !(
@@ -184,21 +199,29 @@ export default class ErrorController {
             error.processed ||
             error.canceled
         );
-    };
+    }
 
-    private static _prepareConfig<T extends Error = Error>(config: HandlerConfig<T> | T): HandlerConfig<T> {
+    private _prepareConfig<T extends Error = Error>(config: HandlerConfig<T> | T): HandlerConfig<T> {
+        const mode = this._mode || Mode.dialog;
+
         if (config instanceof Error) {
             return {
                 error: config,
-                mode: Mode.dialog
+                mode
             };
         }
 
-        return {
-            mode: Mode.dialog,
+        const result = {
+            mode,
             ...config
         };
-    };
+
+        if (this._mode) {
+            result.mode = this._mode;
+        }
+
+        return result;
+    }
 }
 
 // Загружаем модули обработчиков заранее, чтобы была возможность использовать их при разрыве соединения.

@@ -20,6 +20,10 @@ define('Controls-demo/Container/Scroll',
                   pagingVisible: this._pagingVisible
                })
             };
+         },
+
+         get shadowVisibility() {
+            return this._shadowVisible ? 'auto' : 'hidden';
          }
       });
 

@@ -9,7 +9,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_event/Listener');
 import {descriptor} from 'Types/entity';
 
-interface IListenerOptions extends IControlOptions {
+export interface IListenerOptions extends IControlOptions {
    event?: string;
    listenAll?: boolean;
 }

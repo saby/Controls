@@ -1,4 +1,4 @@
-import * as getDimensions from 'Controls/Utils/getDimensions';
+import {getDimensions} from 'Controls/sizeUtils';
 
 export function get(target: HTMLElement) {
     if (!target) {

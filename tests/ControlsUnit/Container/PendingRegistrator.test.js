@@ -91,7 +91,8 @@ define(
             assert.equal(Registrator._hasRegisteredPendings(), false);
 
             Registrator._registerPendingHandler(null, new Deferred(), pendingCfg2);
-            assert.equal(Registrator._hasRegisteredPendings(), false);
+            assert.equal(Registrator._hasRegisteredPendings(), true);
+            assert.equal(Registrator._hasRegisteredPendings(false), false);
 
             Registrator._registerPendingHandler(null, new Deferred(), {});
             assert.equal(Registrator._hasRegisteredPendings(), true);

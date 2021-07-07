@@ -31,46 +31,37 @@
 							   attr:class="demo-FilterView__more" />
       </div>
       <div class="controls-demo-FilterView__item">
-         <h3>Only fast filter</h3>
-         <Controls.filter:View source="{{_fastItems}}"
-                               on:itemsChanged="_itemsChanged('_fastItems')"
-                               alignment="left"
-                               attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast" />
-      </div>
-      <div class="controls-demo-FilterView__item">
-         <h3>Only fast filter with one item</h3>
-         <div class="controls-demo-FilterView__itemWrapper">
-            <Controls.filter:View source="{{_oneFastItems}}"
-                                  on:itemsChanged="_itemsChanged('_oneFastItems')"
+         <div class="controls-demo-FilterView__item-onlyFast">
+            <h3>Only fast filter</h3>
+            <Controls.filter:View source="{{_fastItems}}"
+                                  on:itemsChanged="_itemsChanged('_fastItems')"
                                   alignment="left"
-                                  attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast2">
-            </Controls.filter:View>
+                                  attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast" />
          </div>
-         <div>
-            <Controls.filter:View source="{{_oneFastItems2}}"
-                                  on:itemsChanged="_itemsChanged('_oneFastItems2')"
-                                  alignment="left"
-                                  attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast3">
-            </Controls.filter:View>
+         <div class="controls-demo-FilterView__item-onlyFast">
+            <h3>Only fast filter with one item</h3>
+            <div class="controls-demo-FilterView__itemWrapper">
+               <Controls.filter:View source="{{_oneFastItems}}"
+                                     on:itemsChanged="_itemsChanged('_oneFastItems')"
+                                     alignment="left"
+                                     attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast2">
+               </Controls.filter:View>
+
+               <Controls.filter:View source="{{_oneFastItems2}}"
+                                     on:itemsChanged="_itemsChanged('_oneFastItems2')"
+                                     alignment="left"
+                                     attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast3">
+               </Controls.filter:View>
+            </div>
          </div>
       </div>
       <div class="controls-demo-FilterView__item">
-         <h3>Only button filter</h3>
-            <Controls.filter:View source="{{_buttonItems}}"
-                                  on:itemsChanged="_itemsChanged('_buttonItems')"
-                                  alignment="left"
-                                  detailPanelTemplateName="Controls-demo/FilterView/resources/PanelWithCaption"
-                                  attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyButton">
-            </Controls.filter:View>
-      </div>
-      <div class="controls-demo-FilterView__item">
-         <h3>Only button filter without resetValue</h3>
-         <Controls.filter:View source="{{_buttonItemsWithoutResetValue}}"
-                               on:itemsChanged="_itemsChanged('_buttonItemsWithoutResetValue')"
-                               alignment="left"
-                               detailPanelTemplateName="Controls-demo/FilterView/resources/PanelWithCaption"
-                               attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyButton">
-         </Controls.filter:View>
+         <h3>ReadOnly</h3>
+         <Controls.filter:View source="{{_fastButtonItems}}"
+                               on:itemsChanged="_itemsChanged('_fastButtonItems')"
+                               detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
+                               readOnly="{{true}}"
+                               attr:class="controls-demo-FilterView__itemButton demo-FilterView__readonly" />
       </div>
    </div>
    <div class="controls-demo-FilterView__column">
@@ -107,12 +98,22 @@
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__custom" />
       </div>
       <div class="controls-demo-FilterView__item">
-         <h3>ReadOnly</h3>
-         <Controls.filter:View source="{{_fastButtonItems}}"
-                               on:itemsChanged="_itemsChanged('_fastButtonItems')"
-                               detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
-                               readOnly="{{true}}"
-                               attr:class="controls-demo-FilterView__itemButton demo-FilterView__readonly" />
+         <h3>Only button filter</h3>
+         <Controls.filter:View source="{{_buttonItems}}"
+                               on:itemsChanged="_itemsChanged('_buttonItems')"
+                               alignment="left"
+                               detailPanelTemplateName="Controls-demo/FilterView/resources/PanelWithCaption"
+                               attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyButton">
+         </Controls.filter:View>
+      </div>
+      <div class="controls-demo-FilterView__item">
+         <h3>Only button filter without resetValue</h3>
+         <Controls.filter:View source="{{_buttonItemsWithoutResetValue}}"
+                               on:itemsChanged="_itemsChanged('_buttonItemsWithoutResetValue')"
+                               alignment="left"
+                               detailPanelTemplateName="Controls-demo/FilterView/resources/PanelWithCaption"
+                               attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyButton">
+         </Controls.filter:View>
       </div>
    </div>
 </div>

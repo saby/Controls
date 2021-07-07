@@ -59,10 +59,11 @@
  * @includes PreviewerTemplate wml!Controls/_popup/Global/Global
  */
 
-export {default as Manager} from './_popup/Manager';
+export {default as ManagerClass} from './_popup/Manager';
 export {default as Container} from './_popup/Manager/Container';
 export {default as Controller} from './_popup/Manager/ManagerController';
 export {default as Global} from './_popup/Global';
+export {default as GlobalController} from './_popup/GlobalController';
 
 export {default as BaseOpener} from 'Controls/_popup/Opener/BaseOpener';
 export {default as Stack} from './_popup/Opener/Stack';
@@ -93,6 +94,8 @@ export {IConfirmationOptions} from './_popup/interface/IConfirmation';
 export {INotificationPopupOptions} from './_popup/interface/INotification';
 export {IPreviewerOptions} from './_popup/interface/IPreviewer';
 export {IInfoBoxOptions} from './_popup/interface/IInfoBox';
+
+export {isVDOMTemplate} from './_popup/utils/isVdomTemplate';
 
 // TODO Compatible
 import GlobalTemplate = require('wml!Controls/_popup/Global/Global');

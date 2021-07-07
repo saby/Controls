@@ -56,7 +56,9 @@
                         controls-Input-DateRange__button_theme-{{_options.theme}}
                         controls-icon_style-secondary_theme-{{_options.theme}}"
             iconStyle="secondary"
-            on:click="openPopup()">
+            on:mousedown="openPopup()"
+            on:mouseenter="_mouseEnterHandler()"
+            on:mouseleave="_mouseLeaveHandler()">
          </span>
       </span>
    </span>

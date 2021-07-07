@@ -1,5 +1,5 @@
 import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
-import dateUtils = require('Controls/Utils/Date');
+import {Base as dateUtils} from 'Controls/dateUtils';
 import ViewModel = require('Controls/_input/Mask/ViewModel');
 
 // new Date, без указания года, использует по умолчанию 1900 год. В некоторых контроллах ввода даты

@@ -1,7 +1,7 @@
 import {QueryNavigationType} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
-import {IAdditionalQueryParams, Direction} from 'Controls/_interface/IAdditionalQueryParams';
+import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
 import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {Logger} from 'UI/Utils';
 import {CursorDirection} from 'Controls/Constants';
@@ -140,7 +140,7 @@ class PositionQueryParamsController implements IQueryParamsController {
         }
     }
 
-    prepareQueryParams(loadDirection: Direction, callback?, config?: IBasePositionSourceConfig): IAdditionalQueryParams {
+    prepareQueryParams(loadDirection: Direction, callback?, config?: IBasePositionSourceConfig): IQueryParams {
         let navDirection: CursorDirection;
         let navPosition: Position;
         let sign: string = '';
@@ -179,7 +179,7 @@ class PositionQueryParamsController implements IQueryParamsController {
             additionalFilter[navField[i] + sign] = navPosition[i];
         }
 
-        const addParams: IAdditionalQueryParams = {
+        const addParams: IQueryParams = {
             filter: additionalFilter,
             limit,
             meta: {

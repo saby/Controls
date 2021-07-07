@@ -13,7 +13,8 @@
               class="controls-Scroll__content controls-BlockLayout__blockGroup_theme-{{_options.theme}}
                         {{_useNativeScrollbar && _options.scrollbarVisible ? '' : 'controls-Scroll__content_hideNativeScrollbar'}}
                         {{_displayState.hasScroll ? 'controls-Scroll__content_possibleScroll'}}
-                        {{_useNativeScrollbar ? 'controls-Scroll__content_auto' : _displayState.heightFix || _contentStyles === undefined ? 'controls-Scroll__content_hidden' :
+                        {{_useNativeScrollbar ? _options.scrollMode === 'verticalHorizontal' ? 'controls-Scroll__scroll_verticalHorizontal' :
+                         'controls-Scroll__content_auto' : _displayState.heightFix || _contentStyles === undefined ? 'controls-Scroll__content_hidden' :
                          _classTypeScroll}}
                         {{_overflowScrolling ? 'controls-Scroll__content-overflowScrolling'}}"
               on:controlResize="_resizeHandler()"
@@ -21,11 +22,6 @@
             <ws:partial template="{{_options.content}}"
                         scope="{{_options}}"
                         attr:class="controls-Scroll__userContent"
-                        on:saveScrollPosition="_saveScrollPosition()"
-                        on:scrollToElement="_scrollToElement()"
-                        on:updatePlaceholdersSize="_updatePlaceholdersSize()"
-                        on:restoreScrollPosition="_restoreScrollPosition()"
-                        on:updateShadowMode="_updateShadowMode()"
                         on:selectedKeysChanged="selectedKeysChanged()"
                         on:excludedKeysChanged="excludedKeysChanged()"
                         on:itemClick="itemClick()"
@@ -38,10 +34,6 @@
                         on:actionClick="_tmplNotify('actionClick')"
                         on:editArrowClick="_tmplNotify('editArrowClick')"
                         on:navigationParamsChanged="_tmplNotify('navigationParamsChanged')"
-                        on:intersectionObserverRegister="_intersectionObserverRegisterHandler()"
-                        on:intersectionObserverUnregister="_intersectionObserverUnregisterHandler()"
-                        on:fixed="_stickyFixedHandler()"
-                        on:stickyRegister="_stickyRegisterHandler()"
                      />
          </span>
       </Controls.event:Register>
@@ -50,14 +42,34 @@
 
 <ws:template name="scrollTpl">
 <div class="controls-Scroll ws-flexbox ws-flex-column" on:keydown="_keydownHandler()">
+      <!--
+      Временно перенес обработчики событий стики хедера и интерсекшен обсервера с partial контента.
+      Если в шаблоне контента есть несколько корневых нод, то обработчики не срабатывают и атрибуты не навешиваются.
+      Раньше эти обработчики висели на хоке который оборачивал контент. После того как избавились от хоков и
+      перенесли ообработчики на контент, всплыли эти проблемы. На сколько я помню как минимум атрибуты(классы)
+      вешалиись на ноды если в шаблоне было несколько корневых нод. Проблема еще в том, что на паршале контента
+      всегда висело много других обработчиков. Очень странно что пролемы с ними еше не стрельнули.
+      Так живем как минимум с 4100. Пернес сюда обработчики всех событий которые всплывают.
+      https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
+      -->
       <ws:partial template="content"
-               attr:class="{{_pagingState.visible ? 'controls-Scroll__content_paging'}}"
-                  on:scrollMove="_scrollMoveHandler()"/>
+                  attr:class="{{_pagingState.visible ? 'controls-Scroll__content_paging'}}"
+                  on:scrollMove="_scrollMoveHandler()"
+                  on:intersectionObserverRegister="_intersectionObserverRegisterHandler()"
+                  on:intersectionObserverUnregister="_intersectionObserverUnregisterHandler()"
+                  on:fixed="_stickyFixedHandler()"
+                  on:stickyRegister="_stickyRegisterHandler()"
+                  on:saveScrollPosition="_saveScrollPosition()"
+                  on:scrollToElement="_scrollToElement()"
+                  on:updatePlaceholdersSize="_updatePlaceholdersSize()"
+                  on:restoreScrollPosition="_restoreScrollPosition()"
+                  on:updateShadowMode="_updateShadowMode()"/>
 
    <ws:if data="{{_scrollbarVisibility()}}">
       <Controls._scroll.Scroll.Scrollbar
          name="scrollBar"
          contentSize="{{_displayState.contentHeight}}"
+         getParentScrollPosition="{{_getScrollPositionCallback}}"
          attr:class="controls-Scroll__scrollbar {{!_dragging ? 'controls-Scroll__scrollbar_hidden'}}
          {{_horizontalScrollbarVisibility() ? 'controls-VScrollbar_vertical_offset'}}"
          on:positionChanged="_positionChangedHandler()"
@@ -91,11 +103,14 @@
       <div class="controls-Scroll__shadow controls-Scroll__shadow_vertical controls-Scroll__shadow_right {{!_verticalShadowVisible('right') ? ' ws-invisible'}}"></div>
    </ws:if>
    <ws:if data="{{_pagingState.visible}}">
-         <Controls.paging:Paging class="controls-Scroll__paging"
-                            contrastBackground="{{true}}"
-                            backwardEnabled="{{_pagingState.stateUp}}"
-                            forwardEnabled="{{_pagingState.stateDown}}"
-                            on:onArrowClick="_arrowClickHandler()"/>
+      <Controls.Container.Async templateName="Controls/paging:Paging">
+         <ws:partial template="{{content.resolvedTemplate}}"
+                     class="controls-Scroll__paging"
+                     contrastBackground="{{true}}"
+                     backwardEnabled="{{_pagingState.stateUp}}"
+                     forwardEnabled="{{_pagingState.stateDown}}"
+                     on:onArrowClick="_arrowClickHandler()"/>
+      </Controls.Container.Async>
    </ws:if>
 
    <Controls.event:Listener listenAll="{{true}}" event="controlResize" on:controlResize="_resizeHandler()"/>

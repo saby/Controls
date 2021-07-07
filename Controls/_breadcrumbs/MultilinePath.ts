@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import FontLoadUtil = require('Controls/Utils/FontLoadUtil');
-import getWidthUtil = require('Controls/Utils/getWidth');
+import {waitForFontLoad} from './resources/FontLoadUtil';
+import {getWidth} from 'Controls/sizeUtils';
 import {ItemsUtil} from 'Controls/list';
 import BreadCrumbsUtil from './Utils';
 import {
@@ -43,7 +43,7 @@ class MultilinePath extends Control<IBreadCrumbsOptions> implements IFontSize {
         if (this._options.items && this._options.items.length > 0) {
             this._items = this._options.items;
             this._width = this._container.clientWidth;
-            FontLoadUtil.waitForFontLoad('controls-BreadCrumbsView__crumbMeasurer').then(() => {
+            waitForFontLoad('controls-BreadCrumbsView__crumbMeasurer').then(() => {
                 this._initializeConstants(options.theme, options.fontSize);
                 this._calculateBreadCrumbsToDraw(this._options.items, this._width);
                 this._forceUpdate();
@@ -68,10 +68,10 @@ class MultilinePath extends Control<IBreadCrumbsOptions> implements IFontSize {
     }
 
     private _initializeConstants(theme: string, fontSize): void {
-        this.ARROW_WIDTH = getWidthUtil.getWidth(`<span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-${theme} icon-size icon-DayForwardBsLine"></span>`);
-        const dotsWidth = getWidthUtil.getWidth(`<div class="controls-BreadCrumbsView__title  controls-BreadCrumbsView__title_theme-${theme} controls-fontsize-${fontSize}_theme-${theme} controls-BreadCrumbsView__crumb_theme-${theme}">...</div>`);
+        this.ARROW_WIDTH = getWidth(`<span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-${theme} icon-size icon-DayForwardBsLine"></span>`);
+        const dotsWidth = getWidth(`<div class="controls-BreadCrumbsView__title  controls-BreadCrumbsView__title_theme-${theme} controls-fontsize-${fontSize}_theme-${theme} controls-BreadCrumbsView__crumb_theme-${theme}">...</div>`);
         this.DOTS_WIDTH = this.ARROW_WIDTH + dotsWidth;
-        this.BREAD_CRUMB_MIN_WIDTH = getWidthUtil.getWidth(`<div class="controls-BreadCrumbsView__crumb_withOverflow_theme-${theme} controls-BreadCrumbsView__crumb_theme-${theme}"></div>`);
+        this.BREAD_CRUMB_MIN_WIDTH = getWidth(`<div class="controls-BreadCrumbsView__crumb_withOverflow_theme-${theme} controls-BreadCrumbsView__crumb_theme-${theme}"></div>`);
     }
 
     private _calculateBreadCrumbsToDraw(items: Record[], containerWidth: number): void {
@@ -170,7 +170,7 @@ class MultilinePath extends Control<IBreadCrumbsOptions> implements IFontSize {
     private _getItemsWidth(items: Record[], displayProperty: string): number[] {
         const itemsWidth = [];
         items.forEach((item, index) => {
-            const itemTitleWidth = getWidthUtil.getWidth(`<div class="controls-BreadCrumbsView__title  controls-BreadCrumbsView__title_theme-${this._options.theme} controls-fontsize-${this._options.fontSize}_theme-${this._options.theme} controls-BreadCrumbsView__crumb_theme-${this._options.theme}">${ItemsUtil.getPropertyValue(item, displayProperty)}</div>`);
+            const itemTitleWidth = getWidth(`<div class="controls-BreadCrumbsView__title  controls-BreadCrumbsView__title_theme-${this._options.theme} controls-fontsize-${this._options.fontSize}_theme-${this._options.theme} controls-BreadCrumbsView__crumb_theme-${this._options.theme}">${ItemsUtil.getPropertyValue(item, displayProperty)}</div>`);
             const itemWidth = index !== 0 ? itemTitleWidth + this.ARROW_WIDTH : itemTitleWidth;
             itemsWidth.push(itemWidth);
         });
@@ -200,7 +200,7 @@ class MultilinePath extends Control<IBreadCrumbsOptions> implements IFontSize {
         };
     }
 
-    static _styles: string[] = ['Controls/Utils/FontLoadUtil'];
+    static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
 
 export default MultilinePath;

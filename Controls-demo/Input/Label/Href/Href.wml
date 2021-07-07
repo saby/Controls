@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">href=https://www.google.ru/</div>
+      <Controls.input:Label underline="hovered" caption="google" href="https://www.google.ru/"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">href=https://www.google.ru/ в новом окне</div>
+      <Controls.input:Label attr:target="_blank" underline="hovered" caption="google" href="https://www.google.ru/"/>
+   </div>
+</div>

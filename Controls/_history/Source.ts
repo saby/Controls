@@ -17,6 +17,7 @@ export interface IHistorySourceOptions {
     pinned?: Array<string | number>|boolean;
     displayProperty?: string;
     nodeProperty?: string;
+    unpinIfNotExist?: boolean;
 }
 
 interface IHistoryData {
@@ -85,6 +86,12 @@ const HISTORY_META_FIELDS: string[] = ['$_favorite', '$_pinned', '$_history', '$
  * @cfg {Source} Источник, который работает с историей.
  * @see {Controls/_history/Service} Источник работает с сервисом истории ввода.
  */
+
+/**
+ * @name Controls/_history/Source#unpinIfNotExist
+ * @default true
+ * @cfg {Boolean} Флаг, определяющий будет ли снят пин с записи, которой нет в данных
+ */
 /*
  * @name Controls/_history/Source#historySource
  * @cfg {Source} A source which work with history
@@ -103,6 +110,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
     protected _$parents: any = null;
     protected _$originSource: ICrud = null;
     protected _$historySource: Service = null;
+    protected _$unpinIfNotExist: boolean = true;
     protected _$historyItems: RecordSet = null;
     protected _$pinned: Array<string | number> = null;
     protected _$recentCount: number = null;
@@ -347,7 +355,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
                 item.set('HistoryId', historyId);
                 item.set('copyOriginalId', String(historyItem.getId()));
                 items.add(item);
-            } else {
+            } else if (this._$unpinIfNotExist) {
                 this._itemNotExist(id, historyType);
             }
         });

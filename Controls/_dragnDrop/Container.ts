@@ -334,8 +334,12 @@ class Container extends Control<IContainerOptions> {
      */
     startDragNDrop(
         entity: object, mouseDownEvent: SyntheticEvent<MouseEvent>,
-        options?: IStartDragOptions = {immediately: false}, draggedKey?: string
+        options: IStartDragOptions = {immediately: false}, draggedKey?: string
     ): void {
+        if ((mouseDownEvent.target as HTMLElement).closest('.controls-DragNDrop__notDraggable')) {
+            return;
+        }
+
         this._dragEntity = entity;
         this._draggedKey = draggedKey;
         this._startEvent = mouseDownEvent.nativeEvent;

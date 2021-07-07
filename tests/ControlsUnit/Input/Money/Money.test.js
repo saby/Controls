@@ -86,7 +86,7 @@ define(
                InputUtility.triggerInput(ctrl);
 
                assert.equal(ctrl._viewModel.displayValue, '0.00');
-               assert.equal(ctrl._viewModel.value, '0');
+               assert.equal(ctrl._viewModel.value, '0.00');
                assert.deepEqual(ctrl._viewModel.selection, {
                   start: 1,
                   end: 1

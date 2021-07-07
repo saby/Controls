@@ -90,6 +90,7 @@ define([
             component._children.opener = {
                close: sinon.fake()
             };
+
             sandbox.stub(component, '_notify');
 
             component._onResultWS3('event',startValue, endValue);
@@ -196,5 +197,56 @@ define([
          });
       });
 
+      describe('_afterUpdate', function() {
+         it('should start validation', function () {
+            const
+               startValue = new Date(2017, 11, 1),
+               endValue = new Date(2017, 11, 2),
+               component = calendarTestUtils.createComponent(dateRange.Input, cMerge({startValue: startValue, endValue: endValue}, options));
+
+            let result = false;
+            component._children = {};
+            component._children.opener = {
+               close: sinon.fake()
+            };
+            component._children.startValueField = {
+               validate: function() {
+                  result = true;
+               }
+            };
+            component._children.endValueField = {
+               validate: function() {
+                  result = true;
+               }
+            };
+            component._onResult(startValue, endValue);
+            component._afterUpdate();
+            assert.isTrue(result);
+         });
+         it('should not start validation', function () {
+            const
+               startValue = new Date(2017, 11, 1),
+               endValue = new Date(2017, 11, 2),
+               component = calendarTestUtils.createComponent(dateRange.Input, cMerge({startValue: startValue, endValue: endValue}, options));
+
+            let result = false;
+            component._children = {};
+            component._children.opener = {
+               close: sinon.fake()
+            };
+            component._children.startValueField = {
+               validate: function() {
+                  result = true;
+               }
+            };
+            component._children.endValueField = {
+               validate: function() {
+                  result = true;
+               }
+            };
+            component._afterUpdate();
+            assert.isFalse(result);
+         });
+      });
    });
 });

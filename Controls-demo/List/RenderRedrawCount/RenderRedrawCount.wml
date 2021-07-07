@@ -6,7 +6,7 @@
          source="{{ _viewSource }}"
          multiSelectVisibility="hidden"
          navigation="{{ _navigation }}"
-
+         attr:class="controlsDemo_line-height18"
          name="listView"
          useNewModel="{{ true }}">
          <ws:virtualScrollConfig pageSize="{{60}}"/>

@@ -3,14 +3,14 @@ define('Controls/interface/IEditableList', [
 ], function() {
 
    /**
-    * Интерфейс для списков с возможностью редактирования по месту.
+    * Интерфейс для списков с возможностью {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования по месту}.
     *
     * @interface Controls/interface/IEditableList
     * @public
     * @author Авраменко А.С.
-    * @see Controls/View
+    * @see Controls/editableArea:View
     * @remark
-    * Разница между этим интерфейсом и {@link Controls/View Controls/editableArea:View} заключается в том, что первый используется в списках, а второй - вне их (например, на вкладках).
+    * Разница между этим интерфейсом и {@link Controls/editableArea:View Controls/editableArea:View} заключается в том, что первый используется в списках, а второй - вне их (например, на вкладках).
     */
 
    /*
@@ -24,7 +24,7 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {Object} ItemEditOptions
-    * @property {Types/entity:Model} [options.item] Запись с исходными данными.
+    * @property {Types/entity:Model} [options.item] Элемент с исходными данными.
     */
 
    /*
@@ -34,16 +34,14 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {Enum} AddPositionOption
-    * @variant top Редактирование по месту откроется в начале списка.
-    * @variant bottom Редактирование по месту откроется в конце списка.
-    * @default bottom
+    * @variant top В начале.
+    * @variant bottom В конце.
     */
 
    /*
     * @typedef {Enum} AddPositionOption
     * @variant top Editing in place will appear at the top of the list.
     * @variant bottom Editing in place will appear at the bottom of the list.
-    * @default bottom
     */
 
    /**
@@ -53,23 +51,26 @@ define('Controls/interface/IEditableList', [
     * @property {Boolean} [autoAddByApplyButton=false] Если передано значение "true", после окончания редактирования только что добавленного элемента списка автоматически добавляется новый элемент и начинается его редактирование.
     * @property {Boolean} [sequentialEditing=true] Если передано значение "true", после окончания редактирования любого элемента списка, кроме последнего, автоматически запускается редактирование следующего элемента списка.
     * @property {Boolean} [toolbarVisibility=false] Определяет, должны ли отображаться кнопки "Сохранить" и "Отмена".
-    * @property {AddPositionOption} [addPosition] Позиция редактирования по месту.
-    * @property {Types/entity:Model} [item=undefined] Запись, которая будет запущена на редактирование при первой отрисовке списка.
+    * Когда кнопки не отображаются, аналогичные действия выполняются с помощью {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/keys/ клавиш}.
+    * @property {AddPositionOption} [addPosition=bottom] Позиция добавления по месту.
+    * В корне списка, в группе (когда включена группировка) или в рамках узла (для иерархических списков).
+    * Если в контроле включена {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/ группировка} элементов, тогда в модели нового элемента необходимо задать поле с группой.
+    * @property {Types/entity:Model} [item=undefined] Элемент, который будет запущен на редактирование при первой отрисовке контрола.
     * 
-    * Запись необязательно должна присутствовать в {@link Types/source:DataSet}, который получен от источника данных.
-    * Если переданная запись присутствует в Types/source:DataSet, то будет запущено ее редактирование, а иначе — запустится добавление этой записи.
-    * После редактирования добавляемая запись сохранится в источнике данных.
+    * Элемент необязательно должен присутствовать в {@link Types/source:DataSet}, который получен от источника данных.
+    * Если переданный элемент присутствует в Types/source:DataSet, то будет запущено ее редактирование, а иначе — запустится добавление этого элемента.
+    * После редактирования добавляемый элемент сохранится в источнике данных.
     *
-    * Создание новой записи выполняют по следующему алгоритму:
+    * Создание нового элемента выполняют по следующему алгоритму:
     *
     * 1. В хуке <a href="/doc/platform/developmentapl/interface-development/ui-library/control/#phase-before-mount">_beforeMount()</a> опишите {@link Types/source:SbisService источник данных бизнес-логики} (далее SbisService).
     * 2. Из этого источника запросите набор данных (далее DataSet). Полученный DataSet будет передан в контрол для отрисовки.
     * 3. В {@link Core/Deferred#addCallback обработчике} запроса создайте источник данных {@link Types/source:PrefetchProxy}, в который передайте SbisService и DataSet.
-    * 4. Создайте редактируемую запись и добавьте её в DataSet.
-    *     * Примечание: создание редактируемой записи можно выполнять по некоторому условию (см. пример ниже).
-    * 5. Передайте редактируемую запись в опцию {@link editingConfig}.
+    * 4. Создайте редактируемый элемент и добавьте её в DataSet.
+    *     * Примечание: создание редактируемого элемента можно выполнять по некоторому условию (см. пример ниже).
+    * 5. Передайте редактируемый элемент в опцию {@link editingConfig}.
     *
-    * Далее показан пример создания редактируемой записи.
+    * Далее показан пример создания редактируемого элемента.
     *
     * <pre class="brush: js">
     * // JavaScript
@@ -98,15 +99,15 @@ define('Controls/interface/IEditableList', [
     *       });
     *
     *       // Здесь создано прикладное условие.
-    *       // В DataSet добавляется та самая запись, которая
+    *       // В DataSet добавляется тот самый элемент, который
     *       // запускается на редактирование при первой отрисовке контрола.
     *       if (recordSet.getCount() === 0 && !options.readOnly) {
     *          return self._BLsource.create().addCallback(function (record){
     *             record.set('ВидЦены', <value>);
     *             record.acceptChanges();
     *
-    *             // Сохраняем редактируемую запись.
-    *             // Этой настройкой будет передана редактируемая запись в опцию editingConfig.
+    *             // Сохраняем редактируемый элемент.
+    *             // Этой настройкой будет передан редактируемый элемент в опцию editingConfig.
     *             self._editRecord = record;
     *          });
     *       } else
@@ -137,9 +138,9 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {String|Types/entity:Model|Core/Deferred} ItemEditResult
-    * @variant cancel Отменить начало редактирования.
+    * @variant cancel Отменить редактирование.
     * @variant options Параметры редактирования.
-    * @variant deferred Используется для асинхронной подготовки редактируемой записи. Необходимо выполнить deffered с {@link ItemEditOptions ItemEditOptions} или 'Cancel'. Если процесс занимает слишком много времени, будет показан индикатор загрузки.
+    * @variant deferred Используется для асинхронной подготовки редактируемого элемента. Необходимо выполнить deffered с {@link ItemEditOptions ItemEditOptions} или 'Cancel'. Если процесс занимает слишком много времени, будет показан индикатор загрузки.
     */
 
    /*
@@ -166,64 +167,65 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * @event Controls/interface/IEditableList#beforeBeginEdit Происходит перед началом редактирования.
+    * @event Controls/interface/IEditableList#beforeBeginEdit Происходит перед началом {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования}.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {ItemEditOptions} options Параметры редактирования.
-    * @param {Boolean} isAdd Значение true является признаком, что запись добавляется по месту.
+    * @param {Boolean} isAdd Значение true является признаком, что элемент {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавляется по месту}.
     * @returns {ItemEditResult}
+    * @demo Controls-demo/list_new/EditInPlace/BeginEdit/Index
     * @example
     * В следующем примере показано, как запретить редактирование элемента, если он соответствует условию:
-    * WML:
-    * <pre>
-    *    <Controls.list:View on:beforeBeginEdit="beforeBeginEditHandler()" />
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View on:beforeBeginEdit="beforeBeginEditHandler()" />
     * </pre>
-    * JS:
-    * <pre>
-    *    define('ModuleName', ['Controls/Constants'], function(constants) {
-    *       ...
-    *       beforeBeginEditHandler: function(e, options) {
-    *          if (options.item.getId() === 1) {
-    *             return constants.editing.CANCEL;
-    *          }
+    * <pre class="brush: js">
+    * // JavaScript
+    * define('ModuleName', ['Controls/Constants'], function(constants) {
+    *    ...
+    *    beforeBeginEditHandler: function(e, options) {
+    *       if (options.item.getId() === 1) {
+    *          return constants.editing.CANCEL;
     *       }
-    *    });
+    *    }
+    * });
     * </pre>
     * В следующем примере показано, как прочитать элемент из БЛ и открыть его для редактирования:
-    * WML:
-    * <pre>
-    *    <Controls.list:View on:beforeBeginEdit="beforeBeginEditHandler()" />
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View on:beforeBeginEdit="beforeBeginEditHandler()" />
     * </pre>
-    * JS:
-    * <pre>
-    *    beforeBeginEditHandler: function(e, options) {
-    *       return this.source.read(options.item.getId()).addCallback(function(result) {
-    *          return {
-    *             item: result
-    *          };
-    *       });
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * beforeBeginEditHandler: function(e, options) {
+    *    return this.source.read(options.item.getId()).addCallback(function(result) {
+    *       return {
+    *          item: result
+    *       };
+    *    });
+    * }
     * </pre>
     * В следующем примере показано, как начать редактирование элемента, созданного на клиенте:
-    * WML:
-    * <pre>
-    *    <Controls.list:View on:beforeBeginEdit="beforeBeginEditHandler()" />
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View on:beforeBeginEdit="beforeBeginEditHandler()" />
     * </pre>
-    * JS:
-    * <pre>
-    *    define('ModuleName', ['Types/entity'], function(entity) {
-    *       ...
-    *       beforeBeginEditHandler: function(e, options) {
-    *          return {
-    *             item: new entity.Model({
-    *                rawData: {
-    *                   //Obviously, you would use something else instead of Date.now() to generate id, but we'll use it here to keep the example simple
-    *                   id: Date.now(),
-    *                   title: ''
-    *                }
-    *             })
-    *          }
+    * <pre class="brush: js">
+    * // JavaScript
+    * define('ModuleName', ['Types/entity'], function(entity) {
+    *    ...
+    *    beforeBeginEditHandler: function(e, options) {
+    *       return {
+    *          item: new entity.Model({
+    *             rawData: {
+    *                //Obviously, you would use something else instead of Date.now() to generate id, but we'll use it here to keep the example simple
+    *                id: Date.now(),
+    *                title: ''
+    *             }
+    *          })
     *       }
-    *    });
+    *    }
+    * });
     * </pre>
     * @see afterBeginEdit
     * @see beforeEndEdit
@@ -298,27 +300,27 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * @event Controls/interface/IEditableList#afterBeginEdit Происходит после начала редактирования\добавления.
+    * @event Controls/interface/IEditableList#afterBeginEdit Происходит после начала {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования} или {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавления}.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Types/entity:Model} item Редактируемая запись.
-    * @param {Boolean} isAdd Флаг, который позволяет различать редактирование и добавление.
+    * @param {Types/entity:Model} item Редактируемый элемент.
+    * @param {Boolean} isAdd Значение true является признаком, что элемент {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавляется по месту}.
     * @remark
     * Подпишитесь на событие, если необходимо что-либо сделать после начала редактирования (например, скрыть кнопку "Добавить").
     * Событие запускается, когда подготовка данных успешно завершена и возможно безопасно обновить пользовательский интерфейс.
     * @example
-    * В следующем примере показано, как скрыть кнопку "Добавить" после начала редактирования\добавления.
-    * WML:
-    * <pre>
-    *    <Controls.list:View on:afterBeginEdit="afterBeginEditHandler()" />
-    *    <ws:if data="{{ showAddButton }}">
-    *       <Controls.list:AddButton />
-    *    </ws:if>
+    * В следующем примере показано, как скрыть кнопку "Добавить" после начала редактирования или добавления.
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View on:afterBeginEdit="afterBeginEditHandler()" />
+    * <ws:if data="{{ showAddButton }}">
+    *     <Controls.list:AddButton />
+    * </ws:if>
     * </pre>
-    * JS:
-    * <pre>
-    *    afterBeginEditHandler: function(e, item, isAdd) {
-    *       this.showAddButton = false;
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * afterBeginEditHandler: function(e, item, isAdd) {
+    *    this.showAddButton = false;
+    * }
     * </pre>
     * @see beforeBeginEdit
     * @see beforeEndEdit
@@ -354,11 +356,11 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * @event Controls/interface/IEditableList#beforeEndEdit Происходит перед завершением редактирования или добавления записи.
+    * @event Controls/interface/IEditableList#beforeEndEdit Происходит перед завершением {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования} или {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавления} элемента.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Types/entity:Model} item Редактируемая запись.
+    * @param {Types/entity:Model} item Редактируемый элемент.
     * @param {Boolean} willSave Определяет, будут ли сохранены изменения в редактируемом элементе.
-    * @param {Boolean} isAdd Аргумент принимает значение true, если событие произошло перед добавлением записи, и false — в случае редактирования.
+    * @param {Boolean} isAdd Значение true является признаком, что элемент добавляется по месту.
     * @returns {EndEditResult}
     * @demo Controls-demo/list_new/EditInPlace/EndEdit/Index
     * @remark
@@ -419,30 +421,31 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * @event Controls/interface/IEditableList#afterEndEdit Происходит после завершения редактирования\добавления.
+    * @event Controls/interface/IEditableList#afterEndEdit Происходит после завершения {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования} иди {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавления}.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Types/entity:Model} item Редактируемая запись.
-    * @param {Boolean} isAdd Флаг, который позволяет различать редактирование и добавление.
+    * @param {Types/entity:Model} item Редактируемый элемент.
+    * @param {Boolean} isAdd Значение true является признаком, что элемент {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавляется по месту}.
     * @remark
     * Подпишитесь на событие, если необходимо что-либо сделать после завершения редактирования (например, показать кнопку "Добавить").
     * Событие запускается, когда редактирование успешно завершено и возможно безопасно обновить пользовательский интерфейс.
+    * @demo Controls-demo/list_new/EditInPlace/SlowAdding/Index
     * @example
-    * В следующем примере показано, как отобразить кнопку "Добавить" после окончания редактирования\добавления.
-    * WML:
-    * <pre>
-    *    <Controls.list:View on:afterEndEdit="afterEndEditHandler()" />
-    *    <ws:if data="{{ showAddButton }}">
-    *       <Controls.list:AddButton />
-    *    </ws:if>
+    * В следующем примере показано, как отобразить кнопку "Добавить" после окончания редактирования или добавления.
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View on:afterEndEdit="afterEndEditHandler()" />
+    * <ws:if data="{{ showAddButton }}">
+    *     <Controls.list:AddButton />
+    * </ws:if>
     * </pre>
-    * JS:
-    * <pre>
-    *    afterEndEditHandler: function() {
-    *       this.showAddButton = true;
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * afterEndEditHandler: function() {
+    *    this.showAddButton = true;
+    * }
     * </pre>
     * @see beforeBeginEdit
-    * @see afterBeginEditа
+    * @see afterBeginEdit
     * @see beforeEndEdit
     */
 
@@ -475,16 +478,15 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * @cfg {EditingConfig} Конфигурация редактирования по месту.
-    * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FEditableListPG">демо-пример</a>
+    * @cfg {EditingConfig} Конфигурация {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования по месту}.
+    * @demo Controls-demo/list_new/EditInPlace/AutoAdd/Index
     * @name Controls/interface/IEditableList#editingConfig
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.list:View>
-    *       <ws:editingConfig editOnClick="{{true}}" toolbarVisibility="{{true}}" />
-    *    </Controls.list:View>
+    * <pre class="brush: html; highlight: [3]">
+    * <!-- WML -->
+    * <Controls.list:View>
+    *    <ws:editingConfig editOnClick="{{true}}" toolbarVisibility="{{true}}" />
+    * </Controls.list:View>
     * </pre>
     */
 
@@ -502,25 +504,25 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * Начинает редактирование по месту.
+    * Начинает {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирование по месту}.
     * @function Controls/interface/IEditableList#beginEdit
     * @param {ItemEditOptions} options Параметры редактирования.
     * @returns {Core/Deferred}
     * @remark
-    * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из панели действий элемента.
+    * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/operations/ панели действий элемента}.
     * @example
     * В следующем примере показано, как начать редактирование элемента.
-    * WML:
-    * <pre>
-    *    <Controls.list:View name="list" />
+    * <pre class="brush: html;">
+    * <!-- WML -->
+    * <Controls.list:View name="list" />
     * </pre>
-    * JS:
-    * <pre>
-    *    foo: function() {
-    *       this._children.list.beginEdit({
-    *          item: this._items.at(0)
-    *       });
-    *    }
+    * <pre class="brush: js;">
+    * // JavaScript
+    * foo: function() {
+    *    this._children.list.beginEdit({
+    *       item: this._items.at(0)
+    *    });
+    * }
     * </pre>
     * @see beginAdd
     * @see commitEdit
@@ -554,23 +556,27 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * Начинает добавление элемента.
+    * Начинает {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавление элемента по месту}.
     * @function Controls/interface/IEditableList#beginAdd
     * @param {ItemEditOptions} options Параметры добавления.
     * @returns {Core/Deferred}
     * @remark
+    * Чтобы задать позицию добавления элемента, установите значение для параметра {@link Controls/interface/IEditableList/EditingConfig.typedef addPosition}.
     * Если вы не передадите параметры, будет вызван метод {@link Types/source:ICrud#create create} источника списка, и результат будет добавлен в список.
+    * @demo Controls-demo/list_new/EditInPlace/AddItem/Index
     * @example
     * В следующем примере показано, как начать добавление элемента.
-    * WML:
-    * <pre>
-    *    <Controls.list:View name="list" />
+    * 
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View name="list" />
     * </pre>
-    * JS:
-    * <pre>
-    *    foo: function() {
-    *       this._children.list.beginAdd();
-    *    }
+    * 
+    * <pre class="brush: js">
+    * // JavaScript
+    * foo: function() {
+    *    this._children.list.beginAdd();
+    * }
     * </pre>
     * @see beginEdit
     * @see commitEdit
@@ -602,23 +608,22 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * Завершает редактирование и фиксирует изменения.
+    * Завершает {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирование по месту} и сохраняет изменения.
     * @function Controls/interface/IEditableList#commitEdit
     * @returns {Core/Deferred}
     * @remark
-    * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя,
-    * например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
+    * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя, например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
     * @example
-    * В следующем примере показано, как завершить редактирование и зафиксировать изменения.
-    * WML:
-    * <pre>
-    *    <Controls.list:View name="list" />
+    * В следующем примере показано, как завершить редактирование и сохранить изменения.
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View name="list" />
     * </pre>
-    * JS:
-    * <pre>
-    *    foo: function() {
-    *       this._children.list.commitEdit();
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * foo: function() {
+    *    this._children.list.commitEdit();
+    * }
     * </pre>
     * @see beginEdit
     * @see beginAdd
@@ -649,22 +654,22 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * Завершает редактирование и удаляет изменения.
+    * Завершает {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирование} и отменяет изменения.
     * @function Controls/interface/IEditableList#cancelEdit
     * @returns {Core/Deferred}
     * @remark
     * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действия пользователя, например, когда пользователь нажимает на кнопку "Отмена".
     * @example
     * В следующем примере показано, как завершить редактирование и отменить изменения.
-    * WML:
-    * <pre>
-    *    <Controls.list:View name="list" />
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View name="list" />
     * </pre>
-    * JS:
-    * <pre>
-    *    foo: function() {
-    *       this._children.list.cancelEdit();
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * foo: function() {
+    *    this._children.list.cancelEdit();
+    * }
     * </pre>
     * @see beginEdit
     * @see beginAdd

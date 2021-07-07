@@ -6,7 +6,6 @@ import {
     IVirtualScrollOptions, IPlaceholders,
     IRangeShiftResult, ITriggerState, IScrollRestoreParams
 } from './interfaces';
-import * as getDimensions from 'Controls/Utils/getDimensions';
 
 const RELATION_COEFFICIENT_BETWEEN_PAGE_AND_SEGMENT = 4;
 
@@ -125,7 +124,7 @@ export default class VirtualScroll {
      * @param triggerState видимость триггеров
      * @param predicatedDirection заранее высчитанное направление добавления(необходимо при вызове prepend и append у коллекции)
      */
-    insertItems(
+    addItems(
         addIndex: number,
         count: number,
         triggerState: ITriggerState,
@@ -207,37 +206,18 @@ export default class VirtualScroll {
      * Запоминает данные из ресайза вьюпорта на инстанс
      * @param viewportHeight
      * @param triggerHeight
-     * @param itemsContainer
      */
-    resizeViewport(viewportHeight: number, triggerHeight: number, itemsContainer?: HTMLElement): void {
+    viewportResize(viewportHeight: number, triggerHeight: number): void {
         this.applyContainerHeightsData({viewport: viewportHeight, trigger: triggerHeight});
-
-        if (itemsContainer) {
-            this._updateItemsHeights(itemsContainer);
-        }
     }
 
     /**
      * Запоминает данные из ресайза вью на инстанс
      * @param viewHeight
      * @param triggerHeight
-     * @param itemsContainer
      */
-    resizeView(viewHeight: number, triggerHeight: number, itemsContainer?: HTMLElement): void {
+    viewResize(viewHeight: number, triggerHeight: number): void {
         this.applyContainerHeightsData({scroll: viewHeight, trigger: triggerHeight});
-
-        if (itemsContainer) {
-            this._updateItemsHeights(itemsContainer);
-        }
-    }
-
-    /**
-     * Обновляет данные об элементах
-     * @param container
-     */
-    updateItemsHeights(container: HTMLElement): void {
-        this._updateItemsHeights(container);
-        this.rangeChanged = false;
     }
 
     /**
@@ -266,19 +246,6 @@ export default class VirtualScroll {
         this._oldRange = {...this._range};
 
         return paramsForRestore;
-    }
-
-    getItemContainerByIndex(index: number, itemsContainer: HTMLElement): HTMLElement {
-        let startChildrenIndex = 0;
-
-        for (let i = startChildrenIndex, len = itemsContainer.children.length; i < len; i++) {
-            if (!itemsContainer.children[i].classList.contains('controls-ListView__hiddenContainer')) {
-                startChildrenIndex = i;
-                break;
-            }
-        }
-
-        return itemsContainer.children[startChildrenIndex + index - this._range.start] as HTMLElement;
     }
 
     /**
@@ -389,28 +356,22 @@ export default class VirtualScroll {
 
     /**
      * Обновляет данные о высотах элементов
-     * @param container
+     * @param itemsHeights
+     */
+    updateItemsHeights(itemsHeights: IItemsHeights) {
+        this._updateItemsHeights(itemsHeights);
+        this.rangeChanged = false;
+    }
+
+    /**
+     * Обновляет данные о высотах элементов
+     * @param itemsHeights
      * @private
      */
-    private _updateItemsHeights(container: HTMLElement): void {
-        let sum = 0;
-        let startChildrenIndex = 0;
-
-        for (let i = startChildrenIndex, len = container.children.length; i < len; i++) {
-            if (!container.children[i].classList.contains('controls-ListView__hiddenContainer')) {
-                startChildrenIndex = i;
-                break;
-            }
-        }
-
-        for (let i = 0, len = Math.min(container.children.length, this._range.stop - this._range.start); i < len; i++) {
-            const itemHeight = Math.round(
-                getDimensions(container.children[startChildrenIndex + i] as HTMLElement).height
-            );
-
-            this._itemsHeightData.itemsHeights[this._range.start + i] = itemHeight;
-            this._itemsHeightData.itemsOffsets[this._range.start + i] = sum;
-            sum += itemHeight;
+    private _updateItemsHeights(itemsHeightsData: IItemsHeights): void {
+        for (let i = 0, len = Math.min(itemsHeightsData.itemsHeights.length, this._range.stop - this._range.start); i < len; i++) {
+            this._itemsHeightData.itemsHeights[this._range.start + i] = itemsHeightsData.itemsHeights[i];
+            this._itemsHeightData.itemsOffsets[this._range.start + i] = itemsHeightsData.itemsOffsets[i];
         }
     }
 
@@ -610,5 +571,12 @@ export default class VirtualScroll {
         }
 
         return sum;
+    }
+
+    calculateVirtualScrollHeight(): number {
+        const {itemsHeights} = this._itemsHeightData;
+        const sum = this._getItemsHeightsSum(this._range.start, this._range.stop, itemsHeights);
+        const avgHeight = sum / (this._range.stop - this._range.start);
+        return avgHeight * itemsHeights.length;
     }
 }

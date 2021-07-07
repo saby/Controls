@@ -3,7 +3,7 @@ import getFormattedDateRange = require('Core/helpers/Date/getFormattedDateRange'
 // @ts-ignore
 import locales = require('Core/helpers/i18n/locales');
 import {Date as WSDate, DateTime} from 'Types/entity';
-import DateUtil = require('Controls/Utils/Date');
+import {Base as DateUtil} from 'Controls/dateUtils';
 
 var locale = locales.current;
 var weekdaysCaptions;

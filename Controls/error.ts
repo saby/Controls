@@ -24,5 +24,5 @@ export {
 } from './_error/Handler';
 export { default as Controller, Config } from './_error/Controller';
 export { default as Mode } from './_error/Mode';
-export { default as process} from './_error/process';
+export { default as process, IProcessOptions } from './_error/process';
 export { default as Popup, IPopupHelper } from './_error/Popup';

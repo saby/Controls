@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs, fontColorStyle=primary, textTransform=uppercase</div>
+        <Controls.heading:Title caption="Heading" fontColorStyle="primary" fontSize="xs" textTransform="uppercase"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m, fontColorStyle=secondary, textTransform=uppercase</div>
+        <Controls.heading:Title caption="Heading" fontSize="m" fontColorStyle="secondary" textTransform="uppercase"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}"> fontSize=3xl, fontColorStyle=label, textTransform=uppercase</div>
+        <Controls.heading:Title caption="Heading" fontSize="3xl" fontColorStyle="label" textTransform="uppercase"/>
+    </div>
+</div>

@@ -10,15 +10,23 @@
    overflow: hidden;
 }
 
+.controls-listTemplates__tableCellTemplate__content-withPhoto {
+   min-height: @inline_height_2xl;
+   margin-left: @inline_height_2xl + @offset_xs;
+}
+
 .controls-listTemplates__tableCellTemplate-theme-@{themeName} {
    display: flex;
    width: 100%;
+   position: relative;
 }
 
 .controls-listTemplates_tableCellTemplate-image-theme-@{themeName} {
    height: @inline_height_2xl;
    width: @inline_height_2xl;
    border-radius: @border-radius_s_image;
-   padding-right: @offset_xs;
    flex-shrink: 0;
+   position: absolute;
+   top: 0;
+   left: 0;
 }

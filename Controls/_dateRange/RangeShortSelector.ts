@@ -1,9 +1,11 @@
 import BaseSelector from './BaseSelector';
-import coreMerge = require('Core/core-merge');
 import {Date as WSDate} from 'Types/entity';
 import ILinkView from './interfaces/ILinkView';
 import IPeriodLiteDialog from './interfaces/IPeriodLiteDialog';
-import componentTmpl = require('wml!Controls/_dateRange/RangeShortSelector/RangeShortSelector');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import coreMerge = require('Core/core-merge');
+import template = require('wml!Controls/_dateRange/RangeShortSelector/RangeShortSelector');
+import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 
 /**
  * Контрол позволяет пользователю выбрать временной период: месяц, квартал, полугодие, год. Выбор происходит с помощью панели быстрого выбора периода.
@@ -12,7 +14,7 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeShortSelector/Range
  * Переменные тем оформления:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less">набор переменных dateRange</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_shortDatePicker.less">набор переменных shortDatePicker</a>
- * 
+ *
  * @class Controls/_dateRange/RangeShortSelector
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
@@ -20,15 +22,13 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeShortSelector/Range
  * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_interface/IDisplayedRanges
  * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @control
  * @public
  * @category Input
  * @author Красильников А.С.
  * @demo Controls-demo/dateRange/LiteSelector/Index
- * @demo Controls-demo/dateRange/LiteSelector/ArrowVisibility/Index
- * @demo Controls-demo/dateRange/LiteSelector/Disabled/Index
- * @demo Controls-demo/dateRange/LiteSelector/ValueNotSpecified/Index
  *
  */
 
@@ -47,23 +47,48 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeShortSelector/Range
  *
  */
 
-var Component = BaseSelector.extend({
-    _template: componentTmpl,
+interface IRangeShortSelectorOptions extends IControlOptions {
+    chooseMonths: boolean;
+    chooseQuarters: boolean;
+    chooseHalfyears: boolean;
+    popupClassName: string;
+    chooseYears: boolean;
+    checkedStart: Date;
+    checkedEnd: Date;
+    emptyCaption: string;
+    source: any;
+    monthTemplate: HTMLElement;
+    itemTemplate: HTMLElement;
+    displayedRanges: Date[];
+    stubTemplate: Function;
+    captionFormatter: Function;
+    dateConstructor: Function;
+}
 
-    _getPopupOptions: function() {
-        var className;
+export default class RangeShortSelector extends BaseSelector<IRangeShortSelectorOptions> {
+    protected _template: TemplateFunction = template;
+
+    protected _getPopupOptions(): IStickyPopupOptions {
+        let className;
         const container = this._children.linkView.getPopupTarget();
+        let horizontalTargetPoint;
         if (!this._options.chooseMonths && !this._options.chooseQuarters && !this._options.chooseHalfyears) {
             className = 'controls-DateRangeSelectorLite__picker-years-only';
+            horizontalTargetPoint = 'center';
         } else {
             className = 'controls-DateRangeSelectorLite__picker-normal';
+            horizontalTargetPoint = 'right';
         }
 
         return {
             opener: this,
             target: container,
-            className: className,
+            className,
             fittingMode: 'overflow',
+            direction: {
+                horizontal: horizontalTargetPoint
+            },
+            targetPoint: { horizontal: 'left' },
             eventHandlers: {
                 onResult: this._onResult.bind(this)
             },
@@ -91,30 +116,34 @@ var Component = BaseSelector.extend({
                 dateConstructor: this._options.dateConstructor
             }
         };
-    },
-
-    shiftBack: function () {
-        this._children.linkView.shiftBack();
-    },
-
-    shiftForward: function () {
-       this._children.linkView.shiftForward();
     }
 
-});
+    _mouseEnterHandler(): void {
+        const loadCss = ({View}) => View.loadCSS();
+        this._startDependenciesTimer('Controls/shortDatePicker', loadCss);
+    }
 
-Component.EMPTY_CAPTIONS = ILinkView.EMPTY_CAPTIONS;
+    shiftBack(): void {
+        this._children.linkView.shiftBack();
+    }
 
-Component.getDefaultOptions = function () {
-    return {
-        ...IPeriodLiteDialog.getDefaultOptions(),
-        ...ILinkView.getDefaultOptions(),
-        dateConstructor: WSDate
-    };
-};
+    shiftForward(): void {
+        this._children.linkView.shiftForward();
+    }
 
-Component.getOptionTypes = function () {
-    return coreMerge(coreMerge({}, IPeriodLiteDialog.getOptionTypes()), ILinkView.getOptionTypes());
-};
-Component._theme = ['Controls/dateRange'];
-export default Component;
+    static getDefaultOptions(): object {
+        return {
+            ...IPeriodLiteDialog.getDefaultOptions(),
+            ...ILinkView.getDefaultOptions(),
+            dateConstructor: WSDate
+        };
+    }
+
+    static getOptionTypes(): object {
+        return coreMerge(coreMerge({}, IPeriodLiteDialog.getOptionTypes()), ILinkView.getOptionTypes());
+    }
+
+    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
+
+    static _theme: string[] = ['Controls/dateRange'];
+}

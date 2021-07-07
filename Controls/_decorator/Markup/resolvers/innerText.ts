@@ -1,15 +1,11 @@
 /**
- * Created by rn.kondakov on 06.12.2018.
- */
-
-/**
  *
  * Модуль с функцией получения внутреннего текста из json.
  * Распознаватель тегов для jsonToHtml в {@link Controls/decorator:Converter}.
  *
  * @class Controls/_decorator/Markup/resolvers/innerText
  * @public
- * @author Кондаков Р.Н.
+ * @author Угриновский Н.В.
  */
 
 /*
@@ -19,7 +15,7 @@
  *
  * @class Controls/_decorator/Markup/resolvers/innerText
  * @public
- * @author Кондаков Р.Н.
+ * @author Угриновский Н.В.
  */
 const innerText = function innerText(value, parent) {
    if (typeof value === 'string') {

@@ -85,6 +85,11 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._resizeHandler = this._resizeHandler.bind(this);
         this._thumbStyle = this._getThumbStyle(options);
         this._thumbThickness = this._getThumbThickness(options);
+
+        // Зачем этот код прописал в скроллконтейнере в самом геттере
+        if (options.getParentScrollPosition) {
+            this._scrollPosition = options.getParentScrollPosition();
+        }
     }
 
     protected _afterMount(): void {

@@ -1,6 +1,6 @@
 import {stub} from 'sinon';
 import {assert} from 'chai';
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import {DOMUtil} from 'Controls/sizeUtils';
 
 function ClassList(): void {};
 ClassList.prototype = [];
@@ -59,6 +59,7 @@ describe('Controls/Utils/DOMUtil', () => {
                 },
                 // @ts-ignore
                 classList: new ClassList(),
+                setAttribute: () => {},
                 getElementsByClassName: () => [fakeChild, fakeChild],
                 appendChild: (child) => stub(),
                 getBoundingClientRect: () => ({

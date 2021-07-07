@@ -327,7 +327,7 @@ const getCountriesStats = () => {
             },
             {
                 displayProperty: 'country',
-                width: '300px'
+                width: '280px'
             },
             {
                 displayProperty: 'capital',
@@ -909,6 +909,14 @@ const getMultilineLadder = () => {
                 template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderMultilineName',
                 width: '300px'
             }
+        ],
+        getHeader: () => [
+            {
+                title: 'Время'
+            },
+            {
+                title: 'Имя'
+            }
         ]
     };
 };
@@ -1223,7 +1231,7 @@ const getEditing = () => {
         getEditingColumns: (): IColumn[] => [
             {
                 displayProperty: 'title',
-                width: '200px',
+                width: '180px',
                 template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor'
             },
             {

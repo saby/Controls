@@ -279,8 +279,17 @@ define([
                notifyCorrectCalled = true;
             }
          };
-         tabs._onItemClick(null, 1);
-         assert.equal(notifyCorrectCalled, true, 'uncorrect _onItemClick');
+         let event1 = {
+            nativeEvent: {
+               button: 1
+            }
+         };
+         tabs._onItemClick(event1, 1);
+         assert.equal(notifyCorrectCalled, false, 'rightButtonClick _onItemClick');
+
+         event1.nativeEvent.button = 0;
+         tabs._onItemClick(event1, 1);
+         assert.equal(notifyCorrectCalled, true, 'leftButtonClick _onItemClick');
          tabs.destroy();
       });
    });

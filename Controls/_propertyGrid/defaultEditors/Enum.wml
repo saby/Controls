@@ -1,5 +1,5 @@
 <Controls.source:EnumAdapter enum="{{_enum}}">
-   <Controls.dropdown:Combobox attr:class="controls-PropertyGrid__editor_enum_control"
-                            displayProperty="title"
-                            on:selectedKeyChanged="_selectedKeyChanged()"/>
+    <Controls.dropdown:Combobox attr:class="controls-PropertyGrid__editor_enum_control"
+                                displayProperty="title"
+                                on:selectedKeyChanged="_selectedKeyChanged()"/>
 </Controls.source:EnumAdapter>

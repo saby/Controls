@@ -35,4 +35,12 @@
         <div class="controls-text-label_theme-{{_options.theme}}">fontSize=5xl</div>
         <Controls.decorator:Money value="{{_value}}" fontSize="5xl" />
     </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=6xl</div>
+        <Controls.decorator:Money value="{{_value}}" fontSize="6xl" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=7xl</div>
+        <Controls.decorator:Money value="{{_value}}" fontSize="7xl" />
+    </div>
 </div>

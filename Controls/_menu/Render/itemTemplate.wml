@@ -2,10 +2,7 @@
                  controls-DropdownList__row
                  controls-ListView__itemV js-controls-ItemActions__swipeMeasurementContainer
                  {{itemData.itemClassList}} theme_{{_options.theme}}
-                 {{marker !== false && treeItem.isSelected() &&
-                  (!itemData.multiSelect || itemData.isEmptyItem || itemData.isFixedItem) ? 'controls-Menu__row_selected_theme-' + _options.theme}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}">
-
    <ws:if data="{{!!treeItem.getContents().forEach}}">
       <ws:partial template="wml!Controls/_menu/Render/breadCrumbsTemplate"
                   treeItem="{{treeItem}}"
@@ -17,6 +14,11 @@
 
    <ws:else>
       <div class="controls-Menu__content_baseline">
+         <ws:if data="{{marker !== false && treeItem.isSelected() &&
+                  (!itemData.multiSelect || itemData.isEmptyItem || itemData.isFixedItem)}}">
+            <div class="controls-Menu__row_selected controls-Menu__row_selected_theme-{{_options.theme}}
+                        controls-Menu__content_{{additionalTextTemplate ? 'padding'}}_theme-{{_options.theme}}"></div>
+         </ws:if>
          <ws:if data="{{(multiSelectTpl || itemData.multiSelectTpl) && (itemData.multiSelect || multiSelect) && !itemData.isFixedItem}}">
             <ws:partial template="{{multiSelectTpl || itemData.multiSelectTpl}}" scope="{{_options}}" class="{{itemData.isEmptyItem ? 'controls-Menu__row-checkbox_invisible'}}"/>
          </ws:if>

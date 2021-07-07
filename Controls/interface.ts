@@ -36,6 +36,8 @@
  * @includes ISelectorDialog Controls/_interface/ISelectorDialog
  * @includes ISelectionObject Controls/_interface/ISelectionObject
  * @includes IItems Controls/_interface/IItems
+ * @includes IHref Controls/_interface/IHref
+ * @includes IBackgroundStyle Controls/_interface/IBackgroundStyle
  * @public
  * @author Крайнов Д.О.
  */
@@ -84,3 +86,5 @@ export {default as ISearch, ISearchOptions} from './_interface/ISearch';
 export {default as IFormOperation} from './_interface/IFormOperation';
 export {default as ISelectorDialog, ISelectorDialogOptions} from './_interface/ISelectorDialog';
 export {default as IItems, IItemsOptions} from './_interface/IItems';
+export {default as IHref, IHrefOptions} from './_interface/IHref';
+export {default as IBackgroundStyle, IBackgroundStyleOptions} from './_interface/IBackgroundStyle';

@@ -1,0 +1,12 @@
+@import "Controls-default-theme/_theme";
+
+.ws-is-hover {
+    .controls-Grid__row_highlightOnHover_default_theme-default:hover {
+        .controls-Grid__item_background-hover-primary_theme-default {
+            background-color: @primary_color;
+        }
+    }
+    .controls-Grid__row_highlightOnHover_default_theme-default:hover .controls-Grid__row-cell-background-hover-primary_theme-default:not(.controls-Grid__row-ladder-cell) {
+        background-color: @primary_color;
+    }
+}

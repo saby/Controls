@@ -111,7 +111,7 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     _isSupportVirtualScroll: function() {
-        return Boolean(this._options?.virtualScrollConfig) && this._options.supportVirtualScroll;
+        return this._options.supportVirtualScroll;
     },
 
     _getCurIndexForReset(startIndex: number): number {
@@ -718,7 +718,8 @@ var ItemsViewModel = BaseViewModel.extend({
             newItems.length &&
             newItems[0].getContents() &&
             newItems[0].getContents().getChanged &&
-            newItems[0].getContents().getChanged().indexOf('docviewLoadingPercent') !== -1;
+            newItems[0].getContents().getChanged().indexOf('docviewLoadingPercent') !== -1 &&
+            newItems[0].getContents().getChanged().indexOf('docviewIsLoading') === -1;
     }
 });
 

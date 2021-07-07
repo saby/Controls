@@ -25,6 +25,7 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
    items: RecordSet;
    parentProperty?: string;
    nodeProperty?: string;
+   selectionType: TSelectionType;
 }
 /**
  * Контейнер принимает опцию selectedItems от Controls/lookupPopup:Controller и устанавливает опцию selectedKeys для дочернего списка.
@@ -226,7 +227,8 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
            parentProperty,
            nodeProperty,
            root,
-           items
+           items,
+           selectionType
         }: IFilterConfig): object {
             const selectedKeys = selection.get('marked');
             const currentRoot = root !== undefined ? root : null;
@@ -256,11 +258,24 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
             // Если просто отмечают записи чекбоксами (не через панель массовых операций),
             // то searchParam из фильтра надо удалять, т.к. записи могут отметить например в разных разделах,
              // и запрос с searchParam в фильтре вернёт не все записи, которые есть в selection'e.
-            if (hasSearchParamInFilter && ArrayUtil.invertTypeIndexOf(selectedKeys, currentRoot) === -1 && !hasSelectedNodes) {
+            if (hasSearchParamInFilter &&
+                ArrayUtil.invertTypeIndexOf(selectedKeys, currentRoot) === -1 &&
+                (!hasSelectedNodes || selectionType === 'node')) {
                delete resultFilter[searchParam];
             }
             if (parentProperty) {
                delete resultFilter[parentProperty];
+            }
+            /*
+               FIXME: https://online.sbis.ru/opendoc.html?guid=239a4b17-5429-4179-9b72-d28a707bee0b
+               Конфликт полей selection и selectionWithPath/entries, которые подмешиваются в фильтр
+               для получения метаданных, которые при завершении выбора не нужны.
+            */
+            if (resultFilter.entries) {
+                delete resultFilter.entries;
+            }
+            if (resultFilter.selectionWithPath) {
+                delete resultFilter.selectionWithPath;
             }
             resultFilter.selection = selection;
             return resultFilter;
@@ -463,11 +478,12 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
                searchParam: options.searchParam,
                parentProperty: options.parentProperty,
                nodeProperty: options.nodeProperty,
+               selectionType: options.selectionType,
                root: options.root,
                items
             });
 
-            // FIXME https://online.sbis.ru/opendoc.html?guid=7ff270b7-c815-4633-aac5-92d14032db6f 
+            // FIXME https://online.sbis.ru/opendoc.html?guid=7ff270b7-c815-4633-aac5-92d14032db6f
             // необходимо уйти от опции selectionLoadMode и вынести загрузку
             // выбранный записей в отдельный слой.
             // здесь будет только формирование фильтра

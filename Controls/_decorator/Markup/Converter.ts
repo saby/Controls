@@ -12,7 +12,7 @@ const hasAnyTagRegExp: RegExp = /<[a-zA-Z]+.*?>/;
  *
  * @class Controls/_decorator/Markup/Converter
  * @public
- * @author Кондаков Р.Н.
+ * @author Угриновский Н.В.
  */
 
    // Convert node to jsonML array.
@@ -179,7 +179,7 @@ const hasAnyTagRegExp: RegExp = /<[a-zA-Z]+.*?>/;
 
    /**
     * @class Controls/_decorator/Markup/Converter
-    * @author Кондаков Р.Н.
+    * @author Угриновский Н.В.
     * @public
     */
 

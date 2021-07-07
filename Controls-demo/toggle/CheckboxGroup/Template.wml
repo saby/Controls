@@ -1,5 +1,5 @@
-<div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth1700">
+    <div class="controlsDemo__cell demo-checkboxGroupIndex__base">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/toggle/CheckboxGroup/Base/Index' }}">
@@ -8,7 +8,7 @@
         <Controls-demo.toggle.CheckboxGroup.Base.Index/>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-checkboxGroupIndex__horizontal">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/toggle/CheckboxGroup/Direction/Index' }}">
@@ -17,7 +17,7 @@
         <Controls-demo.toggle.CheckboxGroup.Direction.Index/>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-checkboxGroupIndex__hierarchy">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/toggle/CheckboxGroup/ParentProperty/Index' }}">

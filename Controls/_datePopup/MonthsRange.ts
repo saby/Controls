@@ -1,10 +1,9 @@
 import Control = require('Core/Control');
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
-import tmplNotify = require('Controls/Utils/tmplNotify');
 import {DateRangeModel} from 'Controls/dateRange';
-import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
-import dateUtils = require('Controls/Utils/Date');
+import {proxyModelEvents, tmplNotify} from 'Controls/eventUtils';
+import {Base as dateUtils} from 'Controls/dateUtils';
 import MonthsRangeItem from './MonthsRangeItem';
 import componentTmpl = require('wml!Controls/_datePopup/MonthsRange');
 

@@ -1,26 +1,27 @@
-import {Control, TemplateFunction} from "UI/Base";
+import {Control, TemplateFunction} from 'UI/Base';
 import * as MemorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
 import * as SearchMemory from 'Controls-demo/Search/SearchMemory';
 import Deferred = require('Core/Deferred');
 import {Memory} from 'Types/source';
 import {_departmentsDataLong} from 'Controls-demo/Suggest_new/DemoHelpers/DataCatalog';
 import controlTemplate = require('wml!Controls-demo/Suggest_new/Selector/DirectoryUnavailable/DirectoryUnavailable');
-import suggestTemplate = require('wml!Controls-demo/Suggest_new/Selector/DirectoryUnavailable/resources/SuggestTemplate');
+import suggestTemplate =
+    require('wml!Controls-demo/Suggest_new/Selector/DirectoryUnavailable/resources/SuggestTemplate');
 
-export default class extends Control{
+export default class extends Control {
    protected _template: TemplateFunction = controlTemplate;
    protected _suggestTemplate: TemplateFunction = suggestTemplate;
    private _source: Memory;
    protected _navigation: object;
-   protected _beforeMount() {
+   protected _beforeMount(): void {
       this._source = new SearchMemory({
          keyProperty: 'id',
          data: _departmentsDataLong,
          searchParam: 'title',
          filter: MemorySourceFilter()
       });
-      this._source.query = function() {
-         var def = new Deferred();
+      this._source.query = () => {
+         const def = new Deferred();
          def.errback();
          return def;
       };

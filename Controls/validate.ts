@@ -5,22 +5,7 @@
  * @includes ControllerClass Controls/_validate/ControllerClass
  * @includes Container Controls/_validate/Container
  * @includes InputContainer Controls/_validate/InputContainer
- * @includes isEmail Controls/_validate/Validators/IsEmail
- * @includes isRequired Controls/_validate/Validators/IsRequired
- * @includes isValidDate Controls/_validate/Validators/IsValidDate
- * @includes IsValidDateRange Controls/_validate/Validators/IsValidDateRange
- * @includes DateRangeContainer Controls/_validate/DateRange
- * @includes SelectionContainer Controls/_validate/SelectionContainer
- * @includes IValidateResult Controls/_validate/interfaces/IValidateResult
- * @public
- * @author Красильников А.С.
- */
-/*
- * validate library
- * @library Controls/validate
- * @includes Controller Controls/_validate/Controller
- * @includes Container Controls/_validate/Container
- * @includes InputContainer Controls/_validate/Input
+ * @includes Highlighter Controls/validate:Highlighter
  * @includes isEmail Controls/_validate/Validators/IsEmail
  * @includes isRequired Controls/_validate/Validators/IsRequired
  * @includes isValidDate Controls/_validate/Validators/IsValidDate

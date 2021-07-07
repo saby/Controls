@@ -1,5 +1,6 @@
 define([
    'Core/core-merge',
+   'Types/entity',
    'Types/collection',
    'Controls/calendar',
    'Controls/Utils/Date',
@@ -9,6 +10,7 @@ define([
    'wml!Controls/_calendar/MonthList/YearTemplate'
 ], function(
    coreMerge,
+   entity,
    collection,
    calendar,
    DateUtil,
@@ -75,14 +77,18 @@ define([
             sinon.replace(ml, '_updateSource', () => {
                return;
             });
+            let result = false;
             ml._extData = {
                enrichItems: function() {
-                  return;
+                  return {
+                     catch: function () {
+                        result = true;
+                     }
+                  };
                }
             };
-            sandBox.stub(ml._extData, 'enrichItems');
             ml._beforeMount({});
-            sinon.assert.calledOnce(ml._extData.enrichItems);
+            assert.isTrue(result);
             sandBox.restore();
          });
          it('with receivedState', function() {
@@ -116,6 +122,34 @@ define([
             sandbox.stub(control, '_scrollToDate');
             control._afterMount();
             sinon.assert.called(control._scrollToDate);
+            sandbox.restore();
+         });
+
+         it('should not reset lastPositionFromOptions if positionToScroll is different', function() {
+            let
+                sandbox = sinon.createSandbox(),
+                control = calendarTestUtils.createComponent(calendar.MonthList, { position: new Date(2017, 1, 1) });
+
+            sandbox.stub(control, '_canScroll').returns([true]);
+            sandbox.stub(control, '_scrollToDate').returns(true);
+            control._positionToScroll = new Date(2017, 1, 1);
+            control._lastPositionFromOptions = new Date(2017, 2, 1);
+            control._updateScrollAfterViewModification(false);
+            assert.equal(control._positionToScroll, control._positionToScroll);
+            sandbox.restore();
+         });
+
+         it('should reset lastPositionFromOptions if positionToScroll is not different', function() {
+            let
+                sandbox = sinon.createSandbox(),
+                control = calendarTestUtils.createComponent(calendar.MonthList, { position: new Date(2017, 1, 1) });
+
+            sandbox.stub(control, '_canScroll').returns([true]);
+            sandbox.stub(control, '_scrollToDate').returns([true]);
+            control._positionToScroll = new Date(2017, 1, 1);
+            control._lastPositionFromOptions = new Date(2017, 1, 1);
+            control._updateScrollAfterViewModification(false);
+            assert.equal(control._positionToScroll, null);
             sandbox.restore();
          });
       });
@@ -369,7 +403,7 @@ define([
                }
             }],
             options: {},
-            date: new Date(2020, 0)
+            date: new entity.applied.Date(2020, 0)
          }, {
             title: 'Should generate an event when the element appeared on top and the next one is half visible. viewMode: "month"',
             entries: [{
@@ -384,7 +418,7 @@ define([
                }
             }],
             options: { viewMode: 'month' },
-            date: new Date(2019, 1)
+            date: new entity.applied.Date(2019, 1)
          }, {
             title: 'Should generate an event when the 2 elements appeared on top and the next one is half visible. viewMode: "month"',
             entries: [{
@@ -409,7 +443,7 @@ define([
                }
             }],
             options: { viewMode: 'month' },
-            date: new Date(2019, 2)
+            date: new entity.applied.Date(2019, 2)
          }].forEach(function(test) {
             it(test.title, function() {
                const
@@ -455,10 +489,12 @@ define([
             displayedDates: [],
             options: {
                source: {
-                  query:function (data) {
-                     return new Promise(function(resolve) {
-                        resolve(data);
-                     });
+                  query:function () {
+                     return {
+                        then: function () {
+                           return;
+                        }
+                     }
                   }
                }
             },
@@ -480,10 +516,12 @@ define([
             displayedDates: [],
             options: {
                source: {
-                  query:function (data) {
-                     return new Promise(function(resolve) {
-                        resolve(data);
-                     });
+                  query:function () {
+                     return {
+                        then: function () {
+                           return;
+                        }
+                     }
                   }
                }
             },
@@ -505,10 +543,12 @@ define([
             displayedDates: [(new Date(2019, 0)).getTime(), 123],
             options: {
                source: {
-                  query:function (data) {
-                     return new Promise(function(resolve) {
-                        resolve(data);
-                     });
+                  query:function () {
+                     return {
+                        then: function () {
+                           return;
+                        }
+                     }
                   }
                }
             },
@@ -530,10 +570,12 @@ define([
             displayedDates: [(new Date(2019, 0)).getTime(), 123],
             options: {
                source: {
-                  query:function (data) {
-                     return new Promise(function(resolve) {
-                        resolve(data);
-                     });
+                  query:function () {
+                     return {
+                        then: function () {
+                           return;
+                        }
+                     }
                   }
                }
             },
@@ -541,14 +583,25 @@ define([
             date: new Date(2019, 0)
          }].forEach(function(test) {
             it(test.title, function() {
-               const
-                  sandbox = sinon.createSandbox(),
-                  component = calendarTestUtils.createComponent(
-                     calendar.MonthList, coreMerge(test.options, config, { preferSource: true })
-                  );
-
+               const sandbox = sinon.createSandbox();
+               const component = calendarTestUtils.createComponent(calendar.MonthList);
+               sinon.replace(component, '_updateSource', () => {
+                  return;
+               });
+               let result = false;
+               component._extData = {
+                  enrichItems: function() {
+                     return {
+                        catch: function () {
+                           result = true;
+                        }
+                     };
+                  }
+               };
+               component._beforeMount(coreMerge(test.options, config, { preferSource: true }));
                sandbox.stub(component, '_enrichItemsDebounced');
                component._displayedDates = test.displayedDates;
+               component._options = test.options;
                component._intersectHandler(null, test.entries);
                assert.deepEqual(component._displayedDates, test.resultDisplayedDates);
                sandbox.restore();
@@ -593,6 +646,9 @@ define([
             },
             returnYears = function(selector, date) {
                return selector === ITEM_BODY_SELECTOR.year ? selector : null;
+            },
+            returnMainTemplate = function(selector, date) {
+               return selector === ITEM_BODY_SELECTOR.mainTemplate ? selector : null;
             };
 
          [{
@@ -615,6 +671,10 @@ define([
             date: new Date(2020, 1, 2),
             getElementByDateStub: returnYears,
             result: ITEM_BODY_SELECTOR.year
+         }, {
+            date: new Date(2020, 1, 2),
+            getElementByDateStub: returnMainTemplate,
+            result: ITEM_BODY_SELECTOR.mainTemplate
          }].forEach(function(test, index) {
             it(`test ${index}`, function () {
                let

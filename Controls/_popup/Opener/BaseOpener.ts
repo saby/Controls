@@ -6,11 +6,10 @@ import * as CoreMerge from 'Core/core-merge';
 import * as randomId from 'Core/helpers/Number/randomId';
 import * as Deferred from 'Core/Deferred';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
-import * as isVDOMTemplate from 'Controls/Utils/isVDOMTemplate';
+import {isVDOMTemplate} from 'Controls/_popup/utils/isVdomTemplate';
 import {Logger} from 'UI/Utils';
 import {DefaultOpenerFinder} from 'UI/Focus';
 import Template = require('wml!Controls/_popup/Opener/BaseOpener');
-import { error as dataSourceError } from 'Controls/dataSource';
 
 /**
  * Base Popup opener
@@ -271,6 +270,10 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
             if (popupItem) {
                 cfg._events = popupItem.popupOptions._events;
             } else {
+                // Даже если окна с переданным id нет, синхронизатор иногда считает что такой контрол у него есть
+                // (например окно с таким id только удалилось) и не вызовет на созданном окне фазу afterMount.
+                // Из-за этого открываемый инидкатор не скроется. Чищу id, если он не актуальный.
+                delete cfg.id;
                 BaseOpenerUtil.showIndicator(cfg);
             }
         }
@@ -364,9 +367,11 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
                 try {
                     requirejs.onError(error);
                 } finally {
-                    dataSourceError.process({ error }).then(() => {
-                        Logger.error('Controls/popup' + ': ' + error.message, undefined, error);
-                        reject(error);
+                    import('Controls/dataSource').then((dataSource) => {
+                        dataSource.error.process({error}).then(() => {
+                            Logger.error('Controls/popup' + ': ' + error.message, undefined, error);
+                            reject(error);
+                        });
                     });
                 }
             });
@@ -408,10 +413,6 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
         CoreMerge(templateOptions, popupOptions.templateOptions || {}, {rec: false});
 
         const baseCfg = {...baseConfig, ...popupOptions, templateOptions};
-
-        if (baseCfg.hasOwnProperty('verticalAlign') || baseCfg.hasOwnProperty('horizontalAlign')) {
-            Logger.error('Controls/popup:Sticky : Используются устаревшие опции verticalAlign и horizontalAlign, используйте опции offset и direction');
-        }
 
         return baseCfg;
     }

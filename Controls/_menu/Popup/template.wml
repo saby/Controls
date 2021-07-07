@@ -9,13 +9,14 @@
                           {{!_options.headerTemplate && _verticalDirection === 'top' ? 'controls-Menu__popup-reverse'}}
                           controls-Menu__popup-shadow-{{_options.typeShadow || 'default'}}_theme-{{_options.theme}}
                           {{_options.dropdownClassName}}"
-              attr:style="width: {{_options.width ? _options.width + 'px'}}"
+              attr:style="width: {{_options.width ? _options.width + 'px'}};
+                          max-width: {{_options.width ? _options.width + 'px'}}"
               icon="{{_headingIcon}}"
               caption="{{_headingCaption}}"
               headingCaption="{{!_options.headerTemplate ? _headingCaption : ''}}"
               iconSize="{{_options.iconSize}}"
               dropdownClassName="{{_options.dropdownClassName}}"
-              headerContentTemplate="{{_headerTemplate}}"
+              headerContentTemplate="{{headerContentTemplate || _headerTemplate}}"
               footerContentTemplate="{{_options.footerContentTemplate || _options.footerTemplate}}"
               footerItemData="{{_options.footerItemData}}"
               closeButtonVisibility="{{_closeButtonVisibility}}"
@@ -24,6 +25,22 @@
          <ws:bodyContentTemplate>
             <div class="{{_options.headerTemplate && _verticalDirection === 'top' ? 'controls-Menu__popup-reverse'}}
              controls-Menu__popup-content controls-Menu__popup-content_theme-{{_options.theme}}">
+               <ws:if data="{{_applyButtonVisible}}">
+                  <div class="controls-DropdownList__applyButton
+                        controls-Menu__applyButton_theme-{{_options.theme}}
+                        controls-Menu_{{_options.headerTemplate ? 'withHeader' +
+                        (_options.headerTemplate && _verticalDirection === 'top' ? '-reverse') : 'withoutHeader'}}__applyButton_theme-{{_options.theme}}
+                        controls-Menu_{{_closeButtonVisibility ? 'withClose' : 'withoutClose'}}__applyButton_theme-{{_options.theme}}">
+                     <Controls.buttons:Button viewMode="functionalButton"
+                                              icon="icon-Yes"
+                                              iconSize="s"
+                                              iconStyle="contrast"
+                                              buttonStyle="success"
+                                              attr:class="controls-Menu__applyButton"
+                                              inlineHeight="menuapply"
+                                              on:click="_applyButtonClick()"/>
+                  </div>
+               </ws:if>
                <ws:if data="{{_options.headerTemplate}}">
                   <ws:partial template="{{_options.headerTemplate}}"
                               iconSize="{{_options.iconSize}}"
@@ -41,6 +58,7 @@
                        selectorTemplate="{{_options.selectorTemplate}}"
                        isCompoundTemplate="{{_options.isCompoundTemplate}}"
                        itemActions="{{_options.itemActions}}"
+                       itemActionVisibilityCallback="{{_options.itemActionVisibilityCallback}}"
                        keyProperty="{{_options.keyProperty}}"
                        displayProperty="{{_options.displayProperty}}"
                        emptyText="{{_options.emptyText}}"
@@ -69,11 +87,11 @@
                        headerTemplate="{{_headerTemplate || _options.headerTemplate}}"
                        theme="{{_options.theme}}"
                        on:itemClick="_sendResult('itemClick')"
-                       on:applyClick="_sendResult('applyClick')"
                        on:moreButtonClick="_sendResult('selectorDialogOpened')"
                        on:pinClick="_sendResult('pinClick')"
                        on:menuOpened="_sendResult('menuOpened')"
                        on:beforeSubMenuOpen="_prepareSubMenuConfig()"
+                       on:selectedItemsChanged="_setSelectedItems()"
                        on:subMenuMouseenter="_sendResult('subMenuMouseenter')"
                />
             </div>
@@ -90,6 +108,13 @@
       </ws:partial>
    </ws:partial>
 </ws:if>
+<ws:else data="{{_headerTemplate}}">
+   <ws:partial template="menuPopup">
+      <ws:headerContentTemplate>
+         <ws:partial template="{{_headerTemplate}}" multiSelect="{{_options.multiSelect}}"/>
+      </ws:headerContentTemplate>
+   </ws:partial>
+</ws:else>
 <ws:else>
    <ws:partial template="menuPopup" />
 </ws:else>

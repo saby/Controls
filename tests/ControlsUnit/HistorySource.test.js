@@ -718,6 +718,52 @@ define(
                const configClone = util.object.clone(someConfig);
                assert.isOk(configClone.source instanceof historyMod.Source);
             });
+
+            it('unpin if not exist', () => {
+               let source = new historyMod.Source({
+                  originSource: new sourceLib.Memory({
+                     keyProperty: 'id',
+                     data: items
+                  }),
+                  historySource: new historyMod.Service({
+                     historyId: 'TEST_HISTORY_ID'
+                  }),
+                  parentProperty: 'parent'
+               });
+               let itemUnpinned = false;
+               const history = {
+                  pinned: [1]
+               };
+               const oldItems = new collection.RecordSet({
+                  rawData: [],
+                  keyProperty: 'id'
+               });
+               const newItems = oldItems.clone();
+               source._itemNotExist = () => {
+                  itemUnpinned = true;
+               };
+               source._fillItems(history, 'pinned', oldItems, newItems);
+               assert.isTrue(itemUnpinned);
+
+
+               itemUnpinned = false;
+               source = new historyMod.Source({
+                  unpinIfNotExist: false,
+                  originSource: new sourceLib.Memory({
+                     keyProperty: 'id',
+                     data: items
+                  }),
+                  historySource: new historyMod.Service({
+                     historyId: 'TEST_HISTORY_ID'
+                  }),
+                  parentProperty: 'parent'
+               });
+               source._itemNotExist = () => {
+                  itemUnpinned = true;
+               };
+               source._fillItems(history, 'pinned', oldItems, newItems);
+               assert.isFalse(itemUnpinned);
+            });
          });
       });
    }

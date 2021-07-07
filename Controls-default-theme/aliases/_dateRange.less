@@ -12,7 +12,12 @@
 @arrow_icon-size_dateRangeSelector:          @icon-size_s;
 @reset-button_icon-size_dateRangeSelector:   @icon-size_s;
 @reset-button_icon-color_dateRangeSelector:  #CCC;
-@height_dateRangeSelector:                   19px;// почему не 20?
+@height_dateRangeSelector:                   19px;
+
+//кнопка ссылка для быстрого выбора периода
+@height_rangeShortSelectorLink:              24px;
+@line-height_rangeShortSelectorLink:         18px;
+@clear_line-height_rangeShortSelectorLink:   24px;
 
 //кнопка для связывания периодов
 @icon-color_dateRangeRelationButton:                  @unaccented_icon-color;
@@ -27,4 +32,4 @@
 @shift-top_PeriodDialog-picker: -((@header_height_datePicker - @inline_height_default)/2 + @border-thickness_datePicker);
 @shift-left_PeriodDialog-picker: -(@header_padding-left_datePicker + @border-thickness_datePicker + @icon-size_s + @switcher_offset_datePicker);
 @shift-left_PeriodDialog-picker-withoutModeBtn: -(@header_padding-left_datePicker + @border-thickness_datePicker);
-@shift-top_PeriodDialog-selector: floor((20px - @header_height_datePicker)/2) - @border-thickness_datePicker;
+@shift-top_PeriodDialog-selector: ceil((@height_dateRangeSelector - @header_height_datePicker)/2) - @border-thickness_datePicker;

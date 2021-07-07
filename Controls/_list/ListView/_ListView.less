@@ -41,23 +41,41 @@
 .controls-ListView__item_default-topPadding_null_theme-@{themeName},
 .controls-ListView__item_master-topPadding_null_theme-@{themeName},
 .controls-ListView__itemV_marker_master_topPadding-null_theme-@{themeName} {
-  padding-top: 0;
+   padding-top: 0;
 }
 
 .controls-ListView__item_default-topPadding_s_theme-@{themeName},
 .controls-ListView__item_master-topPadding_s_theme-@{themeName},
 .controls-ListView__itemV_marker_master_topPadding-s_theme-@{themeName} {
    padding-top: @item_padding-top_s_list + @item-separator_s_thickness_list;
+   &.controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+      padding-top: @item_padding-top_s_list;
+   }
+   &.controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+      padding-top: @item_padding-top_s_list + @item-separator_s_thickness_list - @item-separator_l_thickness_list;
+   }
 }
 
 .controls-ListView__item_default-topPadding_l_theme-@{themeName},
 .controls-ListView__item_master-topPadding_l_theme-@{themeName},
 .controls-ListView__itemV_marker_master_topPadding-l_theme-@{themeName} {
-   padding-top: @item_padding-top_l_list;
+   padding-top: @item_padding-top_l_list + @item-separator_s_thickness_list;
+   &.controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+      padding-top: @item_padding-top_l_list;
+   }
+   &.controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+      padding-top: @item_padding-top_l_list + @item-separator_s_thickness_list - @item-separator_l_thickness_list;
+   }
 }
 
 .controls-ListView__item_default-topPadding_default_theme-@{themeName} {
-   padding-top: @item_padding-top_default_list;
+   padding-top: @item_padding-top_default_list + @item-separator_s_thickness_list;
+   &.controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+      padding-top: @item_padding-top_default_list;
+   }
+   &.controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+      padding-top: @item_padding-top_default_list + @item-separator_s_thickness_list - @item-separator_l_thickness_list;
+   }
 }
 
 .controls-ListView__item_master-topPadding_default_theme-@{themeName},
@@ -69,7 +87,7 @@
 .controls-ListView__item_default-bottomPadding_null_theme-@{themeName},
 .controls-ListView__item_master-bottomPadding_null_theme-@{themeName},
 .controls-ListView__itemV_marker_master_bottomPadding-null_theme-@{themeName} {
-  padding-bottom: 0;
+   padding-bottom: 0;
 }
 
 .controls-ListView__item_default-bottomPadding_s_theme-@{themeName},
@@ -81,11 +99,11 @@
 .controls-ListView__item_default-bottomPadding_l_theme-@{themeName},
 .controls-ListView__item_master-bottomPadding_l_theme-@{themeName},
 .controls-ListView__itemV_marker_master_bottomPadding-l_theme-@{themeName} {
-  padding-bottom: @item_padding-bottom_l_list;
+   padding-bottom: @item_padding-bottom_l_list;
 }
 
 .controls-ListView__item_default-bottomPadding_default_theme-@{themeName} {
-  padding-bottom: @item_padding-bottom_default_list;
+   padding-bottom: @item_padding-bottom_default_list;
 }
 
 .controls-ListView__item_master-bottomPadding_default_theme-@{themeName},
@@ -426,19 +444,6 @@
    box-sizing: border-box;
 }
 
-.ws-is-mobile-chrome-ios .controls-ListView__item__marked_master_theme-@{themeName},
-.ws-is-desktop-safari .controls-ListView__item__marked_master_theme-@{themeName},
-.ws-is-mobile-safari .controls-ListView__item__marked_master_theme-@{themeName},
-.ws-is-mobile-chrome-ios .controls-ListView__item__marked_masterClassic_theme-@{themeName},
-.ws-is-desktop-safari .controls-ListView__item__marked_masterClassic_theme-@{themeName},
-.ws-is-mobile-safari .controls-ListView__item__marked_masterClassic_theme-@{themeName} {
-   // ave safari 13
-   // https://online.sbis.ru/opendoc.html?guid=6d560d7a-c140-4d06-a1b6-53b326efe950
-   // иначе все position: absolute элементы внутри position: sticky
-   // начинают сроиться относительно родителя уровнем выше
-   transform: translateZ(0);
-}
-
 .controls-ListView__item__unmarked_master_theme-@{themeName} {
    font-size: @master_item_font-size_list;
 }
@@ -579,16 +584,21 @@
 
 .ws-is-hover {
    .controls-ListView__item_highlightOnHover_default_theme_@{themeName} {
-     &:hover {
-       background-color: @item_hover_background-color_list;
-     }
+      &:hover {
+         background-color: @item_hover_background-color_list;
+      }
    }
- }
- //TODO это должно уехать в BaseControl после задачи https://online.sbis.ru/opendoc.html?guid=92bedbf7-6038-4c1f-826e-b096b4cddd6d
- .controls-Checkbox__iconWrapper_inList_theme-@{themeName} {
+   .controls-ListView__item_highlightOnHover_default_theme_@{themeName} {
+      &:hover .controls-background-default_theme-@{themeName}{
+         background-color: @item_hover_background-color_list;
+      }
+   }
+}
+//TODO это должно уехать в BaseControl после задачи https://online.sbis.ru/opendoc.html?guid=92bedbf7-6038-4c1f-826e-b096b4cddd6d
+.controls-Checkbox__iconWrapper_inList_theme-@{themeName} {
    height: @checkbox_height_list;
- }
- /// decorator:money in list, grid
+}
+/// decorator:money in list, grid
 .controls-text-group_theme-@{themeName}{
    color: @group-text-color_decoratorMoney;
 }
@@ -623,4 +633,27 @@
 
 .controls-ListView__item_background_readonly_theme-@{themeName} {
    background-color: @readonly_color;
+}
+
+.controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+   border: 0 solid transparent;
+   border-top-width: @item-separator_s_thickness_list;
+   border-top-color: @item_separator_s_color_list;
+}
+
+.controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+   border: 0 solid transparent;
+   border-top-width: @item-separator_l_thickness_list;
+   border-top-color: @item_separator_l_color_list;
+}
+
+// Последняя граница списка, самая нижняя
+.controls-ListView__itemV:last-child {
+   .controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+      border-bottom: @item-separator_s_thickness_list solid @item_edge_separator_s_color_list;
+   }
+
+   .controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+      border-bottom: @item-separator_l_thickness_list solid @item_edge_separator_l_color_list;
+   }
 }

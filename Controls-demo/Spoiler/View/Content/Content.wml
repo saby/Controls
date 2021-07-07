@@ -1,7 +1,41 @@
 <div class="controlsDemo__wrapper">
-   <div class="controlsDemo__cell">
+   <div class="controlsDemo__cell controlsDemo__spoiler_first">
       <Controls.spoiler:View captions="Заголовок" bind:expanded="_expanded">
          <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Группа спойлеров без вложенности</div>
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>Развернутая контентная область</div>
+      </Controls.spoiler:View>
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>Развернутая контентная область</div>
+      </Controls.spoiler:View>
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>Развернутая контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Группа спойлеров со вложенностью</div>
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>
+            Развернутая контентная область
+            <Controls.spoiler:View attr:style="margin-left: 24px;" captions="{{_innerCaptions}}" bind:expanded="_expanded1">
+               <div>Развернутая контентная область внутреннего спойлера</div>
+            </Controls.spoiler:View>
+         </div>
+      </Controls.spoiler:View>
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>
+            Развернутая контентная область
+            <Controls.spoiler:View attr:style="margin-left: 24px;" captions="{{_innerCaptions}}" bind:expanded="_expanded2">
+               <div>Развернутая контентная область внутреннего спойлера</div>
+            </Controls.spoiler:View>
+         </div>
+      </Controls.spoiler:View>
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>Развернутая контентная область</div>
       </Controls.spoiler:View>
    </div>
 </div>

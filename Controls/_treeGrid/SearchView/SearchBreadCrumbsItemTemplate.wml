@@ -5,14 +5,16 @@
             renderSeparatedColumnContent="{{ colspan === false }}"
             expanderIcon="none"
             marker="{{ false }}"
-            attr:class="controls-TreeGrid__row__searchBreadCrumbs {{ itemData.shouldHideColumnSeparator(colspan, isColumnScrollVisible) ? 'controls-Grid__row__searchBreadCrumbs_withoutColumnSeparator' }}"
+            attr:class="controls-TreeGrid__row__searchBreadCrumbs js-controls-ListView__notEditable
+            {{ itemData.columnScroll && !isColumnScrollVisible ? 'controls-TreeGrid__row__searchBreadCrumbs_colspaned' }}
+            {{ itemData.shouldHideColumnSeparator(colspan, isColumnScrollVisible) ? 'controls-Grid__row__searchBreadCrumbs_withoutColumnSeparator' }}"
             attr:key="{{ itemData.key }}__breadcrumbs">
     <ws:colspanTemplate>
         <Controls.Container.Async templateName="Controls/breadcrumbs:Path">
             <ws:partial template="{{ content.resolvedTemplate }}"
                         items="{{colspanTemplate.itemData.item}}"
                         backgroundStyle="{{_options.backgroundStyle}}"
-                        attr:class="controls-Grid__breadCrumbs"
+                        attr:class="controls-Grid__breadCrumbs {{ itemData.columnScroll && !isColumnScrollVisible ? 'controls-TreeGrid__breadCrumbs_colspaned' }}"
                         breadCrumbsItemClickCallback="{{ itemData.breadcrumbsItemClickCallback }}"
                         keyProperty="{{itemData.keyProperty}}"
                         displayProperty="{{itemData.breadCrumbsDisplayProperty}}">

@@ -116,5 +116,18 @@ define(
          standartCfg.id = '123';
          assert.deepEqual(standartCfg, popup.BaseOpener.util.getIndicatorConfig(indicatorId));
       });
+
+      it('showDialog remove old id', (done) => {
+         const baseOpenPopup = popup.BaseOpener._openPopup;
+         popup.BaseOpener._openPopup = (cfg) => {
+            popup.BaseOpener._openPopup = baseOpenPopup;
+            assert.equal(cfg.id, undefined); // id почистился, т.к. такого окна не было открыто
+            done();
+         };
+         const config = {
+            id: 'badId'
+         };
+         popup.BaseOpener.showDialog({}, config);
+      });
    }
 );

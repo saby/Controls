@@ -44,7 +44,7 @@ export default {
     },
 
     popupUpdated(id: string): void {
-        this._manager._eventHandler(null, 'popupUpdated', id);
+        this._manager.eventHandler('popupUpdated', [id]);
     },
 
     isDestroying(id: string): boolean {
@@ -102,5 +102,9 @@ export default {
             return this._manager[methodName].apply(this._manager, args || []);
         }
         return false;
+    },
+
+    notifyToManager(actionName: string, args: any[]): void {
+        this._callManager('eventHandler', [actionName, args]);
     }
 };

@@ -37,6 +37,7 @@ import PlaceholderChooser = require("Controls/_lookup/PlaceholderChooser");
 import Link = require('Controls/_lookup/Lookup/Link');
 export {ILookupOptions} from 'Controls/_lookup/Lookup';
 export {ISelectorButtonOptions as ISelectorOptions} from 'Controls/_lookup/Button';
+export {ToSourceModel} from 'Controls/_lookup/resources/ToSourceModel';
 export {
    Selector,
    Input,

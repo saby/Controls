@@ -102,5 +102,43 @@ define([
          });
       });
 
+      describe('_afterUpdate', function() {
+         it('should start validation', function () {
+            const
+                component = calendarTestUtils.createComponent(input.Date, options),
+                value = new Date(2017, 11, 1);
+
+            let result = false;
+            component._children = {};
+            component._children.opener = {
+               close: sinon.fake()
+            };
+            component._children.input = {
+               validate: function() {
+                  result = true;
+               }
+            };
+            component._onResult(value);
+            component._afterUpdate();
+            assert.isTrue(result);
+         });
+         it('should not start validation', function () {
+            const
+                component = calendarTestUtils.createComponent(input.Date, options);
+
+            let result = false;
+            component._children = {};
+            component._children.opener = {
+               close: sinon.fake()
+            };
+            component._children.input = {
+               validate: function() {
+                  result = true;
+               }
+            };
+            component._afterUpdate();
+            assert.isFalse(result);
+         });
+      });
    });
 });

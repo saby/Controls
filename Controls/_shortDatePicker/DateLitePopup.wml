@@ -9,20 +9,6 @@
                      controls-PeriodLiteDialog__yearWrapper_theme-{{_options.theme}}
          {{(_yearHovered === _position.getFullYear())? ' controls-PeriodLiteDialog__yearHeader-background-hovered_theme-' + _options.theme}}"
               title="{[Выбрать год]}">
-            <div class="controls-PeriodLiteDialog__year-prev controls-PeriodLiteDialog__year-prev_theme-{{_options.theme}}"
-                 title="{[Предыдущий год]}" on:click="_changeYear (-1)"></div>
-            <div class="controls-PeriodLiteDialog__home-wrapper{{!_options.chooseHalfyears ? '-lite' }}
-                        controls-PeriodLiteDialog__home-wrapper{{!_options.chooseHalfyears ? '-lite' }}_theme-{{_options.theme}}"
-                 title="{[Поставить текущий период]}">
-               <Controls.buttons:Button
-                       class="controls-PeriodLiteDialog__homeButton"
-                       fontColorStyle="link"
-                       viewMode="link"
-                       icon="icon-Home3"
-                       iconSize="s"
-                       on:click="_onHomeClick()"
-               />
-            </div>
             <div
                     class="controls-PeriodLiteDialog__year controls-PeriodLiteDialog__year_theme-{{_options.theme}}
                            {{ _getYearCssClasses() }}"
@@ -35,8 +21,14 @@
             >
                {{ _position.getFullYear() }}
             </div>
-            <div class="controls-PeriodLiteDialog__year-next controls-PeriodLiteDialog__year-next_theme-{{_options.theme}}"
-                 on:click="_changeYear (1)" title="{[Следующий год]}"></div>
+            <Controls.buttons:ArrowButton attr:class="controls-PeriodLiteDialog__year-prev_theme-{{_options.theme}}"
+                                          direction="left"
+                                          attr:title="{[Предыдущий год]}"
+                                          on:click="_changeYear (-1)"/>
+            <Controls.buttons:ArrowButton attr:class="controls-PeriodLiteDialog__year-next_theme-{{_options.theme}}"
+                                          direction="right"
+                                          attr:title="{[Следующий год]}"
+                                          on:click="_changeYear (1)"/>
          </div>
          <ws:partial
                  class="controls-PeriodLiteDialog__body controls-PeriodLiteDialog__body_theme-{{_options.theme}}
@@ -84,17 +76,5 @@
       </Controls.calendar:MonthList>
       <div class="controls-PeriodLiteDialog__years-prev controls-PeriodLiteDialog__years-prev_theme-{{_options.theme}}"
            on:click="_changeYear (-1)"></div>
-      <div class="controls-PeriodLiteDialog__years-home controls-PeriodLiteDialog__years-home_theme-{{_options.theme}}"
-           title="{[Поставить текущий диапазон]}">
-         <Controls.buttons:Button
-            class="controls-PeriodLiteDialog__homeButton"
-            viewMode="toolButton"
-            inlineHeight="m"
-            icon="icon-Home3"
-            iconSize="s"
-            iconStyle="secondary"
-            on:click="_onHomeClick()"
-         />
-      </div>
    </ws:if>
 </div>

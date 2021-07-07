@@ -5,7 +5,7 @@ import {RecordSet, List} from 'Types/collection';
 import {Collection} from 'Controls/display';
 import {Record} from 'Types/entity';
 import {INavigationSourceConfig, IBaseSourceConfig} from 'Controls/interface';
-import {Direction, IAdditionalQueryParams} from 'Controls/_interface/IAdditionalQueryParams';
+import {Direction, IQueryParams} from 'Controls/_interface/IQueryParams';
 
 type Key = string|number|null;
 type NavigationRecord = Record<{
@@ -51,7 +51,7 @@ export default class QueryParamsController implements IQueryParamsController {
         callback?: Function,
         config?: IBaseSourceConfig,
         root?: Key
-    ): IAdditionalQueryParams|IAdditionalQueryParams[] {
+    ): IQueryParams|IQueryParams[] {
         let result;
 
         if (config && config.multiNavigation) {

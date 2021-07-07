@@ -1,7 +1,9 @@
 <Controls.popupTemplate:Stack on:selectedKeysChanged="_selectedKeysChanged()" headingCaption="{{_options.headingCaption}}">
     <ws:headerContentTemplate>
         <div>
-            <Controls.tabs:Buttons source="{{_tabSource}}" keyProperty="id" bind:selectedKey="_selectedTab" attr:class="ControlsDemo-FlatListSelectorWithTabs-tabs"/>
+            <div class="ControlsDemo-FlatListSelectorWithTabs-tabs">
+                <Controls.tabs:Buttons source="{{_tabSource}}" keyProperty="id" bind:selectedKey="_selectedTab"/>
+            </div>
             <ws:if data="{{_options.multiSelect && _selectionChanged}}">
                 <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{[Выбрать]}" on:click="_closeSelectorBind()"/>
             </ws:if>
@@ -11,7 +13,7 @@
         <Controls.switchableArea:View name="switchableArea" keyProperty="id" itemTemplateProperty="itemTemplate" bind:selectedKey="_selectedTab">
             <ws:items>
                 <ws:Array>
-                    <ws:Object id="Companies">
+                    <ws:Object key="Companies">
                         <ws:itemTemplate>
                             <ws:partial template="Controls-demo/Lookup/FlatListSelectorWithTabs/resources/CompaniesTemplate"
                                         selectComplete="{{_selectComplete}}"
@@ -19,7 +21,7 @@
                                         filter="{{_options.filter}}"/>
                         </ws:itemTemplate>
                     </ws:Object>
-                    <ws:Object id="Departments">
+                    <ws:Object key="Departments">
                         <ws:itemTemplate>
                             <ws:partial template="Controls-demo/Lookup/FlatListSelectorWithTabs/resources/DepartmentsTemplate"
                                         selectComplete="{{_selectComplete}}"

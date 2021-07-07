@@ -5,12 +5,14 @@
                                 <Controls.search:InputContainer>
                                         <Controls.search:Input/>
                                 </Controls.search:InputContainer>
+                                <Controls.list:Remover name="remover"/>
                                 <Controls.list:Container>
                                     <Controls.explorer:View
                                         source="{{_viewSource}}"
                                         bind:root="_root"
                                         attr:class="demo-Explorer ControlsDemo-Explorer"
                                         keyProperty="id"
+                                        itemActions="{{_itemActions}}"
                                         displayProperty="title"
                                         parentProperty="parent"
                                         nodeProperty="parent@"

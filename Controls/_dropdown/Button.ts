@@ -1,24 +1,21 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/Button/Button');
 import {cssStyleGeneration} from 'Controls/_dropdown/Button/MenuUtils';
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 import ActualApi from 'Controls/_buttons/ActualApi';
 import Controller from 'Controls/_dropdown/_Controller';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {loadItems} from 'Controls/_dropdown/Util';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
-import {IGroupedOptions} from 'Controls/dropdown';
-import {IIconOptions, IHeightOptions, IIconSizeOptions, IIconStyleOptions} from 'Controls/interface';
+import {IIconOptions, IHeightOptions} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
-import {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
 import {IStickyPopupOptions} from 'Controls/popup';
-import {IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
-import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import {isLeftMouseButton} from 'Controls/fastOpenUtils';
+import {Logger} from 'UI/Utils';
 
-interface IButtonOptions extends IBaseDropdownOptions, IGroupedOptions, IIconOptions, IHeightOptions,
-         IIconSizeOptions, IIconStyleOptions, IMenuControlOptions, IMenuPopupOptions {
+interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
    additionalProperty?: string;
    lazyItemsLoading?: boolean;
    buttonStyle?: string;
@@ -27,7 +24,6 @@ interface IButtonOptions extends IBaseDropdownOptions, IGroupedOptions, IIconOpt
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
-   isNewOptionsUsed?: boolean;
 }
 
 /**
@@ -35,15 +31,16 @@ interface IButtonOptions extends IBaseDropdownOptions, IGroupedOptions, IIconOpt
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FMenu%2FMenu">демо-пример</a>
+ *
  * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/button/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less">переменные тем оформления dropdown</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less">переменные тем оформления dropdownPopup</a>
- *
+ * @demo Controls-demo/Buttons/Menu/Menu
  * @class Controls/_dropdown/Button
  * @extends Core/Control
  * @mixes Controls/_menu/interface/IMenuPopup
  * @mixes Controls/_menu/interface/IMenuControl
+ * @mixes Controls/_menu/interface/IMenuBase
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_dropdown/interface/IDropdownSource
  * @mixes Controls/interface/IDropdown
@@ -121,26 +118,16 @@ export default class Button extends BaseDropdown {
    }
 
    _updateState(options: IButtonOptions): void {
-      if (!options.isNewOptionsUsed) {
-         const currentButtonClass = ActualApi.styleToViewMode(options.style);
-         const oldViewModeToken = ActualApi.viewMode(currentButtonClass.viewMode, options.viewMode);
+      if (options.style) {
+         Logger.error('Опция style является устаревшей. Вместо нее используйте опции buttonStyle и fontColorStyle');
+      }
 
-         this._buttonStyleButton = ActualApi.buttonStyle(currentButtonClass.style, options.style, options.buttonStyle, options.readOnly);
-         this._contrastBackgroundButton = ActualApi.contrastBackground(options);
-         this._viewModeButton = oldViewModeToken.viewMode;
-         if (typeof oldViewModeToken.contrast !== 'undefined') {
-            this._contrastBackgroundButton = oldViewModeToken.contrast;
-         }
-         this._inlineHeightButton = ActualApi.actualHeight(options.size, options.inlineHeight, this._viewModeButton);
-         this._fontColorStyleButton = ActualApi.fontColorStyle(this._buttonStyle, this._viewModeButton, options.fontColorStyle);
-         this._fontSizeButton = ActualApi.fontSize(options);
-      }  else {
-         this._fontColorStyleButton = options.fontColorStyle;
-         this._fontSizeButton = options.fontSize;
-         this._inlineHeightButton = options.inlineHeight;
-         this._buttonStyleButton = options.buttonStyle;
-         this._contrastBackgroundButton = options.contrastBackground;
-         this._viewModeButton = options.viewMode;
+      if (options.transparent) {
+         Logger.error('Опция transparent является устаревшей. Вместо нее используйте опцию contrastBackground');
+      }
+
+      if (options.size) {
+         Logger.error('Опция size является устаревшей. Вместо нее используйте опции fontSize и inlineHeight');
       }
    }
 
@@ -228,7 +215,7 @@ export default class Button extends BaseDropdown {
    }
 
    protected _itemClick(data, nativeEvent): void {
-      const item = this._controller.getPreparedItem(data, this._options.keyProperty);
+      const item = this._controller.getPreparedItem(data);
       const res = this._onItemClickHandler([item], nativeEvent);
 
       // dropDown must close by default, but user can cancel closing, if returns false from event
@@ -247,11 +234,11 @@ export default class Button extends BaseDropdown {
       return {
          showHeader: true,
          filter: {},
-         style: 'secondary',
+         buttonStyle: 'secondary',
          viewMode: 'button',
-         size: 'm',
+         fontSize: 'm',
          iconStyle: 'secondary',
-         transparent: true,
+         contrastBackground: false,
          lazyItemsLoading: false
       };
    }

@@ -12,8 +12,9 @@ import {
     IFontSizeOptions
 } from 'Controls/interface';
 
-export interface IHeadingOptions extends IControlOptions, ICaptionOptions, ITooltipOptions, IFontColorStyleOptions, IFontSizeOptions {
-
+export interface IHeadingOptions
+    extends IControlOptions, ICaptionOptions, ITooltipOptions, IFontColorStyleOptions, IFontSizeOptions {
+    textTransform: 'none' | 'uppercase';
 }
 
 /**
@@ -41,6 +42,21 @@ export interface IHeadingOptions extends IControlOptions, ICaptionOptions, ITool
  * @implements Controls/_interface/IFontColorStyle
  * @implements Controls/_interface/IFontSize
  */
+
+/**
+ * @typedef {String} TTextTransform
+ * @variant none Без изменения регистра символов.
+ * @variant uppercase Все символы текста становятся прописными (верхний регистр).
+ */
+
+/**
+ * @name Controls/_heading/Heading#textTransform
+ * @cfg {TTextTransform} Управляет преобразованием текста элемента в заглавные или прописные символы
+ * @default none
+ * @demo Controls-demo/Heading/Title/TextTransform/Index
+ * @remark
+ * Вместе с установкой преобразования текста, меняется так же расстояние между буквами.
+ */
 class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFontColorStyle, IFontSize {
     protected _template: TemplateFunction = headingTemplate;
 
@@ -54,13 +70,14 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
     static getDefaultOptions(): object {
         return {
             fontSize: 'l',
-            fontColorStyle: 'secondary'
+            fontColorStyle: 'secondary',
+            textTransform: 'none'
         };
     }
 
     static getOptionTypes(): object {
         return {
-            caption: EntityDescriptor(String),
+            caption: EntityDescriptor(String)
         };
     }
 }

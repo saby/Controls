@@ -96,7 +96,16 @@ export default class Container extends Control<IContainerConfig> implements ICon
     }
 
     protected _beforeUpdate(options: IContainerConfig): void {
-        if (isEqual(options.viewConfig, this._options.viewConfig)) {
+        const oldConfig = this._options.viewConfig && {
+            ...this._options.viewConfig,
+            getVersion: null
+        };
+        const newConfig = options.viewConfig && {
+            ...options.viewConfig,
+            getVersion: null
+        };
+
+        if (isEqual(oldConfig, newConfig)) {
             /**
              * Если viewConfig не изменился для режима отображения ошибки в списке,
              * то обновляем опции списка, чтобы он корректно обновлялся
@@ -147,10 +156,12 @@ export default class Container extends Control<IContainerConfig> implements ICon
      * @param config Конфигурация с шаблоном диалога и опциями для этого шаблона.
      */
     private _openDialog(config: Config): Promise<void> {
-        this._closeDialog();
-
-        return this._popupHelper.openDialog(config, this, {
-            onClose: () => this._onDialogClosed()
+        return this._popupHelper.openDialog(config, {
+            id: this._popupId,
+            opener: this,
+            eventHandlers: {
+                onClose: () => this._onDialogClosed()
+            }
         }).then((popupId) => {
             if (popupId) {
                 this._popupId = popupId;

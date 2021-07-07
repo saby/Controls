@@ -125,6 +125,12 @@ const maxPercentValue = 100;
  * @demo Controls-demo/Slider/Base/Intervals/Index
  */
 
+/**
+ * @event Controls/_slider/Base#valueChanged Происходит при изменении значения слайдера.
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {number} value Новое значение.
+ */
+
 class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    protected _template: TemplateFunction = SliderTemplate;
    private _value: number = undefined;
@@ -211,7 +217,6 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
 
    protected _mouseDownAndTouchStartHandler(event: SyntheticEvent<MouseEvent | TouchEvent>): void {
       if (!this._options.readOnly) {
-         this._isDrag = true;
          this._value = this._getValue(event);
          this._setValue(this._value);
          this._children.dragNDrop.startDragNDrop(this._children.point, event);

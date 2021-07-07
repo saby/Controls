@@ -223,6 +223,11 @@ var Search = Base.extend({
       this.activate();
    },
 
+   _resetMousedown(event): void {
+      event.stopPropagation();
+      event.preventDefault();
+   },
+
    _searchClick(event: SyntheticEvent): void {
       if (this._options.readOnly) {
          return;

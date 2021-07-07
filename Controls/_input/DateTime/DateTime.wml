@@ -1,4 +1,4 @@
-<ws:partial template="{{_validationContainer}}" validators="{{_validators}}">
+<ws:partial template="{{_validationContainer}}" on:valueChanged="_valueChangedHandler()" validators="{{_validators}}" name="validator">
     <ws:content>
         <Controls._input.DateTime.Mask
                 value="{{_model.clearTextValue}}"
@@ -17,7 +17,6 @@
                 validationStatus="{{_options.validationStatus}}"
                 tooltip="{{_options.tooltip}}"
                 formatMaskChars="{{_formatMaskChars}}"
-                on:valueChanged="_valueChangedHandler()"
                 on:inputCompleted="_inputCompletedHandler()"
                 on:tagClick="_proxyEvent('tagClick')"
                 on:tagHover="_proxyEvent('tagHover')"

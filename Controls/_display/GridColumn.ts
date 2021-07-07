@@ -54,7 +54,7 @@ export default class GridColumn<T> extends mixin<
         if (this._$owner.isEditing()) {
             classes += ' controls-Grid__row-cell-background-editing_theme-default';
         } else {
-            classes += ' controls-Grid__row-cell-background-hover_theme-default';
+            classes += ' controls-Grid__row-cell-background-hover-default_theme-default';
         }
         if (this._$owner.isActive() && templateHighlightOnHover !== false) {
             classes += ' controls-GridView__item_active_theme-default';

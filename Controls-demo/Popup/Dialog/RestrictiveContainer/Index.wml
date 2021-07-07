@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper ControlsDemo-Popup-Dialog__globalContainer" attr:style="flex-grow: 1">
+    <div class="controlsDemo__wrapper ControlsDemo-Popup-Dialog__wrapper">
+        <div class="controls-Popup__dialog-target-container controls-Popup__stack-target-container" name="restrictiveContainer">
+            <div attr:style="width: 100px; height:300px;">
+                <Controls.buttons:Button name="insideBtn" caption="Открыть dialog внутри контейнера" attr:class="ControlsDemo-Popup-Dialog_insideContainerButton" on:click="_openDialogHandler(true)" />
+            </div>
+        </div>
+        <Controls.buttons:Button caption="Открыть dialog внутри контейнера" attr:class="ControlsDemo-Popup-Dialog_Button" on:click="_openDialogHandler(false)" />
+        <br />
+        <br />
+        <br />
+        <Controls.buttons:Button caption="Открыть dialog на всю страницу" attr:class="ControlsDemo-Popup-Dialog_outsideRestrictiveButton" on:click="_openRestrictiveDialogHandler()" />
+    </div>
+</div>

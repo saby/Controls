@@ -6,8 +6,9 @@ import {descriptor, Model} from 'Types/entity';
 import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 // @ts-ignore
 import * as isEmpty from 'Core/helpers/Object/isEmpty';
+import * as ArrayUtil from 'Controls/Utils/ArraySimpleValuesUtil';
 
-type LookupReceivedState = RecordSet|null;
+type LookupReceivedState = SelectedItems|null;
 
 export interface ILookupOptions extends ILookupBaseControllerOptions, IControlOptions {
     maxVisibleItems?: number;
@@ -79,7 +80,7 @@ export default abstract class
         }
     }
 
-    protected _showSelector(popupOptions?: IStackPopupOptions): void|boolean {
+    protected _showSelector(event: SyntheticEvent, popupOptions?: IStackPopupOptions): void|boolean {
         if (this._notify('showSelector') !== false) {
             return this.showSelector(popupOptions);
         }
@@ -114,7 +115,9 @@ export default abstract class
 
     private _notifyChanges(): void {
         const controller = this._lookupController;
-        this._notify('selectedKeysChanged', [controller.getSelectedKeys()]);
+        const newSelectedkeys = controller.getSelectedKeys();
+        const selectedKeysDiff = ArrayUtil.getArrayDifference(this._options.selectedKeys, newSelectedkeys);
+        this._notify('selectedKeysChanged', [newSelectedkeys, selectedKeysDiff.added, selectedKeysDiff.removed]);
         this._notify('itemsChanged', [controller.getItems()]);
         this._notify('textValueChanged', [controller.getTextValue()]);
     }

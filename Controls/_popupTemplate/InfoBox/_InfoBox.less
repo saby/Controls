@@ -4,6 +4,11 @@
    height: 100%;
 }
 
+.controls-InfoBoxTemplate__content-area {
+   position: relative;
+   z-index: 1;
+}
+
 .controls-InfoBoxTemplate__content_theme-@{themeName} {
    max-width: @max-width_infobox;
    background: @background-color_infobox;
@@ -210,6 +215,7 @@
 .controls-InfoBoxTemplate__closeButton {
    position: absolute;
    cursor: pointer;
+   z-index: 2;
 }
 
 .controls-InfoBoxTemplate__closeButton_theme-@{themeName} {

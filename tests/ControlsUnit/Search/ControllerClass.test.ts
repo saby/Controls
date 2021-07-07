@@ -86,6 +86,13 @@ describe('Controls/search:ControllerClass', () => {
         stub.withArgs(true);
     });
 
+    it('_setPath', () => {
+        const newPath = 'test';
+        const searchController = new ControllerClass(getDefaultOptions(), {});
+        searchController._setPath(newPath);
+        assert.equal(searchController._path, newPath);
+    });
+
     it('isSearchValueEmpty', () => {
         const searchController = new ControllerClass(getDefaultOptions(), {});
 

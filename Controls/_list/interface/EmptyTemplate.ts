@@ -7,7 +7,7 @@
  * @see Controls/list:View
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [2,3,4,5,6]">
  * <Controls.list:View>
  *    <ws:emptyTemplate>
  *       <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xxl" bottomSpacing="m">
@@ -34,7 +34,7 @@ export default interface IEmptyTemplateOptions {
 
     /**
      * @name Controls/list:EmptyTemplate#topSpacing
-     * @cfg {Spacing|null} Расстояние между верхней границей и контентом шаблона.
+     * @cfg {Spacing|null} Отступ между верхней границей  и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -43,17 +43,16 @@ export default interface IEmptyTemplateOptions {
     topSpacing?: string;
     /**
      * @name Controls/list:EmptyTemplate#bottomSpacing
-     * @cfg {Spacing|null} Расстояние между нижней границей и контентом шаблона.
+     * @cfg {Spacing|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
-     * @remark
      * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      * @default l
      */
     bottomSpacing?: string;
     /**
      * @name Controls/list:EmptyTemplate#contentTemplate
-     * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий отображение контрола без элементов.
+     * @cfg {String|Function|undefined} Шаблон, описывающий контент плоского списка без элементов.
      */
     contentTemplate?: string;
  }

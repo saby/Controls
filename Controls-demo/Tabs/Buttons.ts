@@ -3,10 +3,10 @@ import {RecordSet} from 'Types/collection';
 import {Memory} from 'Types/source';
 import template = require('wml!Controls-demo/Tabs/Buttons/Buttons');
 import spaceTemplate = require('wml!Controls-demo/Tabs/Buttons/resources/spaceTemplate');
-import itemTmpl = require('wml!Controls-demo/Tabs/Buttons/resources/itemTemplate');
-import mainTemplate = require('wml!Controls-demo/Tabs/Buttons/resources/mainTemplate');
-import photoContent = require('wml!Controls-demo/Tabs/Buttons/resources/photoContent');
-import iconTemplate = require('wml!Controls-demo/Tabs/Buttons/resources/iconTemplate');
+import 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate';
+import 'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate';
+import 'wml!Controls-demo/Tabs/Buttons/resources/photoContent';
+import 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate';
 
 export default class TabButtonsDemo extends Control {
     protected _template: TemplateFunction = template;
@@ -80,7 +80,7 @@ export default class TabButtonsDemo extends Control {
                     id: '1',
                     title: 'Задача в разработку №1263182638123681268716831726837182368172631239999',
                     align: 'left',
-                    itemTemplate: mainTemplate
+                    itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate'
                 },
                 {
                     id: '2',
@@ -111,7 +111,7 @@ export default class TabButtonsDemo extends Control {
                     id: '1',
                     title: 'Meetings',
                     align: 'left',
-                    itemTemplate: mainTemplate
+                    itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate'
                 },
                 {
                     id: '2',
@@ -186,8 +186,8 @@ export default class TabButtonsDemo extends Control {
                     text: 'Отпуск',
                     icon: 'icon-Vacation',
                     iconStyle: 'success',
-                    itemTemplate: itemTmpl,
-                    leftTemplate: iconTemplate
+                    itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate',
+                    leftTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate'
                 },
                 {
                     id: '2',
@@ -195,9 +195,9 @@ export default class TabButtonsDemo extends Control {
                     text: 'Отгул',
                     icon: 'icon-SelfVacation',
                     iconStyle: 'warning',
-                    itemTemplate: itemTmpl,
-                    leftTemplate: iconTemplate,
-                    rightTemplate: iconTemplate
+                    itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate',
+                    leftTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate',
+                    rightTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate'
                 },
                 {
                     id: '3',
@@ -205,8 +205,8 @@ export default class TabButtonsDemo extends Control {
                     text: 'Больничный',
                     icon: 'icon-Sick',
                     iconStyle: 'secondary',
-                    itemTemplate: itemTmpl,
-                    rightTemplate: iconTemplate
+                    itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate',
+                    rightTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate'
                 }
             ]
         });
@@ -236,7 +236,7 @@ export default class TabButtonsDemo extends Control {
                     id: '1',
                     title: 'Person card',
                     align: 'left',
-                    carambola: photoContent,
+                    carambola: 'wml!Controls-demo/Tabs/Buttons/resources/photoContent',
                     type: 'photo'
                 },
                 {
@@ -265,7 +265,7 @@ export default class TabButtonsDemo extends Control {
                 {
                     id: '7',
                     title: '',
-                    carambola: photoContent,
+                    carambola: 'wml!Controls-demo/Tabs/Buttons/resources/photoContent',
                     type: 'photo'
                 }
             ]

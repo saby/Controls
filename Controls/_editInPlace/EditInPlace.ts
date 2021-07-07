@@ -1,8 +1,7 @@
 import entity = require('Types/entity');
-import getWidthUtil = require('Controls/Utils/getWidth');
-import hasHorizontalScrollUtil = require('Controls/Utils/hasHorizontalScroll');
 import {editing as constEditing} from 'Controls/Constants';
 import {error as dataSourceError} from 'Controls/dataSource';
+import {hasHorizontalScroll as hasHorizontalScrollUtil, getWidth} from 'Controls/sizeUtils';
 import {Model} from 'Types/entity';
 import {Collection as ViewModel} from '../display';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -33,6 +32,7 @@ export const JS_SELECTORS = {
 const _private = {
     beginEdit(self: EditInPlace, options: IEditingConfig, isAdd?: boolean): Promise<IEditingConfig> {
         const result = self._notify('beforeBeginEdit', [options, !!isAdd]);
+        self._shouldActivateRow = true;
         if (!isAdd) {
             self._originalItem = options.item;
         }
@@ -478,6 +478,7 @@ export default class EditInPlace {
     _isCommitInProcess: boolean;
     _listViewModel: any;
     _errorContainer: any;
+    _shouldActivateRow: false;
 
     constructor(options: IEditingOptions = { } as IEditingOptions) {
         this._updateIndex = this._updateIndex.bind(this);
@@ -504,6 +505,7 @@ export default class EditInPlace {
             if (editingConfig.item) {
                 this._editingItem = editingConfig.item;
                 this._setEditingItemData(this._editingItem);
+                this._shouldActivateRow = true;
                 if (!this._isAdd) {
                     if (useNewModel) {
                         this._originalItem = listViewModel.getItemBySourceKey(
@@ -708,8 +710,8 @@ export default class EditInPlace {
         }
     }
 
-    prepareHtmlInput(): void {
-        let target, fakeElement, targetStyle, offset, currentWidth, previousWidth, lastLetterWidth, hasHorizontalScroll;
+    prepareHtmlInput(): boolean {
+        let target, fakeElement, targetStyle, offset, currentWidth, previousWidth, lastLetterWidth, hasHorizontalScroll, wasActivated = false;
 
         // Выставляем каретку и активируем поле только после начала редактирования
         // и гарантированной отрисовке полей ввода.
@@ -744,7 +746,7 @@ export default class EditInPlace {
                 });
                 let i = 0;
                 for (; i < target.value.length; i++) {
-                    currentWidth = getWidthUtil.getWidth(fakeElement);
+                    currentWidth = getWidth(fakeElement);
                     if (currentWidth > offset) {
                         break;
                     }
@@ -762,6 +764,7 @@ export default class EditInPlace {
                  * where the user has clicked. But before moving the caret we should manually focus the right field.
                  */
                 target.focus();
+                wasActivated = true;
 
                 lastLetterWidth = currentWidth - previousWidth;
                 if (targetStyle.textAlign === 'right' && !hasHorizontalScroll) {
@@ -781,6 +784,16 @@ export default class EditInPlace {
             this._clickItemInfo = null;
             this._pendingInputRenderState = PendingInputRenderState.Null;
         }
+
+        return wasActivated;
+    }
+
+    hasPendingActivation(): boolean {
+        return !!this._clickItemInfo || this._shouldActivateRow;
+    }
+
+    activated(): void {
+        this._shouldActivateRow = false;
     }
 
     _setEditingItemData(item: Model): void {

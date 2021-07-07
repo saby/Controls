@@ -1,9 +1,7 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_explorer/View/View');
-import tmplNotify = require('Controls/Utils/tmplNotify');
-import applyHighlighter = require('Controls/Utils/applyHighlighter');
 import cInstance = require('Core/core-instance');
-import keysHandler = require('Controls/Utils/keysHandler');
+import {tmplNotify, keysHandler} from 'Controls/eventUtils';
 import randomId = require('Core/helpers/Number/randomId');
 import {SearchGridViewModel, SearchView, TreeGridView, ViewModel as TreeGridViewModel} from 'Controls/treeGrid';
 import {factory} from 'Types/chain';
@@ -96,7 +94,7 @@ var
 
             function _remover(key) {
                Object.keys(self._restoredMarkedKeys).forEach((cur) => {
-                  if (self._restoredMarkedKeys[cur] && self._restoredMarkedKeys[cur].parent === String(key)) {
+                  if (self._restoredMarkedKeys[cur] && String(self._restoredMarkedKeys[cur].parent) === String(key)) {
                      const nextKey = cur;
                      delete self._restoredMarkedKeys[cur];
                      _remover(nextKey);
@@ -177,6 +175,9 @@ var
                   const { markedKey } = self._restoredMarkedKeys[curRoot];
                   self._children.treeControl.setMarkedKey(markedKey);
                   self._markerForRestoredScroll = markedKey;
+               }
+               if (self._children.treeControl.isAllSelected()) {
+                  self._children.treeControl.clearSelection();
                }
                self._isGoingBack = false;
             }
@@ -385,6 +386,7 @@ var
     * @mixes Controls/_interface/IFilterChanged
     * @mixes Controls/interface/IHighlighter
     * @mixes Controls/_list/interface/IList
+    * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/IHierarchy
     * @mixes Controls/_tree/interface/ITreeControlOptions
     * @mixes Controls/_explorer/interface/IExplorer
@@ -393,6 +395,7 @@ var
     * @mixes Controls/_list/interface/IVirtualScroll
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_grid/interface/IGridControl
+    * @mixes Controls/_list/interface/IClickableView
     * @control
     * @public
     * @category List
@@ -418,6 +421,7 @@ var
     * @mixes Controls/_interface/IFilterChanged
     * @mixes Controls/interface/IHighlighter
     * @mixes Controls/_list/interface/IList
+    * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/ISorting
     * @mixes Controls/_interface/IHierarchy
     * @mixes Controls/_tree/interface/ITreeControlOptions
@@ -545,11 +549,6 @@ var
          const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
          const isSearchViewMode = cfg.viewMode === 'search';
          const isRootChanged = cfg.root !== this._options.root;
-
-         //todo: после доработки стандарта, убрать флаг _isGoingFront по задаче: https://online.sbis.ru/opendoc.html?guid=ffa683fa-0b8e-4faa-b3e2-a4bb39671029
-         if (this._isGoingFront && this._options.hasOwnProperty('root') && !isRootChanged) {
-            this._isGoingFront = false;
-         }
 
          /*
          * Позиция скрола при выходе из папки восстанавливается через скроллирование к отмеченной записи.
@@ -710,8 +709,7 @@ var
          let item = this._children.treeControl._children.baseControl.getViewModel().getMarkedItem().getContents();
          this._notifyHandler(e, 'arrowClick', item);
       },
-      _notifyHandler: tmplNotify,
-      _applyHighlighter: applyHighlighter
+      _notifyHandler: tmplNotify
    });
 
    Explorer._private = _private;

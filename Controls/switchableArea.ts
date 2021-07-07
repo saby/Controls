@@ -14,11 +14,11 @@
  * @includes itemTemplate wml!Controls/_switchableArea/resource/itemTemplate
  * @public
  * @author Крайнов Д.О.
- */ 
+ */
 
 import itemTemplate from 'Controls/_switchableArea/ItemTpl';
 
-export {default as View} from './_switchableArea/View';
+export {default as View, ISwitchableOptions} from './_switchableArea/View';
 
 export {
    itemTemplate

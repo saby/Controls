@@ -8,9 +8,7 @@ define('Controls/Application/Core',
       'Application/Env',
       'UI/theme/controller',
       'UI/Base',
-      'Controls/Application/HeadData',
-      'native-css',
-      'Core/css-resolve'
+      'Controls/Application/HeadData'
    ],
    function(Control,
       template,

@@ -1,20 +1,16 @@
-define(['Controls/Utils/FontLoadUtil'], function(FontLoadUtil) {
+define(['Controls/_breadcrumbs/resources/FontLoadUtil'], function(FontLoadUtil) {
 
-   describe('Controls/Utils/FontLoadUtil', function() {
+   describe('Controls/_breadcrumbs/resources/FontLoadUtil', function() {
 
       it('waitForFontLoad should load font once', function() {
-         const sandBox = sinon.createSandbox();
 
          return new Promise(function(resolve) {
-            sandBox.replace(FontLoadUtil._private, 'isLoaded', () => true);
-            FontLoadUtil.waitForFontLoad('test').addCallback(function() {
+
+            FontLoadUtil.waitForFontLoad('test', () => true).addCallback(function() {
                assert.isTrue(FontLoadUtil.__loadedFonts.test);
-               sandBox.restore();
                resolve();
             });
          });
       });
-
    });
-
 });

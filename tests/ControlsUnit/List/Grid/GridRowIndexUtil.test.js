@@ -104,19 +104,40 @@ define([
          });
 
          describe('getHeaderRowsArray', function() {
-            it('getHeaderRowsArray without multiheader', function() {
+            beforeEach(function() {
                gridModel = createModel({
                   resultsPosition: 'top',
                   columnScroll: true
                });
+            });
+            it('getHeaderRowsArray without multiheader', function() {
                var headerRows = RowUtil.getHeaderRowsArray(gridHeader, false, false);
                assert.deepEqual([gridHeader], headerRows);
             });
+            it('getHeaderRowsArray with simple stickyLadder', () => {
+               const headerWithLadderResult = [
+                  [
+                     { ladderCell: true },
+                     { title: '' },
+                     { title: 'Цена' }
+                  ]
+               ];
+               var headerRows = RowUtil.getHeaderRowsArray(gridHeader, false, false, false, 1);
+               assert.deepEqual(headerWithLadderResult, headerRows);
+            });
+            it('getHeaderRowsArray with double stickyLadder', () => {
+               const headerWithLadderResult = [
+                  [
+                     { ladderCell: true },
+                     { title: '' },
+                     { ladderCell: true },
+                     { title: 'Цена' }
+                  ]
+               ];
+               var headerRows = RowUtil.getHeaderRowsArray(gridHeader, false, false, false, 2);
+               assert.deepEqual(headerWithLadderResult, headerRows);
+            });
             it('getHeaderRowsArray with multiheader', function() {
-               gridModel = createModel({
-                  resultsPosition: 'top',
-                  columnScroll: true
-               });
                var header = [
                   {
                      align: 'center',

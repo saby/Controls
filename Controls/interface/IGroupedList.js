@@ -14,8 +14,7 @@ define('Controls/interface/IGroupedList', [
     * @name Controls/interface/IGroupedList#groupProperty
     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
     * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
-    * Примечание: Для отображения элементов вне группы необходмо передавать в качестве значений поля, по которому производится группировка CONTROLS_HIDDEN_GROUP
+    * Элементы списка могут отображаться в группе без заголовка. Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/list/list/grouping/extend/#without-header">здесь</a>.
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -30,7 +29,7 @@ define('Controls/interface/IGroupedList', [
     * @remark
     * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
     * Подробнее о параметрах шаблона Controls/list:GroupTemplate читайте {@link Controls/list:GroupTemplate здесь}.
-    * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/group-template/ здесь}.
+    * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/basic/#header-group здесь}.
     * @example
     * Далее показано как изменить параметры шаблона на примере контрола Controls/list:View, однако то же самое справедливо и для других {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочных контролов}..
     * <pre class="brush: html">
@@ -75,17 +74,17 @@ define('Controls/interface/IGroupedList', [
    /**
     * @event Controls/interface/IGroupedList#groupExpanded Происходит при развертывании группы.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Array.<String>} changes Идентификаторы групп.
-    * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
+    * @param {String} changes Идентификатор группы.
+    * @demo Controls-demo/List/List/GroupPG
+    * @see groupCollapsed
     */
 
    /**
     * @event Controls/interface/IGroupedList#groupCollapsed Происходит при сворачивании группы.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Array.<String>} changes Идентификаторы групп.
-    * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
+    * @param {String} changes Идентификатор группы.
+    * @demo Controls-demo/List/List/GroupPG
+    * @see groupExpanded
     */
 
 });

@@ -15,8 +15,9 @@
                        controls-PeriodLiteDialog__fullYear-listElement_theme-{{_options.theme}}
                        {{_options.chooseYears?  'controls-PeriodLiteDialog__fullYear-listElement-hovered ' +
                        'controls-PeriodLiteDialog__fullYear-listElement-hovered_theme-' + _options.theme}}
-                       controls-PeriodLiteDialog__vLayoutItem-caption controls-PeriodLiteDialog__text-align-center
-                       controls-PeriodLiteDialog__vLayoutItem-caption_theme-{{_options.theme}}">
+                       controls-PeriodLiteDialog__vLayoutItem-caption controls-PeriodLiteDialog__text-align-left
+                       controls-PeriodLiteDialog__vLayoutItem-caption_theme-{{_options.theme}}
+                    {{ _yearHovered === yearHeaderTemplate.date.getFullYear() ? ' controls-PeriodLiteDialog__yearHeader-background-hovered_theme-' + _options.theme }}">
             {{ yearHeaderTemplate.date.getFullYear() }}
         </div>
     </ws:yearHeaderTemplate>

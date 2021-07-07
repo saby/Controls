@@ -1,12 +1,13 @@
 define([
-   'Controls/Utils/getItemsBySelection',
+   'Controls/list',
    'Types/collection',
    'Types/source',
    'Core/Deferred'
-], function(getItemsBySelection, collection, source, Deferred) {
+], function(list, collection, source, Deferred) {
 
    'use strict';
    describe('Controls.Utils.getItemsBySelection', function() {
+      const getItemsBySelection = list.getItemsBySelection;
       var
          data = [
             { id: 1, title: 'item 1' },

@@ -3,8 +3,7 @@
             name="list"
             keyProperty="id"
             source="{{_viewSource}}"
-            on:beforeBeginEdit="_beforeBeginEdit()"
-            on:afterEndEdit="_afterEndEdit()">
+            on:beforeBeginEdit="_beforeBeginEdit()">
         <ws:editingConfig editOnClick="{{true}}"/>
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">

@@ -39,14 +39,26 @@ export default class AdditionalItemsController {
             this._columns = this._getColumns(this._additionalItems);
             this._prepareColumns(this._additionalItems, this._columns);
             this._visibleItems = this._getVisibleItems(this._additionalItems);
-            this._expanderVisible = this._getExpanderVisible(this._columns);
+            this._expanderVisible = this._getExpanderVisible(this._columns, this._additionalItems);
         } else {
             this._visibleItems = this._getVisibleItems(this._source);
         }
     }
 
-    private _getExpanderVisible(columns: IAdditionalColumns): boolean {
-        return columns.left.length > MAX_COLUMN_ITEMS || columns.right.length > MAX_COLUMN_ITEMS;
+    private _getExpanderVisible(columns: IAdditionalColumns, additionalItems: IFilterItem[]): boolean {
+        let countRightItems = 0;
+        let countLeftItems = 0;
+        factory(additionalItems).each((item) => {
+            if (object.getPropertyValue(item, 'visibility') === false) {
+                const key: string = object.getPropertyValue(item, this._options.keyProperty);
+                if (columns.left.includes(key)) {
+                    countLeftItems++;
+                } else {
+                    countRightItems++;
+                }
+            }
+        });
+        return countLeftItems > MAX_COLUMN_ITEMS || countRightItems > MAX_COLUMN_ITEMS;
     }
 
     private _getColumns(items: IFilterItem[]): IAdditionalColumns {
@@ -103,14 +115,16 @@ export default class AdditionalItemsController {
     }
 
     update(options: IAdditionalItemsControllerOptions): IAdditionalParamsControllerResult {
-        if (this._options.source !== options.source) {
+        const oldOptions = this._options;
+        this._options = options;
+        if (oldOptions.source !== options.source) {
             this._source = Clone(options.source);
             this._additionalItems = this._getAdditionalItems(this._source);
             if (!options.groupProperty) {
                 this._columns = this._getColumns(this._additionalItems);
                 this._prepareColumns(this._additionalItems, this._columns);
                 this._visibleItems = this._getVisibleItems(this._additionalItems);
-                this._expanderVisible = this._getExpanderVisible(this._columns);
+                this._expanderVisible = this._getExpanderVisible(this._columns, this._additionalItems);
             } else {
                 this._visibleItems = this._getVisibleItems(this._source);
             }

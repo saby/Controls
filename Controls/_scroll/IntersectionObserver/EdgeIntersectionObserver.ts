@@ -12,8 +12,8 @@ export default class EdgeIntersectionObserver {
         this._handler = handler;
         this._topTriggerElement = topTriggerElement;
         this._bottomTriggerElement = bottomTriggerElement;
-        this._observe('top');
         this._observe('bottom');
+        this._observe('top');
     }
 
     private _observe(position): void {

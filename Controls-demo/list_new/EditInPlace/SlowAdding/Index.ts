@@ -5,7 +5,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {editing} from 'Controls/Constants';
 
-const TIMEOUT2500 = 2500;
+const TIMEOUT3500 = 3500;
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -30,7 +30,7 @@ export default class extends Control {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve();
-                }, TIMEOUT2500);
+                }, TIMEOUT3500);
             }).then(() => {
                 return new Model({
                     keyProperty: 'id',
@@ -45,7 +45,7 @@ export default class extends Control {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve(item);
-                }, TIMEOUT2500);
+                }, TIMEOUT3500);
             }).then(originUpdate);
         };
     }

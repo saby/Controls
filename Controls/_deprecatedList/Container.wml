@@ -8,4 +8,5 @@
             markedKey="{{_options.markedKey}}"
             markerVisibility="{{_options.markerVisibility}}"
             searchValue="{{_currentSearchValue}}"
+            searchBreadCrumbsItemTemplate="{{_options.searchBreadCrumbsItemTemplate}}"
             itemsReadyCallback="{{_options.itemsReadyCallback}}"/>

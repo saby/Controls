@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-RadioGroup__group1">
         <div class="controls-text-label_theme-{{_options.theme}}">custom item template</div>
         <Controls.toggle:RadioGroup
                 bind:selectedKey="_selectedKey"
@@ -17,7 +17,7 @@
         </Controls.toggle:RadioGroup>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-RadioGroup__group2">
         <div class="controls-text-label_theme-{{_options.theme}}">custom template in itemTemplateProperty</div>
         <Controls.toggle:RadioGroup
                 keyProperty="id"

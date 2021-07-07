@@ -1,5 +1,6 @@
 import {isEqual} from 'Types/object';
 import {isFullGridSupport} from './GridLayoutUtil';
+import {detection} from 'Env/Env';
 
 interface IStickyColumnsParams {
     columns: [];
@@ -21,7 +22,7 @@ export function shouldAddStickyLadderCell(columns, stickyColumn, draggingData): 
     return !!getStickyColumn({ stickyColumn, columns }) && !draggingData;
 }
 export function stickyLadderCellsCount(columns, stickyColumn, draggingData): number {
-    return draggingData ? 0 : ( getStickyColumn({ stickyColumn, columns })?.property.length || 0 );
+    return detection.isIE || draggingData ? 0 : ( getStickyColumn({ stickyColumn, columns })?.property.length || 0 );
 }
 export function prepareLadder(params: IPrepareLadderParams): {} {
     var
@@ -78,10 +79,6 @@ export function prepareLadder(params: IPrepareLadderParams): {} {
 
     for (idx = params.stopIndex - 1; idx >= params.startIndex; idx--) {
         const dispItem = params.display.at(idx);
-        if (dispItem.isEditing()) {
-            continue;
-        }
-
         item = dispItem.getContents();
         prevItem = idx - 1 >= params.startIndex ? params.display.at(idx - 1).getContents() : null;
 

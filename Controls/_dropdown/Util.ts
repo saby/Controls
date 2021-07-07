@@ -13,9 +13,11 @@ export function loadItems(
     controller: Controller,
     receivedState: DropdownReceivedState,
     source: ICrudPlus
-): void | Promise<DropdownReceivedState> {
+): Promise<void | DropdownReceivedState> {
    if (receivedState) {
-      return controller.setItems(receivedState);
+      return controller.setItems(receivedState.items).then(() => {
+         controller.setHistoryItems(receivedState.history);
+      });
    } else if (source) {
       return controller.loadItems();
    }

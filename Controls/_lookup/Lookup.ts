@@ -2,7 +2,7 @@ import {default as BaseLookupInput, ILookupInputOptions} from 'Controls/_lookup/
 import {SelectedItems} from './BaseControllerClass';
 import showSelector from 'Controls/_lookup/showSelector';
 import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
-import {getWidth} from 'Controls/Utils/getWidth';
+import {getWidth} from 'Controls/sizeUtils';
 import {Model} from 'Types/entity';
 import * as selectedCollectionUtils from 'Controls/_lookup/SelectedCollection/Utils';
 import {default as Collection} from './SelectedCollection';

@@ -2,7 +2,7 @@ import Base = require('Controls/_input/Base');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Money/ReadOnly');
 
 import {descriptor} from 'Types/entity';
-import ViewModel from 'Controls/_input/Money/ViewModel';
+import ViewModel from './Number/ViewModel';
 import {default as INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
 
 interface IMoneyOptions extends INumberLengthOptions {

@@ -2,6 +2,7 @@ import Base from './Base';
 
 /**
  * @class Controls/_editableArea/Templates/Editors/DateTime
+ * @extends Controls/editableArea:Base
  * @public
  * @author Красильников А.С.
  */

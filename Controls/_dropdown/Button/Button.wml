@@ -1,5 +1,5 @@
 <div class="controls-MenuButton_theme_{{_options.theme}} controls-MenuButton__Wrapper theme_{{_options.theme}}">
-    <ws:if data="{{!_options.lazyItemsLoading && !_hasItems && _viewModeButton === 'link'}}">
+    <ws:if data="{{!_options.lazyItemsLoading && !_hasItems && _options.viewMode === 'link'}}">
         <div class="controls-text-default_theme-{{_options.theme}}
                      controls-fontsize-{{_fontSizeButton}}_theme-{{_options.theme}}">{{_options.caption}}</div>
     </ws:if>
@@ -7,17 +7,16 @@
         <Controls.buttons:Button
                 name="content"
                 attr:class="controls-MenuButton__BaseButton theme_{{_options.theme}}"
-                _useSpan="{{_options._useSpan}}"
                 icon="{{_options.icon}}"
                 iconSize="{{_options.iconSize}}"
                 iconStyle="{{_options.iconStyle}}"
                 caption="{{_options.caption}}"
-                fontColorStyle="{{_fontColorStyleButton}}"
-                fontSize="{{_fontSizeButton}}"
-                inlineHeight="{{_inlineHeightButton}}"
-                buttonStyle="{{_buttonStyleButton}}"
-                contrastBackground="{{_contrastBackgroundButton}}"
-                viewMode="{{_viewModeButton}}"
+                fontColorStyle="{{_options.fontColorStyle}}"
+                fontSize="{{_options.fontSize}}"
+                inlineHeight="{{_options.inlineHeight}}"
+                buttonStyle="{{_options.buttonStyle}}"
+                contrastBackground="{{_options.contrastBackground}}"
+                viewMode="{{_options.viewMode}}"
                 tooltip="{{_options.tooltip}}"
                 on:click="_handleClick()"
                 on:mousedown="_handleMouseDown()"

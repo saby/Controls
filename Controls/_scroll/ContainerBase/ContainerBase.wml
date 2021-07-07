@@ -2,17 +2,21 @@
     name="content"
     on:scroll="_scrollHandler()">
     <ws:partial
-        attr:class="controls-containerBase_userContent"
+        attr:class="controls-Scroll-containerBase_userContent"
         template="{{_options.content}}"
         scope="{{_options}}"
-        on:controlResize="_resizeHandler()"
         on:register="_registerIt()"
         on:unregister="_unRegisterIt()"
+        on:doScroll="_doScrollHandler()"
 
         on:scrollToElement="_scrollToElement()"
         on:saveScrollPosition="_saveScrollPosition()"
         on:restoreScrollPosition="_restoreScrollPosition()"
         on:updatePlaceholdersSize="_updatePlaceholdersSize()"
+
+        on:selectedKeysChanged="_selectedKeysChanged()"
+        on:excludedKeysChanged="_excludedKeysChanged()"
+        on:itemClick="_itemClick()"
 
         on:itemMouseDown="_tmplNotify('itemMouseDown')"
         on:rootChanged="_tmplNotify('rootChanged')"

@@ -4,8 +4,8 @@ import {decimalSplitter} from 'Controls/_input/Number/constant';
 import {IText, paste, pasteWithRepositioning, remove, removeWithRepositioning} from 'Controls/decorator';
 
 interface INumberLength {
-    precision: number;
-    integersLength: number;
+    precision?: number;
+    integersLength?: number;
 }
 
 interface INumberDisplay {
@@ -33,7 +33,7 @@ type NumberOptions = INumberLength & INumberDisplay & INumberSign;
 
 /**
  * Format number by options.
- * @param number
+ * @param original
  * @param options
  * @param carriagePosition
  * @return {IText}

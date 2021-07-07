@@ -11,13 +11,13 @@ define(
          var
             Formatter = formatter.Formatter,
             replacer = ' ',
-            format = inputMod.MaskFormatBuilder.getFormat('dd.dd', {
+            format = formatter.FormatBuilder.getFormat('dd.dd', {
                d: '[0-9]'
             }, replacer),
-            telepfoneFormat = inputMod.MaskFormatBuilder.getFormat('+7 (ddd)ddd-dd-dd', {
+            telepfoneFormat = formatter.FormatBuilder.getFormat('+7 (ddd)ddd-dd-dd', {
                d: '[0-9]'
             }, ''),
-            clearData = Formatter.getClearData(format, '1 . 4'),
+            clearData = Formatter.clearData(format, '1 . 4'),
             result;
 
          describe('getClearSplitValue', function() {
@@ -65,7 +65,7 @@ define(
                   });
                });
                it('Test_03', function() {
-                  var format = inputMod.MaskFormatBuilder.getFormat('dd.dd', {
+                  var format = formatter.FormatBuilder.getFormat('dd.dd', {
                      d: '[0-9]'
                   }, '');
                   result = inputMod.MaskInputProcessor.input({
@@ -81,10 +81,10 @@ define(
                   });
                });
                it('Test_04', function() {
-                  var newFormat = inputMod.MaskFormatBuilder.getFormat('dd-dd', {
+                  var newFormat = formatter.FormatBuilder.getFormat('dd-dd', {
                      d: '[0-9]'
                   }, '');
-                  var oldFormat = inputMod.MaskFormatBuilder.getFormat('dd-dd-dd', {
+                  var oldFormat = formatter.FormatBuilder.getFormat('dd-dd-dd', {
                      d: '[0-9]'
                   }, '');
                   result = inputMod.MaskInputProcessor.input({
@@ -100,10 +100,10 @@ define(
                   });
                });
                it('Test_05', function() {
-                  var newFormat = inputMod.MaskFormatBuilder.getFormat('dd-dd', {
+                  var newFormat = formatter.FormatBuilder.getFormat('dd-dd', {
                      d: '[0-9]'
                   }, '');
-                  var oldFormat = inputMod.MaskFormatBuilder.getFormat('dd-dd-dd', {
+                  var oldFormat = formatter.FormatBuilder.getFormat('dd-dd-dd', {
                      d: '[0-9]'
                   }, '');
                   result = inputMod.MaskInputProcessor.input({
@@ -120,10 +120,10 @@ define(
                   });
                });
                it('Test_06', function() {
-                  var newFormat = inputMod.MaskFormatBuilder.getFormat('dd-dd', {
+                  var newFormat = formatter.FormatBuilder.getFormat('dd-dd', {
                      d: '[0-9]'
                   }, ' ');
-                  var oldFormat = inputMod.MaskFormatBuilder.getFormat('dd-dd-dd', {
+                  var oldFormat = formatter.FormatBuilder.getFormat('dd-dd-dd', {
                      d: '[0-9]'
                   }, ' ');
                   result = inputMod.MaskInputProcessor.input({

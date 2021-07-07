@@ -1,6 +1,8 @@
 import {Logger} from 'UI/Utils';
 import {default as ValidateContainer, IValidateConfig} from 'Controls/_validate/Container';
 import IValidateResult from 'Controls/_validate/interfaces/IValidateResult';
+import {scrollToElement} from 'Controls/scrollUtils';
+import {delay as runDelayed} from 'Types/function';
 
 /**
  * Класс, регулирующий валидацию формы.
@@ -95,7 +97,11 @@ class ControllerClass {
             if (!!needValid) {
                 results.hasErrors = true;
                 this._activateValidator(needValid);
-                needValid.openInfoBox();
+                // Если контейнер валидации уже активирован, то повторный вызов activate() не подскроллит к нему
+                this.scrollToInvalidContainer(needValid);
+                runDelayed(() => {
+                    needValid.openInfoBox();
+                });
             }
             this._validates.reverse();
             return results;
@@ -131,6 +137,10 @@ class ControllerClass {
 
     destroy(): void {
         this._validates = null;
+    }
+
+    scrollToInvalidContainer(element: ValidateContainer): void {
+        scrollToElement(element._container);
     }
 
     private _activateValidator(control: ValidateContainer): void {

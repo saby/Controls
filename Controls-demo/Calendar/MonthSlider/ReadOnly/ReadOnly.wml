@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper demo-MonthSlider__readOnly">
     <Controls.calendar:MonthSlider
             bind:month="_month"
             bind:startValue="_startValue"

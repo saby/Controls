@@ -1,6 +1,7 @@
 export interface ITextOptions {
     constraint?: string;
     maxLength?: number;
+    convertPunycode: boolean;
     trim: number;
 }
 
@@ -24,8 +25,14 @@ export interface IText {
  * @demo Controls-demo/Input/Constraint/Index
  */
 /**
+ * @name Controls/_input/interface/IText#convertPunycode
+ * @cfg {String} Нужно ли преобразовывать вводимое значения из Punycode в Unicode.
+ * @remark
+ * @demo Controls-demo/Input/ConvertPunycode/Index
+ */
+/**
  * @name Controls/_input/interface/IText#maxLength
- * @cfg {String} Максимальное количество символов, которое может ввести пользователь вручную в поле.
+ * @cfg {Number} Максимальное количество символов, которое может ввести пользователь вручную в поле.
  * @remark
  * Когда количество символов достигает максиму, тогда последующий символы в поле не добавляются.
  * @demo Controls-demo/Input/MaxLength/Index

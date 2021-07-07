@@ -89,7 +89,7 @@ class ModuleLoader {
      *   вернуть ответ, что модуль загружен.
      * @param name имя модуля
      */
-    private isLoaded(name: string): boolean {
+    isLoaded(name: string): boolean {
         const parsedInfo: IParsedName = libHelper.parse(name);
         if (this.asyncLoadedModules[parsedInfo.name]) {
             return true;

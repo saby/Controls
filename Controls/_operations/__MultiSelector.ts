@@ -117,8 +117,8 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       const excludedKeys = options.excludedKeys;
       const selection = this._getSelection(selectedKeys, excludedKeys);
       const count = counterConfigChanged ? null : options.selectedKeysCount;
-      const getCountCallback = (count) => {
-         this._menuCaption = this._getMenuCaption(selection, count, options.isAllSelected);
+      const getCountCallback = (count, isAllSelected) => {
+         this._menuCaption = this._getMenuCaption(selection, count, isAllSelected);
          this._sizeChanged = true;
       };
       const getCountResult = this._getCount(selection, count, options.selectedCountConfig);
@@ -127,9 +127,11 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       // иначе promise порождает асинхронность и перестроение панели операций будет происходить скачками,
       // хотя можно было это сделать за одну синхронизацию
       if (getCountResult instanceof Promise) {
-         return getCountResult.then(getCountCallback);
+         return getCountResult.then((count) => {
+            getCountCallback(count, this._options.isAllSelected);
+         });
       } else {
-         getCountCallback(getCountResult);
+         getCountCallback(getCountResult, options.isAllSelected);
       }
    }
 
@@ -160,6 +162,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
        selectionCountConfig: IGetCountCallParams
    ): Promise<TCount>|TCount {
       let countResult;
+      this._cancelCountPromise();
       if (!this._options.selectedCountConfig || this._isCorrectCount(count)) {
          countResult = count === undefined ? selection.selected.length : count;
       } else {
@@ -168,19 +171,26 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       return countResult;
    }
 
-   private _getCountBySourceCall(selection, selectionCountConfig): CountPromise {
+   private _resetCountPromise(): void {
+      if (this._children.countIndicator) {
+         this._children.countIndicator.hide();
+      }
+      this._countPromise = null;
+   }
+
+   private _cancelCountPromise(): void {
       if (this._countPromise) {
          this._countPromise.cancel();
       }
+      this._resetCountPromise();
+   }
 
+   private _getCountBySourceCall(selection, selectionCountConfig): CountPromise {
       this._children.countIndicator.show();
       this._countPromise = new CancelablePromise(getCountUtil.getCount(selection, selectionCountConfig));
       return this._countPromise.promise.then(
           (result: number): number => {
-             if (this._children.countIndicator) {
-                this._children.countIndicator.hide();
-             }
-             this._countPromise = null;
+             this._resetCountPromise();
              return result;
           },
           (error) => error

@@ -1,0 +1,15 @@
+<div class="controls-PropertyGrid__editor_enum_control ws-flexbox">
+    <ws:for data="index, button in _buttons">
+        <Controls.toggle:Button
+                value="{{button.id === selectedKey}}"
+                attr:class="controls-PropertyGrid__editor_enum_item{{index === _buttons.length - 1 ? '-last' : ''}}"
+                fontSize="m"
+                inlineHeight="default"
+                viewMode="pushButton"
+                contrastBackground="{{true}}"
+                icons="{{[button.icon + ' icon-small']}}"
+                iconStyle="secondary"
+                tooltip="{{button.tooltip}}"
+                on:valueChanged="_selectedKeyChanged(button.id)"/>
+    </ws:for>
+</div>

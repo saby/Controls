@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">href=https://www.google.com/</div>
+        <Controls.buttons:Button href="https://www.google.com/" icon="icon-Add" buttonStyle="primary" viewMode="button"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">href=https://www.google.com/ в новом окне</div>
+        <Controls.buttons:Button attr:target="_blank" href="https://www.google.com/" icon="icon-Add" buttonStyle="primary" viewMode="button"/>
+    </div>
+</div>

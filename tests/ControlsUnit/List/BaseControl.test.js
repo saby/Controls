@@ -313,6 +313,7 @@ define([
       it('should recalculate triggers visibility when current up and down are not set or false', () => {
          const self = {
             _options: {},
+            _loadTriggerOffset: {top: 100, bottom: 100},
             _loadTriggerVisibility: {
                up: false,
                down: false
@@ -728,7 +729,6 @@ define([
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
          ctrl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight:0}])};
-         ctrl._scrollController.__getItemsContainer = () => ({children: []});
          ctrl._afterMount(cfg);
 
          ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
@@ -738,7 +738,7 @@ define([
          ctrl._portionedSearch.continueSearch();
          await loadPromise;
          assert.isTrue(ctrl._portionedSearchInProgress);
-         assert.isFalse(ctrl._showContinueSearchButton);
+         assert.isNull(ctrl._showContinueSearchButtonDirection);
          assert.equal(4, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
          assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
          assert.isTrue(beforeLoadToDirectionCalled, 'beforeLoadToDirectionCallback is not called.');
@@ -749,7 +749,7 @@ define([
          loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
          await loadPromise;
          assert.isFalse(ctrl._portionedSearchInProgress);
-         assert.isFalse(ctrl._showContinueSearchButton);
+         assert.isNull(ctrl._showContinueSearchButtonDirection);
          assert.isFalse(ctrl._listViewModel.getHasMoreData());
       });
 
@@ -803,7 +803,6 @@ define([
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
          ctrl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight:0}])};
-         ctrl._scrollController.__getItemsContainer = () => ({children: []});
          ctrl._afterMount(cfg);
          ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
 
@@ -812,7 +811,7 @@ define([
          await lists.BaseControl._private.loadToDirection(ctrl, 'down');
          ladingIndicatorTimer = ctrl._loadingIndicatorTimer;
          assert.isTrue(ctrl._portionedSearchInProgress);
-         assert.isFalse(ctrl._showContinueSearchButton);
+         assert.isNull(ctrl._showContinueSearchButtonDirection);
          assert.isNull(ctrl._loadingIndicatorTimer);
 
          let loadingIndicatorTimer = setTimeout(() => {});
@@ -869,7 +868,6 @@ define([
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
          ctrl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight:0}])};
-         ctrl._scrollController.__getItemsContainer = () => ({children: []});
          ctrl._afterMount(cfg);
 
          let loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
@@ -998,7 +996,6 @@ define([
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
          ctrl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight:0}])};
-         ctrl._scrollController.__getItemsContainer = () => ({children: []});
          ctrl._afterMount(cfg);
          ctrl._loadTriggerVisibility = {
             up: false,
@@ -1019,12 +1016,12 @@ define([
          // Up trigger became visible, no changes to indicator
          ctrl.triggerVisibilityChangedHandler('up', true);
          assert.isNotNull(ctrl._loadingIndicatorState);
-         assert.isFalse(ctrl._showContinueSearchButton);
+         assert.isNull(ctrl._showContinueSearchButtonDirection);
 
          // Down trigger became hidden, hide the indicator, show "Continue search" button
          ctrl.triggerVisibilityChangedHandler('down', false);
          assert.isNull(ctrl._loadingIndicatorState);
-         assert.isTrue(ctrl._showContinueSearchButton);
+         assert.isTrue(ctrl._showContinueSearchButtonDirection === 'down');
       });
 
       it('loadToDirection hides indicator with false navigation', async () => {
@@ -1070,7 +1067,6 @@ define([
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
          ctrl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight:0}])};
-         ctrl._scrollController.__getItemsContainer = () => ({children: []});
          ctrl._afterMount(cfg);
          ctrl._loadTriggerVisibility = {
             up: false,
@@ -1488,7 +1484,12 @@ define([
          assert.isFalse(notified);
 
          var myMarkedItem = { qwe: 123 };
-         var mockedEvent = { target: 'myTestTarget' };
+          var mockedEvent = {
+              target: 'myTestTarget',
+              isStopped: function() {
+                  return true;
+              }
+          };
          // With marker
          lists.BaseControl._private.enterHandler({
             _options: {
@@ -1855,7 +1856,6 @@ define([
             clientHeight: 100,
             getBoundingClientRect: () => ({ y: 0 })
          };
-         baseControl._scrollController.__getItemsContainer = () => ({children: []});
          baseControl._afterMount(cfg);
 
          const loadPromise = lists.BaseControl._private.loadToDirection(baseControl, 'up');
@@ -1891,7 +1891,6 @@ define([
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
          ctrl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight:0}])};
-         ctrl._scrollController.__getItemsContainer = () => ({children: []});
          ctrl._afterMount(cfg);
 
          ctrl._sourceController.load = sinon.stub()
@@ -2148,14 +2147,14 @@ define([
 
          it('depend on portionedSearch', () => {
             control._sourceController._hasMoreData = {up: false, down: true};
-            control._showContinueSearchButton = true;
+            control._showContinueSearchButtonDirection = 'down';
             updateShadowModeHandler.call(control, event, {
                top: 0,
                bottom: 0
             });
             assert.deepEqual({top: 'auto', bottom: 'auto'}, control.lastNotifiedArguments[0]);
 
-            control._showContinueSearchButton = false;
+            control._showContinueSearchButtonDirection = 'up';
             updateShadowModeHandler.call(control, event, {
                top: 0,
                bottom: 0
@@ -2285,50 +2284,63 @@ define([
             ctrl.saveOptions(cfg);
             await ctrl._beforeMount(cfg);
 
-            ctrl._scrollController._triggers = triggers;
             ctrl._viewSize = 1000;
-            ctrl._viewPortSize = 400;
+            ctrl._viewportSize = 400;
             // эмулируем появление скролла
             await lists.BaseControl._private.onScrollShow(ctrl, heightParams);
             ctrl.updateShadowModeHandler({}, {top: 0, bottom: 0});
 
-            assert.isTrue(!!ctrl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
+            assert.isFalse(!!ctrl._scrollPagingCtr, 'ScrollPagingController was created');
+
+            ctrl._mouseEnter(null);
+            await lists.BaseControl._private.onScrollShow(ctrl, heightParams);
+            assert.isTrue(!!ctrl._scrollPagingCtr, 'ScrollPagingController wasn`t created');
 
             // прокручиваем к низу, проверяем состояние пэйджинга
             lists.BaseControl._private.handleListScrollSync(ctrl, 600);
 
             assert.deepEqual({
-               backwardEnabled: true,
-               forwardEnabled: false
-            }, ctrl._pagingCfg, 'Wrong state of paging arrows after scroll to bottom');
+                    begin: "visible",
+                    end: "readonly",
+                    next: "readonly",
+                    prev: "visible"
+            }, ctrl._pagingCfg.arrowState, 'Wrong state of paging arrows after scroll to bottom');
 
             lists.BaseControl._private.handleListScrollSync(ctrl, 200);
             assert.deepEqual({
-               backwardEnabled: true,
-               forwardEnabled: true
-            }, ctrl._pagingCfg, 'Wrong state of paging arrows after scroll');
+                    begin: "visible",
+                    end: "visible",
+                    next: "visible",
+                    prev: "visible"
+            }, ctrl._pagingCfg.arrowState, 'Wrong state of paging arrows after scroll');
 
             ctrl._pagingVisible = true;
             ctrl._abortSearch();
             assert.deepEqual({
-               backwardEnabled: true,
-               forwardEnabled: false
-            }, ctrl._pagingCfg, 'Wrong state of paging arrows after abort search');
+                    begin: "visible",
+                    end: "readonly",
+                    next: "readonly",
+                    prev: "visible"
+            }, ctrl._pagingCfg.arrowState, 'Wrong state of paging arrows after abort search');
 
             lists.BaseControl._private.handleListScrollSync(ctrl, 200);
             assert.deepEqual({
-               backwardEnabled: true,
-               forwardEnabled: false
-            }, ctrl._pagingCfg, 'Wrong state of paging arrows after abort search');
+                    begin: "visible",
+                    end: "readonly",
+                    next: "readonly",
+                    prev: "visible"
+            }, ctrl._pagingCfg.arrowState, 'Wrong state of paging arrows after abort search');
             lists.BaseControl._private.getPortionedSearch(ctrl).reset();
 
             // Если данные не были загружены после последнего подскролла в конец (и hasMoreData все еще false),
             // и еще раз доскроллили до конца, то самое время блокировать кнопки.
             lists.BaseControl._private.handleListScrollSync(ctrl, 400);
             assert.deepEqual({
-               backwardEnabled: true,
-               forwardEnabled: false
-            }, ctrl._pagingCfg, 'Wrong state of paging arrows after scroll');
+                    begin: "visible",
+                    end: "readonly",
+                    next: "readonly",
+                    prev: "visible"
+            }, ctrl._pagingCfg.arrowState, 'Wrong state of paging arrows after scroll');
 
 
             lists.BaseControl._private.handleListScrollSync(ctrl, 200);
@@ -2336,8 +2348,6 @@ define([
             await lists.BaseControl._private.onScrollHide(ctrl);
             assert.isFalse(ctrl._pagingVisible, 'Wrong state _pagingVisible after scrollHide');
             assert.isFalse(ctrl._cachedPagingState, 'Wrong state _cachedPagingState after scrollHide');
-
-            lists.BaseControl._private.handleListScrollSync(ctrl, 200);
 
             setTimeout(function() {
                assert.isFalse(ctrl._pagingVisible);
@@ -2387,7 +2397,14 @@ define([
          lists.BaseControl._private.onScrollShow(ctrl, heightParams);
          ctrl.updateShadowModeHandler({}, {top: 0, bottom: 0});
          ctrl._pagingVisible = true;
-         ctrl._pagingCfg = {};
+       ctrl._pagingCfg = {
+           arrowState: {
+               begin: 'visible',
+               prev: 'visible',
+               next: 'visible',
+               end: 'visible'
+           }
+       };
          ctrl._notify = (eventName, eventResult) => {
             if (eventName === 'updateShadowMode') {
                shadowMode = eventResult[0];
@@ -2397,8 +2414,15 @@ define([
             }
          };
          ctrl._abortSearch();
-         assert.isFalse(ctrl._showContinueSearchButton);
-         assert.deepEqual(ctrl._pagingCfg, {forwardEnabled: false});
+         assert.isNull(ctrl._showContinueSearchButtonDirection);
+         assert.deepEqual(ctrl._pagingCfg, {
+            arrowState: {
+               begin: 'visible',
+               prev: 'visible',
+               next: 'readonly',
+               end: 'readonly'
+            }
+         });
          assert.deepEqual(shadowMode, {top: 'auto', bottom: 'auto'});
          assert.isTrue(iterativeSearchAborted);
       });
@@ -2547,6 +2571,45 @@ define([
          assert.isTrue(res, 'Wrong paging state');
       });
 
+      it('needShowPagingByScrollSize with virtual scrollHeight', function() {
+         var cfg = {
+            navigation: {
+               view: 'infinity',
+               source: 'page',
+               viewConfig: {
+                  pagingMode: 'direct'
+               },
+               sourceConfig: {
+                  pageSize: 3,
+                  page: 0,
+                  hasMore: false
+               }
+            }
+         };
+         var baseControl = new lists.BaseControl(cfg);
+         baseControl._sourceController = {
+            nav: false,
+            hasMoreData: function() {
+               return this.nav;
+            }
+         };
+
+         baseControl._loadTriggerVisibility = {
+            up: true,
+            down: true
+         };
+
+         var res = lists.BaseControl._private.needShowPagingByScrollSize(baseControl, 1000, 800);
+         assert.isFalse(res, 'Wrong paging state');
+
+         baseControl._scrollController = {
+            calculateVirtualScrollHeight: () => 3000
+         }
+
+         res = lists.BaseControl._private.needShowPagingByScrollSize(baseControl, 1000, 800);
+         assert.isTrue(res, 'Wrong paging state');
+      });
+
       it('scrollToEdge without load', function(done) {
          var rs = new collection.RecordSet({
             keyProperty: 'id',
@@ -2602,7 +2665,7 @@ define([
                   }
                   return Promise.resolve();
                },
-               reset: () => undefined
+               handleResetItems: () => undefined
             };
 
             // прокручиваем к низу, проверяем состояние пэйджинга
@@ -2668,7 +2731,7 @@ define([
             ctrl._notify = function(eventName, type) {
                result = type;
             };
-            ctrl._scrollController ={
+            ctrl._scrollController = {
                scrollToItem(key) {
                   if (key === data[0].id) {
                      result = ['top'];
@@ -2677,9 +2740,11 @@ define([
                   }
                   return Promise.resolve();
                },
+               handleResetItems: () => undefined,
                registerObserver: () => undefined,
-               reset: () => undefined,
-               setTriggers: () => undefined
+               scrollPositionChange: () => undefined,
+               setTriggers: () => undefined,
+               calculateVirtualScrollHeight: () => 0
             };
 
             // прокручиваем к низу, проверяем состояние пэйджинга
@@ -2711,7 +2776,7 @@ define([
 
             assert.isTrue(ctrl._scrollPageLocked, 'Paging should be locked after paging Prev until handleScrollMoveSync');
             ctrl._setMarkerAfterScroll = false;
-            ctrl.scrollMoveSyncHandler(null, { scrollTop: 0 });
+            ctrl.scrollMoveSyncHandler({ scrollTop: 0 });
             assert.isFalse(ctrl._scrollPageLocked, 'Paging should be unlocked in handleScrollMoveSync');
 
             done();
@@ -2938,11 +3003,11 @@ define([
             getBoundingClientRect: () => ({y: 0})
          };
 
-          it('update sourceController onListChange', function() {
+          it('update sourceController onCollectionChanged', function() {
               sandbox.stub(lists.BaseControl._private, 'prepareFooter');
 
               baseControl._listViewModel.getItems().getMetaData().more = 5;
-              lists.BaseControl._private.onListChange(baseControl, null, 'collectionChanged');
+              lists.BaseControl._private.onCollectionChanged(baseControl, null, 'collectionChanged');
 
               sinon.assert.calledOnce(lists.BaseControl._private.prepareFooter);
           });
@@ -3057,7 +3122,7 @@ define([
             baseControl = new lists.BaseControl(cfg),
             doScrollNotified = false;
 
-         baseControl._viewPortRect = {top: 0}
+         baseControl._viewportRect = {top: 0}
          baseControl._notify = function(eventName) {
             if (eventName === 'doScroll') {
                doScrollNotified = true;
@@ -3071,6 +3136,14 @@ define([
 
          it('before mounting', async function() {
             await baseControl._beforeMount(cfg);
+            await lists.BaseControl._private.reload(baseControl, cfg);
+            assert.isFalse(baseControl._resetScrollAfterReload);
+            scrollContainer.clientHeight = 100;
+            await baseControl._afterMount();
+            assert.isTrue(baseControl._isMounted);
+         });
+         it('after scroll to end', async function() {
+            baseControl._wasScrollToEnd = true;
             await lists.BaseControl._private.reload(baseControl, cfg);
             assert.isFalse(baseControl._resetScrollAfterReload);
             scrollContainer.clientHeight = 100;
@@ -3281,6 +3354,7 @@ define([
          it('shouldnt stop event propagation if editing will start', () => {
             let stopPropagationCalled = false;
             let event = {
+               isStopped: () => stopPropagationCalled,
                stopPropagation: function() {
                   stopPropagationCalled = true;
                }
@@ -3523,8 +3597,84 @@ define([
                   }
                };
                var result = ctrl.beginAdd(opt);
-               assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-               assert.isTrue(result.isSuccessful());
+               assert.isTrue(result instanceof Promise);
+               assert.isTrue(result.isReady());
+            });
+         });
+
+         describe('beginAdd(), addPosition', () => {
+            let cfg;
+            let ctrl;
+            let sandbox;
+            let scrollToItemCalled;
+            beforeEach(() => {
+               scrollToItemCalled = false;
+               cfg = {
+                  viewName: 'Controls/List/ListView',
+                  source: source,
+                  viewConfig: {
+                     keyProperty: 'id'
+                  },
+                  viewModelConfig: {
+                     items: rs,
+                     keyProperty: 'id'
+                  },
+                  viewModelConstructor: lists.ListViewModel,
+                  editingConfig: {
+                     addPosition: 'top'
+                  },
+                  navigation: {
+                     source: 'page',
+                     sourceConfig: {
+                        pageSize: 6,
+                        page: 0,
+                        hasMore: false
+                     },
+                     view: 'infinity',
+                     viewConfig: {
+                        pagingMode: 'direct'
+                     }
+                  }
+               };
+               sandbox = sinon.createSandbox();
+               sandbox.replace(lists.BaseControl._private, 'scrollToItem', () => {
+                  scrollToItemCalled = true;
+                  return Promise.resolve();
+               });
+               ctrl = new lists.BaseControl(cfg);
+               ctrl.saveOptions(cfg);
+               ctrl._container = {
+                  clientHeight: 100
+               };
+
+            });
+
+            afterEach(() => {
+               sandbox.restore();
+            });
+            it('scrollToItem called on beginAdd if adding item is out of range', async () => {
+               await ctrl._beforeMount(cfg);
+               ctrl._listViewModel._startIndex = 2;
+               ctrl._editInPlace = {
+                  beginAdd: function() {
+                     return Promise.resolve();
+                  }
+               };
+               await ctrl.beginAdd({}).then(() => {
+                  assert.isTrue(scrollToItemCalled);
+               });
+            });
+            it('scrollToItem not called on beginAdd if adding item is in range', async () => {
+               await ctrl._beforeMount(cfg);
+               ctrl._listViewModel._startIndex = 0;
+               ctrl._editInPlace = {
+                  beginAdd: function() {
+                     return Promise.resolve();
+                  }
+               };
+               await ctrl.beginAdd({}).then(() => {
+                  assert.isFalse(scrollToItemCalled);
+               });
             });
          });
 
@@ -3898,6 +4048,110 @@ define([
             ctrl._beforeUpdate(cfg);
             assert.isTrue(ctrl._editInPlace._options.readOnly);
          });
+
+         describe('activate editing row', function () {
+
+            let baseControl;
+            let cfg;
+
+            beforeEach(async () => {
+               cfg = {
+                  viewName: 'Controls/List/ListView',
+                  source: source,
+                  keyProperty: 'id',
+                  viewConfig: {
+                     keyProperty: 'id'
+                  },
+                  editingConfig: {
+                     item: new entity.Model({rawData: { id: 1 }})
+                  },
+                  viewModelConfig: {
+                     items: rs,
+                     keyProperty: 'id',
+                     selectedKeys: [1, 3]
+                  },
+                  viewModelConstructor: lists.ListViewModel,
+                  navigation: {
+                     source: 'page',
+                     sourceConfig: {
+                        pageSize: 6,
+                        page: 0,
+                        hasMore: false
+                     },
+                     view: 'infinity',
+                     viewConfig: {
+                        pagingMode: 'direct'
+                     }
+                  },
+               };
+               baseControl = new lists.BaseControl(cfg);
+               baseControl.saveOptions(cfg);
+               await baseControl._beforeMount(cfg);
+               baseControl._editInPlace.hasPendingActivation = () => true;
+            });
+
+            it('after mount with started editing', () => {
+               let wasActivatedFirstInput = false;
+
+               baseControl._editInPlace.prepareHtmlInput = () => false;
+               baseControl._children.listView = {
+                  activateEditingRow: () => {
+                     wasActivatedFirstInput = true;
+                     return true;
+                  }
+               };
+               baseControl._container = {};
+               baseControl._scrollController = null;
+               baseControl._afterMount(cfg);
+               assert.isTrue(wasActivatedFirstInput);
+               assert.isFalse(baseControl._editInPlace._shouldActivateRow);
+            });
+
+            it('activate row bu click in input', () => {
+               let wasActivatedFirstInput = false;
+
+               baseControl._editInPlace.prepareHtmlInput = () => true;
+               baseControl._children.listView = {
+                  activateEditingRow: () => {
+                     wasActivatedFirstInput = true;
+                  }
+               };
+               baseControl._afterUpdate(cfg);
+               assert.isFalse(wasActivatedFirstInput);
+            });
+
+            it('activate row by click in row', () => {
+               let wasActivatedFirstInput = false;
+
+               baseControl._editInPlace.prepareHtmlInput = () => false;
+               baseControl._children.listView = {
+                  activateEditingRow: () => {
+                     wasActivatedFirstInput = true;
+                  }
+               };
+               baseControl._afterUpdate(cfg);
+               assert.isTrue(wasActivatedFirstInput);
+            });
+
+            it('do nothing new in listRender', () => {
+               let wasActivatedFirstInput = false;
+               let hasNoPendingActivation = false;
+
+               baseControl._editInPlace.prepareHtmlInput = () => false;
+               baseControl._children.listView = {
+                  activateEditingRow: () => {
+                     wasActivatedFirstInput = true;
+                  }
+               };
+               baseControl._editInPlace.activated = () => {
+                  hasNoPendingActivation = true;
+               };
+                baseControl._options.useNewModel = true;
+               baseControl._afterUpdate(cfg);
+               assert.isFalse(wasActivatedFirstInput);
+               assert.isTrue(hasNoPendingActivation);
+            });
+         });
       });
 
       it('can\'t start drag on readonly list', function() {
@@ -4197,7 +4451,7 @@ define([
             }
          };
 
-         ctrl._viewPortRect = { top: 0 }
+         ctrl._viewportRect = { top: 0 }
          //dragend without deferred
          dragEnded = false;
 
@@ -4223,16 +4477,22 @@ define([
       });
 
       describe('Calling animation handlers', () => {
-         let setRightSwipedItemCalled;
+         let deactivateSwipeCalled;
+         let deactivateRightSwipeCalled;
          let ctrl;
          beforeEach(() => {
-            setRightSwipedItemCalled = false;
+            deactivateSwipeCalled = false;
+            deactivateRightSwipeCalled = false;
             ctrl = new lists.BaseControl();
             ctrl._itemActionsController = {
                deactivateSwipe: () => {
-                  setRightSwipedItemCalled = true;
+                  deactivateSwipeCalled = true;
                },
-               getSwipeItem: () => ({ id: 1 })
+               deactivateRightSwipe: () => {
+                  deactivateRightSwipeCalled = true;
+               },
+               getSwipeItem: () => ({ id: 1 }),
+               getRightSwipeItem: () => ({ id: 1 })
             };
             ctrl._listViewModel = {
                nextVersion: () => null
@@ -4245,13 +4505,13 @@ define([
                   animationName: 'test'
                }
             });
-            assert.isFalse(setRightSwipedItemCalled, 'swipe should not be deactivated on every animation end');
+            assert.isFalse(deactivateSwipeCalled, 'swipe should not be deactivated on every animation end');
             ctrl._onActionsSwipeAnimationEnd({
                nativeEvent: {
                   animationName: 'itemActionsSwipeClose'
                }
             });
-            assert.isTrue(setRightSwipedItemCalled, 'swipe should be deactivated on \'itemActionsSwipeClose\' animation end');
+            assert.isTrue(deactivateSwipeCalled, 'swipe should be deactivated on \'itemActionsSwipeClose\' animation end');
          });
 
          it('should call deactivateSwipe method on \'rightSwipe\' event', () => {
@@ -4260,13 +4520,13 @@ define([
                   animationName: 'test'
                }
             });
-            assert.isFalse(setRightSwipedItemCalled, 'swipe should not be deactivated on every animation end');
+            assert.isFalse(deactivateRightSwipeCalled, 'right swipe should not be deactivated on every animation end');
             ctrl._onItemSwipeAnimationEnd({
                nativeEvent: {
                   animationName: 'rightSwipe'
                }
             });
-            assert.isTrue(setRightSwipedItemCalled, 'swipe should be deactivated on \'rightSwipe\' animation end');
+            assert.isTrue(deactivateRightSwipeCalled, 'right swipe should be deactivated on \'rightSwipe\' animation end');
          });
       });
 
@@ -4319,7 +4579,6 @@ define([
             instance._beforeMount(cfg);
             instance._listViewModel.setItems(rs, cfg);
             instance._items = rs;
-            instance._children = {scrollController: { scrollToItem: () => null }};
 
             // Пока что необходимо в любом случае проинициализировать ItemActionsController
             // иначе у нас не будет работать ни swipe() ни rightSwipe()
@@ -4568,7 +4827,8 @@ define([
             };
             instance.saveOptions(cfg);
             instance._scrollController = {
-               scrollToItem: () => {}
+               scrollToItem: () => {},
+               handleResetItems: () => {}
             };
             instance._container = {
                querySelector: (selector) => ({
@@ -4724,8 +4984,8 @@ define([
             assert.equal(activeItem, null);
          });
 
-         // Необходимо закрывать контекстное меню, если элемент, по которому оно было открыто удалён из списка
-         // Код должен работать согласно https://online.sbis.ru/opendoc.html?guid=b679bbc7-210f-4326-8c08-fcba2e3989aa
+         // Необходимо закрывать контекстное меню, если элемент, по которому оно было открыто, удалён из списка
+         // См. также https://online.sbis.ru/opendoc.html?guid=b679bbc7-210f-4326-8c08-fcba2e3989aa
          it('should close context menu if its owner was removed', function() {
             instance._itemActionsMenuId = 'popup-id-0';
             instance._itemActionsController.setActiveItem(item);
@@ -4750,9 +5010,34 @@ define([
             assert.isNull(instance._itemActionsController.getActiveItem());
          });
 
+         // Необходимо закрывать контекстное меню, если элемент, по которому оно было открыто, заменён
+         it('should close context menu if its owner was removed', function() {
+            instance._itemActionsMenuId = 'popup-id-0';
+            instance._itemActionsController.setActiveItem(item);
+            instance.getViewModel()
+               ._notify(
+                  'onListChange',
+                  'collectionChanged',
+                  collection.IObservable.ACTION_REPLACE,
+                  null,
+                  null,
+                  [{
+                     getContents: () => {
+                        return {
+                           getKey: () => 2
+                        };
+                     },
+                     setMarked: () => null
+                  }],
+                  null);
+
+            assert.isNull(instance._itemActionsMenuId);
+            assert.isNull(instance._itemActionsController.getActiveItem());
+         });
+
          // Необходимо закрывать контекстное меню, если элемент, по которому оно было открыто удалён из списка.
          // Даже если это breadCrumbsItem
-         // Код должен работать согласно https://online.sbis.ru/opendoc.html?guid=b679bbc7-210f-4326-8c08-fcba2e3989aa
+         // См. также https://online.sbis.ru/opendoc.html?guid=b679bbc7-210f-4326-8c08-fcba2e3989aa
          it('should close context menu if its owner was removed even if it was breadcrumbsItem', function() {
             instance._itemActionsMenuId = 'popup-id-0';
             const itemAt1 = instance._listViewModel.at(1);
@@ -4996,7 +5281,7 @@ define([
                   };
                }
             },
-            _viewPortRect: { top: 0 },
+            _viewportRect: { top: 0 },
             _options: {}
          };
          const navigation = {
@@ -5168,7 +5453,7 @@ define([
 
          /* Список находится в скроллконтейнере, но не личном. До списка лежит контент */
          bc._isScrollShown = true;
-         bc._viewPortRect = {
+         bc._viewportRect = {
             top: 50
          };
          bc._scrollTop = 1000;
@@ -5272,7 +5557,6 @@ define([
              instance = new lists.BaseControl(cfg);
          instance.saveOptions(cfg);
          await instance._beforeMount(cfg);
-         instance._scrollController.afterMount = () => undefined;
          instance._container = {};
          let fakeNotify = sandbox.spy(instance, '_notify')
              .withArgs('drawItems');
@@ -5350,12 +5634,27 @@ define([
             const item = baseControl.getViewModel().getItemBySourceKey(1);
             assert.isTrue(item.isMarked());
 
-            lists.BaseControl._private.onListChange(baseControl, {}, 'collectionChanged', 'rm', [], null, [item], 0);
+            lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'rm', [], null, [item], 0);
             assert.isFalse(item.isMarked());
+         });
+
+         it('restore marker on add', () => {
+            baseControl.setMarkedKey(1);
+            const item = baseControl.getViewModel().getItemBySourceKey(1);
+            assert.isTrue(item.isMarked());
+
+            lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'rm', [], null, [item], 0);
+            assert.isFalse(item.isMarked());
+
+            lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'a', [baseControl.getViewModel().getItemBySourceKey(2)], null, [item], 0);
+            assert.isFalse(item.isMarked());
+
+            lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'a', [item], null, [], 0);
+            assert.isTrue(item.isMarked());
          });
       });
 
-      it('onListChange call selectionController methods', () => {
+      it('onCollectionChanged call selectionController methods', () => {
          let clearSelectionCalled = false,
              handleAddItemsCalled = false;
 
@@ -5383,27 +5682,27 @@ define([
             handleinitItemActionsCalled = true;
          });
 
-         lists.BaseControl._private.onListChange(self, null, 'collectionChanged');
+         lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged');
          assert.isFalse(clearSelectionCalled);
          assert.isFalse(handleAddItemsCalled);
 
          self._listViewModel.getCount = () => 0;
-         lists.BaseControl._private.onListChange(self, null, 'collectionChanged');
+         lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged');
          assert.isTrue(clearSelectionCalled);
          assert.isFalse(handleAddItemsCalled);
 
          clearSelectionCalled = false;
          self._selectionController.isAllSelected = () => false;
-         lists.BaseControl._private.onListChange(self, null, 'collectionChanged');
+         lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged');
          assert.isFalse(clearSelectionCalled);
          assert.isFalse(handleAddItemsCalled);
 
          clearSelectionCalled = false;
-         lists.BaseControl._private.onListChange(self, null, '');
+         lists.BaseControl._private.onCollectionChanged(self, null, '');
          assert.isFalse(clearSelectionCalled);
          assert.isFalse(handleAddItemsCalled);
 
-         lists.BaseControl._private.onListChange(self, null, 'collectionChanged', 'a', 'items');
+         lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged', 'a', 'items');
          assert.isFalse(clearSelectionCalled);
          assert.isTrue(handleAddItemsCalled);
 
@@ -5538,7 +5837,7 @@ define([
          assert.isTrue(fakeNotify.calledOnce);
       });
 
-      describe('onListChange with some values of \'properties\' should not reinitialize itemactions', () => {
+      describe('onCollectionChanged with some values of \'properties\' should not reinitialize itemactions', () => {
          let self;
          let handleinitItemActionsCalled;
          let items;
@@ -5575,48 +5874,48 @@ define([
          // Смена маркера не должна провоцировать обновление itemActions
          it('should not call updateItemActions when marker has changed', () => {
             items.properties = 'marked';
-            lists.BaseControl._private.onListChange(self, null, 'collectionChanged', 'ch', items);
+            lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged', 'ch', items);
             assert.isFalse(handleinitItemActionsCalled);
          });
 
          // Свайп не должен провоцировать обновление itemActions
          it('should not call updateItemActions when item has swiped', () => {
             items.properties = 'swiped';
-            lists.BaseControl._private.onListChange(self, null, 'collectionChanged', 'ch', items);
+            lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged', 'ch', items);
             assert.isFalse(handleinitItemActionsCalled);
          });
 
          // Активация не должна провоцировать обновление itemActions
          it('should not call updateItemActions when item has been activated', () => {
             items.properties = 'active';
-            lists.BaseControl._private.onListChange(self, null, 'collectionChanged', 'ch', items);
+            lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged', 'ch', items);
             assert.isFalse(handleinitItemActionsCalled);
          });
 
          // Установка флага hovered не должна провоцировать обновление itemActions
          it('should not call updateItemActions when item\'s hovered has been set', () => {
             items.properties = 'hovered';
-            lists.BaseControl._private.onListChange(self, null, 'collectionChanged', 'ch', items);
+            lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged', 'ch', items);
             assert.isFalse(handleinitItemActionsCalled);
          });
 
          // Drag не должен провоцировать обновление itemActions
          it('should not call updateItemActions when item has been dragged', () => {
             items.properties = 'dragged';
-            lists.BaseControl._private.onListChange(self, null, 'collectionChanged', 'ch', items);
+            lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged', 'ch', items);
             assert.isFalse(handleinitItemActionsCalled);
          });
 
          // Ввод данных в строку редактирования не должен провоцировать обновление itemActions
          it('should not call updateItemActions when item has been dragged', () => {
             items.properties = 'editingContents';
-            lists.BaseControl._private.onListChange(self, null, 'collectionChanged', 'ch', items);
+            lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged', 'ch', items);
             assert.isFalse(handleinitItemActionsCalled);
          });
 
          // Если значение properties===undefined не указан, то обновление itemActions происходит по умолчанию
          it('should call updateItemActions when properties is not set', () => {
-            lists.BaseControl._private.onListChange(self, null, 'collectionChanged', 'ch', items);
+            lists.BaseControl._private.onCollectionChanged(self, null, 'collectionChanged', 'ch', items);
             assert.isTrue(handleinitItemActionsCalled);
          });
       });
@@ -5642,7 +5941,6 @@ define([
             clientHeight: 100,
             getBoundingClientRect: () => ({ y: 0 })
          };
-         instance._scrollController.__getItemsContainer = () => ({children: []});
          instance._afterMount(cfg);
 
          instance._beforeUpdate(cfg);
@@ -5705,7 +6003,7 @@ define([
          assert.isTrue(portionSearchReseted);
       });
 
-      it('_beforeUpdate with new root', async function() {
+      it('_beforeUpdate with new filter', async function() {
          let cfg = {
             viewName: 'Controls/List/ListView',
             sorting: [],
@@ -5728,16 +6026,16 @@ define([
          const notifySpy = sinon.spy(instance, '_notify');
 
          instance._createSelectionController();
-         let cfgClone = { ...cfg, root: 'newvalue' };
+         let cfgClone = { ...cfg, filter: { id: 'newvalue' }, root: 'newvalue' };
          instance._beforeUpdate(cfgClone);
          assert.isFalse(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
 
-         cfgClone = { ...cfg, root: 'newvalue', selectedKeys: ['newvalue'], excludedKeys: ['newvalue'] };
+         cfgClone = { ...cfg, filter: { id: 'newvalue' }, root: 'newvalue', selectedKeys: ['newvalue'], excludedKeys: ['newvalue'] };
          instance._beforeUpdate(cfgClone);
          instance.saveOptions(cfgClone);
 
-         cfgClone = { ...cfg, root: 'newvalue1', selectedKeys: ['newvalue'], excludedKeys: ['newvalue'] };
+         cfgClone = { ...cfg, filter: { id: 'newvalue1' }, root: 'newvalue1', selectedKeys: ['newvalue'], excludedKeys: ['newvalue'] };
          instance._beforeUpdate(cfgClone);
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isTrue(notifySpy.withArgs('excludedKeysChanged').called);
@@ -5774,6 +6072,15 @@ define([
          assert.isFalse(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
          assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [1, false], {bubbling: true}).called);
+         assert.isTrue(instance._listViewModel.getItemBySourceKey(1).isSelected());
+
+         notifySpy.resetHistory();
+         instance._listViewModel.getItemBySourceKey(1).setSelected(false);
+
+         cfgClone = { ...cfg, selectedKeys: [1], selectedKeysCount: 2 };
+         instance._beforeUpdate(cfgClone);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [1, false], {bubbling: true}).called);
+         assert.isTrue(instance._listViewModel.getItemBySourceKey(1).isSelected());
       });
 
       it('_beforeUpdate with new searchValue', async function() {
@@ -6085,14 +6392,11 @@ define([
 
       it('_beforeUnmount', function() {
          let instance = new lists.BaseControl();
-         instance._needPagingTimeout = setTimeout(() => {}, 100);
          instance._portionedSearch = lists.BaseControl._private.getPortionedSearch(instance);
 
          instance._beforeUnmount();
-         assert.isNull(instance._needPagingTimeout);
          assert.isNull(instance._portionedSearch);
       });
-
 
       describe('beforeUpdate', () => {
          let cfg;
@@ -6359,7 +6663,6 @@ define([
             ctrl.saveOptions(cfg);
             await ctrl._beforeMount(cfg);
             ctrl._container =  {getElementsByClassName: () => ([{clientHeight: 100}])};
-            ctrl._scrollController.__getItemsContainer = () => ({children: []});
             ctrl._afterMount(cfg);
 
             assert.isNull(ctrl._loadedItems);
@@ -6604,21 +6907,29 @@ define([
                assert.equal(lists.BaseControl._private.calcPaging(self, hasMore, pageSize), 1);
             });
 
-            it('_pagingNavigationVisible', () => {
-               let updatePagingData = lists.BaseControl._private.updatePagingData;
-               let self = {
-                  _knownPagesCount: 1,
-                  _currentPageSize: 5,
-                  _currentPage: 1,
-               }
-               updatePagingData(self, 0);
-               assert.equal(self._pagingNavigationVisible, false, 'paging should not be visible');
-               updatePagingData(self, 10);
-               assert.equal(self._pagingNavigationVisible, true, 'paging should be visible');
-               updatePagingData(self, false);
-               assert.equal(self._pagingNavigationVisible, false, 'paging should not be visible');
-               updatePagingData(self, true);
-               assert.equal(self._pagingNavigationVisible, true, 'paging should be visible');
+            it('isPagingNavigationVisible', () => {
+               let isPagingNavigationVisible = lists.BaseControl._private.isPagingNavigationVisible;
+
+               // Известно общее количество записей, записей 0
+               let result = isPagingNavigationVisible(0, 0);
+               assert.isFalse(result, 'paging should not be visible');
+
+               // Известно общее количество записей, записей 10
+               result = isPagingNavigationVisible(10, 2);
+               assert.isTrue(result, 'paging should be visible');
+
+               // Неизвестно общее количество записей, записей, известно текущее количество страниц = 0, hasMore = false
+               result = isPagingNavigationVisible(false, 0);
+               assert.isFalse(result, 'paging should not be visible');
+
+               // Неизвестно общее количество записей, записей, известно текущее количество страниц = 2, hasMore = false
+               result = isPagingNavigationVisible(false, 2);
+               assert.isTrue(result, 'paging should not be visible');
+
+               // Неизвестно общее количество записей, записей, известно текущее количество страниц = 2, hasMore = true
+               result = isPagingNavigationVisible(true, 2);
+               assert.isTrue(result, 'paging should not be visible');
+
             });
 
             describe('getPagingLabelData', function() {
@@ -6804,7 +7115,6 @@ define([
             control.saveOptions(options);
             await control._beforeMount(options);
             control._container =  {getElementsByClassName: () => ([ {clientHeight: 0, offsetHeight:0}])};
-            control._scrollController.__getItemsContainer = () => ({children: []});
             await control._afterMount(options);
          }
 
@@ -7012,7 +7322,7 @@ define([
                         }
                         return Promise.resolve();
                      },
-                     reset: () => undefined
+                     handleResetItems: () => {}
                   };
 
                   // No editing
@@ -7046,7 +7356,10 @@ define([
                let isStopped = false;
                let isCheckbox = false;
 
-               const e = { stopPropagation() { isStopped = true; } };
+               const e = {
+                  isStopped: () => isStopped,
+                  stopPropagation() { isStopped = true; }
+               };
 
                const originalEvent = {
                   target: {
@@ -7139,7 +7452,39 @@ define([
             baseControl._beforeMount(cfg);
          });
       });
-
+      describe('_afterMount', () => {
+         let stubScrollToItem;
+         beforeEach(() => {
+            stubScrollToItem = sinon.stub(lists.BaseControl._private, 'scrollToItem');
+         });
+         afterEach(() => {
+            stubScrollToItem.restore();
+         });
+         it('scroll to active element aftermount', async () => {
+            const cfg = {
+               viewName: 'Controls/List/ListView',
+               keyProperty: 'id',
+               viewModelConstructor: lists.ListViewModel,
+               source: source,
+               navigation: {
+                  view: 'infinity'
+               },
+               virtualScrollConfig: {
+                  pageSize: 100
+               },
+               activeElement: 4
+            };
+            let scrolledToItem = false;
+            const baseControl = new lists.BaseControl(cfg);
+            baseControl._container = {};
+            baseControl.saveOptions(cfg);
+            stubScrollToItem.callsFake(() => {
+               scrolledToItem = true;
+            });
+            await baseControl._beforeMount(cfg);
+            baseControl._afterMount(cfg);
+         });
+      });
       describe('_private.createEditingData()', () => {
          let stubUpdateItemActions;
          let baseControl;

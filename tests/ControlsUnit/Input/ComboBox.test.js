@@ -101,22 +101,34 @@ define(
             });
          });
 
-         it('_beforeUpdate width change', function() {
+         it('_beforeUpdate', function() {
             let combobox = getCombobox(config);
-            combobox._container = {offsetWidth: 250};
+            let isUpdated = false;
             combobox._controller = {
-               update: () => {}
+               update: () => {isUpdated = true}
             };
-            assert.equal(combobox._width, undefined);
             combobox._beforeUpdate({});
-            assert.equal(combobox._width, 250);
+            assert.isTrue(isUpdated);
          });
+
 
          it('dataLoadCallback option', function() {
             let combobox = getCombobox(config);
             const result = combobox._getControllerOptions({ dataLoadCallback: 'testDataLoadCallback' });
 
             assert.equal(result.dataLoadCallback, 'testDataLoadCallback');
+         });
+
+         it('_getMenuPopupConfig', () => {
+            let combobox = getCombobox(config);
+            combobox._container = {offsetWidth: 250};
+
+            let result = combobox._getMenuPopupConfig();
+            assert.equal(result.templateOptions.width, 250);
+
+            combobox._container.offsetWidth = null;
+            result = combobox._getMenuPopupConfig();
+            assert.equal(result.templateOptions.width, null);
          });
       });
    }

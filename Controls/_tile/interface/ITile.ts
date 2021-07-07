@@ -31,6 +31,40 @@
  * </pre>
  */
 
+/**
+ * @name Controls/_tile/interface/ITile#tileWidth
+ * @cfg {Number} Минимальная ширина элементов, отображаемых в виде плитки.
+ * @default 250
+ * @remark Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
+ * Если установить высоту с помощью css, компонент не будет отображен корректно.
+ * @example
+ * В следующем примере показано, как установить минимальную ширину элементов - 300 пикселей.
+ * <pre class="brush: html">
+ *    <Controls.tile:View
+ *                   tileWidth="{{300}}"
+ *                   source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   parentProperty="Раздел"
+ *                   nodeProperty="Раздел@"/>
+ * </pre>
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#tileWidthProperty
+ * @cfg {String} Название свойства на элементе, которое содержит минимальную ширину элемента, отображаемого в виде плитки.
+ * @demo Controls-demo/Tile/TileWidthProperty/Index
+ * @remark Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
+ * Если установить высоту с помощью css, компонент не будет отображен корректно.
+ * @example
+ * <pre class="brush: html">
+ *    <Controls.tile:View
+ *                   tileWidthProperty="itemWidth"
+ *                   source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   parentProperty="Раздел"
+ *                   nodeProperty="Раздел@"/>
+ * </pre>
+ */
 /*
  * @name Controls/_tile/interface/ITile#tileHeight
  * @cfg {Number} The height of the tile items.

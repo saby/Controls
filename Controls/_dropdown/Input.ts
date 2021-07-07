@@ -9,18 +9,13 @@ import {isEqual} from 'Types/object';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {IGroupedOptions} from './interface/IGrouped';
-import {IIconSizeOptions} from 'Controls/interface';
-import IMenuPopup, {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
-import {IStickyPopupOptions} from 'Controls/popup';
-import {IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
+import {IStickyPopupOptions, InfoboxTarget} from 'Controls/popup';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
-import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import {isLeftMouseButton} from 'Controls/fastOpenUtils';
 
-interface IInputOptions extends IBaseDropdownOptions, IGroupedOptions, IIconSizeOptions,
-    IMenuPopupOptions, IMenuControlOptions {
+interface IInputOptions extends IBaseDropdownOptions {
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
@@ -46,6 +41,8 @@ let getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @extends Core/Control
  * @mixes Controls/_menu/interface/IMenuPopup
  * @mixes Controls/_menu/interface/IMenuControl
+ * @mixes Controls/_menu/interface/IMenuBase
+ * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_dropdown/interface/IDropdownSource
  * @mixes Controls/interface/IDropdown
  * @mixes Controls/_interface/IFilterChanged
@@ -251,12 +248,17 @@ let getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * </pre>
  */
 
+interface IDropdownInputChildren {
+   infoboxTarget: InfoboxTarget;
+}
+
 export default class Input extends BaseDropdown {
    protected _template: TemplateFunction = template;
    protected _defaultContentTemplate: TemplateFunction = defaultContentTemplate;
    protected _text: string = '';
    protected _hasMoreText: string = '';
    protected _selectedItems = '';
+   protected _children: IDropdownInputChildren;
 
    _beforeMount(options: IInputOptions,
                 context: object,
@@ -278,7 +280,8 @@ export default class Input extends BaseDropdown {
             dataLoadCallback: this._dataLoadCallback,
             selectorOpener: this,
             selectedKeys: options.selectedKeys || [],
-            popupClassName: options.popupClassName || (options.showHeader || options.headerTemplate ?
+            popupClassName: options.popupClassName || ((options.showHeader ||
+                options.headerTemplate || options.headerContentTemplate) ?
                 'controls-DropdownList__margin-head' : options.multiSelect ?
                     'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
                 ' theme_' + options.theme,
@@ -292,6 +295,7 @@ export default class Input extends BaseDropdown {
 
    _getMenuPopupConfig(): IStickyPopupOptions {
       return {
+         opener: this._children.infoboxTarget,
          templateOptions: {
             selectorDialogResult: this._selectorTemplateResult.bind(this)
          },
@@ -373,7 +377,7 @@ export default class Input extends BaseDropdown {
    }
 
    protected _itemClick(data): void {
-      const item = this._controller.getPreparedItem(data, this._options.keyProperty);
+      const item = this._controller.getPreparedItem(data);
       const res = this._selectedItemsChangedHandler([item]);
 
       // dropDown must close by default, but user can cancel closing, if returns false from event
@@ -388,8 +392,8 @@ export default class Input extends BaseDropdown {
    }
 
    protected _selectorResult(data): void {
-      this._controller.onSelectorResult(data);
-      this._selectedItemsChangedHandler(data);
+      this._controller.handleSelectorResult(data);
+      this._selectedItemsChangedHandler(factory(data).toArray());
    }
 
    protected _selectorTemplateResult(event, selectedItems): void {

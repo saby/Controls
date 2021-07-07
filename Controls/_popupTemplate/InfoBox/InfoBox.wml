@@ -3,7 +3,7 @@
                controls-InfoBoxTemplate_style_{{_borderStyle}}_theme-{{_options.theme}}
                controls-InfoBoxTemplate_style-{{_arrowSide}}_{{_borderStyle}}_theme-{{_options.theme }}">
       <ws:if data="{{_options.content}}">
-         <ws:partial template="{{_options.content}}" />
+         <ws:partial template="{{_options.content}}" attr:class="controls-InfoBoxTemplate__content-area"/>
       </ws:if>
       <ws:if data="{{_options.closeButtonVisibility}}">
          <Controls._popupTemplate.CloseButton attr:class="controls-InfoBoxTemplate__closeButton controls-InfoBoxTemplate__closeButton_theme-{{_options.theme}}" on:click="_close()" viewMode="link" attr:ws-no-focus="true" />

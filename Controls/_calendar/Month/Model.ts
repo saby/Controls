@@ -1,5 +1,5 @@
 import MonthViewModel from './../MonthView/MonthViewModel';
-import DateUtil = require('Controls/Utils/Date');
+import {Base as DateUtil} from 'Controls/dateUtils';
 
 /**
  * Модель для представления месяца с поддержкой выделения.

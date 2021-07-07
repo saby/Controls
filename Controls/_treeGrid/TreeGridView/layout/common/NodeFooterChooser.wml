@@ -5,7 +5,7 @@
     <ws:for data="nodeFooter in nodeFooters">
         <ws:partial template="{{ nodeFooter.template }}"
                     footer="{{nodeFooter}}"
-                    on:click="_onNodeFooterClick(nodeFooter.dispItem)"
+                    on:click="_onLoadMoreClick(nodeFooter.dispItem)"
                     isHasMoreFooter="{{nodeFooter.hasMoreStorage}}"
                     theme="{{theme}}"/>
     </ws:for>

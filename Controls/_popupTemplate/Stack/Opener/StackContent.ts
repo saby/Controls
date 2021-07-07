@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import Template = require('wml!Controls/_popupTemplate/Stack/Opener/StackContent');
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 
 interface IStackContentOptions extends IControlOptions {
     stackMaxWidth?: number;

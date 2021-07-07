@@ -7,8 +7,8 @@ import Context = require('Core/Context');
 import Deferred = require('Core/Deferred');
 import randomId = require('Core/helpers/Number/randomId');
 import library = require('Core/library');
-import isVDOMTemplate = require('Controls/Utils/isVDOMTemplate');
-import * as getDimensions from 'Controls/Utils/getDimensions';
+import {isVDOMTemplate} from 'Controls/popup';
+import {getDimensions} from 'Controls/sizeUtils';
 function loadTemplate(name: string) {
    const libraryInfo = library.parse(name);
    let template = require(libraryInfo.name);

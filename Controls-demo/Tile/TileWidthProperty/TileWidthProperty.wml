@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_same-width">
+   <Controls.tile:View
+      tileMode="dynamic"
+      displayProperty="title"
+      imageProperty="image"
+      tileWidthProperty="width"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:ItemTemplate"
+            hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+      </ws:itemTemplate>
+   </Controls.tile:View>
+</div>

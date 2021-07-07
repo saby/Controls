@@ -98,3 +98,17 @@ export interface IPreviewer {
  * @variant hoverAndClick Opening by click or hover on the content. Closing by click or hover not on the content or template.
  * @default hoverAndClick
  */
+
+/**
+ * @function
+ * @name Controls/_popup/interface/IPreviewer#close
+ * @description Метод для закрытия всплывающего окна.
+ * @remark Используется для закрытия окна, если опция {@link trigger} установлена в значении demand
+ */
+
+/**
+ * @function
+ * @name Controls/_popup/interface/IPreviewer#open
+ * @description Метод для открытия всплывающего окна.
+ * @remark Используется для открытия окна, если опция {@link trigger} установлена в значении demand
+ */

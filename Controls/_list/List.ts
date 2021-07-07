@@ -5,7 +5,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import ListControlTpl = require('wml!Controls/_list/List');
 import ListViewModel = require('Controls/_list/ListViewModel');
 import Deferred = require('Core/Deferred');
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import viewName = require('Controls/_list/ListView');
 import {default as ListControl} from 'Controls/_list/ListControl';
 
@@ -27,6 +27,7 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
+ * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/interface/IDraggable
@@ -36,6 +37,8 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  *
  *
  * @mixes Controls/_list/interface/IVirtualScroll
+ *
+ * @implements Controls/_list/interface/IListNavigation
  *
  * @control
  * @author Авраменко А.С.
@@ -59,6 +62,7 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
+ * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/interface/IDraggable

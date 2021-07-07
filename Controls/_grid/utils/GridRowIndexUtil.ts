@@ -335,9 +335,9 @@ function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMul
         headerRows = sortedColumns(headerRows);
     }
     if (stickyLadderCellsCount === 2 ) {
-        headerRows[0] = [{}, headerRows[0][0], {}].concat(headerRows[0].slice(1));
+        headerRows[0] = [{ladderCell: true}, headerRows[0][0], {ladderCell: true}].concat(headerRows[0].slice(1));
     } else if (stickyLadderCellsCount === 1) {
-        headerRows[0] = [{}].concat(headerRows[0]);
+        headerRows[0] = [{ladderCell: true}].concat(headerRows[0]);
     }
     if (hasMultiSelect) {
         headerRows[0] = [{}, ...headerRows[0]];

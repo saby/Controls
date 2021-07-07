@@ -11,8 +11,8 @@
                     <div>
                         {{contentTemplate.itemData.item.get('title')}}
                     </div>
-                    <div style="height: 50px; display: flex; justify-content: center;">
-                        <div style="position: relative; width: 50%;  height: 100%;">
+                    <div class="controlsDemo_itemActionsTemplate">
+                        <div class="controlsDemo_content">
                             <ws:partial template="{{contentTemplate.itemActionsTemplate}}"/>
                         </div>
                     </div>

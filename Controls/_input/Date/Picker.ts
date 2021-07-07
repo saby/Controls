@@ -2,9 +2,9 @@ import Control = require('Core/Control');
 import coreMerge = require('Core/core-merge');
 import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import template = require('wml!Controls/_input/Date/Picker/Picker');
-import getOptions from 'Controls/Utils/datePopupUtils';
+import {Popup as PopupUtil} from 'Controls/dateUtils';
 
    /**
     * Поле ввода даты. Поддерживает как ввод с клавиатуры, так и выбор даты из всплывающего календаря с помощью мыши. Не поддерживает ввод времени.
@@ -52,6 +52,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
    var Component = Control.extend([], {
       _template: template,
       _proxyEvent: tmplNotify,
+      _shouldValidate: false,
 
       // _beforeMount: function(options) {
       // },
@@ -64,12 +65,12 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 
       openPopup: function(event) {
           var cfg = {
-            ...getOptions.getCommonOptions(this),
+            ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
             className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
             templateOptions: {
-               ...getOptions.getTemplateOptions(this),
+               ...PopupUtil.getTemplateOptions(this),
                selectionType: 'single',
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
@@ -80,6 +81,13 @@ import getOptions from 'Controls/Utils/datePopupUtils';
             }
          };
          this._children.opener.open(cfg);
+      },
+
+      _afterUpdate(): void {
+          if (this._shouldValidate) {
+              this._shouldValidate = false;
+              this._children.input.validate();
+          }
       },
 
       _onResultWS3: function(event, startValue) {
@@ -97,7 +105,12 @@ import getOptions from 'Controls/Utils/datePopupUtils';
          this._notify('valueChanged', [startValue, textValue]);
          this._children.opener.close();
          this._notify('inputCompleted', [startValue, textValue]);
-      },
+          /**
+           * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
+           * Валидация срабатывает раньше, чем значение меняется, поэтому откладываем ее до _afterUpdate
+           */
+         this._shouldValidate = true;
+      }
    });
 
    Component.getDefaultOptions = function() {

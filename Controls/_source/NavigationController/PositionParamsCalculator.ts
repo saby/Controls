@@ -1,4 +1,4 @@
-import {IAdditionalQueryParams, Direction} from 'Controls/_interface/IAdditionalQueryParams';
+import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
 import {QueryNavigationType} from 'Types/source';
 import {default as PositionNavigationStore, IPositionNavigationState} from './PositionNavigationStore';
 import {IBasePositionSourceConfig, INavigationPositionSourceConfig} from 'Controls/interface';
@@ -23,8 +23,8 @@ class PositionParamsCalculator implements IParamsCalculator {
         store: PositionNavigationStore,
         config: INavigationPositionSourceConfig,
         direction?: TNavigationDirection
-    ): IAdditionalQueryParams {
-        const addParams: IAdditionalQueryParams = {};
+    ): IQueryParams {
+        const addParams: IQueryParams = {};
         addParams.meta = {navigationType: QueryNavigationType.Position};
 
         const storeParams = store.getState();
@@ -67,25 +67,25 @@ class PositionParamsCalculator implements IParamsCalculator {
     updateQueryProperties(
         store: PositionNavigationStore,
         list: RecordSet,
+        metaMore: object,
         config: IBasePositionSourceConfig,
         direction?: TNavigationDirection
     ): IPositionNavigationState  {
-        const moreValue = list.getMetaData().more;
         const storeParams = store.getState();
 
         const queryField = PositionParamsCalculator._resolveField(storeParams.field);
         const queryDirection = PositionParamsCalculator._resolveDirection(direction, storeParams.direction);
 
-        if (typeof moreValue === 'boolean') {
+        if (typeof metaMore === 'boolean') {
             if (queryDirection !== CursorDirection.bothways) {
-                store.updateMetaMoreToDirection(queryDirection, moreValue);
+                store.updateMetaMoreToDirection(queryDirection, metaMore);
             } else {
                 Logger.error('NavigationController: Wrong type of \"more\" value. Must be Object');
             }
         } else {
-            if (moreValue instanceof Object) {
+            if (metaMore instanceof Object) {
                 if (queryDirection === CursorDirection.bothways) {
-                    store.setMetaMore(moreValue);
+                    store.setMetaMore(metaMore);
                 } else {
                     Logger.error('NavigationController: Wrong type of \"more\" value. Must be boolean');
                 }

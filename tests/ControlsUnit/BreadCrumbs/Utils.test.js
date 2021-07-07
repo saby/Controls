@@ -1,6 +1,6 @@
 define([
    'Controls/_breadcrumbs/Utils',
-   'Controls/Utils/FontLoadUtil',
+   'Controls/_breadcrumbs/resources/FontLoadUtil',
    'Core/Deferred',
    'Controls/Utils/getWidth'
 ], function(

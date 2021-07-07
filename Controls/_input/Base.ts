@@ -1,12 +1,12 @@
 import Control = require('Core/Control');
 import Env = require('Env/Env');
 import entity = require('Types/entity');
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import {isEqual} from 'Types/object';
 import ViewModel = require('Controls/_input/Base/ViewModel');
 import {delay as runDelayed} from 'Types/function';
 import unEscapeASCII = require('Core/helpers/String/unEscapeASCII');
-import hasHorizontalScroll = require('Controls/Utils/hasHorizontalScroll');
+import {hasHorizontalScroll} from 'Controls/sizeUtils';
 import template = require('wml!Controls/_input/Base/Base');
 import fieldTemplate = require('wml!Controls/_input/Base/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Base/ReadOnly');
@@ -523,7 +523,7 @@ var Base = Control.extend({
     },
 
     /**
-     * @type {Controls/Utils/hasHorizontalScroll}
+     * @type {Controls/_utils/sizeUtils/hasHorizontalScroll}
      * @private
      */
     _hasHorizontalScroll: hasHorizontalScroll,
@@ -664,14 +664,6 @@ var Base = Control.extend({
         const oldDisplayValue = this._viewModel.displayValue;
 
         _private.updateViewModel(this, newViewModelOptions, _private.getValue(this, newOptions));
-
-        if (this._options.readOnly === true && newOptions.readOnly === false) {
-            // oldDisplayValue запоминается при клике на поле ввода. Если контрол был задизаблен и прикладной разработчик по
-            // клику на поле ввода меняет опцию readonly с true на false, то обработчик на клик не вызовется, т.к. в режиме
-            // readOnly поле ввода не отображается. Подробнее:
-            // TODO: https://online.sbis.ru/opendoc.html?guid=ba1ec63e-1915-499d-9e05-babfa3b79b41
-            this._viewModel._oldDisplayValue = oldDisplayValue;
-        }
 
         const displayValueChangedByParent: boolean = oldDisplayValue !== this._viewModel.displayValue;
         if (displayValueChangedByParent) {
@@ -896,19 +888,6 @@ var Base = Control.extend({
          */
         if (this._ieVersion && this._ieVersion < 12) {
             this._getField().focus();
-        }
-    },
-
-    _mouseDownOnContainerHandler: function (event: MouseEvent): void {
-        /**
-         * Нативное поле ввода позиционируется относительно контейнера с отступами. Клик в область отступов
-         * не будет приводить к фокусировке поля. Зовем фокусировку вручную.
-         */
-        const readOnlyField: boolean = this._options.readOnly || this._field.scope.readOnly;
-        const clickByField: boolean = event.target === this._getField();
-
-        if (!readOnlyField && !clickByField) {
-            this.activate({enableScreenKeyboard: true, enableScrollToElement: true});
         }
     },
 

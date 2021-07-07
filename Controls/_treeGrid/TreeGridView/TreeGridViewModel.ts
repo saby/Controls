@@ -93,7 +93,7 @@ var
             this._model.setRoot(root);
         },
         setParentProperty(parentProperty: string): void {
-            this._model.setParentProperty.apply(this, arguments);
+            this._model.setParentProperty(parentProperty);
             this._options.parentProperty = parentProperty;
         },
         setHasChildrenProperty(hasChildrenProperty: string): void {
@@ -107,6 +107,7 @@ var
         setNodeFooterTemplate: function (nodeFooterTemplate) {
             this._model.setNodeFooterTemplate(nodeFooterTemplate);
         },
+        // TODO: Удалить #rea_1179794968
         setExpanderDisplayMode: function (expanderDisplayMode) {
             // Выпилить в 19.200
             this._model.setExpanderDisplayMode(expanderDisplayMode);
@@ -171,6 +172,13 @@ var
 
             current.isLastColumn = isLastColumn;
 
+            if (!GridLayoutUtil.isFullGridSupport()) {
+                const superClassesGetter = current.getRelativeCellWrapperClasses;
+                current.getRelativeCellWrapperClasses = (colspan, fixVerticalAlignment) => {
+                    return `controls-TreeGridView__row-cell_innerWrapper ${superClassesGetter(colspan, fixVerticalAlignment)}`;
+                }
+            }
+
             if (current.isLastRow) {
                 //Проверяем, что под послдней записью нет nodeFooter'a
                 const itemParent = current.dispItem.getParent && current.dispItem.getParent();
@@ -187,7 +195,7 @@ var
                     currentColumn = superGetCurrentColumn(backgroundColorStyle);
                 currentColumn.nodeType = current.item.get && current.item.get(current.nodeProperty);
 
-                currentColumn.prepareExpanderClasses = current.prepareExpanderClasses;
+                currentColumn.getExpanderClasses = current.getExpanderClasses;
                 currentColumn.getExpanderSize = current.getExpanderSize;
 
                 currentColumn.isExpanded = current.isExpanded;
@@ -209,32 +217,11 @@ var
                 return currentColumn;
             };
 
-            current.getLevelIndentClasses = function (expanderSize, levelIndentSize) {
-                let
-                    sizeEnum = ['null', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl'],
-                    resultPaddingSize;
-
-                if (expanderSize && levelIndentSize) {
-                    if (sizeEnum.indexOf(expanderSize) >= sizeEnum.indexOf(levelIndentSize)) {
-                        resultPaddingSize = expanderSize;
-                    } else {
-                        resultPaddingSize = levelIndentSize;
-                    }
-                } else if (!expanderSize && !levelIndentSize) {
-                    resultPaddingSize = 'default';
-                } else {
-                    resultPaddingSize = expanderSize || levelIndentSize;
-                }
-
-                return `controls-TreeGrid__row-levelPadding_size_${resultPaddingSize}_theme-${theme}`;
-            };
-
             const setNodeFooterRowStyles = (footer, index) => {
                 const columns = self._options.columns;
                 footer.columns = columns;
                 footer.isFullGridSupport = GridLayoutUtil.isFullGridSupport();
                 footer.colspan = self.getColspanFor('nodeFooter');
-                footer.getLevelIndentClasses = current.getLevelIndentClasses;
 
                 if (current.useNewNodeFooters) {
                     footer.template = self._options.nodeFooterTemplate || 'wml!Controls/_treeGrid/TreeGridView/NodeFooterTemplate';

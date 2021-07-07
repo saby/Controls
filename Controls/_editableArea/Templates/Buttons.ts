@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ButtonsTemplate = require('wml!Controls/_editableArea/Templates/Buttons');
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 
 class Buttons extends Control<IControlOptions> {
     protected _template: TemplateFunction = ButtonsTemplate;

@@ -8,19 +8,39 @@
  */
 
 type IScrollpagingState = 'top' | 'bottom' | 'middle';
+type TPagingMode = 'basic' | 'compact' | 'numbers';
 
 interface IScrollParams {
     clientHeight: number;
     scrollTop: number;
     scrollHeight: number;
 }
-interface IPagingCfg { 
-    backwardEnabled: boolean, 
-    forwardEnabled: boolean
+
+type TArrowStateVisibility = 'visible' | 'hidden' | 'readonly';
+
+interface IArrowState {
+    begin: TArrowStateVisibility;
+    prev: TArrowStateVisibility;
+    next: TArrowStateVisibility;
+    end: TArrowStateVisibility;
 }
+
+interface IPagingCfg {
+    arrowState: IArrowState;
+    showDigits?: boolean;
+    showEndButton?: boolean;
+    pagingMode?: string;
+    pagesCount?: number;
+    selectedPage?: number;
+    elementsCount?: number;
+}
+
 interface IScrollPagingOptions {
-    scrollParams: IScrollParams,
-    pagingCfgTrigger(IPagingCfg):void;
+    pagingMode: TPagingMode;
+    scrollParams: IScrollParams;
+    elementsCount: number;
+
+    pagingCfgTrigger(IPagingCfg): void;
 }
 
 export default class ScrollPagingController {
@@ -30,9 +50,9 @@ export default class ScrollPagingController {
     constructor(cfg: IScrollPagingOptions) {
         this._options = cfg;
         this.updateStateByScrollParams(cfg.scrollParams);
-    };
+    }
 
-    protected updateStateByScrollParams(scrollParams): void {
+    protected updateStateByScrollParams(scrollParams: IScrollParams): void {
         const canScrollForward = scrollParams.clientHeight + scrollParams.scrollTop < scrollParams.scrollHeight;
         const canScrollBackward = scrollParams.scrollTop > 0;
         if (canScrollForward && canScrollBackward) {
@@ -42,46 +62,84 @@ export default class ScrollPagingController {
         } else if (!canScrollForward && canScrollBackward) {
             this.handleScrollBottom();
         }
-    };
-    protected handleScrollMiddle() {
-        if (!(this._curState === 'middle')) {
-            this._options.pagingCfgTrigger({
-                backwardEnabled: true,
-                forwardEnabled: true
-            });
+    }
+
+    protected getPagingCfg(arrowState: IArrowState): IPagingCfg {
+        const pagingCfg: IPagingCfg = {};
+        switch (this._options.pagingMode) {
+            case 'basic':
+                break;
+            case 'compact':
+                arrowState.prev = 'hidden';
+                arrowState.next = 'hidden';
+                if (arrowState.end === 'visible') {
+                    arrowState.begin = 'hidden';
+                    arrowState.end = 'visible';
+                    pagingCfg.showEndButton = true;
+                } else if (arrowState.begin === 'visible') {
+                    arrowState.begin = 'visible';
+                    arrowState.end = 'hidden';
+                }
+                break;
+            case 'numbers':
+                arrowState.prev = 'hidden';
+                arrowState.next = 'hidden';
+                arrowState.end = 'hidden';
+                pagingCfg.pagesCount = Math.round(this._options.scrollParams.scrollHeight / this._options.scrollParams.clientHeight);
+                pagingCfg.selectedPage = Math.round(this._options.scrollParams.scrollTop / this._options.scrollParams.clientHeight) + 1;
+                break;
+        }
+        if (this._options.pagingMode) {
+            pagingCfg.pagingMode = this._options.pagingMode;
+            pagingCfg.elementsCount = this._options.elementsCount;
+        }
+        pagingCfg.arrowState = arrowState;
+        return pagingCfg;
+    }
+
+    protected handleScrollMiddle(): void {
+        if (!(this._curState === 'middle') || this._options.pagingMode === 'numbers') {
+            this._options.pagingCfgTrigger(this.getPagingCfg({
+                begin: 'visible',
+                prev: 'visible',
+                next: 'visible',
+                end: 'visible'
+            }));
             this._curState = 'middle';
         }
-    };
+    }
 
-    protected handleScrollTop() {
+    protected handleScrollTop(): void {
         if (!(this._curState === 'top')) {
-            this._options.pagingCfgTrigger({
-                backwardEnabled: false,
-                forwardEnabled: true
-            });
-             this._curState = 'top';
+            this._options.pagingCfgTrigger(this.getPagingCfg({
+                begin: 'readonly',
+                prev: 'readonly',
+                next: 'visible',
+                end: 'visible'
+            }));
+            this._curState = 'top';
         }
-    };
+    }
 
-    protected handleScrollBottom() {
+    protected handleScrollBottom(): void {
         if (!(this._curState === 'bottom')) {
-            this._options.pagingCfgTrigger({
-                backwardEnabled: true,
-                forwardEnabled: false
-            });
+            this._options.pagingCfgTrigger(this.getPagingCfg({
+                begin: 'visible',
+                prev: 'visible',
+                next: 'readonly',
+                end: 'readonly'
+            }));
             this._curState = 'bottom';
         }
-    };
-    
-    public updateScrollParams(scrollParams): void {
+    }
+
+    public updateScrollParams(scrollParams: IScrollParams): void {
         this._options.scrollParams = scrollParams;
         this.updateStateByScrollParams(scrollParams);
-    };
+    }
 
     protected destroy(): void {
         this._options = null;
-    };
+    }
 
 }
-
-

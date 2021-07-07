@@ -2423,7 +2423,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      * в контроллере ItemActions определить, надо ли скрывать у остальных элементов его опции
      * Если true, опции ItemActions не дожны быть отрисованы
      */
-    setEditing(editing): void {
+    setEditing(editing: boolean): void {
         this._$isEditing = editing;
     }
 

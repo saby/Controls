@@ -1,6 +1,6 @@
 import {QueryNavigationType} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {IAdditionalQueryParams, Direction} from 'Controls/_interface/IAdditionalQueryParams';
+import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
 import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {Collection} from 'Controls/display';
 import {Record} from 'Types/entity';
@@ -57,8 +57,8 @@ class PageQueryParamsController implements IQueryParamsController {
         }
     }
 
-    prepareQueryParams(direction: Direction, callback?, config?: IBasePageSourceConfig): IAdditionalQueryParams {
-        const addParams: IAdditionalQueryParams = {};
+    prepareQueryParams(direction: Direction, callback?, config?: IBasePageSourceConfig): IQueryParams {
+        const addParams: IQueryParams = {};
         let neededPage: number;
         const pageSize =  (config?.pageSize || this._options.pageSize);
         addParams.meta = {

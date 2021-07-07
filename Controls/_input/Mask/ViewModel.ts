@@ -41,7 +41,7 @@ import BaseViewModel = require('Controls/_input/Base/ViewModel');
 
          _convertToValue(displayValue) {
             this._format = FormatBuilder.getFormat(this.options.mask, this.options.formatMaskChars, this.options.replacer);
-            const value = Formatter.getClearData(this._format, displayValue).value;
+            const value = Formatter.clearData(this._format, displayValue).value;
             return value;
          }
          _convertToDisplayValue(value) {
@@ -50,7 +50,7 @@ import BaseViewModel = require('Controls/_input/Base/ViewModel');
             const fValue = value === null ? '' : value;
             _private.updateFormatMaskChars(this, this.options.formatMaskChars);
             try {
-               const fDate = Formatter.getFormatterData(this._format, { value: fValue, position: 0 });
+               const fDate = Formatter.formatData(this._format, { value: fValue, carriagePosition: 0 });
                return fDate.value;
             } catch (e) {
                if (this.options.replacer) {

@@ -106,12 +106,15 @@ define(
 
          describe('_beforeUpdate', () => {
             it('source is changed', async() => {
+               let isClosed = false;
                const menuControl = getMenu();
                const newMenuOptions = { ...defaultOptions };
 
+               menuControl._closeSubMenu = () => { isClosed = true; };
                newMenuOptions.source = new source.Memory();
                await menuControl._beforeUpdate(newMenuOptions);
                assert.isTrue(menuControl._notifyResizeAfterRender);
+               assert.isTrue(isClosed);
             });
          });
 
@@ -145,6 +148,50 @@ define(
                });
                let listModel = menuControl._getCollection(doubleItems, { keyProperty: 'key' });
                assert.equal(listModel.getCount(), 1);
+            });
+
+            it ('check history filter', function() {
+               let isFilterApply = false;
+               menuControl._limitHistoryFilter = () => {
+                  isFilterApply = true;
+               };
+               menuControl._getCollection(items, {
+                  allowPin: true,
+                  root: null
+               });
+
+               assert.isTrue(isFilterApply);
+            });
+         });
+
+         describe('_isExpandButtonVisible', function() {
+            let menuControl, items;
+            beforeEach(() => {
+               const records = [];
+               for (let i = 0; i < 15; i++) {
+                  records.push({ get: () => {} });
+               }
+               menuControl = getMenu();
+               items = new collection.RecordSet({
+                  rawData: records,
+                  keyProperty: 'key'
+               });
+            });
+
+            it('expandButton visible, history menu', () => {
+               const newMenuOptions = { allowPin: true, root: null };
+
+               const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
+               assert.isTrue(result);
+               assert.equal(menuControl._visibleIds.length, 10);
+            });
+
+            it('expandButton hidden, history menu', () => {
+               const newMenuOptions = { allowPin: true };
+
+               const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
+               assert.isFalse(result, 'level is not first');
+               assert.equal(menuControl._visibleIds.length, 0);
             });
          });
 
@@ -552,6 +599,7 @@ define(
             assert.isOk(actualOptions.eventHandlers.onResult);
             assert.isTrue(actualOptions.hasOwnProperty('opener'));
             assert.equal(actualOptions.opener, 'testSelectorOpener');
+            assert.isTrue(actualOptions.closeOnOutsideClick);
             assert.isTrue(opened);
 
             actualOptions.eventHandlers.onResult();
@@ -618,6 +666,30 @@ define(
                item.set('parent', '1');
                isVisible = menuControl.constructor._displayFilter(hierarchyOptions, item);
                assert.isFalse(isVisible);
+            });
+         });
+
+         describe('historyFilter', () => {
+            let menuControl = getMenu();
+            menuControl._visibleIds = [2, 6, 8];
+            let itemKey;
+            const item = { getKey: () => itemKey };
+
+            it('group item', function() {
+               const isVisible = menuControl._limitHistoryCheck('group');
+               assert.isTrue(isVisible);
+            });
+
+            it('invisible item', function() {
+               itemKey = 1;
+               const isVisible = menuControl._limitHistoryCheck(item);
+               assert.isFalse(isVisible, "_visibleIds doesn't include it");
+            });
+
+            it('visible item', function() {
+               itemKey = 6;
+               const isVisible = menuControl._limitHistoryCheck(item);
+               assert.isTrue(isVisible, '_visibleIds includes it');
             });
          });
 

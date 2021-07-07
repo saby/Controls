@@ -13,15 +13,14 @@ import {
 } from 'Controls/display';
 import {
     Controller as ItemActionsController,
-    TItemActionVisibilityCallback,
     TEditArrowVisibilityCallback,
     IItemAction,
     TItemActionShowType,
-    TItemActionsPosition,
     IItemActionsItem,
-    IContextMenuConfig, IShownItemAction
+    IShownItemAction,
+    IItemActionsOptions
 } from 'Controls/itemActions';
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 
 import { load as libraryLoad } from 'Core/library';
 import { SyntheticEvent } from 'Vdom/Vdom';
@@ -33,33 +32,16 @@ import { ISwipeEvent } from './Render';
 
 import template = require('wml!Controls/_listRender/View/View');
 
-export interface IViewOptions extends IControlOptions {
+export interface IViewOptions extends IItemActionsOptions, IControlOptions {
     items: RecordSet;
-
     collection: string;
     render: string;
-
-    itemActions?: any[];
-    itemActionsVisibility?: 'onhover'|'delayed'|'visible';
-    itemActionVisibilityCallback?: TItemActionVisibilityCallback;
-    itemActionsPosition?: TItemActionsPosition;
-    itemActionsProperty?: string;
     style?: string;
-    itemActionsClass?: string;
-
-    actionAlignment?: 'horizontal'|'vertical';
-    actionCaptionPosition?: 'right'|'bottom'|'none';
-
     editingConfig?: any;
-
     markerVisibility?: TVisibility;
     markedKey?: number|string;
     showEditArrow?: boolean;
     editArrowVisibilityCallback?: TEditArrowVisibilityCallback;
-    /**
-     * Конфигурация для контекстного меню опции записи.
-     */
-    contextMenuConfig?: IContextMenuConfig
 }
 
 export default class View extends Control<IViewOptions> {
@@ -236,7 +218,7 @@ export default class View extends Control<IViewOptions> {
         }
         // TODO fire 'markedKeyChanged' event
 
-        if (action && !action._isMenu && !action['parent@']) {
+        if (action && !action.isMenu && !action['parent@']) {
             this._handleItemActionClick(action, clickEvent, item, false);
         } else {
             this._openItemActionsMenu(action, clickEvent, item, false);
@@ -319,7 +301,7 @@ export default class View extends Control<IViewOptions> {
     }
 
     /**
-     * Получает контейнер для
+     * Получает контейнер элемента, для которого выполняется операция
      * @param item
      * @param isMenuClick
      */
@@ -424,7 +406,7 @@ export default class View extends Control<IViewOptions> {
      * Закрывает popup и снимает регистрацию его подписки на событие скролла
      * @private
      */
-    private _closePopup() {
+    private _closePopup(): void {
         if (this._itemActionsMenuId) {
             Sticky.closePopup(this._itemActionsMenuId);
             this._itemActionsController.setActiveItem(null);

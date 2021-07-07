@@ -1,0 +1,1 @@
+<Controls.input:Number attr:class="controls-PropertyGrid__editor_number_control" scope="{{_options.inputConfig}}" bind:value="_value" on:inputCompleted="_inputCompleted()"/>

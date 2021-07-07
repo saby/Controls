@@ -24,7 +24,7 @@
         <Controls.popupTemplate:ConfirmationDialog attr:class="controlsDemo__mb1 controlsDemo-Confirm__captionButton"
                                                    name="Confirm2"
                                                    message="Are you sure you want to delete?"
-                                                   style="danger"
+                                                   style="primary"
                                                    type="yesnocancel"
                                                    primaryAction="no"
                                                    yesCaption="Yes"

@@ -1,5 +1,5 @@
 import {IFormatMaskChars} from './IMask';
-import {escapeSpecialChars} from 'Controls/Utils/RegExp';
+import {escapeSpecialChars} from 'Controls/inputUtils';
 
 /**
  * Парные разделители открывающего и закрывающего типа.
@@ -107,13 +107,13 @@ interface IKeyData extends ICharData {
     quantifier: string;
 }
 
-interface IPairDelimiterData extends ICharData {
+export interface IPairDelimiterData extends ICharData {
     type: 'pairDelimiter';
     pair: string;
     subtype: TSubtype;
 }
 
-interface ISingleDelimiterData extends ICharData {
+export interface ISingleDelimiterData extends ICharData {
     type: 'singleDelimiter';
 }
 

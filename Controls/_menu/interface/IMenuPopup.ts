@@ -54,34 +54,6 @@ export default interface IMenuPopup {
  */
 
 /**
- * @name Controls/_menu/interface/IMenuPopup#closeButtonVisibility
- * @cfg {Boolean} Видимость кнопки закрытия.
- * @remark В значении true кнопка отображается.
- * @demo Controls-demo/Menu/Popup/CloseButtonVisibility/Index
- * @example
- * <pre class="brush: html; highlight: [6]">
- * <!-- WML -->
- * <Controls.menu:Popup
- *       keyProperty="key"
- *       displayProperty="title"
- *       source="{{_source}}"
- *       closeButtonVisibility="{{true}}">
- * </Controls.menu:Popup>
- * </pre>
- * <pre class="brush: js">
- * // JS
- * this._source = new Memory({
- *    keyProperty: 'key',
- *    data: [
- *       {key: 1, title: 'Yaroslavl'},
- *       {key: 2, title: 'Moscow'},
- *       {key: 3, title: 'St-Petersburg'}
- *    ]
- * });
- * </pre>
- */
-
-/**
  * @name Controls/_menu/interface/IMenuPopup#footerContentTemplate
  * @cfg {function} Контент, располагающийся в нижней части окна.
  * @demo Controls-demo/Menu/Popup/FooterContentTemplate/Scroll/Index

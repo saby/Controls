@@ -123,6 +123,12 @@ var Submit = Control.extend({
       if (event.nativeEvent.keyCode === constants.key.esc) {
          this._isEscDown = true;
       }
+      if (!(event.nativeEvent.altKey || event.nativeEvent.shiftKey) && (event.nativeEvent.ctrlKey || event.nativeEvent.metaKey) && event.nativeEvent.keyCode === constants.key.enter) { // Ctrl+Enter, Cmd+Enter, Win+Enter
+         // If "primary action" processed event, then event must be stopped.
+         // Otherwise, parental controls (including other primary action) can react to pressing ctrl+enter and call one more handler
+         event.stopPropagation();
+         this._onTriggerHandler();
+      }
    },
 
    _keyPressed: function (e) {
@@ -193,7 +199,7 @@ Submit.getOptionTypes = function () {
          'default',
          'secondary',
          'success',
-         'done',
+         'primary',
          'error',
          'danger'
       ])

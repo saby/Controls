@@ -24,7 +24,7 @@ export default class AdditionalParamsControl extends Control<IAdditionalRenderOp
         });
         const controllerResult = this._itemsController.getResult();
         this._visibleItems = controllerResult.visibleItems;
-        this._arrowExpanded = controllerResult.expanderVisible;
+        this._arrowVisible = controllerResult.expanderVisible;
     }
 
     protected _beforeUpdate(options: IAdditionalRenderOptions): void {
@@ -34,7 +34,7 @@ export default class AdditionalParamsControl extends Control<IAdditionalRenderOp
             keyProperty: options.keyProperty
         });
         this._visibleItems = updateResult.visibleItems;
-        this._arrowExpanded = updateResult.expanderVisible;
+        this._arrowVisible = updateResult.expanderVisible;
     }
 
     protected _arrowClick(): void {

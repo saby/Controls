@@ -9,9 +9,8 @@ import {
    getDefaultOptions as getValueValidatorsDefaultOptions,
    getOptionTypes as getValueValidatorsOptionTypes
 } from 'Controls/_input/interface/IValueValidators';
-import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
-import {isValidDate, Container, InputContainer} from 'Controls/validate'
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {proxyModelEvents, tmplNotify} from 'Controls/eventUtils';
+import {isValidDate, Container, InputContainer} from 'Controls/validate';
 import template = require('wml!Controls/_input/DateTime/DateTime');
 
 /**
@@ -178,6 +177,11 @@ var Component = Control.extend([], {
       }
       e.stopImmediatePropagation();
    },
+
+   validate(): void {
+      this._children.validator.validate();
+   },
+
    _onKeyDown: function(event) {
       var key = event.nativeEvent.keyCode;
       if (key === Env.constants.key.insert && !event.nativeEvent.shiftKey && !event.nativeEvent.ctrlKey) {

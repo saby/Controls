@@ -1,10 +1,12 @@
 <div class="controls-DateRangeSelectorLite">
-   <Controls._dateRange.LinkView
+   <Controls._dateRange.RangeShortSelectorLink
       name="linkView"
       scope="{{_options}}"
       startValue="{{_rangeModel.startValue}}"
       endValue="{{_rangeModel.endValue}}"
       fontColorStyle="{{_options.fontColorStyle}}"
+      on:mouseenter="_mouseEnterHandler()"
+      on:mouseleave="_mouseLeaveHandler()"
       on:rangeChanged="_rangeChangedHandler()"
       on:linkClick="openPopup()"
       attr:class="controls-DateRangeSelectorLite__view {{_isMinWidth ? 'controls-DateRangeSelectorLite__view_minWidth'}}"

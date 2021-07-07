@@ -32,7 +32,7 @@ import {IGrouped, IGroupedOptions} from 'Controls/dropdown';
 import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
 import * as ActualAPI from 'Controls/_toolbars/ActualAPI';
-import {DependencyTimer, isLeftMouseButton} from "Controls/Utils/FastOpen";
+import {DependencyTimer, isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {IoC} from "Env/Env";
 
 type TItem = Record;
@@ -99,6 +99,16 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIc
      * @demo Controls-demo/Toolbar/ItemActions/Index
      */
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
+
+    /**
+     * @name Controls/_toolbars/IToolbarOptions#menuSource
+     * @cfg {Types/source:ICrudPlus} Объект реализующий интерфейс {@link Types/source:ICrud},
+     * необходимый для работы с источником данных выпадающего меню тулбара.
+     * Данные будут загружены отложенно, при взаимодействии с меню.
+     * @link source
+     * @link items
+     */
+    menuSource?: ICrudPlus;
 }
 
 /**
@@ -299,18 +309,23 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     }
 
     private _setMenuItems(): void {
-        const source = this._options.source || this._getSourceForMenu();
         const menuItems = Toolbar._calcMenuItems(this._actualItems);
         this._menuItems = menuItems;
-        this._menuSource = this._createPrefetchProxy(source, menuItems);
+
+        if (this._options.menuSource) {
+            this._menuSource = this._options.menuSource;
+        } else {
+            const source = this._options.source || this._getSourceForMenu();
+            this._menuSource = this._createPrefetchProxy(source, menuItems);
+        }
     }
 
-    private _setStateByItems(items: TItems, isNewOptions: boolean, source?: ICrudPlus): void {
+    private _setStateByItems(items: TItems, source?: ICrudPlus): void {
         this._fullItemsList = items;
         /**
          * https://online.sbis.ru/opendoc.html?guid=6b6e9774-afb3-4379-8578-95ad0f0035a9
          */
-        this._actualItems = isNewOptions ? items : ActualAPI.items(items);
+        this._actualItems = ActualAPI.items(items);
         this._items = this._actualItems;
         if (source) {
             this._source = this._createPrefetchProxy(source, this._actualItems);
@@ -341,12 +356,12 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
 
         if (options.source) {
             if (receivedItems) {
-                this._setStateByItems(receivedItems, options.isNewOptions, options.source);
+                this._setStateByItems(receivedItems, options.source);
             } else {
-                return this.setStateBySource(options.source, options.isNewOptions);
+                return this.setStateBySource(options.source);
             }
         } else if (options.items) {
-            this._setStateByItems(options.items, options.isNewOptions);
+            this._setStateByItems(options.items);
         }
     }
 
@@ -357,16 +372,16 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         if (hasSourceChanged(newOptions.source, this._options.source)) {
             this._isLoadMenuItems = false;
             this._sticky?.close();
-            this.setStateBySource(newOptions.source, newOptions.isNewOptions);
+            this.setStateBySource(newOptions.source);
         }
         if (this._options.items !== newOptions.items) {
             this._sourceByItems = null;
-            this._setStateByItems(newOptions.items, newOptions.isNewOptions);
+            this._setStateByItems(newOptions.items);
         }
     }
 
     protected _beforeUnmount(): void {
-        this._sticky?.close();
+        this._sticky?.destroy();
         this._sticky = null;
     }
 
@@ -384,16 +399,16 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         }
     }
 
-    protected setStateBySource(source: ICrudPlus, isNewOptions: boolean): Promise<TItems> {
+    protected setStateBySource(source: ICrudPlus): Promise<TItems> {
         return loadItems(source).then((items) => {
-            this._setStateByItems(items, isNewOptions, source);
+            this._setStateByItems(items, source);
             return items;
         });
     }
 
     protected _closeHandler(): void {
         this._notify('menuClosed', [], {bubbling: true});
-        this._setStateByItems(this._fullItemsList, this._options.isNewOptions, this._options.source);
+        this._setStateByItems(this._fullItemsList, this._options.source);
         this._setMenuItems();
     }
 
@@ -535,10 +550,10 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
 
     static getDefaultOptions() {
         return {
+            menuSource: null,
             popupClassName: '',
             itemsSpacing: 'medium',
             iconSize: 'm',
-            isNewOptions: false,
             itemTemplate: defaultItemTemplate
         };
     }

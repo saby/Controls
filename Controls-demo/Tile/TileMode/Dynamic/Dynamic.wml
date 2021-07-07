@@ -1,0 +1,23 @@
+<div class="controlsDemo__wrapper">
+   <Controls.buttons:Button readOnly="{{false}}" caption="Load Image" on:click="_getImage()"/>
+   <Controls.tile:View
+      tileMode="dynamic"
+      displayProperty="title"
+      tileHeight="200"
+      imageWidthProperty="imageWidth"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      imageHeightProperty="imageHeight"
+      folderWidth="300"
+      tileScalingMode="outside"
+      imageProperty="image"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:ItemTemplate"
+            scope="{{itemTemplate}}"
+            hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+      </ws:itemTemplate>
+   </Controls.tile:View>
+</div>

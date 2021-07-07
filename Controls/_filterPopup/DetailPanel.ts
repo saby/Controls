@@ -69,6 +69,17 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     */
 
    /**
+    * @typedef {String} historySaveMode
+    * @variant pinned - по ховеру на элемент появляется команда закрепления записи.
+    * @variant favorite - по ховеру на элемент появляется команда добавления записи в избранное.
+    */
+
+   /**
+    * @name Controls/_filterPopup/DetailPanel#historySaveMode
+    * @cfg {historySaveMode} режим работы с историей фильтров.
+    */
+
+   /**
     * @event Controls/_filterPopup/DetailPanel#sendResult Происходит при клике по кнопке "Отобрать".
     * @param {Object} filter Объект фильтра {'filter_id': 'filter_value'}.
     * @param {Object} items Набор элементов.
@@ -120,20 +131,21 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
          }
       },
 
-      loadHistoryItems: function(self, historyId, isReportPanel) {
+      loadHistoryItems: function(self, historyId, historySaveMode) {
+         const isFavoriteHistory = historySaveMode === 'favorite';
          if (historyId) {
             const pDef = new ParallelDeferred();
             const config = {
                 historyId,
-                recent: isReportPanel ? 'MAX_HISTORY_REPORTS' : 'MAX_HISTORY',
-                favorite: isReportPanel
+                recent: isFavoriteHistory ? 'MAX_HISTORY_REPORTS' : 'MAX_HISTORY',
+                favorite: isFavoriteHistory
             };
             const historyLoad = HistoryUtils.loadHistoryItems(config)
                 .addCallback((items) => {
                    const historySource = HistoryUtils.getHistorySource(config);
                    let historyItems;
 
-                   if (isReportPanel) {
+                   if (isFavoriteHistory) {
                       historyItems = historySource.getItems();
                    } else {
                       historyItems = items;
@@ -285,6 +297,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
       _hasAdditionalParams: false,
       _hasHistory: false,
       _keyProperty: null,
+      _historySaveMode: null,
 
       _beforeMount: function(options, context) {
          _private.resolveItems(this, options, context);
@@ -293,8 +306,8 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
          this._keyProperty = _private.getKeyProperty(this._items);
          this._isChanged = _private.isChangedValue(this._items);
          this._hasResetValue = FilterUtils.hasResetValue(this._items);
-         const isReportPanel = options.orientation === 'horizontal';
-         return _private.loadHistoryItems(this, this._historyId, isReportPanel);
+         this._historySaveMode = options.orientation === 'horizontal' || options.historySaveMode === 'favorite' ? 'favorite' : 'pinned';
+         return _private.loadHistoryItems(this, this._historyId, this._historySaveMode);
       },
 
       _beforeUpdate: function(newOptions, context) {
