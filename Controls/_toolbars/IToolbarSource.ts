@@ -49,7 +49,6 @@ export interface IToolBarItem {
     viewMode?: string;
     captionPosition?: 'left' | 'right';
     buttonStyle?: string;
-    buttonClass?: string;
 }
 /**
  * @typedef {Object} Controls/_toolbars/IToolbarSource/Item
@@ -65,7 +64,6 @@ export interface IToolBarItem {
  * @property {String} [item.viewMode] Стиль отображения кнопки элемента. См. {@link Controls/buttons:Button#viewMode подробнее}.
  * @property {Controls/_toolbars/IToolbarSource/CaptionPosition.typedef} [item.captionPosition] Определяет, с какой стороны расположен текст кнопки относительно иконки.
  * @property {String} [item.buttonStyle] Стиль отображения кнопки. См. {@link Controls/buttons:IButton#buttonStyle подробнее}.
- * @property {String} [item.buttonClass] Класс, который навесится на кнопки.
  */
 /*
  * @typedef {Object} Controls/_toolbars/IToolbarSource/Item

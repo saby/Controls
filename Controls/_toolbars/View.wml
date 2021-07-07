@@ -1,5 +1,31 @@
+<ws:template name="MenuButton">
+   <ws:if data="{{_needShowMenu}}">
+      <Controls.buttons:Button
+              attr:class="controls-Toolbar__menu
+                             controls-Toolbar__menu_{{_options.direction}}-spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}
+                             {{_options.isTranslucent ? 'controls-Button_functionalButton_style-translucent'}}"
+              name="menuTarget"
+              viewMode="{{_options.isTranslucent ? 'functionalButton' : 'toolButton'}}"
+              buttonStyle="{{_options.isTranslucent ? 'pale'}}"
+              iconStyle="{{_options.isTranslucent ? 'contrast'}}"
+              tooltip="{[Открыть меню]}"
+              iconSize="{{_options.iconSize === 'l' ? 'l' : 'm'}}"
+              icon="icon-SettingsNew"
+              inlineHeight="{{_options.inlineHeight ? _options.inlineHeight : (_options.iconSize === 'l' ? 'l' : 'm')}}"
+              readOnly="{{_options.readOnly}}"
+              contrastBackground="{{_options.contrastBackground}}"
+              attr:data-qa="controls-Toolbar__menu"
+              on:click="_onClickHandler()"
+              on:mousedown="_mouseDownHandler()"
+              on:mouseenter="_mouseEnterHandler()"
+              on:mouseleave="_mouseLeaveHandler()"/>
+   </ws:if>
+</ws:template>
 <div class="controls-Toolbar">
    <div class="controls-Toolbar_content controls-Toolbar_content-{{_options.direction}}">
+      <ws:if data="{{_options.direction === 'vertical'}}">
+         <ws:partial template="MenuButton"/>
+      </ws:if>
       <ws:for data="item in _items">
          <ws:if data="{{_isShowToolbar(item, _parentProperty)}}">
             <ws:partial template="{{_getTemplateByItem(item)}}"
@@ -8,32 +34,15 @@
                         itemsSpacing="{{_options.itemsSpacing}}"
                         buttonTemplate="{{_buttonTemplate}}"
                         buttonTemplateOptions="{{ _getSimpleButtonTemplateOptionsByItem(item) }}"
-                        buttonClass="{{item['buttonClass']}}"
+                        buttonClass="{{_options.isTranslucent ? 'controls-Button_functionalButton_style-translucent'}}"
                         theme="{{_options.theme}}"
                         isFirstItem="{{_firstItem === item}}"
                         attr:data-qa="{{item[_options.keyProperty]}}"
                         on:click="_itemClickHandler(item)"/>
          </ws:if>
       </ws:for>
-      <ws:if data="{{_needShowMenu}}">
-         <Controls.buttons:Button
-                 attr:class="controls-Toolbar__menu controls-Toolbar__menu_viewMode-{{_options.menuButtonViewMode}}{{_options.contrastBackground ? '_contrastBackground'}}
-                             controls-Toolbar__menu_{{_options.direction}}-spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}} {{_options.menuButtonClass}}"
-                 name="menuTarget"
-                 viewMode="{{_options.menuButtonViewMode}}"
-                 buttonStyle="{{_options.menuButtonStyle}}"
-                 iconStyle="{{_options.menuIconStyle}}"
-                 tooltip="{[Открыть меню]}"
-                 iconSize="{{_options.iconSize === 'l' ? 'l' : 'm'}}"
-                 icon="icon-SettingsNew"
-                 inlineHeight="{{_options.inlineHeight ? _options.inlineHeight : (_options.iconSize === 'l' ? 'l' : 'm')}}"
-                 readOnly="{{_options.readOnly}}"
-                 contrastBackground="{{_options.contrastBackground}}"
-                 attr:data-qa="controls-Toolbar__menu"
-                 on:click="_onClickHandler()"
-                 on:mousedown="_mouseDownHandler()"
-                 on:mouseenter="_mouseEnterHandler()"
-                 on:mouseleave="_mouseLeaveHandler()"/>
+      <ws:if data="{{_options.direction !== 'vertical'}}">
+         <ws:partial template="MenuButton"/>
       </ws:if>
    </div>
 </div>

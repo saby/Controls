@@ -389,6 +389,7 @@ export const data = {
             icon: 'icon-Time',
             viewMode: 'functionalButton',
             buttonStyle: 'pale',
+            inlineHeight: 'l',
             '@parent': false,
             parent: null
         }, {

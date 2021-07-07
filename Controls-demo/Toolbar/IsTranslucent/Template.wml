@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">isTranslucent=false</div>
+        <Controls.toolbars:View
+                source="{{_buttonsSource}}"
+                keyProperty="id"
+                isTranslucent="{{false}}"
+                inlineHeight="l"
+                menuIconStyle="contrast"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">isTranslucent=true</div>
+        <Controls.toolbars:View
+                source="{{_buttonsSource}}"
+                keyProperty="id"
+                isTranslucent="{{true}}"
+                inlineHeight="l"
+                menuIconStyle="contrast"
+        />
+    </div>
+</div>

@@ -133,26 +133,11 @@ export interface IMenuOptions {
     contrastBackground?: true;
      /**
       * @name Controls/toolbars:IToolbar#menuButtonViewMode
-      * @cfg {IViewMode} Режим отображения кнопки открытия выпадающего меню тулбара
+      * @cfg {boolean} Режим полупрозрачного отображения кнопки открытия выпадающего меню тулбара
+      * @default false
+      * @demo Controls-demo/Toolbar/IsTranslucent/Index
       */
-     menuButtonViewMode?: IViewMode;
-     /**
-      * @name Controls/toolbars:IToolbar#menuButtonStyle
-      * @cfg {IViewMode} Стиль отображения кнопки открытия выпадающего меню тулбара
-      */
-     menuButtonStyle?: string;
-     /**
-      * @name Controls/toolbars:IToolbar#menuButtonClass
-      * @cfg {IViewMode} Класс, который навесится на кнопку открытия выпадающего меню тулбара
-      * @demo Controls-demo/Toolbar/ButtonClass/Index
-      */
-     menuButtonClass?: string;
-     /**
-      * @name Controls/toolbars:IToolbar#menuIconStyle
-      * @cfg {IViewMode} Стиль отображения иконки открытия выпадающего меню тулбара
-      * @demo Controls-demo/Toolbar/ButtonClass/Index
-      */
-     menuIconStyle?: string;
+     isTranslucent?: boolean;
 }
 
 /**
@@ -662,7 +647,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             direction: 'horizontal',
             itemTemplate: defaultItemTemplate,
             iconStyle: 'secondary',
-            menuButtonViewMode: 'link'
+            menuButtonViewMode: 'link',
+            isTranslucent: false
         };
     }
 
