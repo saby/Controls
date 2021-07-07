@@ -129,9 +129,9 @@ export default class SourceControl extends Control<ISourceControlOptions, Record
 
     protected _beforeMount(options?: ISourceControlOptions, contexts?: object, receivedState?: RecordSet | void): Promise<RecordSet | void> | void {
         this._listSourceLoader = new ListSourceLoadingController({
-            keyProperty: this._options.keyProperty,
-            navigation: this._options.navigation,
-            source: this._options.source
+            keyProperty: options.keyProperty,
+            navigation: options.navigation,
+            source: options.source
         });
         // TODO implement external List/Grid sorting
         this._sorting = [];
