@@ -50,55 +50,55 @@ export default class TabButtonsDemo extends Control {
             rawData: [
                 {
                     id: '1',
-                    caption: '1Fffffffffs'
+                    caption: 'Лучший по сложным продуктам'
                 },
                 {
                     id: '2',
-                    caption: '22Fiffffffffffffffffffffles'
+                    caption: 'Лучший продавец'
                 },
                 {
                     id: '3',
-                    caption: 'Filfffffffffffffffffffffffes'
+                    caption: 'Самый отзывчивый сотрудник'
                 },
                 {
                     id: '4',
-                    caption: 'Filffffffffffffffffffffes'
+                    caption: 'Чемпион'
                 },
                 {
                     id: '5',
-                    caption: 'Files'
+                    caption: 'Лучший продавец десертов'
                 },
                 {
                     id: '6',
-                    caption: 'Fiffffffffffffffles'
+                    caption: 'Лучший продавец десертов'
                 },
                 {
                     id: '7',
-                    caption: 'Files'
+                    caption: 'Самый отзывчивый сотрудник'
                 },
                 {
                     id: '8',
-                    caption: 'Fi4444les'
+                    caption: 'Чемпион'
                 },
                 {
                     id: '9',
-                    caption: 'Fi4444les  44444'
+                    caption: 'Чемпион'
                 },
                 {
                     id: '10',
-                    caption: 'Fi222les'
+                    caption: 'Лучший продавец десертов'
                 },
                 {
                     id: '11',
-                    caption: 'Files'
+                    caption: 'Самый отзывчивый сотрудник'
                 },
                 {
                     id: '12',
-                    caption: 'Fi4444444444les'
+                    caption: 'Лучший продавец десертов'
                 },
                 {
                     id: '13',
-                    caption: 'F 44444444iles'
+                    caption: 'Лучший продавец десертов'
                 }
             ]
         });
