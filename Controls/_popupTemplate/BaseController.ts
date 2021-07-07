@@ -38,6 +38,9 @@ abstract class BaseController implements IPopupController {
         if (this._checkContainer(item, container, 'elementCreated')) {
             item.popupState = this.POPUP_STATE_CREATED;
             oldWindowManager.addZIndex(item.currentZIndex);
+            if (item.popupOptions.autoClose) {
+                this._closeByTimeout(item);
+            }
             return this.elementCreated.apply(this, arguments);
         }
     }
@@ -162,12 +165,19 @@ abstract class BaseController implements IPopupController {
     }
 
     popupMouseEnter(item: IPopupItem): boolean {
-        // method can be implemented
+        if (item.popupOptions.autoClose) {
+            if (item.closeId) {
+                clearTimeout(item.closeId);
+                item.closeId = null;
+            }
+        }
         return false;
     }
 
     popupMouseLeave(item: IPopupItem): boolean {
-        // method can be implemented
+        if (item.popupOptions.autoClose) {
+            this._closeByTimeout(item);
+        }
         return false;
     }
 
@@ -222,6 +232,14 @@ abstract class BaseController implements IPopupController {
             container = container[0];
         }
         return container;
+    }
+
+    private _closeByTimeout(item: IPopupItem): void {
+        const timeAutoClose = 5000;
+
+        item.closeId = setTimeout(() => {
+            ManagerController.remove(item.id);
+        }, timeAutoClose);
     }
 
     private _checkContainer(item: IPopupItem, container: HTMLElement, stage: string): boolean {

@@ -1,7 +1,6 @@
 <ws:partial template="Controls/_popupTemplate/Notification/Base"
             closeButtonVisibility="{{_options.closeButtonVisibility}}"
-            style="{{_options.style}}"
-            autoClose="{{_options.autoClose}}">
+            style="{{_options.style}}">
     <ws:bodyContentTemplate>
         <div class="controls-Notification__simpleTemplate">
             <ws:if data="{{_options.icon}}">

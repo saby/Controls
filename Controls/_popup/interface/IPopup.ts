@@ -23,6 +23,7 @@ export interface IPopupItem {
     popupState: string;
     childs: IPopupItem[];
     parentId?: string;
+    closeId?: number;
     position?: IPopupPosition;
     currentZIndex?: number;
     className?: string;
@@ -78,6 +79,7 @@ export interface IPopupOptions extends IBasePopupOptions {
     id?: string;
     maximize?: boolean;
     content?: Function;
+    autoClose?: boolean;
 }
 
 export interface IDragOffset {
