@@ -105,7 +105,8 @@ class ListEditor extends BaseEditor {
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
         const contentClick = nativeEvent.target.closest('.controls-ListEditor__columns');
         if (contentClick) {
-            this._processPropertyValueChanged([item.get(this._options.keyProperty)], true);
+            const selectedKeysArray = [item.get(this._options.keyProperty)].concat(this._selectedKeys);
+            this._processPropertyValueChanged(selectedKeysArray, true);
         }
     }
 
