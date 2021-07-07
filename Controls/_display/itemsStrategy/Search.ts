@@ -85,11 +85,13 @@ function getBreadCrumbsReference<S extends Model, T extends TreeItem<S>>(
         if (!breadCrumbs) {
             // TODO удалить првоерку, когда полностью перейдем на новую модель https://online.sbis.ru/opendoc.html?guid=378971cd-b6a3-44ad-a264-745bd5a7f443
             if (display?.createBreadcrumbsItem) {
+                const breadcrumbsParent = !item.isRoot() && item.getParent()['[Controls/treeGrid:TreeGridGroupDataRow]']
+                    ? item.getParent()
+                    : display.getRoot();
                 breadCrumbs = display?.createBreadcrumbsItem({
                     contents: null,
                     last,
-                    // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
-                    parent: item.getParent()['[Controls/treeGrid:TreeGridGroupDataRow]'] ? item.getParent() : display.getRoot(),
+                    parent: breadcrumbsParent,
                     multiSelectVisibility: display?.getMultiSelectVisibility(),
                     multiSelectAccessibilityProperty: display?.getMultiSelectAccessibilityProperty()
                 });
