@@ -106,11 +106,20 @@
       -ms-flex-negative: 1;
    }
 }
-
 .controls-Button__wrapper_viewMode-button,
 .controls-Button__wrapper_viewMode-toolButton,
 .controls-Button__wrapper_viewMode-functionalButton {
-   justify-content: center;
+   &.controls-Button_textAlign-left {
+      justify-content: left;
+   }
+
+   &.controls-Button_textAlign-center {
+      justify-content: center;
+   }
+
+   &.controls-Button_textAlign-right {
+      justify-content: flex-end;
+   }
 }
 
 .controls-Button_clickable {
