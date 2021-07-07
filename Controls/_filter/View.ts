@@ -422,7 +422,6 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         if (!detection.isMobileIOS) {
             RegisterUtil(this, 'scroll', this._handleScroll.bind(this), {listenAll: true});
         }
-        const target = this._container[0] || this._container;
         const popupOptions = {
             opener: this,
             templateOptions: {
@@ -430,7 +429,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 collapsedGroups: this._collapsedFilters,
                 historyId: this._options.historyId
             },
-            target,
+            target: this._container[0] || this._container,
             className: 'controls-FilterView-popup',
             closeOnOutsideClick: true,
             eventHandlers: {
@@ -438,10 +437,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             }
         };
         if (this._options.detailPanelOpenMode === 'stack' && !this._container.closest('.controls-StackTemplate')) {
-            popupOptions.restrictiveContainer = '.sabyPage-MainLayout__workspaceWrapper';
-            //будет удалено в 4100
-            const rightPanel = document.getElementsByClassName('sabyPage-MainLayout__rightPanel')[0] as HTMLElement;
-            popupOptions.templateOptions.rightPanelWidth = rightPanel && rightPanel.getBoundingClientRect()?.width;
+            popupOptions.restrictiveContainer = '.sabyPage-MainLayout__rightPanel';
         }
         Merge(popupOptions, panelPopupOptions);
         popupOptions.className += ` controls_popupTemplate_theme-${this._options.theme} controls_filter_theme-${this._options.theme} controls_filterPopup_theme-${this._options.theme} controls_dropdownPopup_theme-${this._options.theme}`;

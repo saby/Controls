@@ -139,7 +139,6 @@ class ListEditor extends BaseEditor {
         this._getPopupOpener(selectorOptions.mode).open({
             ...{
                 opener: this,
-                restrictiveContainer: '.sabyPage-MainLayout__rightPanel',
                 templateOptions: {
                     ...selectorOptions.templateOptions,
                     ...{
