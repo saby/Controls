@@ -11,7 +11,8 @@ class TextEditor extends BaseEditor {
     protected _template: TemplateFunction = TextTemplate;
 
     protected _extendedCaptionClickHandler(): void {
-        this._notifyPropertyValueChanged(this._options.value);
+        this._extendedValue = this._options.value;
+        this._notifyPropertyValueChanged();
     }
 }
 

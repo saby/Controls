@@ -80,10 +80,12 @@ class NumberRangeEditor extends BaseEditor implements INumberRange {
         } else {
             this._processPropertyValueChanged(event, [this._minValue, this._maxValue]);
         }
+        this._updateExtendedValues();
     }
 
     protected _handleMaxValueChanged(event: SyntheticEvent, value: number): void {
         this._maxValue = value;
+        this._updateExtendedValues();
     }
 
     protected _handleInputCompleted(event: SyntheticEvent, value: number): void {
@@ -93,18 +95,23 @@ class NumberRangeEditor extends BaseEditor implements INumberRange {
         this._processPropertyValueChanged(event, [this._minValue, this._maxValue]);
     }
 
+    private _updateExtendedValues(): void {
+        const value = [this._minValue, this._maxValue];
+        this._extendedValue = {
+            value,
+            textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : ''
+        };
+    }
+
     private _updateValues(newValue: number[]): void {
         this._minValue = newValue[0] !== undefined ? newValue[0] : null;
         this._maxValue = newValue[1] !== undefined ? newValue[1] : null;
     }
 
     private _processPropertyValueChanged(event: SyntheticEvent, value: number[]): void {
-        const extendedValue = {
-            value,
-            textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : ''
-        };
+        this._updateExtendedValues();
         if (this._needNotifyChanges(value)) {
-            this._notifyPropertyValueChanged(extendedValue);
+            this._notifyPropertyValueChanged();
         }
     }
 
