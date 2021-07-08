@@ -132,7 +132,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * * свойству **contents** — это объект, который содержит данные элемента, под которым отрисовывается шаблон.
  * * методу **getNode()** — возвращает узел, внутри которого отображается шаблон.
  * 
- * @demo Controls-demo/treeGrid/NodeFooter/NodeFooterTemplate/Index
+ * @demo Controls-demo/treeGridNew/NodeFooter/NodeFooterTemplate/Index
  * @see nodeFooterVisibilityCallback
  * @see nodeLoadCallback
  */
