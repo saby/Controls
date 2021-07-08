@@ -31,7 +31,7 @@
          <ws:tabindex><ws:Number>0</ws:Number></ws:tabindex>
       </Controls.popupTemplate:Dialog>
    </ws:else>
-   <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()">
+   <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()" name="listener">
       <ws:tabindex><ws:Number>0</ws:Number></ws:tabindex>
    </Controls.event:Listener>
 </div>
