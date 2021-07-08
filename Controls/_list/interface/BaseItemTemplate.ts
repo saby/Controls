@@ -43,7 +43,7 @@ export default interface IBaseItemTemplateOptions {
 * @name Controls/_list/interface/IBaseItemTemplate#marker
 * @cfg {Boolean} Позволяет отключить видимость {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера} для отдельной записи списка.
 * @default true
-* @demo Controls-demo/list_new/ItemTemplate/Marker/Index В следующем примере выделение маркером отключено для всех записей.
+* @demo Controls-demo/list_new/ItemTemplate/Marker/Index В следующем примере выделение маркером отключено для первой записи.
 * @remark Отключение видимости маркера для всех записей описано {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/#all здесь}.
 * @see markerClassName
 * @see Controls/marker:IMarkerList#markerVisibility
