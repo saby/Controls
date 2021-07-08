@@ -14,6 +14,9 @@
  * @includes IReloadableList Controls/_list/interface/IReloadableList
  * @includes IEditableList Controls/_list/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
+ * @includes IEditingConfig Controls/_list/interface/IEditingConfig
+ * @includes IItemAddOptions Controls/_list/interface/IItemAddOptions
+ * @includes IItemEditOptions Controls/_list/interface/IItemEditOptions
  * @public
  * @author Крайнов Д.О.
  */
