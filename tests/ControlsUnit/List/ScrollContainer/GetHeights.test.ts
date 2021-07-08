@@ -1,4 +1,4 @@
-import { getItemsHeightsData } from 'Controls/_list/ScrollContainer/GetHeights';
+import { getItemsHeightsData } from 'Controls/_baseList/ScrollContainer/GetHeights';
 import {assert} from 'chai';
 
 describe('getItemsHeightsData', () => {

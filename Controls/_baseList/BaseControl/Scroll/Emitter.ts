@@ -2,25 +2,24 @@
  * Created by kraynovdo on 15.02.2018.
  */
 import {Control} from 'UI/Base';
-import template = require('wml!Controls/_list/BaseControl/Scroll/Emitter/Emitter');
+import template = require('wml!Controls/_baseList/BaseControl/Scroll/Emitter/Emitter');
 
-var ScrollEmitter = Control.extend({
+const ScrollEmitter = Control.extend({
     _template: template,
 
-    startRegister: function (triggers) {
+    startRegister(triggers: any[]): void {
         this._notify('register', ['listScroll', this, this.handleScroll, triggers], {bubbling: true});
     },
 
-    _beforeUnmount: function () {
+    _beforeUnmount(): void {
         this._notify('unregister', ['listScroll', this], {bubbling: true});
     },
-    handleScroll: function () {
+
+    handleScroll(): void {
         this._notify('emitListScroll', Array.prototype.slice.call(arguments));
     }
 });
 
-ScrollEmitter.getOptionTypes = function () {
-    return {};
-};
+ScrollEmitter.getOptionTypes = () => ({});
 
 export = ScrollEmitter;

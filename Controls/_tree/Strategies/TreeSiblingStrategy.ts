@@ -2,7 +2,7 @@ import {Tree} from 'Controls/display';
 import {Model} from 'Types/entity';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/list';
+import {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/baseList';
 
 export interface ITreeStrategyOptions extends ISiblingStrategyOptions {
     collection: Tree;

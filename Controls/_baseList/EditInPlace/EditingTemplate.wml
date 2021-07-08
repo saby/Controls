@@ -1,5 +1,5 @@
 <ws:template name="local">
-  <ws:partial template="wml!Controls/_list/EditInPlace/baseEditingTemplate"
+  <ws:partial template="wml!Controls/_baseList/EditInPlace/baseEditingTemplate"
               scope="{{ _options }}"
               editableTarget="{{ (column || item || itemData) }}"
               viewTemplate="{{ userViewTemplate || defaultViewTemplate }}"
