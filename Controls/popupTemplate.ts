@@ -25,10 +25,10 @@ export {default as InfoBox, IInfoboxTemplateOptions} from 'Controls/_popupTempla
 export {default as templateInfoBox} from 'Controls/_popupTemplate/InfoBox/Template/Simple/template';
 export {default as InfoBoxController} from 'Controls/_popupTemplate/InfoBox/InfoBoxController';
 
-export {default as Notification} from 'Controls/_popupTemplate/Notification/Base';
-export {default as NotificationSimple} from 'Controls/_popupTemplate/Notification/Simple';
-export {default as INotification, INotificationOptions} from 'Controls/_popupTemplate/Notification/interface/INotification';
-export {default as NotificationController} from 'Controls/_popupTemplate/Notification/Opener/NotificationController';
+export {default as Notification} from 'Controls/_popupTemplate/Notification/Template/Base';
+export {default as NotificationSimple} from 'Controls/_popupTemplate/Notification/Template/Simple';
+export {default as NotificationController} from 'Controls/_popupTemplate/Notification/NotificationController';
+export {INotification, INotificationOptions} from 'Controls/_popupTemplate/interface/INotification';
 
 export {default as IPopupTemplate, IPopupTemplateOptions} from 'Controls/_popupTemplate/interface/IPopupTemplate';
 export {default as IPopupTemplateBaseOptions} from 'Controls/_popupTemplate/interface/IPopupTemplateBase';

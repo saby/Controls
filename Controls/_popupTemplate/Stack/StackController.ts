@@ -1,5 +1,5 @@
 import BaseController, {RIGHT_PANEL_WIDTH} from 'Controls/_popupTemplate/BaseController';
-import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition} from 'Controls/popup';
+import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition, IStackPopupOptions} from 'Controls/popup';
 import StackStrategy from 'Controls/_popupTemplate/Stack/StackStrategy';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {List} from 'Types/collection';
@@ -20,14 +20,19 @@ import * as Deferred from 'Core/Deferred';
 
 const ACCORDEON_MIN_WIDTH = 50;
 
+interface IStackItem extends IPopupItem {
+    containerWidth: number;
+    popupOptions: IStackPopupOptions;
+}
+
 class StackController extends BaseController {
     TYPE: string = 'Stack';
-    _stack: List<IPopupItem> = new List();
+    _stack: List<IStackItem> = new List();
 
     private _sideBarVisible: boolean = true;
     private _positionBeforeUpdate: IPopupPosition;
 
-    elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
+    elementCreated(item: IStackItem, container: HTMLElement): boolean {
         const isSinglePopup = this._stack.getCount() < 2;
         let positionUpdate: boolean = false;
 
@@ -61,7 +66,7 @@ class StackController extends BaseController {
         return !isSinglePopup || positionUpdate;
     }
 
-    elementUpdateOptions(item: IPopupItem, container: HTMLDivElement): boolean|Promise<boolean> {
+    elementUpdateOptions(item: IStackItem, container: HTMLElement): boolean|Promise<boolean> {
         this._preparePropStorageId(item);
         if (!item.popupOptions.propStorageId) {
             return this._updatePopup(item, container);
@@ -72,13 +77,13 @@ class StackController extends BaseController {
         }
     }
 
-    elementUpdated(item: IPopupItem, container: HTMLDivElement): boolean {
+    elementUpdated(item: IStackItem, container: HTMLElement): boolean {
         this._positionBeforeUpdate = item.position;
         this._updatePopup(item, container);
         return true;
     }
 
-    elementAfterUpdated(item: IPopupItem, container: HTMLDivElement): boolean {
+    elementAfterUpdated(item: IStackItem, container: HTMLElement): boolean {
         let needUpdate = false;
         if (item.childs.length) {
             // Если у окна restrictiveContainer лежит на другом окне - то нужно высчитывать позицию только когда
@@ -99,13 +104,13 @@ class StackController extends BaseController {
         return needUpdate;
     }
 
-    elementDestroyed(item: IPopupItem): Promise<null> {
+    elementDestroyed(item: IStackItem): Promise<null> {
         this._stack.remove(item);
         this._update();
         return (new Deferred()).callback();
     }
 
-    getDefaultConfig(item: IPopupItem): void|Promise<void> {
+    getDefaultConfig(item: IStackItem): void|Promise<void> {
         this._preparePropStorageId(item);
         if (item.popupOptions.propStorageId) {
             return this._getPopupWidth(item).then(() => {
@@ -116,11 +121,10 @@ class StackController extends BaseController {
         }
     }
 
-    elementMaximized(item: IPopupItem, container: HTMLDivElement, state: boolean): boolean {
+    elementMaximized(item: IStackItem, container: HTMLElement, state: boolean): boolean {
         this._setMaximizedState(item, state);
-
-        // todo https://online.sbis.ru/opendoc.html?guid=256679aa-fac2-4d95-8915-d25f5d59b1ca
-        item.popupOptions.width = state ? item.popupOptions.maxWidth : (item.popupOptions.minimizedWidth || item.popupOptions.minWidth);
+        const minWidth = item.popupOptions.minimizedWidth || item.popupOptions.minWidth;
+        item.popupOptions.width = state ? item.popupOptions.maxWidth : minWidth;
         this._prepareSizes(item, container);
         this._update();
         return true;
@@ -135,7 +139,7 @@ class StackController extends BaseController {
         return !!this._stack.getCount();
     }
 
-    popupResizingLine(item: IPopupItem, offset: number): void {
+    popupResizingLine(item: IStackItem, offset: number): boolean {
         // По идее position.width есть всегда и достаточно брать его. Для избежания падения в исключительных случаях
         // оставляю еще проверну на popupOptions.stackWidth.
         // popupOptions.width брать нельзя, т.к. в нем может содержаться значение, которое недопустимо в
@@ -147,9 +151,10 @@ class StackController extends BaseController {
         item.popupOptions.workspaceWidth = newValue;
         this._update();
         this._savePopupWidth(item);
+        return true;
     }
 
-    private _updateItemPosition(item: IPopupItem): boolean {
+    private _updateItemPosition(item: IStackItem): boolean {
         // Пересчитаем еще раз позицию, на случай, если ресайзили окно браузера
         const position = this._getItemPosition(item);
         // быстрая проверка на равенство простых объектов
@@ -164,7 +169,7 @@ class StackController extends BaseController {
 
     private _update(): void {
         const maxPanelWidth = StackStrategy.getMaxPanelWidth();
-        let cache: IPopupItem[] = [];
+        let cache: IStackItem[] = [];
         this._stack.each((item) => {
             if (item.popupState !== this.POPUP_STATE_DESTROYING) {
                 this._updateItemPosition(item);
@@ -214,11 +219,11 @@ class StackController extends BaseController {
     }
 
     // length = popup size + popup padding
-    private _getPopupHorizontalLength(item: IPopupItem): number {
+    private _getPopupHorizontalLength(item: IStackItem): number {
         return (item.containerWidth || item.position.width) + (item.position?.right || 0);
     }
 
-    private _prepareSizes(item: IPopupItem, container?: HTMLDivElement): void {
+    private _prepareSizes(item: IStackItem, container?: HTMLElement): void {
         let width;
         let maxWidth;
         let minWidth;
@@ -276,7 +281,7 @@ class StackController extends BaseController {
         return undefined;
     }
 
-    private _getDefaultConfig(item: IPopupItem): void {
+    private _getDefaultConfig(item: IStackItem): void {
         this._prepareSizeWithoutDOM(item);
         this._setStackContent(item);
         if (StackStrategy.isMaximizedPanel(item)) {
@@ -317,7 +322,7 @@ class StackController extends BaseController {
         }
     }
 
-    private _getItemPosition(item: IPopupItem): IPopupPosition {
+    private _getItemPosition(item: IStackItem): IPopupPosition {
         const targetCoords = this._getStackParentCoords(item);
         const isAboveMaximizePopup: boolean = this._isAboveMaximizePopup(item);
         const position = StackStrategy.getPosition(targetCoords, item, isAboveMaximizePopup);
@@ -332,7 +337,7 @@ class StackController extends BaseController {
         return position;
     }
 
-    private _validateConfiguration(item: IPopupItem): void {
+    private _validateConfiguration(item: IStackItem): void {
         if (item.popupOptions.maxWidth < item.popupOptions.minWidth) {
             item.popupOptions.maxWidth = item.popupOptions.minWidth;
         }
@@ -346,7 +351,7 @@ class StackController extends BaseController {
         }
     }
 
-    private _updatePopup(item: IPopupItem, container: HTMLDivElement): boolean {
+    private _updatePopup(item: IStackItem, container: HTMLElement): boolean {
         this._updatePopupOptions(item);
         this._setStackContent(item);
         this._prepareSizes(item, container);
@@ -354,11 +359,11 @@ class StackController extends BaseController {
         return true;
     }
 
-    private _prepareSizeWithoutDOM(item: IPopupItem): void {
+    private _prepareSizeWithoutDOM(item: IStackItem): void {
         this._prepareSizes(item);
     }
 
-    private _getContainerWidth(container: HTMLDivElement): number {
+    private _getContainerWidth(container: HTMLElement): number {
         // The width can be set when the panel is displayed. To calculate the width of the content, remove this value.
         const currentContainerWidth = container.style.width;
         container.style.width = 'auto';
@@ -368,29 +373,29 @@ class StackController extends BaseController {
         return templateWidth;
     }
 
-    private _updatePopupWidth(item: IPopupItem, width: number): void {
+    private _updatePopupWidth(item: IStackItem, width: number): void {
         if (!width && item.popupState !== this.POPUP_STATE_INITIALIZING) {
             item.containerWidth = this._getContainerWidth(this._getPopupContainer(item.id));
         }
     }
 
-    private _getStackContentWrapperContainer(stackContainer: HTMLDivElement): HTMLDivElement {
+    private _getStackContentWrapperContainer(stackContainer: HTMLElement): HTMLElement {
         return stackContainer.querySelector('.controls-Stack__content-wrapper');
     }
 
-    private _getStackParentCoords(item: IPopupItem): IPopupPosition {
+    private _getStackParentCoords(item: IStackItem): IPopupPosition {
         return StackController.calcStackParentCoords(item);
     }
 
-    private _showPopup(item: IPopupItem): void {
+    private _showPopup(item: IStackItem): void {
         item.position.hidden = false;
     }
 
-    private _hidePopup(item: IPopupItem): void {
+    private _hidePopup(item: IStackItem): void {
         item.position.hidden = true;
     }
 
-    private _updatePopupOptions(item: IPopupItem): void {
+    private _updatePopupOptions(item: IStackItem): void {
         // for vdom synchronizer. Updated the link to the options when className was changed
         if (!item.popupOptions._version) {
             item.popupOptions.getVersion = () => {
@@ -401,7 +406,7 @@ class StackController extends BaseController {
         item.popupOptions._version++;
     }
 
-    private _prepareMaximizedState(maxPanelWidth: number, item: IPopupItem): void {
+    private _prepareMaximizedState(maxPanelWidth: number, item: IStackItem): void {
         const canMaximized = maxPanelWidth > item.popupOptions.minWidth;
         if (!canMaximized) {
             // If we can't turn around, we hide the turn button and change the state
@@ -415,7 +420,7 @@ class StackController extends BaseController {
         }
     }
 
-    private _setMaximizedState(item: IPopupItem, state: boolean): void {
+    private _setMaximizedState(item: IStackItem, state: boolean): void {
         item.popupOptions.maximized = state;
         item.popupOptions.templateOptions.maximized = state;
     }
@@ -427,11 +432,11 @@ class StackController extends BaseController {
         };
     }
 
-    private _setStackContent(item: IPopupItem): void {
+    private _setStackContent(item: IStackItem): void {
         item.popupOptions.content = StackContent;
     }
 
-    private _getDefaultOptions(item: IPopupItem): IPopupOptions {
+    private _getDefaultOptions(item: IStackItem): IStackPopupOptions {
         const template = item.popupOptions.template;
 
         let templateClass;
@@ -455,14 +460,14 @@ class StackController extends BaseController {
         return templateClass && templateClass.getDefaultOptions ? templateClass.getDefaultOptions() : {};
     }
 
-    private _preparePropStorageId(item: IPopupItem): void {
+    private _preparePropStorageId(item: IStackItem): void {
         if (!item.popupOptions.propStorageId) {
             const defaultOptions = this._getDefaultOptions(item);
             item.popupOptions.propStorageId = defaultOptions.propStorageId;
         }
     }
 
-    private _getPopupWidth(item: IPopupItem): Promise<undefined> {
+    private _getPopupWidth(item: IStackItem): Promise<undefined> {
         return new Promise((resolve) => {
             const propStorageId = item.popupOptions.propStorageId;
             if (propStorageId) {
@@ -478,18 +483,18 @@ class StackController extends BaseController {
         });
     }
 
-    private _savePopupWidth(item: IPopupItem): void {
+    private _savePopupWidth(item: IStackItem): void {
         const propStorageId = item.popupOptions.propStorageId;
         if (propStorageId && item.position.width) {
             setSettings({[propStorageId]: item.position.width});
         }
     }
 
-    private _addLastStackClass(item: IPopupItem): void {
+    private _addLastStackClass(item: IStackItem): void {
         item.popupOptions.className = (item.popupOptions.className || '') + ' controls-Stack__last-item';
     }
 
-    private _removeLastStackClass(item: IPopupItem): void {
+    private _removeLastStackClass(item: IStackItem): void {
         const className = (item.popupOptions.className || '').replace(/controls-Stack__last-item/ig, '');
         item.popupOptions.className = className.trim();
     }
@@ -516,20 +521,21 @@ class StackController extends BaseController {
         }
     }
 
-    static calcStackParentCoords(item: IPopupItem): IPopupPosition {
+    static calcStackParentCoords(item: IStackItem): IPopupPosition {
         let rootCoords;
         // TODO: Ветка для старой страницы
         if (!isNewEnvironment()) {
-            let stackRoot = document.querySelector('.ws-float-area-stack-root');
+            let stackRoot = document.querySelector('.ws-float-area-stack-root') as HTMLElement;
             const isNewPageTemplate = document.body.classList.contains('ws-new-page-template');
             const contentIsBody = stackRoot === document.body;
             if (!contentIsBody && !isNewPageTemplate && stackRoot) {
-                stackRoot = stackRoot.parentElement as HTMLDivElement;
+                stackRoot = stackRoot.parentElement as HTMLElement;
             }
             rootCoords = getTargetCoords(stackRoot || document.body);
             rootCoords.right -= RIGHT_PANEL_WIDTH;
         } else {
-            rootCoords = BaseController.getRootContainerCoords(item, '.controls-Popup__stack-target-container', RIGHT_PANEL_WIDTH);
+            const selector = '.controls-Popup__stack-target-container';
+            rootCoords = BaseController.getRootContainerCoords(item, selector, RIGHT_PANEL_WIDTH);
         }
 
         // calc with scroll only on desktop devices, because stack popup has fixed position and can scroll with page

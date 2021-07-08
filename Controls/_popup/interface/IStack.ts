@@ -1,6 +1,10 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 
 export interface IStackPopupOptions extends IBasePopupOptions {
+    maximized: boolean;
+    workspaceWidth: number;
+    minimizedWidth: number;
+    stackWidth: number;
     minWidth?: number;
     width?: number;
     maxWidth?: number;
@@ -74,7 +78,7 @@ export interface IStackOpener extends IOpener {
  *
  * <Controls.buttons:Button name="closeStackButton" caption="close stack" on:click="_closeStack()"/>
  * </pre>
- * 
+ *
  * <pre class="brush: js">
  * // JavaScript
  * class MyControl extends Control<IControlOptions>{
@@ -83,7 +87,7 @@ export interface IStackOpener extends IOpener {
  *    }
  * }
  * </pre>
- * 
+ *
  * <pre class="brush: js">
  * // TypeScript
  * import {StackOpener} from 'Controls/popup';
@@ -176,7 +180,7 @@ export interface IStackOpener extends IOpener {
  * @cfg {String} Опция задает контейнер (через <b>селектор</b>), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
  * @remark
  * Алгоритм поиска контейнера, внутри которого будут строиться окна:
- * 
+ *
  * * Если задана опция restrictiveContainer, то ищем глобальным поиском класс по селектору, заданному в опции.
  * Если ничего не нашли или опция не задана см. следующий шаг.
  * * Если у окна есть родитель, то опрашиваем родителя, в каком контейнере он спозиционировался и выбираем его.
@@ -190,7 +194,7 @@ export interface IStackOpener extends IOpener {
  * <div class='myRestrictiveContainer'>Контейнер со своими размерами</div>
  * <Controls.buttons:Button caption="open stack" on:click="_openStack()"/>
  * </pre>
- * 
+ *
  * <pre class="brush: js">
  * // TypeScript
  * import {StackOpener} from 'Controls/popup';
