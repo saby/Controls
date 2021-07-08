@@ -8,10 +8,10 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import rk = require('i18n!Controls');
 import {TColumns} from 'Controls/grid';
-import {IHierarchy, TKeysSelection} from 'Controls/interface';
+import {IHierarchyOptions, TKeysSelection} from 'Controls/interface';
 import 'css!Controls/moverDialog';
 
-export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy {
+export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchyOptions {
     displayProperty: string;
     root?: string|number;
     searchParam: string;
