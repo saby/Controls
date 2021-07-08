@@ -2,8 +2,8 @@
     <ws:contentTemplate>
         <div class="controls-ListEditor__column"
              title="{{item.contents[column.config.displayProperty]}}">
-            <ws:if data="{{item.contents[column.config.imageSrcProperty]}}">
-                <img class="controls-ListEditor__column-img" src="{{item.contents[column.config.imageSrcProperty]}}"/>
+            <ws:if data="{{item.contents[column.config.imageProperty]}}">
+                <img class="controls-ListEditor__column-img" src="{{item.contents[column.config.imageProperty]}}"/>
             </ws:if>
             <div class="controls-ListEditor__column-text">
                 {{item.contents[column.config.displayProperty]}}

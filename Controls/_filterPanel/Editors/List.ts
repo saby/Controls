@@ -28,7 +28,7 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
     INavigationOptions<unknown>, IItemActionsOptions, IList, IColumn, ISelectorDialogOptions {
     propertyValue: number[]|string[];
     additionalTextProperty: string;
-    imageSrcProperty?: string;
+    imageProperty?: string;
     multiSelect: boolean;
 }
 
@@ -46,6 +46,12 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  * @name Controls/_filterPanel/Editors/List#additionalTextProperty
  * @cfg {String} Имя свойства, содержащего информацию об идентификаторе дополнительного столбца в списке.
  * @demo Controls-demo/filterPanel/ListEditor/AdditionalTextProperty/Index
+ */
+
+/**
+ * @name Controls/_filterPanel/Editors/List#imageProperty
+ * @cfg {String} Имя свойства, содержащего ссылку на изображение для элемента списка.
+ * @demo Controls-demo/filterPanel/View/Index
  */
 
 /**
@@ -177,7 +183,7 @@ class ListEditor extends BaseEditor {
             selected: propertyValue,
             displayProperty: options.displayProperty,
             keyProperty: options.keyProperty,
-            imageSrcProperty: options.imageSrcProperty
+            imageProperty: options.imageProperty
         }];
         if (options.additionalTextProperty) {
             this._columns.push({

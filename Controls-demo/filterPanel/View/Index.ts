@@ -70,7 +70,7 @@ export default class extends Control {
                 textValue: '',
                 editorTemplateName: 'Controls/filterPanel:ListEditor',
                 editorOptions: {
-                    imageSrcProperty: 'sourceImage',
+                    imageProperty: 'sourceImage',
                     multiSelect: true,
                     navigation: {
                         source: 'page',
