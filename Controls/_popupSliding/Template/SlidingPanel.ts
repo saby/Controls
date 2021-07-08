@@ -32,6 +32,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     private _currentTouchYPosition: number = null;
     private _startTouchYPosition: number = null;
     private _scrollState: object = null;
+    private _swipeInProcess: boolean = false;
 
     protected _beforeMount(options: ISlidingPanelTemplateOptions): void {
         this._position = options.slidingPanelOptions?.position;
@@ -108,6 +109,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      */
     protected _touchStartHandler(event: SyntheticEvent<TouchEvent>): void {
         this._startTouchYPosition = this._currentTouchYPosition = event.nativeEvent.targetTouches[0].clientY;
+        this._swipeInProcess = true;
     }
 
     /**
@@ -196,6 +198,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
             this._touchDragOffset = null;
         }
         this._startTouchYPosition = null;
+        this._swipeInProcess = false;
     }
 
     private _notifyDragStart(offset: IDragObject['offset']): void {
@@ -282,7 +285,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     private _scrollHandler(): void {
         const focusedElement = document.activeElement;
         const isFocusInsideCurrentPanel = focusedElement.closest('.controls-SlidingPanel') === this._container;
-        if (isFocusInsideCurrentPanel && focusedElement.tagName === 'INPUT') {
+        if (this._swipeInProcess && isFocusInsideCurrentPanel && focusedElement.tagName === 'INPUT') {
             const newFocusElement = focusedElement.parentElement;
             newFocusElement.focus();
         }
