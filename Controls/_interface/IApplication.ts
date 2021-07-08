@@ -95,6 +95,7 @@ export type HeadJson = [string, Record<string, string>][];
 export interface IApplicationOptions extends IHTMLOptions {
     scripts?: Array<IAttributes>;
     links?: Array<IAttributes>;
+    meta?: Array<IAttributes>;
     headJson?: HeadJson;
     title?: string;
 }
