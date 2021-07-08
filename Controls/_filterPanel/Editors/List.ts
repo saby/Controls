@@ -107,8 +107,12 @@ class ListEditor extends BaseEditor {
         const contentClick = nativeEvent.target.closest('.controls-ListEditor__columns');
         if (contentClick) {
             const selectedKeysArray = Clone(this._selectedKeys);
-            selectedKeysArray.unshift(item.get(this._options.keyProperty));
-            this._processPropertyValueChanged(selectedKeysArray, true);
+            const itemkey = item.get(this._options.keyProperty);
+            if (!selectedKeysArray.includes(itemkey)) {
+                selectedKeysArray.unshift(item.get(this._options.keyProperty));
+            }
+            this._editorTarget = this._getEditorTarget(nativeEvent);
+            this._processPropertyValueChanged(selectedKeysArray, selectedKeysArray.length === 1);
         }
     }
 
