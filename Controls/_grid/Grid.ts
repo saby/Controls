@@ -1,4 +1,4 @@
-import { ListControl as viewTemplate, View as List } from 'Controls/list';
+import { ListControl as viewTemplate, View as List } from 'Controls/baseList';
 import * as GridView from 'Controls/_grid/GridView';
 import GridViewTable from 'Controls/_grid/GridViewTable';
 import { isFullGridSupport } from 'Controls/display';
@@ -28,12 +28,11 @@ import { TemplateFunction } from 'UI/Base';
  * @mixes Controls/interface/IGroupedGrid
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/grid:IPropStorage
- * @mixes Controls/grid:IEditableGrid
  * @mixes Controls/marker:IMarkerList
  *
  * @public
  * @author Авраменко А.С.
- * @demo Controls-demo/gridNew/Base/Index
+ * @demo Controls-demo/grid/Base/Index
  */
 
 /*
@@ -58,13 +57,12 @@ import { TemplateFunction } from 'UI/Base';
  * @mixes Controls/interface/IGridItemTemplate
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/grid:IPropStorage
- * @mixes Controls/grid:IEditableGrid
  * @mixes Controls/marker:IMarkerList
  *
  *
  * @public
  * @author Авраменко А.С.
- * @demo Controls-demo/gridNew/Base/Index
+ * @demo Controls-demo/grid/Base/Index
  */
 export default class Grid extends List {
     protected _viewName: TemplateFunction = null;
@@ -103,5 +101,5 @@ Object.defineProperty(Grid, 'defaultProps', {
 /**
  * @name Controls/_grid/Grid#itemPadding
  * @cfg {Controls/_list/interface/IList/ItemPadding.typedef}
- * @demo Controls-demo/gridNew/ItemPaddingNull/Index
+ * @demo Controls-demo/grid/ItemPaddingNull/Index
  */

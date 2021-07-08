@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {BaseControl} from 'Controls/list';
-import {IEditableList} from 'Controls/_list/interface/IEditableList';
+import {IEditableListOption} from 'Controls/_baseList/interface/IEditableList';
 import {RecordSet} from 'Types/collection';
 import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import {NewSourceController} from 'Controls/dataSource';
@@ -1018,7 +1018,7 @@ describe('Controls/list_clean/BaseControl', () => {
     });
 
     describe('Edit in place', () => {
-        type TEditingConfig = IEditableList['_options']['editingConfig'];
+        type TEditingConfig = IEditableListOption['editingConfig'];
 
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
@@ -1087,23 +1087,6 @@ describe('Controls/list_clean/BaseControl', () => {
             });
         });
 
-        describe('readOnly mode', () => {
-            beforeEach(() => {
-                baseControl.saveOptions({...baseControlCfg, readOnly: true});
-            });
-            describe('should reject promises of edit in place operations', () => {
-                ['beginEdit', 'beginAdd', 'cancelEdit', 'commitEdit'].forEach((methodName) => {
-                    it(methodName, () => {
-                        return baseControl[methodName]().catch(() => {
-                            return 'Rejected';
-                        }).then((result) => {
-                            assert.equal(result, 'Rejected');
-                        });
-                    });
-                });
-            });
-        });
-
         describe('editing config', () => {
             it('if autoAddByApplyButton not setted it should be the same as autoAdd', () => {
                 const options = {
@@ -1125,7 +1108,7 @@ describe('Controls/list_clean/BaseControl', () => {
             });
 
             describe('autoAddByApplyButton setted', () => {
-                const options: IEditableList['_options'] = {
+                const options: IEditableListOption = {
                     editingConfig: {}
                 };
                 let editingConfig: TEditingConfig;

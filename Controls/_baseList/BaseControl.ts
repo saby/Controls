@@ -1,13 +1,12 @@
 //#region Imports
 import rk = require('i18n!Controls');
-import 'css!Controls/list';
+import 'css!Controls/baseList';
 import 'css!Controls/itemActions';
 import 'css!Controls/CommonClasses';
 
 // Core imports
 import {Control, IControlOptions} from 'UI/Base';
 import cClone = require('Core/core-clone');
-import cMerge = require('Core/core-merge');
 import cInstance = require('Core/core-instance');
 import Deferred = require('Core/Deferred');
 
@@ -37,10 +36,10 @@ import {
 import { Sticky } from 'Controls/popup';
 
 // Utils imports
-import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {getItemsBySelection} from 'Controls/_baseList/resources/utils/getItemsBySelection';
 import {EventUtils} from 'UI/Events';
 import {getDimensions as uDimension} from 'Controls/sizeUtils';
-import { getItemsHeightsData } from 'Controls/_list/ScrollContainer/GetHeights';
+import {getItemsHeightsData} from 'Controls/_baseList/ScrollContainer/GetHeights';
 import {
     Collection,
     CollectionItem,
@@ -49,7 +48,7 @@ import {
     TreeItem
 } from 'Controls/display';
 
-import {default as ItemContainerGetter} from 'Controls/_list/itemsStrategy/getItemContainerByIndex';
+import {default as ItemContainerGetter} from 'Controls/_baseList/itemsStrategy/getItemContainerByIndex';
 import {
     Controller as ItemActionsController,
     IItemAction,
@@ -61,10 +60,10 @@ import {
 } from 'Controls/itemActions';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
-import ScrollPagingController from 'Controls/_list/Controllers/ScrollPaging';
-import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
-import * as GroupingController from 'Controls/_list/Controllers/Grouping';
-import HoverFreeze from 'Controls/_list/Controllers/HoverFreeze';
+import ScrollPagingController from 'Controls/_baseList/Controllers/ScrollPaging';
+import PortionedSearch from 'Controls/_baseList/Controllers/PortionedSearch';
+import * as GroupingController from 'Controls/_baseList/Controllers/Grouping';
+import HoverFreeze from 'Controls/_baseList/Controllers/HoverFreeze';
 
 import {
     Controller as EditInPlaceController,
@@ -72,7 +71,7 @@ import {
     CONSTANTS as EDIT_IN_PLACE_CONSTANTS,
     JS_SELECTORS,
     IBeforeBeginEditCallbackParams,
-    IBeforeEndEditCallbackParams, TAsyncOperationResult
+    IBeforeEndEditCallbackParams
 } from '../editInPlace';
 import {IEditableListOption} from './interface/IEditableList';
 
@@ -96,8 +95,8 @@ import {
     TreeStrategy
 } from 'Controls/listDragNDrop';
 
-import BaseControlTpl = require('wml!Controls/_list/BaseControl/BaseControl');
-import 'wml!Controls/_list/BaseControl/Footer';
+import BaseControlTpl = require('wml!Controls/_baseList/BaseControl/BaseControl');
+import 'wml!Controls/_baseList/BaseControl/Footer';
 
 import {IList} from './interface/IList';
 import { IScrollControllerResult } from './ScrollContainer/interfaces';
@@ -105,7 +104,9 @@ import { EdgeIntersectionObserver, getStickyHeadersHeight } from 'Controls/scrol
 import { ItemsEntity } from 'Controls/dragnDrop';
 import {ISiblingStrategy} from './interface/ISiblingStrategy';
 import {FlatSiblingStrategy} from './Strategies/FlatSiblingStrategy';
-import {Remove as RemoveAction, Move as MoveAction, IMoveActionOptions} from 'Controls/listActions';
+import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
+import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
+import {RemoveController} from './Controllers/RemoveController';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IMovableList} from './interface/IMovableList';
 import {saveConfig} from 'Controls/Application/SettingsController';
@@ -113,10 +114,6 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 //#endregion
 
 //#region Const
-
-const ERROR_MSG = {
-    CANT_USE_IN_READ_ONLY: (methodName: string): string => `List is in readOnly mode. Cant use ${methodName}() in readOnly!`
-};
 
 // = 28 + 6 + 6 см controls-BaseControl_paging-Padding_theme TODO не должно такого быть, он в разных темах разный
 const PAGING_PADDING = 40;
@@ -147,6 +144,7 @@ const
         keyDownDel: constants.key.del
     };
 
+const ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET = 1;
 const INDICATOR_DELAY = 2000;
 const INITIAL_PAGES_COUNT = 1;
 const SET_MARKER_AFTER_SCROLL_DELAY = 100;
@@ -186,13 +184,13 @@ const ITEM_ACTION_SELECTOR = '.js-controls-ItemActions__ItemAction';
 export const LIST_EDITING_CONSTANTS = {
     /**
      * С помощью этой константы можно отменить или пропустить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
-     * Для этого константу следует вернуть из обработчика события {@link Controls/list:IEditableList#beforeBeginEdit beforeBeginEdit}.
+     * Для этого константу следует вернуть из обработчика события {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}.
      * При последовательном редактировании записей (при переходе через Tab, Enter, Arrow Down и Up) возврат константы CANCEL приведет к отмене запуска
      * редактирования по месту и попытке старта редактирования следующей записи в направлении перехода.
      * В остальных случаях возврат константы CANCEL приведет к отмене запуска редактирования в списке.
      */
     /*
-     * Constant that can be returned in {@link Controls/list:IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
+     * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
      */
     CANCEL: EDIT_IN_PLACE_CONSTANTS.CANCEL
 };
@@ -418,7 +416,6 @@ const _private = {
         } else {
             self._attachLoadTopTriggerToNull = false;
         }
-
         return needAttachLoadTopTriggerToNull;
     },
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
@@ -999,7 +996,7 @@ const _private = {
         if (navigation) {
             switch (navigation.view) {
                 case 'infinity':
-                    result = !loadedList || (!loadedList.getCount() && _private.isPortionedLoad(this, loadedList));
+                    result = !loadedList || !loadedList.getCount();
                     break;
                 case 'maxCount':
                     result = _private.needLoadByMaxCountNavigation(listViewModel, navigation);
@@ -1628,9 +1625,15 @@ const _private = {
         }
     },
 
-    isPortionedLoad(self, items: RecordSet = self._items): boolean {
+    isPortionedLoad(self, items?: RecordSet = self._items): boolean {
         const metaData = items && items.getMetaData();
-        return !!(metaData && metaData[PORTIONED_LOAD_META_FIELD]);
+        const loadBySearchValue = !!self._options.searchValue;
+
+        // Если в мета данных явно передано iterative: false, то поиск не итеративный,
+        // даже если ищут через строку поиска
+        return metaData && metaData.hasOwnProperty(PORTIONED_LOAD_META_FIELD) ?
+            metaData[PORTIONED_LOAD_META_FIELD] :
+            loadBySearchValue;
     },
 
     checkPortionedSearchByScrollTriggerVisibility(self, scrollTriggerVisibility: boolean): void {
@@ -1662,9 +1665,7 @@ const _private = {
     },
 
     needScrollCalculation(navigationOpt) {
-        // Виртуальный скролл должен работать, даже если у списка не настроена навигация.
-        // https://online.sbis.ru/opendoc.html?guid=a83180cf-3e02-4d5d-b632-3d03442ceaa9
-        return !navigationOpt || (navigationOpt && navigationOpt.view === 'infinity');
+        return navigationOpt && navigationOpt.view === 'infinity';
     },
 
     needScrollPaging(navigationOpt) {
@@ -1975,6 +1976,9 @@ const _private = {
      */
     resolveItemContainer(self: BaseControl,
                          item: CollectionItem, clickEvent: SyntheticEvent, isMenuClick: boolean): HTMLElement {
+        // TODO: self._container может быть не HTMLElement, а jQuery-элементом,
+        //  убрать после https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
+        const container = self._container.get ? self._container.get(0) : self._container;
         if (isMenuClick) {
             return self._targetItem;
         }
@@ -1982,6 +1986,16 @@ const _private = {
         if (clickEvent && clickEvent.target) {
             return clickEvent.target.closest('.controls-ListView__itemV');
         }
+        // @TODO код ниже при скролле с группой будет давать неверный индекс. Его нужно будет выпилить в 4000.
+        // Т.к., например, breadcrumbs отсутствует в source, но иногда нам нужно получать его target
+        // логичнее использовать именно getIndex(), а не getSourceIndexByItem()
+        // кроме того, в старой модели в itemData.index записывается именно результат getIndex()
+        const itemIndex = self._listViewModel.getIndex(item);
+        const startIndex = self._listViewModel.getStartIndex();
+        return isMenuClick ? self._targetItem : Array.prototype.filter.call(
+            container.querySelector('.controls-ListView__itemV').parentNode.children,
+            (item: HTMLElement) => item.className.includes('controls-ListView__itemV')
+        )[itemIndex - startIndex];
     },
 
     /**
@@ -2766,11 +2780,6 @@ const _private = {
                     self._applySelectedPage();
                 }
             });
-
-            if (result.newCollectionRenderedKeys?.length && self._options.notifyKeyOnRender) {
-               self._notify('preloadItemsByKeys', [result.newCollectionRenderedKeys], {bubbling: true});
-            }
-
             if (result.placeholders) {
                 self._notifyPlaceholdersChanged = () => {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
@@ -2902,12 +2911,11 @@ const _private = {
             needScrollCalculation: self._needScrollCalculation,
             collection: self._listViewModel,
             activeElement: options.activeElement,
-            forceInitVirtualScroll: self._needScrollCalculation,
+            forceInitVirtualScroll: options?.navigation?.view === 'infinity',
             topTriggerOffsetCoefficient: options.topTriggerOffsetCoefficient,
             bottomTriggerOffsetCoefficient: options.bottomTriggerOffsetCoefficient,
             resetTopTriggerOffset: self._resetTopTriggerOffset,
-            resetDownTriggerOffset: self._resetDownTriggerOffset,
-            notifyKeyOnRender: options.notifyKeyOnRender
+            resetDownTriggerOffset: self._resetDownTriggerOffset
         });
         const result = self._scrollController.handleResetItems();
         _private.handleScrollControllerResult(self, result);
@@ -3012,11 +3020,14 @@ const _private = {
      * Метод isItemsSelectionAllowed проверяет, возможно ли выделение в списке для обработки свайпа
      * Это необходимо для корректной работы выделения на Ipad'e
      * swipe влево по записи должен ставить чекбокс, даже если multiSelectVisibility: 'hidden'.
-     * Если передают selectedKeys, то точно ожидают, что выделение работает.
-     * Если работают без опции selectedKeys, то работа выделения задается опцией allowMultiSelect.
+     * Layout/Browser, когда в нём не предусмотрено массовое выделение (нет панели действий), опцию selectedKeysCount
+     * передаёт как undefined, поэтому считаем, что в таком случае выделения в списке нет, и swipe
+     * не должен ставить чекбокс
      */
-    isItemsSelectionAllowed(options: IBaseControlOptions): boolean {
-        return options.selectedKeys || options.allowMultiSelect;
+    isItemsSelectionAllowed(options: object): boolean {
+        return options.selectedKeysCount !== null ||
+               options.selectedKeys.length ||
+               options.multiSelectVisibility !== 'hidden';
     },
 
     /**
@@ -3192,23 +3203,10 @@ const _private = {
         return result;
     },
 
-    moveItem(self, selectedKey: CrudEntityKey, direction: 'up' | 'down'): Promise<void> {
-        const selection: ISelectionObject = {
-            selected: [selectedKey],
-            excluded: []
-        };
-        return _private.getMoveAction(self).execute({
-            selection,
-            providerName: 'Controls/listActions:MoveProviderDirection',
-            direction
-        }) as Promise<void>;
-    },
-
-    prepareMoveActionOptions(self, options: IList): IMoveActionOptions {
-        const controllerOptions: IMoveActionOptions = {
+    prepareMoverControllerOptions(self, options: IList): IMoveControllerOptions {
+        const controllerOptions: IMoveControllerOptions = {
             source: options.source,
             parentProperty: options.parentProperty,
-            keyProperty: self._keyProperty,
             sorting: options.sorting,
             siblingStrategy: self._getSiblingsStrategy()
         };
@@ -3230,21 +3228,18 @@ const _private = {
         return controllerOptions;
     },
 
-    getMoveAction(self): MoveAction {
-        return new MoveAction(_private.prepareMoveActionOptions(self, self._options));
+    getMoveController(self): MoveController {
+        if (!self._moveController) {
+            self._moveController = new MoveController(_private.prepareMoverControllerOptions(self, self._options));
+        }
+        return self._moveController;
     },
 
-    getRemoveAction(self, selection: ISelectionObject, providerName?: string): RemoveAction {
-        return new RemoveAction({
-            source: self._options.source,
-            filter: self._options.filter,
-            selection,
-            providerName
-        });
-    },
-
-    removeItems(self, selection: ISelectionObject, providerName?: string): RemoveAction {
-        return this.getRemoveAction(self, selection, providerName).execute();
+    getRemoveController(self): RemoveController {
+        if (!self._removeController) {
+            self._removeController = new RemoveController({source: self._options.source});
+        }
+        return self._removeController;
     },
 
     registerFormOperation(self): void {
@@ -3328,37 +3323,6 @@ const _private = {
             _private.isAllowedHoverFreeze(self);
     },
 
-    freezeHoveredItem(self: BaseControl, item: CollectionItem<Model> & {dispItem: CollectionItem<Model>}): void {
-        const startIndex = self._listViewModel.getStartIndex();
-        const itemIndex = self._listViewModel.getIndex(item.dispItem || item);
-
-        const htmlNodeIndex = itemIndex - startIndex + 1;
-        const hoveredContainers = HoverFreeze.getHoveredItemContainers(
-            self._container,
-            htmlNodeIndex,
-            _private.getViewUniqueClass(self),
-            LIST_MEASURABLE_CONTAINER_SELECTOR
-        );
-
-        if (!hoveredContainers.length) {
-            return;
-        }
-
-        // zero element in grid will be row itself; it doesn't have any background color, then lets take the last one
-        const lastContainer = hoveredContainers[hoveredContainers.length - 1];
-        const hoverBackgroundColor = getComputedStyle(lastContainer).backgroundColor;
-
-        self._children.itemActionsOutsideStyle.innerHTML = HoverFreeze.getItemHoverFreezeStyles(
-            _private.getViewUniqueClass(self),
-            htmlNodeIndex,
-            hoverBackgroundColor
-        );
-    },
-
-    unfreezeHoveredItems(self: BaseControl): void {
-        self._children.itemActionsOutsideStyle.innerHTML = '';
-    },
-
     initHoverFreezeController(self): void {
         self._hoverFreezeController = new HoverFreeze({
             uniqueClass: _private.getViewUniqueClass(self),
@@ -3403,7 +3367,7 @@ const _private = {
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/list:IEditableList
+ * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/BaseControl/Styles
  * @mixes Controls/list:IList
  * @mixes Controls/itemActions:IItemActions
@@ -3452,10 +3416,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _attachLoadTopTriggerToNull = false;
     _attachLoadDownTriggerToNull = false;
+
+    // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
+    _attachedToNullLoadTopTriggerOffset = ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET;
     _hideTopTrigger = false;
     _resetTopTriggerOffset = false;
     _resetDownTriggerOffset = false;
-
     protected _listViewModel = null;
     _viewModelConstructor = null;
     protected _items: RecordSet;
@@ -3566,6 +3532,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _draggedKey = null;
     _validateController = null;
 
+    // Контроллер для перемещения элементов из источника
+    _moveController = null;
+
+    // Контроллер для удаления элементов из источника
+    _removeController = null;
     _removedItems = [];
     _keyProperty = null;
 
@@ -3591,8 +3562,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     //#endregion
 
-    constructor(options, context) {
-        super(options || {}, context);
+    constructor(options) {
+        super(options || {});
         options = options || {};
         this._validateController = new ControllerClass();
         this.__errorController = options.errorController || new dataSourceError.Controller({});
@@ -3751,7 +3722,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             ...newOptions,
             keyProperty: self._keyProperty,
             items,
-            newDesign: newOptions._dataOptionsValue?.newDesign || newOptions.newDesign,
             collapsedGroups: collapsedGroups || newOptions.collapsedGroups
         };
 
@@ -3811,21 +3781,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._keyProperty = options.keyProperty ||
             (this._sourceController && this._sourceController.getKeyProperty()) ||
             options.items?.getKeyProperty();
-    }
-
-    /**
-     * Замораживает hover подсветку строки для указанной записи
-     */
-    freezeHoveredItem(item: Model): void {
-        const collectionItem = this._listViewModel.getItemBySourceItem(item);
-        _private.freezeHoveredItem(this, collectionItem);
-    }
-
-    /**
-     * Размораживает все ранее замороженные итемы
-     */
-    unfreezeHoveredItems(): void {
-        _private.unfreezeHoveredItems(this);
     }
 
     scrollMoveSyncHandler(params: IScrollParams): void {
@@ -4108,7 +4063,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                     ...newOptions,
                     resetTopTriggerOffset: this._resetTopTriggerOffset,
                     resetDownTriggerOffset: this._resetDownTriggerOffset,
-                    forceInitVirtualScroll: this._needScrollCalculation,
+                    forceInitVirtualScroll: newOptions?.navigation?.view === 'infinity',
                     collection: this.getViewModel(),
                     needScrollCalculation: this._needScrollCalculation
                 }
@@ -4227,6 +4182,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._pagingVisible) {
                 this._pagingVisible = false;
             }
+        }
+
+        if (this._removeController) {
+            this._removeController.updateOptions({source: newOptions.source});
+        }
+
+        if (this._moveController) {
+            this._moveController.updateOptions(_private.prepareMoverControllerOptions(this, newOptions));
         }
 
         const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor ||
@@ -4638,7 +4601,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
-            this._notify('_removeDraggingTemplate', [], {bubbling: true});
         }
         if (this._finishScrollToEdgeOnDrawItems) {
             this._finishScrollToEdgeOnDrawItems = null;
@@ -4849,10 +4811,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (this._viewSize > this._viewportSize && _private.attachLoadTopTriggerToNullIfNeed(this, this._options)) {
                 // Ромашку нужно показать непосредственно перед скроллом к первому элементу
                 this.changeIndicatorStateHandler(true, 'up');
-                this._scrollToFirstItemIfNeed();
                 if (this._hideTopTrigger) {
                     this._hideTopTrigger = false;
                 }
+                this._scrollToFirstItemIfNeed();
             }
         }
         if (this._viewSize <= this._viewportSize && this._hideTopTrigger) {
@@ -4945,7 +4907,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     protected _shiftToDirection(direction): Promise {
         let resolver;
         const shiftPromise = new Promise((res) => { resolver = res; });
-        this._handleLoadToDirection = !!this._sourceController && this._sourceController.hasMoreData(direction);
+        this._handleLoadToDirection = this._sourceController.hasMoreData(direction);
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (this._destroyed) {
                 return;
@@ -5149,14 +5111,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return (emptyTemplate || emptyTemplateColumns) && noEdit && notHasMore && (isLoading ? noData && noDataBeforeReload : noData);
     }
 
-    _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>): void {
-        e.stopPropagation();
-
+    _onCheckBoxClick(e: SyntheticEvent, item: CollectionItem<Model>, readOnly: boolean): void {
         const contents = _private.getPlainItemContents(item);
         const key = contents.getKey();
-        const readOnly = item.isReadonlyCheckbox();
-
-        this._onLastMouseUpWasDrag = false;
 
         if (!readOnly) {
             const selectionController = _private.getSelectionController(this);
@@ -5186,7 +5143,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.hideIndicator(this);
     }
 
-    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<any> {
+    reload(keepScroll: boolean, sourceConfig: IBaseSourceConfig): Promise<any> {
         if (keepScroll) {
             this._keepScrollAfterReload = true;
         }
@@ -5424,8 +5381,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             e.stopPropagation();
             return;
         }
-
-        if (this._onLastMouseUpWasDrag) {
+        if (originalEvent.target.closest('.js-controls-ListView__checkbox') || this._onLastMouseUpWasDrag) {
+            // Если нажали на чекбокс, то это не считается нажатием на элемент. В этом случае работает событие checkboxClick
             // Если на mouseUp, предшествующий этому клику, еще работало перетаскивание, то мы не должны нотифаить itemClick
             this._onLastMouseUpWasDrag = false;
             e.stopPropagation();
@@ -5674,44 +5631,36 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return _private.isEditing(this);
     }
 
-    private static _rejectEditInPlacePromise(fromWhatMethod: string): Promise<void> {
-        const msg = ERROR_MSG.CANT_USE_IN_READ_ONLY(fromWhatMethod);
-        Logger.warn(msg);
-        return Promise.reject(msg);
-    }
-
     beginEdit(userOptions: object): Promise<void | {canceled: true}> {
         if (this._options.readOnly) {
-            return BaseControl._rejectEditInPlacePromise('beginEdit');
+            return Promise.reject('Control is in readOnly mode.');
         }
         return this._beginEdit(userOptions, {
-            shouldActivateInput: userOptions?.shouldActivateInput,
-            columnIndex: userOptions?.columnIndex || 0
+            shouldActivateInput: userOptions?.shouldActivateInput
         });
     }
 
     beginAdd(userOptions: object): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return BaseControl._rejectEditInPlacePromise('beginAdd');
+            return Promise.reject('Control is in readOnly mode.');
         }
         return this._beginAdd(userOptions, {
             addPosition: userOptions?.addPosition || this._getEditingConfig().addPosition,
             targetItem: userOptions?.targetItem,
-            shouldActivateInput: userOptions?.shouldActivateInput,
-            columnIndex: userOptions?.columnIndex || 0
+            shouldActivateInput: userOptions?.shouldActivateInput
         });
     }
 
     cancelEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return BaseControl._rejectEditInPlacePromise('cancelEdit');
+            return Promise.reject('Control is in readOnly mode.');
         }
         return this._cancelEdit();
     }
 
     commitEdit(): Promise<void | { canceled: true }> {
         if (this._options.readOnly) {
-            return BaseControl._rejectEditInPlacePromise('commitEdit');
+            return Promise.reject('Control is in readOnly mode.');
         }
         return this._commitEdit();
     }
@@ -5772,7 +5721,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         });
     }
 
-    _cancelEdit(force: boolean = false): TAsyncOperationResult {
+    _cancelEdit(force: boolean = false): Promise<void | { canceled: true }> {
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
@@ -6163,13 +6112,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         if (this._mouseDownItemKey === key) {
-            if (domEvent.nativeEvent.button === 1) {
-                const url = itemData.item.get('url');
-                if (url) {
-                    window.open(url);
-                }
-            }
-
             // TODO избавиться по задаче https://online.sbis.ru/opendoc.html?guid=7f63bbd1-3cb9-411b-81d7-b578d27bf289
             // Ключ перетаскиваемой записи мы запоминаем на mouseDown, но днд начнется только после смещения на 4px и не факт, что он вообще начнется
             // Если сработал mouseUp, то днд точно не сработает и draggedKey нам уже не нужен
@@ -6254,25 +6196,27 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // region move
 
     moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet> {
-        return _private.getMoveAction(this).execute({
-            selection,
-            filter: this._filter,
-            targetKey,
-            position,
-            providerName: 'Controls/listActions:MoveProvider'
-        }) as Promise<DataSet>;
+        return _private.getMoveController(this).move(selection, this._filter, targetKey, position) as Promise<DataSet>;
     }
 
     moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        return _private.moveItem(this, selectedKey, 'up');
+        const selection: ISelectionObject = {
+            selected: [selectedKey],
+            excluded: []
+        };
+        return _private.getMoveController(this).moveUp(selection) as Promise<void>;
     }
 
     moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        return _private.moveItem(this, selectedKey, 'down');
+        const selection: ISelectionObject = {
+            selected: [selectedKey],
+            excluded: []
+        };
+        return _private.getMoveController(this).moveDown(selection) as Promise<void>;
     }
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
-        return _private.getMoveAction(this).execute({selection, filter: this._options.filter});
+        return _private.getMoveController(this).moveWithDialog(selection, this._options.filter);
     }
 
     protected _getSiblingsStrategy(): ISiblingStrategy {
@@ -6285,12 +6229,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     // region remove
 
-    removeItems(selection: ISelectionObject): Promise<string | void> {
-        return _private.removeItems(this, selection, 'Controls/listActions:RemoveProvider')
+    removeItems(selection: ISelectionObject): Promise<void> {
+        return _private.getRemoveController(this).remove(selection, this._options.filter);
     }
 
-    removeItemsWithConfirmation(selection: ISelectionObject): Promise<string | void> {
-        return _private.removeItems(this, selection);
+    removeItemsWithConfirmation(selection: ISelectionObject): Promise<void> {
+        return _private.getRemoveController(this).removeWithConfirmation(selection, this._options.filter);
     }
 
     // endregion remove
@@ -6372,6 +6316,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.addShowActionsClass(this);
         }
 
+        // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
         if (this._dndListController && this._dndListController.isDragging()) {
             this._draggingItemMouseMove(itemData, nativeEvent);
         }
@@ -6796,10 +6741,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     _shouldDisplayMiddleLoadingIndicator(): boolean {
+        // Также, не должно быть завязки на горизонтальный скролл.
+        // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
         // Если нет элементов, то должен отображаться глобальный индикатор
         const shouldDisplayIndicator = this._loadingIndicatorState === 'all'
             || !!this._loadingIndicatorState && (!this._items || !this._items.getCount());
-        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator;
+        return shouldDisplayIndicator && !this._portionedSearchInProgress && this._showLoadingIndicator && !this._isColumnScrollVisible;
     }
 
     _shouldDisplayBottomLoadingIndicator(): boolean {
@@ -6862,6 +6809,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             case 'up':
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     styles += 'display: none; ';
+                }
+                if (this._attachLoadTopTriggerToNull) {
+                    styles += `margin-bottom: -${this._attachedToNullLoadTopTriggerOffset}px;`;
                 }
                 break;
             case 'down':
@@ -7201,10 +7151,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return result;
     }
 
-    _dragNDropEnded(event: SyntheticEvent): void {
+    _dragNDropEnded(event): void {
         if (this._dndListController && this._dndListController.isDragging()) {
-            const dragObject = this._getDragObject(event.nativeEvent, this._startEvent);
-            this._notify('_documentDragEnd', [dragObject], {bubbling: true});
+            this._notify('_documentDragEnd', [this._getDragObject(event.nativeEvent, this._startEvent)], {bubbling: true});
         }
         if (this._startEvent && this._startEvent.target) {
             this._startEvent.target.classList.remove('controls-DragNDrop__dragTarget');
@@ -7259,14 +7208,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._needBottomPadding = _private.needBottomPadding(this, options);
     }
 
-    // TODO: Должно переехать в GridControl, когда он появится.
     _onToggleHorizontalScroll(e, visibility: boolean): void {
+        // TODO: Должно переехать в GridControl, когда он появится.
         this._isColumnScrollVisible = visibility;
-    }
-
-    // TODO: Должно переехать в GridControl, когда он появится.
-    isColumnScrollVisible(): boolean {
-        return this._isColumnScrollVisible;
     }
 
     static _private: typeof _private = _private;
@@ -7280,7 +7224,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             uniqueKeys: true,
             multiSelectVisibility: 'hidden',
             multiSelectPosition: 'default',
-            allowMultiSelect: true,
             markerVisibility: 'onactivated',
             style: 'default',
             loadingIndicatorTemplate: 'Controls/list:LoadingIndicatorTemplate',
@@ -7294,8 +7237,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
             // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
             stickyHeader: true,
-            stickyColumnsCount: 1,
-            notifyKeyOnRender: false
+            stickyColumnsCount: 1
         };
     }
 }

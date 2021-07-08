@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls/_list/Data');
+import template = require('wml!Controls/_baseList/Data');
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {RegisterClass} from 'Controls/event';
 import {RecordSet} from 'Types/collection';
@@ -7,7 +7,7 @@ import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData, Memory, Cr
 import {
    error as dataSourceError,
    ISourceControllerOptions,
-   NewSourceController as SourceController, nodeHistoryUtil, Path
+   NewSourceController as SourceController, Path
 } from 'Controls/dataSource';
 import {ISourceControllerState} from 'Controls/dataSource';
 import { IContextOptionsValue } from 'Controls/context';

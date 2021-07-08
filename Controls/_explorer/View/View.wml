@@ -1,5 +1,5 @@
 <div class="controls_list_theme-{{_options.theme}} controls-Explorer" on:keyDown="_onExternalKeyDown()">
-   <Controls.list:DataContainer
+   <Controls.baseList:DataContainer
       attr:class="controls-Explorer__wrapper"
       scope="{{_options}}"
       root="{{_getRoot(_options.root)}}"
@@ -96,5 +96,5 @@
             </Controls._explorer.PathController>
          </Controls.dragnDrop:Container>
       </ws:content>
-   </Controls.list:DataContainer>
+   </Controls.baseList:DataContainer>
 </div>

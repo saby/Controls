@@ -1,4 +1,4 @@
-<ws:partial template="wml!Controls/_list/EditInPlace/baseEditingTemplate" scope="{{ _options }}" editableTarget="{{ (column || item || itemData) }}">
+<ws:partial template="wml!Controls/_baseList/EditInPlace/baseEditingTemplate" scope="{{ _options }}">
     <ws:viewTemplate>
         <Controls.decorator:Number
                 value="{{ value }}"

@@ -8,7 +8,7 @@ import * as randomId from 'Core/helpers/Number/randomId';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
-import {IItemPadding, IList, ListView} from 'Controls/list';
+import {IItemPadding, IList, ListView} from 'Controls/baseList';
 import {SingleColumnStrategy, MultiColumnStrategy} from 'Controls/marker';
 import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
@@ -33,7 +33,7 @@ import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
 import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 import {TreeControl} from 'Controls/tree';
-import {IEditableList} from 'Controls/_list/interface/IEditableList';
+import {IEditableListOption} from 'Controls/_baseList/interface/IEditableList';
 import 'css!Controls/tile';
 import 'css!Controls/explorer';
 import { isFullGridSupport } from 'Controls/display';
@@ -88,15 +88,13 @@ const EXPLORER_CONSTANTS = {
     VIEW_MODEL_CONSTRUCTORS
 };
 
-type IEditableListOptions = IEditableList['_options'];
-
 interface IExplorerOptions
     extends
         IControlOptions,
         IHierarchyOptions,
         IDraggableOptions,
         IList,
-        IEditableListOptions,
+        IEditableListOption,
         INavigationOptions<IBasePageSourceConfig>,
         IGridControl,
         ISourceOptions,
@@ -111,7 +109,6 @@ interface IExplorerOptions
     itemTemplate?: TemplateFunction;
     items?: RecordSet;
     itemOpenHandler?: Function;
-    searchValue?: string;
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
     expandByItemClick?: boolean;
@@ -154,16 +151,6 @@ export default class Explorer extends Control<IExplorerOptions> {
      * Прокидывается в TreeControl (BaseControl).
      */
     protected _recreateCollection: boolean = false;
-
-    /**
-     * Текущее применяемое значение строки поиска
-     */
-    protected _searchValue: string = '';
-    /**
-     * Новое значение строки поиска, которое будет применено после загрузки данных и
-     * смены viewMode
-     */
-    private _newSearchValue: string;
 
     /**
      * Текущая применяемая конфигурация колонок
@@ -227,7 +214,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     private _items: RecordSet;
     private _isGoingFront: boolean;
-    private _searchInitialBreadCrumbsMode: 'row' | 'cell';
     //endregion
 
     protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
@@ -254,9 +240,6 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
         if (cfg.columns) {
             this._columns = this._newColumns = cfg.columns;
-        }
-        if (cfg.searchValue) {
-            this._searchValue = cfg.searchValue;
         }
 
         this._itemActionsPosition = cfg.itemActionsPosition;
@@ -338,10 +321,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         if (cfg.columns !== this._options.columns) {
             this._newColumns = cfg.columns;
-        }
-
-        if (cfg.searchValue !== this._options.searchValue) {
-            this._newSearchValue = cfg.searchValue || '';
         }
 
         if (cfg.itemActionsPosition !== this._options.itemActionsPosition) {
@@ -710,7 +689,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         return this._children.treeControl.commitEdit();
     }
 
-    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
+    reload(keepScroll: boolean, sourceConfig: IBaseSourceConfig): Promise<unknown> {
         return this._children.treeControl.reload(keepScroll, sourceConfig);
     }
 
@@ -890,7 +869,7 @@ export default class Explorer extends Control<IExplorerOptions> {
      *    https://online.sbis.ru/doc/19106882-fada-47f7-96bd-516f9fb0522f
      */
     private _getHeaderVisibility(root: TKey, headerVisibility: string): string {
-        return root === (this._topRoot || null) ? (headerVisibility || 'hasdata') : 'visible';
+        return root === null ? (headerVisibility || 'hasdata') : 'visible';
     }
 
     private _itemsReadyCallbackFunc(items: RecordSet): void {
@@ -957,8 +936,6 @@ export default class Explorer extends Control<IExplorerOptions> {
         } else {
             this._viewName = VIEW_TABLE_NAMES[viewMode];
         }
-
-        this._setInitBreadCrumbsMode();
         this._markerStrategy = MARKER_STRATEGY[viewMode];
         this._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
         this._itemContainerGetter = ITEM_GETTER[viewMode];
@@ -1025,11 +1002,6 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._itemActionsPosition = this._newItemActionsPosition;
             this._newItemActionsPosition = null;
         }
-
-        if (this._newSearchValue !== undefined) {
-            this._searchValue = this._newSearchValue;
-            this._newSearchValue = undefined;
-        }
     }
 
     protected _getItemTemplate(
@@ -1044,17 +1016,6 @@ export default class Explorer extends Control<IExplorerOptions> {
             return listItemTemplate || itemTemplate;
         }
         return itemTemplate;
-    }
-
-    protected _getEmptyTemplate(
-        viewMode: string,
-        emptyTemplate: TemplateFunction,
-        listEmptyTemplate: TemplateFunction
-    ) {
-        if (viewMode === 'list' && listEmptyTemplate) {
-            return listEmptyTemplate;
-        }
-        return emptyTemplate;
     }
 
     /**
@@ -1213,14 +1174,6 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
-    private _setInitBreadCrumbsMode(): void {
-        if ('treeControl' in this._children && this._children.treeControl.isColumnScrollVisible()) {
-            this._searchInitialBreadCrumbsMode = 'cell';
-        } else {
-            this._searchInitialBreadCrumbsMode = undefined;
-        }
-    }
-
     static _constants: object = EXPLORER_CONSTANTS;
 
     static getDefaultOptions(): object {
@@ -1273,7 +1226,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
- * @mixes Controls/grid:IEditableGrid
+ * @mixes Controls/interface/IEditableList
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
@@ -1310,7 +1263,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
- * @mixes Controls/grid:IEditableGrid
+ * @mixes Controls/interface/IEditableList
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
@@ -1416,26 +1369,6 @@ Object.defineProperty(Explorer, 'defaultProps', {
  */
 
 /**
- * @name Controls/_explorer/View#listEmptyTemplate
- * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}, используемый в {@link Controls/_explorer/interface/IExplorer#viewMode режиме "Плоский список"}.
- * @demo Controls-demo/list_new/EmptyList/Default/Index
- * @default undefined
- * @example
- * <pre class="brush: html; highlight: [3-7]">
- * <!-- WML -->
- * <Controls.list:View source="{{_viewSource}}">
- *     <ws:emptyTemplate>
- *         <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
- *             <ws:contentTemplate>Нет данных</ws:contentTemplate>
- *         </ws:partial>
- *     </ws:emptyTemplate>
- * </Controls.list:View>
- * </pre>
- * @remark
- * Пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/list:EmptyTemplate}.
- */
-
-/**
  * @name Controls/_explorer/View#listItemTemplate
  * @cfg {String|TemplateFunction} Шаблон отображения элемента в режиме "Список".
  * @default undefined
@@ -1488,5 +1421,5 @@ Object.defineProperty(Explorer, 'defaultProps', {
  * @event Происходит при клике на кнопку "Просмотр записи".
  * @name Controls/_explorer/View#arrowClick
  * @remark Кнопка отображается при наведении курсора на текущую папку хлебных крошек. Отображение кнопки "Просмотр записи" задаётся с помощью опции {@link Controls/_explorer/interface/IExplorer#showActionButton}. По умолчанию кнопка скрыта.
- * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  */

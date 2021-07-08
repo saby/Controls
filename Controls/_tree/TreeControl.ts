@@ -11,8 +11,8 @@ import {isEqual} from 'Types/object';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 
-import {Direction, IBaseSourceConfig, IHierarchyOptions, TKey} from 'Controls/interface';
-import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/list';
+import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
+import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/baseList';
 import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import { NewSourceController } from 'Controls/dataSource';
@@ -474,7 +474,7 @@ const _private = {
  * Hierarchical list control with custom item template. Can load data from data source.
  *
  * @class Controls/_tree/TreeControl
- * @mixes Controls/list:IEditableList
+ * @mixes Controls/interface/IEditableList
  * @mixes Controls/list:IMovableList
  * @extends Controls/_list/BaseControl
  *
@@ -503,8 +503,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     private _mouseDownExpanderKey: TKey;
     private _expandedItemsToNotify: TKey[];
 
-    constructor(options: TOptions, context?: object) {
-        super(options, context);
+    constructor(options: TOptions) {
+        super(options);
         this._expandNodeOnDrag = this._expandNodeOnDrag.bind(this);
         this._nodeDataMoreLoadCallback = this._nodeDataMoreLoadCallback.bind(this);
         if (typeof options.root !== 'undefined') {
@@ -561,10 +561,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     /**
      * Ищет последний элемент в дереве
      * @private
+     * @TODO Необходимо убрать условие с проверкой rootItems.at когда окончательно избавимся от старых моделей.
      */
     private _getLastItem(item: TreeItem): TreeItem {
         const rootItems = this._listViewModel.getChildren(item);
-        return rootItems.at(rootItems.getCount() - 1);
+        return rootItems.at ? rootItems.at(rootItems.getCount() - 1) : rootItems[rootItems.length - 1];
     }
 
     /**
@@ -581,7 +582,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (!item || !item['[Controls/_display/TreeItem]'] || direction !== 'down') {
             return false;
         }
-        const hasMoreParentData = !!this._sourceController && this._sourceController.hasMoreData('down', parentKey);
+        const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
         const hasNodeFooterTemplate: boolean = !!this._options.nodeFooterTemplate;
         return !hasMoreParentData && !hasNodeFooterTemplate && item.isNode() && item.isExpanded();
     }
@@ -593,7 +594,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
      */
     private _loadNodeChildrenRecursive(item: TreeItem): Promise {
         const nodeKey = item.getContents().getKey();
-        const hasMoreData = this._sourceController && this._sourceController.hasMoreData('down', nodeKey);
+        const hasMoreData = this._sourceController.hasMoreData('down', nodeKey);
         if (hasMoreData) {
             // Вызов метода, который подгружает дочерние записи узла
             return _private.loadNodeChildren(this, nodeKey);
@@ -646,6 +647,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (newOptions.nodeFooterTemplate !== this._options.nodeFooterTemplate) {
             viewModel.setNodeFooterTemplate(newOptions.nodeFooterTemplate);
+        }
+
+        // TODO: Удалить #rea_1179794968
+        if (newOptions.expanderDisplayMode !== this._options.expanderDisplayMode) {
+            viewModel.setExpanderDisplayMode(newOptions.expanderDisplayMode);
         }
 
         if (newOptions.expanderVisibility !== this._options.expanderVisibility) {
@@ -848,10 +854,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         this._forceUpdate();
     }
 
-    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig): Promise<unknown> {
-        // deep reload is needed only if reload was called from public API.
-        // otherwise, option changing will work incorrect.
-        // option changing may be caused by search or filtering
+    protected reload(keepScroll, sourceConfig) {
+        //deep reload is needed only if reload was called from public API.
+        //otherwise, option changing will work incorrect.
+        //option changing may be caused by search or filtering
         this._deepReload = true;
         return super.reload(keepScroll, sourceConfig);
     }
@@ -1198,6 +1204,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             const model = this._listViewModel;
             const expanded = [key];
             const item = model.getItemBySourceKey(key);
+            // TODO после полного перехода на новую модель в getChildren передавать только элемент списка
+            //  https://online.sbis.ru/opendoc.html?guid=624e1380-3b9b-45dd-9825-a7188dd7c52e
             let curItem = model.getChildrenByRecordSet(item.getContents())[0];
             while (curItem && curItem.get(options.nodeProperty) !== null) {
                 expanded.push(curItem.getKey());
@@ -1212,7 +1220,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = (model.getLast() !== model.getItemBySourceKey(key)) || model.hasMoreData();
+        const hasNextLeaf = !model.isLastItem(model.getItemBySourceKey(key)) || model.hasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i).getContents())) {
@@ -1277,7 +1285,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (model.getLast() === model.getItemBySourceKey(key)) {
+            if (model.isLastItem(model.getItemBySourceKey(key))) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();
@@ -1387,7 +1395,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 && (expanderVisibility === 'hasChildren' && this._listViewModel.hasNodeWithChildren()
                 || expanderVisibility !== 'hasChildren' && this._listViewModel.hasNode());
             if (hasExpander) {
-                result += ` controls-TreeGridView__expanderPadding-${options.expanderSize || 'default'}`;
+                result += ` controls-TreeGridView__footer__expanderPadding-${options.expanderSize || 'default'}`;
             }
         }
 
@@ -1479,6 +1487,6 @@ export default TreeControl;
 /**
  * @event Событие контрола.
  * @name Controls/_tree/TreeControl#expandedItemsChanged
- * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Массив с идентификаторами развернутых элементов.
  */
