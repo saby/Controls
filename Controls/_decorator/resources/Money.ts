@@ -60,7 +60,7 @@ export function calculateIntegerClass(
     isDisplayFractionPath: boolean
 ): string {
     return `${fontSize ? 'controls-fontsize-' + fontSize : ''} ${fontColorStyle ? ' controls-text-' + fontColorStyle : ''}
-            ${fontWeight ? ' controls-fontweight-' + fontWeight : ''} ${currency && currencyPosition === 'left' ? ' controls-margin_left-2xs' + fontWeight : ''}
+            ${fontWeight ? ' controls-fontweight-' + fontWeight : ''} ${currency && currencyPosition === 'left' ? ' controls-margin_left-2xs' : ''}
             ${currency && currencyPosition === 'right' && isDisplayFractionPath ? ' controls-margin_right-2xs' + fontWeight : ''}`;
 }
 
@@ -174,7 +174,7 @@ function splitValueIntoParts(value: string): string[] {
 }
 
 export function calculateFractionFontSize(fontSize: string): string {
-    if (fontSize === '6xl' || fontSize === '8xl') {
+    if (fontSize === '6xl' || fontSize === '7xl' || fontSize === '8xl') {
         return '3xl';
     } else {
         return 'xs';

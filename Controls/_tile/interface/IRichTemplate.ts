@@ -203,7 +203,7 @@ export default interface IRichTemplateOptions {
 
     /**
      * @cfg {TemplateFunction|String} Шаблон, вставляемый в правом верхнем углу плитки для отображения дополнительных прикладных элементов.
-     * @demo Controls-demo/tileNew/DifferentItemTemplates/RichTemplate/AdditionalPanelTemplate/Index
+     * @demo Controls-demo/tileNew/DifferentItemTemplates/RichTemplate/AdditionalPaneltemplate/Index
      */
      additionalPanelTemplate?: TemplateFunction;
 

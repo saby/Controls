@@ -21,6 +21,8 @@
 }
 
 .controls-ListEditor__column {
+   display: flex;
+   align-items: center;
    padding-left: var(--offset_2xs);
    overflow: hidden;
    text-overflow: ellipsis;
@@ -56,4 +58,11 @@
 
 .controls-FilterEditors__list {
    margin-left: calc(-1 * var(--offset_2xl));
+}
+
+.controls-ListEditor__column-img {
+   width: var(--icon-size_m);
+   height: var(--icon-size_m);
+   border-radius: var(--border-radius_s_image);
+   margin-right: var(--offset_m);
 }
