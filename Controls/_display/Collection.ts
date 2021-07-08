@@ -3073,7 +3073,7 @@ export default class Collection<
     protected _extractItemId(item: T): string {
         const contents = item.getContents();
         let uid;
-        if (contents && contents['[Types/_entity/Model]']) {
+        if (contents['[Types/_entity/Model]']) {
             uid = (contents as any).getId();
         } else if (this._$keyProperty) {
             uid = object.getPropertyValue(contents, this._$keyProperty);

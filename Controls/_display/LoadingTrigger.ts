@@ -2,8 +2,8 @@ import CollectionItem, {IOptions as ICollectionOptions} from 'Controls/_display/
 import { TemplateFunction } from 'UI/Base';
 
 export type TLoadingTriggerPosition = 'top'|'bottom';
-export const TOP_TRIGGER_ID = 'topLoadingTrigger';
-export const BOTTOM_TRIGGER_ID = 'bottomLoadingTrigger';
+export const TOP_LOADING_TRIGGER_ID = 'topLoadingTrigger';
+export const BOTTOM_LOADING_TRIGGER_ID = 'bottomLoadingTrigger';
 
 export interface IOptions extends ICollectionOptions<null> {
     position: TLoadingTriggerPosition;
@@ -75,9 +75,9 @@ export default class LoadingTrigger extends CollectionItem<null> {
 
     getId(): string {
         if (this.isTopTrigger()) {
-            return TOP_TRIGGER_ID;
+            return TOP_LOADING_TRIGGER_ID;
         } else if (this.isBottomTrigger()) {
-            return BOTTOM_TRIGGER_ID;
+            return BOTTOM_LOADING_TRIGGER_ID;
         }
     }
 }

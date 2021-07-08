@@ -134,7 +134,7 @@ import LoadingIndicator from 'Controls/_display/LoadingIndicator';
 import LoadingTrigger from 'Controls/_display/LoadingTrigger';
 import PortionedSearchIndicator from 'Controls/_display/PortionedSearchIndicator';
 export {ITriggerOffset} from 'Controls/_display/LoadingIndicatorMixin';
-export {TOP_TRIGGER_ID, BOTTOM_TRIGGER_ID} from 'Controls/_display/LoadingTrigger';
+export {TOP_LOADING_TRIGGER_ID, BOTTOM_LOADING_TRIGGER_ID} from 'Controls/_display/LoadingTrigger';
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});

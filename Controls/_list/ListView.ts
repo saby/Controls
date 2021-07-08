@@ -8,7 +8,7 @@ import * as forTemplate from 'wml!Controls/_list/Render/For';
 import 'css!Controls/list';
 import {isEqual} from "Types/object";
 import {_Options} from 'UI/Vdom';
-import {BOTTOM_TRIGGER_ID, TOP_TRIGGER_ID} from 'Controls/display';
+import {BOTTOM_LOADING_TRIGGER_ID, TOP_LOADING_TRIGGER_ID} from 'Controls/display';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -265,11 +265,11 @@ var ListView = BaseControl.extend(
         },
 
         getTopLoadingTrigger(): HTMLElement {
-            return document.getElementById(TOP_TRIGGER_ID);
+            return document.getElementById(TOP_LOADING_TRIGGER_ID);
         },
 
         getBottomLoadingTrigger(): HTMLElement {
-            return document.getElementById(BOTTOM_TRIGGER_ID);
+            return document.getElementById(BOTTOM_LOADING_TRIGGER_ID);
         },
 
         _onItemClick: function(e, dispItem) {
