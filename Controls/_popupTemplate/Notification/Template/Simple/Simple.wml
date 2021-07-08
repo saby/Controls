@@ -1,4 +1,4 @@
-<ws:partial template="Controls/_popupTemplate/Notification/Base"
+<ws:partial template="Controls/_popupTemplate/Notification/Template/Base"
             closeButtonVisibility="{{_options.closeButtonVisibility}}"
             style="{{_options.style}}">
     <ws:bodyContentTemplate>
