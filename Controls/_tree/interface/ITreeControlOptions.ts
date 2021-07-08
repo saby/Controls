@@ -128,10 +128,10 @@ export interface ITreeControlOptions extends IControlOptions {
  * @default undefined
  * @remark
  * В области видимости шаблона доступна переменная **item**, из которой можно получить доступ к:
- * 
+ *
  * * свойству **contents** — это объект, который содержит данные элемента, под которым отрисовывается шаблон.
  * * методу **getNode()** — возвращает узел, внутри которого отображается шаблон.
- * 
+ *
  * @demo Controls-demo/treeGrid/NodeFooter/NodeFooterTemplate/Index
  * @see nodeFooterVisibilityCallback
  * @see nodeLoadCallback
@@ -486,7 +486,7 @@ export interface ITreeControlOptions extends IControlOptions {
  */
 
 /**
- * @name Controls/_tree/interface/ITreeControl#singleExpand 
+ * @name Controls/_tree/interface/ITreeControl#singleExpand
  * @cfg {Boolean} Режим единого развернутого узла.
  * @remark
  * В дереве можно задать такое поведение, при котором единовременно может быть развернут только один узел в рамках одного уровня иерархии. При развертывании нового узла предыдущий будет автоматически сворачиваться.
@@ -494,4 +494,14 @@ export interface ITreeControlOptions extends IControlOptions {
  * @variant true
  * @variant false
  * @demo Controls-demo/treeGridNew/ReverseType/SingleExpand/Index
+ */
+
+/**
+ * Возвращает ключ родителя, в котором по-умолчанию следует начинать добавление по месту.
+ * @remark
+ * Если в дереве маркер стоит на развернутом узле или на его дочерних записях/свёрнутых узлах,
+ * то позиция по-умолчанию для добавляемой записи - этот раскрытый узел.
+ * Во всех остальных случаях позицией будет текущий корень дерева.
+ * @function Controls/_tree/interface/ITreeControl#getDefaultAddParentKey
+ * @returns {null|string|number}
  */

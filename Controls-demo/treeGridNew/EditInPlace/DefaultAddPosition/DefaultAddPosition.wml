@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <Controls.treeGrid:View
+            name="tree"
+            keyProperty="key"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type">
+        <ws:editingConfig toolbarVisibility="{{ true }}"/>
+        <ws:footerTemplate>
+            <Controls.list:AddButton caption="Добавить запись" on:click="_beginAdd()"/>
+        </ws:footerTemplate>
+    </Controls.treeGrid:View>
+</div>

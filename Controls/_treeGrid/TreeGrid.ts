@@ -92,6 +92,10 @@ export default class TreeGrid extends Grid implements ITreeGrid {
         return this._children.listControl.getPrevItem(key);
     }
 
+    getDefaultAddParentKey(): CrudEntityKey | null {
+        return this._children.listControl.getDefaultAddParentKey();
+    }
+
     protected _getModelConstructor(): string {
         return 'Controls/treeGrid:TreeGridCollection';
     }
