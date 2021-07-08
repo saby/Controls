@@ -416,8 +416,9 @@ export interface IColumn extends IColspanParams {
     /**
      * @cfg {Controls/_grid/display/interface/Icolumn/TDisplayType.typedef}Тип отображаемых данных.
      * @demo Controls-demo/gridNew/Columns/FontColorStyle/Index
+     * @remark Подробнее о настройке настройке типа данных, отображаемых колонкой читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/visual/type/ здесь}.
      * @example
-     * В следующем примере показано как отобразить поле записи типа "число"
+     * В следующем примере показано как отобразить различные типы полей.
      *
      * <pre class="brush: js">
      * <!-- WML -->
