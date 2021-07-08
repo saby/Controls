@@ -26,17 +26,17 @@ export default interface IApplication extends IHTML {
  * @name Controls/_interface/IApplication#links
  * @cfg {Content} Позволяет описывать ссылки на дополнительные ресурсы, которые необходимы при загрузке страницы.
  * @example
+ * <pre class="brush: js">
+ * // JavaScript
+ * import * as getResourceUrl from 'Core/helpers/getResourceUrl';
+ * </pre>
  * <pre class="brush: html">
  * <!-- WML -->
  * <ws:links>
  *     <ws:Array>
- *         <ws:Object rel="shortcut icon" href="{{getResourceUrl('/cdn/SabyLogo/1.0.0/favicon.ico')}}" type="image/x-icon"/>
+ *         <ws:Object rel="icon" href="{{getResourceUrl('/CustomLogo/custom_favicon.ico')}}" type="image/x-icon"/>
  *     </ws:Array>
  * </ws:links>
- * </pre>
- *
- * <pre class="brush: js">
- * // JavaScript
  * </pre>
  */
 
