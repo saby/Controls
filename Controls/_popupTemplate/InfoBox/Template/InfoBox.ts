@@ -1,7 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_popupTemplate/InfoBox/Template/InfoBox';
-import {TVertical, THorizontal} from 'Controls/_popupTemplate/Sticky/StickyController';
-import {IStickyPopupPosition} from 'Controls/popup';
+import {IStickyPopupPosition, TVertical, THorizontal} from '../../Sticky/StickyController';
 import {ValidationStatus, IValidationStatusOptions} from 'Controls/interface';
 import 'css!Controls/popupTemplate';
 

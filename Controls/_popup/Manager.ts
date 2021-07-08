@@ -26,9 +26,8 @@ const ORIENTATION_CHANGE_DELAY = 50;
  */
 
 interface IManagerOptions extends IControlOptions {
-    popupHeaderTheme?: string;
-    popupSettingsController?: Control;
-    dataLoaderModule?: string;
+    popupHeaderTheme: string;
+    popupSettingsController: Control;
 }
 
 const RESIZE_DELAY = 10;
@@ -38,19 +37,21 @@ const SCROLL_DELAY = detection.isMobileIOS ? 100 : 10;
 class Manager {
     _contextIsTouch: boolean = false;
     _dataLoaderModule: string;
+    _popupPageConfigLoaderModule: string;
+    _popupPageTemplateModule: string;
     _popupItems: List<IPopupItem> = new List();
     private _pageScrolled: Function;
     private _popupResizeOuter: Function;
     private _dragTimer: number;
 
-    constructor(options: IManagerOptions = {}) {
+    constructor(options = {}) {
         this.initTheme(options);
         this._dataLoaderModule = options.dataLoaderModule;
         this._pageScrolled = debounce(this._pageScrolledBase, SCROLL_DELAY);
         this._popupResizeOuter = debounce(this._popupResizeOuterBase, RESIZE_DELAY);
     }
 
-    protected initTheme(options: IManagerOptions): void {
+    protected initTheme(options): void {
         ManagerController.setPopupHeaderTheme(options.popupHeaderTheme);
         ManagerController.setTheme(options.theme);
     }
@@ -97,7 +98,7 @@ class Manager {
         ManagerController.setPopupHeaderTheme(popupHeaderTheme);
     }
 
-    destroy(): void {
+    public destroy(): void {
         if (detection.isMobileIOS) {
             EventBus.globalChannel().unsubscribe('MobileInputFocus', this._controllerVisibilityChangeHandler);
             EventBus.globalChannel().unsubscribe('MobileInputFocusOut', this._controllerVisibilityChangeHandler);
