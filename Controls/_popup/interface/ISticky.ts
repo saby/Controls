@@ -5,14 +5,7 @@ import {IBackgroundStyleOptions} from 'Controls/interface';
 export type TActionOnScroll = 'close' | 'track' | 'none';
 export type TTarget = HTMLElement | EventTarget | Control<{}, void>;
 
-export interface IStickyPopupPosition {
-    targetPoint?: IStickyPosition;
-    direction?: IStickyPosition;
-    offset?: IStickyPositionOffset;
-}
-
 export interface IStickyPopupOptions extends IBasePopupOptions, IBackgroundStyleOptions {
-    stickyPosition: IStickyPopupPosition;
     minWidth?: number;
     width?: number;
     maxWidth?: number;
