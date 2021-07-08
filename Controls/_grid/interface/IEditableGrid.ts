@@ -166,16 +166,10 @@ type TEditingMode = 'row' | 'cell';
 /**
  * Интерфейс объекта-конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
  * 
- * @interface Controls/_grid/interface/IGridEditingConfig
+ * @interface Controls/_grid/interface/IEditableGrid/IGridEditingConfig
  * @mixes Controls/list:IEditingConfig
  * @public
  * @autor Авраменко А.C.
- */
-
-/**
- * @name Controls/_grid/interface/IGridEditingConfig#mode
- * @cfg {TEditingMode} Режим редактирования таблицы.
- * @default "row"
  */
 
 export interface IGridEditingConfig {
@@ -187,6 +181,11 @@ export interface IGridEditingConfig {
     toolbarVisibility?: boolean;
     backgroundStyle?: string;
     addPosition?: TAddPosition;
+    /**
+     * @name Controls/_grid/interface/IEditableGrid/IGridEditingConfig#mode
+     * @cfg {Controls/_grid/interface/IEditableGrid/TEditingMode.typedef} Режим редактирования таблицы.
+     * @default "row"
+     */
     mode?: TEditingMode;
     item?: Model;
 }
