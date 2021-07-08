@@ -1,8 +1,13 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_popupTemplate/Notification/Template/Simple/Simple';
-import {INotificationBase} from 'Controls/_popupTemplate/interface/INotification';
+import template = require('wml!Controls/_popupTemplate/Notification/Simple/Simple');
+import {default as INotification, INotificationOptions} from './interface/INotification';
 import 'css!Controls/popupTemplate';
 import 'css!Controls/CommonClasses';
+
+export interface INotificationSimpleOptions extends IControlOptions, INotificationOptions {
+    icon?: String;
+    text?: String;
+}
 
 /**
  * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/ простого окна уведомления}.
@@ -20,19 +25,11 @@ import 'css!Controls/CommonClasses';
  * @demo Controls-demo/NotificationDemo/NotificationTemplate
  * @author Красильников А.С.
  */
-class NotificationSimple extends Control<INotificationSimpleOptions> {
+class NotificationSimple extends Control<INotificationSimpleOptions> implements INotification {
     protected _template: TemplateFunction = template;
     protected _iconStyle: String;
 
-    protected _beforeMount(options: INotificationSimpleOptions): void {
-        this._iconStyle = NotificationSimple._prepareIconStyle(options);
-    }
-
-    protected _beforeUpdate(options: INotificationSimpleOptions): void {
-        this._iconStyle = NotificationSimple._prepareIconStyle(options);
-    }
-
-    private static _prepareIconStyle(popupOptions: INotificationSimpleOptions): String {
+    private _prepareIconStyle(popupOptions: INotificationSimpleOptions): String {
         switch (popupOptions.style) {
             case 'warning':
                 return 'warning';
@@ -43,6 +40,14 @@ class NotificationSimple extends Control<INotificationSimpleOptions> {
             default:
                 return 'secondary';
         }
+    }
+
+    protected _beforeMount(options: INotificationSimpleOptions): void {
+        this._iconStyle = this._prepareIconStyle(options);
+    }
+
+    protected _beforeUpdate(options: INotificationSimpleOptions): void {
+        this._iconStyle = this._prepareIconStyle(options);
     }
 
     static getDefaultOptions(): INotificationSimpleOptions {
