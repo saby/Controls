@@ -1,7 +1,7 @@
 import {getSettings} from 'Controls/Application/SettingsController';
 
 interface ISettingsStorage {
-    scrollContainerWheelEventHappened: boolean;
+    scrollContainerWheelEventHappened?: boolean;
 }
 
 // Класс, который по сохраненным настрокам пользователя возвращает информацию, пользовался ли человек колесиком мыши.
@@ -14,7 +14,7 @@ class WheelEventSettings {
             return this._getWheelEventPromise;
         }
         this._getWheelEventPromise = new Promise((resolve) => {
-            getSettings(['scrollContainerWheelEventHappened']).then((storage: ISettingsStorage) => {
+            getSettings(['scrollContainerWheelEventHappened']).then((storage: ISettingsStorage = {}) => {
                 resolve(!!storage.scrollContainerWheelEventHappened);
             });
         });
