@@ -1,9 +1,9 @@
-import Deferred = require('Core/Deferred');
-import collection = require('Types/collection');
 import {default as BaseController} from 'Controls/_popupTemplate/BaseController';
 import {IPopupItem, IPopupOptions} from 'Controls/popup';
-import NotificationContent from 'Controls/_popupTemplate/Notification/Opener/NotificationContent';
-import NotificationStrategy from 'Controls/_popupTemplate/Notification/Opener/NotificationStrategy';
+import * as Deferred from 'Core/Deferred';
+import {List} from 'Types/collection';
+import NotificationContent from 'Controls/_popupTemplate/Notification/Template/NotificationContent';
+import NotificationStrategy from 'Controls/_popupTemplate/Notification/NotificationStrategy';
 
 interface INotificationItem extends IPopupItem {
     height: number;
@@ -25,7 +25,7 @@ interface INotificationOptions extends IPopupOptions {
  */
 class NotificationController extends BaseController {
     TYPE: string = 'Notification';
-    _stack: collection.List<INotificationItem> = new collection.List();
+    _stack: List<INotificationItem> = new List();
 
     elementCreated(item: INotificationItem, container: HTMLDivElement): boolean {
         item.height = container.offsetHeight;
