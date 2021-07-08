@@ -76,7 +76,7 @@
    </div>
 </ws:template>
 
-<ws:partial template="Controls/baseList:ItemTemplate"
+<ws:partial template="Controls/list:ItemTemplate"
             attr:class="controls-listTemplates__listItemTemplate {{(_options.item || _options.itemData).getRoundBorderClasses()}}"
             scope="{{_options}}">
    <ws:contentTemplate>

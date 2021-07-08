@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base.js';
-import * as template from 'wml!Controls/_baseList/EditInPlace/EditingRow';
+import * as template from 'wml!Controls/_list/EditInPlace/EditingRow';
 import { constants } from 'Env/Env';
 
 export default class EditingRow extends Control {

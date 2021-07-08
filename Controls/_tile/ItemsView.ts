@@ -1,4 +1,4 @@
-import {ItemsView as BaseItemsView} from 'Controls/baseList';
+import {ItemsView as BaseItemsView} from 'Controls/list';
 import TileView from 'Controls/_tile/TileView';
 
 /**

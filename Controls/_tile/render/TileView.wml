@@ -2,7 +2,7 @@
     <div class="controls-ListViewV controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()">
         <ws:if data="{{_listModel}}">
             <ws:partial
-                    template="Controls/baseList:ForTemplate"
+                    template="Controls/list:ForTemplate"
                     collection="{{_listModel}}"
                     itemActionsTemplate="{{_options.itemActionsTemplate}}"
                     itemActionsClass="{{_options.itemActionsClass}}"

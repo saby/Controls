@@ -1,4 +1,4 @@
-<Controls._baseList.Data scope="{{_options}}">
+<Controls._list.Data scope="{{_options}}">
     <ws:partial
         name="listControl"
         template="{{_viewTemplate}}"
@@ -8,4 +8,4 @@
         itemContainerGetter="{{_itemContainerGetter}}"
         viewModelConstructor="{{_viewModelConstructor}}">
     </ws:partial>
-</Controls._baseList.Data>
+</Controls._list.Data>

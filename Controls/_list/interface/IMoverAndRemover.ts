@@ -20,7 +20,7 @@ export interface IMoveItemsParams {
 export const BEFORE_ITEMS_MOVE_RESULT = {
     CUSTOM: 'Custom',
     MOVE_IN_ITEMS: 'MoveInItems'
-};
+}
 
 /**
  * @deprecated {@link Controls/list:Mover Mover} will be removed soon. Use {@link Controls/list:IMovableList IMovableList} interface instead

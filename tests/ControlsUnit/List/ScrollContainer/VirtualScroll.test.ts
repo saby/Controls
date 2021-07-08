@@ -1,4 +1,4 @@
-import controller from 'Controls/_baseList/ScrollContainer/VirtualScroll';
+import controller from 'Controls/_list/ScrollContainer/VirtualScroll';
 import {assert} from 'chai';
 
 function getItemsHeightsData(itemsHeights: number[]): { itemsHeights: number[], itemsOffsets: number[] } {
@@ -15,7 +15,7 @@ function getItemsHeightsData(itemsHeights: number[]): { itemsHeights: number[], 
     return itemHeightsData;
 }
 
-describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
+describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
     describe('.resetRange', () => {
         const resetPlaceholdersValue = {top: 0, bottom: 0};
 

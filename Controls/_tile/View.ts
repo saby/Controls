@@ -1,4 +1,4 @@
-import {View as List} from 'Controls/baseList';
+import {View as List} from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
 import TileView from './TileView';
 

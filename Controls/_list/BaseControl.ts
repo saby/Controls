@@ -1,12 +1,13 @@
 //#region Imports
 import rk = require('i18n!Controls');
-import 'css!Controls/baseList';
+import 'css!Controls/list';
 import 'css!Controls/itemActions';
 import 'css!Controls/CommonClasses';
 
 // Core imports
 import {Control, IControlOptions} from 'UI/Base';
 import cClone = require('Core/core-clone');
+import cMerge = require('Core/core-merge');
 import cInstance = require('Core/core-instance');
 import Deferred = require('Core/Deferred');
 
@@ -36,10 +37,10 @@ import {
 import { Sticky } from 'Controls/popup';
 
 // Utils imports
-import {getItemsBySelection} from 'Controls/_baseList/resources/utils/getItemsBySelection';
+import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
 import {EventUtils} from 'UI/Events';
 import {getDimensions as uDimension} from 'Controls/sizeUtils';
-import {getItemsHeightsData} from 'Controls/_baseList/ScrollContainer/GetHeights';
+import { getItemsHeightsData } from 'Controls/_list/ScrollContainer/GetHeights';
 import {
     Collection,
     CollectionItem,
@@ -48,7 +49,7 @@ import {
     TreeItem
 } from 'Controls/display';
 
-import {default as ItemContainerGetter} from 'Controls/_baseList/itemsStrategy/getItemContainerByIndex';
+import {default as ItemContainerGetter} from 'Controls/_list/itemsStrategy/getItemContainerByIndex';
 import {
     Controller as ItemActionsController,
     IItemAction,
@@ -60,10 +61,10 @@ import {
 } from 'Controls/itemActions';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
-import ScrollPagingController from 'Controls/_baseList/Controllers/ScrollPaging';
-import PortionedSearch from 'Controls/_baseList/Controllers/PortionedSearch';
-import * as GroupingController from 'Controls/_baseList/Controllers/Grouping';
-import HoverFreeze from 'Controls/_baseList/Controllers/HoverFreeze';
+import ScrollPagingController from 'Controls/_list/Controllers/ScrollPaging';
+import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
+import * as GroupingController from 'Controls/_list/Controllers/Grouping';
+import HoverFreeze from 'Controls/_list/Controllers/HoverFreeze';
 
 import {
     Controller as EditInPlaceController,
@@ -95,8 +96,8 @@ import {
     TreeStrategy
 } from 'Controls/listDragNDrop';
 
-import BaseControlTpl = require('wml!Controls/_baseList/BaseControl/BaseControl');
-import 'wml!Controls/_baseList/BaseControl/Footer';
+import BaseControlTpl = require('wml!Controls/_list/BaseControl/BaseControl');
+import 'wml!Controls/_list/BaseControl/Footer';
 
 import {IList} from './interface/IList';
 import { IScrollControllerResult } from './ScrollContainer/interfaces';
@@ -114,6 +115,7 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 //#endregion
 
 //#region Const
+
 
 // = 28 + 6 + 6 см controls-BaseControl_paging-Padding_theme TODO не должно такого быть, он в разных темах разный
 const PAGING_PADDING = 40;

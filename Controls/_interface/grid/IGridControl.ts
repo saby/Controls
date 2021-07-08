@@ -1,4 +1,4 @@
-import { IList } from 'Controls/baseList';
+import { IList } from 'Controls/list';
 import { TColumns } from './IColumn';
 import { IHeaderCell } from './IHeaderCell';
 

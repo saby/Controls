@@ -13,7 +13,7 @@ import {factory} from 'Types/chain';
 import {isEqual, merge} from 'Types/object';
 import * as cInstance from 'Core/core-instance';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
-import {groupConstants as constView} from 'Controls/baseList';
+import {groupConstants as constView} from 'Controls/list';
 import { TouchDetect } from 'Env/Touch';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
@@ -53,7 +53,7 @@ const MAX_HISTORY_VISIBLE_ITEMS_COUNT = 10;
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/interface:IBackgroundStyle
- *
+ * 
  * @demo Controls-demo/Menu/Control/Source/Index
  *
  * @author Герасимов А.М.

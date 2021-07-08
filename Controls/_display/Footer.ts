@@ -4,7 +4,7 @@ import {
     IOptions as CollectionItemOptions
 } from 'Controls/_display/CollectionItem';
 
-const DEFAULT_FOOTER_TEMPLATE = 'Controls/baseList:FooterTemplate';
+const DEFAULT_FOOTER_TEMPLATE = 'Controls/list:FooterTemplate';
 
 /**
  * Интерфейс, представляющий структуру объекта конфигурации {@link Footer класса модели футера}

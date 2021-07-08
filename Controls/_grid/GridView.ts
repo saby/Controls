@@ -1,4 +1,4 @@
-import { ListView } from 'Controls/baseList';
+import { ListView } from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
 import { Logger} from 'UI/Utils';
 import { GridCollection, GridRow, GridLadderUtil, GridLayoutUtil } from 'Controls/display';

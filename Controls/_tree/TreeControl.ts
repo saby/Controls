@@ -12,7 +12,7 @@ import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 
 import {Direction, IHierarchyOptions, TKey} from 'Controls/interface';
-import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/baseList';
+import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/list';
 import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import { NewSourceController } from 'Controls/dataSource';

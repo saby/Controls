@@ -2,6 +2,7 @@ import {IControlOptions} from 'UI/Base';
 import {Collection} from 'Controls/display';
 import VirtualScroll from './ScrollContainer/VirtualScroll';
 import {Record, Model} from 'Types/entity';
+import {IObservable} from 'Types/collection';
 import {
     IItemsHeights,
     IPlaceholders,
@@ -18,7 +19,7 @@ import {detection} from 'Env/Env';
 import {VirtualScrollHideController, VirtualScrollController} from 'Controls/display';
 import { getDimensions as uDimension } from '../sizeUtils';
 import { getStickyHeadersHeight } from '../scroll';
-import {IVirtualScrollConfig} from 'Controls/_baseList/interface/IVirtualScroll';
+import {IVirtualScrollConfig} from 'Controls/_list/interface/IVirtualScroll';
 
 const DEFAULT_TRIGGER_OFFSET = 0.3;
 export interface IScrollParams {

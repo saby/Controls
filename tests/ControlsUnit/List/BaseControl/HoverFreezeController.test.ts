@@ -4,7 +4,7 @@ import {RecordSet} from 'Types/collection';
 import {CollectionItem} from 'Controls/display';
 import {Model} from 'Types/entity';
 
-describe('Controls/_baseList/BaseControl/HoverFreezeController', () => {
+describe('Controls/_list/BaseControl/HoverFreezeController', () => {
     let baseControl: BaseControl;
     const fakeEvent = {};
     const fakeNativeEvent = {} as undefined as Event;

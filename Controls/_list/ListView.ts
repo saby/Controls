@@ -1,17 +1,17 @@
-import {Logger} from 'UI/Utils';
-import {_Options} from 'UI/Vdom';
-import {isEqual} from 'Types/object';
 import {Control as BaseControl} from 'UI/Base';
 import {debounce as cDebounce} from 'Types/function';
-import * as forTemplate from 'wml!Controls/_baseList/Render/For';
-import * as GroupTemplate from 'wml!Controls/_baseList/GroupTemplate';
-import * as ListViewTpl from 'wml!Controls/_baseList/ListView/ListView';
-import * as defaultItemTemplate from 'wml!Controls/_baseList/ItemTemplate';
-import 'css!Controls/baseList';
+import {Logger} from 'UI/Utils';
+import ListViewTpl = require('wml!Controls/_list/ListView/ListView');
+import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
+import defaultItemTemplate = require('wml!Controls/_list/ItemTemplate');
+import * as forTemplate from 'wml!Controls/_list/Render/For';
+import 'css!Controls/list';
+import {isEqual} from "Types/object";
+import {_Options} from 'UI/Vdom';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
-const _private = {
+var _private = {
     checkDeprecated: function(cfg, self) {
         if (cfg.contextMenuEnabled !== undefined) {
             Logger.warn('IList: Option "contextMenuEnabled" is deprecated and removed in 19.200. Use option "contextMenuVisibility".', self);
@@ -31,7 +31,7 @@ const _private = {
     },
 
     resizeNotifyOnListChanged: function(self) {
-       // command to scroll watcher
+       //command to scroll watcher
        self._notify('controlResize', [], {bubbling: true});
     },
 
@@ -51,7 +51,7 @@ const _private = {
     }
 };
 
-const ListView = BaseControl.extend(
+var ListView = BaseControl.extend(
     {
         _listModel: null,
         _hoveredItem: null,

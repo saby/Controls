@@ -1,11 +1,11 @@
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
-import * as template from 'wml!Controls/_baseList/ItemsView';
+import * as template from 'wml!Controls/_list/ItemsView';
 import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
-import {default as BaseControl} from 'Controls/_baseList/BaseControl';
-import * as ListView from 'Controls/_baseList/ListView';
+import {default as BaseControl} from 'Controls/_list/BaseControl';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import ListView = require('Controls/_list/ListView');
 
 export interface IItemsViewOptions extends IControlOptions {
     /**

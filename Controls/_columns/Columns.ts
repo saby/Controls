@@ -1,4 +1,4 @@
-import {View} from 'Controls/baseList';
+import {View} from 'Controls/list';
 import {TemplateFunction} from 'UI/Base';
 import {default as ItemContainerGetter} from 'Controls/_columns/itemsStrategy/getItemContainerByIndex';
 import {MultiColumnStrategy} from 'Controls/marker';

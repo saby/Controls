@@ -3,7 +3,7 @@ import {useFakeTimers} from 'sinon';
 
 import { SyntheticEvent } from 'UI/Vdom';
 
-import HoverFreeze, {IHoverFreezeOptions} from 'Controls/_baseList/Controllers/HoverFreeze';
+import HoverFreeze, {IHoverFreezeOptions} from 'Controls/_list/Controllers/HoverFreeze';
 
 // const + 1
 const TEST_HOVER_FREEZE_TIMEOUT: number = 201;

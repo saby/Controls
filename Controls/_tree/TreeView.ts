@@ -1,6 +1,6 @@
 import * as ItemTemplate from 'wml!Controls/_tree/render/Item';
 
-import { ListView } from 'Controls/baseList';
+import { ListView } from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import { SyntheticEvent } from 'UI/Vdom';

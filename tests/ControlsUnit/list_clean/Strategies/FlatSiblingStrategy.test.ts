@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {CrudEntityKey} from 'Types/source';
-import {FlatSiblingStrategy} from 'Controls/_baseList/Strategies/FlatSiblingStrategy';
-import {ISiblingStrategy} from 'Controls/_baseList/interface/ISiblingStrategy';
+import {FlatSiblingStrategy} from 'Controls/_list/Strategies/FlatSiblingStrategy';
+import {ISiblingStrategy} from 'Controls/_list/interface/ISiblingStrategy';
 import {Collection} from 'Controls/display';
 
 describe('Controls/list_clean/Strategies/SiblingStrategy/Flat', () => {
