@@ -1,11 +1,11 @@
 define(
    [
-      'Controls/_popupTemplate/Stack/Opener/StackStrategy',
+      'Controls/_popupTemplate/Stack/StackStrategy',
       'Controls/popup',
       'Controls/popupTemplate',
       'Controls-demo/Popup/TestMaximizedStack',
       'Controls/_popupTemplate/BaseController',
-      'Controls/_popupTemplate/Stack/Opener/StackContent',
+      'Controls/_popupTemplate/Stack/Template/StackContent',
       'sinon'
    ],
    (StackStrategyMod, popupMod, popupTemplate, TestMaximizedStack, BaseController, StackContent, sinon) => {

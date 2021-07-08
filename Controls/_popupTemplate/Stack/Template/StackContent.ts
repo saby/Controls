@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import Template = require('wml!Controls/_popupTemplate/Stack/Opener/StackContent');
+import * as template from 'wml!Controls/_popupTemplate/Stack/Template/StackContent/StackContent';
 import {EventUtils} from 'UI/Events';
 
 interface IStackContentOptions extends IControlOptions {
@@ -10,7 +10,7 @@ interface IStackContentOptions extends IControlOptions {
 
 class StackContent extends Control<IStackContentOptions> {
     // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
-    protected _template: TemplateFunction = Template;
+    protected _template: TemplateFunction = template;
     protected _tmplNotify: Function = EventUtils.tmplNotify;
     protected _minOffset: number;
     protected _maxOffset: number;

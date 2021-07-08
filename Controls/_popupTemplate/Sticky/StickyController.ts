@@ -3,8 +3,8 @@ import StickyStrategy from 'Controls/_popupTemplate/Sticky/StickyStrategy';
 import * as cMerge from 'Core/core-merge';
 import * as cClone from 'Core/core-clone';
 import * as cInstance from 'Core/core-instance';
-import * as StickyContent from 'wml!Controls/_popupTemplate/Sticky/StickyContent';
-import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
+import * as StickyContent from 'wml!Controls/_popupTemplate/Sticky/Template/StickyContent';
+import getTargetCoords from 'Controls/_popupTemplate/TargetCoords';
 import {Logger} from 'UI/Utils';
 import {getScrollbarWidthByMeasuredBlock} from 'Controls/scroll';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
@@ -391,7 +391,7 @@ export class StickyController extends BaseController {
             }
 
             if (restrictiveContainer) {
-                return TargetCoords.get(restrictiveContainer);
+                return getTargetCoords(restrictiveContainer);
             }
         }
     }

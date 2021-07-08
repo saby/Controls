@@ -59,7 +59,7 @@ export interface IPopupPosition {
     minHeight?: number;
     invisible?: boolean;
     hidden?: boolean;
-    margin?: number
+    margin?: number;
 }
 
 export interface IEventHandlers {
@@ -76,7 +76,6 @@ export interface IPopupOptions extends IBasePopupOptions {
     minHeight?: number;
     maxHeight?: number;
     hidden?: boolean;
-    id?: string;
     maximize?: boolean;
     content?: Function;
     autoClose?: boolean;

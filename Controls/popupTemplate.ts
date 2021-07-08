@@ -6,13 +6,13 @@
  * @author Крайнов Д.О.
  */
 
-export {default as Stack} from 'Controls/_popupTemplate/Stack';
-export {default as StackController} from 'Controls/_popupTemplate/Stack/Opener/StackController';
+export {default as Stack} from 'Controls/_popupTemplate/Stack/Template/Stack';
+export {default as StackController} from 'Controls/_popupTemplate/Stack/StackController';
 
 export {default as Dialog} from 'Controls/_popupTemplate/Dialog/Template/Dialog';
 export {default as DialogController} from 'Controls/_popupTemplate/Dialog/DialogController';
 
-export {default as Sticky} from 'Controls/_popupTemplate/Sticky';
+export {default as Sticky} from 'Controls/_popupTemplate/Sticky/Template/Sticky';
 export {default as StickyController} from 'Controls/_popupTemplate/Sticky/StickyController';
 
 export {default as Page} from 'Controls/_popupTemplate/Page';
@@ -37,11 +37,5 @@ export {default as CloseButton} from 'Controls/_popupTemplate/CloseButton';
 export {default as BaseController} from 'Controls/_popupTemplate/BaseController';
 
 // Удалить
-export {default as StackStrategy} from 'Controls/_popupTemplate/Stack/Opener/StackStrategy'; // для CompoundArea
+export {default as StackStrategy} from 'Controls/_popupTemplate/Stack/StackStrategy'; // для CompoundArea
 export {default as DialogHeader} from 'Controls/_popupTemplate/Dialog/Template/Header'; // В рознице
-
-import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
-
-export {
-   TargetCoords
-};

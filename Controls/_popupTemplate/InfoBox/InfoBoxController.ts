@@ -1,5 +1,5 @@
-import {StickyController} from 'Controls/_popupTemplate/Sticky/StickyController';
-import themeConstantsGetter from 'Controls/_popupTemplate/InfoBox/Util/themeConstantsGetter';
+import {StickyController, IStickyItem} from 'Controls/_popupTemplate/Sticky/StickyController';
+import themeConstantsGetter from 'Controls/_popupTemplate/InfoBox/getThemeConstants';
 import * as Deferred from 'Core/Deferred';
 import * as cMerge from 'Core/core-merge';
 import StickyStrategy from 'Controls/_popupTemplate/Sticky/StickyStrategy';
@@ -13,6 +13,9 @@ interface IInfoBoxThemeConstants {
     ARROW_V_OFFSET?: number;
     TARGET_OFFSET?: number;
     MAX_WIDTH?: number;
+}
+
+interface IInfoBoxItem extends IStickyItem {
 }
 
 interface IInfoBoxSide {
@@ -78,7 +81,7 @@ class InfoBoxController extends StickyController {
     _checkHiddenId: number | null = null;
     TYPE: string = 'InfoBox';
 
-    elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
+    elementCreated(item: IInfoBoxItem, container: HTMLDivElement): boolean {
         const isTargetVisible = this._isTargetVisible(item);
         // Only one popup can be opened
         if (this._openedPopupId) {
@@ -120,11 +123,11 @@ class InfoBoxController extends StickyController {
         return true;
     }
 
-    resizeInner(item: IPopupItem, container: HTMLDivElement): boolean {
+    resizeInner(item: IInfoBoxItem, container: HTMLDivElement): boolean {
         return super.elementUpdated(item, container);
     }
 
-    elementDestroyed(item: IPopupItem): Promise<null> {
+    elementDestroyed(item: IInfoBoxItem): Promise<null> {
         if (item.id === this._openedPopupId) {
             clearInterval(this._checkHiddenId);
             this._openedPopupId = null;
@@ -133,16 +136,12 @@ class InfoBoxController extends StickyController {
         return (new Deferred()).callback();
     }
 
-    needRestoreFocus(isActive: boolean): boolean {
-        return isActive;
-    }
-
     // Инфобокс закрывается всегда при драге на странице, только если драг не в нем.
-    dragNDropOnPage(item, container: HTMLDivElement, isInsideDrag: boolean): boolean {
+    dragNDropOnPage(item: IInfoBoxItem, container: HTMLDivElement, isInsideDrag: boolean): boolean {
         return !isInsideDrag;
     }
 
-    getDefaultConfig(item: IPopupItem): Promise<void> {
+    getDefaultConfig(item: IInfoBoxItem): Promise<void> {
         super.getDefaultConfig.apply(this, arguments);
         const defaultPosition: IPopupPosition = {
             left: -10000,
@@ -167,14 +166,7 @@ class InfoBoxController extends StickyController {
         });
     }
 
-    _getPopupConfig(item: IPopupItem, sizes: IPopupSizes): IPopupItem {
-        const baseConfig: IPopupItem = super._getPopupConfig.apply(this, arguments);
-        // Protection against incorrect page design
-        baseConfig.checkNegativePosition = false;
-        return baseConfig;
-    }
-
-    prepareConfig(item: IPopupItem, container?: HTMLElement): IPopupItem {
+    prepareConfig(item: IInfoBoxItem, container?: HTMLElement): IInfoBoxItem {
         cMerge(item.popupOptions, this._prepareInfoboxConfig(item.popupOptions.position, item.popupOptions.target));
         return super.prepareConfig.apply(this, arguments);
     }
@@ -200,7 +192,7 @@ class InfoBoxController extends StickyController {
     }
 
     // Return the configuration prepared for StickyStrategy
-    private _prepareInfoboxConfig(position: string, target: HTMLDivElement): IPopupItem {
+    private _prepareInfoboxConfig(position: string, target: HTMLDivElement): IInfoBoxItem {
         const side: string = position[0];
         const alignSide: string = position[1];
         const topOrBottomSide: boolean = side === 't' || side === 'b';
@@ -248,7 +240,7 @@ class InfoBoxController extends StickyController {
         }
     }
 
-    private _removeHiddenElement(item: IPopupItem): boolean {
+    private _removeHiddenElement(item: IInfoBoxItem): boolean {
         const targetHidden: boolean = !!this._getTargetNode(item).closest('.ws-hidden');
         if (targetHidden) {
             Controller.remove(item.id);
