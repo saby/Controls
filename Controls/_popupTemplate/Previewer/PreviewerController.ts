@@ -1,5 +1,5 @@
 import * as Deferred from 'Core/Deferred';
-import {StickyController} from 'Controls/_popupTemplate/Sticky/StickyController';
+import {StickyController, IStickyItem} from 'Controls/_popupTemplate/Sticky/StickyController';
 import {IPopupItem, Controller as ManagerController} from 'Controls/popup';
 import 'css!Controls/popupTemplate';
 
@@ -8,7 +8,7 @@ class PreviewerController extends StickyController {
     _destroyDeferred: object = {};
     TYPE: string = 'Previewer';
 
-    elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
+    elementCreated(item: IStickyItem, container: HTMLDivElement): boolean {
         /**
          * Only one window can be opened.
          */
@@ -19,7 +19,7 @@ class PreviewerController extends StickyController {
         return super.elementCreated.apply(this, arguments);
     }
 
-    elementDestroyed(item: IPopupItem): boolean {
+    elementDestroyed(item: IStickyItem): Promise<void> {
         const itemIndex: number = this._openedPopupIds.indexOf(item.id);
         if (itemIndex > -1) {
             this._openedPopupIds.splice(itemIndex, 1);
@@ -30,7 +30,7 @@ class PreviewerController extends StickyController {
         return this._destroyDeferred[item.id];
     }
 
-    elementAnimated(item: IPopupItem): boolean {
+    elementAnimated(item: IStickyItem): boolean {
         if (this._destroyDeferred[item.id]) {
             this._destroyDeferred[item.id].callback();
             delete this._destroyDeferred[item.id];
@@ -39,12 +39,8 @@ class PreviewerController extends StickyController {
         return false;
     }
 
-    needRestoreFocus(isActive: boolean): boolean {
-        return isActive;
-    }
-
-    private _isLinkedPopup(previewerItem: IPopupItem): boolean {
-        let item = previewerItem;
+    private _isLinkedPopup(previewerItem: IStickyItem): boolean {
+        let item: IPopupItem = previewerItem;
         const parents = [];
         while (item && item.parentId) {
             parents.push(item.parentId);

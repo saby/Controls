@@ -3,7 +3,7 @@
     <div class="controls-StackTemplate-content_wrapper">
         <div class="controls-StackTemplate-content">
             <ws:if data="{{_options.caption || _options.headingCaption || _options.topArea || _options.headerContentTemplate}}">
-                <ws:partial template="Controls/_popupTemplate/Stack/resources/Header" scope="{{_options}}"
+                <ws:partial template="Controls/_popupTemplate/Stack/Template/Header" scope="{{_options}}"
                             close="{{close}}"
                             theme="{{_headerTheme}}"
                             stackOptions="{{_options}}"
@@ -43,7 +43,7 @@
             </ws:if>
         </div>
 
-        <ws:partial template="Controls/_popupTemplate/Stack/resources/RightPanel"
+        <ws:partial template="Controls/_popupTemplate/Stack/Template/RightPanel"
                     closeButtonVisibility="{{_options.closeButtonVisibility}}"
                     toolbarContentTemplate="{{_options.toolbarContentTemplate}}"
                     rightPanelOptions="{{_options.rightPanelOptions}}"/>
