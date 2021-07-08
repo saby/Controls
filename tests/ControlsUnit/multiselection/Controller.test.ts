@@ -209,6 +209,7 @@ describe('Controls/_multiselection/Controller', () => {
             let result = controller.toggleAll();
             assert.deepEqual(result, { selected: [null], excluded: [3] });
 
+            controller.setSelection(result);
             result = controller.toggleAll();
             assert.deepEqual(result, { selected: [3], excluded: [] });
          })
@@ -227,6 +228,7 @@ describe('Controls/_multiselection/Controller', () => {
             let result = controller.toggleAll();
             assert.deepEqual(result, { selected: [null], excluded: [2222] });
 
+            controller.setSelection(result);
             result = controller.toggleAll();
             assert.deepEqual(result, { selected: [2222], excluded: [] });
          })
@@ -245,6 +247,7 @@ describe('Controls/_multiselection/Controller', () => {
             let result = controller.toggleAll();
             assert.deepEqual(result, { selected: [null], excluded: [2, 3, 2222] });
 
+            controller.setSelection(result);
             result = controller.toggleAll();
             assert.deepEqual(result, { selected: [2, 3, 2222], excluded: [] });
          })
@@ -284,13 +287,19 @@ describe('Controls/_multiselection/Controller', () => {
                strategy,
                filter: {searchValue: 'aф'},
                strategyOptions: {
-                  model
+                  model,
+                  selectDescendants: true,
+                  selectAncestors: true,
+                  rootId: null,
+                  entryPath: [],
+                  selectionType: 'all'
                }
             });
 
             let result = controller.toggleAll();
             assert.deepEqual(result, { selected: [null], excluded: [null, 3, 5] });
 
+            controller.setSelection(result);
             result = controller.toggleAll();
             assert.deepEqual(result, { selected: [3, 5], excluded: [] });
          })
