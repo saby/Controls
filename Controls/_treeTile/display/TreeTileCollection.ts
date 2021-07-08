@@ -10,7 +10,7 @@ import InvisibleStrategy from './strategy/Invisible';
  * @param {TreeItem<T>} item
  */
 function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
-    if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/BreadcrumbsItem]']) {
+    if (item.Indicator || item['[Controls/_display/GroupItem]'] || item['[Controls/_display/BreadcrumbsItem]']) {
         return true;
     }
 

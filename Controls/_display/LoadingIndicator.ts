@@ -4,6 +4,7 @@ import { TemplateFunction } from 'UI/Base';
 export type TLoadingIndicatorPosition = 'top'|'bottom'|'global';
 
 export default class LoadingIndicator extends CollectionItem<null> {
+    readonly Indicator: boolean = true;
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;

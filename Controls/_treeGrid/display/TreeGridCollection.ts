@@ -35,7 +35,7 @@ export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
  * @param {TreeItem<T>} item
  */
 function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
-    if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/BreadcrumbsItem]']) {
+    if (item.Indicator || item['[Controls/_display/GroupItem]'] || item['[Controls/_display/BreadcrumbsItem]']) {
         return true;
     }
 
@@ -179,7 +179,8 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsProperty('setColumnsConfig', this._$columns);
+        // TODO LI
+        this._updateItemsProperty('setColumnsConfig', this._$columns, 'setColumnsConfig');
     }
 
     isLastItem(item: CollectionItem): boolean {

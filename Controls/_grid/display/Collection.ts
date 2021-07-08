@@ -101,7 +101,8 @@ export default class Collection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        this._updateItemsProperty('setColumnsConfig', this._$columns);
+        // TODO LI
+        this._updateItemsProperty('setColumnsConfig', this._$columns, 'setColumnsConfig');
     }
 
     protected _handleAfterCollectionChange(changedItems: T[] = [], changeAction?: string): void {

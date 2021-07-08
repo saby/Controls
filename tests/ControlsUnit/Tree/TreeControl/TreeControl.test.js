@@ -924,10 +924,10 @@ define([
                    getExpandedItems: () => [1],
                    getCollection: () => new collection.RecordSet()
                 },
-                showIndicator() {
+                _showGlobalIndicator() {
                    isIndicatorHasBeenShown = true;
                 },
-                hideIndicator() {
+                _hideGlobalIndicator() {
                    isIndicatorHasBeenHidden = true;
                 },
                 stopBatchAdding() {
@@ -1044,7 +1044,7 @@ define([
          assert.deepEqual([null], treeGridViewModel.getExpandedItems());
          assert.deepEqual([], treeGridViewModel.getCollapsedItems());
 
-         treeGridViewModel.toggleExpanded(treeGridViewModel.at(0));
+         treeGridViewModel.toggleExpanded(treeGridViewModel.getFirst());
          assert.deepEqual([null], treeGridViewModel.getExpandedItems());
          assert.deepEqual([1], treeGridViewModel.getCollapsedItems());
       });
@@ -1160,12 +1160,12 @@ define([
          tree.TreeControl._private.toggleExpanded = function(){};
 
          treeControl._mouseDownExpanderKey = 1;
-         treeControl._onExpanderMouseUp(e.nativeEvent, 1, treeGridViewModel.at(0));
-         assert.isTrue(treeGridViewModel.at(0).isMarked());
+         treeControl._onExpanderMouseUp(e.nativeEvent, 1, treeGridViewModel.getFirst());
+         assert.isTrue(treeGridViewModel.getFirst().isMarked());
 
          treeControl._mouseDownExpanderKey = 2;
-         treeControl._onExpanderMouseUp(e.nativeEvent, 2, treeGridViewModel.at(1));
-         assert.isTrue(treeGridViewModel.at(1).isMarked());
+         treeControl._onExpanderMouseUp(e.nativeEvent, 2, treeGridViewModel.at(2));
+         assert.isTrue(treeGridViewModel.at(2).isMarked());
 
          tree.TreeControl._private.toggleExpanded = savedMethod;
       });
@@ -1225,10 +1225,10 @@ define([
          tree.TreeControl._private.toggleExpanded = function(){};
 
          treeControl._mouseDownExpanderKey = 0;
-         treeControl._onExpanderMouseUp(e.nativeEvent, 0, treeGridViewModel.at(0));
+         treeControl._onExpanderMouseUp(e.nativeEvent, 0, treeGridViewModel.getFirst());
 
          treeControl._mouseDownExpanderKey = 1;
-         treeControl._onExpanderMouseUp(e.nativeEvent, 1, treeGridViewModel.at(1));
+         treeControl._onExpanderMouseUp(e.nativeEvent, 1, treeGridViewModel.at(2));
 
          tree.TreeControl._private.toggleExpanded = savedMethod;
       });
@@ -1280,10 +1280,10 @@ define([
 
          treeControl._listViewModel = treeGridViewModel;
          treeControl._expandController.updateOptions({model: treeGridViewModel});
-         treeControl.showIndicator = () => {
+         treeControl._showGlobalIndicator = () => {
             isIndicatorHasBeenShown = true;
          };
-         treeControl.hideIndicator = () => {
+         treeControl._hideGlobalIndicator = () => {
             isIndicatorHasBeenHidden = true;
          };
          treeControl.getSourceController = () => sourceController;
@@ -1317,34 +1317,34 @@ define([
          };
 
          // Expanding. Child items has not loaded
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(0).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.getFirst().getContents(), originalEvent, undefined], true);
          assertTestCaseResult([0]);
 
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(1).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(2).getContents(), originalEvent, undefined], true);
          assertTestCaseResult([0, 1]);
 
          // Leaf
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(2).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(3).getContents(), originalEvent, undefined], true);
          assertTestCaseResult([0, 1], false);
 
          // Closing. Child items loaded
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(0).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.getFirst().getContents(), originalEvent, undefined], true);
          assertTestCaseResult([1], false);
 
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(1).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(2).getContents(), originalEvent, undefined], true);
          assertTestCaseResult([], false);
 
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(2).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(3).getContents(), originalEvent, undefined], true);
          assertTestCaseResult([], false);
 
          // Expanding. Child items loaded
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(0).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.getFirst().getContents(), originalEvent, undefined], true);
          assertTestCaseResult([0], false);
 
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(1).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(2).getContents(), originalEvent, undefined], true);
          assertTestCaseResult([0, 1], false);
 
-         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(2).getContents(), originalEvent, undefined], true);
+         await treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(3).getContents(), originalEvent, undefined], true);
          assertTestCaseResult([0, 1], false);
       });
 
@@ -1408,10 +1408,10 @@ define([
             }
          };
 
-         treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(0).getContents(), origin]);
+         treeControl._notifyItemClick([fakeEvent, treeGridViewModel.getFirst().getContents(), origin]);
          assert.deepEqual(treeGridViewModel.getExpandedItems(), []);
 
-         treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(1).getContents(), origin]);
+         treeControl._notifyItemClick([fakeEvent, treeGridViewModel.at(2).getContents(), origin]);
          assert.deepEqual(treeGridViewModel.getExpandedItems(), []);
 
          tree.TreeControl._private.createSourceController = savedMethod;
@@ -1543,8 +1543,8 @@ define([
             markedKey: 4
          };
          const treeControl = await correctCreateTreeControlAsync(cfg);
-         treeControl.showIndicator = () => {};
-         treeControl.hideIndicator = () => {};
+         treeControl._showGlobalIndicator = () => {};
+         treeControl._hideGlobalIndicator = () => {};
          let newCfg = {...treeControl._options};
          treeControl._notify = (event, args) => {
             if (event === 'expandedItemsChanged') {

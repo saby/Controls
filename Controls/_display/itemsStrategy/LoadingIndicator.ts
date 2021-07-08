@@ -10,6 +10,7 @@ import LoadingTrigger, {TLoadingTriggerPosition} from '../LoadingTrigger';
 interface IOptions<S extends Model, T extends CollectionItem<S>> {
     source: IItemsStrategy<S, T>;
     display: Collection<S, T>;
+    allowCreateTriggers: boolean;
 }
 
 /**
@@ -198,7 +199,8 @@ export default class LoadingIndicator<
         const triggerName = this._getTriggerName(position);
 
         let trigger = this[triggerName];
-        if (!trigger) {
+
+        if (!trigger && this._options.allowCreateTriggers) {
             this._createTrigger(position);
         }
         return this[triggerName];

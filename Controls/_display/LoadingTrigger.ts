@@ -6,6 +6,7 @@ export const TOP_TRIGGER_ID = 'topLoadingTrigger';
 export const BOTTOM_TRIGGER_ID = 'bottomLoadingTrigger';
 
 export default class LoadingTrigger extends CollectionItem<null> {
+    readonly Indicator: boolean = true;
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;

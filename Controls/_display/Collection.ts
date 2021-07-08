@@ -749,6 +749,9 @@ export default class Collection<
 
     protected _$navigation: INavigationOptionValue;
 
+    // TODO LI падает около 500 юнитов, т.к. новые стратегии сбили индексы. Как минимум триггер должен всегда создаваться
+    protected _$allowCreateTriggers: boolean;
+
     /**
      * @cfg {Boolean} Обеспечивать уникальность элементов (элементы с повторяющимися идентфикаторами будут
      * игнорироваться). Работает только если задано {@link keyProperty}.
@@ -3388,7 +3391,8 @@ export default class Collection<
             hiddenGroupPosition: this._$hiddenGroupPosition,
             groupConstructor: this._getGroupItemConstructor()
         }).append(LoadingIndicatorStrategy, {
-            display: this
+            display: this,
+            allowCreateTriggers: this._$allowCreateTriggers
         }).append(PortionedSearchStrategy, {
             display: this,
             portionedSearchTemplate: this._$portionedSearchTemplate,
@@ -4210,5 +4214,6 @@ Object.assign(Collection.prototype, {
     _$itemActionsPosition: 'inside',
     _$roundBorder: null,
     _$newDesign: false,
+    _$allowCreateTriggers: false,
     getIdProperty: Collection.prototype.getKeyProperty
 });

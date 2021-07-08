@@ -4,6 +4,7 @@ import {TemplateFunction} from 'UI/Base';
 export type TPortionedSearchIndicatorPosition = 'top'|'bottom';
 
 export default class PortionedSearchIndicator extends CollectionItem<null> {
+    readonly Indicator: boolean = true;
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;

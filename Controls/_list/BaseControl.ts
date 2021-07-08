@@ -1338,7 +1338,7 @@ const _private = {
 
                 // TODO LI возможно в этот момент нужно вызвать пересчет индикаторов, чтобы они не показывались
                 const position = direction === 'up' ? 'top' : 'bottom';
-                self._listViewModel.startPortionedSearch(position);
+                self._listViewModel?.startPortionedSearch(position);
             },
             searchStopCallback: (direction?: IDirection) => {
                 self._portionedSearchInProgress = false;
@@ -1348,7 +1348,7 @@ const _private = {
                 }
 
                 const position = direction === 'up' ? 'top' : 'bottom';
-                self._listViewModel.showContinueSearch(position);
+                self._listViewModel?.showContinueSearch(position);
 
                 if (self._isScrollShown) {
                     _private.updateShadowMode(self, self._shadowVisibility);
@@ -1358,7 +1358,7 @@ const _private = {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButtonDirection = null;
 
-                self._listViewModel.endPortionedSearch();
+                self._listViewModel?.endPortionedSearch();
             },
             searchContinueCallback: () => {
                 const direction = self._hasMoreData('up') ? 'up' : 'down';
@@ -1368,7 +1368,7 @@ const _private = {
                 _private.loadToDirectionIfNeed(self, direction);
 
                 const position = direction === 'up' ? 'top' : 'bottom';
-                self._listViewModel.showPortionedSearch(position);
+                self._listViewModel?.showPortionedSearch(position);
             },
             searchAbortCallback: () => {
                 self._portionedSearchInProgress = false;
@@ -1378,7 +1378,7 @@ const _private = {
                     self._sourceController.cancelLoading();
                 }
 
-                self._listViewModel.endPortionedSearch();
+                self._listViewModel?.endPortionedSearch();
 
                 _private.disablePagingNextButtons(self);
 
@@ -4814,7 +4814,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 _private.doAfterUpdate(self, () => {
                     _private.hideError(self);
                     _private.setReloadingState(self, false);
-                    self._recountIndicators('all');
 
                     if (list.getCount()) {
                         self._loadedItems = list;
@@ -4858,6 +4857,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                         data: list
                     });
 
+                    self._recountIndicators('all');
                     _private.resetScrollAfterLoad(self);
                     _private.resolveIsLoadNeededByNavigationAfterReload(self, cfg, list);
                 });
@@ -6184,7 +6184,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             emptyTemplateOptions: {items, filter: modelConfig.filter},
             hasMoreData: _private.getHasMoreData(this),
             // TODO LI нужно переименовать в portionedSearchTemplate, но нужно переименовывать и у прикладников
-            portionedSearchTemplate: modelConfig.loadingIndicatorTemplate
+            portionedSearchTemplate: modelConfig.loadingIndicatorTemplate,
+            allowCreateTriggers: true
         });
     }
 
@@ -6400,13 +6401,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 }
 
                 this._showIndicatorTimer = null;
-                this._listViewModel.showIndicator('global');
+                this._listViewModel?.showIndicator('global');
             }, INDICATOR_DELAY);
         }
     }
 
     protected _hideGlobalIndicator(): void {
-        this._listViewModel.hideIndicator('global');
+        this._listViewModel?.hideIndicator('global');
         if (this._showIndicatorTimer) {
             clearTimeout(this._showIndicatorTimer);
             this._showIndicatorTimer = null;
