@@ -264,11 +264,11 @@ var ListView = BaseControl.extend(
             return this._children.itemsContainer;
         },
 
-        getTopTrigger(): HTMLElement {
+        getTopLoadingTrigger(): HTMLElement {
             return document.getElementById(TOP_TRIGGER_ID);
         },
 
-        getBottomTrigger(): HTMLElement {
+        getBottomLoadingTrigger(): HTMLElement {
             return document.getElementById(BOTTOM_TRIGGER_ID);
         },
 

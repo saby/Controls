@@ -23,6 +23,14 @@
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
 
+        <!--Top loading indicator-->
+        <ws:partial if="{{ _listModel.getTopLoadingIndicator() }}"
+                    template="{{_listModel.getTopLoadingIndicator().getTemplate()}}"
+                    item="{{_listModel.getTopLoadingIndicator()}}"/>
+        <!--Top loading trigger-->
+        <ws:partial template="{{_listModel.getTopLoadingTrigger().getTemplate()}}"
+                    item="{{_listModel.getTopLoadingTrigger()}}"/>
+
         <!-- Скроллбар горизонтального скролла. -->
         <ws:if data="{{ _options.columnScroll }}">
             <Controls.columnScroll:NewScrollBar
@@ -73,6 +81,14 @@
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
 
+        <!--Bottom loading trigger-->
+        <ws:partial template="{{_listModel.getBottomLoadingTrigger().getTemplate()}}"
+                    item="{{_listModel.getBottomLoadingTrigger()}}"/>
+        <!--Bottom loading indicator-->
+        <ws:partial if="{{ _listModel.getBottomLoadingIndicator() }}"
+                    template="{{_listModel.getBottomLoadingIndicator().getTemplate()}}"
+                    item="{{_listModel.getBottomLoadingIndicator()}}"/>
+
         <!-- Results (bottom) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}">
             <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
@@ -91,10 +107,9 @@
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
         <!--Global loading indicator-->
-        <ws:if data="{{ _listModel.getGlobalIndicator() }}">
-            <ws:partial template="{{_listModel.getGlobalIndicator().getTemplate()}}"
-                        item="{{_listModel.getGlobalIndicator()}}"/>
-        </ws:if>
+        <ws:partial if="{{ _listModel.getGlobalLoadingIndicator() }}"
+                    template="{{_listModel.getGlobalLoadingIndicator().getTemplate()}}"
+                    item="{{_listModel.getGlobalLoadingIndicator()}}"/>
     </div>
 </ws:template>
 

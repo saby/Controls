@@ -1,10 +1,13 @@
-import CollectionItem from 'Controls/_display/CollectionItem';
+import CollectionItem, { IOptions as ICollectionOptions} from './CollectionItem';
 import { TemplateFunction } from 'UI/Base';
 
 export type TLoadingIndicatorPosition = 'top'|'bottom'|'global';
 
+export interface IOptions extends ICollectionOptions<null> {
+    position: TLoadingIndicatorPosition;
+}
+
 export default class LoadingIndicator extends CollectionItem<null> {
-    readonly Indicator: boolean = true;
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;

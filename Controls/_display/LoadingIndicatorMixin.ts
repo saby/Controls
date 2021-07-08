@@ -1,91 +1,161 @@
-import {Model} from 'Types/entity';
-
-import IItemsStrategy from './IItemsStrategy';
-import {StrategyConstructor} from './Collection';
-import CollectionItem from './CollectionItem';
-import {default as LoadingIndicatorStrategy} from './itemsStrategy/LoadingIndicator';
-import LoadingIndicator, {TLoadingIndicatorPosition} from './LoadingIndicator';
-import {IEnumerableComparatorSession} from 'Types/collection';
+import LoadingIndicator, {
+    default as LoadingIndicatorItem,
+    IOptions as ILoadingIndicatorOptions,
+    TLoadingIndicatorPosition
+} from './LoadingIndicator';
+import LoadingTrigger, {
+    TLoadingTriggerPosition,
+    IOptions as ILoadingTriggerOptions,
+} from './LoadingTrigger';
 
 export interface ITriggerOffset {
     top: number;
     bottom: number;
 }
 
-export default abstract class LoadingIndicatorMixin<
-    S extends Model = Model,
-    T extends CollectionItem<S> = CollectionItem<S>
-> {
+export default abstract class LoadingIndicatorMixin<T = LoadingIndicator|LoadingTrigger> {
+    protected _topLoadingIndicator: LoadingIndicatorItem = null;
+    protected _bottomLoadingIndicator: LoadingIndicatorItem = null;
+    protected _globalLoadingIndicator: LoadingIndicatorItem = null;
 
-    showIndicator(position: TLoadingIndicatorPosition): void {
-        const strategy = this._getLoadingIndicatorStrategy();
+    protected _topLoadingTrigger: LoadingTrigger = null;
+    protected _bottomLoadingTrigger: LoadingTrigger = null;
 
-        const session = this._startUpdateSession();
-        const changed = strategy.showIndicator(position);
-        if (changed) {
-            this._reSort();
-            this._reFilter();
-            this._nextVersion();
-            this._finishUpdateSession(session);
-        }
+    // region Indicator
+
+    hasLoadingIndicator(position: TLoadingIndicatorPosition): boolean {
+        return !!this._getLoadingIndicator(position);
     }
 
-    hideIndicator(position: TLoadingIndicatorPosition): void {
-        const strategy = this._getLoadingIndicatorStrategy();
-
-        const session = this._startUpdateSession();
-        const changed = strategy.hideIndicator(position);
-        if (changed) {
-            this._reSort();
-            this._reFilter();
-            this._nextVersion();
-            this._finishUpdateSession(session);
-        }
+    getGlobalLoadingIndicator(): LoadingIndicator {
+        return this._globalLoadingIndicator;
     }
 
-    hasIndicator(position: TLoadingIndicatorPosition): boolean {
-        const strategy = this._getLoadingIndicatorStrategy();
-        return !!strategy.getIndicator(position);
+    getTopLoadingIndicator(): LoadingIndicator {
+        return this._topLoadingIndicator;
     }
 
-    getGlobalIndicator(): LoadingIndicator {
-        const strategy = this._getLoadingIndicatorStrategy();
-        return strategy.getIndicator('global');
+    getBottomLoadingIndicator(): LoadingIndicator {
+        return this._bottomLoadingIndicator;
     }
 
-    showTopTrigger(): void {
-        const strategy = this._getLoadingIndicatorStrategy();
-
-        const session = this._startUpdateSession();
-        const changed = strategy.showTrigger('top');
-        if (changed) {
-            this._reSort();
-            this._reFilter();
-            this._nextVersion();
-            this._finishUpdateSession(session);
-        }
-    }
-
-    setTriggerOffset(offset: ITriggerOffset): void {
-        const strategy = this._getLoadingIndicatorStrategy();
-        const changed = strategy.setTriggerOffset(offset);
-        if (changed) {
+    showLoadingIndicator(position: TLoadingIndicatorPosition): void {
+        const indicatorIsHidden  = !this._getLoadingIndicator(position);
+        if (indicatorIsHidden) {
+            this._createLoadingIndicator(position);
             this._nextVersion();
         }
     }
 
-    private _getLoadingIndicatorStrategy(): LoadingIndicatorStrategy {
-        return this.getStrategyInstance(LoadingIndicatorStrategy as any as StrategyConstructor<any>)
+    hideLoadingIndicator(position: TLoadingIndicatorPosition): boolean {
+        const indicatorIsShowed = !!this._getLoadingIndicator(position);
+        if (indicatorIsShowed) {
+            const indicatorName = this._getLoadingIndicatorName(position);
+            this[indicatorName] = null;
+            this._nextVersion();
+        }
     }
 
-    abstract getStrategyInstance<F extends IItemsStrategy<S, T>>(strategy: StrategyConstructor<F>): F;
+    private _getLoadingIndicatorName(position: TLoadingIndicatorPosition): string {
+        return `_${position}LoadingIndicator`;
+    }
+
+    private _getLoadingIndicator(position: TLoadingIndicatorPosition): LoadingIndicatorItem {
+        const indicatorName = this._getLoadingIndicatorName(position);
+        return this[indicatorName];
+    }
+
+    private _createLoadingIndicator(position: TLoadingIndicatorPosition): void {
+        const indicator = this.createItem({
+            itemModule: 'Controls/display:LoadingIndicator',
+            position
+        });
+
+        const indicatorName = this._getLoadingIndicatorName(position);
+        this[indicatorName] = indicator;
+    }
+
+    // endregion Indicator
+
+    // region Trigger
+
+    getTopLoadingTrigger(): LoadingTrigger {
+        return this._getLoadingTrigger('top');
+    }
+
+    getBottomLoadingTrigger(): LoadingTrigger {
+        return this._getLoadingTrigger('bottom');
+    }
+
+    showLoadingTopTrigger(): void {
+        this._showTrigger('top');
+    }
+
+    setLoadingTriggerOffset(offset: ITriggerOffset): void {
+        let changed = false;
+        if (this._topLoadingTrigger) {
+            const topOffsetChanged = this._topLoadingTrigger.setOffset(offset.top);
+            changed = changed || topOffsetChanged;
+        }
+        if (this._bottomLoadingTrigger) {
+            const bottomOffsetChanged = this._bottomLoadingTrigger.setOffset(offset.bottom);
+            changed = changed || bottomOffsetChanged;
+        }
+        if (changed) {
+            this._nextVersion();
+        }
+    }
+
+    private _getLoadingTriggerName(position: TLoadingTriggerPosition): string {
+        return `_${position}LoadingTrigger`;
+    }
+
+    private _showTrigger(position: TLoadingTriggerPosition): void {
+        const trigger = this._getLoadingTrigger(position);
+        const changed = trigger.show();
+        if (changed) {
+            this._nextVersion();
+        }
+    }
+
+    private _getLoadingTrigger(position: TLoadingTriggerPosition): LoadingTrigger {
+        const triggerName = this._getLoadingTriggerName(position);
+
+        let trigger = this[triggerName];
+
+        if (!trigger) {
+            this._createLoadingTrigger(position);
+        }
+        return this[triggerName];
+    }
+
+    private _createLoadingTrigger(position: TLoadingTriggerPosition): void {
+        const isTopTrigger = position === 'top';
+        // У верхнего триггера оффсет должен быть изначально -1, иначе обсервер сразу сработает
+        const offset = isTopTrigger ? -1 : 0;
+        const visible = !isTopTrigger;
+        const trigger = this.createItem({
+            itemModule: 'Controls/display:LoadingTrigger',
+            position,
+            offset,
+            visible
+        });
+
+        const triggerName = this._getLoadingTriggerName(position);
+        this[triggerName] = trigger;
+    }
+
+    // endregion Trigger
+
+    abstract createItem(options: ILoadingIndicatorOptions|ILoadingTriggerOptions): T;
     protected abstract _nextVersion(): void;
-    protected abstract _reSort(): void;
-    protected abstract _reFilter(): void;
-    protected abstract _startUpdateSession(): IEnumerableComparatorSession;
-    protected abstract _finishUpdateSession(session: IEnumerableComparatorSession, analize?: boolean): void;
 }
 
 Object.assign(LoadingIndicatorMixin.prototype, {
-    'Controls/display:LoadingIndicatorMixin': true
+    'Controls/display:LoadingIndicatorMixin': true,
+    _topIndicator: null,
+    _bottomIndicator: null,
+    _globalIndicator: null,
+    _topTrigger: null,
+    _bottomTrigger: null,
 });

@@ -1,6 +1,14 @@
 <div class="{{ _getItemsPaddingContainerClasses() }} controls_list_theme-{{_options.theme}} controls-TileView_new">
     <div class="controls-ListViewV controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()">
         <ws:if data="{{_listModel}}">
+            <!--Top loading indicator-->
+            <ws:partial if="{{ _listModel.getTopLoadingIndicator() }}"
+                        template="{{_listModel.getTopLoadingIndicator().getTemplate()}}"
+                        item="{{_listModel.getTopLoadingIndicator()}}"/>
+            <!--Top loading trigger-->
+            <ws:partial template="{{_listModel.getTopLoadingTrigger().getTemplate()}}"
+                        item="{{_listModel.getTopLoadingTrigger()}}"/>
+
             <ws:partial
                     template="Controls/list:ForTemplate"
                     collection="{{_listModel}}"
@@ -20,16 +28,25 @@
             <ws:if data="{{_options.emptyTemplate}}">
                 <ws:partial template="{{_options.emptyTemplate}}" attr:class="controls-TileView__flex-grow"/>
             </ws:if>
+
+            <!--Bottom loading trigger-->
+            <ws:partial template="{{_listModel.getBottomLoadingTrigger().getTemplate()}}"
+                        item="{{_listModel.getBottomLoadingTrigger()}}"/>
+            <!--Bottom loading indicator-->
+            <ws:partial if="{{ _listModel.getBottomLoadingIndicator() }}"
+                        template="{{_listModel.getBottomLoadingIndicator().getTemplate()}}"
+                        item="{{_listModel.getBottomLoadingIndicator()}}"/>
+
             <ws:if data="{{_options.footerTemplate}}">
                 <div class="controls-TileView__footer">
                     <ws:partial template="{{_options.footerTemplate}}"/>
                 </div>
             </ws:if>
+
             <!--Global loading indicator-->
-            <ws:if data="{{ _listModel.getGlobalIndicator() }}">
-                <ws:partial template="{{_listModel.getGlobalIndicator().getTemplate()}}"
-                            item="{{_listModel.getGlobalIndicator()}}"/>
-            </ws:if>
+            <ws:partial if="{{ _listModel.getGlobalLoadingIndicator() }}"
+                        template="{{_listModel.getGlobalLoadingIndicator().getTemplate()}}"
+                        item="{{_listModel.getGlobalLoadingIndicator()}}"/>
         </ws:if>
     </div>
 </div>

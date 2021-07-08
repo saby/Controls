@@ -1,73 +1,87 @@
-import {Model} from 'Types/entity';
+import PortionedSearchIndicator, {
+    TPortionedSearchIndicatorPosition,
+    IOptions as IPortionedSearchIndicatorOptions
+} from './PortionedSearchIndicator';
+import {TemplateFunction} from 'UI/Base';
 
-import IItemsStrategy from './IItemsStrategy';
-import {StrategyConstructor} from './Collection';
-import CollectionItem from './CollectionItem';
-import {default as PortionedSearchStrategy} from './itemsStrategy/PortionedSearch';
-import {IEnumerableComparatorSession} from 'Types/collection';
-import {TPortionedSearchIndicatorPosition} from './PortionedSearchIndicator';
-import {TemplateFunction} from "UI/Base";
-
-export default abstract class PortionedSearchMixin<
-    S extends Model = Model,
-    T extends CollectionItem<S> = CollectionItem<S>
-> {
+export default abstract class PortionedSearchMixin<T = PortionedSearchIndicator> {
     protected _$portionedSearchTemplate: TemplateFunction|string;
     protected _$continueSearchTemplate: TemplateFunction|string;
 
-    startPortionedSearch(position: TPortionedSearchIndicatorPosition): void {
-        const strategy = this._getPortionedSearchStrategy();
+    protected _topPortionedSearchIndicator: PortionedSearchIndicator = null;
+    protected _bottomPortionedSearchIndicator: PortionedSearchIndicator = null;
 
-        const session = this._startUpdateSession();
-        const changed = strategy.showIndicator(position);
-        if (changed) {
-            this._reSort();
-            this._reFilter();
+    getTopPortionedSearchIndicator(): PortionedSearchIndicator {
+        return this._topPortionedSearchIndicator;
+    }
+
+    getBottomPortionedSearchIndicator(): PortionedSearchIndicator {
+        return this._bottomPortionedSearchIndicator;
+    }
+
+    startPortionedSearch(position: TPortionedSearchIndicatorPosition): void {
+        const indicatorIsHidden  = !this._getPortionedSearchIndicator(position);
+        if (indicatorIsHidden) {
+            this._createPortionedSearchIndicator(position);
             this._nextVersion();
-            this._finishUpdateSession(session);
         }
     }
 
     endPortionedSearch(): void {
-        const strategy = this._getPortionedSearchStrategy();
-
-        const session = this._startUpdateSession();
         // пытаемся скрывать оба индикатора, т.к. мы умеем порционный поиск только в одну сторону и индикатор
         // будет показываться только один. То есть таким способом мы точно скроем индикатор.
-        const topIndicatorHidden = strategy.hideIndicator('top');
-        const bottomIndicatorHidden = strategy.hideIndicator('bottom');
-        if (topIndicatorHidden || bottomIndicatorHidden) {
-            this._reSort();
-            this._reFilter();
+        this._hidePortionedSearchIndicator('top');
+        this._hidePortionedSearchIndicator('bottom');
+    }
+
+    showPortionedSearchState(position: TPortionedSearchIndicatorPosition): void {
+        const indicator = this._getPortionedSearchIndicator(position);
+        indicator.showPortionedSearchState();
+    }
+
+    showContinueSearchState(position: TPortionedSearchIndicatorPosition): void {
+        const indicator = this._getPortionedSearchIndicator(position);
+        indicator.showContinueSearchState();
+    }
+
+    private _hidePortionedSearchIndicator(position: TPortionedSearchIndicatorPosition): void {
+        const indicatorIsShowed = !!this._getPortionedSearchIndicator(position);
+        if (indicatorIsShowed) {
+            const indicatorName = this._getPortionedSearchIndicatorName(position);
+            this[indicatorName] = null;
             this._nextVersion();
-            this._finishUpdateSession(session);
         }
     }
 
-    showPortionedSearch(position: TPortionedSearchIndicatorPosition): void {
-        const strategy = this._getPortionedSearchStrategy();
-        strategy.showPortionedSearch(position);
+    private _getPortionedSearchIndicatorName(position: TPortionedSearchIndicatorPosition): string {
+        return `_${position}PortionedSearchIndicator`;
     }
 
-    showContinueSearch(position: TPortionedSearchIndicatorPosition): void {
-        const strategy = this._getPortionedSearchStrategy();
-        strategy.showContinueSearch(position);
+    private _getPortionedSearchIndicator(position: TPortionedSearchIndicatorPosition): PortionedSearchIndicator {
+        const indicatorName = this._getPortionedSearchIndicatorName(position);
+        return this[indicatorName];
     }
 
-    private _getPortionedSearchStrategy(): PortionedSearchStrategy {
-        return this.getStrategyInstance(PortionedSearchStrategy as any as StrategyConstructor<any>)
+    private _createPortionedSearchIndicator(position: TPortionedSearchIndicatorPosition): void {
+        const indicator = this.createItem({
+            itemModule: 'Controls/display:PortionedSearchIndicator',
+            position,
+            portionedSearchTemplate: this._$portionedSearchTemplate,
+            continueSearchTemplate: this._$continueSearchTemplate
+        });
+
+        const indicatorName = this._getPortionedSearchIndicatorName(position);
+        this[indicatorName] = indicator;
     }
 
-    abstract getStrategyInstance<F extends IItemsStrategy<S, T>>(strategy: StrategyConstructor<F>): F;
+    abstract createItem(options: IPortionedSearchIndicatorOptions): T;
     protected abstract _nextVersion(): void;
-    protected abstract _reSort(): void;
-    protected abstract _reFilter(): void;
-    protected abstract _startUpdateSession(): IEnumerableComparatorSession;
-    protected abstract _finishUpdateSession(session: IEnumerableComparatorSession, analize?: boolean): void;
 }
 
 Object.assign(PortionedSearchMixin.prototype, {
     'Controls/display:PortionedSearchMixin': true,
     _$portionedSearchTemplate: 'Controls/list:LoadingIndicatorTemplate',
-    _$continueSearchTemplate: 'Controls/list:ContinueSearchTemplate'
+    _$continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
+    _topIndicator: null,
+    _bottomIndicator: null
 });

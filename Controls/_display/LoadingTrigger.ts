@@ -1,12 +1,17 @@
-import CollectionItem from 'Controls/_display/CollectionItem';
+import CollectionItem, {IOptions as ICollectionOptions} from 'Controls/_display/CollectionItem';
 import { TemplateFunction } from 'UI/Base';
 
 export type TLoadingTriggerPosition = 'top'|'bottom';
 export const TOP_TRIGGER_ID = 'topLoadingTrigger';
 export const BOTTOM_TRIGGER_ID = 'bottomLoadingTrigger';
 
+export interface IOptions extends ICollectionOptions<null> {
+    position: TLoadingTriggerPosition;
+    offset: number;
+    visible: boolean;
+}
+
 export default class LoadingTrigger extends CollectionItem<null> {
-    readonly Indicator: boolean = true;
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;

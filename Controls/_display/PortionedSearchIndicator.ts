@@ -1,10 +1,16 @@
-import CollectionItem from './CollectionItem';
+import CollectionItem, {IOptions as ICollectionOptions} from './CollectionItem';
 import {TemplateFunction} from 'UI/Base';
 
 export type TPortionedSearchIndicatorPosition = 'top'|'bottom';
 
+export interface IOptions extends ICollectionOptions<null> {
+    position: TPortionedSearchIndicatorPosition;
+    portionedSearchTemplate: TemplateFunction|string;
+    continueSearchTemplate: TemplateFunction|string;
+    displayPortionedSearch?: boolean;
+}
+
 export default class PortionedSearchIndicator extends CollectionItem<null> {
-    readonly Indicator: boolean = true;
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;
@@ -30,7 +36,7 @@ export default class PortionedSearchIndicator extends CollectionItem<null> {
         return this._$displayPortionedSearch
     }
 
-    showContinueSearch(): boolean {
+    showContinueSearchState(): boolean {
         const continueSearchIsHidden = this.shouldDisplayPortionedSearch();
         if (continueSearchIsHidden) {
             this._$displayPortionedSearch = false;
@@ -39,7 +45,7 @@ export default class PortionedSearchIndicator extends CollectionItem<null> {
         return continueSearchIsHidden;
     }
 
-    showPortionedSearch(): boolean {
+    showPortionedSearchState(): boolean {
         const portionedSearchIsHidden = !this.shouldDisplayPortionedSearch();
         if (portionedSearchIsHidden) {
             this._$displayPortionedSearch = true;

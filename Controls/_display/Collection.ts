@@ -39,9 +39,7 @@ import {INavigationOptionValue} from 'Controls/interface';
 import {TRoundBorder} from "Controls/_display/interface/ICollection";
 import {Footer} from 'Controls/_display/Footer';
 import LoadingIndicatorMixin from './LoadingIndicatorMixin';
-import {default as LoadingIndicatorStrategy} from './itemsStrategy/LoadingIndicator';
 import PortionedSearchMixin from './PortionedSearchMixin';
-import {default as PortionedSearchStrategy} from './itemsStrategy/PortionedSearch';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -748,9 +746,6 @@ export default class Collection<
     protected _$itemActionsPosition: TItemActionsPosition;
 
     protected _$navigation: INavigationOptionValue;
-
-    // TODO LI падает около 500 юнитов, т.к. новые стратегии сбили индексы. Как минимум триггер должен всегда создаваться
-    protected _$allowCreateTriggers: boolean;
 
     /**
      * @cfg {Boolean} Обеспечивать уникальность элементов (элементы с повторяющимися идентфикаторами будут
@@ -3390,13 +3385,6 @@ export default class Collection<
             collapsedGroups: this._$collapsedGroups,
             hiddenGroupPosition: this._$hiddenGroupPosition,
             groupConstructor: this._getGroupItemConstructor()
-        }).append(LoadingIndicatorStrategy, {
-            display: this,
-            allowCreateTriggers: this._$allowCreateTriggers
-        }).append(PortionedSearchStrategy, {
-            display: this,
-            portionedSearchTemplate: this._$portionedSearchTemplate,
-            continueSearchTemplate: this._$continueSearchTemplate
         });
 
         this._userStrategies.forEach((us) => composer.append(us.strategy, us.options));
@@ -4214,6 +4202,5 @@ Object.assign(Collection.prototype, {
     _$itemActionsPosition: 'inside',
     _$roundBorder: null,
     _$newDesign: false,
-    _$allowCreateTriggers: false,
     getIdProperty: Collection.prototype.getKeyProperty
 });

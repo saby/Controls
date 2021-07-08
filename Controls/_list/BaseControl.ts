@@ -329,6 +329,14 @@ const _private = {
         }
     },
 
+    doAfterRender(self: BaseControl, callback) : void {
+        if (self.callbackAfterRender) {
+            self.callbackAfterRender.push(callback);
+        } else {
+            self.callbackAfterRender = [callback];
+        }
+    },
+
     // Attention! Вызывать эту функцию запрещено! Исключение - методы reload, onScrollHide, onScrollShow.
     // Функция предназначена для выполнения каллбека после завершения цикла обновления.
     // Цикл обновления - это последовательный вызов beforeUpdate -> afterUpdate.
@@ -351,11 +359,7 @@ const _private = {
                     self._callbackAfterUpdate = [callback];
                 }
             } else {
-                if (self._callbackBeforePaint) {
-                    self._callbackBeforePaint.push(callback);
-                } else {
-                    self._callbackBeforePaint = [callback];
-                }
+                _private.doAfterRender(self, callback);
             }
         } else {
             callback();
@@ -1348,7 +1352,7 @@ const _private = {
                 }
 
                 const position = direction === 'up' ? 'top' : 'bottom';
-                self._listViewModel?.showContinueSearch(position);
+                self._listViewModel?.showContinueSearchState(position);
 
                 if (self._isScrollShown) {
                     _private.updateShadowMode(self, self._shadowVisibility);
@@ -1368,7 +1372,7 @@ const _private = {
                 _private.loadToDirectionIfNeed(self, direction);
 
                 const position = direction === 'up' ? 'top' : 'bottom';
-                self._listViewModel?.showPortionedSearch(position);
+                self._listViewModel?.showPortionedSearchState(position);
             },
             searchAbortCallback: () => {
                 self._portionedSearchInProgress = false;
@@ -2502,7 +2506,7 @@ const _private = {
             }
         }
         if (result.triggerOffset) {
-            self._listViewModel.setTriggerOffset(result.triggerOffset);
+            self._listViewModel.setLoadingTriggerOffset(result.triggerOffset);
         }
         if (result.shadowVisibility) {
             self._updateShadowModeHandler(result.shadowVisibility);
@@ -4492,11 +4496,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
         }
 
-        if (this._callbackBeforePaint) {
-            this._callbackBeforePaint.forEach((callback) => {
+        if (this.callbackAfterRender) {
+            this.callbackAfterRender.forEach((callback) => {
                 callback();
             });
-            this._callbackBeforePaint = null;
+            this.callbackAfterRender = null;
         }
     }
 
@@ -6184,8 +6188,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             emptyTemplateOptions: {items, filter: modelConfig.filter},
             hasMoreData: _private.getHasMoreData(this),
             // TODO LI нужно переименовать в portionedSearchTemplate, но нужно переименовывать и у прикладников
-            portionedSearchTemplate: modelConfig.loadingIndicatorTemplate,
-            allowCreateTriggers: true
+            portionedSearchTemplate: modelConfig.loadingIndicatorTemplate
         });
     }
 
@@ -6278,8 +6281,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     private _registerIntersectionObserver(): void {
-        const topTrigger = this._children.listView.getTopTrigger();
-        const bottomTrigger = this._children.listView.getBottomTrigger();
+        const topTrigger = this._children.listView.getTopLoadingTrigger();
+        const bottomTrigger = this._children.listView.getBottomLoadingTrigger();
         this._intersectionObserver = new EdgeIntersectionObserver(
             this as any,
             this._intersectionObserverHandler.bind(this),
@@ -6354,7 +6357,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Если верхний индикатор не будет показан, то сразу же показываем триггер,
         // чтобы в кейсе когда нет данных после моунта инициировать их загрузку
         if (!displayTopIndicator) {
-            this._listViewModel.showTopTrigger();
+            this._listViewModel.showLoadingTopTrigger();
         }
         // Нижний индикатор сразу же показываем, т.к. не нужно скроллить
         if (displayBottomIndicator) {
@@ -6363,34 +6366,35 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     private _showTopIndicator(scrollToFirstItem: boolean): void {
-        const isDisplayedIndicator = this._listViewModel.hasIndicator('top');
+        const isDisplayedIndicator = this._listViewModel.hasLoadingIndicator('top');
         if (isDisplayedIndicator) {
             return;
         }
 
-        this._listViewModel.showIndicator('top');
+        this._listViewModel.showLoadingIndicator('top');
 
-        let scrollResult;
         if (scrollToFirstItem) {
-            scrollResult = this._scrollToFirstItem();
-        }
+            const scrollAndShowTrigger = () => {
+                const scrollResult = this._scrollToFirstItem();
+                scrollResult.then(() => {
+                    this._listViewModel.showLoadingTopTrigger();
+                });
+            }
 
-        if (scrollResult) {
-            scrollResult.then(() => {
-                this._listViewModel.showTopTrigger();
-            });
+            // Скроллить нужно после того как ромашка отрисуется, то есть на _afterRender
+            _private.doAfterRender(this, scrollAndShowTrigger);
         } else {
-            this._listViewModel.showTopTrigger();
+            this._listViewModel.showLoadingTopTrigger();
         }
     }
 
     private _showBottomIndicator(): void {
-        const isDisplayedIndicator = this._listViewModel.hasIndicator('bottom');
+        const isDisplayedIndicator = this._listViewModel.hasLoadingIndicator('bottom');
         if (isDisplayedIndicator) {
             return;
         }
 
-        this._listViewModel.showIndicator('bottom');
+        this._listViewModel.showLoadingIndicator('bottom');
     }
 
     protected _showGlobalIndicator(): void {
@@ -6401,13 +6405,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 }
 
                 this._showIndicatorTimer = null;
-                this._listViewModel?.showIndicator('global');
+                this._listViewModel?.showLoadingIndicator('global');
             }, INDICATOR_DELAY);
         }
     }
 
     protected _hideGlobalIndicator(): void {
-        this._listViewModel?.hideIndicator('global');
+        this._listViewModel?.hideLoadingIndicator('global');
         if (this._showIndicatorTimer) {
             clearTimeout(this._showIndicatorTimer);
             this._showIndicatorTimer = null;
@@ -6452,7 +6456,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._shouldDisplayTopIndicator(newOptions)) {
             this._showTopIndicator(false);
         } else {
-            this._listViewModel.hideIndicator('top');
+            this._listViewModel.hideLoadingIndicator('top');
         }
     }
 
@@ -6460,7 +6464,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._shouldDisplayBottomIndicator(newOptions)) {
             this._showBottomIndicator();
         } else {
-            this._listViewModel.hideIndicator('bottom');
+            this._listViewModel.hideLoadingIndicator('bottom');
         }
     }
 
@@ -6476,12 +6480,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     private _shouldDisplayBottomIndicator(newOptions?: IBaseControlOptions): boolean {
+        const options = newOptions || this._options;
+
         // TODO LI нужно продумать логику для не infinity навигаций
 
         // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
-        const isInfinityNavigation = _private.isInfinityNavigation(this._options.navigation);
+        const isInfinityNavigation = _private.isInfinityNavigation(options.navigation);
 
-        const options = newOptions || this._options;
         return options.attachLoadDownTriggerToNull && isInfinityNavigation
             && this._shouldDisplayIndicator('down', newOptions);
     }

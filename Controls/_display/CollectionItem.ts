@@ -100,7 +100,6 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     // region IInstantiable
 
     readonly '[Types/_entity/IInstantiable]': boolean;
-    readonly Indicator: boolean = false;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
     readonly EnumerableItem: boolean = true;
