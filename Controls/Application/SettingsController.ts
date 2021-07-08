@@ -12,7 +12,7 @@ export function setController(controller: IPopupSettingsController): void {
     settingsController = controller;
 }
 
-export function getSettings(ids: string[]): Promise<number|void> {
+export function getSettings(ids: string[]): Promise<unknown> {
     if (settingsController && settingsController.getSettings) {
         const settings = settingsController.getSettings(ids);
         // protect against wrong api
