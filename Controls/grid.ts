@@ -21,6 +21,7 @@ ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
 import * as ColumnTemplate from 'wml!Controls/_grid/Render/CellContent';
+import * as LadderTemplate from 'wml!Controls/_grid/Render/BasicLadderTemplate';
 import * as StickyLadderColumnTemplate from 'wml!Controls/_grid/Render/grid/StickyLadderColumn';
 import * as GroupTemplate from 'wml!Controls/_grid/Render/GroupCellContentWithRightTemplate';
 import * as HeaderContent from 'wml!Controls/_grid/Render/HeaderCellContent';
@@ -75,6 +76,7 @@ export {
     ResultsTemplate,
     ResultColumnTemplate,
     ColumnTemplate,
+    LadderTemplate,
     StickyLadderColumnTemplate,
     GroupTemplate,
     HeaderContent,

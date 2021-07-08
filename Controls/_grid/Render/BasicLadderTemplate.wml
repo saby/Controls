@@ -1,10 +1,9 @@
-<ws:if data="{{ladder && ladder[ladderProperty]}}">
-    <ws:partial
-            template="{{ ladderWrapper }}"
-            ladderProperty="{{ ladderProperty }}">
-        <ws:partial template="{{contentTemplate}}"/>
-    </ws:partial>
-</ws:if>
-<ws:else>
-    <ws:partial template="{{contentTemplate}}"/>
-</ws:else>
+<div class="{{ gridColumn.getTextOverflowClasses() }}">
+    <ws:partial template="{{gridColumn.getCellContentRender(true)}}"
+                attr:title="{{ gridColumn.getTextOverflowTitle() }}"
+                if="{{ gridColumn.LadderContentCell && gridColumn.shouldDrawLadderContent(gridColumn.getDisplayProperty()) }}"
+                attr:class="{{ gridColumn.getLadderWrapperClasses(gridColumn.getDisplayProperty()) }}"
+                value="{{gridColumn.getDefaultDisplayValue()}}"
+                searchValue="{{gridColumn.getSearchValue()}}"
+                scope="{{gridColumn.config}}"/>
+</div>

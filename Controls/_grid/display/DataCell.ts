@@ -17,6 +17,8 @@ export interface IOptions<T> extends ICellOptions<T>, IDisplaySearchValueOptions
     markerPosition: string;
 }
 
+const LADDER_RENDER = 'Controls/grid:LadderTemplate';
+
 export default class DataCell<T extends Model, TOwner extends DataRow<T>> extends mixin<
     Cell<T, TOwner>,
     DataCellCompatibility<T>
@@ -36,6 +38,14 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 
     get ladder(): TLadderElement<ILadderConfig> {
         return this.getOwner().getLadder();
+    }
+
+    shouldDrawLadderContent(ladderProperty: string, stickyProperty: string): boolean {
+        return this.getOwner().shouldDrawLadderContent(ladderProperty, stickyProperty);
+    }
+
+    getLadderWrapperClasses(ladderProperty: string, stickyProperty: string): boolean {
+        return this.getOwner().getLadderWrapperClasses(ladderProperty, stickyProperty);
     }
 
     setSearchValue(searchValue: string): void {
@@ -98,6 +108,22 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
     }
 
     // region Аспект "Рендер"
+
+    hasCellContentRender(): boolean {
+        return Boolean(
+            this.ladder && this.ladder[this.getDisplayProperty()] ||
+            super.hasCellContentRender()
+        );
+    }
+
+    getCellContentRender(clean: boolean = false): string {
+        if (!clean && this.ladder && this.ladder[this.getDisplayProperty()]) {
+            return LADDER_RENDER;
+        } else {
+            return super.getCellContentRender();
+        }
+    }
+
     getDefaultDisplayValue(): string | number {
         const itemModel = this._$owner.getContents();
         if (itemModel instanceof Record) {
