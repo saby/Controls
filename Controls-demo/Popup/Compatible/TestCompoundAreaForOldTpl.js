@@ -1,12 +1,13 @@
 define('Controls-demo/Popup/Compatible/TestCompoundAreaForOldTpl', [
    'UI/Base',
-   'wml!Controls-demo/Popup/Compatible/TestCompoundAreaForOldTpl'
-], function(Base, template) {
+   'wml!Controls-demo/Popup/Compatible/TestCompoundAreaForOldTpl',
+   'UI/NodeCollector'
+], function(Base, template, NodeCollector) {
    var _private = {
       getExistingDialog: function() {
          var element = document.querySelector('.controls-CompoundArea.controls-Popup__template');
          if (element) {
-            return element.controlNodes[0].control;
+            return NodeCollector.getClosestControl(element);
          }
          return null;
       }
