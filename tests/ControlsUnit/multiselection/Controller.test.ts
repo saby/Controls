@@ -195,6 +195,19 @@ describe('Controls/_multiselection/Controller', () => {
       });
 
       describe('filter is changed', () => {
+         /* Првоеряем сценарии, что после изменения фильтрации и инвертировании выбранности отфильтрованные
+            записи не будут выбраны.
+
+            1, 2, 3, 4, 5
+            selection={s: [1, 2, 3], e: []}
+
+            фильтрация
+            2, 3, 4
+
+            toggleAll
+            selection={s: [null], e: [1, 2, 3]}
+          */
+
          it('selected one item, after filter it exists', () => {
             controller.setSelection({ selected: [3], excluded: [] });
             controller.updateOptions({
