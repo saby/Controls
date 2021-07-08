@@ -189,34 +189,34 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
 
 /**
  * Тип данных для форматируемого значения
- * @typedef {string|number|null} Controls/_decorator/IMoney/TValue
+ * @typedef {String | Number | Null} Controls/_decorator/IMoney/TValue
  */
 
 /**
- * Тип данных для аббревиатуры
- * @typedef {string} Controls/_decorator/IMoney/TAbbreviationType
- * @variant long
- * @variant none
+ * Тип данных для аббревиатуры (сокращения) суммы
+ * @typedef {String} Controls/_decorator/IMoney/TAbbreviationType
+ * @variant long Использвать длинную аббревиатуру (например, 1 000 = 1 тыс)
+ * @variant none Не использовать аббревиатуру
  */
 
 /**
  * Тип данных для отображаемой валюты
- * @typedef {string} Controls/_decorator/IMoney/TCurrency
- * @variant Ruble
- * @variant Euro
- * @variant Dollar
+ * @typedef {String} Controls/_decorator/IMoney/TCurrency
+ * @variant Ruble Отображать символ валюты рубль
+ * @variant Euro Отображать символ валюты евро
+ * @variant Dollar Отображать символ валюты доллар
  */
 
 /**
  * Тип данных для позиции отображаемой валюты
- * @typedef {string} Controls/_decorator/IMoney/TCurrencyPosition
- * @variant right
- * @variant left
+ * @typedef {String} Controls/_decorator/IMoney/TCurrencyPosition
+ * @variant right Валюта отображается справа от суммы
+ * @variant left Валюта отображается слева от суммы
  */
 
 /**
  * Тип данных для размера отображаемой валюты
- * @typedef {string} Controls/_decorator/IMoney/TCurrencySize
+ * @typedef {String} Controls/_decorator/IMoney/TCurrencySize
  * @variant 2xs
  * @variant xs
  * @variant s
@@ -226,14 +226,14 @@ define('Controls/_decorator/Money', ['UI/Executor', 'Controls/_decorator/resourc
 
 /**
  * Тип данных для подчеркивания
- * @typedef {string} Controls/_decorator/IMoney/TUnderline
- * @variant hovered
- * @variant none
+ * @typedef {String} Controls/_decorator/IMoney/TUnderline
+ * @variant hovered Подчеркивать по наведению
+ * @variant none Не подчеркивать
  */
 
 /**
  * Тип данных количества знаков после запятой
- * @typedef {string} Controls/_decorator/IMoney/TPrecision
+ * @typedef {String} Controls/_decorator/IMoney/TPrecision
  * @variant 0
  * @variant 2
  */
