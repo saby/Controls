@@ -15,6 +15,6 @@
             _stringCaption="{{_stringCaption}}"
             _captionPosition="{{ _captionPosition }}"
             _iconStyle="{{_iconStyle}}"
-            attr:class="controls_toggle_theme-{{_options.theme}} controls_toggle"
+            attr:class="controls_toggle_theme-{{_options.theme}}"
             on:click="_clickHandler()"
             on:keypress="_keyUpHandler()"/>
