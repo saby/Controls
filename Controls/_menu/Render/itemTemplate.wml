@@ -1,5 +1,6 @@
 <ws:template name="menuRowTemplate">
 <div attr:class="controls-Menu__row
+                 {{rightTemplate ? 'controls-Menu__row-rightPadding_menu-rightTemplate'}}
                  controls-ListView__itemV js-controls-ListView__measurableContainer
                  {{itemData.itemClassList}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}">
@@ -71,7 +72,9 @@
       </ws:if>
       <ws:else data="{{rightTemplate}}">
          <div class="controls-Menu__row__rightTemplate_separator"></div>
-         <ws:partial template="{{rightTemplate}}" scope="{{_options}}" item="{{treeItem.getContents()}}"/>
+         <div class="controls-Menu__row__rightTemplate_wrapper">
+            <ws:partial template="{{rightTemplate}}" scope="{{_options}}" item="{{treeItem.getContents()}}"/>
+         </div>
       </ws:else>
 
       <ws:if data="{{ treeItem.shouldDisplayActions() && !treeItem.getContents().get(itemData.nodeProperty) }}">

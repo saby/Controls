@@ -222,6 +222,9 @@ export default class Selector extends BaseDropdown {
             break;
          case 'footerClick':
             this._footerClick(data);
+            break;
+         case 'rightTemplateClick':
+            this._rightTemplateClick(data);
       }
    }
 

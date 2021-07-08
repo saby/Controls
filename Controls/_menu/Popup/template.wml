@@ -107,6 +107,7 @@
                        theme="{{_options.theme}}"
                        calmTimer="{{_calmTimer}}"
                        on:itemClick="_sendResult('itemClick')"
+                       on:rightTemplateClick="_sendResult('rightTemplateClick')"
                        on:moreButtonClick="_sendResult('selectorDialogOpened')"
                        on:pinClick="_sendResult('pinClick')"
                        on:menuOpened="_sendResult('menuOpened')"
