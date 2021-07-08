@@ -429,39 +429,39 @@ define('Controls/Application',
          },
 
          _popupBeforeDestroyedHandler: function(event, popupCfg, popupList, popupContainer) {
-            this._globalpopup.popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
+            this._globalpopup._popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
          },
 
          _openInfoBoxHandler: function(event, config) {
-            this._globalpopup.openInfoBoxHandler(event, config);
+            this._globalpopup._openInfoBoxHandler(event, config);
          },
 
          _openDialogHandler: function(event, templ, templateOptions, opener) {
-            return this._globalpopup.openDialogHandler(event, templ, templateOptions, opener);
+            return this._globalpopup._openDialogHandler(event, templ, templateOptions, opener);
          },
 
          _closeInfoBoxHandler: function(event, delay) {
-            this._globalpopup.closeInfoBoxHandler(event, delay);
+            this._globalpopup._closeInfoBoxHandler(event, delay);
          },
 
          _forceCloseInfoBoxHandler: function() {
-            this._globalpopup.forceCloseInfoBoxHandler();
+            this._globalpopup._forceCloseInfoBoxHandler();
          },
 
          _openPreviewerHandler: function(event, config, type) {
-            return this._globalpopup.openPreviewerHandler(event, config, type);
+            return this._globalpopup._openPreviewerHandler(event, config, type);
          },
 
          _cancelPreviewerHandler: function(event, action) {
-            this._globalpopup.cancelPreviewerHandler(event, action);
+            this._globalpopup._cancelPreviewerHandler(event, action);
          },
 
          _isPreviewerOpenedHandler: function(event) {
-            return this._globalpopup.isPreviewerOpenedHandler(event);
+            return this._globalpopup._isPreviewerOpenedHandler(event);
          },
 
          _closePreviewerHandler: function(event, type) {
-            this._globalpopup.closePreviewerHandler(event, type);
+            this._globalpopup._closePreviewerHandler(event, type);
          },
 
          _keyDownHandler: function(event) {

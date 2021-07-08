@@ -27,50 +27,50 @@ const Global = Control.extend({
     },
 
     _openInfoBoxHandler(event, config) {
-        this._globalController.openInfoBoxHandler(event, config);
+        this._globalController._openInfoBoxHandler(event, config);
     },
 
     _openInfoBox(config) {
-        return this._globalController.openInfoBox(config);
+        return this._globalController._openInfoBox(config);
     },
 
     _closeInfoBox(delay) {
-        return this._globalController.closeInfoBox(delay);
+        return this._globalController._closeInfoBox(delay);
     },
 
     _closeInfoBoxHandler(event, delay) {
-        this._globalController.closeInfoBoxHandler(event, delay);
+        this._globalController._closeInfoBoxHandler(event, delay);
     },
 
     _forceCloseInfoBoxHandler() {
-        this._globalController.forceCloseInfoBoxHandler();
+        this._globalController._forceCloseInfoBoxHandler();
     },
 
     _openPreviewerHandler(event, config, type) {
-        return this._globalController.openPreviewerHandler(event, config, type);
+        return this._globalController._openPreviewerHandler(event, config, type);
     },
 
     _closePreviewerHandler(event, type) {
-        this._globalController.closePreviewerHandler(event, type);
+        this._globalController._closePreviewerHandler(event, type);
     },
 
     _cancelPreviewerHandler(event, action) {
-        this._globalController.cancelPreviewerHandler(event, action);
+        this._globalController._cancelPreviewerHandler(event, action);
     },
 
     _isPreviewerOpenedHandler(event) {
-        return this._globalController.isPreviewerOpenedHandler(event);
+        return this._globalController._isPreviewerOpenedHandler(event);
     },
     _popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer) {
-        this._globalController.popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
+        this._globalController._popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer);
     },
 
     _needCloseInfoBox(infobox, popup) {
-        return this._globalController.needCloseInfoBox(infobox, popup);
+        return this._globalController._needCloseInfoBox(infobox, popup);
     },
 
     _openDialogHandler(event, template, templateOptions, opener = null) {
-        return this._globalController.openDialogHandler(event, template, templateOptions, opener);
+        return this._globalController._openDialogHandler(event, template, templateOptions, opener);
     },
 
     _onDialogClosed() {

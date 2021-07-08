@@ -25,27 +25,27 @@ class GlobalController {
         return requirejs.defined(ManagerWrapperControllerMod) ? requirejs(ManagerWrapperControllerMod).default : null;
     }
 
-    openInfoBoxHandler(event, config) {
+    _openInfoBoxHandler(event, config) {
         this._activeInfobox = event.target;
         this._getPopupConfig(config);
-        this._infoBoxId = this.openInfoBox(config);
+        this._infoBoxId = this._openInfoBox(config);
     }
 
-    openInfoBox(config) {
+    _openInfoBox(config) {
         return InfoBox.openPopup(config);
     }
 
-    closeInfoBox(delay) {
+    _closeInfoBox(delay) {
         InfoBox.closePopup(delay);
     }
 
-    closeInfoBoxHandler(event, delay) {
+    _closeInfoBoxHandler(event, delay) {
         // TODO: fixed by https://online.sbis.ru/doc/d7b89438-00b0-404f-b3d9-cc7e02e61bb3
         let activeInf = this._activeInfobox && this._activeInfobox.get ? this._activeInfobox.get(0) : this._activeInfobox;
         let eventTarget = event.target && event.target.get ? event.target.get(0) : event.target;
         if (activeInf === eventTarget) {
             this._activeInfobox = null;
-            this.closeInfoBox(delay);
+            this._closeInfoBox(delay);
         }
     }
 
@@ -53,46 +53,46 @@ class GlobalController {
     // of their parent components are hidden
     // Will be removed:
     // https://online.sbis.ru/opendoc.html?guid=1b793c4f-848a-4735-b96a-f0c1cf479fab
-    forceCloseInfoBoxHandler() {
+    _forceCloseInfoBoxHandler() {
         if (this._activeInfobox) {
             this._activeInfobox = null;
-            this.closeInfoBox(0);
+            this._closeInfoBox(0);
         }
     }
 
-    openPreviewerHandler(event, config, type) {
+    _openPreviewerHandler(event, config, type) {
         this._activePreviewer = event.target;
         return Previewer.openPopup(config, type).then((id: string) => {
             this._previewerId = id;
         });
     }
 
-    closePreviewerHandler(event, type) {
+    _closePreviewerHandler(event, type) {
         Previewer.closePopup(this._previewerId, type);
     }
 
-    cancelPreviewerHandler(event, action) {
+    _cancelPreviewerHandler(event, action) {
         Previewer.cancelPopup(this._previewerId, action);
     }
 
-    isPreviewerOpenedHandler(event) {
+    _isPreviewerOpenedHandler(event) {
         if (this._activePreviewer === event.target && this._previewerId) {
             return Previewer.isOpenedPopup(this._previewerId);
         }
         return false;
     }
 
-    popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer) {
+    _popupBeforeDestroyedHandler(event, popupCfg, popupList, popupContainer) {
         if (this._activeInfobox) {
             // If infobox is displayed inside the popup, then close infobox.
-            if (this.needCloseInfoBox(this._activeInfobox, popupContainer)) {
+            if (this._needCloseInfoBox(this._activeInfobox, popupContainer)) {
                 this._activeInfobox = null;
-                this.closeInfoBox(0);
+                this._closeInfoBox(0);
             }
         }
     }
 
-    needCloseInfoBox(infobox, popup) {
+    _needCloseInfoBox(infobox, popup) {
         let parent = infobox.parentElement;
         while (parent) {
             if (parent === popup) {
@@ -112,12 +112,12 @@ class GlobalController {
      * @return {Promise.<{popupId: String, closeDialogPromise: Promise<void>}>} result promise
      * @private
      */
-    openDialogHandler(event, template, templateOptions, opener = null) {
+    _openDialogHandler(event, template, templateOptions, opener = null) {
         // Нужно остановить всплытие события serviceError, так как оно обработано здесь.
         // Иначе другой popup:Global, который может быть на странице, покажет диалог ещё раз.
         event.stopPropagation();
 
-        this.onDialogClosed();
+        this._onDialogClosed();
 
         return Dialog.openPopup({
             template,
@@ -125,7 +125,7 @@ class GlobalController {
             opener,
             eventHandlers: {
                 onClose: () => {
-                    this.onDialogClosed();
+                    this._onDialogClosed();
                 }
             }
         }).then((popupId) => ({
@@ -136,7 +136,7 @@ class GlobalController {
         }));
     }
 
-    onDialogClosed() {
+    _onDialogClosed() {
         if (this._closedDialodResolve) {
             this._closedDialodResolve();
             delete this._closedDialodResolve;
