@@ -24,10 +24,10 @@ import {
 } from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import ButtonTemplate = require('wml!Controls/_buttons/Button');
+import {descriptor} from 'Types/entity';
 import 'wml!Controls/_buttons/ButtonBase';
 import 'css!Controls/buttons';
 import 'css!Controls/CommonClasses';
-import {descriptor} from "Types/entity";
 
 export type IViewMode = 'button' | 'link' | 'linkButton' | 'toolButton' | 'functionalButton';
 export type TextAlign = 'left' | 'right' | 'center';
