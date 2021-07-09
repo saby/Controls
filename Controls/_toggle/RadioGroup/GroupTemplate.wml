@@ -15,13 +15,11 @@
                             groupTemplate="{{groupTemplate}}"
                             defaultItemTemplate="{{defaultItemTemplate}}"
                             _selectKeyChanged="{{_selectKeyChanged}}"
-                            parentSelectedKey="{{parentSelectedKey}}"
                             isSelected="{{isSelected}}"
                             groups="{{groups}}"
                             isChildGroup="{{true}}"
                             parent="{{item[options.keyProperty]}}"
-                            options="{{options}}"
-                            selectedKey="{{groups[parentSelectedKey].selectedKey}}"/>
+                            options="{{options}}"/>
             </ws:if>
         </ws:for>
     </div>

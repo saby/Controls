@@ -3,10 +3,8 @@
                 groupTemplate="{{_groupTemplate}}"
                 defaultItemTemplate="{{_defaultItemTemplate}}"
                 _selectKeyChanged="{{_selectKeyChanged}}"
-                parentSelectedKey="{{_parentSelectedKey}}"
                 groups="{{_groups}}"
                 parent="{{null}}"
                 isSelected="{{_isSelected}}"
-                options="{{_options}}"
-                selectedKey="{{_options.selectedKey}}"/>
+                options="{{_options}}"/>
 </div>

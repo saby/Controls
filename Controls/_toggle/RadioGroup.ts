@@ -69,8 +69,7 @@ class Radio extends Control<IRadioGroupOptions, RecordSet> implements ISource, I
    protected _groupTemplate: TemplateFunction = groupTemplate;
    protected _items: RecordSet;
    protected _crudWrapper: CrudWrapper;
-   protected _groups: object;
-   protected _parentSelectedKey: string | number = null;
+   protected _groups: object = {};
 
    protected _beforeMount(options: IRadioGroupOptions, context: object, receivedState: RecordSet): void|Promise<RecordSet> {
       this._selectKeyChanged = this._selectKeyChanged.bind(this);
