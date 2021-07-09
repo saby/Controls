@@ -2,7 +2,7 @@
     <div class="{{ _getLoadingIndicatorClasses(loadingIndicatorState) }}"
          style="{{ _getLoadingIndicatorStyles(loadingIndicatorState) }}"
          name="{{loadingIndicatorState}}LoadingIndicator">
-        <ws:partial template="wml!Controls/_list/LoadingIndicatorTemplate"/>
+        <ws:partial template="wml!Controls/_baseList/LoadingIndicatorTemplate"/>
     </div>
 </ws:template>
 
@@ -80,14 +80,14 @@
         </ws:if>
         <ws:if data="{{_shouldDrawFooter}}">
             <ws:partial
-               template="wml!Controls/_list/BaseControl/Footer"
+               template="wml!Controls/_baseList/BaseControl/Footer"
                moreFontColorStyle="{{_options.moreFontColorStyle}}"
                loadMoreCaption="{{_loadMoreCaption}}"
                theme="{{_options.theme}}"
             />
         </ws:if>
         <ws:if data="{{_shouldDrawCut}}">
-            <ws:partial template="wml!Controls/_list/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
+            <ws:partial template="wml!Controls/_baseList/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
         </ws:if>
     </div>
 </ws:template>
@@ -189,7 +189,7 @@
         <ws:partial template="sysFooterTemplate"/>
 
         <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
-        <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>
+        <Controls._baseList.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>
     </div>
 </ws:template>
 
