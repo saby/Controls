@@ -2,7 +2,7 @@
   <Controls.list:View keyProperty="{{_options.keyProperty}}"
                       sourceController="{{_options.sourceController}}">
     <ws:itemTemplate>
-      <ws:partial template="Controls/baseList:ItemTemplate" displayProperty="{{displayProperty}}"/>
+      <ws:partial template="Controls/list:ItemTemplate" displayProperty="{{displayProperty}}"/>
     </ws:itemTemplate>
   </Controls.list:View>
 </ws:partial>

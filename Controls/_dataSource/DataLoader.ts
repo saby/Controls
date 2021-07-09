@@ -17,7 +17,7 @@ import {loadAsync, loadSync, isLoaded} from 'WasabyLoader/ModulesLoader';
 import {Guid} from 'Types/entity';
 import {ControllerClass as SearchController} from 'Controls/search';
 import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
-import {TArrayGroupId} from 'Controls/_baseList/Controllers/Grouping';
+import {TArrayGroupId} from 'Controls/list';
 import {constants} from 'Env/Constants';
 import {PrefetchProxy} from 'Types/source';
 
