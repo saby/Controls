@@ -12,7 +12,7 @@ import * as RichContent from 'wml!Controls/_tile/render/itemsContent/Rich';
 import Tile, {
     DEFAULT_COMPRESSION_COEFF, DEFAULT_SCALE_COEFFICIENT, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH, IRoundBorder
 } from './Tile';
-import {toRgb, rgbaToString, rgbToRgba} from "Controls/_tile/utils/colorUtil";
+import {toRgb, rgbaToString, rgbToRgba} from 'Controls/_tile/utils/colorUtil';
 
 const DEFAULT_WIDTH_PROPORTION = 1;
 
