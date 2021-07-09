@@ -27,6 +27,10 @@ export default class PortionedSearch<PortionedSearchOptions> {
         this._options = constructorOptions;
     }
 
+    isInProgress(): boolean {
+        return this._getSearchState() !== SEARCH_STATES.STARTED;
+    }
+
     startSearch(direction?: IDirection): void {
         if (this._getSearchState() === SEARCH_STATES.NOT_STARTED) {
             this._setSearchState(SEARCH_STATES.STARTED);

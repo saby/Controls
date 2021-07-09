@@ -32,7 +32,8 @@ export default class extends Control {
     }
 
     protected _startSearch(): void {
-        this._searchValue = 'lorem';
+        this._searchValue = 'consectetur';
+        // быстро закончится поиск при blandit
     }
 
     protected _afterUpdate(): void {

@@ -430,16 +430,6 @@ const _private = {
         }
     },
 
-    resolveIsLoadNeededByNavigationAfterReload(self, options, loadedList): void {
-        // If received list is empty, make another request. If it’s not empty,
-        // the following page will be requested in resize event handler after current items are rendered on the page.
-        if (_private.needLoadNextPageAfterLoad(loadedList, self._listViewModel, options.navigation)) {
-            if (self._isMounted) {
-                _private.checkLoadToDirectionCapability(self, options.filter, options.navigation);
-            }
-        }
-    },
-
     hasDataBeforeLoad(self): boolean {
         return self._isMounted && self._listViewModel && self._listViewModel.getCount();
     },
@@ -681,8 +671,6 @@ const _private = {
     },
 
     loadToDirection(self, direction, receivedFilter) {
-        const navigation = self._options.navigation;
-        const listViewModel = self._listViewModel;
         const isPortionedLoad = _private.isPortionedLoad(self);
 
         self._recountResetTriggerOffsets(direction);
@@ -711,15 +699,8 @@ const _private = {
                     return;
                 }
 
-                const itemsCountAfterLoad = self._listViewModel.getCount();
-                // If received list is empty, make another request.
-                // If it’s not empty, the following page will be requested in resize event
-                // handler after current items are rendered on the page.
-                if (_private.needLoadNextPageAfterLoad(addedItems, listViewModel, navigation) ||
-                    (self._options.task1176625749 && itemsCountBeforeLoad === itemsCountAfterLoad) ||
-                    _private.isPortionedLoad(self, addedItems)) {
-                    _private.checkLoadToDirectionCapability(self, self._options.filter, navigation);
-                }
+
+                _private.tryLoadToDirectionAgain(self);
                 if (self._isMounted && self._scrollController) {
                     self.stopBatchAdding();
                 }
@@ -799,44 +780,16 @@ const _private = {
         Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
     },
 
-    checkLoadToDirectionCapability(self, filter, navigation) {
+    tryLoadToDirectionAgain(self: BaseControl, loadedItems?: RecordSet, newOptions?:IBaseControlOptions): void {
         if (self._destroyed) {
             return;
         }
-        if (self._needScrollCalculation) {
-            let triggerVisibilityUp;
-            let triggerVisibilityDown;
+        const items = loadedItems || self._items;
+        const options = newOptions || self._options;
 
-            const scrollParams = {
-                clientHeight: self._viewportSize,
-                scrollHeight: _private.getViewSize(self),
-                scrollTop: self._scrollTop
-            };
-
-            triggerVisibilityUp = self._loadTriggerVisibility.up;
-            triggerVisibilityDown = self._loadTriggerVisibility.down;
-
-            // TODO Когда список становится пустым (например после поиска или смены фильтра),
-            // если он находится вверху страницы, нижний загрузочный триггер может "вылететь"
-            // за пределы экрана (потому что у него статически задан отступ от низа списка,
-            // и при пустом списке этот отступ может вывести триггер выше верхней границы
-            // страницы).
-            // Сейчас сделал, что если список пуст, мы пытаемся сделать загрузку данных,
-            // даже если триггеры не видны (если что, sourceController.hasMore нас остановит).
-            // Но скорее всего это как-то по другому нужно решать, например на уровне стилей
-            // (уменьшать отступ триггеров, когда список пуст???). Выписал задачу:
-            // https://online.sbis.ru/opendoc.html?guid=fb5a67de-b996-49a9-9312-349a7831f8f1
-            const hasNoItems = self.getViewModel() && self.getViewModel().getCount() === 0;
-            if (triggerVisibilityUp || hasNoItems) {
-                _private.onScrollLoadEdge(self, 'up', filter);
-            }
-            if (triggerVisibilityDown || hasNoItems) {
-                _private.onScrollLoadEdge(self, 'down', filter);
-            }
-            if (_private.isPortionedLoad(self)) {
-                _private.checkPortionedSearchByScrollTriggerVisibility(self, triggerVisibilityDown);
-            }
-        } else if (_private.needLoadByMaxCountNavigation(self._listViewModel, navigation)) {
+        const needLoad = _private.needLoadNextPageAfterLoad(items, self._listViewModel, options.navigation);
+        if (needLoad) {
+            const filter = self._sourceController && self._sourceController.getFilter() || options.filter;
             _private.loadToDirectionIfNeed(self, 'down', filter);
         }
     },
@@ -959,13 +912,6 @@ const _private = {
             }
         }
         return Promise.resolve();
-    },
-
-    // Метод, вызываемый при прокрутке скролла до триггера
-    onScrollLoadEdge(self, direction, filter) {
-        if (self._options.navigation && self._options.navigation.view === 'infinity') {
-            _private.loadToDirectionIfNeed(self, direction, filter);
-        }
     },
 
     scrollToEdge(self, direction) {
@@ -1342,6 +1288,7 @@ const _private = {
 
                 // TODO LI возможно в этот момент нужно вызвать пересчет индикаторов, чтобы они не показывались
                 const position = direction === 'up' ? 'top' : 'bottom';
+                // TODO LI нужно показать с задержкой в 2c
                 self._listViewModel?.startPortionedSearch(position);
             },
             searchStopCallback: (direction?: IDirection) => {
@@ -1394,14 +1341,6 @@ const _private = {
         }));
     },
 
-    resetPortionedSearchAndCheckLoadToDirection(self, options): void {
-        _private.getPortionedSearch(self).reset();
-
-        if (options.sourceController) {
-            _private.checkLoadToDirectionCapability(self, options.sourceController.getFilter(), options.navigation);
-        }
-    },
-
     disablePagingNextButtons(self): void {
         if (self._pagingVisible) {
             self._pagingCfg = {...self._pagingCfg};
@@ -1425,12 +1364,6 @@ const _private = {
     isPortionedLoad(self, items: RecordSet = self._items): boolean {
         const metaData = items && items.getMetaData();
         return !!(metaData && metaData[PORTIONED_LOAD_META_FIELD]);
-    },
-
-    checkPortionedSearchByScrollTriggerVisibility(self, scrollTriggerVisibility: boolean): void {
-        if (!scrollTriggerVisibility && self._portionedSearchInProgress) {
-            _private.getPortionedSearch(self).resetTimer();
-        }
     },
 
     allowLoadMoreByPortionedSearch(self, direction: 'up'|'down'): boolean {
@@ -1545,7 +1478,7 @@ const _private = {
             }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
-                _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
+                _private.tryLoadToDirectionAgain(self);
             }
 
             if (reason === 'assign' && self._options.itemsSetCallback) {
@@ -3751,9 +3684,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._showTopIndicator(true);
         }
 
-        if (_private.isMaxCountNavigation(this._options.navigation) && this._sourceController) {
-            _private.resolveIsLoadNeededByNavigationAfterReload(this, this._options, this._sourceController.getItems());
-        }
+        _private.tryLoadToDirectionAgain(this);
     }
 
     _updateScrollController(newOptions?: IBaseControlOptions) {
@@ -3857,7 +3788,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._updateInProgress = true;
         const filterChanged = !isEqual(newOptions.filter, this._options.filter);
         const navigationChanged = !isEqual(newOptions.navigation, this._options.navigation);
-        const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         const loadStarted = newOptions.loading && !this._options.loading;
         let updateResult;
         let isItemsResetFromSourceController = false;
@@ -4026,7 +3956,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                             _private.hideError(this);
                         }
                         _private.resetScrollAfterLoad(this);
-                        _private.resolveIsLoadNeededByNavigationAfterReload(this, newOptions, items);
+                        _private.tryLoadToDirectionAgain(this, null, newOptions);
                         _private.prepareFooter(this, newOptions, this._sourceController);
                     } else if (!this.__error) {
                         updateResult = _private.processError(this, {error: this._sourceController.getLoadError()});
@@ -4104,27 +4034,27 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             });
         }
 
-        if (newOptions.searchValue || this._loadedBySourceController) {
-            const isPortionedLoad = _private.isPortionedLoad(this);
-            const hasMoreData = _private.hasMoreDataInAnyDirection(this);
-            const isSearchReturnsEmptyResult = this._items && !this._items.getCount();
-            const needCheckLoadToDirection =
-                hasMoreData &&
-                isSearchReturnsEmptyResult &&
-                !this._sourceController.isLoading() &&
-                this._options.loading !== newOptions.loading;
+        // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
+        // если при этом в списке кол-во записей было 0 (ноль) и поисковой запрос тоже вернул 0 записей,
+        // onCollectionChange у рекордсета не стрельнёт, и не сработает код,
+        // запускающий подгрузку по скролу (в навигации more: true)
+        if (this._loadedBySourceController) {
+            _private.tryLoadToDirectionAgain(this, null, newOptions);
+        }
 
-            if (searchValueChanged || this._loadedBySourceController && !this._sourceController.isLoading()) {
-                _private.getPortionedSearch(this).reset();
-            }
-            // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
-            // если при этом в списке кол-во записей было 0 (ноль) и поисковой запрос тоже вернул 0 записей,
-            // onCollectionChange у рекордсета не стрельнёт, и не сработает код,
-            // запускающий подгрузку по скролу (в навигации more: true)
-            if (searchValueChanged ||
-                (isPortionedLoad && (this._loadedBySourceController || needCheckLoadToDirection))) {
-                _private.resetPortionedSearchAndCheckLoadToDirection(this, newOptions);
-            }
+        const isPortionedSearchStarted = this._loadedBySourceController && newOptions.searchValue
+            && _private.isPortionedLoad(this, this._items);
+        if (isPortionedSearchStarted) {
+            // порционный поиск может идти только в одну сторону. Соответственно где есть данные, в ту сторону и поиск
+            const direction = this._hasMoreData('up') || this._hasMoreData('down');
+            _private.getPortionedSearch(this).startSearch(direction);
+        }
+
+        const isPortionedSearchEnded = this._loadedBySourceController && !this.isLoading() &&
+            _private.getPortionedSearch(this).isInProgress();
+        const clearSearchValue = newOptions.searchValue !== this._options.searchValue && newOptions.searchValue === '';
+        if (isPortionedSearchEnded || clearSearchValue) {
+            _private.getPortionedSearch(this).reset();
         }
 
         if (!loadStarted) {
@@ -4863,7 +4793,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
                     self._recountIndicators('all');
                     _private.resetScrollAfterLoad(self);
-                    _private.resolveIsLoadNeededByNavigationAfterReload(self, cfg, list);
+                    _private.tryLoadToDirectionAgain(self, list);
                 });
             }).addErrback(function(error: Error) {
                 if (self._destroyed) {
