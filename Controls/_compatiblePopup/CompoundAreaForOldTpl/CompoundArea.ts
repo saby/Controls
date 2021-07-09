@@ -189,18 +189,23 @@ var CompoundArea = CompoundContainer.extend([
       self._logicParent.waitForPopupCreated = true;
       self._isPopupCreated = false;
       self._waitReadyDeferred = true;
-      rebuildDeferred.addCallback(function() {
+      rebuildDeferred.addCallback(() => {
          self._getReadyDeferred();
          self._fixIos();
-         runDelayed(function() {
-            self._childControl._notifyOnSizeChanged();
-            self._notifyManagerPopupCreated();
-            runDelayed(function() {
-               self._isPopupCreated = true;
-               if (!self._waitReadyDeferred) { // Если попап создан и отработал getReadyDeferred - начинаем показ
-                  self._callCallbackCreated();
-               }
-            });
+         runDelayed(() => {
+            // Если до момента показа ребенок уже потерт, то закрываем окно.
+            if (self._childControl) {
+               self._childControl._notifyOnSizeChanged();
+               self._notifyManagerPopupCreated();
+               runDelayed(() => {
+                  self._isPopupCreated = true;
+                  if (!self._waitReadyDeferred) { // Если попап создан и отработал getReadyDeferred - начинаем показ
+                     self._callCallbackCreated();
+                  }
+               });
+            } else {
+               self._notifyVDOM('close', null, { bubbling: true });
+            }
          });
       });
 
