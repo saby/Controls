@@ -1,5 +1,5 @@
 import {IMoveControllerOptions, MoveController} from 'Controls/list';
-import {FlatSiblingStrategy} from 'Controls/_list/Strategies/FlatSiblingStrategy';
+import {FlatSiblingStrategy} from 'Controls/_baseList/Strategies/FlatSiblingStrategy';
 import {CrudEntityKey, Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import * as clone from 'Core/core-clone';

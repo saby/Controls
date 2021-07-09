@@ -33,7 +33,7 @@ import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
 import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
 import {TreeControl} from 'Controls/tree';
-import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
+import {IEditableListOption} from 'Controls/list';
 import 'css!Controls/tile';
 import 'css!Controls/explorer';
 import { isFullGridSupport } from 'Controls/display';

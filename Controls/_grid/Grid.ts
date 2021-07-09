@@ -1,4 +1,4 @@
-import { ListControl as viewTemplate, View as List } from 'Controls/list';
+import { ListControl as viewTemplate, View as List } from 'Controls/baseList';
 import * as GridView from 'Controls/_grid/GridView';
 import GridViewTable from 'Controls/_grid/GridViewTable';
 import { isFullGridSupport } from 'Controls/display';
