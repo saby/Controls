@@ -22,6 +22,11 @@ describe('Controls/filterPanel:ViewModel', () => {
             viewModel.resetFilterItem('owners');
             assert.isNull(viewModel._editingObject['owner']);
         });
+
+        it('filterItem textValue is updated', () => {
+            viewModel.resetFilterItem('owners');
+            assert.equal(viewModel._groupItems['owners'].textValue, '');
+        });
     });
 
     describe('resetFilter', () => {
