@@ -2,10 +2,10 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/ItemActions/ItemActions';
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
 import { TRoot } from 'Controls-demo/types';
 import { IItemAction } from 'Controls/itemActions';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 
 interface IFilter {
    demo: number;

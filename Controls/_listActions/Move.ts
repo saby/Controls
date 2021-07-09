@@ -2,7 +2,7 @@ import IAction from './interface/IAction';
 import IActionOptions from './interface/IActionOptions';
 import {IMoveProvider, IMoveProviderOptions} from './Move/Provider';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
-import {DataSet} from "Types/source";
+import {DataSet} from 'Types/source';
 
 export interface IMoveActionOptions extends IActionOptions, IMoveProviderOptions {
     providerName?: string;

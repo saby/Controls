@@ -1,6 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import {CrudEntityKey} from 'Types/source';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
+import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import {IColumn, TColspanCallbackResult} from 'Controls/grid';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
 import {IGroupNodeColumn} from 'Controls/_treeGrid/interface/IGroupNodeColumn';
@@ -58,7 +57,7 @@ const columns: IGroupNodeColumn[] = [
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: MemorySource;
+    protected _viewSource: HierarchicalMemory;
     protected _columns: IColumn[] = columns;
     protected _root: CrudEntityKey = null;
     protected _expandedItems: CrudEntityKey[] = [1, 2, 3];
@@ -81,8 +80,9 @@ export default class extends Control {
     ];
 
     protected _beforeMount(): void {
-        this._viewSource = new MemorySource({
+        this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data
         });
     }
