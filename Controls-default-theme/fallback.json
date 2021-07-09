@@ -409,8 +409,10 @@
   "--marker_width_switcher": "12px",
   "--marker_height_switcher": "var(--marker_width_switcher)",
   "--selected_marker_color_switcher": "#ff8552",
+  "--selected_marker-hover_color_switcher": "#ff7438",
   "--marker_contrast-color_switcher": "#fff",
   "--unselected_marker_color_switcher": "#DBDBDB",
+  "--unselected_marker-hover_color_switcher": "#ccc",
   "--readonly_unselected_marker_color_switcher": "#CCC",
   "--marker_border-offset_switcher": "2px",
   "--background-color_switcher": "var(--background-color)",
@@ -483,6 +485,7 @@
   "--background-color_tumbler": "#f2f2f2",
   "--border-radius_tumbler-button": "10px",
   "--border-radius_tumbler": "12px",
+  "--button-hover_background-color_tumbler": "#eaeaea",
 
   "--button_offset_tumbler": "2px",
   "--counter_offset_tumbler": "4px",
