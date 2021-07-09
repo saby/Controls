@@ -30,10 +30,10 @@ class ArrowButton extends Control<IArrowButtonOptions>  {
                 direction = 'Expand';
                 break;
             case 'left':
-                direction = 'Left';
+                direction = 'MarkCLeft';
                 break;
             case 'right':
-                direction = 'Right';
+                direction = 'MarkCRight';
                 break;
             case 'up':
                 direction = 'Collapse';
@@ -42,7 +42,7 @@ class ArrowButton extends Control<IArrowButtonOptions>  {
                 direction = 'Right';
                 break;
         }
-        return `controls-ArrowButton_icon icon icon-Mark${direction}Bold controls-icon_size-${this._options.iconSize }`;
+        return `controls-ArrowButton_icon icon icon-${direction}Light controls-icon_size-${this._options.iconSize }`;
     }
 
     protected _clickHandler(event: Event): void {
