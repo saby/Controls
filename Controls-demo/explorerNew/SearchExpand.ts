@@ -1,8 +1,8 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as template from 'wml!Controls-demo/explorerNew/SearchExpand';
-import {HierarchicalMemory} from 'Types/source';
 
+import * as ExplorerMemory from 'Controls-demo/explorerNew/ExplorerMemory';
 
 interface ISearchExpandData {
    id: number;
@@ -119,7 +119,7 @@ export default class SearchExpand extends Control<IControlOptions> {
    protected _markedKey: number = 1;
    protected _excludedKeys: [] = [];
    protected _selectedKeys: [] = [];
-   protected _viewSource: HierarchicalMemory;
+   protected _viewSource: ExplorerMemory;
    protected _viewColumns: ISearchExpandColumn[];
    protected _filter: object;
    protected _expandedItems: any;
@@ -131,9 +131,8 @@ export default class SearchExpand extends Control<IControlOptions> {
       this._filter = {
          demo: 123
       };
-      this._viewSource = new HierarchicalMemory({
+      this._viewSource = new ExplorerMemory({
          keyProperty: 'id',
-         parentProperty: 'parent',
          data
       });
    }

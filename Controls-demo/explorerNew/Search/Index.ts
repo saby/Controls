@@ -5,10 +5,11 @@ import {HierarchicalMemory, Memory} from 'Types/source';
 import {IColumn} from 'Controls/grid';
 import {TRoot} from 'Controls-demo/types';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: HierarchicalMemory;
+    protected _viewSource: MemorySource;
     protected _columns: IColumn[] = Gadgets.getSearchColumns();
     protected _root: TRoot = 1;
     protected _startingWith: 'root' | 'current' = 'root';
@@ -33,9 +34,8 @@ export default class extends Control {
     ];
 
     protected _beforeMount(): void {
-        this._viewSource = new HierarchicalMemory({
+        this._viewSource = new MemorySource({
             keyProperty: 'id',
-            parentProperty: 'parent',
             data: Gadgets.getSearchData()
         });
         this._startingWithSource = new Memory({
