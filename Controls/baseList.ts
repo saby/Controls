@@ -55,3 +55,4 @@ export {IRemovableList} from 'Controls/_baseList/interface/IRemovableList';
 export {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/_baseList/interface/ISiblingStrategy';
 export {groupConstants, IHiddenGroupPosition, IItemPadding, MultiSelectAccessibility} from './display';
 export {default as ItemsView, IItemsViewOptions} from 'Controls/_baseList/ItemsView';
+export * from './_baseList/Controllers/Grouping';

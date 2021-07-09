@@ -16,7 +16,7 @@
          shadowMode="js"
          on:scrollStateChanged="_scrollStateChangedHandler()"
          on:scroll="_scrollHandler()">
-         <Controls.baseList:View
+         <Controls.list:View
             source="{{_viewSource}}"
             sourceExt="{{_options.source}}"
             viewMode="{{_options.viewMode}}"
@@ -34,7 +34,7 @@
             </ws:navigation>
 
             <ws:itemTemplate>
-               <ws:partial template="Controls/baseList:ItemTemplate"
+               <ws:partial template="Controls/list:ItemTemplate"
                            itemData="{{itemTemplate.itemData}}"
                            highlightOnHover="{{false}}"
                            attr:class="controls-MonthList__item">
@@ -62,7 +62,7 @@
                   </ws:contentTemplate>
                </ws:partial>
             </ws:itemTemplate>
-         </Controls.baseList:View>
+         </Controls.list:View>
       </Controls.scroll:Container>
    </Controls.scroll:IntersectionObserverController>
 </Controls.dataSource:error.Container>

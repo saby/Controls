@@ -33,7 +33,7 @@ import {nodeHistoryUtil} from './nodeHistoryUtil';
 import {isEqual} from 'Types/object';
 import {mixin} from 'Types/util';
 import * as cInstance from 'Core/core-instance';
-import {TArrayGroupId} from 'Controls/_baseList/Controllers/Grouping';
+import {TArrayGroupId} from 'Controls/list';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
