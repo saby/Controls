@@ -289,16 +289,6 @@ var ListView = BaseControl.extend(
                     return;
                 }
 
-                if (e.target.closest('.js-controls-BaseControl__continueSearch')) {
-                    this._notify('continueSearchClick', []);
-                    return;
-                }
-
-                if (e.target.closest('.js-controls-BaseControl__abortSearch')) {
-                    this._notify('abortSearchClick', []);
-                    return;
-                }
-
                 var item = dispItem.getContents();
                 this._notify('itemClick', [item, e]);
             }
@@ -408,6 +398,14 @@ var ListView = BaseControl.extend(
         },
 
         _onItemWheel: function(event) {
+        },
+
+        _onContinueSearchClick(): void {
+            this._notify('continueSearchClick');
+        },
+
+        _onAbortSearchClick(): void {
+            this._notify('abortSearchClick');
         },
 
         setHoveredItem: function (item) {

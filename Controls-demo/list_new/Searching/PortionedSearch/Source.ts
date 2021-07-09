@@ -2,7 +2,9 @@ import * as Deferred from 'Core/Deferred';
 import {Memory, Query, DataSet} from 'Types/source';
 import { RecordSet } from 'Types/collection';
 
-const DEFAULT_DELAY = 5000;
+const DEFAULT_DELAY = 1000;
+const SEARCH_DELAY = 5000;
+const SEARCH_PAGE = 2;
 
 interface IOptions {
     source: Memory;
@@ -24,7 +26,8 @@ export default class PortionedSearchSource {
         const isSearch = query.getWhere().title !== undefined;
         if (isSearch) {
             // имитируем порционную подгрузку. Подгружаем по несколько элементов.
-            this._limit += 2;
+            this._limit += SEARCH_PAGE;
+            this._delay = SEARCH_DELAY;
         } else {
             this._limit = 0;
             this._delay = DEFAULT_DELAY;
@@ -45,15 +48,19 @@ export default class PortionedSearchSource {
             return origQuery.addCallback((dataSet) => {
                 const recordSet = dataSet.getAll();
 
-                let hasMore = recordSet.getMetaData().more;
+                let hasMore;
+                let total = recordSet.getMetaData().total;
                 if (isSearch && this._limit) {
-                    // удаляем из рекордсета лишние записи, оставляем только limit
-                    // сделано так чтобы можно было посчитать more
-                    hasMore = this._limitRecordSet(recordSet);
+                    total = recordSet.getCount();
+                    hasMore = !!(recordSet.getCount() - this._limit);
+                    this._limitRecordSet(recordSet);
+                } else {
+                    hasMore = query.getOffset() + query.getLimit() < total;
                 }
 
                 const metaData = {
                     ...recordSet.getMetaData(),
+                    total,
                     more: hasMore,
                     iterative: isSearch
                 }
@@ -64,11 +71,19 @@ export default class PortionedSearchSource {
         return loadDef;
     }
 
-    private _limitRecordSet(recordSet: RecordSet): boolean {
-        const countRemovedItems = recordSet.getCount() - this._limit;
-        for (let i = this._limit; i < recordSet.getCount(); i++) {
-            recordSet.removeAt(i);
+    private _limitRecordSet(recordSet: RecordSet): void {
+        // Нам нужно взять только SEARCH_PAGE элементов
+        // Поэтому сперва удаляем элементы до предыдущего лимита
+        const prevLimit = this._limit - SEARCH_PAGE;
+        let countRemoved = 0;
+        while (countRemoved !== prevLimit && recordSet.getCount() >= SEARCH_PAGE) {
+            recordSet.removeAt(0);
+            countRemoved++;
         }
-        return !!countRemovedItems;
+
+        // А потом удаляем все элементы после лимита
+        while (recordSet.getCount() > SEARCH_PAGE) {
+            recordSet.removeAt(SEARCH_PAGE);
+        }
     }
 }

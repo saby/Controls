@@ -8,7 +8,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: PortionedSearchSource = null;
     protected _filter: Object = null;
-    private _dataArray: object[] = generateData({count: 100, entityTemplate: {title: 'lorem'}});
+    private _dataArray: object[] = generateData({count: 105, entityTemplate: {title: 'lorem'}});
     private _searchValue: string = '';
 
     protected _beforeMount(): void {

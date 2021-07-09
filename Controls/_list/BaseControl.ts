@@ -4052,7 +4052,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         const isPortionedSearchEnded = this._loadedBySourceController && !this.isLoading()
-            && !this._hasMoreData(portionedSearchDirection);
+            && portionedSearchDirection && !this._hasMoreData(portionedSearchDirection);
         const clearSearchValue = newOptions.searchValue !== this._options.searchValue && newOptions.searchValue === '';
         if (isPortionedSearchEnded || clearSearchValue) {
             _private.getPortionedSearch(this).reset();

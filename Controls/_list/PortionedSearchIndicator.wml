@@ -1,0 +1,24 @@
+<ws:if data="{{ _options.item.shouldDisplayPortionedSearch() }}">
+    <div class="{{ _options.item.getPortionedSearchClasses() }}" data-qa="{{ _options.item.getQAData() }}">
+        <ws:partial template="{{ _options.item.getPortionedSearchTemplate() }}">
+            <ws:contentTemplate>
+                <div class="js-controls-BaseControl__abortSearch controls-BaseControl__abortSearch controls-BaseControl__abortSearch"
+                     on:click="_onAbortSearchClick()">
+                    {[Прервать поиск]}
+                </div>
+            </ws:contentTemplate>
+        </ws:partial>
+    </div>
+</ws:if>
+<ws:else>
+    <div class="{{ _options.item.getContinueSearchClasses() }}" data-qa="{{ _options.item.getQAData() }}">
+        <ws:partial template="{{ _options.item.getContinueSearchTemplate() }}">
+            <ws:contentTemplate>
+                <div class="js-controls-BaseControl__continueSearch controls-BaseControl__continueSearch_caption"
+                     on:click="_onContinueSearchClick()">
+                    {[Продолжить поиск]}
+                </div>
+            </ws:contentTemplate>
+        </ws:partial>
+    </div>
+</ws:else>

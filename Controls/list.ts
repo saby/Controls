@@ -45,7 +45,7 @@ import ItemTemplate = require('wml!Controls/_list/ItemTemplate');
 import {default as View} from 'Controls/_list/List';
 import BaseAction from 'Controls/_list/BaseAction';
 import * as LoadingIndicatorTemplate from 'wml!Controls/_list/PortionedSearchTemplate';
-import * as PortionedSearchIndicatorTemplate from 'wml!Controls/_list/PortionedSearchIndicatorTemplate';
+import {default as PortionedSearchIndicatorTemplate} from 'Controls/_list/PortionedSearchIndicator';
 import * as ContinueSearchTemplate from 'wml!Controls/_list/resources/ContinueSearchTemplate';
 import * as LoadingIndicatorItemTemplate from 'wml!Controls/_list/LoadingIndicatorTemplate';
 import * as LoadingTriggerItemTemplate from 'wml!Controls/_list/LoadingTriggerTemplate';

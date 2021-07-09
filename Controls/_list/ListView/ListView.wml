@@ -5,7 +5,9 @@
       <!--Top portioned search indicator-->
       <ws:partial if="{{ _listModel.getTopPortionedSearchIndicator() }}"
                   template="{{_listModel.getTopPortionedSearchIndicator().getTemplate()}}"
-                  item="{{_listModel.getTopPortionedSearchIndicator()}}"/>
+                  item="{{_listModel.getTopPortionedSearchIndicator()}}"
+                  on:continueSearchClick="_onContinueSearchClick()"
+                  on:abortSearchClick="_onAbortSearchClick()"/>
 
       <!--Top loading indicator-->
       <ws:partial if="{{ _listModel.getTopLoadingIndicator() }}"
@@ -57,7 +59,9 @@
       <!--Bottom portioned search indicator-->
       <ws:partial if="{{ _listModel.getBottomPortionedSearchIndicator() }}"
                   template="{{_listModel.getBottomPortionedSearchIndicator().getTemplate()}}"
-                  item="{{_listModel.getBottomPortionedSearchIndicator()}}"/>
+                  item="{{_listModel.getBottomPortionedSearchIndicator()}}"
+                  on:continueSearchClick="_onContinueSearchClick()"
+                  on:abortSearchClick="_onAbortSearchClick()"/>
 
       <ws:if data="{{_listModel.getFooter()}}">
          <ws:partial
