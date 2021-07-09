@@ -99,7 +99,10 @@ class Radio extends Control<IRadioGroupOptions, RecordSet> implements ISource, I
    private _sortGroup(options: IRadioGroupOptions, items: RecordSet): void {
       this._groups = {};
       items.each((item) => {
-         const parent = options.parentProperty ? item.get(options.parentProperty) : null;
+         let parent = options.parentProperty ? item.get(options.parentProperty) : null;
+         if (typeof parent === 'undefined') {
+            parent = null;
+         }
          if (!this._groups[parent]) {
             this._groups[parent] = [];
             this._groups[parent] = {
