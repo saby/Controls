@@ -37,7 +37,7 @@ export function toRgb(rawColor: string): IRgba {
                 a: parseFloat(result[4] || '1')
             };
         } else {
-            Logger.warn(`hexToRgb: ${color} не является валидным rgb(a) или hex-цветом.`);
+            Logger.warn(`hexToRgb: ${color} не является валидным rgb, rgba или hex-цветом.`);
         }
     }
 

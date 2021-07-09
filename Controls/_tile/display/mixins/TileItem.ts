@@ -1022,7 +1022,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 if ((!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right') {
-                    styles += ` background-color: ${gradientColor};`;
+                    styles += ` background-color: ${rgbaToString(toRgb(gradientColor))};`;
                 }
                 break;
         }
