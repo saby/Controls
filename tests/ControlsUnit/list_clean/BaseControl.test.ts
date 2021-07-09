@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {BaseControl} from 'Controls/list';
-import {IEditableList} from 'Controls/_list/interface/IEditableList';
+import {IEditableList} from 'Controls/_baseList/interface/IEditableList';
 import {RecordSet} from 'Types/collection';
 import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import {NewSourceController} from 'Controls/dataSource';

@@ -66,12 +66,13 @@ export interface ICollectionItemCounters {
     [key: string]: number;
 }
 
-const DEFAULT_MULTI_SELECT_TEMPLATE = 'Controls/list:MultiSelectTemplate';
+const DEFAULT_MULTI_SELECT_TEMPLATE = 'Controls/baseList:MultiSelectTemplate';
 
 const ITEMACTIONS_POSITION_CLASSES = {
     bottomRight: 'controls-itemActionsV_position_bottomRight',
     topRight: 'controls-itemActionsV_position_topRight'
 };
+
 
 /**
  * Элемент коллекции

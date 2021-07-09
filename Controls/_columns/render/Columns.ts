@@ -3,7 +3,7 @@ import template = require('wml!Controls/_columns/render/Columns');
 
 import defaultItemTemplate = require('wml!Controls/_columns/render/resources/ItemTemplate');
 
-import {ListView, IList} from 'Controls/list';
+import {ListView, IList} from 'Controls/baseList';
 import Collection from 'Controls/_columns/display/Collection';
 import {DEFAULT_COLUMNS_COUNT} from '../Constants';
 
