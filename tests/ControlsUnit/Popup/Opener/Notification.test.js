@@ -1,9 +1,9 @@
 define(
    [
       'Controls/popupTemplate',
-      'Controls/_popupTemplate/Notification/Template/NotificationContent',
+      'Controls/_popupTemplate/Notification/Opener/NotificationContent',
       'Controls/popup',
-      'Controls/_popupTemplate/Notification/NotificationController',
+      'Controls/_popupTemplate/Notification/Opener/NotificationController',
       'Types/collection'
    ],
    (popupTemplate, NotificationContent, popup, NotificationController, collection) => {

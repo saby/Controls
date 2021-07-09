@@ -24,6 +24,7 @@ import {
 } from 'Controls/interface';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import ButtonTemplate = require('wml!Controls/_buttons/Button');
+import {descriptor} from 'Types/entity';
 import 'wml!Controls/_buttons/ButtonBase';
 import 'css!Controls/buttons';
 import 'css!Controls/CommonClasses';
@@ -200,6 +201,12 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
 
     static getDefaultOptions(): object {
         return getDefaultOptions();
+    }
+
+    static getOptionTypes(): object {
+        return {
+            contrastBackground: descriptor(Boolean)
+        };
     }
 }
 

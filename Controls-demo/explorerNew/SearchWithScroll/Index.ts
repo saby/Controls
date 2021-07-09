@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import * as Template from 'wml!Controls-demo/explorerNew/SearchWithScroll/SearchWithScroll';
 import {TRoot} from 'Controls-demo/types';
 import {DataWithLongFolderName} from '../DataHelpers/DataCatalog';
+import {HierarchicalMemory} from 'Types/source';
 
 interface IViewColumns {
     displayProperty: string;
@@ -11,7 +11,7 @@ interface IViewColumns {
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: MemorySource;
+    protected _viewSource: HierarchicalMemory;
     protected _viewColumns: IViewColumns[];
     protected _root: TRoot = null;
 
@@ -22,8 +22,9 @@ export default class extends Control {
                 width: '1fr'
             }
         ];
-        this._viewSource = new MemorySource({
+        this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: DataWithLongFolderName.getManyData()
         });
     }

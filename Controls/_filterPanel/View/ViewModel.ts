@@ -20,6 +20,8 @@ interface IFilterGroup {
     afterEditorTemplate: TemplateFunction | string;
 }
 
+const LIST_EDITOR_NAME = 'Controls/filterPanel:ListEditor';
+
 export default class FilterViewModel extends mixin<VersionableMixin>(VersionableMixin) {
     protected _source: IFilterItem[] = null;
     protected _editingObject: Record<string, unknown> = {};
@@ -80,6 +82,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         const groupsItems = {};
         source.forEach((item) => {
             groupsItems[item.group] = {
+                needShowExpander: item.editorTemplateName === LIST_EDITOR_NAME,
                 textValue: item.textValue,
                 afterEditorTemplate: item.editorOptions?.afterEditorTemplate
             };
@@ -222,6 +225,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         item.value = item.resetValue;
         item.textValue = '';
         this._editingObject = this._getEditingObjectBySource(this._source);
+        this._groupItems = this._getGroupItemsBySource(this._source);
         this._nextVersion();
     }
 

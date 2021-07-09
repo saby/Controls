@@ -1,7 +1,7 @@
 import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
 import cInstance = require('Core/core-instance');
-import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {getItemsBySelection} from 'Controls/baseList';
 import {Logger} from 'UI/Utils';
 
 import {Move as MoveAction, IMoveActionOptions} from 'Controls/listActions';

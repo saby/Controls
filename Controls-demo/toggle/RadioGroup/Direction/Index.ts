@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {Memory} from "Types/source";
+import {Memory} from 'Types/source';
 import Template = require('wml!Controls-demo/toggle/RadioGroup/Direction/Template');
 
 class Direction extends Control<IControlOptions> {

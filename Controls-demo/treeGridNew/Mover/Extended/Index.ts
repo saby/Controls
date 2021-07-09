@@ -34,7 +34,8 @@ export default class extends Control {
                 } else {
                     return item.get('parent') === parent;
                 }
-            }
+            },
+            parentProperty: 'parent'
         });
     }
 

@@ -1185,5 +1185,5 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 /**
  * @name Controls/_scroll/Container#initialScrollPosition
  * @cfg {Controls/_scroll/ContainerBase/initialScrollPosition} initialScrollPosition Определяет положение скрола в момент инициализации.
- * @demo Controls-demo/Scroll/ContainerBase/InitialScrollPosition/Index
+ * @demo Controls-demo/Scroll/Container/InitialScrollPosition/Index
  */

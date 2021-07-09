@@ -1,0 +1,15 @@
+<ws:partial template="Controls/_popupTemplate/Notification/Base"
+            closeButtonVisibility="{{_options.closeButtonVisibility}}"
+            style="{{_options.style}}">
+    <ws:bodyContentTemplate>
+        <div class="controls-Notification__simpleTemplate">
+            <ws:if data="{{_options.icon}}">
+                <div class="{{_options.icon}} icon-{{_options.icon}} controls-Notification__simpleTemplate-icon
+                            controls-Notification__simpleTemplate-icon-size
+                            controls-icon_style-{{_iconStyle}}">
+                </div>
+            </ws:if>
+            <div class="controls-Notification__simpleTemplate-message">{{_options.text}}</div>
+        </div>
+    </ws:bodyContentTemplate>
+</ws:partial>
