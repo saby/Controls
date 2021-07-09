@@ -47,17 +47,24 @@
    white-space: nowrap;
 }
 
+.controls-FilterViewPanel__group-content-expandable:hover {
+   color: var(--link_hover_text-color);
+}
+
 .controls-FilterViewPanel__group-result-container {
    width: 100%;
    display: flex;
    flex-direction: row;
 }
 
-.controls-PropertyGrid__groupExpander.controls-FilterViewPanel__groupExpander {
+.controls-FilterViewPanel__groupExpander {
    color: var(--unaccented_icon-color);
-   margin: 0 var(--offset_2xs);
+   margin: 0 var(--offset_s);
    cursor: pointer;
    align-self: center;
+   &:hover {
+      color: var(--link_hover_text-color);
+   }
 }
 
 .controls-FilterViewPanel__group {
