@@ -222,6 +222,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         item.value = item.resetValue;
         item.textValue = '';
         this._editingObject = this._getEditingObjectBySource(this._source);
+        this._groupItems = this._getGroupItemsBySource(this._source);
         this._nextVersion();
     }
 
