@@ -30,7 +30,8 @@ import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
 import template = require('wml!Controls/_scroll/Container/Container');
 import baseTemplate = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {descriptor} from "Types/entity";
-import {setSettings, getSettings} from 'Controls/Application/SettingsController';
+import {setSettings} from 'Controls/Application/SettingsController';
+import WheelEventSettings from 'Controls/_scroll/Utils/getWheelEventSettings';
 
 /**
  * @typeof {String} TPagingPosition
@@ -108,10 +109,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // прикладник задал опцию scrollbarVisible=false.
         // Таким образом пользователи без колесика мышки смогут скроллить контент.
         // Если пользователь использовал колесико мышки - записываем это в localstorage
-        getSettings(['scrollContainerWheelEventHappened']).then((storage) => {
-            if (storage?.scrollContainerWheelEventHappened) {
-                ScrollbarsModel.wheelEventHappened = storage.scrollContainerWheelEventHappened;
-            }
+        WheelEventSettings.getWheelEventSettingPromise().then((data) => {
+            ScrollbarsModel.wheelEventHappened = data;
         });
         this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._scrollbars = new ScrollbarsModel(options);
