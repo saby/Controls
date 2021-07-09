@@ -77,7 +77,6 @@ export interface IPopupOptions extends IBasePopupOptions {
     maxHeight?: number;
     hidden?: boolean;
     maximize?: boolean;
-    content?: Function;
     autoClose?: boolean;
 }
 
