@@ -25,9 +25,12 @@ export default class Collection<
     protected _columnsCount: number;
     protected _dragColumn: number = null;
     protected _$spacing: number = SPACING;
+    protected _$viewMode: string;
+
     constructor(options) {
         super(options);
         this._columnsStrategy = this._$columnsMode === 'fixed' ? new Fixed() : new Auto();
+        this._addingColumnsCounter = options.collection ? options.collection.getCount() : 0;
         if (this._$columnsMode === 'auto' && options.initialWidth) {
             this.setCurrentWidth(options.initialWidth, options.columnMinWidth);
         } else {
@@ -65,6 +68,7 @@ export default class Collection<
         }
         if (action === 'rs') {
             this.updateColumns();
+            this._addingColumnsCounter = newItems.length;
         } else {
             this.updateColumnIndexesByItems();
         }
@@ -148,11 +152,11 @@ export default class Collection<
     processRemovingItem(item: any): boolean {
         let done = true;
 
-        if (!this.find((it) => it.getColumn() === item.column) && this._addingColumnsCounter > 0) {
-            this._addingColumnsCounter--;
+        this._addingColumnsCounter--;
+        if (this._addingColumnsCounter < 0) {
+            this._addingColumnsCounter += this._$columnsCount;
         }
-
-        if (item.columnIndex >= this._columnsIndexes[item.column].length) {
+        if (this._$viewMode !== 'list' && item.columnIndex >= this._columnsIndexes[item.column].length) {
             done = false;
             while (!done && (item.column + 1) < this._$columnsCount) {
 
@@ -330,5 +334,6 @@ Object.assign(Collection.prototype, {
     _itemModule: 'Controls/columns:ColumnsCollectionItem',
     _$columnsCount: 2,
     _$spacing: 12,
-    _$columnsMode: 'auto'
+    _$columnsMode: 'auto',
+    _$viewMode: ''
 });
