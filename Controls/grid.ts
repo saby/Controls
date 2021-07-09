@@ -37,6 +37,7 @@ import * as MoneyTypeRender from 'wml!Controls/_grid/Render/types/money';
 import * as NumberTypeRender from 'wml!Controls/_grid/Render/types/number';
 import * as StringTypeRender from 'wml!Controls/_grid/Render/types/string';
 import * as StringSearchTypeRender from 'wml!Controls/_grid/Render/types/StringSearch';
+import * as TypesLadderWrapper from 'wml!Controls/_grid/Render/types/ladderWrapper';
 
 import SortingButton from 'Controls/_grid/SortingButton';
 import SortingSelector from 'Controls/_grid/SortingSelector';
@@ -76,6 +77,7 @@ export {
     ResultsTemplate,
     ResultColumnTemplate,
     ColumnTemplate,
+    TypesLadderWrapper,
     StickyLadderColumnTemplate,
     GroupTemplate,
     HeaderContent,
