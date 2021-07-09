@@ -39,18 +39,21 @@ export interface IConfirmationFooter {
  * @name Controls/_popup/interface/IConfirmationFooter#yesCaption
  * @cfg {String} Текст кнопки подтверждения.
  * @default Да
+ * @deprecated Опция устарела, используйте опцию {@link Controls/_popup/interface/IConfirmationFooter#buttons buttons}
  */
 
 /**
  * @name Controls/_popup/interface/IConfirmationFooter#noCaption
  * @cfg {String} Текст кнопки отрицания
  * @default Нет
+ * @deprecated Опция устарела, используйте опцию {@link Controls/_popup/interface/IConfirmationFooter#buttons buttons}
  */
 
 /**
  * @name Controls/_popup/interface/IConfirmationFooter#cancelCaption
  * @cfg {String} Текст кнопки отмены
  * @default Отмена
+ * @deprecated Опция устарела, используйте опцию {@link Controls/_popup/interface/IConfirmationFooter#buttons buttons}
  */
 
 /**
@@ -60,12 +63,14 @@ export interface IConfirmationFooter {
  * @variant no
  * @variant cancel
  * @default yes
+ * @deprecated Опция устарела, используйте опцию {@link Controls/_popup/interface/IConfirmationFooter#buttons buttons}
  */
 
 /**
  * @name Controls/_popup/interface/IConfirmationFooter#okCaption
  * @cfg {String} Текст кнопки "принять"
  * @default ОК
+ * @deprecated Опция устарела, используйте опцию {@link Controls/_popup/interface/IConfirmationFooter#buttons buttons}
  */
 
 /**
@@ -97,13 +102,13 @@ export interface IConfirmationFooter {
  * <pre>
  *     this._buttons = [{
  *      caption: 'Да',
- *      primary: true,
  *      buttonStyle: primary,
  *      value: true
  *     },
  *     {
  *      caption: 'Собрать без конвертацией',
  *      viewMode: 'link',
+ *      fontColorStyle: 'unaccented',
  *      value: false
  *     }];
  * </pre>
