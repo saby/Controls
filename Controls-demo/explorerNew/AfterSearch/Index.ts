@@ -1,9 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/AfterSearch/AfterSearch';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import {Memory} from 'Types/source';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 
 interface IFilter {
    demo: number;
@@ -11,11 +10,11 @@ interface IFilter {
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   protected _viewSource: Memory;
+   protected _viewSource: MemorySource;
    protected _columns: IColumn[] = Gadgets.getSearchColumns();
    protected _root: string | null = null;
    protected _searchStartingWith: string = 'root';
-   protected _searchStartingWithSource: Memory = null;
+   protected _searchStartingWithSource: MemorySource = null;
    protected _filter: IFilter = { demo: 123 };
 
    protected _beforeMount(): void {

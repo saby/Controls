@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from "wml!Controls-demo/explorerNew/Search/Search";
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import {Memory} from 'Types/source';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
+import {HierarchicalMemory, Memory} from 'Types/source';
 import {IColumn} from 'Controls/grid';
 import {TRoot} from 'Controls-demo/types';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
+import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

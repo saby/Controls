@@ -8,7 +8,7 @@ import {
     ISerializableState as IDefaultSerializableState
 } from 'Types/entity';
 import {mixin} from 'Types/util';
-import {CrudEntityKey} from "Types/source";
+import {CrudEntityKey} from 'Types/source';
 /**
  * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группировкой элементов}.
  * @class Controls/list:groupConstants

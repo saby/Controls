@@ -1,13 +1,13 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/ItemTemplate/WithPhoto/Photo24px/Photo24px';
-import {CrudEntityKey, Memory} from 'Types/source';
+import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import {WithPhoto} from "Controls-demo/treeGridNew/DemoHelpers/Data/WithPhoto";
 import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control<IControlOptions> {
    protected _template: TemplateFunction = Template;
-   protected _viewSource: Memory;
+   protected _viewSource: HierarchicalMemory;
    protected _columns: IColumn[] = WithPhoto.getGridColumnsWithPhoto();
    // tslint:disable-next-line
    protected _expandedItems: CrudEntityKey[] = [ 1, 15, 153 ];
@@ -26,9 +26,10 @@ export default class extends Control<IControlOptions> {
          type: false,
          subtask: true
       });
-      this._viewSource = new Memory({
+      this._viewSource = new HierarchicalMemory({
          keyProperty: 'key',
-         data
+         data,
+         parentProperty: 'parent'
       });
    }
 

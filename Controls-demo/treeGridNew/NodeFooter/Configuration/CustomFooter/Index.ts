@@ -85,7 +85,8 @@ export default class extends Control {
                     parent: 1,
                     type: null
                 }
-            ]
+            ],
+            parentProperty: 'parent'
         });
     }
 

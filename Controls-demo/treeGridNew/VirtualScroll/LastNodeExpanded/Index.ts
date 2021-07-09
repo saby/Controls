@@ -17,6 +17,7 @@ export default class extends Control {
       const sourceData = generateData();
       this._viewSource = new HierarchicalMemory({
          keyProperty: 'key',
+         parentProperty: 'parent',
          data: sourceData
       });
    }
