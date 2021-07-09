@@ -407,18 +407,33 @@ export interface IColumn extends IColspanParams {
      */
     tagStyleProperty?: string;
     /**
-     * @cfg Тип отображаемых данных.
+     * @typedef {String} TDisplayType
+     * @variant "number" — Тип поля "число".
+     * @variant "money" — Тип поля "деньги".
+     * @default "string" — Тип поля "текст".
+     */
+
+    /**
+     * @cfg {Controls/_grid/display/interface/Icolumn/TDisplayType.typedef}Тип отображаемых данных.
+     * @demo Controls-demo/gridNew/Columns/FontColorStyle/Index
+     * @remark Подробнее о настройке настройке типа данных, отображаемых колонкой читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/visual/type/ здесь}.
      * @example
-     * В следующем примере показано как отобразить поле записи типа "число"
+     * В следующем примере показано как отобразить различные типы полей.
      *
      * <pre class="brush: js">
-     * ...
+     * <!-- WML -->
      * protected _columns: IColumn[] = [
      *     {
-     *         displayProperty: 'price',
-     *         displayType: 'number'
+     *         displayProperty: 'country'
      *     },
-     *     ...
+     *     {
+     *         displayProperty="population"
+     *         displayType="number"
+     *     },
+     *     {
+     *         displayProperty="populationDensity"
+     *         displayType: 'number'
+     *     }
      * ]
      * </pre>
      */
