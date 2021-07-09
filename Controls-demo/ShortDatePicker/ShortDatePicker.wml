@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo__flex-jc-sa"  style="align-items: flex-start">
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ShortDatePicker__cell-1">
         <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=false; chooseQuarters=false; chooseYears=true;</div>
         <Controls.shortDatePicker:View
                 startValue="{{_startValue}}"
@@ -9,7 +9,7 @@
                 chooseQuarters="{{false}}"
         />
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ShortDatePicker__cell-2">
         <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=false; chooseQuarters=true; chooseYears=true;</div>
         <Controls.shortDatePicker:View
                 startValue="{{_startValue}}"
@@ -18,7 +18,7 @@
                 chooseMonths="{{false}}"
     />
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ShortDatePicker__cell-3">
         <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=true; chooseQuarters=false; chooseYears=true;</div>
         <Controls.shortDatePicker:View
                 startValue="{{_startValue}}"
@@ -27,13 +27,13 @@
                 chooseQuarters="{{false}}"
     />
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ShortDatePicker__cell-4">
         <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=true; chooseMonths=true; chooseQuarters=true; chooseYears=true;</div>
         <Controls.shortDatePicker:View
                 startValue="{{_startValue}}"
                 endValue="{{_endValue}}"/>
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ShortDatePicker__cell-5">
         <div class="controls-text-label controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=true; chooseQuarters=true; chooseYears=true;</div>
         <Controls.shortDatePicker:View
                 startValue="{{_startValue}}"
