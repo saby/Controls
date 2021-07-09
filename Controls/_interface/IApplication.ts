@@ -28,7 +28,7 @@ export default interface IApplication extends IHTML {
  * @example
  * <pre class="brush: js">
  * // JavaScript
- * import * as getResourceUrl from 'Core/helpers/getResourceUrl';
+ * import {getResourceUrl} from 'RequireJsLoader/conduct';
  * </pre>
  * <pre class="brush: html">
  * <!-- WML -->
