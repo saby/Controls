@@ -19,11 +19,7 @@ import {object} from 'Types/util';
 import {TColumns} from 'Controls/grid';
 import {isEqual} from 'Types/object';
 import {EventUtils} from 'UI/Events';
-import {
-    buildDetailOptions,
-    buildMasterOptions,
-    getListConfiguration
-} from 'Controls/_newBrowser/utils';
+import {buildDetailOptions, buildMasterOptions, getListConfiguration} from 'Controls/_newBrowser/utils';
 //region templates import
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -38,6 +34,7 @@ import {View} from 'Controls/explorer';
 import 'css!Controls/listTemplates';
 import {factory} from 'Types/chain';
 import {ContextOptions as dataContext} from 'Controls/context';
+
 //endregion
 
 interface IReceivedState {
@@ -667,7 +664,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             const isNode = item.get(explorerOptions.nodeProperty) !== null;
             if (isNode) {
                 this._setRoot(item.get(explorerOptions.keyProperty)).then();
-                return false;
+                if (this.viewMode === DetailViewMode.search && this._dataContext) {
+                    return false;
+                }
             }
         }
         return notifyResult;
