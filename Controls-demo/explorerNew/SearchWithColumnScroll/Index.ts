@@ -2,13 +2,12 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/SearchWithColumnScroll/SearchWithColumnScroll';
 import * as cellTemplate from 'wml!Controls-demo/explorerNew/SearchWithColumnScroll/cellTemplate';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import {Memory} from 'Types/source';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
+import {HierarchicalMemory, Memory} from 'Types/source';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource1: MemorySource;
-    protected _viewSource2: MemorySource;
+    protected _viewSource1: HierarchicalMemory;
+    protected _viewSource2: HierarchicalMemory;
     protected _columns1: unknown[];
     protected _columns2: unknown[];
     protected _root: null | number = null;
@@ -41,11 +40,11 @@ export default class extends Control {
         ];
         this._columns2[0].width = '400px';
 
-        this._viewSource1 = new MemorySource({
+        this._viewSource1 = new HierarchicalMemory({
             keyProperty: 'id',
             data: Gadgets.getSearchDataForColumnScroll()
         });
-        this._viewSource2 = new MemorySource({
+        this._viewSource2 = new HierarchicalMemory({
             keyProperty: 'id',
             data: Gadgets.getSearchData()
         });

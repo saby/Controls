@@ -1,10 +1,10 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/EditArrowVisibilityCallback/EditArrowVisibilityCallback';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
 import { TRoot } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {HierarchicalMemory} from 'Types/source';
 
 interface IItem {
    getId: () => string;
@@ -14,7 +14,7 @@ const TIMEOUT = 2000;
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   protected _viewSource: MemorySource;
+   protected _viewSource: HierarchicalMemory;
    protected _columns: IColumn[] = Gadgets.getColumns();
    protected _viewMode: string = 'table';
    protected _root: TRoot = null;
@@ -22,7 +22,7 @@ export default class extends Control {
    protected _currentText: string = '';
 
    protected _beforeMount(): void {
-      this._viewSource = new MemorySource({
+      this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
          data: Gadgets.getData()
       });

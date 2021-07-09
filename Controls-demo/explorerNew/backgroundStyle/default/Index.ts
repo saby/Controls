@@ -1,17 +1,16 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/backgroundStyle/default/backgroundStyleDefault';
 import {Gadgets} from '../../DataHelpers/DataCatalog';
-import {Memory} from 'Types/source';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
+import {HierarchicalMemory, Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import {TRoot} from 'Controls-demo/types';
 import { IHeaderCell } from 'Controls/grid';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   protected _viewSource: MemorySource;
-   protected _viewSearchSource: MemorySource;
-   protected _headerSource: MemorySource;
+   protected _viewSource: HierarchicalMemory;
+   protected _viewSearchSource: HierarchicalMemory;
+   protected _headerSource: HierarchicalMemory;
    protected _columns: IColumn[] = Gadgets.getSearchColumns();
    protected _headerRoot: TRoot = null;
    protected _searchRoot: TRoot = null;
@@ -33,15 +32,15 @@ export default class extends Control {
    ];
 
    protected _beforeMount(): void {
-      this._viewSource = new MemorySource({
+      this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
          data: Gadgets.getSearchData()
       });
-      this._viewSearchSource = new MemorySource({
+      this._viewSearchSource = new HierarchicalMemory({
          keyProperty: 'id',
          data: Gadgets.getSearchDataLongFolderName()
       });
-      this._headerSource = new MemorySource({
+      this._headerSource = new HierarchicalMemory({
          keyProperty: 'id',
          data: [{id: 1, parent: null, 'parent@': true, code: null, price: null, title: 'Комплектующие'}]
       });

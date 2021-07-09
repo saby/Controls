@@ -1,8 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/AfterSearch/AfterSearch';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import {Memory} from 'Types/source';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
+import {HierarchicalMemory, Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 
 interface IFilter {
@@ -19,7 +18,7 @@ export default class extends Control {
    protected _filter: IFilter = { demo: 123 };
 
    protected _beforeMount(): void {
-      this._viewSource = new MemorySource({
+      this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
          data: Gadgets.getSearchData()
       });

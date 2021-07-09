@@ -1,15 +1,15 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/Editing/Editing';
-import Memory = require('Controls-demo/explorerNew/ExplorerMemory');
 import { Gadgets } from '../DataHelpers/DataCatalog';
+import {HierarchicalMemory} from 'Types/source';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
+    protected _viewSource: HierarchicalMemory;
     protected _columns = Gadgets.getGridEditingCol();
 
     _beforeMount() {
-        this._viewSource = new Memory({
+        this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
             data: Gadgets.getData()
         });

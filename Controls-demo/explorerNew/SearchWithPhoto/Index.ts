@@ -1,16 +1,15 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/SearchWithPhoto/SearchWithPhoto';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import {Memory} from 'Types/source';
+import {HierarchicalMemory, Memory} from 'Types/source';
 import {IItemAction} from 'Controls/itemActions';
 import {IRemovableList} from 'Controls/list';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
 import { IColumn } from 'Controls/grid';
 import { TRoot } from 'Controls-demo/types';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   protected _viewSource: MemorySource;
+   protected _viewSource: HierarchicalMemory;
    protected _columns: IColumn[] = Gadgets.getSearchColumnsWithPhoto();
    protected _root: TRoot = null;
    protected _searchStartingWith: string = 'root';
@@ -37,7 +36,7 @@ export default class extends Control {
    ]
 
    protected _beforeMount(): void {
-      this._viewSource = new MemorySource({
+      this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
          data: Gadgets.getSearchData()
       });

@@ -1,8 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/explorerNew/ItemActions/ItemActions';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import {Memory} from 'Types/source';
-import * as MemorySource from 'Controls-demo/explorerNew/ExplorerMemory';
+import {HierarchicalMemory, Memory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import { TRoot } from 'Controls-demo/types';
 import { IItemAction } from 'Controls/itemActions';
@@ -22,7 +21,7 @@ export default class extends Control {
    protected _itemActions: IItemAction[];
 
    protected _beforeMount(): void {
-      this._viewSource = new MemorySource({
+      this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
          data: Gadgets.getSearchData()
       });

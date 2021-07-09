@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/tileNew/ScaleOnHover/WithActions/WithActions';
 import {Gadgets} from '../../DataHelpers/DataCatalog';
-import {HierarchicalMemory} from "Types/source"
+import {HierarchicalMemory} from 'Types/source'
 
 
 
