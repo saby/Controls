@@ -9,6 +9,10 @@
    outline: none;
 }
 
+html, body {
+  height: 100%; // С ApplicationWrapper'a. Без этого разъезжаются страницы с нативным скроллом.
+}
+
 html {
    min-width: 100%;
    min-height: 100%;
