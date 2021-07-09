@@ -35,7 +35,7 @@ export default class NotificationDemo extends Control<IControlOptions> {
         this._openers[index].open({});
     }
 
-    protected_closeNotification(e: Event, index: number): void {
+    protected _closeNotification(e: Event, index: number): void {
         this._openers[index].close();
     }
 }
