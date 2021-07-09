@@ -1,6 +1,12 @@
 <div class="controls_list_theme-{{_options.theme}} controls-ListViewV controls-ListView_{{_options.style}}
             {{_options.loadingState ? 'controls-ListViewV__loading_' + _options.loadingState}}">
    <ws:if data="{{_listModel}}">
+
+      <!--Top portioned search indicator-->
+      <ws:partial if="{{ _listModel.getTopPortionedSearchIndicator() }}"
+                  template="{{_listModel.getTopPortionedSearchIndicator().getTemplate()}}"
+                  item="{{_listModel.getTopPortionedSearchIndicator()}}"/>
+
       <!--Top loading indicator-->
       <ws:partial if="{{ _listModel.getTopLoadingIndicator() }}"
                   template="{{_listModel.getTopLoadingIndicator().getTemplate()}}"
@@ -47,6 +53,11 @@
       <ws:partial if="{{ _listModel.getBottomLoadingIndicator() }}"
                   template="{{_listModel.getBottomLoadingIndicator().getTemplate()}}"
                   item="{{_listModel.getBottomLoadingIndicator()}}"/>
+
+      <!--Bottom portioned search indicator-->
+      <ws:partial if="{{ _listModel.getBottomPortionedSearchIndicator() }}"
+                  template="{{_listModel.getBottomPortionedSearchIndicator().getTemplate()}}"
+                  item="{{_listModel.getBottomPortionedSearchIndicator()}}"/>
 
       <ws:if data="{{_listModel.getFooter()}}">
          <ws:partial

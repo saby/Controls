@@ -4042,16 +4042,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.tryLoadToDirectionAgain(this, null, newOptions);
         }
 
+
+        // порционный поиск может идти только в одну сторону. Соответственно где есть данные, в ту сторону и поиск
+        const portionedSearchDirection = this._hasMoreData('up') ? 'up' : this._hasMoreData('down') ? 'down' : null;
         const isPortionedSearchStarted = this._loadedBySourceController && newOptions.searchValue
             && _private.isPortionedLoad(this, this._items);
         if (isPortionedSearchStarted) {
-            // порционный поиск может идти только в одну сторону. Соответственно где есть данные, в ту сторону и поиск
-            const direction = this._hasMoreData('up') || this._hasMoreData('down');
-            _private.getPortionedSearch(this).startSearch(direction);
+            _private.getPortionedSearch(this).startSearch(portionedSearchDirection);
         }
 
-        const isPortionedSearchEnded = this._loadedBySourceController && !this.isLoading() &&
-            _private.getPortionedSearch(this).isInProgress();
+        const isPortionedSearchEnded = this._loadedBySourceController && !this.isLoading()
+            && !this._hasMoreData(portionedSearchDirection);
         const clearSearchValue = newOptions.searchValue !== this._options.searchValue && newOptions.searchValue === '';
         if (isPortionedSearchEnded || clearSearchValue) {
             _private.getPortionedSearch(this).reset();

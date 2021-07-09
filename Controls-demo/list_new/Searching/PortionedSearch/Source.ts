@@ -1,17 +1,11 @@
 import * as Deferred from 'Core/Deferred';
 import {Memory, Query, DataSet} from 'Types/source';
+import { RecordSet } from 'Types/collection';
 
-const DELAY_STEP = 500;
-const DEFAULT_DELAY = 1000;
+const DEFAULT_DELAY = 5000;
 
 interface IOptions {
     source: Memory;
-}
-
-function getRandomCount(): number {
-    const min = 0;
-    const max = 2;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export default class PortionedSearchSource {
@@ -30,11 +24,7 @@ export default class PortionedSearchSource {
         const isSearch = query.getWhere().title !== undefined;
         if (isSearch) {
             // имитируем порционную подгрузку. Подгружаем по несколько элементов.
-            this._limit += getRandomCount();
-            query.limit(this._limit);
-
-            // С каждой подгрузкой поиск происходит дольше
-            this._delay = DELAY_STEP;
+            this._limit += 2;
         } else {
             this._limit = 0;
             this._delay = DEFAULT_DELAY;
@@ -54,10 +44,31 @@ export default class PortionedSearchSource {
         loadDef.addCallback(() => {
             return origQuery.addCallback((dataSet) => {
                 const recordSet = dataSet.getAll();
-                recordSet.setMetaData({...recordSet.getMetaData(), iterative: isSearch});
+
+                let hasMore = recordSet.getMetaData().more;
+                if (isSearch && this._limit) {
+                    // удаляем из рекордсета лишние записи, оставляем только limit
+                    // сделано так чтобы можно было посчитать more
+                    hasMore = this._limitRecordSet(recordSet);
+                }
+
+                const metaData = {
+                    ...recordSet.getMetaData(),
+                    more: hasMore,
+                    iterative: isSearch
+                }
+                recordSet.setMetaData(metaData);
                 return recordSet;
             });
         });
         return loadDef;
+    }
+
+    private _limitRecordSet(recordSet: RecordSet): boolean {
+        const countRemovedItems = recordSet.getCount() - this._limit;
+        for (let i = this._limit; i < recordSet.getCount(); i++) {
+            recordSet.removeAt(i);
+        }
+        return !!countRemovedItems;
     }
 }
