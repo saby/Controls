@@ -17,7 +17,7 @@ export interface IOptions<T> extends ICellOptions<T>, IDisplaySearchValueOptions
     markerPosition: string;
 }
 
-const LADDER_RENDER = 'Controls/grid:LadderWrapper';
+const LADDER_RENDER = 'Controls/grid:TypesLadderWrapper';
 
 export default class DataCell<T extends Model, TOwner extends DataRow<T>> extends mixin<
     Cell<T, TOwner>,
