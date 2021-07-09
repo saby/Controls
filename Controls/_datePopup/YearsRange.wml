@@ -10,12 +10,12 @@
             {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__prevNextBtn_icon_focus' }}">
       </span>
    </div>
-   <div class="controls-PeriodDialog-Years__yearsRange">
+   <div class="controls-PeriodDialog-Years__yearsRange" data-qa="controls-PeriodDialog-Years__yearsRange">
       <ws:for data="yearIndex, year in _model">
          <div tabindex="0" class="controls-PeriodDialog-Years__rangeBtn
          {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__rangeBtn_focus' }}
          {{_prepareItemClass(year.year) }}"
-            data-qa="{{ year.year === this._year ? 'controls-PeriodDialog-Years__item-displayed' : 'controls-PeriodDialog-Years__rangeBtn' }} "
+            data-qa="{{ year.year === this._year ? 'controls-PeriodDialog-Years__item-displayed'}}"
             attr:title="{[Выбрать год]}"
             on:keyDown="_onItemKeyDown(year.date)"
             on:click="_onItemClick(year.date)"
