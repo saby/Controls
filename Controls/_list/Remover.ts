@@ -2,7 +2,7 @@ import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
 import {ContextOptions as dataOptions} from 'Controls/context';
 import {Remove as RemoveAction} from 'Controls/listActions';
-import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {getItemsBySelection} from 'Controls/baseList';
 import {Logger} from 'UI/Utils';
 import {ISelectionObject} from "Controls/_interface/ISelectionType";
 

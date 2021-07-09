@@ -1,5 +1,5 @@
 import {Logger} from 'UI/Utils';
-import {IItemsViewOptions} from 'Controls/list';
+import {IItemsViewOptions} from 'Controls/baseList';
 import {isFullGridSupport} from 'Controls/display';
 import {ItemsView as ItemsGrid} from 'Controls/grid';
 import { TreeControl } from 'Controls/tree';
