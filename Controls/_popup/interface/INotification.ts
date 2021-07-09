@@ -92,18 +92,23 @@ export interface INotificationOpener extends IOpener {
  * @example
  * <pre class="brush: js">
  * // TypeScript
- * import {Notification} from 'Controls/popup';
+ * import {NotificationOpener} from 'Controls/popup';
  * ...
- * openNotification() {
- *    Notification.openPopup({
- *       template: 'Example/MyStackTemplate',
- *       autoClose: true
- *    }).then((popupId) => {
- *       this._notificationId = popupId;
- *    });
- * },
- * closeNotification() {
- *    Notification.closePopup(this._notificationId);
+ * _afterMount(){
+ *      this._opener = new NotificationOpener({
+ *          template: 'Controls/popupTemplate:NotificationSimple',
+ *          autoClose: true,
+ *          templateOptions: {
+ *              style: 'success',
+ *              text: `Новое уведомление`,
+ *              icon: 'icon-Admin'
+ *          }
+ *      });
+ *      this._opener.open({});
+ * }
+ *
+ * _beforeUnmount(){
+ *      this._opener.destroy();
  * }
  * </pre>
  * @see closePopup
