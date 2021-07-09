@@ -36,14 +36,17 @@ export default class extends Control {
    protected _beforeMount(): void {
       this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
+         parentProperty: 'parent',
          data: Gadgets.getSearchData()
       });
       this._viewSearchSource = new HierarchicalMemory({
          keyProperty: 'id',
+         parentProperty: 'parent',
          data: Gadgets.getSearchDataLongFolderName()
       });
       this._headerSource = new HierarchicalMemory({
          keyProperty: 'id',
+         parentProperty: 'parent',
          data: [{id: 1, parent: null, 'parent@': true, code: null, price: null, title: 'Комплектующие'}]
       });
       this._searchStartingWithSource = new Memory({

@@ -14,6 +14,7 @@ export default class extends Control {
         this._columns[0].template = CellTemplate;
         this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: Gadgets.getData()
         });
     }

@@ -42,10 +42,12 @@ export default class extends Control {
 
         this._viewSource1 = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: Gadgets.getSearchDataForColumnScroll()
         });
         this._viewSource2 = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: Gadgets.getSearchData()
         });
         this._searchStartingWithSource = new Memory({

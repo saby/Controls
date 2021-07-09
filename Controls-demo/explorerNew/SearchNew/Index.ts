@@ -38,6 +38,7 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: Gadgets.getSearchData()
         });
         this._startingWithSource = new Memory({

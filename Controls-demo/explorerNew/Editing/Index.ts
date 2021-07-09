@@ -11,6 +11,7 @@ export default class extends Control {
     _beforeMount() {
         this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: Gadgets.getData()
         });
     }

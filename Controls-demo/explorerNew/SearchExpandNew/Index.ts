@@ -132,6 +132,7 @@ export default class SearchExpand extends Control<IControlOptions> {
       };
       this._viewSource = new HierarchicalMemory({
          keyProperty: 'id',
+         parentProperty: 'parent',
          data
       });
    }

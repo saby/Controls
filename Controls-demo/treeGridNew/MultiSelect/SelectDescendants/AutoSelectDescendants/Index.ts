@@ -11,8 +11,9 @@ export default class extends Control {
     protected _excludedKeys: number[] = [];
 
     protected _beforeMount(): void {
-        this._viewSource = new Memory({
+        this._viewSource = new HierarchicalMemory({
             keyProperty: 'key',
+            parentProperty: 'parent',
             data: Flat.getData()
         });
     }

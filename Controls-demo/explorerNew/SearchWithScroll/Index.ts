@@ -24,6 +24,7 @@ export default class extends Control {
         ];
         this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
+            parentProperty: 'parent',
             data: DataWithLongFolderName.getManyData()
         });
     }
