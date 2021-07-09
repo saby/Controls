@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/Searching/PortionedSearch/PortionedSearch';
-import PortionedSearchSource from 'Controls-demo/list_new/Searching/PortionedSearch/Source';
+import PortionedSearchSource, { ITEMS_COUNT } from 'Controls-demo/list_new/Searching/PortionedSearch/Source';
 import {Memory} from 'Types/source';
 import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
 
@@ -8,7 +8,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: PortionedSearchSource = null;
     protected _filter: Object = null;
-    private _dataArray: object[] = generateData({count: 105, entityTemplate: {title: 'lorem'}});
+    private _dataArray: object[] = generateData({count: ITEMS_COUNT, entityTemplate: {title: 'lorem'}});
     private _searchValue: string = '';
 
     protected _beforeMount(): void {

@@ -2,6 +2,7 @@ import * as Deferred from 'Core/Deferred';
 import {Memory, Query, DataSet} from 'Types/source';
 import { RecordSet } from 'Types/collection';
 
+export const ITEMS_COUNT = 105;
 const DEFAULT_DELAY = 1000;
 const SEARCH_DELAY = 5000;
 const SEARCH_PAGE = 2;
@@ -28,6 +29,10 @@ export default class PortionedSearchSource {
             // имитируем порционную подгрузку. Подгружаем по несколько элементов.
             this._limit += SEARCH_PAGE;
             this._delay = SEARCH_DELAY;
+
+            // во время поиска получаем все элементы, но фильтруем их по _limit
+            query.offset(0);
+            query.limit(ITEMS_COUNT);
         } else {
             this._limit = 0;
             this._delay = DEFAULT_DELAY;
@@ -52,7 +57,7 @@ export default class PortionedSearchSource {
                 let total = recordSet.getMetaData().total;
                 if (isSearch && this._limit) {
                     total = recordSet.getCount();
-                    hasMore = !!(recordSet.getCount() - this._limit);
+                    hasMore = recordSet.getCount() > this._limit;
                     this._limitRecordSet(recordSet);
                 } else {
                     hasMore = query.getOffset() + query.getLimit() < total;
