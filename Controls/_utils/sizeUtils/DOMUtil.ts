@@ -6,7 +6,15 @@ const MINIMAL_DEVICE_REFLOW_DELAY = 100;
 const DECIMAL = 10;
 
 /**
+ * Утилита для работы с размерами DOM-элементов.
+ * @library
+ * @public
+ * @author Красильников А.С.
+ */
+
+/**
  * Функция вызывающая forced reflow с корня DOM-дерева
+ * @function
  */
 export const reflow = throttle(() => {
     if (constants.isBrowserPlatform) {
@@ -19,7 +27,7 @@ export const reflow = throttle(() => {
 }, MINIMAL_DEVICE_REFLOW_DELAY, true);
 
 /**
- * Returns the internal width of the element (that is, after deduction the borders, padding and scroll bars)
+ * Возвращает внутреннюю ширину элемента (то есть после вычитания границ, отступов и полос прокрутки)
  * @param {window.Node} container
  * @return {window.Number}
  */
