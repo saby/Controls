@@ -9,7 +9,6 @@ export interface IBaseTextInputOptions extends ITextOptions, IBaseInputOptions {
 export class BaseText extends Base<IBaseTextInputOptions> {
     _defaultValue: string = '';
     _punycodeToUnicode: Function;
-    protected _controlName: string = 'Text';
 
     protected _beforeMount(options: IBaseTextInputOptions): void | Promise<void> {
         if (options.convertPunycode) {

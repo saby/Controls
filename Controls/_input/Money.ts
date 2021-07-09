@@ -34,7 +34,6 @@ interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPo
 
 class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive {
     protected _inputMode: string = 'decimal';
-    protected _controlName: string = 'Money';
 
     readonly '[Controls/_input/interface/INumberLength]': boolean = true;
     readonly '[Controls/_decorator/interfaces/IOnlyPositive]': boolean = true;

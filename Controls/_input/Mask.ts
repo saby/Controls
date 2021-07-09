@@ -39,7 +39,6 @@ class Mask extends Base {
     protected _viewModel: ViewModel;
     protected _defaultValue: string = '';
     protected _notifyHandler: Function = EventUtils.tmplNotify;
-    protected _controlName: string = 'Mask';
 
     protected _beforeUpdate(newOptions): void {
         const oldValue: string = this._viewModel.value;

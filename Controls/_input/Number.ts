@@ -39,7 +39,6 @@ class NumberInput extends Base<INumberInputOptions> implements IOnlyPositive {
     readonly '[Controls/_decorator/interfaces/IOnlyPositive]': boolean = true;
     _defaultValue: number = 0;
     _inputMode: string = 'decimal';
-    _controlName: string = 'Number';
 
     protected _getViewModelOptions(options: INumberInputOptions): object {
         NumberInput._validateOptions(options);
