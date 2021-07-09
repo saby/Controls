@@ -27,6 +27,7 @@ import ButtonTemplate = require('wml!Controls/_buttons/Button');
 import 'wml!Controls/_buttons/ButtonBase';
 import 'css!Controls/buttons';
 import 'css!Controls/CommonClasses';
+import {descriptor} from "Types/entity";
 
 export type IViewMode = 'button' | 'link' | 'linkButton' | 'toolButton' | 'functionalButton';
 export type TextAlign = 'left' | 'right' | 'center';
@@ -200,6 +201,12 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
 
     static getDefaultOptions(): object {
         return getDefaultOptions();
+    }
+
+    static getOptionTypes(): object {
+        return {
+            contrastBackground: descriptor(Boolean)
+        };
     }
 }
 
