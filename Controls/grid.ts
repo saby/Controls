@@ -21,7 +21,6 @@ ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
 import * as ColumnTemplate from 'wml!Controls/_grid/Render/CellContent';
-import * as LadderTemplate from 'wml!Controls/_grid/Render/BasicLadderTemplate';
 import * as StickyLadderColumnTemplate from 'wml!Controls/_grid/Render/grid/StickyLadderColumn';
 import * as GroupTemplate from 'wml!Controls/_grid/Render/GroupCellContentWithRightTemplate';
 import * as HeaderContent from 'wml!Controls/_grid/Render/HeaderCellContent';
@@ -38,6 +37,7 @@ import * as MoneyTypeRender from 'wml!Controls/_grid/Render/types/money';
 import * as NumberTypeRender from 'wml!Controls/_grid/Render/types/number';
 import * as StringTypeRender from 'wml!Controls/_grid/Render/types/string';
 import * as StringSearchTypeRender from 'wml!Controls/_grid/Render/types/StringSearch';
+import * as LadderTemplate from 'wml!Controls/_grid/Render/types/ladderTemplate';
 
 import SortingButton from 'Controls/_grid/SortingButton';
 import SortingSelector from 'Controls/_grid/SortingSelector';
