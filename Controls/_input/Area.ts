@@ -55,7 +55,6 @@ export default class Area extends BaseText<IAreaOptions> {
     protected _resizeObserver: ResizeObserverUtil;
     protected _minLines: number;
     protected _maxLines: number;
-    protected _controlName: string = 'Area';
     protected _lineHeightForIE: Record<string, number> = LINE_HEIGHT_FOR_IE;
     protected _isIE: boolean = detection.isIE11;
 
