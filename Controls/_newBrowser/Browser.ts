@@ -667,7 +667,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             const isNode = item.get(explorerOptions.nodeProperty) !== null;
             if (isNode) {
                 this._setRoot(item.get(explorerOptions.keyProperty)).then();
-                return false;
+                if (!this._dataContext) {
+                    return false;
+                }
             }
         }
         return notifyResult;
