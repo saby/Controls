@@ -18,7 +18,7 @@ import Tile, {
 } from './Tile';
 import { TItemActionsPosition } from 'Controls/itemActions';
 import {TBackgroundColorStyle, TCursor } from 'Controls/list';
-import {toRgb, rgbaToString, rgbToRgba} from "Controls/_tile/utils/colorUtil";
+import {toRgb, rgbaToString, rgbToRgba} from 'Controls/_tile/utils/colorUtil';
 
 const DEFAULT_WIDTH_PROPORTION = 1;
 
