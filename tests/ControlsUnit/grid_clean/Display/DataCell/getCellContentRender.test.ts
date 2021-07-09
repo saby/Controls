@@ -11,16 +11,16 @@ describe('Controls/_grid/display/DataCell/getCellContentRender', () => {
 
     it('with ladder in column', () => {
         const cell = new DataCell({owner, column: { displayProperty: 'field' } });
-        assert.equal(cell.getCellContentRender(), 'Controls/grid:LadderTemplate');
+        assert.equal(cell.getCellContentRender(), 'Controls/grid:LadderWrapper');
     });
 
     it('clear render template column', () => {
         const cell = new DataCell({owner, column: { displayProperty: 'field' } });
-        assert.notEqual(cell.getCellContentRender(true), 'Controls/grid:LadderTemplate');
+        assert.notEqual(cell.getCellContentRender(true), 'Controls/grid:LadderWrapper');
     });
 
     it('without ladder in column', () => {
         const cell = new DataCell({owner, column: { displayProperty: 'otherField' } });
-        assert.notEqual(cell.getCellContentRender(), 'Controls/grid:LadderTemplate');
+        assert.notEqual(cell.getCellContentRender(), 'Controls/grid:LadderWrapper');
     });
 });
