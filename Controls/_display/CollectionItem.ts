@@ -68,6 +68,7 @@ const ITEMACTIONS_POSITION_CLASSES = {
     topRight: 'controls-itemActionsV_position_topRight'
 };
 
+
 /**
  * Элемент коллекции
  * @class Controls/_display/CollectionItem
