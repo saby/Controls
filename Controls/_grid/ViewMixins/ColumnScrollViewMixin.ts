@@ -113,10 +113,6 @@ const disablePendingMouseEnterActivation = (self: TColumnScrollViewMixin) => {
 //#region Создание, обновление и разрушение контроллеров
 
 const createColumnScroll = (self: TColumnScrollViewMixin, options: IAbstractViewOptions) => {
-    if (!self._$columnScrollSelector) {
-        self._$columnScrollSelector = ColumnScrollController.createUniqSelector();
-    }
-
     const styleContainers = self._children.columnScrollStyleContainers.getContainers();
 
     self._$columnScrollController = new ColumnScrollController({
@@ -174,6 +170,103 @@ const updateSizesInDragScrollController = (self: TColumnScrollViewMixin): void =
 const destroyDragScroll = (self: TColumnScrollViewMixin): void => {
     self._$dragScrollController.destroy();
     self._$dragScrollController = null;
+};
+
+const manageControllersOnDidUpdate = (self: TColumnScrollViewMixin, oldOptions: IAbstractViewOptions): void => {
+    // Горизонтальный скролл выключен. Если он раньше был, то разрушился на beforeUpdate.
+    if (
+        !self._options.columnScroll ||
+        !canShowColumnScroll(self, self._options) || self._isColumnScrollFrozen()
+    ) {
+        return;
+    }
+
+    let shouldCheckSizes = false;
+    let shouldCreateDragScroll = false;
+    let shouldResetColumnScroll = false;
+
+    // Опции, при смене которых в любом случае придется пересчитать размеры
+    shouldCheckSizes = isSizeAffectsOptionsChanged(self._options, oldOptions);
+
+    // Включили горизонтальный скролл, либо изменили опции, при которых скролл
+    // недопустим, например пустой список без зеголовков. Не факт что он будет нужен.
+    // Необходимо взять размеры.
+    if (
+        !shouldCheckSizes && (
+            (self._options.columnScroll && !oldOptions.columnScroll) ||
+            (!self._$columnScrollController && (
+                !canShowColumnScroll(self, oldOptions) && canShowColumnScroll(self, self._options)
+            ))
+        )
+    ) {
+        shouldCheckSizes = true;
+        shouldResetColumnScroll = true;
+        if (self._$columnScrollController) {
+            Logger.error(ERROR_MESSAGES.NEEDLESS_COLUMN_SCROLL_CONTROLLER_ALREADY_EXISTS);
+            destroyColumnScroll(self);
+        }
+    }
+
+    // Включили dragScroll.
+    // Про исмене dragScrolling нужно быть хитрее.
+    // Нужно проверить что разньше он был недоступен по опциям, а сейчас доступен.
+    // И даже так его создание сейчас не обязывает нас пересчитывать размеры,
+    // если это единственное изменение опций. Его включение не меняет размеров.
+    if (!shouldCheckSizes &&
+        self._options.columnScroll &&
+        self._isDragScrollEnabledByOptions(self._options) &&
+        !self._isDragScrollEnabledByOptions(oldOptions)
+    ) {
+        shouldCreateDragScroll = true;
+        if (self._$dragScrollController) {
+            Logger.error(ERROR_MESSAGES.NEEDLESS_DRAG_SCROLL_CONTROLLER_ALREADY_EXISTS);
+            destroyColumnScroll(self);
+        }
+    }
+
+    if (shouldCheckSizes) {
+        const calcResult = (self._$columnScrollController || ColumnScrollController).shouldDrawColumnScroll(
+            self._children,
+            getFixedPartWidth,
+            self._options.isFullGridSupport
+        );
+
+        if (!calcResult.status) {
+            // Оказалось, что по размерам горизонтальный скролл не требуется
+            if (self._$columnScrollController) {
+                destroyColumnScroll(self);
+            }
+            return;
+        }
+
+        if (!self._$columnScrollController) {
+            // Создания контроллера
+            shouldResetColumnScroll = true;
+            createColumnScroll(self, self._options);
+        }
+
+        if (self._isDragScrollEnabledByOptions(self._options) && !self._$dragScrollController) {
+            createDragScroll(self, self._options);
+            updateSizesInDragScrollController(self);
+        }
+
+        recalculateSizes(self, self._options, calcResult.sizes);
+
+        if (shouldResetColumnScroll) {
+            self._resetColumnScroll(self._options);
+        }
+
+        if (self._$pendingMouseEnterForActivate) {
+            disablePendingMouseEnterActivation(self);
+        }
+    } else if (self._$columnScrollController && shouldCreateDragScroll) {
+        // Скроллирование перетаскиванеим - это часть горизонтального скролла,
+        // которая не может без него существовать. Создаем, только если горизонтальный скролл есть и
+        // включили/стало доступно скролливование перетаскиванием. В остальных случаях, контроллер создастся
+        // при включении горизонтального скролла.
+        createDragScroll(self, self._options);
+        updateSizesInDragScrollController(self);
+    }
 };
 
 //#endregion
@@ -248,6 +341,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     _$columnScrollEmptyViewMaxWidth: 0,
     _$columnScrollUseFakeRender: false,
     _$pendingMouseEnterForActivate: false,
+    _$oldOptionsForPendingUpdate: null,
 
     //#region IFreezable
 
@@ -337,6 +431,10 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
     // _beforeUpdate
     _columnScrollOnViewBeforeUpdate(newOptions: IAbstractViewOptions): void {
+        if (newOptions.columnScroll && !this._$columnScrollSelector) {
+            this._$columnScrollSelector = ColumnScrollController.createUniqSelector();
+        }
+
         // Скроллирование мышью отключили -> разрушаем контроллер скроллирования мышью
         if (this._$dragScrollController && !this._isDragScrollEnabledByOptions(newOptions)) {
             destroyDragScroll(this);
@@ -359,99 +457,22 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
 
     // _componentDidUpdate
     _columnScrollOnViewDidUpdate(oldOptions: IAbstractViewOptions): void {
-        // Горизонтальный скролл выключен. Если он раньше был, то разрушился на beforeUpdate.
-        if (
-            !this._options.columnScroll ||
-            !canShowColumnScroll(this, this._options) || this._isColumnScrollFrozen()
-        ) {
-            return;
-        }
+        // Обновляем состояния горизонтального скролла/создаем его в следующем цикле, т.к. при
+        // перезагрузке с обновлением опций может отработать хук с уже новыми опциями и в контроле
+        // и в модели, при этом отрисовка новых состояний будет в следующем цикле.
+        // При первом завершении обновления принудительно вызываем повторуную синхронизацию
+        // с помощью _forceUpdate(), по завершению которой произойдет пересчет скролла.
 
-        let shouldCheckSizes = false;
-        let shouldCreateDragScroll = false;
-        let shouldResetColumnScroll = false;
-
-        // Опции, при смене которых в любом случае придется пересчитать размеры
-        shouldCheckSizes = isSizeAffectsOptionsChanged(this._options, oldOptions);
-
-        // Включили горизонтальный скролл, либо изменили опции, при которых скролл
-        // недопустим, например пустой список без зеголовков. Не факт что он будет нужен.
-        // Необходимо взять размеры.
-        if (
-            !shouldCheckSizes && (
-                (this._options.columnScroll && !oldOptions.columnScroll) ||
-                (!this._$columnScrollController && (
-                    !canShowColumnScroll(this, oldOptions) && canShowColumnScroll(this, this._options)
-                ))
-            )
-        ) {
-            shouldCheckSizes = true;
-            shouldResetColumnScroll = true;
-            if (this._$columnScrollController) {
-                Logger.error(ERROR_MESSAGES.NEEDLESS_COLUMN_SCROLL_CONTROLLER_ALREADY_EXISTS);
-                destroyColumnScroll(this);
-            }
-        }
-
-        // Включили dragScroll.
-        // Про исмене dragScrolling нужно быть хитрее.
-        // Нужно проверить что разньше он был недоступен по опциям, а сейчас доступен.
-        // И даже так его создание сейчас не обязывает нас пересчитывать размеры,
-        // если это единственное изменение опций. Его включение не меняет размеров.
-        if (!shouldCheckSizes &&
-            this._options.columnScroll &&
-            this._isDragScrollEnabledByOptions(this._options) &&
-            !this._isDragScrollEnabledByOptions(oldOptions)
-        ) {
-            shouldCreateDragScroll = true;
-            if (this._$dragScrollController) {
-                Logger.error(ERROR_MESSAGES.NEEDLESS_DRAG_SCROLL_CONTROLLER_ALREADY_EXISTS);
-                destroyColumnScroll(this);
-            }
-        }
-
-        if (shouldCheckSizes) {
-            const calcResult = (this._$columnScrollController || ColumnScrollController).shouldDrawColumnScroll(
-                this._children,
-                getFixedPartWidth,
-                this._options.isFullGridSupport
-            );
-
-            if (!calcResult.status) {
-                // Оказалось, что по размерам горизонтальный скролл не требуется
-                if (this._$columnScrollController) {
-                    destroyColumnScroll(this);
-                }
-                return;
-            }
-
-            if (!this._$columnScrollController) {
-                // Создания контроллера
-                shouldResetColumnScroll = true;
-                createColumnScroll(this, this._options);
-            }
-
-            if (this._isDragScrollEnabledByOptions(this._options) && !this._$dragScrollController) {
-                createDragScroll(this, this._options);
-                updateSizesInDragScrollController(this);
-            }
-
-            recalculateSizes(this, this._options, calcResult.sizes);
-
-            if (shouldResetColumnScroll) {
-                this._resetColumnScroll(this._options);
-            }
-
-            if (this._$pendingMouseEnterForActivate) {
-                disablePendingMouseEnterActivation(this);
-            }
-        } else if (this._$columnScrollController && shouldCreateDragScroll) {
-            // Скроллирование перетаскиванеим - это часть горизонтального скролла,
-            // которая не может без него существовать. Создаем, только если горизонтальный скролл есть и
-            // включили/стало доступно скролливование перетаскиванием. В остальных случаях, контроллер создастся
-            // при включении горизонтального скролла.
-            createDragScroll(this, this._options);
-            updateSizesInDragScrollController(this);
+        // FIXME: https://online.sbis.ru/opendoc.html?guid=bc40e794-c5d4-4381-800f-a98f2746750a
+        // Данное поведение будет исправлено в рамках проекта по переходу на нативный горизонтальный скролл,
+        // посе создания модели горизонтального скролла с поддержкой версионирования. При таком подходе
+        // будет возможно добиться честной реактивности, избегая мануальных forceUpdate'ов.
+        if (!this._$oldOptionsForPendingUpdate) {
+            this._forceUpdate();
+            this._$oldOptionsForPendingUpdate = oldOptions;
+        } else {
+            manageControllersOnDidUpdate(this, this._$oldOptionsForPendingUpdate);
+            this._$oldOptionsForPendingUpdate = null;
         }
     },
 
