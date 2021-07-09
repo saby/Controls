@@ -28,6 +28,7 @@
                                 <ws:partial template="{{ (gridColumn || itemData).getCellContentRender() }}"
                                             value="{{ (gridColumn || itemData).getDefaultDisplayValue() }}"
                                             searchValue="{{ (gridColumn || itemData).getSearchValue() }}"
+                                            gridColumn="{{(gridColumn || itemData)}}"
                                             scope="{{ (gridColumn || itemData).config }}"/>
                             </div>
                         </ws:if>
