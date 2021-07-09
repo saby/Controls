@@ -10,21 +10,21 @@ export interface INotificationBaseOptions extends IControlOptions, INotification
 }
 
 /**
-* Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#template окна уведомления}.
-*
-* @remark
-* Полезные ссылки:
-* * {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#template руководство разработчика}
-* * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
-*
-* @class Controls/_popupTemplate/Notification/Base
-* @extends UI/Base:Control
-* @mixes Controls/popupTemplate:INotification
-*
-* @public
-* @author Красильников А.С.
-* @demo Controls-demo/NotificationDemo/NotificationTemplate
-*/
+ * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#template окна уведомления}.
+ *
+ * @remark
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#template руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_popupTemplate.less переменные тем оформления}
+ *
+ * @class Controls/_popupTemplate/Notification/Base
+ * @extends UI/Base:Control
+ * @mixes Controls/popupTemplate:INotification
+ *
+ * @public
+ * @author Красильников А.С.
+ * @demo Controls-demo/PopupTemplate/Notification/Index
+ */
 class Notification extends Control<INotificationBaseOptions> implements INotification{
     protected _template: TemplateFunction = template;
     protected _borderStyle: String;

@@ -22,7 +22,7 @@ export interface INotificationSimpleOptions extends IControlOptions, INotificati
  * @mixes Controls/popupTemplate:INotification
  *
  * @public
- * @demo Controls-demo/NotificationDemo/NotificationTemplate
+ * @demo Controls-demo/PopupTemplate/Notification/Index
  * @author Красильников А.С.
  */
 class NotificationSimple extends Control<INotificationSimpleOptions> implements INotification {

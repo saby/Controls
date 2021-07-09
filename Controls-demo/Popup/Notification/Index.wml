@@ -1,0 +1,11 @@
+<div>
+   <ws:for data="index in _count">
+      <div>
+         <Controls.buttons:Button caption="Кликни чтобы открыть {{index}} опенер" on:click="_openNotification(index)" class="ControlsDemo-NotificationDemo_open{{index}}"/>
+         <Controls.buttons:Button caption="Кликни чтобы закрыть {{index}} опенер" on:click="_closeNotification(index)" class="ControlsDemo-NotificationDemo_close{{index}}"/>
+         <span>autoClose={{index > 5}}</span>
+      </div>
+   </ws:for>
+   <Controls.buttons:Button caption="Кликни чтобы открыть опенер с кастомным шаблоном" on:click="_openNotification(10)"/>
+   <Controls.buttons:Button caption="Кликни чтобы закрыть опенер с кастомным шаблоном" on:click="_closeNotification(10)"/>
+</div>
