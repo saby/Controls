@@ -41,7 +41,6 @@ import 'css!Controls/input';
 class Password extends Base {
     protected _defaultValue: string = '';
     private _passwordVisible: boolean = false;
-    protected _controlName: string = 'Password';
 
     protected _getViewModelOptions(options): object {
         return {
@@ -181,7 +180,7 @@ export default Password;
  * @cfg
  * @example
  * Сохраняем данные о пользователе и текущее время при отправке формы.
- * 
+ *
  * <pre class="brush: html; highlight: [4]">
  * <!-- WML -->
  * <form action="Auth.php" name="form">
@@ -190,7 +189,7 @@ export default Password;
  *     <Controls.buttons:Button on:click="_saveUser()" caption="Отправить"/>
  * </form>
  * </pre>
- * 
+ *
  * <pre class="brush: js; highlight: [4,11]">
  * // TypeScript
  * export class Form extends Control<IControlOptions, void> {

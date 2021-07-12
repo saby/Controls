@@ -5,7 +5,6 @@
                 horizontalPadding="{{ _options.horizontalPadding }}"
                 rightFieldTemplate="{{ _options.rightFieldTemplate }}"
                 textAlign="{{_options.textAlign}}"
-                attr:class="controls-{{ _controlName }}"
                 value="{{_model.clearTextValue}}"
                 replacer="{{_model._replacer}}"
                 mask="{{_options.mask}}"

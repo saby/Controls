@@ -21,7 +21,7 @@ type IOptions = IModelOptions;
  *
  * @ignoreoptions Controls/input:Base#value
  * @ignoreoptions Controls/input:Base#placeholder
- * 
+ *
  * @public
  * @demo Controls-demo/Input/TimeInterval/Base/Index
  *
@@ -31,7 +31,6 @@ type IOptions = IModelOptions;
 
 class TimeInterval extends Base {
     protected _autoWidth: boolean = true;
-    protected _controlName: string = 'TimeInterval';
 
     protected _defaultValue: TimeInterval | null = null;
 

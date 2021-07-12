@@ -74,7 +74,6 @@ class DateTime extends Control<IDateBaseOptions> {
     protected _validationContainer: InputContainer | Container;
     protected _proxyEvent: Function = EventUtils.tmplNotify;
     protected _dateConstructor: Date | WSDate;
-    protected _controlName: string = 'DateBase';
 
     protected _formatMaskChars = {
         'D': '[0-9]',
