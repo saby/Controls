@@ -26,7 +26,7 @@ class FooterCell<T> extends Cell<T, FooterRow<T>> {
             wrapperClasses += ' controls-GridView__footer__itemActionsV_outside';
         }
 
-        wrapperClasses += this._getHorizontalPaddingClasses(theme);
+        wrapperClasses += this._getHorizontalPaddingClasses(this._$column.cellPadding);
 
         return wrapperClasses;
     }
