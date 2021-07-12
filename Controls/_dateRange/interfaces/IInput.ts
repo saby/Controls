@@ -14,6 +14,13 @@
  */
 
 /**
+ * @name Controls/_dateRange/interfaces/IInput#calendarInputVisible
+ * @cfg {Boolean} Устанавливает видимость кнопки, открывающей календарь.
+ * @default true
+ * @demo Controls-demo/dateRange/Input/CalendarButtonVisible/Index
+ */
+
+/**
  * @event Происходит при завершении ввода (поле потеряло фокус или пользователь нажал "enter").
  * @name Controls/_dateRange/interfaces/IInput#inputCompleted
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
