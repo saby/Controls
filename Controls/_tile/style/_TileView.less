@@ -25,25 +25,16 @@
    margin-left: calc(-1 * var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_null_itemPadding_3xs {
-   margin-left: calc(-1 * var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingLeft_null_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(-1 * ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_null_itemPadding_2xs {
-   margin-left: calc(-1 * var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_null_itemPadding_xs {
-   margin-left: calc(-1 * var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_null_itemPadding_s {
-   margin-left: calc(-1 * var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_null_itemPadding_m {
-   margin-left: calc(-1 * var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingLeft_default_itemPadding_null {
    margin-left: var(--padding-left_default_tile);
@@ -53,25 +44,16 @@
    margin-left: calc(var(--padding-left_default_tile) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_default_itemPadding_3xs {
-   margin-left: calc(var(--padding-left_default_tile) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingLeft_default_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(var(--padding-left_default_tile) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_default_itemPadding_2xs {
-   margin-left: calc(var(--padding-left_default_tile) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_default_itemPadding_xs {
-   margin-left: calc(var(--padding-left_default_tile) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_default_itemPadding_s {
-   margin-left: calc(var(--padding-left_default_tile) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_default_itemPadding_m {
-   margin-left: calc(var(--padding-left_default_tile) - var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingLeft_xs_itemPadding_null {
    margin-left: var(--offset_xs);
@@ -81,24 +63,14 @@
    margin-left: calc(var(--offset_xs) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_xs_itemPadding_3xs {
-   margin-left: calc(var(--offset_xs) - var(--offset_3xs) / 2);
-}
+.controls-TileView__itemsPaddingContainer_spacingLeft_xs_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_xs_itemPadding_2xs {
-   margin-left: calc(var(--offset_xs) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_xs_itemPadding_xs {
-   margin-left: calc(var(--offset_xs) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_xs_itemPadding_s {
-   margin-left: calc(var(--offset_xs) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_xs_itemPadding_m {
-   margin-left: calc(var(--offset_xs) - var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(var(--offset_xs) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 
@@ -110,25 +82,16 @@
    margin-left: calc(var(--item_padding-left_s_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_3xs {
-   margin-left: calc(var(--item_padding-left_s_list) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(var(--item_padding-left_s_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_2xs {
-   margin-left: calc(var(--item_padding-left_s_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_xs {
-   margin-left: calc(var(--item_padding-left_s_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_s {
-   margin-left: calc(var(--item_padding-left_s_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_m {
-   margin-left: calc(var(--item_padding-left_s_list) - var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingLeft_m_itemPadding_null {
    margin-left: var(--item_padding-left_m_list);
@@ -138,24 +101,14 @@
    margin-left: calc(var(--item_padding-left_m_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_m_itemPadding_3xs {
-   margin-left: calc(var(--item_padding-left_m_list) - var(--offset_3xs) / 2);
-}
+.controls-TileView__itemsPaddingContainer_spacingLeft_m_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_m_itemPadding_2xs {
-   margin-left: calc(var(--item_padding-left_m_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_m_itemPadding_xs {
-   margin-left: calc(var(--item_padding-left_m_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_m_itemPadding_s {
-   margin-left: calc(var(--item_padding-left_m_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_m_itemPadding_m {
-   margin-left: calc(var(--item_padding-left_m_list) - var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(var(--item_padding-left_m_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 
@@ -167,24 +120,14 @@
    margin-left: calc(var(--item_padding-left_l_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_l_itemPadding_3xs {
-   margin-left: calc(var(--item_padding-left_l_list) - var(--offset_3xs) / 2);
-}
+.controls-TileView__itemsPaddingContainer_spacingLeft_l_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_l_itemPadding_2xs {
-   margin-left: calc(var(--item_padding-left_l_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_l_itemPadding_xs {
-   margin-left: calc(var(--item_padding-left_l_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_l_itemPadding_s {
-   margin-left: calc(var(--item_padding-left_l_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_l_itemPadding_m {
-   margin-left: calc(var(--item_padding-left_l_list) - var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(var(--item_padding-left_l_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 
@@ -196,25 +139,16 @@
    margin-left: calc(var(--item_padding-left_xl_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_xl_itemPadding_3xs {
-   margin-left: calc(var(--item_padding-left_xl_list) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingLeft_xl_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(var(--item_padding-left_xl_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_xl_itemPadding_2xs {
-   margin-left: calc(var(--item_padding-left_xl_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_xl_itemPadding_xs {
-   margin-left: calc(var(--item_padding-left_xl_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_xl_itemPadding_s {
-   margin-left: calc(var(--item_padding-left_xl_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_xl_itemPadding_m {
-   margin-left: calc(var(--item_padding-left_xl_list) - var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingLeft_2xl_itemPadding_null {
    margin-left: var(--item_padding-left_2xl_list);
@@ -224,25 +158,16 @@
    margin-left: calc(var(--item_padding-left_2xl_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_2xl_itemPadding_3xs {
-   margin-left: calc(var(--item_padding-left_2xl_list) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingLeft_2xl_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(var(--item_padding-left_2xl_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingLeft_2xl_itemPadding_2xs {
-   margin-left: calc(var(--item_padding-left_2xl_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_2xl_itemPadding_xs {
-   margin-left: calc(var(--item_padding-left_2xl_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_2xl_itemPadding_s {
-   margin-left: calc(var(--item_padding-left_2xl_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingLeft_2xl_itemPadding_m {
-   margin-left: calc(var(--item_padding-left_2xl_list) - var(--offset_m) / 2);
-}
 
 // padding right
 .controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_null {
@@ -253,24 +178,14 @@
    margin-right: calc(-1 * var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_3xs {
-   margin-right: calc(-1 * var(--offset_3xs) / 2);
-}
+.controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_2xs {
-   margin-right: calc(-1 * var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_xs {
-   margin-right: calc(-1 * var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_s {
-   margin-right: calc(-1 * var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_m {
-   margin-right: calc(-1 * var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(-1 * ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 .controls-TileView__itemsPaddingContainer_spacingRight_default_itemPadding_null {
@@ -281,25 +196,16 @@
    margin-right: calc(var(--padding-right_default_tile) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_default_itemPadding_3xs {
-   margin-right: calc(var(--padding-right_default_tile) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingRight_default_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(var(--padding-right_default_tile) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_default_itemPadding_2xs {
-   margin-right: calc(var(--padding-right_default_tile) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_default_itemPadding_xs {
-   margin-right: calc(var(--padding-right_default_tile) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_default_itemPadding_s {
-   margin-right: calc(var(--padding-right_default_tile) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_default_itemPadding_m {
-   margin-right: calc(var(--padding-right_default_tile) - var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingRight_xs_itemPadding_null {
    margin-right: var(--offset_xs);
@@ -309,25 +215,16 @@
    margin-right: calc(var(--offset_xs) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_xs_itemPadding_3xs {
-   margin-right: calc(var(--offset_xs) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingRight_xs_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(var(--offset_xs) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_xs_itemPadding_2xs {
-   margin-right: calc(var(--offset_xs) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_xs_itemPadding_xs {
-   margin-right: calc(var(--offset_xs) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_xs_itemPadding_s {
-   margin-right: calc(var(--offset_xs) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_xs_itemPadding_m {
-   margin-right: calc(var(--offset_xs) - var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingRight_s_itemPadding_null {
    margin-right: var(--item_padding-right_s_list);
@@ -337,25 +234,16 @@
    margin-right: calc(var(--item_padding-right_s_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_s_itemPadding_3xs {
-   margin-right: calc(var(--item_padding-right_s_list) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingRight_s_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(var(--item_padding-right_s_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_s_itemPadding_2xs {
-   margin-right: calc(var(--item_padding-right_s_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_s_itemPadding_xs {
-   margin-right: calc(var(--item_padding-right_s_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_s_itemPadding_s {
-   margin-right: calc(var(--item_padding-right_s_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_s_itemPadding_m {
-   margin-right: calc(var(--item_padding-right_s_list) - var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingRight_m_itemPadding_null {
    margin-right: var(--item_padding-right_m_list);
@@ -365,24 +253,14 @@
    margin-right: calc(var(--item_padding-right_m_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_m_itemPadding_3xs {
-   margin-right: calc(var(--item_padding-right_m_list) - var(--offset_3xs) / 2);
-}
+.controls-TileView__itemsPaddingContainer_spacingRight_m_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingRight_m_itemPadding_2xs {
-   margin-right: calc(var(--item_padding-right_m_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_m_itemPadding_xs {
-   margin-right: calc(var(--item_padding-right_m_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_m_itemPadding_s {
-   margin-right: calc(var(--item_padding-right_m_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_m_itemPadding_m {
-   margin-right: calc(var(--item_padding-right_m_list) - var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(var(--item_padding-right_m_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 
@@ -394,24 +272,14 @@
    margin-right: calc(var(--item_padding-right_l_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_l_itemPadding_3xs {
-   margin-right: calc(var(--item_padding-right_l_list) - var(--offset_3xs) / 2);
-}
+.controls-TileView__itemsPaddingContainer_spacingRight_l_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingRight_l_itemPadding_2xs {
-   margin-right: calc(var(--item_padding-right_l_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_l_itemPadding_xs {
-   margin-right: calc(var(--item_padding-right_l_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_l_itemPadding_s {
-   margin-right: calc(var(--item_padding-right_l_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_l_itemPadding_m {
-   margin-right: calc(var(--item_padding-right_l_list) - var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(var(--item_padding-right_l_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 
@@ -423,25 +291,16 @@
    margin-right: calc(var(--item_padding-right_xl_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_xl_itemPadding_3xs {
-   margin-right: calc(var(--item_padding-right_xl_list) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingRight_xl_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(var(--item_padding-right_xl_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_xl_itemPadding_2xs {
-   margin-right: calc(var(--item_padding-right_xl_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_xl_itemPadding_xs {
-   margin-right: calc(var(--item_padding-right_xl_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_xl_itemPadding_s {
-   margin-right: calc(var(--item_padding-right_xl_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_xl_itemPadding_m {
-   margin-right: calc(var(--item_padding-right_xl_list) - var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingRight_2xl_itemPadding_null {
    margin-right: var(--item_padding-right_2xl_list);
@@ -451,25 +310,16 @@
    margin-right: calc(var(--item_padding-right_2xl_list) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_2xl_itemPadding_3xs {
-   margin-right: calc(var(--item_padding-right_2xl_list) - var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingRight_2xl_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(var(--item_padding-right_2xl_list) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingRight_2xl_itemPadding_2xs {
-   margin-right: calc(var(--item_padding-right_2xl_list) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_2xl_itemPadding_xs {
-   margin-right: calc(var(--item_padding-right_2xl_list) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_2xl_itemPadding_s {
-   margin-right: calc(var(--item_padding-right_2xl_list) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingRight_2xl_itemPadding_m {
-   margin-right: calc(var(--item_padding-right_2xl_list) - var(--offset_m) / 2);
-}
 
 // top padding
 
@@ -481,24 +331,14 @@
    margin-top: calc(-1 * var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingTop_null_itemPadding_3xs {
-   margin-top: calc(-1 * var(--offset_3xs) / 2);
-}
+.controls-TileView__itemsPaddingContainer_spacingTop_null_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingTop_null_itemPadding_2xs {
-   margin-top: calc(-1 * var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingTop_null_itemPadding_xs {
-   margin-top: calc(-1 * var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingTop_null_itemPadding_s {
-   margin-top: calc(-1 * var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingTop_null_itemPadding_m {
-   margin-top: calc(-1 * var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-top: calc(-1 * ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 .controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_null {
@@ -508,25 +348,14 @@
 .controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default {
    margin-top: calc(var(--offset_xs) - var(--item_offset_tile) / 2);
 }
+.controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_3xs {
-   margin-top: calc(var(--offset_xs) - var(--offset_3xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_2xs {
-   margin-top: calc(var(--offset_xs) - var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_xs {
-   margin-top: calc(var(--offset_xs) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_s {
-   margin-top: calc(var(--offset_xs) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_m {
-   margin-top: calc(var(--offset_xs) - var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-top: calc(var(--offset_xs) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 //bottom padding
@@ -538,25 +367,16 @@
    margin-bottom: calc(-1 * var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingBottom_null_itemPadding_3xs {
-   margin-bottom: calc(-1 * var(--offset_3xs) / 2);
+.controls-TileView__itemsPaddingContainer_spacingBottom_null_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-bottom: calc(-1 * ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__itemsPaddingContainer_spacingBottom_null_itemPadding_2xs {
-   margin-bottom: calc(-1 * var(--offset_2xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingBottom_null_itemPadding_xs {
-   margin-bottom: calc(-1 * var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingBottom_null_itemPadding_s {
-   margin-bottom: calc(-1 * var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingBottom_null_itemPadding_m {
-   margin-bottom: calc(-1 * var(--offset_m) / 2);
-}
 
 .controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_null {
    margin-bottom: var(--offset_xs);
@@ -566,26 +386,15 @@
    margin-bottom: calc(var(--offset_xs) - var(--item_offset_tile) / 2);
 }
 
-.controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_3xs {
-   margin-bottom: calc(var(--offset_xs) - var(--offset_3xs) / 2);
-}
+.controls-TileView__itemsPaddingContainer_spacingBottom_null_itemPadding {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_2xs {
-   margin-bottom: calc(var(--offset_xs) - var(--offset_2xs) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-bottom: calc(var(--offset_xs) - ~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
-
-.controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_xs {
-   margin-bottom: calc(var(--offset_xs) - var(--offset_xs) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_s {
-   margin-bottom: calc(var(--offset_xs) - var(--offset_s) / 2);
-}
-
-.controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_m {
-   margin-bottom: calc(var(--offset_xs) - var(--offset_m) / 2);
-}
-
 
 
 // compatible padding
@@ -732,37 +541,16 @@
    margin-top: 0;
 }
 
-.controls-TileView__item_spacingTop_m {
-   margin-top: calc(var(--offset_m) / 2);
+.controls-TileView__item_spacingTop {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         margin-top: calc(~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
-.controls-TileView__item_spacingTop_s {
-   margin-top: calc(var(--offset_s) / 2);
-}
-
-.controls-TileView__item_spacingTop_3xs {
-   margin-top: calc(var(--offset_3xs) / 2);
-}
-
-.controls-TileView__item_spacingTop_2xs {
-   margin-top: calc(var(--offset_2xs) / 2);
-}
-
-.controls-TileView__item_spacingTop_xs {
-   margin-top: calc(var(--offset_xs) / 2);
-}
-
-.controls-TileView__item_spacingTop_l {
-   margin-top: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingTop_xl {
-   margin-top: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingTop_2xl {
-   margin-top: calc(var(--offset_m) / 2);
-}
 
 .controls-TileView__item_spacingBottom_default {
    margin-bottom: calc(var(--item_offset_tile) / 2);
@@ -772,36 +560,14 @@
    margin-bottom: 0;
 }
 
-.controls-TileView__item_spacingBottom_m {
-   margin-bottom: calc(var(--offset_m) / 2);
-}
+.controls-TileView__item_spacingBottom {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__item_spacingBottom_3xs {
-   margin-bottom: calc(var(--offset_3xs) / 2);
-}
-
-.controls-TileView__item_spacingBottom_2xs {
-   margin-bottom: calc(var(--offset_2xs) / 2);
-}
-
-.controls-TileView__item_spacingBottom_s {
-   margin-bottom: calc(var(--offset_s) / 2);
-}
-
-.controls-TileView__item_spacingBottom_xs {
-   margin-bottom: calc(var(--offset_xs) / 2);
-}
-
-.controls-TileView__item_spacingBottom_l {
-   margin-bottom: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingBottom_xl {
-   margin-bottom: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingBottom_2xl {
-   margin-bottom: calc(var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-bottom: calc(~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 .controls-TileView__item_spacingRight_default {
@@ -812,36 +578,14 @@
    margin-right: 0;
 }
 
-.controls-TileView__item_spacingRight_3xs {
-   margin-right: calc(var(--offset_3xs) / 2);
-}
+.controls-TileView__item_spacingRight {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__item_spacingRight_2xs {
-   margin-right: calc(var(--offset_2xs) / 2);
-}
-
-.controls-TileView__item_spacingRight_m {
-   margin-right: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingRight_s {
-   margin-right: calc(var(--offset_s) / 2);
-}
-
-.controls-TileView__item_spacingRight_xs {
-   margin-right: calc(var(--offset_xs) / 2);
-}
-
-.controls-TileView__item_spacingRight_l {
-   margin-right: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingRight_xl {
-   margin-right: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingRight_2xl {
-   margin-right: calc(var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-right: calc(~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 .controls-TileView__item_spacingLeft_default {
@@ -852,35 +596,14 @@
    margin-left: 0;
 }
 
-.controls-TileView__item_spacingLeft_m {
-   margin-left: calc(var(--offset_m) / 2);
-}
+.controls-TileView__item_spacingLeft {
+   @variants: 3xs, 2xs, xs, s, m, l, xl, 2xl;
 
-.controls-TileView__item_spacingLeft_3xs {
-   margin-left: calc(var(--offset_3xs) / 2);
-}
-
-.controls-TileView__item_spacingLeft_2xs {
-   margin-left: calc(var(--offset_2xs) / 2);
-}
-.controls-TileView__item_spacingLeft_s {
-   margin-left: calc(var(--offset_s) / 2);
-}
-
-.controls-TileView__item_spacingLeft_xs {
-   margin-left: calc(var(--offset_xs) / 2);
-}
-
-.controls-TileView__item_spacingLeft_l {
-   margin-left: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingLeft_xl {
-   margin-left: calc(var(--offset_m) / 2);
-}
-
-.controls-TileView__item_spacingLeft_2xl {
-   margin-left: calc(var(--offset_m) / 2);
+   .for(@variants, {
+      &_@{_item} {
+         margin-left: calc(~"var(--offset_@{_item})" / 2);
+      }
+   });
 }
 
 .controls-TileView__item {
