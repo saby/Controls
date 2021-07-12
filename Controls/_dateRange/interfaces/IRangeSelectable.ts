@@ -32,7 +32,7 @@ export default {
              * @name Controls/_dateRange/interfaces/IRangeSelectable#selectionType
              * @cfg {SelectionType} Определяет режим выделения диапазона.
              * @default range
-             * @demo Controls-demo/dateRange/RangeSelector/SelectionType/Workday/Index
+             * @demo Controls-demo/dateRange/RangeSelector/SelectionType/Workdays/Index
              */
             selectionType: 'range'
         };
