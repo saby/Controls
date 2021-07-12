@@ -84,6 +84,7 @@ export interface IMenuOptions {
       * @cfg {String} Расположение элементов в тулбаре.
       * @variant vertical
       * @variant horizontal
+      * @demo Controls-demo/Toolbar/Direction/Index
       */
      direction: 'vertical' | 'horizontal';
     /**
@@ -131,10 +132,12 @@ export interface IMenuOptions {
      */
     contrastBackground?: true;
      /**
-      * @name Controls/toolbars:IToolbar#menuButtonViewMode
-      * @cfg {IViewMode} Режим отображения кнопки открытия выпадающего меню тулбара
+      * @name Controls/toolbars:IToolbar#translucent
+      * @cfg {boolean} Режим полупрозрачного отображения кнопки открытия выпадающего меню тулбара
+      * @default false
+      * @demo Controls-demo/Toolbar/translucent/Index
       */
-     menuButtonViewMode?: IViewMode;
+     translucent?: boolean;
 }
 
 /**
@@ -644,7 +647,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             direction: 'horizontal',
             itemTemplate: defaultItemTemplate,
             iconStyle: 'secondary',
-            menuButtonViewMode: 'link'
+            menuButtonViewMode: 'link',
+            translucent: false
         };
     }
 
