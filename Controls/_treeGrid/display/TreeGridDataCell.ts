@@ -1,4 +1,4 @@
-import {GridDataCell, IGridDataCellOptions} from 'Controls/grid';
+import {GridDataCell, ICellPadding, IGridDataCellOptions} from 'Controls/grid';
 import { isFullGridSupport } from 'Controls/display';
 import TreeGridDataRow from './TreeGridDataRow';
 import { Model } from 'Types/entity';
@@ -78,8 +78,8 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
         return classes;
     }
 
-    protected _getHorizontalPaddingClasses(theme: string): string {
-        let classes = super._getHorizontalPaddingClasses(theme);
+    protected _getHorizontalPaddingClasses(cellPadding: ICellPadding): string {
+        let classes = super._getHorizontalPaddingClasses(cellPadding);
 
         // если текущая колонка первая и для нее не задан мультиселект, то убираем левый отступ
         const hasMultiSelect = this._$owner.hasMultiSelectColumn();
