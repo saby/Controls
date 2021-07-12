@@ -1083,7 +1083,9 @@ export default abstract class TileItem<T extends Model = Model> {
         gradientType: TGradientType = 'dark'
     ): string {
         let styles = '';
-
+        
+        // Нельзя сделать просто градиент от цвета к прозрачному белому, так как в safari это приводит к светлым полосам на темном фоне.
+        // Поэтому нужно делать градиент от цвета к прозрачному цвету того же оттенка.
         const rgbColor = toRgb(gradientColor);
 
         switch (itemType) {
