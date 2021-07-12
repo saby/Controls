@@ -113,7 +113,7 @@ class ListEditor extends BaseEditor {
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
         const contentClick = nativeEvent.target.closest('.controls-ListEditor__columns');
         if (contentClick) {
-            const selectedKeysArray = Clone(this._selectedKeys);
+            const selectedKeysArray = this._options.multiSelect ? Clone(this._selectedKeys) : [];
             const itemkey = item.get(this._options.keyProperty);
             if (!selectedKeysArray.includes(itemkey)) {
                 selectedKeysArray.unshift(item.get(this._options.keyProperty));
