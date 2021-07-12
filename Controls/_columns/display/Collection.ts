@@ -58,7 +58,7 @@ export default class Collection<
         super._notifyCollectionChange.apply(this, arguments);
 
         if (action === 'a') {
-            newItems.forEach(this.setColumnOnItem.bind(this));
+            newItems.forEach(this.setColumnOnItem.bind(this, newItemsIndex - this._addingColumnsCounter));
             if (this._$columnsMode === 'auto' && newItems.length === 1) {
                 this._addingColumnsCounter++;
             }
@@ -135,9 +135,9 @@ export default class Collection<
         });
     }
 
-    private setColumnOnItem(item: T, index: number): void {
+    private setColumnOnItem(offset: number, item: T, index: number): void {
         if (!item.isDragged()) {
-            const column = this._columnsStrategy.calcColumn(this, this._dragColumn === null ? index + this._addingColumnsCounter : this._dragColumn, this._$columnsCount);
+            const column = this._columnsStrategy.calcColumn(this, this._dragColumn === null ? index + this._addingColumnsCounter + offset : this._dragColumn, this._$columnsCount);
             item.setColumn(column);
         }
     }
@@ -145,7 +145,7 @@ export default class Collection<
     private updateColumns(): void {
         this._addingColumnsCounter = 0;
         this._columnsIndexes = null;
-        this.each(this.setColumnOnItem.bind(this));
+        this.each(this.setColumnOnItem.bind(this, 0));
         this.updateColumnIndexesByItems();
     }
 
