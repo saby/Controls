@@ -61,6 +61,13 @@ describe('Columns/display/ColumnsIndexes/CollectionItem/GetColumn', () => {
             collection.each(getColumnEach);
             assert.deepEqual(result, expected, 'wrong ColumnIndexes after adding one item');
         });
+        it('add item at 0', () => {
+            const expected = [0, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2];
+            const newItem = new Model({keyProperty: 'id', rawData: {id: 12}});
+            rs.add(newItem, 0);
+            collection.each(getColumnEach);
+            assert.deepEqual(result, expected, 'wrong ColumnIndexes after adding one item');
+        });
     });
     describe('viewMode = list', () => {
         let rs;
