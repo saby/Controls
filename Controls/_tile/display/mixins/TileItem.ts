@@ -12,7 +12,7 @@ import * as RichContent from 'wml!Controls/_tile/render/itemsContent/Rich';
 import Tile, {
     DEFAULT_COMPRESSION_COEFF, DEFAULT_SCALE_COEFFICIENT, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH, IRoundBorder
 } from './Tile';
-import {toRgb, rgbaToString, rgbToRgba} from 'Controls/_tile/utils/colorUtil';
+import {toRgb, rgbaToString, rgbToRgba} from 'Controls/Utils/colorUtil';
 
 const DEFAULT_WIDTH_PROPORTION = 1;
 
@@ -691,6 +691,8 @@ export default abstract class TileItem<T extends Model = Model> {
     getGradientStyles(itemType: TTileItem = 'default', gradientColor: string = '#ffffff', gradientType: string = 'dark'): string {
         let styles = '';
 
+        // Нельзя сделать просто градиент от цвета к прозрачному белому, так как в safari это приводит к светлым полосам на темном фоне.
+        // Поэтому нужно делать градиент от цвета к прозрачному цвету того же оттенка.
         const rgbColor = toRgb(gradientColor);
 
         switch (itemType) {

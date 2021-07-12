@@ -1,7 +1,7 @@
-import {rgbaToString, toRgb} from 'Controls/_tile/utils/colorUtil';
+import {rgbaToString, toRgb} from 'Controls/Utils/colorUtil';
 import {assert} from 'chai';
 
-describe('toRgb(), rgbaToString()', function() {
+describe('toRgb(), rgbaToString()', () => {
     const cases = [
         {input: '#fff',  output: 'rgba(255,255,255,1)'},
         {input: '#FFF',  output: 'rgba(255,255,255,1)'},

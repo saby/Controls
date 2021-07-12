@@ -1,4 +1,4 @@
-import {Logger} from 'UICommon/Utils';
+import {Logger} from 'UI/Utils';
 
 interface IRgb {
     r: number;
