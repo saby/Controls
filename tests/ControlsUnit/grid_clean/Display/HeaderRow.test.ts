@@ -39,15 +39,15 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             assert.isTrue(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingFirstCol_s') !== -1);
             assert.isFalse(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLeft') !== -1);
             assert.isFalse(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLastCol') !== -1);
-            assert.isTrue(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingRight_s') !== -1);
+            assert.isTrue(columnItems[0].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingRight') !== -1);
 
             assert.isFalse(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingFirstCol') !== -1);
-            assert.isTrue(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLeft_s') !== -1);
+            assert.isTrue(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLeft') !== -1);
             assert.isFalse(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLastCol') !== -1);
-            assert.isTrue(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingRight_s') !== -1);
+            assert.isTrue(columnItems[1].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingRight') !== -1);
 
             assert.isFalse(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingFirstCol') !== -1);
-            assert.isTrue(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLeft_s') !== -1);
+            assert.isTrue(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLeft') !== -1);
             assert.isTrue(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingLastCol_s') !== -1);
             assert.isFalse(columnItems[2].getWrapperClasses(THEME).indexOf('controls-Grid__cell_spacingRight') !== -1);
         });
