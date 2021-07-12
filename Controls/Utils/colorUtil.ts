@@ -10,6 +10,9 @@ interface IRgba extends IRgb {
 }
 
 export function toRgb(rawColor: string): IRgba {
+    if (typeof rawColor !== 'string') {
+        return null;
+    }
     let color = rawColor.toLowerCase();
     const shorthandRegexRgba = /^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d]?)$/i;
     color = color.replace(shorthandRegexRgba, (m, r, g, b, a) => {
