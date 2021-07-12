@@ -8,6 +8,7 @@
                                 dataLoadCallback="{{_options.dataLoadCallback}}"
                                 keyProperty="{{_options.keyProperty}}"
                                 searchParam="{{_options.searchParam}}"
+                                dedicatedItemProperty="{{_options.dedicatedItemProperty}}"
                                 parentProperty="{{_options.parentProperty}}"
                                 displayProperty="{{_options.displayProperty}}">
             <div class="controls-MoveDialog__content">
