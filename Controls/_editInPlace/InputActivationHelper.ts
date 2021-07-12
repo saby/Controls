@@ -86,7 +86,7 @@ export class InputActivationHelper {
             }
             if (input) {
                 if (beforeFocus) {
-                    beforeFocus();
+                    beforeFocus(input);
                 }
                 input.focus(input);
                 reset();
