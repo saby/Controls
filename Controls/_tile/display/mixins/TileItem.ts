@@ -18,6 +18,7 @@ import Tile, {
 } from './Tile';
 import { TItemActionsPosition } from 'Controls/itemActions';
 import {TBackgroundColorStyle, TCursor } from 'Controls/list';
+import {toRgb, rgbaToString, rgbToRgba} from 'Controls/_tile/utils/colorUtil';
 
 const DEFAULT_WIDTH_PROPORTION = 1;
 
@@ -1082,6 +1083,10 @@ export default abstract class TileItem<T extends Model = Model> {
         gradientType: TGradientType = 'dark'
     ): string {
         let styles = '';
+        
+        // Нельзя сделать просто градиент от цвета к прозрачному белому, так как в safari это приводит к светлым полосам на темном фоне.
+        // Поэтому нужно делать градиент от цвета к прозрачному цвету того же оттенка.
+        const rgbColor = toRgb(gradientColor);
 
         switch (itemType) {
             case 'default':
@@ -1089,7 +1094,7 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'medium':
                 break;
             case 'rich':
-                styles += ` background: linear-gradient(to bottom, ${gradientColor}00 0%, ${gradientColor} 100%);`;
+                styles += ` background: linear-gradient(to bottom, ${rgbaToString(rgbToRgba(rgbColor, 0))} 0%, ${rgbaToString(rgbColor)} 100%);`;
                 break;
             case 'preview':
                 if (gradientType === 'custom') {
@@ -1542,7 +1547,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 if ((!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right') {
-                    styles += ` background-color: ${gradientColor};`;
+                    styles += ` background-color: ${rgbaToString(toRgb(gradientColor))};`;
                 }
                 break;
         }
