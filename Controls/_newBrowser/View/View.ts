@@ -19,7 +19,6 @@ import {TColumns} from 'Controls/grid';
 import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/ListItemTemplate';
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
 import 'css!Controls/listTemplates';
-import 'css!Controls/newBrowser';
 import {ContextOptions as dataContext} from 'Controls/context';
 import {default as TileController} from 'Controls/_newBrowser/TemplateControllers/Tile';
 import {default as ListController} from 'Controls/_newBrowser/TemplateControllers/List';
@@ -510,6 +509,13 @@ export default class View extends Control<IOptions, IReceivedState> {
 
         return super._notify(eventName, args, options);
     }
+
+    //endregion
+
+    //region • static utils
+    static _theme: string[] = [
+        'Controls/newBrowser'
+    ];
 
     static calcMasterVisibility(options: Partial<IOptions>): MasterVisibilityEnum {
         if (options.master?.visibility) {
