@@ -1,7 +1,6 @@
 import {ListEditor} from 'Controls/filterPanel';
 import {Model} from 'Types/entity';
 import {assert} from 'chai';
-import {getItemSize} from 'Controls/_tile/utils/imageUtil';
 
 describe('Controls/filterPanel:ListEditor', () => {
 
