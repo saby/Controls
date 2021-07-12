@@ -36,6 +36,7 @@
         <ws:if data="{{_options.detailContentTemplate}}">
             <ws:partial
                     template="{{_options.detailContentTemplate}}"
+                    loading="{{_detailLoading}}"
                     attr:class="controls-newBrowser__detail-list"
                     on:itemClick="_onExplorerItemClick(false)"
                     on:viewModeChanged="_onDetailExplorerChangedViewMode()"
