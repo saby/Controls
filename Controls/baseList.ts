@@ -1,58 +1,83 @@
-import ListView = require('Controls/_baseList/ListView');
-import ScrollEmitter = require('Controls/_baseList/BaseControl/Scroll/Emitter');
+/**
+ * Библиотека, содержащая базовые модули, необходимые для работы всех видов списков.
+ * Должна в прямую импортироваться только списковыми контролами, все остальные контролы должны тянуть библиотеку
+ * конкретного вида списка (таблица, плитка, дерево и т.п.).
+ *
+ * @library
+ * @private
+ * @author Уфимцев Д.Ю.
+ */
 
+//region interfaces
+export {IList} from './_baseList/interface/IList';
+export * from './_baseList/interface/IEditableList';
+export * from 'Controls/_baseList/interface/IMovableList';
+export {IVirtualScrollConfig} from './_baseList/interface/IVirtualScroll';
+export {IRemovableList} from 'Controls/_baseList/interface/IRemovableList';
+export {default as IListNavigation} from './_baseList/interface/IListNavigation';
+export {IBaseGroupTemplate} from 'Controls/_baseList/interface/BaseGroupTemplate';
+export {TCursor, TBackgroundColorStyle} from './_baseList/interface/BaseItemTemplate';
+export {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/_baseList/interface/ISiblingStrategy';
+//endregion
+
+//region templates
+import ForTemplate = require('wml!Controls/_baseList/Render/For');
 import ItemTemplate = require('wml!Controls/_baseList/ItemTemplate');
+import GroupTemplate = require('wml!Controls/_baseList/GroupTemplate');
 import FooterTemplate = require('wml!Controls/_baseList/ListView/Footer');
+import MultiSelectTemplate = require('wml!Controls/_baseList/Render/multiSelect');
 import EditingTemplate = require('wml!Controls/_baseList/EditInPlace/EditingTemplate');
 import MoneyEditingTemplate = require('wml!Controls/_baseList/EditInPlace/decorated/Money');
 import NumberEditingTemplate = require('wml!Controls/_baseList/EditInPlace/decorated/Number');
-import BaseEditingTemplate = require('wml!Controls/_baseList/EditInPlace/baseEditingTemplate');
 import ContinueSearchTemplate = require('wml!Controls/_baseList/resources/ContinueSearchTemplate');
-import ForTemplate = require('wml!Controls/_baseList/Render/For');
-import GroupTemplate = require('wml!Controls/_baseList/GroupTemplate');
-import MultiSelectTemplate = require('wml!Controls/_baseList/Render/multiSelect');
+
+export {
+    ForTemplate,
+    ItemTemplate,
+    GroupTemplate,
+    FooterTemplate,
+    EditingTemplate,
+    // TODO: Удалить по https://online.sbis.ru/opendoc.html?guid=d63d6b23-e271-4d0b-a015-1ad37408b76b
+    EditingTemplate as BaseEditingTemplate,
+    MultiSelectTemplate,
+    MoneyEditingTemplate,
+    NumberEditingTemplate,
+    ContinueSearchTemplate
+};
+//endregion
+
+//region controls
+import ListView = require('Controls/_baseList/ListView');
+import ScrollEmitter = require('Controls/_baseList/BaseControl/Scroll/Emitter');
 
 export {
     ListView,
-    ScrollEmitter,
-
-    ForTemplate,
-    ItemTemplate,
-    FooterTemplate,
-    EditingTemplate,
-    BaseEditingTemplate,
-    MoneyEditingTemplate,
-    NumberEditingTemplate,
-    ContinueSearchTemplate,
-    GroupTemplate,
-    MultiSelectTemplate
+    ScrollEmitter
 };
+
 export {default as View} from 'Controls/_baseList/List';
 export {default as DataContainer, IDataOptions} from 'Controls/_baseList/Data';
+export {default as ItemsView, IItemsViewOptions} from 'Controls/_baseList/ItemsView';
 export {
     IBaseControlOptions,
     default as ListControl,
     default as BaseControl,
     LIST_EDITING_CONSTANTS as editing
 } from 'Controls/_baseList/BaseControl';
-export {IList} from './_baseList/interface/IList';
-export * from './_baseList/interface/IEditableList';
-export {default as IListNavigation} from './_baseList/interface/IListNavigation';
-export {IVirtualScrollConfig} from './_baseList/interface/IVirtualScroll';
-export {default as ScrollController} from './_baseList/ScrollController';
-export {default as InertialScrolling} from './_baseList/resources/utils/InertialScrolling';
-export {default as VirtualScroll} from './_baseList/ScrollContainer/VirtualScroll';
+//endregion
+
+//region utils
 export {getItemsBySelection} from './_baseList/resources/utils/getItemsBySelection';
+export {default as InertialScrolling} from './_baseList/resources/utils/InertialScrolling';
 export {CssClassList, createClassListCollection} from './_baseList/resources/utils/CssClassList';
+//endregion
 
-export {MoveController, IMoveControllerOptions}  from 'Controls/_baseList/Controllers/MoveController';
-export {IMovableList, IMoveDialogTemplate, IMovableOptions, TBeforeMoveCallback} from 'Controls/_baseList/interface/IMovableList';
-export {IBaseGroupTemplate} from 'Controls/_baseList/interface/BaseGroupTemplate';
-
-export {RemoveController} from 'Controls/_baseList/Controllers/RemoveController';
-export {IRemovableList} from 'Controls/_baseList/interface/IRemovableList';
-
-export {ISiblingStrategy, ISiblingStrategyOptions} from 'Controls/_baseList/interface/ISiblingStrategy';
-export {groupConstants, IHiddenGroupPosition, IItemPadding, MultiSelectAccessibility} from './display';
-export {default as ItemsView, IItemsViewOptions} from 'Controls/_baseList/ItemsView';
+//region controllers
 export * from './_baseList/Controllers/Grouping';
+export {default as ScrollController} from './_baseList/ScrollController';
+export {RemoveController} from 'Controls/_baseList/Controllers/RemoveController';
+export {default as VirtualScroll} from './_baseList/ScrollContainer/VirtualScroll';
+export {MoveController, IMoveControllerOptions}  from 'Controls/_baseList/Controllers/MoveController';
+//endregion
+
+export {groupConstants, IHiddenGroupPosition, IItemPadding, MultiSelectAccessibility, TRoundBorder} from './display';
