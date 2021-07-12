@@ -18,11 +18,11 @@
  * @name Controls/_tile/interface/ITile#tileHeight
  * @cfg {Number} Высота элементов, отображаемых в виде плитки.
  * @default 150
- * @remark 
+ * @remark
  * Эта опция необходима для расчета размеров элементов при отрисовке на сервере.
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
  * Если опция {@link Controls/tile:ItemTemplate#staticHeight staticHeight} не установлена в значение "true", опция tileHeight задает минимальную высоту, а дальше плитка пропорционально растягивается от ширины (см. {@link Controls/tile:ItemTemplate#tileWidth tileWidth} и {@link Controls/tile:ItemTemplate#folderWidth folderWidth}).
- * 
+ *
  * @example
  * В следующем примере показано, как установить высоту элементов - 200 пикселей.
  * <pre class="brush: html; highlight: [3]">
@@ -41,7 +41,7 @@
  * @name Controls/_tile/interface/ITile#itemsContainerPadding
  * @demo Controls-demo/tileNew/ItemsContainerPadding/Index
  * @example
- * <pre class="brush: html; highlight: [4-8]"> 
+ * <pre class="brush: html; highlight: [4-8]">
  * <!-- WML -->
  * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
  *    <ws:itemsContainerPadding
@@ -54,6 +54,48 @@
  * @remark
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/paddings/#item-container-padding руководство разработчика}
+ */
+
+/**
+ * @typedef {String} TileItemPaddingEnum
+ * @description Допустимые значения для свойств {@link Controls/tile:ITile.ItemPadding ItemPadding}.
+ * @variant null Нулевой отступ.
+ * @variant 3xs Минимальный отступ.
+ * @variant 2xs Почти минимальный отступ.
+ * @variant xs Очень маленький отступ.
+ * @variant s Маленький отступ.
+ * @variant m Средний отступ.
+ * @variant l Большой отступ.
+ * @variant xl Очень большой оступ.
+ * @variant 2xl Максимальный отступ.
+ */
+
+/**
+ * @typedef {String} TileItemPadding
+ * @property {TileItemPaddingEnum} [top=m] Отступ сверху от плитки. Если свойство принимает значение null, то отступ отсутствует.
+ * @property {TileItemPaddingEnum} [bottom=m] Отступ снизу от плитки. Если свойство принимает значение null, то отступ отсутствует.
+ * @property {TileItemPaddingEnum} [left=m] Отступ слева от плитки. Если свойство принимает значение null, то отступ отсутствует.
+ * @property {TileItemPaddingEnum} [right=m] Отступ справа от плитки. Если свойство принимает значение null, то отступ отсутствует.
+ */
+
+/**
+ * @cfg {TileItemPadding}  Конфигурация отступов между элементами плитки.
+ * @name Controls/_tile/interface/ITile#itemPadding
+ * @demo Controls-demo/tileNew/ItemPadding/Index
+ * @example
+ * <pre class="brush: html; highlight: [4-8]">
+ * <!-- WML -->
+ * <Controls.tile:View source="{{_viewSource}}" imageProperty="image">
+ *    <ws:itemPadding
+ *       top="l"
+ *       bottom="l"
+ *       left="l"
+ *       right="l"/>
+ * </Controls.tile:View>
+ * </pre>
+ * @remark
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/paddings/#item-padding руководство разработчика}
  */
 
 /**
@@ -255,7 +297,7 @@
  * @see imageHeightProperty
  * @see imageWidthProperty
  * @remark Для автоматического расчета ширины элемента нужно указать оригинальные размеры изображения.
- * 
+ *
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/view/width/ руководство разработчика}
  * @example
