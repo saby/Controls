@@ -254,6 +254,7 @@ class ListEditor extends BaseEditor {
 
     static getDefaultOptions(): object {
         return {
+            propertyValue: [],
             style: 'default',
             itemPadding: {
                 right: 'm'
