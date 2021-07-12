@@ -46,10 +46,17 @@ export function toRgb(rawColor: string): IRgba {
 
 }
 
-export function rgbToRgba({r, g, b}: IRgb, a: number = 1): IRgba {
-    return {r, g, b, a};
+export function rgbToRgba(rgb: IRgb, a: number = 1): IRgba {
+    if (!rgb) {
+        return null;
+    }
+    return {...rgb, a};
 }
 
-export function rgbaToString({r, g, b, a = 1}: IRgba): string {
+export function rgbaToString(rgba: IRgba): string {
+    if (!rgba) {
+        return null;
+    }
+    const {r, g, b, a} = rgba;
     return `rgba(${r},${g},${b},${a})`;
 }
