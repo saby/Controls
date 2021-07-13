@@ -1,140 +1,83 @@
 .controls_shortDatePicker_theme-@{themeName} {
-  // Переменные для быстрого выбора периода
-  //
-  // Размеры и отступы
+   // Переменные для быстрого выбора периода
+   //
+   // Размеры и отступы
 
-  --height_shortDatePicker:                          564px;
-  --width_shortDatePicker:                           88px;
-  --monthly_width_shortDatePicker:                   136px;
-  --quarterly_width_shortDatePicker:                 160px;
-  --quarterly-monthly_width_shortDatePicker:         150px;
+   --height_shortDatePicker: 564px;
+   --width_shortDatePicker: 88px;
+   --monthly_width_shortDatePicker: 136px;
+   --quarterly_width_shortDatePicker: 160px;
+   --quarterly-monthly_width_shortDatePicker: 150px;
 
-  // Цвет фона
+   // Цвет фона
 
-  --background-color_shortDatePicker:                    var(--background-color);
+   --background-color_shortDatePicker: var(--background-color);
 
-  // Обводка
+   // Обводка
 
-  --border-thickness_shortDatePicker:                    var(--border-thickness);
-  --border-color_shortDatePicker:                        var(--border-color_sticky);
-  --box-shadow-color_shortDatePicker:                    rgba(0,0,0,0.35);
-  --box-shadow-size_shortDatePicker:                     0 0 6px 0;
+   --border-color_shortDatePicker: var(--border-color_sticky);
 
-  // Заголовок
+   // Заголовок в режиме года
 
-  --header_font-size_shortDatePicker:                    var(--font-size_l);
-  --header_text-color_shortDatePicker:                   var(--secondary_text-color_heading);
-  --header_font-weight_shortDatePicker:                  bold;
-  --header_height_shortDatePicker:                       var(--header_min-height_sticky);
-  --header_padding-horizontal_shortDatePicker:           12px;
-  --header_background-color_shortDatePicker:             var(--header_background-color_stack);
-  --annually_header_height_shortDatePicker:              36px;
+   --annually_header_height_shortDatePicker: 36px;
 
-  // Кнопка закрытия
+   // Кнопка закрытия, особая, располагается снаружи
 
-  --closeButton_offset-left_shortDatePicker:            4px;
+   --closeButton_offset-left_shortDatePicker: 4px;
+   --closeButton_background-color_shortDatePicker: #e4e4e4;
+   --closeButton_box-shadow_shortDatePicker: 1px 1px 6px 0 rgba(0, 0, 0, 0.1);
+   --closeButton_hover_background-color_shortDatePicker: #d7d7d7;
 
-  --closeButton_background-color_shortDatePicker:       #E4E4E4;
-  --closeButton_box-shadow_shortDatePicker:             1px 1px 6px 0 rgba(0, 0, 0, 0.1);
-  --closeButton_hover_background-color_shortDatePicker: #D7D7D7;
+   // Футер
+   --footer_height_shortDatePicker: 24px;
 
+   // Переменные для элементов быстрого выбора периода
+   //
+   // Размеры и отступы
 
-  // Футер
-  --footer_height_shortDatePicker:                                      24px;
-  --footer_icon_color_shortDatePicker:                                  var(--unaccented_color);
-  --footer_hover_icon_color_shortDatePicker:                            #666666;
-  --footer_icon-wrapper_border-radius_shortDatePicker:                  6px;
-  --footer_icon-wrapper_background-color_shortDatePicker:               var(--background-color);
-  --footer_arrow_width_shortDatePicker:                                 18px;
-  --footer_arrow_height_shortDatePicker:                                6px;
+   --quarterly_item-padding-left_shortDatePicker: calc(var(--offset_m) - var(--item_border-thickness_shortDatePicker));
+   --item_height_shortDatePicker: 32px;
+   // Выносим выражение в отдельную переменную, т.к вложенные calc в IE не работают.
+   --item_layout_line-height_expression_shortDatePicker: calc(var(--item_line-height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2);
 
+   // Текст
 
-  // Переменные для элементов быстрого выбора периода
-  //
-  // Размеры и отступы
+   --item_font-size_shortDatePicker: var(--font-size_l); //TODO https://online.sbis.ru/opendoc.html?guid=43c57c40-518a-4ea2-937b-070443eae781
 
-  --item_line-height_shortDatePicker:                    32px;
-  --quarterly_item-padding-left_shortDatePicker:         calc(var(--offset_m) - var(--item_border-thickness_shortDatePicker));
-  --item_height_shortDatePicker:                         32px;
-  --item_layout_height_shortDatePicker:                  calc(var(--item_height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2);
-  // Выносим выражение в отдельную переменную, т.к вложенные calc в IE не работают.
-  --item_layout_line-height_expression_shortDatePicker:  calc(var(--item_line-height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2);
-  --item_layout_line-height_shortDatePicker:             calc(var(--item_layout_line-height_expression_shortDatePicker));
+   // Обводка
 
-  // Текст
+   --item_border-thickness_shortDatePicker: var(--border-thickness);
+   --item_hover_border-color_shortDatePicker: #8991a9;
 
-  --item_font-size_shortDatePicker:                      var(--font-size_l);
+   // Цвет фона
+   --item_hover_background-color_shortDatePicker: var(--background-color_shortDatePicker);
 
+   // Переменные для переключателя годов
+   //
+   // Размеры и отступы
 
+   --yearselector_height_shortDatePicker: 40px;
 
-  // Обводка
+   // Текст
 
-  --item_border-color_shortDatePicker:                   transparent;
-  --item_border-thickness_shortDatePicker:               var(--border-thickness);
-  --item_hover_border-color_shortDatePicker:             #8991A9;
+   --yearselector_text-color_shortDatePicker: var(--primary_text-color); // TODO https://online.sbis.ru/opendoc.html?guid=43c57c40-518a-4ea2-937b-070443eae781
+   --yearselector_font-size_shortDatePicker: var(--font-size_l); // TODO https://online.sbis.ru/opendoc.html?guid=43c57c40-518a-4ea2-937b-070443eae781
+
+   // Стрелки переключения
+   --yearselector_arrow_margin_shortDatePicker: 4px;
+   --yearselector_arrow-next_margin_shortDatePicker: 8px;
+   --yearselector_arrow-prev_margin_shortDatePicker: 2px;
+   --yearselector_arrow_padding-bottom_shortDatePicker: 3px;
 
 
-  // Цвет фона
+   // Разделители между элементами
 
+   --separator_color_shortDatePicker: var(--header_background-color_sticky);
+   --separator_thickness_shortDatePicker: 4px;
 
-  --item_hover_background-color_shortDatePicker:         var(--background-color_shortDatePicker);
+   // Элементы выбора квартала/полугодия
 
-  // Переменные для переключателя годов
-  //
-  // Размеры и отступы
-
-  --yearselector_height_shortDatePicker:                 40px;
-
-
-  // Цвет фона
-
-  --yearselector_background-color_shortDatePicker:       var(--background-color_shortDatePicker);
-
-  // Текст
-
-  --yearselector_text-color_shortDatePicker:             var(--primary_text-color);
-  --yearselector_font-size_shortDatePicker:              var(--font-size_l);
-
-  // Стрелки переключения
-  --yearselector_arrow_margin_shortDatePicker:           4px;
-  --yearselector_arrow-next_margin_shortDatePicker:      8px;
-  --yearselector_arrow-prev_margin_shortDatePicker:      12px;
-  --yearselector_arrow_padding-bottom_shortDatePicker:   3px;
-
-
-  // Разделители между элементами
-
-  --separator_color_shortDatePicker:                     var(--header_background-color_shortDatePicker);
-  --separator_thickness_shortDatePicker:                 4px;
-
-  // Элементы выбора квартала/полугодия
-
-  --quarterly_quarters_text-color_shortDatePicker:       var(--text-color);
-  --quarterly_quarters_hover_text-color_shortDatePicker: var(--quarterly_quarters_text-color_shortDatePicker);
-
-  --quarterly_quarters_width_shortDatePicker:            36px;
-  --quarterly_halfyears_width_shortDatePicker:           36px;
-
-  // Переменные для дополнительных элементов
-  //
-  // Стрелки - элементы списка в режиме годов
-
-  --arrow_icon-color_shortDatePicker:                    #999999;
-  --arrow_hover_icon-color_shortDatePicker:              var(--icon-color);
-
-  --arrow_height_shortDatePicker:                        26px;
-  --arrow_width_shortDatePicker:                         26px;
-  --arrow_icon-size_shortDatePicker:                     var(--icon-size_s);
-  --arrow_border-color_shortDatePicker:                  rgba(0, 0, 0, 0.08);
-  --arrow-box-shadow_shortDatePicker:                    0 1px 4px rgba(0, 0, 0, 0.05);
-
-  // Иконка "домик" в режиме годов
-
-  --home_offset-top_shortDatePicker:                     5px;
-  --home_offset-bottom_shortDatePicker:                  14px;
-
-  // Заголовки годов в списке
-
-
-
+   --quarterly_quarters_text-color_shortDatePicker: var(--text-color);  //TODO https://online.sbis.ru/opendoc.html?guid=43c57c40-518a-4ea2-937b-070443eae781
+   --quarterly_quarters_hover_text-color_shortDatePicker: var(--quarterly_quarters_text-color_shortDatePicker); //TODO https://online.sbis.ru/opendoc.html?guid=43c57c40-518a-4ea2-937b-070443eae781
+   --quarterly_quarters_width_shortDatePicker: 36px;
 }
