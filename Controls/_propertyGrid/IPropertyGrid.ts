@@ -238,7 +238,15 @@ export interface IPropertyGridOptions extends IControlOptions {
      * @see itemActions
      */
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
+    /**
+     * @cfg Конфигурации ширины колонки редактора.
+     * @demo Controls-demo/PropertyGridNew/EditorColumnOptions/Index
+     */
     editorColumnOptions?: IPropertyGridColumnOptions;
+    /**
+     * @cfg Конфигурации ширины колонки заголовка редактора.
+     * @demo Controls-demo/PropertyGridNew/CaptionColumnOptions/Index
+     */
     captionColumnOptions?: IPropertyGridColumnOptions;
     itemPadding: IItemPadding;
     withoutLevelPadding?: boolean;
@@ -257,18 +265,6 @@ export interface IPropertyGridOptions extends IControlOptions {
      */
     itemsContainerPadding?: IItemsContainerPadding;
 }
-
-/**
- * @name Controls/_propertyGrid/IPropertyGrid#captionColumnOptions
- * @cfg {IPropertyGridColumnOptions} Конфигурации ширины колонки заголовка редактора.
- * @demo Controls-demo/PropertyGridNew/CaptionColumnOptions/Index
- */
-
-/**
- * @name Controls/_propertyGrid/IPropertyGrid#editorColumnOptions
- * @cfg {IPropertyGridColumnOptions} Конфигурации ширины колонки редактора.
- * @demo Controls-demo/PropertyGridNew/EditorColumnOptions/Index
- */
 
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#captionPosition
