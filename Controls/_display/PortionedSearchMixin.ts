@@ -80,8 +80,8 @@ export default abstract class PortionedSearchMixin<T = PortionedSearchIndicator>
 
 Object.assign(PortionedSearchMixin.prototype, {
     'Controls/display:PortionedSearchMixin': true,
-    _$portionedSearchTemplate: 'Controls/list:LoadingIndicatorTemplate',
-    _$continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
+    _$portionedSearchTemplate: 'Controls/baseList:LoadingIndicatorTemplate',
+    _$continueSearchTemplate: 'Controls/baseList:ContinueSearchTemplate',
     _topIndicator: null,
     _bottomIndicator: null
 });

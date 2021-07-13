@@ -87,6 +87,6 @@ Object.assign(PortionedSearchIndicator.prototype, {
     _instancePrefix: 'portioned-search-indicator-',
     _$position: null,
     _$displayPortionedSearch: true,
-    _$portionedSearchTemplate: 'Controls/list:LoadingIndicatorTemplate',
-    _$continueSearchTemplate: 'Controls/list:ContinueSearchTemplate'
+    _$portionedSearchTemplate: 'Controls/baseList:LoadingIndicatorTemplate',
+    _$continueSearchTemplate: 'Controls/baseList:ContinueSearchTemplate'
 });

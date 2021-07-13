@@ -1,8 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as PortionedSearchIndicatorTemplate from 'wml!Controls/_list/PortionedSearchIndicator';
+import * as Template from 'wml!Controls/_baseList/indicators/PortionedSearchIndicatorTemplate';
 
-export default class PortionedSearchIndicator extends Control {
-    protected _template: TemplateFunction = PortionedSearchIndicatorTemplate;
+export default class PortionedSearchIndicatorTemplate extends Control {
+    protected _template: TemplateFunction = Template;
 
     protected _onContinueSearchClick(): void {
         this._notify('continueSearchClick');
