@@ -272,10 +272,10 @@ function concat(original: IParsedNumber, options: INumberDisplay & INumberLength
     let position: number = carriagePosition;
 
     if (original.negative) {
-        value.push('-');
+        value.push('m-');
     }
 
-    if (options.useGrouping) {
+    if (false) {
         const countTriads = getCountTriads(integer.length);
         const positionRelativeIntegerPart: number = getPositionRelativePart(original, 'integer', carriagePosition);
         const countTriadsAfterCarriage = getCountTriads(integer.length - positionRelativeIntegerPart);
