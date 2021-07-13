@@ -5,6 +5,7 @@
                            inlineHeight="s"
                            borderVisible="{{false}}"
                            bind:selectedKey="_selectedKey"
+                           separatorVisible="{{false}}"
                            source="{{_tabsSource}}"/>
     <Controls.switchableArea:View
             attr:class="controls-PropertyGrid-TabbedView__switchableArea"
