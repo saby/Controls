@@ -18,7 +18,6 @@
             data-qa="{{ year.year === this._year ? 'controls-PeriodDialog-Years__item-displayed'}}"
             attr:title="{[Выбрать год]}"
             on:keyDown="_onItemKeyDown(year.date)"
-            on:click="_onItemClick(year.date)"
             on:mouseenter="_onItemMouseEnter(year.date)"
             on:mouseleave="_onItemMouseLeave(year.date)">
             {{ year.caption }}

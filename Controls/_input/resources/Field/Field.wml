@@ -12,6 +12,7 @@
             isBrowserPlatform="{{_isBrowserPlatform}}" value="{{_model.displayValue}}">
    <ws:partial template="inputElement"
                tag="{{_options.tag}}"
+               attr:style="margin-left: 2px"
                attr:name="{{_options.name}}"
                attr:class="controls-Field"
                on:blur="_blurHandler()"

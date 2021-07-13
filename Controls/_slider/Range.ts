@@ -57,8 +57,8 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
 
    private _render(minValue: number, maxValue: number, startValue: number, endValue: number): void {
       const rangeLength = maxValue - minValue;
-      const left =  Math.min(Math.max((startValue - minValue), 0), rangeLength) / rangeLength * maxPercentValue;
-      const right =  Math.min(Math.max((endValue - minValue), 0), rangeLength) / rangeLength * maxPercentValue;
+      const left =  Math.max((startValue - minValue), 0) / rangeLength * maxPercentValue;
+      const right =  Math.max((endValue - minValue), 0) / rangeLength * maxPercentValue;
       const width = right - left;
       this._pointData[1].position = right;
       this._pointData[0].position = left;
@@ -74,15 +74,15 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
 
    private _checkOptions(opts: ISliderRangeOptions): void {
       Utils.checkOptions(opts);
-      if (opts.startValue < opts.minValue || opts.startValue > opts.maxValue) {
-         Logger.error('Slider', 'startValue must be in the range [minValue..maxValue].', this);
-      }
-      if (opts.endValue < opts.minValue || opts.endValue > opts.maxValue) {
-          Logger.error('Slider', 'endValue must be in the range [minValue..maxValue].', this);
-      }
-      if (opts.startValue > opts.endValue) {
-          Logger.error('Slider', 'startValue must be less than or equal to endValue.', this);
-      }
+      // if (opts.startValue < opts.minValue || opts.startValue > opts.maxValue) {
+      //    Logger.error('Slider', 'startValue must be in the range [minValue..maxValue].', this);
+      // }
+      // if (opts.endValue < opts.minValue || opts.endValue > opts.maxValue) {
+      //     Logger.error('Slider', 'endValue must be in the range [minValue..maxValue].', this);
+      // }
+      // if (opts.startValue > opts.endValue) {
+      //     Logger.error('Slider', 'startValue must be less than or equal to endValue.', this);
+      // }
    }
 
    private _needUpdate(oldOpts: ISliderRangeOptions, newOpts: ISliderRangeOptions): boolean {
@@ -115,8 +115,8 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
              options.scaleLabelFormatter);
       }
       if (this._options.hasOwnProperty('startValue') && this._options.hasOwnProperty('endValue')) {
-         this._endValue = options.endValue === undefined ? options.maxValue : Math.min(options.maxValue, options.endValue);
-         this._startValue = options.startValue === undefined ? options.minValue : Math.max(options.minValue, options.startValue);
+         this._endValue = options.endValue === undefined ? options.maxValue : options.endValue;
+         this._startValue = options.startValue === undefined ? options.minValue : options.startValue;
       } else {
          this._endValue = Math.min(options.maxValue, this._endValue);
          this._startValue = Math.max(options.minValue, this._startValue);
@@ -157,10 +157,10 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
          this._value = this._getValue(event);
          const pointName = this._getClosestPoint(this._value, this._startValue, this._endValue);
          if (pointName === 'start') {
-            this._setStartValue(this._value);
+            // this._setStartValue(this._value);
          }
          if (pointName === 'end') {
-            this._setEndValue(this._value);
+            // this._setEndValue(this._value);
          }
          const target = pointName === 'start' ? this._children.pointStart : this._children.pointEnd;
          this._children.dragNDrop.startDragNDrop(target, event);
@@ -173,10 +173,10 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
          const ratio = Utils.getRatio(dragObject.position.x, box.left + window.pageXOffset, box.width);
          this._value = Utils.calcValue(this._options.minValue, this._options.maxValue, ratio, this._options.precision);
          if (dragObject.entity === this._children.pointStart) {
-            this._setStartValue(Math.min(this._value, this._endValue));
+            this._setStartValue(this._value);
          }
          if (dragObject.entity === this._children.pointEnd) {
-            this._setEndValue(Math.max(this._value, this._startValue));
+            this._setEndValue(this._value);
          }
       }
    }
