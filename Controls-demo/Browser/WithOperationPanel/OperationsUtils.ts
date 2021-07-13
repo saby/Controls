@@ -47,49 +47,32 @@ export function getPanelData() {
             name: 'Разворот без разделов'
         },
         parent: null
-    }, {
-        id: 'sum',
-        '@parent': false,
-        icon: 'icon-Sum',
-        title: 'Суммировать',
-        actionName: 'Controls-demo/Browser/WithOperationPanel/Action',
-        actionOptions: {
-            name: 'Суммирование'
-        },
-        parent: null
-    }, {
-        id: 'remove',
-        '@parent': false,
-        icon: 'icon-Erase',
-        title: 'Удалить',
-        actionName: 'Controls/listActions:Remove',
-        viewActionName: 'Controls/viewCommands:Remove',
-        parent: null
-    }, {
-        id: 'atomicRemove',
-        '@parent': false,
-        icon: 'icon-Erase',
-        title: 'Удалить синхронно',
-        actionName: 'Controls/listActions:Remove',
-        actionOptions: {
-            providerName: 'Controls/listActions:RemoveProvider'
-        },
-        viewActionName: 'Controls/viewCommands:AtomicRemove',
-        parent: null
-    }, {
-        id: 'Move',
-        '@parent': false,
-        icon: 'icon-Move',
-        title: 'Переместить с перезагрузкой списка',
-        actionName: 'Controls/listActions:Move',
-        actionOptions: {
-            columns: [{
-                displayProperty: 'department'
-            }],
-            filter: {onlyFolders: true}
-        },
-        viewActionName: 'Controls/viewCommands:Reload',
-        parent: null
-    }
+    }];
+}
+
+export function getAddedData() {
+    return [
+        {
+            id: 'sum',
+            '@parent': false,
+            icon: 'icon-Sum',
+            iconStyle: 'label',
+            title: 'Суммировать',
+            actionName: 'Controls-demo/Browser/WithOperationPanel/Action',
+            actionOptions: {
+                name: 'Суммирование'
+            },
+            parent: null
+        }, {
+            actionName: 'Controls/actions:Remove'
+        }, {
+            actionName: 'Controls/actions:Move',
+            commandOptions: {
+                columns: [{
+                    displayProperty: 'department'
+                }]
+            }
+
+        }
     ];
 }

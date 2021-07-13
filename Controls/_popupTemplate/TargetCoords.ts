@@ -3,9 +3,9 @@ import {getDimensions} from 'Controls/sizeUtils';
 export interface ITargetCoords extends ClientRect {
     topScroll: number;
     leftScroll: number;
-    boundingClientRect: ClientRect;
+    boundingClientRect?: ClientRect;
 }
-export function get(target: HTMLElement): ITargetCoords {
+export default function getTargetCoords(target: HTMLElement): ITargetCoords {
     if (!target) {
         throw new Error('Target parameter is required');
     }

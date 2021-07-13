@@ -417,7 +417,7 @@ define(
             let baseRemove = Manager._removeElement;
             Manager._removeElement = (element, container) => {
                if (element.id === id2) {
-                  element.controller._elementDestroyed = () => removeDeferred2;
+                  element.controller.elementDestroyed = () => removeDeferred2;
                }
                Manager._notify = () => {};
                return baseRemove.call(Manager, element, container);

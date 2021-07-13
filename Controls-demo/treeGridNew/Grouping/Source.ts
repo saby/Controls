@@ -64,7 +64,8 @@ export function createGroupingSource(cfg: IDemoCreateSourceCfg): HierarchicalMem
             return foundedCursor && itemInExpandedGroup && item.get('parent') === parent;
             // for old grouping:
             // return foundedCursor && item.get('parent') === parent;
-        }
+        },
+        parentProperty: 'parent'
     });
     const originalQueryFn = source.query;
     // tslint:disable-next-line

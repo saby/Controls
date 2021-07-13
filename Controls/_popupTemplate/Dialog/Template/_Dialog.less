@@ -1,0 +1,138 @@
+.controls-DialogTemplate {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 1;
+   box-sizing: border-box;
+   height: 100%;
+   position: relative;
+   overflow: hidden;
+   box-shadow: var(--box-shadow_dialog);
+   border: var(--border-thickness_dialog) solid var(--border-color_dialog);
+}
+
+.controls-DialogTemplate__top-area-draggable {
+   cursor: default;
+}
+
+.controls-DialogTemplate_minimize {
+   border-radius: var(--border-radius_dialog);
+}
+
+//Дополнительный border-radius необходим с целью решения баги на MAC, так как если на нижнем или верхнем элементе
+// диалогового окна задан отступ, то он ломает border-radius.
+.ws-is-mac {
+   .controls-DialogTemplate_border-radius {
+      border-radius: var(--border-radius_dialog);
+   }
+
+   .controls-DialogTemplate_border-radius-footer {
+      border-bottom-right-radius: var(--border-radius_dialog);
+      border-bottom-left-radius: var(--border-radius_dialog);
+   }
+}
+
+.controls-DialogTemplate_backgroundStyle-default {
+   background-color: var(--background-color_dialog);
+}
+
+.controls-DialogTemplate_backgroundStyle-unaccented {
+   background-color: var(--unaccented_background-color_dialog);
+}
+
+.controls-DialogTemplate__top-area {
+   display: flex;
+   flex-shrink: 0;
+   min-height: var(--header-min-height_dialog);
+}
+
+.controls-DialogTemplate__top-area_default {
+   background-color: var(--header_background-color_dialog);
+}
+
+.controls-DialogTemplate__top-area_unaccented {
+   background-color: var(--unaccented_header_background-color_dialog);
+}
+
+.controls-DialogTemplate__content-area {
+   display: flex;
+   height: 100%;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 1;
+   min-height: 1px;
+   overflow: hidden;
+   z-index: 1;
+}
+
+.controls-DialogTemplate__headerContentTemplate {
+   position: relative;
+   display: flex;
+   justify-content: flex-end;
+   flex-grow: 1;
+   flex-shrink: 1;
+   min-width: 0;
+   height: 100%;
+   align-self: center;
+   align-items: center;
+   margin-right: var(--header-content_padding-right_dialog);
+}
+
+.controls-DialogTemplate__top-area-content {
+   width: 100%;
+   flex-shrink: 1;
+   display: flex;
+   align-items: baseline;
+   overflow: hidden;
+   justify-content: space-between;
+}
+
+.controls-DialogTemplate__close_button {
+   position: relative;
+   z-index: 2; // The close button is above the content
+   align-self: flex-start;
+   flex-shrink: 0;
+   margin-top: var(--close-button_offset-top_dialog);
+}
+
+.controls-DialogTemplate__close_linkButton {
+   margin-top: var(--close-link-button_offset-top_dialog);
+   margin-right: var(--close-link-button_offset-right_dialog);
+}
+
+.controls-DialogTemplate__close-button_without_head {
+   position: absolute;
+   right: 0;
+   top: 0;
+   display: flex;
+}
+
+.controls-DialogTemplate__caption {
+   align-items: baseline;
+   flex-shrink: 100;
+   display: flex;
+   overflow: hidden;
+   cursor: default;
+   min-width: var(--header_min-width_dialog);
+   height: var(--header-min-height_dialog);
+   margin-left: var(--header_padding-left_dialog);
+   margin-right: var(--header_caption_offset-right_dialog);
+   line-height: var(--line-height_dialogTemplate_caption); // the baseline is not centered
+}
+
+.controls-DialogTemplate__caption_text {
+   text-overflow: ellipsis;
+   overflow: hidden;
+   white-space: nowrap;
+}
+
+.controls-DialogTemplate__footer {
+   background: var(--footer_background-color_dialog);
+   height: var(--footer_min-height_dialog);
+   flex-shrink: 0;
+   border-top: var(--footer_top-border-thickness_dialog) solid var(--footer_top-border-color_dialog);
+}
+
+.controls-DialogTemplate__top-area-border {
+   border-bottom: var(--header_bottom-border-thickness_dialog) solid var(--header_bottom-border-color_dialog);
+}

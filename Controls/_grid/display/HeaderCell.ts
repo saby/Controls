@@ -14,7 +14,7 @@
     Не сделано:
     templateOptions Опции, передаваемые в шаблон ячейки заголовка.
 */
-import { IColspanParams } from './interface/IColumn';
+import {ICellPadding, IColspanParams} from './interface/IColumn';
 import { IHeaderCell } from './interface/IHeaderCell';
 import { IItemPadding } from 'Controls/display';
 import HeaderRow from './HeaderRow';
@@ -40,7 +40,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
     protected _$owner: HeaderRow<T>;
     protected _$column: IHeaderCell;
-    protected _$cellPadding: IItemPadding;
+    protected _$cellPadding: ICellPadding;
     protected _$backgroundStyle?: string;
     protected _$sorting?: string;
     protected _$contentOrientation?: ICellContentOrientation;
@@ -196,7 +196,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default'): string {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
-                          + ` ${this._getWrapperPaddingClasses(theme)}`
+                          + ` ${this._getHorizontalPaddingClasses(this._$cellPadding)}`
                           + ` ${this._getColumnSeparatorClasses(theme)}`;
 
         wrapperClasses += this._getControlsBackgroundClass(style, backgroundColorStyle);
@@ -311,44 +311,14 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         }
     }
 
-    protected _getWrapperPaddingClasses(theme: string): string {
+    protected _getHorizontalPaddingClasses(cellPadding: ICellPadding): string {
         // Для ячейки, создаваемой в связи с множественной лесенкой не нужны отступы, иначе будут проблемы с наложением
         // тени: https://online.sbis.ru/opendoc.html?guid=758f38c7-f5e7-447e-ab79-d81546b9f76e
         if (this._$isLadderCell) {
             return '';
         }
 
-        let paddingClasses = '';
-        const leftPadding = this._$owner.getLeftPadding();
-        const rightPadding = this._$owner.getRightPadding();
-        const isMultiSelectColumn = this.isMultiSelectColumn();
-        const isFirstColumn = this.isFirstColumn();
-        const isLastColumn = this.isLastColumn();
-        const cellPadding = this._$cellPadding;
-        const cellLeftPadding = cellPadding && cellPadding.left;
-        const cellRightPadding = cellPadding && cellPadding.right;
-
-        // todo <<< START >>> need refactor css classes names
-        const compatibleLeftPadding = cellLeftPadding ? `_${cellLeftPadding.toLowerCase()}` : (leftPadding === 'default' ? '' : `_${leftPadding}`);
-        const compatibleRightPadding = cellRightPadding ? `_${cellRightPadding.toLowerCase()}` : (rightPadding === 'default' ? '' : `_${rightPadding}`);
-        // todo <<< END >>>
-
-        if (!isMultiSelectColumn) {
-            if (!isFirstColumn) {
-                if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
-                    paddingClasses += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}`;
-                }
-            } else {
-                paddingClasses += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
-            }
-        }
-
-        // right padding
-        if (isLastColumn) {
-            paddingClasses += ` controls-Grid__cell_spacingLastCol_${rightPadding}`;
-        } else {
-            paddingClasses += ` controls-Grid__cell_spacingRight${compatibleRightPadding}`;
-        }
+        let classes = super._getHorizontalPaddingClasses(cellPadding);
 
         // Для хлебной крошки в первой ячейке хедера не нужен отступ слева.
         // Никак больше нельзя определить, что в ячейку передали хлебную крошку,
@@ -357,18 +327,18 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         //  И здесь бы уже звали толкьо this._$column.getLeftPadding()
         //  https://online.sbis.ru/opendoc.html?guid=686fb34b-fb74-4a11-8306-67b71e3ded0c
         if (this._$column.isBreadCrumbs) {
-            paddingClasses += ' controls-Grid__cell_spacingFirstCol_null';
+            classes += ' controls-Grid__cell_spacingFirstCol_null';
 
             // Если есть ячейка для мультивыбора, то нужно сдвинуть хлебные крошки, что бы они были прижаты к
             // левому краю таблицы. Сейчас это единственный простой способ сделать это.
             // В идеале где-то на уровне Explorer нужно переопределить HeaderRow-модель и заколспанить в ней
             // ячейку для мультивыбора и ячейку в которой находятся хлебные крошки.
             if (this._$owner.hasMultiSelectColumn()) {
-                paddingClasses += ' controls-Grid__cell_spacingBackButton_with_multiSelection';
+                classes += ' controls-Grid__cell_spacingBackButton_with_multiSelection';
             }
         }
 
-        return paddingClasses;
+        return classes;
     }
 
     getRelativeCellWrapperClasses(): string {

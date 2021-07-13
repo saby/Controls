@@ -201,7 +201,9 @@ export default class Application extends Control<IApplication> {
 
       this._globalPopup.registerGlobalPopup();
       this._popupManager.init();
-
+      if (this._options.isAdaptive) {
+         this._fixIOSHtmlScrollBug();
+      }
    }
    protected _beforeUpdate(options: IApplication): void {
       this._updateTouchClass();
@@ -592,6 +594,17 @@ export default class Application extends Control<IApplication> {
       setTimeout(() => {
          document.documentElement.style.height = '100%';
       }, 500);
+   }
+
+   /**
+    * TODO: experimental for fix safari bug with body scrolling
+    * https://online.sbis.ru/opendoc.html?guid=8cf427e6-620c-4813-8935-d96f3c6452a8
+    * @private
+    */
+   private _fixIOSHtmlScrollBug(): void {
+      if (detection.isMobileSafari) {
+         document.documentElement.style.overflow = 'hidden';
+      }
    }
 
    private _getResourceUrl(str: string): string {

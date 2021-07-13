@@ -55,17 +55,10 @@ export {
     IItemActionsTemplateConfig, ISwipeConfig, ItemsFactory, IViewIterator
 };
 export {default as CollectionItem, IOptions as ICollectionItemOptions} from './_display/CollectionItem';
-import {default as Enum} from './_display/Enum';
-export {Enum};
-import {default as Flags} from './_display/Flags';
-export {Flags};
-import {default as FlagsItem} from './_display/FlagsItem';
-export {FlagsItem};
 import {default as GroupItem} from './_display/GroupItem';
 export {GroupItem};
 import * as itemsStrategy from './_display/itemsStrategy';
 export {itemsStrategy};
-export {default as Ladder} from './_display/Ladder';
 import {default as Search} from './_display/Search';
 export {Search};
 import {default as Tree} from './_display/Tree';
@@ -96,20 +89,12 @@ export {IEditableCollectionItem} from './_display/interface/IEditableCollectionI
 export {ICollectionItem} from './_display/interface/ICollectionItem';
 export {IBaseCollection, TItemKey} from './_display/interface';
 
-import {default as TileCollection} from './_display/TileCollection';
-export {TileCollection};
-import {default as TileCollectionItem} from './_display/TileCollectionItem';
-export {TileCollectionItem};
-
 import * as GridLadderUtil from './_display/utils/GridLadderUtil';
 export {GridLadderUtil};
 export {ILadderObject, IStickyColumn, ILadderConfig, IStickyLadderConfig, TLadderElement} from './_display/utils/GridLadderUtil';
 export {default as isFullGridSupport} from './_display/utils/GridSupportUtil';
 export {default as GridLayoutUtil} from './_display/utils/GridLayoutUtil';
 
-import * as EditInPlaceController from './_display/controllers/EditInPlace';
-
-export { EditInPlaceController };
 import * as VirtualScrollController from './_display/controllers/VirtualScroll';
 
 export { VirtualScrollController };
@@ -138,13 +123,8 @@ export {TOP_LOADING_TRIGGER_ID, BOTTOM_LOADING_TRIGGER_ID} from 'Controls/_displ
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});
-register('Controls/display:Enum', Enum, {instantiate: false});
-register('Controls/display:Flags', Flags, {instantiate: false});
-register('Controls/display:FlagsItem', FlagsItem, {instantiate: false});
 
 register('Controls/display:GroupItem', GroupItem, {instantiate: false});
-register('Controls/display:TileCollection', TileCollection, {instantiate: false});
-register('Controls/display:TileCollectionItem', TileCollectionItem, {instantiate: false});
 register('Controls/display:Tree', Tree, {instantiate: false});
 register('Controls/display:TreeChildren', TreeChildren, {instantiate: false});
 register('Controls/display:TreeItem', TreeItem, {instantiate: false});

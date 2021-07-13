@@ -43,13 +43,18 @@ describe('Controls/viewCommands:PartialReload', () => {
             keyProperty: 'key',
             parentProperty: 'parent',
             nodeProperty: 'node',
-            selectedKeys: [],
+            selection: {selected: []},
             sourceController: {
-                load: () => Promise.resolve(selectedItems)
+                hasLoaded: () => true
             },
             items
         };
         reload = new PartialReload(options);
+        reload._getSourceController = () => {
+            return {
+                load: () => Promise.resolve(selectedItems)
+            };
+        }
     });
 
     it('item is changed', async () => {
@@ -58,7 +63,7 @@ describe('Controls/viewCommands:PartialReload', () => {
         };
         selectedItems = getSelectedItems([updatedItem]);
         await reload.execute({
-            selectedKeys: ['7']
+            selection: {selected: ['7']}
         });
         assert.deepEqual(items.getRecordById('7').getRawData(), updatedItem);
     });
@@ -66,7 +71,7 @@ describe('Controls/viewCommands:PartialReload', () => {
     it('item is removed', async () => {
         selectedItems = getSelectedItems([]);
         await reload.execute({
-            selectedKeys: ['7']
+            selection: {selected: ['7']}
         });
         assert.equal(items.getCount(), 11);
         assert.isNotOk(items.getRecordById('7'));
@@ -78,7 +83,7 @@ describe('Controls/viewCommands:PartialReload', () => {
         };
         selectedItems = getSelectedItems([addedItem]);
         await reload.execute({
-            selectedKeys: ['100']
+            selection: {selected: ['100']}
         });
         assert.equal(items.getCount(), 13);
         assert.isOk(items.getRecordById('100'));
@@ -90,7 +95,7 @@ describe('Controls/viewCommands:PartialReload', () => {
         };
         selectedItems = getSelectedItems([addedItem]);
         await reload.execute({
-            selectedKeys: ['100'],
+            selection: {selected: ['100']},
             sorting: [{
                 title: 'ASC'
             }]
@@ -108,7 +113,7 @@ describe('Controls/viewCommands:PartialReload', () => {
             key: '102', parent: '1', node: null, title: 'w'
         }]);
         await reload.execute({
-            selectedKeys: ['100', '101', '102'],
+            selection: {selected: ['100', '101', '102']},
             sorting: [{
                 title: 'ASC'
             }]
@@ -139,7 +144,7 @@ describe('Controls/viewCommands:PartialReload', () => {
             key: '102', parent: '1', node: null, title: 'w'
         }]);
         await reload.execute({
-            selectedKeys: ['100', '101', '102'],
+            selection: {selected: ['100', '101', '102']},
             sorting: [{
                 title: 'DESC'
             }],

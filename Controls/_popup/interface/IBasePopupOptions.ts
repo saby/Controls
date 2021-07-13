@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IEventHandlers, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
 import {ILoadingIndicatorOptions} from 'Controls/_LoadingIndicator/interface/ILoadingIndicator';
 import {List} from 'Types/collection';
-import {IDataLoader} from 'Controls/_popup/interface/IBasePopupOptions';
+import {IDataLoader} from 'Controls/_popup/interface/IBaseOpener';
 
 /**
  * Интерфейс базовых опций окна.
@@ -11,6 +11,7 @@ import {IDataLoader} from 'Controls/_popup/interface/IBasePopupOptions';
  */
 export interface IBasePopupOptions {
     id?: string;
+    content?: Control<IControlOptions, unknown> | TemplateFunction;
     className?: string;
     template?: Control<IControlOptions, unknown> | TemplateFunction | string;
     closeOnOutsideClick?: boolean;
@@ -19,13 +20,16 @@ export interface IBasePopupOptions {
     autofocus?: boolean;
     topPopup?: boolean;
     modal?: boolean;
+    autoClose?: boolean;
     closeOnOverlayClick?: boolean;
     eventHandlers?: IEventHandlers;
     isDefaultOpener?: boolean;
     showIndicator?: boolean;
     indicatorConfig?: ILoadingIndicatorOptions;
     dataLoaders?: IDataLoader[][];
+    restrictiveContainer?: string;
     zIndexCallback?(item: IPopupItemInfo, popupList: List<IPopupItemInfo>): number;
+
     actionOnScroll?: string; // TODO Перенести на sticky, Удалить из baseOpener
     zIndex?: number; // TODO Compatible
     isCompoundTemplate?: boolean; // TODO Compatible
@@ -108,6 +112,12 @@ export interface IBasePopupOptions {
  * @cfg {String} Опция принимает строку, в которой содержится имя открываемого шаблона.
  * @remark
  * Шаблон задается строкой для того чтобы загружаться лениво при открытии окна.
+ */
+
+/**
+ * @name Controls/_popup/interface/IBasePopupOptions#autoClose
+ * @cfg {Boolean} Автоматически закрывать окно через 5 секунд после открытия.
+ * @default false
  */
 
 /**

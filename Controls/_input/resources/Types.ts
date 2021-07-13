@@ -1,11 +1,11 @@
 /**
- * @type {String} Tag Тип поля ввода. Определяет HTML элемент для использования.
+ * @typedef {String} Tag Тип поля ввода. Определяет HTML элемент для использования.
  * @variant input Однострочное поле ввода.
  * @variant textarea Многострочное поле ввода.
  */
 export type Tag = 'input' | 'textarea';
 /**
- * @type {String} InputType Тип изменения, которое вносит пользователь в поле ввода.
+ * @typedef {String} InputType Тип изменения, которое вносит пользователь в поле ввода.
  * @variant insert Вставка нового значения в текущее.
  * @variant deleteForward Удаление части текущего значения, через нажатие клавишь [ctrl +] {delete}.
  * @variant deleteBackward Удаление части текущего значения, через нажатие клавишь [ctrl +] {backspace}.
@@ -13,7 +13,7 @@ export type Tag = 'input' | 'textarea';
  */
 export type InputType = 'insert' | 'delete' | 'deleteBackward' | 'deleteForward';
 /**
- * @type {String} NativeInputType Тип изменения, поддерживаемого браузерами, которое вносит пользователь в поле ввода.
+ * @typedef {String} NativeInputType Тип изменения, поддерживаемого браузерами, которое вносит пользователь в поле ввода.
  * @remark
  * https://developer.mozilla.org/en-US/docs/Web/API/InputEvent/inputType
  * https://rawgit.com/w3c/input-events/v1/index.html#interface-InputEvent-Attributes
@@ -25,7 +25,7 @@ export type InputType = 'insert' | 'delete' | 'deleteBackward' | 'deleteForward'
  * @variant deleteWordBackward Удаление через клавиши ctrl + backspace.
  * @variant deleteWordForward Удаление через клавиши ctrl + delete.
  */
-export type NativeInputType = 'insertText' | 'insertFromPaste' | 'insertFromDrop' | 'deleteContentBackward' |
+export type NativeInputType = 'insertText' | 'insertCompositionText' | 'insertFromPaste' | 'insertFromDrop' | 'deleteContentBackward' |
     'deleteContentForward' | 'deleteWordBackward' | 'deleteWordForward';
 
 /**

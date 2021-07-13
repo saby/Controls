@@ -2,7 +2,6 @@ import {detection} from 'Env/Env';
 import {IText} from 'Controls/decorator';
 import {ISelection, ISplitValue, InputType, NativeInputType} from './Types';
 import {SyntheticEvent} from 'UI/Vdom';
-import {controller as i18Controller} from 'I18n/i18n';
 
 export const MINUS: string = '-';
 export const HYPHEN: string = '–';
@@ -92,43 +91,9 @@ export function processKeydownEvent(event: SyntheticEvent<KeyboardEvent>, additi
     }
 }
 
-export function prepareEmptyValue(value, emptyValue) {
+export function prepareEmptyValue(value: string, emptyValue: string): string {
     if ((value === null || value === '') && emptyValue !== undefined) {
-        value = emptyValue;
+        return emptyValue;
     }
     return value;
-}
-
-export function transliterateInput(value: string, selection: ISelection): Promise<string> {
-    const text = value.slice(
-        selection.start,
-        selection.end
-    ) || value;
-    const firstLocale = i18Controller.currentLocale.indexOf('ru') !== -1 ? 'ru' : 'en';
-    const secondLocale = firstLocale === 'ru' ? 'en' : 'ru';
-    return import('I18n/keyboard').then(({changeLayout}) => {
-        return changeLayout(text, firstLocale, secondLocale).then((revertedText) => {
-            if (revertedText === text) {
-                return changeLayout(text, secondLocale, firstLocale).then((revertedText) => {
-                    return transliterateSelectedText(revertedText, value, selection);
-                });
-            } else {
-                return transliterateSelectedText(revertedText, value, selection);
-            }
-        });
-    });
-}
-
-export function transliterateSelectedText(
-    revertedText: string,
-    value: string,
-    selection?: ISelection
-): string {
-    if (selection && selection.start !== selection.end) {
-        return value.slice(0, selection.start) +
-            revertedText +
-            value.slice(selection.end, value.length);
-    } else {
-        return revertedText;
-    }
 }

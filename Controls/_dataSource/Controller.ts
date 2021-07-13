@@ -33,7 +33,7 @@ import {nodeHistoryUtil} from './nodeHistoryUtil';
 import {isEqual} from 'Types/object';
 import {mixin} from 'Types/util';
 import * as cInstance from 'Core/core-instance';
-import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
+import {TArrayGroupId} from 'Controls/list';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
@@ -802,7 +802,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             this._setItems(items);
         }
         this._toggleProcessOfCollectionChangeEvent(true);
-
+        this._notify('itemsChanged', items);
         return items;
     }
 
@@ -817,7 +817,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         this._breadcrumbsRecordSet = this._items instanceof RecordSet ? this._items.getMetaData().path : null;
         this._subscribeBreadcrumbsChange(this._breadcrumbsRecordSet);
         this._updateBreadcrumbsData();
-        this._notify('itemsChanged', items);
     }
 
     private _appendItems(items: RecordSet): void {

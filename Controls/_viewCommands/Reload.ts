@@ -15,7 +15,7 @@ export default class Reload {
     execute(meta: Partial<IOptions>): Promise<void> {
         const config = {...this._options, ...meta};
 
-        const executePromise = config.action ? config.action.execute(config) : Promise.resolve();
+        const executePromise = config.command ? config.command.execute(config) : Promise.resolve();
         return executePromise.then(() => {
             config.sourceController.reload();
         });

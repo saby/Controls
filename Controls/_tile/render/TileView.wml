@@ -10,7 +10,7 @@
                         item="{{_listModel.getTopLoadingTrigger()}}"/>
 
             <ws:partial
-                    template="Controls/list:ForTemplate"
+                    template="Controls/baseList:ForTemplate"
                     collection="{{_listModel}}"
                     itemActionsTemplate="{{_options.itemActionsTemplate}}"
                     itemActionsClass="{{_options.itemActionsClass}}"

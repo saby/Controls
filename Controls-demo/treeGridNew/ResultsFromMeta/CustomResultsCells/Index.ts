@@ -1,7 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsCells/CustomResultsCells';
 import * as resTpl from 'wml!Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsCells/resultCell';
-import {Memory} from 'Types/source';
+import {HierarchicalMemory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import { IColumn } from 'Controls/grid';
@@ -10,7 +10,7 @@ import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
+    protected _viewSource: HierarchicalMemory;
     protected _header: IHeaderCell[] = Flat.getHeader();
     protected _columns: IColumn[] = Flat.getColumns().map((c, i) => ({
         ...c,
@@ -25,8 +25,9 @@ export default class extends Control {
     }
 
     protected _beforeMount(): void {
-        this._viewSource = new Memory({
+        this._viewSource = new HierarchicalMemory({
             keyProperty: 'key',
+            parentProperty: 'parent',
             data: Flat.getData()
         });
     }

@@ -1,14 +1,16 @@
 import {default as BaseController} from 'Controls/_popupTemplate/BaseController';
-import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy');
+import StickyStrategy from 'Controls/_popupTemplate/Sticky/StickyStrategy';
 import * as cMerge from 'Core/core-merge';
 import * as cClone from 'Core/core-clone';
 import * as cInstance from 'Core/core-instance';
-import * as StickyContent from 'wml!Controls/_popupTemplate/Sticky/StickyContent';
-import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
+import * as StickyContent from 'wml!Controls/_popupTemplate/Sticky/Template/StickyContent';
+import getTargetCoords from 'Controls/_popupTemplate/TargetCoords';
 import {Logger} from 'UI/Utils';
 import {getScrollbarWidthByMeasuredBlock} from 'Controls/scroll';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 import {constants, detection} from 'Env/Env';
+import {IPopupItem, IPopupSizes, IStickyPopupOptions, IStickyPosition} from 'Controls/popup';
+import {ITargetCoords} from 'Controls/_popupTemplate/TargetCoords';
 
 export type TVertical = 'top' | 'bottom' | 'center';
 export type THorizontal = 'left' | 'right' | 'center';
@@ -23,10 +25,28 @@ export interface IStickyOffset {
     horizontal: number;
 }
 
-export interface IStickyPopupPosition {
+interface IStickyPositionConfigSizes {
+    width: number;
+    height: number;
+    minWidth: number;
+    minHeight: number;
+    maxWidth: number;
+    maxHeight: number;
+}
+
+export interface IStickyPositionConfig {
     targetPoint?: IStickyAlignment;
     direction?: IStickyAlignment;
     offset?: IStickyOffset;
+    config: IStickyPositionConfigSizes;
+    fittingMode: IStickyPosition;
+    restrictiveContainerCoords?: ITargetCoords;
+    sizes: IPopupSizes;
+}
+
+export interface IStickyItem extends IPopupItem {
+    popupOptions: IStickyPopupOptions;
+    positionConfig: IStickyPositionConfig;
 }
 
 const DEFAULT_OPTIONS = {
@@ -48,100 +68,6 @@ const DEFAULT_OPTIONS = {
     }
 };
 
-const _private = {
-    prepareOriginPoint(config) {
-        const newCfg = {...config};
-        newCfg.direction = newCfg.direction || {};
-        newCfg.offset = newCfg.offset || {};
-
-        if (typeof config.fittingMode === 'string') {
-            newCfg.fittingMode = {
-                vertical: config.fittingMode,
-                horizontal: config.fittingMode
-            };
-        } else {
-            if (config.fittingMode) {
-                if (!config.fittingMode.vertical) {
-                    newCfg.fittingMode.vertical = 'adaptive';
-                }
-                if (!config.fittingMode.horizontal) {
-                    newCfg.fittingMode.horizontal = 'adaptive';
-                }
-            }
-        }
-        if (!config.fittingMode) {
-            newCfg.fittingMode =  DEFAULT_OPTIONS.fittingMode;
-        }
-        return newCfg;
-    },
-    prepareConfig(self, cfg, sizes) {
-        cfg.popupOptions = _private.prepareOriginPoint(cfg.popupOptions);
-        const popupCfg = self._getPopupConfig(cfg, sizes);
-
-        const targetCoords = self._getTargetCoords(cfg, sizes);
-        cfg.position = StickyStrategy.getPosition(popupCfg, targetCoords);
-        _private.updateStickyPosition(cfg, popupCfg, targetCoords);
-
-        cfg.positionConfig = popupCfg;
-        _private.updateClasses(cfg, popupCfg);
-    },
-
-    updateClasses(cfg, popupCfg) {
-        // Remove the previous classes of direction and add new ones
-        _private.removeOrientationClasses(cfg);
-        cfg.popupOptions.className = (cfg.popupOptions.className || '') + ' ' + _private.getOrientationClasses(popupCfg);
-    },
-
-    updateSizes(positionCfg, popupOptions) {
-        const properties = ['width', 'maxWidth', 'minWidth', 'height', 'maxHeight', 'minHeight'];
-        properties.forEach((prop) => {
-            if (popupOptions[prop]) {
-                positionCfg.config[prop] = popupOptions[prop];
-            }
-        });
-    },
-
-    getOrientationClasses(cfg) {
-        let className = 'controls-Popup-corner-vertical-' + cfg.targetPoint.vertical;
-        className += ' controls-Popup-corner-horizontal-' + cfg.targetPoint.horizontal;
-        className += ' controls-Popup-align-horizontal-' + cfg.direction.horizontal;
-        className += ' controls-Popup-align-vertical-' + cfg.direction.vertical;
-        return className;
-    },
-
-    removeOrientationClasses(cfg) {
-        if (cfg.popupOptions.className) {
-            cfg.popupOptions.className = cfg.popupOptions.className.replace(/controls-Popup-corner\S*|controls-Popup-align\S*/g, '').trim();
-        }
-    },
-
-    updateStickyPosition(item, position, targetCoords): void {
-        const newStickyPosition = {
-            targetPoint: position.targetPoint,
-            direction: position.direction,
-            offset: position.offset,
-            position: item.position,
-            targetPosition: targetCoords,
-            margins: item.margins,
-            sizes: item.sizes
-        };
-        // быстрая проверка на равенство простых объектов
-        if (JSON.stringify(item.popupOptions.stickyPosition) !== JSON.stringify(newStickyPosition)) {
-            item.popupOptions.stickyPosition = newStickyPosition;
-        }
-    },
-
-    getWindowWidth() {
-        return constants.isBrowserPlatform && window.innerWidth;
-    },
-    getWindowHeight() {
-        return constants.isBrowserPlatform && window.innerHeight;
-    },
-    setStickyContent(item) {
-        item.popupOptions.content = StickyContent;
-    }
-};
-
 /**
  * Sticky Popup Controller
  * @class Controls/_popupTemplate/Sticky/StickyController
@@ -150,12 +76,11 @@ const _private = {
  */
 export class StickyController extends BaseController {
     TYPE: string = 'Sticky';
-    _private = _private;
     _bodyOverflow: string;
 
-    elementCreated(item, container) {
+    elementCreated(item: IStickyItem, container: HTMLElement): boolean {
         if (this._isTargetVisible(item)) {
-            _private.setStickyContent(item);
+            this._setStickyContent(item);
             item.position.position = undefined;
             this.prepareConfig(item, container);
         } else {
@@ -164,18 +89,19 @@ export class StickyController extends BaseController {
         return true;
     }
 
-    elementUpdated(item, container) {
-        _private.setStickyContent(item);
+    elementUpdated(item: IStickyItem, container: HTMLElement): boolean {
+        this._setStickyContent(item);
         const targetCoords = this._getTargetCoords(item, item.positionConfig.sizes);
-        _private.updateStickyPosition(item, item.positionConfig, targetCoords);
+        this._updateStickyPosition(item, item.positionConfig, targetCoords);
         if (this._isTargetVisible(item)) {
-            _private.updateClasses(item, item.positionConfig);
+            this._updateClasses(item, item.positionConfig);
 
             // If popupOptions has new sizes, calculate position using them.
             // Else calculate position using current container sizes.
-            _private.updateSizes(item.positionConfig, item.popupOptions);
+            this._updateSizes(item.positionConfig, item.popupOptions);
+            const targetCoords = this._getTargetCoords(item, item.positionConfig.sizes);
 
-            item.position = StickyStrategy.getPosition(item.positionConfig, this._getTargetCoords(item, item.positionConfig.sizes));
+            item.position = StickyStrategy.getPosition(item.positionConfig, targetCoords);
 
             // In landscape orientation, the height of the screen is low when the keyboard is opened.
             // Open Windows are not placed in the workspace and chrome scrollit body.
@@ -194,24 +120,25 @@ export class StickyController extends BaseController {
         } else {
             this._printTargetRemovedWarn();
         }
+        return true;
     }
 
-    elementAfterUpdated(item, container) {
+    elementAfterUpdated(item: IStickyItem, container: HTMLElement): boolean {
         // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
         if (!this._isTargetVisible(item)) {
             this._printTargetRemovedWarn();
             return false;
         }
         /* start: We remove the set values that affect the size and positioning to get the real size of the content */
+        const isBrowser = constants.isBrowserPlatform;
         const width = container.style.width;
-        const maxHeight = container.style.maxHeight;
         const maxWidth = container.style.maxWidth;
         // Если внутри лежит скроллконтейнер, то восстанавливаем позицию скролла после изменения размеров
         const scroll = container.querySelector('.controls-Scroll__content');
         const scrollTop = scroll?.scrollTop;
         container.style.maxHeight = item.popupOptions.maxHeight ? item.popupOptions.maxHeight + 'px' : '100vh';
         container.style.maxWidth = item.popupOptions.maxWidth ? item.popupOptions.maxWidth + 'px' : '100vw';
-        const hasScrollBeforeReset = constants.isBrowserPlatform && (document.body.scrollHeight > document.body.clientHeight);
+        const hasScrollBeforeReset = isBrowser && (document.body.scrollHeight > document.body.clientHeight);
         // Если значения явно заданы на опциях, то не сбрасываем то что на контейнере
         if (!item.popupOptions.width) {
             container.style.width = 'auto';
@@ -219,7 +146,7 @@ export class StickyController extends BaseController {
         if (!item.popupOptions.height) {
             container.style.height = 'auto';
         }
-        let hasScrollAfterReset = constants.isBrowserPlatform && (document.body.scrollHeight > document.body.clientHeight);
+        let hasScrollAfterReset = isBrowser && (document.body.scrollHeight > document.body.clientHeight);
         if (hasScrollAfterReset) {
             // Скролл на боди может быть отключен через стили
            if (!this._bodyOverflow) {
@@ -251,7 +178,7 @@ export class StickyController extends BaseController {
         container.style.width = width;
         container.style.maxWidth = maxWidth;
         // После того, как дочерние контролы меняют размеры, они кидают событие controlResize, окно отлавливает событие,
-        // измеряет верстку и выставляет себе новую позицию и размеры. Т.к. это проходит минимум в 2 цикла синхронизации,
+        // измеряет верстку и выставляет себе новую позицию и размеры. Т.к. это проходит минимум в 2 цикла синхронизации
         // то визуально видны прыжки. Уменьшаю на 1 цикл синхронизации простановку размеров
         // Если ограничивающих размеров нет (контент влезает в экран), то ставим высоту по контенту.
         container.style.maxHeight = item.position.maxHeight ? item.position.maxHeight + 'px' : '';
@@ -267,18 +194,14 @@ export class StickyController extends BaseController {
         scroll?.scrollTop = scrollTop;
         /* end: Return all values to the node. Need for vdom synchronizer */
 
-        // toDO выписана задача https://online.sbis.ru/opendoc.html?guid=79cdc24c-cf4c-45da-97b4-7353540a2b1b
-        if (item.popupOptions.resizeCallback instanceof Function) {
-            item.popupOptions.resizeCallback();
-        }
         return true;
     }
 
-    resizeInner(item, container): Boolean {
+    resizeInner(item: IStickyItem, container: HTMLElement): boolean {
         return this.elementAfterUpdated(item, container);
     }
 
-    dragNDropOnPage(item, container: HTMLDivElement, isInsideDrag: boolean): boolean {
+    dragNDropOnPage(item: IStickyItem, container: HTMLDivElement, isInsideDrag: boolean): boolean {
         const hasChilds = !!item.childs.length;
         const needClose = !isInsideDrag && item.popupOptions.closeOnOutsideClick && !hasChilds;
         if (needClose) {
@@ -288,22 +211,22 @@ export class StickyController extends BaseController {
         this.prepareConfig(item, container);
     }
 
-    getDefaultConfig(item) {
-        _private.setStickyContent(item);
-        item.popupOptions = _private.prepareOriginPoint(item.popupOptions);
+    getDefaultConfig(item: IStickyItem): void {
+        this._setStickyContent(item);
+        item.popupOptions = this._prepareOriginPoint(item.popupOptions);
         const popupCfg = this._getPopupConfig(item);
-        _private.updateStickyPosition(item, popupCfg);
+        this._updateStickyPosition(item, popupCfg);
         // Если идет dnd на странице, стики окна не открываем
         if (DnDController.isDragging()) {
-            return false;
+            return;
         }
         item.position = {
             top: -10000,
             left: -10000,
             minWidth: item.popupOptions.minWidth,
-            maxWidth: item.popupOptions.maxWidth || _private.getWindowWidth(),
+            maxWidth: item.popupOptions.maxWidth || this._getWindowWidth(),
             minHeight: item.popupOptions.minHeight,
-            maxHeight: item.popupOptions.maxHeight || _private.getWindowHeight(),
+            maxHeight: item.popupOptions.maxHeight || this._getWindowHeight(),
             width: item.popupOptions.width,
             height: item.popupOptions.height,
 
@@ -320,46 +243,139 @@ export class StickyController extends BaseController {
         }
     }
 
-    prepareConfig(item, container) {
-        _private.removeOrientationClasses(item);
-        this._getPopupSizes(item, container);
-        item.sizes.margins = this._getMargins(item);
-        _private.prepareConfig(this, item, item.sizes);
-    }
-
-    needRecalcOnKeyboardShow() {
+    needRecalcOnKeyboardShow(): boolean {
         return true;
     }
 
-    _getPopupConfig(cfg, sizes) {
-        const restrictiveContainerCoords = this._getRestrictiveContainerCoords(cfg);
+    beforeUpdateOptions(item: IStickyItem): void {
+        // sticky must update on elementAfterUpdatePhase
+    }
+
+    afterUpdateOptions(item: IStickyItem): void {
+        // sticky must update on elementAfterUpdatePhase
+    }
+
+    prepareConfig(item: IStickyItem, container: HTMLElement): void {
+        this._removeOrientationClasses(item);
+        this._getPopupSizes(item, container);
+        item.sizes.margins = this._getMargins(item);
+        this._prepareConfig(item, item.sizes);
+    }
+
+    _getPopupConfig(item: IStickyItem, sizes: IPopupSizes = {}): IStickyPositionConfig {
+        const restrictiveContainerCoords = this._getRestrictiveContainerCoords(item);
         return {
-            targetPoint: cMerge(cClone(DEFAULT_OPTIONS.targetPoint), cfg.popupOptions.targetPoint || {}),
+            targetPoint: cMerge(cClone(DEFAULT_OPTIONS.targetPoint), item.popupOptions.targetPoint || {}),
             restrictiveContainerCoords,
-            direction: cMerge(cClone(DEFAULT_OPTIONS.direction), cfg.popupOptions.direction || {}),
-            offset: cMerge(cClone(DEFAULT_OPTIONS.offset), cfg.popupOptions.offset || {}),
+            direction: cMerge(cClone(DEFAULT_OPTIONS.direction), item.popupOptions.direction || {}),
+            offset: cMerge(cClone(DEFAULT_OPTIONS.offset), item.popupOptions.offset || {}),
             config: {
-                width: cfg.popupOptions.width,
-                height: cfg.popupOptions.height,
-                minWidth: cfg.popupOptions.minWidth,
-                minHeight: cfg.popupOptions.minHeight,
-                maxWidth: cfg.popupOptions.maxWidth,
-                maxHeight: cfg.popupOptions.maxHeight
+                width: item.popupOptions.width,
+                height: item.popupOptions.height,
+                minWidth: item.popupOptions.minWidth,
+                minHeight: item.popupOptions.minHeight,
+                maxWidth: item.popupOptions.maxWidth,
+                maxHeight: item.popupOptions.maxHeight
             },
             sizes,
-            fittingMode: cfg.popupOptions.fittingMode
+            fittingMode: item.popupOptions.fittingMode as IStickyPosition
         };
     }
 
-    _beforeUpdateOptions(item): void {
-        // sticky must update on elementAfterUpdatePhase
+    private _prepareOriginPoint(config: IStickyPopupOptions): IStickyPopupOptions {
+        const newCfg = {...config};
+        newCfg.direction = newCfg.direction || {};
+        newCfg.offset = newCfg.offset || {};
+
+        if (typeof config.fittingMode === 'string') {
+            newCfg.fittingMode = {
+                vertical: config.fittingMode,
+                horizontal: config.fittingMode
+            };
+        } else {
+            if (config.fittingMode) {
+                if (!config.fittingMode.vertical) {
+                    newCfg.fittingMode.vertical = 'adaptive';
+                }
+                if (!config.fittingMode.horizontal) {
+                    newCfg.fittingMode.horizontal = 'adaptive';
+                }
+            }
+        }
+        if (!config.fittingMode) {
+            newCfg.fittingMode =  DEFAULT_OPTIONS.fittingMode;
+        }
+        return newCfg;
+    }
+    private _prepareConfig(item: IStickyItem, sizes: IPopupSizes): void {
+        item.popupOptions = this._prepareOriginPoint(item.popupOptions);
+        const popupCfg = this._getPopupConfig(item, sizes);
+
+        const targetCoords = this._getTargetCoords(item, sizes);
+        item.position = StickyStrategy.getPosition(popupCfg, targetCoords);
+        this._updateStickyPosition(item, popupCfg, targetCoords);
+
+        item.positionConfig = popupCfg;
+        this._updateClasses(item, popupCfg);
     }
 
-    _afterUpdateOptions(item): void {
-        // sticky must update on elementAfterUpdatePhase
+    private _updateClasses(item: IStickyItem, popupCfg: IStickyPositionConfig): void {
+        // Remove the previous classes of direction and add new ones
+        this._removeOrientationClasses(item);
+        item.popupOptions.className = (item.popupOptions.className || '') + ' ' + this._getOrientationClasses(popupCfg);
     }
 
-    private _getRestrictiveContainerCoords(item) {
+    private _updateSizes(positionCfg: IStickyPositionConfig, popupOptions: IStickyPopupOptions): void {
+        const properties = ['width', 'maxWidth', 'minWidth', 'height', 'maxHeight', 'minHeight'];
+        properties.forEach((prop) => {
+            if (popupOptions[prop]) {
+                positionCfg.config[prop] = popupOptions[prop];
+            }
+        });
+    }
+
+    private _getOrientationClasses(popupOptions: IStickyPopupOptions): string {
+        let className = 'controls-Popup-corner-vertical-' + popupOptions.targetPoint.vertical;
+        className += ' controls-Popup-corner-horizontal-' + popupOptions.targetPoint.horizontal;
+        className += ' controls-Popup-align-horizontal-' + popupOptions.direction.horizontal;
+        className += ' controls-Popup-align-vertical-' + popupOptions.direction.vertical;
+        return className;
+    }
+
+    private _removeOrientationClasses(item: IStickyItem): void {
+        if (item.popupOptions.className) {
+            item.popupOptions.className = item.popupOptions.className.replace(/controls-Popup-corner\S*|controls-Popup-align\S*/g, '').trim();
+        }
+    }
+
+    private _updateStickyPosition(item: IStickyItem, position: IStickyPositionConfig,
+                                  targetCoords?: ITargetCoords): void {
+        const newStickyPosition = {
+            targetPoint: position.targetPoint,
+            direction: position.direction,
+            offset: position.offset,
+            position: item.position,
+            targetPosition: targetCoords,
+            margins: item.margins,
+            sizes: item.sizes
+        };
+        // быстрая проверка на равенство простых объектов
+        if (JSON.stringify(item.popupOptions.stickyPosition) !== JSON.stringify(newStickyPosition)) {
+            item.popupOptions.stickyPosition = newStickyPosition;
+        }
+    }
+
+    private _getWindowWidth(): number {
+        return constants.isBrowserPlatform && window.innerWidth;
+    }
+    private _getWindowHeight(): number {
+        return constants.isBrowserPlatform && window.innerHeight;
+    }
+    private _setStickyContent(item: IStickyItem): void {
+        item.popupOptions.content = StickyContent;
+    }
+
+    private _getRestrictiveContainerCoords(item: IStickyItem): ITargetCoords {
         if (item.popupOptions.restrictiveContainer) {
             let restrictiveContainer;
             if (cInstance.instanceOfModule(item.popupOptions.restrictiveContainer, 'UI/Base:Control')) {
@@ -369,10 +385,13 @@ export class StickyController extends BaseController {
             } else if (typeof item.popupOptions.restrictiveContainer === 'string') {
                 // ищем ближайшего
                 restrictiveContainer = item.popupOptions.target.closest(item.popupOptions.restrictiveContainer);
+                if (!restrictiveContainer) {
+                    restrictiveContainer = document.querySelector(item.popupOptions.restrictiveContainer);
+                }
             }
 
             if (restrictiveContainer) {
-                return TargetCoords.get(restrictiveContainer);
+                return getTargetCoords(restrictiveContainer);
             }
         }
     }
@@ -381,7 +400,7 @@ export class StickyController extends BaseController {
         Logger.warn('Controls/popup:Sticky: Пропал target из DOM. Позиция окна может быть не верная');
     }
 
-    private _isTargetVisible(item): boolean {
+    protected _isTargetVisible(item: IStickyItem): boolean {
         const targetCoords = this._getTargetCoords(item, {});
         return !!targetCoords.width;
     }

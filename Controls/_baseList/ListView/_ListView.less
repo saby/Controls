@@ -1,0 +1,886 @@
+.controls-ListViewV {
+   height: 100%;
+}
+
+.controls-ListView__itemV {
+   position: relative;
+}
+
+.controls-ListViewV__loading_all,
+.controls-ListViewV__loading_up {
+   min-height: calc(var(--spinner_l_size_loadingIndicator) + var(--content_l_padding_loadingIndicator) * 2);
+}
+
+.controls-ListView__itemV_marker_default {
+   position: absolute;
+   width: var(--marker_thickness_list);
+   background-color: var(--marker_color_list);
+   top: 0;
+   max-height: 100%;
+   z-index: 1;
+}
+
+.controls-ListView__itemV_marker_height {
+   height: var(--marker_height_default_list);
+}
+
+.controls-ListView__itemV_marker_padding-default_image-l,
+.controls-ListView__itemV_marker_padding-l_image-l {
+   top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
+   height: var(--marker_height_padding-l_image-l_list);
+}
+
+.controls-ListView__itemV_marker_padding-default_image-m,
+.controls-ListView__itemV_marker_padding-l_image-m {
+   top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
+   height: var(--marker_height_padding-l_image-m_list);
+}
+
+.controls-ListView__itemV_marker_padding-default_image-s,
+.controls-ListView__itemV_marker_padding-l_image-s {
+   top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
+   height: var(--marker_height_padding-l_image-s_list);
+}
+
+.controls-ListView__itemV_marker_padding-default_image-xs,
+.controls-ListView__itemV_marker_padding-l_image-xs {
+   top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
+   height: var(--marker_height_padding-l_image-xs_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_image-l {
+   top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
+   height: var(--marker_height_padding-s_image-l_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_image-m {
+   top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
+   height: var(--marker_height_padding-s_image-m_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_image-s {
+   top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
+   height: var(--marker_height_padding-s_image-s_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_image-xs {
+   top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
+   height: var(--marker_height_padding-s_image-xs_list);
+}
+
+.controls-ListView__itemV_marker_padding-default_text-2xl,
+.controls-ListView__itemV_marker_padding-l_text-2xl {
+   height: var(--marker_height_padding-l_text-2xl_list);
+}
+
+.controls-ListView__itemV_marker_padding-default_text-xl,
+.controls-ListView__itemV_marker_padding-l_text-xl {
+   height: var(--marker_height_padding-l_text-xl_list);
+}
+.controls-ListView__itemV_marker_padding-default_text-l,
+.controls-ListView__itemV_marker_padding-l_text-l {
+   height: var(--marker_height_padding-l_text-l_list);
+}
+.controls-ListView__itemV_marker_padding-default_text-m,
+.controls-ListView__itemV_marker_padding-l_text-m {
+   height: var(--marker_height_padding-l_text-m_list);
+}
+.controls-ListView__itemV_marker_padding-default_text-2xs,
+.controls-ListView__itemV_marker_padding-l_text-xs {
+   height: var(--marker_height_padding-l_text-xs_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_text-2xl,
+.controls-ListView__itemV_marker_padding-null_text-2xl {
+   height: var(--marker_height_padding-s_text-2xl_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_text-xl,
+.controls-ListView__itemV_marker_padding-null_text-xl {
+   height: var(--marker_height_padding-s_text-xl_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_text-l,
+.controls-ListView__itemV_marker_padding-null_text-l {
+   height: var(--marker_height_padding-s_text-l_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_text-m,
+.controls-ListView__itemV_marker_padding-null_text-m {
+   height: var(--marker_height_padding-s_text-m_list);
+}
+
+.controls-ListView__itemV_marker_padding-s_text-xs,
+.controls-ListView__itemV_marker_padding-null_text-xs {
+   height: var(--marker_height_padding-s_text-xs_list);
+}
+
+.controls-ListView__itemV_marker_padding-null_image-l {
+   height: var(--marker_height_padding-s_image-l_list);
+}
+
+.controls-ListView__itemV_marker_padding-null_image-m {
+   height: var(--marker_height_padding-s_image-m_list);
+}
+
+.controls-ListView__itemV_marker_padding-null_image-s {
+   height: var(--marker_height_padding-s_image-s_list);
+}
+
+.controls-ListView__itemV_marker_padding-null_image-xs {
+   height: var(--marker_height_padding-s_image-xs_list);
+}
+
+.controls-ListView__itemV_marker-left {
+   left: 0;
+}
+.controls-ListView__itemV_marker-right {
+   right: 0;
+}
+
+.controls-ListView__itemV .controls-ListView__checkbox_position-default {
+   float: left;
+   margin-top: var(--checkbox_offset-top_list);
+}
+
+.controls-ListView__itemV .controls-ListView__checkbox_position-custom {
+   display: inline-block;
+}
+
+.ws-is-desktop-platform .controls-ListView__checkbox-onhover {
+   visibility: hidden;
+}
+
+.ws-is-hover .controls-ListView__itemV:hover .controls-ListView__checkbox-onhover {
+   visibility: visible;
+}
+
+.controls-ListView__footer {
+   display: flex;
+   align-items: baseline;
+   min-height: var(--inline_height_m);
+   &::before {
+      content: '\200b';
+      font-size: var(--font-size_xl);
+   }
+}
+
+.controls-ListView__footer__content {
+   width: 100%;
+}
+
+.controls-ListView__footer__paddingLeft_withCheckboxes {
+   padding-left: calc(var(--checkbox_offset-left_list) + var(--click-area_width_checkbox));
+}
+
+.controls-ListView__footer__paddingLeft_default {
+   padding-left: var(--item_padding-left_m_list);
+}
+
+.controls-ListView__item_default-topPadding_null,
+.controls-ListView__item_master-topPadding_null,
+.controls-ListView__itemV_marker_master_topPadding-null {
+   padding-top: 0;
+}
+
+.controls-ListView__item_default-topPadding_s,
+.controls-ListView__item_master-topPadding_s,
+.controls-ListView__itemV_marker_master_topPadding-s {
+   padding-top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list));
+   &.controls-ListView__rowSeparator_size-s {
+      padding-top: var(--item_padding-top_s_list);
+   }
+   &.controls-ListView__rowSeparator_size-l {
+      padding-top: calc(var(--item_padding-top_s_list) + var(--item-separator_s_thickness_list) - var(--item-separator_l_thickness_list));
+   }
+}
+
+.controls-ListView__item_default-topPadding_l,
+.controls-ListView__item_master-topPadding_l,
+.controls-ListView__itemV_marker_master_topPadding-l {
+   padding-top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
+   &.controls-ListView__rowSeparator_size-s {
+      padding-top: var(--offset_xs);
+   }
+   &.controls-ListView__rowSeparator_size-l {
+      padding-top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list) - var(--item-separator_l_thickness_list));
+   }
+}
+
+.controls-ListView__item_default-topPadding_default {
+   padding-top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list));
+   &.controls-ListView__rowSeparator_size-s {
+      padding-top: var(--offset_xs);
+   }
+   &.controls-ListView__rowSeparator_size-l {
+      padding-top: calc(var(--offset_xs) + var(--item-separator_s_thickness_list) - var(--item-separator_l_thickness_list));
+   }
+}
+
+.controls-ListView__item_master-topPadding_default {
+   padding-top: var(--master_item_padding-top_list);
+}
+
+.controls-ListView__item_default-bottomPadding_null,
+.controls-ListView__item_master-bottomPadding_null,
+.controls-ListView__itemV_marker_master_bottomPadding-null {
+   padding-bottom: 0;
+}
+
+.controls-ListView__item_default-bottomPadding_s,
+.controls-ListView__item_master-bottomPadding_s,
+.controls-ListView__itemV_marker_master_bottomPadding-s {
+   padding-bottom: var(--item_padding-bottom_s_list);
+}
+
+.controls-ListView__item_default-bottomPadding_l,
+.controls-ListView__item_master-bottomPadding_l,
+.controls-ListView__itemV_marker_master_bottomPadding-l {
+   padding-bottom: var(--offset_xs);
+}
+
+.controls-ListView__item_default-bottomPadding_default {
+   padding-bottom: var(--offset_xs);
+}
+
+.controls-ListView__item_master-bottomPadding_default {
+   padding-bottom: var(--master_item_padding-bottom_list);
+}
+
+.controls-ListView__itemContent_withCheckboxes,
+.controls-ListView__groupContent__leftPadding_withCheckboxes,
+.controls-ListView__footer__paddingLeft_withCheckboxes {
+   padding-left: calc(var(--checkbox_offset-left_list) + var(--click-area_width_checkbox));
+}
+
+.controls-ListView__item-leftPadding_default,
+.controls-ListView__groupContent__leftPadding_default,
+.controls-ListView__footer__paddingLeft_default {
+   padding-left: var(--item_padding-left_default_list);
+}
+
+.controls-ListView__item-leftPadding_null,
+.controls-ListView__groupContent__leftPadding_null,
+.controls-ListView__footer__paddingLeft_null {
+   padding-left: 0;
+}
+
+.controls-ListView__item-leftPadding_xs,
+.controls-ListView__groupContent__leftPadding_xs,
+.controls-ListView__footer__paddingLeft_xs {
+   padding-left: var(--item_padding-left_xs_list);
+}
+
+.controls-ListView__item-leftPadding_s,
+.controls-ListView__groupContent__leftPadding_s,
+.controls-ListView__footer__paddingLeft_s {
+   padding-left: var(--item_padding-left_s_list);
+}
+
+.controls-ListView__item-leftPadding_m,
+.controls-ListView__groupContent__leftPadding_m,
+.controls-ListView__footer__paddingLeft_m {
+   padding-left: var(--item_padding-left_m_list);
+}
+
+.controls-ListView__item-leftPadding_l,
+.controls-ListView__groupContent__leftPadding_l,
+.controls-ListView__footer__paddingLeft_l {
+   padding-left: var(--item_padding-left_l_list);
+}
+
+.controls-ListView__item-leftPadding_xl,
+.controls-ListView__groupContent__leftPadding_xl,
+.controls-ListView__footer__paddingLeft_xl {
+   padding-left: var(--item_padding-left_xl_list);
+}
+
+.controls-ListView__item-leftPadding_xxl,
+.controls-ListView__groupContent__leftPadding_xxl,
+.controls-ListView__footer__paddingLeft_xxl {
+   padding-left: var(--item_padding-left_2xl_list);
+}
+
+.controls-ListView__item-rightPadding_default,
+.controls-ListView__groupContent__rightPadding_default {
+   padding-right: var(--item_padding-right_default_list);
+}
+
+.controls-ListView__item-rightPadding_null,
+.controls-ListView__groupContent__rightPadding_null {
+   padding-right: 0;
+}
+
+.controls-ListView__item-rightPadding_xs,
+.controls-ListView__groupContent__rightPadding_xs {
+   padding-right: var(--item_padding-right_xs_list);
+}
+
+.controls-ListView__item-rightPadding_s,
+.controls-ListView__groupContent__rightPadding_s {
+   padding-right: var(--item_padding-right_s_list);
+}
+
+.controls-ListView__item-rightPadding_m,
+.controls-ListView__groupContent__rightPadding_m {
+   padding-right: var(--item_padding-right_m_list);
+}
+
+.controls-ListView__item-rightPadding_l,
+.controls-ListView__groupContent__rightPadding_l {
+   padding-right: var(--item_padding-right_l_list);
+}
+
+.controls-ListView__item-rightPadding_xl,
+.controls-ListView__groupContent__rightPadding_xl {
+   padding-right: var(--item_padding-right_xl_list);
+}
+
+.controls-ListView__item-rightPadding_xxl,
+.controls-ListView__groupContent__rightPadding_xxl {
+   padding-right: var(--item_padding-right_2xl_list);
+}
+
+.controls-ListView__itemContent {
+   z-index: 1;
+}
+
+.controls-itemActionsV {
+   z-index: 1;
+}
+
+.controls-ListView__item_active {
+   background-color: var(--item_active_background-color_list);
+}
+
+.controls-background-default_sticked {
+   background-color: var(--background-color);
+}
+
+.controls-ListView__item_editing {
+   > .controls-itemActionsV,
+   .controls-itemActionsV_custom {
+      opacity: 1;
+      visibility: visible;
+   }
+}
+
+.controls-ListView__item_background-editing_default {
+   background-color: var(--item_editing_background-color_list);
+}
+
+/*
+   Сделать тень у перетаскиваемой записи, просто навесив box-shadow, не получится,
+   т.к. box-shadow всегда выходит слева и справа, а нужно только сверху и снизу.
+   Эту проблему можно решить, перебив тень слева и справа тенью цветом фона,
+   но тогда новая тень будет еще перекрывать контент, если внутри ячейки нет отступа слева или справа.
+ */
+.controls-ListView__item_dragging {
+   // Чтобы тень отображалась у лесенки
+   z-index: 2;
+}
+.controls-ListView__item_dragging:before {
+   height: var(--item_dragging_shadow-height_list);
+   box-shadow: 0 var(--item_dragging_shadow-top_height_list) var(--item_dragging_shadow-spread_list) var(--item_dragging_shadow-color_list);
+   width: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   content: '\200b';
+}
+.controls-ListView__item_dragging:after {
+   height: var(--item_dragging_shadow-height_list);
+   box-shadow: 0 var(--item_dragging_shadow-height_list) var(--item_dragging_shadow-spread_list) var(--item_dragging_shadow-color_list);
+   width: 100%;
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   content: '\200b';
+}
+
+.controls-ListView__itemContent_dragging {
+   opacity: var(--item_dragging_opacity_list);
+}
+
+.controls-ListView__item-dragging-counter {
+   position: absolute;
+   display: flex;
+   align-items: center;
+   right: var(--item_dragging_counter_right_list);
+   top: var(--item_dragging_counter_top_list);
+   height: var(--item_dragging_counter_height_list);
+   font-size: var(--item_dragging_counter_font-size_list);
+   color: var(--contrast_text-color);
+   background-color: var(--primary_contrast_background-color);
+   border-radius: var(--item_dragging_counter_border-radius_list);
+   padding: var(--item_dragging_counter_padding_list);
+   z-index: 1;
+}
+
+/* region ItemActions display */
+
+.controls-BaseControl_showActions_visible {
+   .controls-ListView__item_showActions {
+      .controls-itemActionsV_custom,
+      > .controls-itemActionsV {
+         visibility: visible;
+         opacity: 1;
+      }
+   }
+}
+
+.ws-is-hover .controls-BaseControl_showActions_delayed {
+   .controls-ListView__item_showActions:hover {
+      .controls-itemActionsV_custom,
+      > .controls-itemActionsV {
+         animation: timeout .5s;
+      }
+   }
+}
+.ws-is-hover .controls-BaseControl_showActions_delayed,
+.ws-is-hover .controls-BaseControl_showActions_onhover {
+   .controls-ListView__item_showActions:hover {
+      .controls-itemActionsV_custom,
+      > .controls-itemActionsV {
+         visibility: visible;
+         opacity: 1;
+      }
+   }
+   .controls-ListView__item_highlightOnHover_editing:hover {
+      background-color: var(--item_editing_background-color_list);
+   }
+}
+
+/* endregion ItemActions display */
+
+.controls-ListView__groupContent {
+   display: flex;
+   align-items: baseline;
+   min-width: 0;
+   flex-grow: 1;
+   line-height: 1;
+   min-height: var(--grouping_height_list);
+   // убрал overflow по задаче https://online.sbis.ru/opendoc.html?guid=c2378e36-137e-44e6-a339-1c5bd549a772
+   //overflow: hidden;
+}
+
+// TODO необходимо разобраться с высотой групп.
+//  Базовая линия в группе сейчас должна быть 16px из-за expander.
+//  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
+.controls-ListView__groupContent_baseline_default:before {
+   content: '\200b';
+   font-size: var(--grouping_expander_icon-size_list);
+}
+
+.controls-ListView__groupSeparator {
+   height: calc(var(--grouping_height_list) / 2 - var(--grouping_separator_thickness_list));
+   margin-bottom: calc(var(--grouping_height_list) / 2);
+   border-bottom: var(--grouping_separator_thickness_list) solid var(--grouping_separator_color_list);
+   min-width: 10%;
+   flex-grow: 1;
+   flex-shrink: 1;
+   font-size: var(--grouping_expander_icon-size_list);
+}
+
+.controls-ListView__groupSeparator-left {
+   margin-right: var(--grouping_expander_padding-left_list);
+}
+
+.controls-ListView__groupSeparator-right {
+   margin-left: var(--grouping_expander_padding-right_list);
+}
+
+.controls-ListView__groupContent-text_default {
+   font-size: var(--grouping_expander_font-size_list);
+}
+
+.controls-ListView__groupContent-text {
+   display: inline-block;
+   color: var(--grouping_expander_text-color_list);
+   white-space: nowrap;
+   flex-shrink: 1;
+   user-select: none;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.controls-ListView__groupContent_left {
+   text-align: left;
+}
+
+.controls-ListView__groupContent_right {
+   text-align: right;
+}
+
+.controls-ListView__groupContent_center {
+   text-align: center;
+}
+
+.controls-ListView__groupContent-withoutGroupSeparator {
+   flex-grow: 1;
+}
+
+/* В safari на iPad так отрисовывается Tensor-font, что у блоков с текстом сверху на ~1 пиксель больше отступ, чем
+    у тех же блоков в любых других браузерах, в том числе на macOS. Это приводит к тому, что разделители у групп визуально
+    задраны на ~1px */
+.ws-is-mobile-safari {
+   .controls-ListView__groupContent-text {
+      position: relative;
+      top: -1px;
+   }
+}
+
+.controls-ListView__groupExpander {
+   cursor: pointer;
+}
+
+.controls-ListView__groupExpander_left::before {
+   padding-right: var(--grouping_expander_icon_offset_list);
+   content: '\e000';
+}
+
+.controls-ListView__groupExpander_right::after {
+   padding-left: var(--grouping_expander_icon_offset_list);
+   content: '\e000';
+}
+
+.controls-ListView__groupExpander-iconSize_default {
+   &::before,
+   &::after {
+      width: var(--grouping_expander_icon-size_list);
+      font-size: var(--grouping_expander_icon-size_list);
+   }
+}
+
+.controls-ListView__groupExpander-iconSize_ {
+   @variants: 2xs, xs, s, m, l;
+   .for(@variants, { &@{_item} {
+      &::before,
+      &::after {
+         width: ~"var(--grouping_expander_icon-size-@{_item}_list)";
+         font-size: ~"var(--grouping_expander_icon-size-@{_item}_list)";
+      }
+   }});
+}
+
+.ws-is-hover .controls-ListView__groupExpander:hover {
+   color: var(--grouping_expander_hover_text-color_list);
+}
+
+.controls-ListView__groupExpander:active {
+   color: var(--grouping_expander_active_text-color_list);
+}
+
+.controls-ListView__groupExpander_collapsed_left:before {
+   content: '\e013';
+}
+
+.controls-ListView__groupExpander_collapsed_right:after {
+   content: '\e013';
+}
+
+.controls-ListView__groupHidden {
+   display: none;
+}
+
+.controls-ListView__groupContent-rightTemplate {
+   padding-left: var(--offset_m);
+   flex-shrink: 0;
+}
+
+.controls-ListView__empty {
+   color: var(--placeholder_text-color_list);
+   text-align: center;
+   font-size: var(--placeholder_font-size_list);
+}
+
+.controls-ListView__empty_topSpacing_null {
+   margin-top: 0;
+}
+
+.controls-ListView__empty_topSpacing_xs {
+   margin-top: var(--placeholder_padding-top_xs_list);
+}
+
+.controls-ListView__empty_topSpacing_s {
+   margin-top: var(--offset_xs);
+}
+
+.controls-ListView__empty_topSpacing_m {
+   margin-top: var(--offset_m);
+}
+
+.controls-ListView__empty_topSpacing_l {
+   margin-top: var(--offset_l);
+}
+
+.controls-ListView__empty_topSpacing_xl {
+   margin-top: var(--offset_2xl);
+}
+
+.controls-ListView__empty_topSpacing_xxl {
+   margin-top: var(--placeholder_padding-top_2xl_list);
+}
+
+.controls-ListView__empty_bottomSpacing_null {
+   margin-bottom: 0;
+}
+
+.controls-ListView__empty_bottomSpacing_xs {
+   margin-bottom: var(--placeholder_padding-bottom_xs_list);
+}
+
+.controls-ListView__empty_bottomSpacing_s {
+   margin-bottom: var(--offset_xs);
+}
+
+.controls-ListView__empty_bottomSpacing_m {
+   margin-bottom: var(--offset_m);
+}
+
+.controls-ListView__empty_bottomSpacing_l {
+   margin-bottom: var(--offset_l);
+}
+
+.controls-ListView__empty_bottomSpacing_xl {
+   margin-bottom: var(--offset_2xl);
+}
+
+.controls-ListView__empty_bottomSpacing_xxl {
+   margin-bottom: var(--placeholder_padding-bottom_2xl_list);
+}
+
+//MasterList styles
+
+.controls-MasterDetail_master-template .controls-ListView_master {
+   box-sizing: border-box;
+   padding-right: var(--master_item_horizontal-offset_list);
+}
+
+//Классы совместимости для перехода со старого дизайна masterDetail на новый
+.controls-master-template-newDesign .controls-ListView_master {
+   border-radius: var(--master_item_border-radius_list);
+}
+
+.controls-master-template-newDesign .controls-ListView__item_master {
+   border-radius: var(--master_item_border-radius_list);
+}
+
+.controls-master-template-newDesign .controls-ListView__item-leftPadding_default {
+   padding-left: var(--item_padding-left_s_list);
+}
+
+.controls-ListView__item__marked_master {
+   font-size: var(--font-size_l);
+   color: var(--master_item_selected_text-color_list);
+   font-weight: bold;
+}
+
+.controls-ListView__item__unmarked_master {
+   font-size: var(--font-size_l);
+}
+
+.controls-ListView__itemContent_master {
+   display: flex;
+   align-items: baseline;
+
+   &:before {
+      content: '\200b';
+      font-size: var(--font-size_2xl);
+   }
+}
+
+.ws-is-ie .controls-ListView__item__marked_master {
+   background-color: var(--master_item_selected_background-color_list);
+}
+
+.controls-ListView__itemV_marker_master {
+   position: absolute;
+   box-sizing: border-box;
+   width: var(--master-marker_thickness_list);
+   height: var(--master-marker_height_list);
+   background-color: var(--master-marker_color_list);
+   top: 0;
+   left: 0;
+}
+
+.controls-ListView__groupContent_cursor-default {
+   cursor: default;
+}
+
+.controls-ListView__itemV_cursor-default {
+   cursor: default;
+}
+
+.controls-ListView__itemV_cursor-pointer {
+   cursor: pointer;
+}
+
+.controls-ListView__item_master {
+   border-color: var(--master_item_background-color_list);
+   border-style: solid;
+   border-width: 0;
+   border-bottom-width: var(--master_item_separator_thickness_list);
+}
+
+//Пока страница не ожила, мы не знаем тач устройство или нет, так что на мобильных устройствах нужно скрыть операции над записью
+//TODO: после этой задачи нужно убрать not https://online.sbis.ru/opendoc.html?guid=87ddbeeb-fa7e-4462-b69b-c15188df61da
+.ws-is-hover:not(.ws-is-mobile-platform) {
+   .controls-ListView__item_master,
+   .controls-ListView__itemContent_master {
+      &:hover {
+         background-color: var(--master_item_hover_background-color_list);
+      }
+   }
+}
+
+.controls-ListView__groupContent_align-left {
+   justify-content: flex-start;
+}
+
+.controls-ListView__groupContent_align-right {
+   justify-content: flex-end;
+}
+
+.controls-ListView__groupContent_align-center {
+   justify-content: center;
+}
+
+.ws-is-hover .controls-ListView__highlightOnHover_default:hover {
+   background-color: var(--item_hover_background-color_list);
+}
+
+.ws-is-hover .controls-BaseControl_hover_enabled {
+   .controls-ListView__item_highlightOnHover_default {
+      &:hover {
+         background-color: var(--item_hover_background-color_list);
+      }
+      &:hover .controls-background-default {
+         background-color: var(--item_hover_background-color_list);
+      }
+      &:hover .controls-AreaCut__shadow_background-default {
+         background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, var(--item_hover_background-color_list) 100%)
+      }
+   }
+   .controls-ListView__item_highlightOnHover_default {
+      &:hover .controls-background-default{
+         background-color: var(--item_hover_background-color_list);
+      }
+   }
+}
+//TODO это должно уехать в BaseControl после задачи https://online.sbis.ru/opendoc.html?guid=92bedbf7-6038-4c1f-826e-b096b4cddd6d
+.controls-CheckboxMarker_inList {
+   height: var(--checkbox_height_list);
+}
+/// decorator:money in list, grid
+.controls-text-group{
+   color: var(--group-text-color_decoratorMoney);
+}
+
+.controls-text-list{
+   color: var(--list-text-color_decoratorMoney);
+}
+
+.controls-ListView__item_background_danger {
+   background-color: var(--danger_color);
+}
+
+.controls-ListView__item_background_success {
+   background-color: var(--success_color);
+}
+
+.controls-ListView__item_background_warning {
+   background-color: var(--warning_color);
+}
+
+.controls-ListView__item_background_primary {
+   background-color: var(--primary_color);
+}
+
+.controls-ListView__item_background_secondary {
+   background-color: var(--secondary_color);
+}
+
+.controls-ListView__item_background_unaccented {
+   background-color: var(--unaccented_color);
+}
+
+.controls-ListView__item_background_readonly {
+   background-color: var(--readonly_color);
+}
+
+.controls-ListView__rowSeparator_size-s {
+   border: 0 solid transparent;
+   border-top-width: var(--item-separator_s_thickness_list);
+   border-top-color: var(--item_separator_s_color_list);
+}
+
+.controls-ListView__rowSeparator_size-l {
+   border: 0 solid transparent;
+   border-top-width: var(--item-separator_l_thickness_list);
+   border-top-color: var(--item_separator_l_color_list);
+}
+
+// Верхнюю границу лучше задавать в зависимости от наличия заголовков/итогов
+.controls-ListView__itemV:first-child,
+.controls-ListView__groupHidden + .controls-ListView__itemV {
+   .controls-ListView__rowSeparator_size-s {
+      border-top-color: var(--item_edge_separator_s_color_list);
+   }
+
+   .controls-ListView__rowSeparator_size-l {
+      border-top-color: var(--item_edge_separator_l_color_list);
+   }
+}
+
+.controls-ListView__group + .controls-ListView__itemV .controls-ListView__itemContent {
+   border-top-color: transparent;
+}
+
+.controls-ListView__rowSeparator_bottom_size-s {
+   border-bottom: var(--item-separator_s_thickness_list) solid var(--item_edge_separator_s_color_list);
+}
+
+.controls-ListView__rowSeparator_bottom_size-l {
+   border-bottom: var(--item-separator_l_thickness_list) solid var(--item_edge_separator_l_color_list);
+}
+
+.controls-ListView__item_roundBorder_bottomLeft {
+   @variants: xs, s, m, l, xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         border-bottom-left-radius: ~"var(--border_radius_@{_item}_list)";
+      }
+   });
+}
+
+.controls-ListView__item_roundBorder_bottomRight {
+   @variants: xs, s, m, l, xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         border-bottom-right-radius: ~"var(--border_radius_@{_item}_list)";
+      }
+   });
+}
+
+.controls-ListView__item_roundBorder_topLeft {
+   @variants: xs, s, m, l, xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         border-top-left-radius: ~"var(--border_radius_@{_item}_list)";
+      }
+   });
+}
+
+.controls-ListView__item_roundBorder_topRight {
+   @variants: xs, s, m, l, xl;
+
+   .for(@variants, {
+      &_@{_item} {
+         border-top-right-radius: ~"var(--border_radius_@{_item}_list)";
+      }
+   });
+}

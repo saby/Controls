@@ -63,7 +63,7 @@ interface IResizeObserver {
  * @mixes Control/interface:IBackgroundStyle
  *
  * @author Красильников А.С.
- * @demo Controls-demo/Scroll/Container/StickyHeader/SomeSimpleHeaders/Index
+ * @demo Controls-demo/Scroll/Container/StickyBlock/SomeSimpleHeaders/Index
  */
 
 /*
@@ -174,8 +174,8 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         return this._index;
     }
 
-    constructor(cfg: IStickyHeaderOptions) {
-        super(cfg);
+    constructor(cfg: IStickyHeaderOptions, context?: object) {
+        super(cfg, context);
         this._observeHandler = this._observeHandler.bind(this);
     }
 

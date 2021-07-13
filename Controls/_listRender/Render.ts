@@ -4,9 +4,8 @@ import template = require('wml!Controls/_listRender/Render/Render');
 import defaultItemTemplate = require('wml!Controls/_listRender/Render/resources/ItemTemplateWrapper');
 
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {CollectionItem, Collection, EditInPlaceController, GroupItem} from 'Controls/display';
+import {CollectionItem, Collection} from 'Controls/display';
 import {constants} from 'Env/Env';
-import {Opener as DropdownOpener} from 'Controls/dropdown';
 import {Model} from "Types/entity";
 import 'css!Controls/list';
 import 'css!Controls/itemActions';
@@ -96,8 +95,7 @@ export default class Render extends Control<IRenderOptions> {
         }
         if (
             this._options.contextMenuEnabled !== false &&
-            this._options.contextMenuVisibility !== false &&
-            !EditInPlaceController.isEditing(this._options.listModel)
+            this._options.contextMenuVisibility !== false
         ) {
             this._notify('itemContextMenu', [item, e, false]);
             e.stopPropagation();

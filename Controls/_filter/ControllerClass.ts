@@ -313,7 +313,7 @@ export default class FilterControllerClass {
                 return historyItems ? historyItems : result;
             });
         } else {
-            return historyItems?.length ? Promise.resolve(historyItems) : this._loadHistoryItems(historyId, prefetchParams);
+            return historyItems ? Promise.resolve(historyItems) : this._loadHistoryItems(historyId, prefetchParams);
         }
     }
 
@@ -764,6 +764,11 @@ export default class FilterControllerClass {
         } else {
             minimizedItem.name = getPropValue(item, 'name');
             minimizedItem.viewMode = getPropValue(item, 'viewMode');
+        }
+        if (isNeedSaveHistory && getPropValue(item, 'displayTextValue')) {
+            const displayText = {...getPropValue(item, 'displayTextValue')};
+            delete displayText.title;
+            minimizedItem.displayTextValue = displayText;
         }
         return minimizedItem;
     }

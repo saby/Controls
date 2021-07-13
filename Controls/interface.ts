@@ -79,7 +79,7 @@ export {default as IGrouping, IGroupingOptions} from './_interface/IGrouping';
 export {default as IPromiseSelectable, IPromiseSelectableOptions} from './_interface/IPromiseSelectable';
 export {default as IResetValues} from './_interface/IResetValues';
 export {default as IDraggable, IDraggableOptions} from './_interface/IDraggable';
-export {IInputPlaceholder, IInputPlaceholderOptions} from './_interface/IInputPlaceholder';
+export {IInputPlaceholder, IInputPlaceholderOptions, PLACEHOLDER_VISIBILITY} from './_interface/IInputPlaceholder';
 export {IInputTag, IInputTagOptions} from './_interface/IInputTag';
 export {default as ITextValue} from './_interface/ITextValue';
 export {default as ISelectField, ISelectFieldsOptions} from './_interface/ISelectFields';

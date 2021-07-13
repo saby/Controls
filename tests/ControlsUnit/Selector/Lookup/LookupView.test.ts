@@ -245,6 +245,13 @@ describe('Controls/_lookup/Lookup/LookupView', () => {
          multiSelect: false,
          readOnly: true
       }));
+
+      lookup._items = getItems(1);
+      ok(lookup._isInputVisible({
+         placeholder: 'test',
+         placeholderVisibility: 'empty',
+			readOnly: true
+      }));
    });
 
    it('_isInputActive', function() {

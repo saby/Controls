@@ -712,8 +712,8 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
          // Выбирается хлебная крошка
          res = strategy.getSelectionForModel({selected: [2], excluded: []}, undefined, undefined, 'sad');
-         assert.deepEqual(toArrayKeys(res.get(true)), [21, 22]);
-         assert.deepEqual(toArrayKeys(res.get(null)), [2]);
+         assert.deepEqual(toArrayKeys(res.get(true)), [2, 21, 22]);
+         assert.deepEqual(toArrayKeys(res.get(null)), []);
          assert.deepEqual(toArrayKeys(res.get(false)), [1, 11, 12]);
 
          // исключена хлебная крошка
@@ -721,6 +721,12 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(toArrayKeys(res.get(true)), [11, 12]);
          assert.deepEqual(toArrayKeys(res.get(null)), [1]);
          assert.deepEqual(toArrayKeys(res.get(false)), [2, 21, 22]);
+
+         // выбрали ребенка хлебной крошки
+         res = strategy.getSelectionForModel({selected: [11], excluded: []}, undefined, undefined, 'sad');
+         assert.deepEqual(toArrayKeys(res.get(true)), [11]);
+         assert.deepEqual(toArrayKeys(res.get(null)), [1]);
+         assert.deepEqual(toArrayKeys(res.get(false)), [2, 12, 21, 22]);
       });
    });
 

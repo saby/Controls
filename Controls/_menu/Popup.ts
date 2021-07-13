@@ -290,7 +290,8 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     static getDefaultOptions(): object {
         return {
             selectedKeys: [],
-            backgroundStyle: 'default'
+            backgroundStyle: 'default',
+            hoverBackgroundStyle: 'default'
         };
     }
 }

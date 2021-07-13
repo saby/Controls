@@ -1,6 +1,8 @@
 import cInstance = require('Core/core-instance');
 import {getDimensions} from 'Controls/sizeUtils';
 import {getGapFixSize, POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyBlock/Utils';
+import {goUpByControlTree} from 'UI/NodeCollector';
+import {IControl} from 'UICommon/interfaces';
 
 const SCROLL_CONTAINERS_SELECTOR = '.controls-Scroll, .controls-Scroll-Container';
 
@@ -52,15 +54,16 @@ function getOffset(element: HTMLElement): { top: number; bottom: number } {
 
 function getStickyHeaderHeight(scrollableElement: HTMLElement): { top: number; bottom: number } {
    const scrollControlNode: HTMLElement = scrollableElement.closest(SCROLL_CONTAINERS_SELECTOR);
-   if (scrollControlNode?.controlNodes) {
-      for (let component of scrollControlNode.controlNodes) {
-         if (cInstance.instanceOfModule(component.control, 'Controls/scroll:Container')) {
+   if (scrollControlNode) {
+      const controls = goUpByControlTree(scrollControlNode);
+      controls.find((control: IControl) => {
+         if (cInstance.instanceOfModule(control, 'Controls/scroll:Container')) {
             return {
-               top: component.control.getHeadersHeight(POSITION.top, TYPE_FIXED_HEADERS.fixed),
-               bottom: component.control.getHeadersHeight(POSITION.bottom, TYPE_FIXED_HEADERS.fixed)
+               top: control.getHeadersHeight(POSITION.top, TYPE_FIXED_HEADERS.fixed),
+               bottom: control.getHeadersHeight(POSITION.bottom, TYPE_FIXED_HEADERS.fixed)
             };
          }
-      }
+      });
    }
    return { top: 0, bottom: 0 };
 }

@@ -1,0 +1,85 @@
+<div
+   class="
+      controls_list_theme-{{_options.theme}}
+      controls-ListViewV controls-ListView_{{_options.style}}
+      {{_options.loadingState ? 'controls-ListViewV__loading_' + _options.loadingState}}
+   "
+>
+   <ws:if data="{{_listModel}}">
+
+      <!--Top portioned search indicator-->
+      <ws:partial if="{{ _listModel.getTopPortionedSearchIndicator() }}"
+                  template="{{_listModel.getTopPortionedSearchIndicator().getTemplate()}}"
+                  item="{{_listModel.getTopPortionedSearchIndicator()}}"
+                  on:continueSearchClick="_onContinueSearchClick()"
+                  on:abortSearchClick="_onAbortSearchClick()"/>
+
+      <!--Top loading indicator-->
+      <ws:partial if="{{ _listModel.getTopLoadingIndicator() }}"
+                  template="{{_listModel.getTopLoadingIndicator().getTemplate()}}"
+                  item="{{_listModel.getTopLoadingIndicator()}}"/>
+      <!--Top loading trigger-->
+      <ws:partial template="{{_listModel.getTopLoadingTrigger().getTemplate()}}"
+                  item="{{_listModel.getTopLoadingTrigger()}}"/>
+
+      <div name="itemsContainer" class="controls-ListViewV__itemsContainer">
+         <ws:partial
+             template="{{_forTemplate}}"
+             collection="{{ _listModel }}"
+             keyPrefix="listView-item"
+             listModel="{{_listModel}}"
+
+             style="{{ _options.style }}"
+             theme="{{ _options.theme }}"
+
+             itemTemplate="{{ _itemTemplate }}"
+             itemTemplateProperty="{{ _options.itemTemplateProperty }}"
+             groupTemplate="{{ _groupTemplate }}"
+             markerPosition="{{ _options.markerPosition }}"
+
+             itemActionsPosition="{{ _options.itemActionsPosition }}"
+             itemActionsTemplate="{{ _options.itemActionsTemplate }}"
+             itemActionsClass="{{ _options.itemActionsClass }}"
+             swipeTemplate="{{ _options.swipeTemplate }}"
+             backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
+             stickyCallback="{{_options.stickyCallback}}">
+         </ws:partial>
+
+         <ws:if data="{{_options._needBottomPadding}}">
+            <div  class="controls-itemActionsV_outside-spacing"></div>
+         </ws:if>
+      </div>
+
+      <ws:if data="{{_options.emptyTemplate}}">
+         <ws:partial template="{{_options.emptyTemplate}}"/>
+      </ws:if>
+
+      <!--Bottom loading trigger-->
+      <ws:partial template="{{_listModel.getBottomLoadingTrigger().getTemplate()}}"
+                  item="{{_listModel.getBottomLoadingTrigger()}}"/>
+      <!--Bottom loading indicator-->
+      <ws:partial if="{{ _listModel.getBottomLoadingIndicator() }}"
+                  template="{{_listModel.getBottomLoadingIndicator().getTemplate()}}"
+                  item="{{_listModel.getBottomLoadingIndicator()}}"/>
+
+      <!--Bottom portioned search indicator-->
+      <ws:partial if="{{ _listModel.getBottomPortionedSearchIndicator() }}"
+                  template="{{_listModel.getBottomPortionedSearchIndicator().getTemplate()}}"
+                  item="{{_listModel.getBottomPortionedSearchIndicator()}}"
+                  on:continueSearchClick="_onContinueSearchClick()"
+                  on:abortSearchClick="_onAbortSearchClick()"/>
+
+      <ws:if data="{{_listModel.getFooter()}}">
+         <ws:partial
+            template="{{_listModel.getFooter().getTemplate()}}"
+            item="{{_listModel.getFooter()}}"
+            attr:class="{{_getFooterClasses()}}"
+         />
+      </ws:if>
+
+      <!--Global loading indicator-->
+      <ws:partial if="{{ _listModel.getGlobalLoadingIndicator() }}"
+                  template="{{_listModel.getGlobalLoadingIndicator().getTemplate()}}"
+                  item="{{_listModel.getGlobalLoadingIndicator()}}"/>
+   </ws:if>
+</div>

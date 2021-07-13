@@ -12,9 +12,18 @@
    padding-right: var(--master_item_horizontal-offset_list);
 }
 
-.controls-OldGridView__emptyTemplate,
 .controls-GridView__emptyTemplate {
    display: contents;
+}
+
+.controls-GridView__emptyTemplate .controls-EditingTemplateText_enabled {
+   background-color: var(--background-color_inputText);
+}
+
+// Курсор должен меняться только при наведении на текст, аналогично полям ввода. Он не должен меняться при
+// наведении на отступы от текста до границ.
+.controls-GridView__emptyTemplate .controls-EditingTemplateText_enabled .controls-EditingTemplateText__inner {
+   cursor: text;
 }
 
 .controls-GridView__emptyTemplate__cell {
@@ -329,6 +338,9 @@
    }
    .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default:hover .controls-background-default {
       background-color: var(--item_hover_background-color_list);
+   }
+   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default:hover .controls-AreaCut__shadow_background-default {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, var(--item_hover_background-color_list) 100%)
    }
    .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default:hover .controls-background-stack {
       background-color: var(--item_hover_background-color_list);

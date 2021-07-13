@@ -1,11 +1,11 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/operations/MultiSelectorCheckbox/Template';
-import {Memory} from 'Types/source';
-import {Gadgets} from 'Controls-demo/treeGridNew/DemoHelpers/DataCatalog';
+import {HierarchicalMemory} from 'Types/source';
+import {Flat} from 'Controls-demo/treeGridNew/DemoHelpers/Data/Flat';
 
 export default class MultiSelectorCheckboxDemo extends Control{
     _template: TemplateFunction = template;
-    _viewSource: Memory = null;
+    _viewSource: HierarchicalMemory = null;
     _gridColumns = null;
     _filter = null;
     _selectedKeys = null;
@@ -15,10 +15,10 @@ export default class MultiSelectorCheckboxDemo extends Control{
         this._selectedKeys = [];
         this._excludedKeys = [];
         this._filter = {};
-        this._gridColumns = Gadgets.getGridColumnsForFlat();
-        this._viewSource = new Memory({
-            keyProperty: 'id',
-            data: Gadgets.getFlatData()
+        this._gridColumns = Flat.getColumns();
+        this._viewSource = new HierarchicalMemory({
+            keyProperty: 'key',
+            data: Flat.getData()
         });
     }
 

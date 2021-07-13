@@ -1,0 +1,21 @@
+<div>
+    <div class="controlsDemo__wrapper">
+        <h3>HeadingPath</h3>
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label">backButtonFontSize=s</div>
+            <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" backButtonFontSize="s"/>
+        </div>
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label">backButtonFontSize=m</div>
+            <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" backButtonFontSize="m"/>
+        </div>
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label">backButtonFontSize=l</div>
+            <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" backButtonFontSize="l"/>
+        </div>
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label">backButtonFontSize=3xl</div>
+            <Controls.breadcrumbs:HeadingPath keyProperty="id" items="{{_items}}" backButtonFontSize="3xl"/>
+        </div>
+    </div>
+</div>

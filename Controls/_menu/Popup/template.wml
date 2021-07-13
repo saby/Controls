@@ -68,6 +68,7 @@
                        selectorTemplate="{{_options.selectorTemplate}}"
                        isCompoundTemplate="{{_options.isCompoundTemplate}}"
                        itemActions="{{_options.itemActions}}"
+                       hoverBackgroundStyle="{{_options.hoverBackgroundStyle}}"
                        itemActionVisibilityCallback="{{_options.itemActionVisibilityCallback}}"
                        keyProperty="{{_options.keyProperty}}"
                        displayProperty="{{_options.displayProperty}}"

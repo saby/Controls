@@ -42,7 +42,7 @@ class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, 
         } else if (this.isMultiSelectColumn()) {
             classes = '';
         } else {
-            classes = this._getHorizontalPaddingClasses(theme)
+            classes = this._getHorizontalPaddingClasses(this._$column.cellPadding)
                 + this._getVerticalPaddingClasses(theme)
                 + ' controls-Grid__row-cell__content'
                 + ' controls-GridView__emptyTemplate__cell'

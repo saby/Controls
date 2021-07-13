@@ -173,6 +173,7 @@ class Base extends Control<IMasterDetail, string> {
     protected _maxOffset: number;
     protected _prevCurrentWidth: string;
     protected _currentWidth: string;
+    protected _detailWidth: number;
     protected _currentMaxWidth: string;
     protected _currentMinWidth: string;
     protected _containerWidth: number;
@@ -275,6 +276,10 @@ class Base extends Control<IMasterDetail, string> {
             return this._getSettings(options).then((storage) => {
                 this._updateSizesByPropStorageId(storage, options);
             });
+        }
+
+        if (options.masterVisibility !== this._options.masterVisibility) {
+            this._updateOffset(options);
         }
     }
 
@@ -386,6 +391,9 @@ class Base extends Control<IMasterDetail, string> {
             options.masterMinWidth !== undefined) {
             let currentWidth = this._getOffsetValue(this._currentWidth || options.masterWidth);
             this._currentWidth = currentWidth + 'px';
+
+            const masterWidth = options.masterVisibility === 'visible' ? currentWidth : 0;
+            this._detailWidth = this._getContainerWidth() ? this._getContainerWidth() - masterWidth : 0;
 
             // Если нет контейнера(до маунта) и значение задано в процентах, то мы не можем высчитать в px maxOffset
             // Пересчитаем после маунта в px, чтобы работало движение

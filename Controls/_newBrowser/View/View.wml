@@ -10,6 +10,7 @@
                     name="masterList"
                     markedKey="{{_options.master.markedKey || _detailExplorerOptions.root}}"
                     style="master"
+                    loading="{{_masterLoading}}"
                     on:dragStart="_notifyHandler('masterDragStart')"
                     on:dragEnd="_notifyHandler('masterDragEnd')"
                     on:dragEnter="_notifyHandler('masterDragEnter')"
@@ -35,6 +36,7 @@
         <ws:if data="{{_options.detailContentTemplate}}">
             <ws:partial
                     template="{{_options.detailContentTemplate}}"
+                    loading="{{_detailLoading}}"
                     attr:class="controls-newBrowser__detail-list"
                     on:itemClick="_onExplorerItemClick(false)"
                     on:viewModeChanged="_onDetailExplorerChangedViewMode()"
@@ -48,6 +50,7 @@
                 <Controls.explorer:View
                         attr:class="controls-newBrowser__detail-list"
                         name="detailList"
+                        loading="{{_detailLoading}}"
                         on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
                         on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
                         on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"

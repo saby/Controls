@@ -1,0 +1,35 @@
+<div class="controls-StackTemplate__top-area
+            controls_popupTemplate_theme-{{_options.theme}} controls_theme-{{_options.theme}}
+            {{_options.headerBorderVisible ? 'controls-StackTemplate__top-area-border'}}
+            controls-StackTemplate__top-area_{{_options.headerBackgroundStyle}}">
+   <div class="controls-StackTemplate__top-area-content">
+      <ws:if data="{{_options.headingCaption}}">
+         <div class="controls-StackTemplate__caption">
+            <Controls.heading:Title attr:class="controls-StackTemplate__caption_text"
+                                    caption="{{_options.headingCaption}}"
+                                    fontSize="{{_options.headingFontSize}}"
+                                    fontColorStyle="{{_options.headingFontColorStyle}}"
+                                    readOnly="{{true}}"
+                                    tooltip="{{_options.headingCaption}}"/>
+         </div>
+      </ws:if>
+      <ws:if data="{{_options.headerContentTemplate}}">
+         <div class="controls-StackTemplate__headerContentTemplate">
+               <ws:partial template="{{_options.headerContentTemplate}}"
+                           scope="{{_options.stackOptions}}"
+                           theme="{{_options.theme}}"
+                           hasRightTemplate="{{ true }}"
+                           bodyContentTemplate="{{null}}"
+                           headerContentTemplate="{{null}}"
+                           footerContentTemplate="{{null}}" /> <!-- Опция с тем же названием есть на выпадающем списке.
+                                                                    Чтобы опция не пролетала до выпадающего списка, который лежит в стеке -->
+         </div>
+      </ws:if>
+      <div class="controls-StackTemplate__command_buttons">
+         <ws:if data="{{_options.showMaximizedButton || _options._maximizeButtonVisibility}}">
+            <div class="controls-StackTemplate__maximized_button" on:click="changeMaximizedState()"
+                 attr:title="{{_options._maximizeButtonTitle}}"></div>
+         </ws:if>
+      </div>
+   </div>
+</div>

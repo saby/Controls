@@ -86,11 +86,7 @@ export default abstract class Abstract<S, T> extends mixin<
             options.collection = collection;
             let instance;
 
-            if (collection && collection['[Types/_collection/IEnum]']) {
-                instance = create('Controls/display:Enum', options);
-            } else if (collection && collection['[Types/_collection/IFlags]']) {
-                instance = create('Controls/display:Flags', options);
-            } else if (collection && collection['[Types/_collection/IEnumerable]']) {
+            if (collection && collection['[Types/_collection/IEnumerable]']) {
                 // Fix test ControlsUnit\SBIS3.CONTROLS\Selection\MassSelectionsController.test.js:62:20
                 if (options && options.keyProperty === 'id' && Object.keys(options).length === 2) {
                     delete options.keyProperty;

@@ -3,8 +3,9 @@ import Popup from 'Controls/_popup/Manager/Popup';
 import Container from 'Controls/_popup/Manager/Container';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {Logger} from 'UI/Utils';
-import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
+import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo, IDragOffset} from 'Controls/_popup/interface/IPopup';
 import {goUpByControlTree} from 'UI/Focus';
+import { getClosestControl } from 'UI/NodeCollector';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
 import {constants, detection} from 'Env/Env';
@@ -192,7 +193,7 @@ class Manager {
         if (item) {
             const itemContainer = this._getItemContainer(id);
             // TODO: https://online.sbis.ru/opendoc.html?guid=7a963eb8-1566-494f-903d-f2228b98f25c
-            item.controller._beforeElementDestroyed(item, itemContainer);
+            item.controller.beforeElementDestroyed(item, itemContainer);
             return new Promise((resolve) => {
                 this._closeChilds(item).then(() => {
                     this._finishPendings(id, null, null, () => {
@@ -366,7 +367,7 @@ class Manager {
     }
 
     private _removeElement(item: IPopupItem, container: HTMLElement): Promise<void> {
-        const removeDeferred = item.controller._elementDestroyed(item, container);
+        const removeDeferred = item.controller.elementDestroyedWrapper(item, container);
         this._redrawItems();
 
         Manager._notifyEvent('managerPopupBeforeDestroyed', [item, this._popupItems, container]);
@@ -408,7 +409,7 @@ class Manager {
             // Register new popup
             this._fireEventHandler(item, 'onOpen');
             this._prepareIsTouchData(item);
-            return item.controller._elementCreated(item, this._getItemContainer(id));
+            return item.controller.elementCreatedWrapper(item, this._getItemContainer(id));
             // if it's CompoundTemplate, then compoundArea notify event, when template will ready.
             // notify this event on popupBeforePaintOnMount, cause we need synchronous reaction on created popup
             // if (!item.popupOptions.isCompoundTemplate) {
@@ -425,7 +426,7 @@ class Manager {
     protected _popupResizingLine(id: string, offset: number): boolean {
         const element = this.find(id);
         if (element) {
-            element.controller._popupResizingLine(element, offset);
+            element.controller.popupResizingLine(element, offset);
             Manager._notifyEvent('managerPopupUpdated', [element, this._popupItems]);
             return true;
         }
@@ -436,7 +437,7 @@ class Manager {
         const element = this.find(id);
         if (element) {
             // при создании попапа, зарегистрируем его
-            const needUpdate = element.controller._elementUpdated(element, this._getItemContainer(id));
+            const needUpdate = element.controller.elementUpdatedWrapper(element, this._getItemContainer(id));
             Manager._notifyEvent('managerPopupUpdated', [element, this._popupItems]);
             return !!needUpdate;
         }
@@ -446,7 +447,7 @@ class Manager {
     protected _popupMaximized(id: string, state: boolean): boolean {
         const element = this.find(id);
         if (element) {
-            element.controller._elementMaximized(element, this._getItemContainer(id), state);
+            element.controller.elementMaximized(element, this._getItemContainer(id), state);
             Manager._notifyEvent('managerPopupMaximized', [element, this._popupItems]);
             return true;
         }
@@ -465,7 +466,7 @@ class Manager {
         const element = this.find(id);
         if (element) {
             // при создании попапа, зарегистрируем его
-            return element.controller._elementAfterUpdated(element, this._getItemContainer(id));
+            return element.controller.elementAfterUpdatedWrapper(element, this._getItemContainer(id));
         }
         return false;
     }
@@ -547,7 +548,7 @@ class Manager {
         return goUpByControlTree(this._getActiveElement())[0];
     }
 
-    protected _popupDragStart(id: string, offset: number): boolean {
+    protected _popupDragStart(id: string, offset: IDragOffset): boolean {
         const element = this.find(id);
         if (element) {
             element.controller.popupDragStart(element, this._getItemContainer(id), offset);
@@ -635,7 +636,7 @@ class Manager {
     protected _popupDragEnd(id: string, offset: number): boolean {
         const element = this.find(id);
         if (element) {
-            element.controller._popupDragEnd(element, offset);
+            element.controller.popupDragEnd(element, offset);
             return true;
         }
         return false;
@@ -660,7 +661,7 @@ class Manager {
     protected _popupAnimated(id: string): boolean {
         const item = this._findItemById(id);
         if (item) {
-            return item.controller._elementAnimated(item, this._getItemContainer(id));
+            return item.controller.elementAnimated(item, this._getItemContainer(id));
         }
         return false;
     }
@@ -767,7 +768,7 @@ class Manager {
         setTimeout(() => {
             this._popupItems.each((item) => {
                 if (item.controller.needRecalcOnKeyboardShow()) {
-                    item.controller._elementUpdated(item, this._getItemContainer(item.id));
+                    item.controller.elementUpdatedWrapper(item, this._getItemContainer(item.id));
                 }
             });
             this._redrawItems();
@@ -855,15 +856,16 @@ class Manager {
     // Зовем метод close с шаблона. Если закрывать по механизму деактивации, то он уничтожит попап =>
     // у compoundArea вызовется сразу destroy. такую логику прервать нельзя
     private _getCompoundArea(popupContainer: HTMLElement): Control {
-        return $('.controls-CompoundArea', popupContainer)[0].controlNodes[0].control;
+        const compoundContainer = $('.controls-CompoundArea', popupContainer)[0];
+        return getClosestControl(compoundContainer);
     }
 
     private _updatePopupOptions(id: string, item: IPopupItem, oldOptions: IPopupOptions, result: boolean): void {
         if (result) {
             // Эмулируется поведение при открытии, когда состояние с initializing меняется на created
-            item.controller._beforeUpdateOptions(item);
+            item.controller.beforeUpdateOptions(item);
             this._redrawItems().then(() => {
-                item.controller._afterUpdateOptions(item);
+                item.controller.afterUpdateOptions(item);
                 ManagerController.getContainer().activatePopup(id);
             });
         } else {

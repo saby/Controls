@@ -20,6 +20,7 @@ import {IColumn} from 'Controls/grid';
 import {List, RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
+import * as Clone from 'Core/core-clone';
 import 'css!Controls/toggle';
 import 'css!Controls/filterPanel';
 
@@ -27,6 +28,7 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
     INavigationOptions<unknown>, IItemActionsOptions, IList, IColumn, ISelectorDialogOptions {
     propertyValue: number[]|string[];
     additionalTextProperty: string;
+    imageProperty?: string;
     multiSelect: boolean;
 }
 
@@ -47,7 +49,13 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  */
 
 /**
- * @name ontrols/_filterPanel/Editors/List#style
+ * @name Controls/_filterPanel/Editors/List#imageProperty
+ * @cfg {String} Имя свойства, содержащего ссылку на изображение для элемента списка.
+ * @demo Controls-demo/filterPanel/View/Index
+ */
+
+/**
+ * @name Controls/_filterPanel/Editors/List#style
  * @cfg {String} Стиль отображения чекбокса в списке.
  * @variant default
  * @variant master
@@ -55,7 +63,7 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
  */
 
 /**
- * @name ontrols/_filterPanel/Editors/List#multiSelect
+ * @name Controls/_filterPanel/Editors/List#multiSelect
  * @cfg {boolean} Определяет, установлен ли множественный выбор.
  * @demo Controls-demo/filterPanel/ListEditor/MultiSelect/Index
  * @default false
@@ -75,7 +83,7 @@ class ListEditor extends BaseEditor {
 
     protected _beforeMount(options: IListEditorOptions): void {
         this._selectedKeys = options.propertyValue;
-        this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
+        this._setColumns(options, options.propertyValue);
         this._itemsReadyCallback = this._handleItemsReadyCallback.bind(this);
         this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
         this._navigation = options.navigation;
@@ -90,7 +98,7 @@ class ListEditor extends BaseEditor {
         const additionalDataChanged = options.additionalTextProperty !== this._options.additionalTextProperty;
         if (additionalDataChanged || valueChanged || displayPropertyChanged) {
             this._selectedKeys = options.propertyValue;
-            this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
+            this._setColumns(options, options.propertyValue);
             this._navigation = this._getNavigation(options);
         }
         if (filterChanged || (valueChanged && !this._selectedKeys.length)) {
@@ -105,7 +113,13 @@ class ListEditor extends BaseEditor {
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
         const contentClick = nativeEvent.target.closest('.controls-ListEditor__columns');
         if (contentClick) {
-            this._processPropertyValueChanged([item.get(this._options.keyProperty)], true);
+            const selectedKeysArray = this._options.multiSelect ? Clone(this._selectedKeys) : [];
+            const itemkey = item.get(this._options.keyProperty);
+            if (!selectedKeysArray.includes(itemkey)) {
+                selectedKeysArray.unshift(item.get(this._options.keyProperty));
+            }
+            this._editorTarget = this._getEditorTarget(nativeEvent);
+            this._processPropertyValueChanged(selectedKeysArray, selectedKeysArray.length === 1);
         }
     }
 
@@ -163,22 +177,23 @@ class ListEditor extends BaseEditor {
             needCollapse: true
         };
         this._selectedKeys = value;
-        this._setColumns(this._options.displayProperty, this._selectedKeys, this._options.keyProperty, this._options.additionalTextProperty);
+        this._setColumns(this._options, this._selectedKeys);
         this._notifyPropertyValueChanged(extendedValue, needCollapse);
     }
 
-    protected _setColumns(displayProperty: string, propertyValue: string[]|number[], keyProperty: string, additionalTextProperty?: string): void {
+    protected _setColumns(options: IListEditorOptions, propertyValue: string[]|number[]): void {
         this._columns = [{
             template: ColumnTemplate,
             selected: propertyValue,
-            displayProperty,
-            keyProperty
+            displayProperty: options.displayProperty,
+            keyProperty: options.keyProperty,
+            imageProperty: options.imageProperty
         }];
-        if (additionalTextProperty) {
+        if (options.additionalTextProperty) {
             this._columns.push({
                 template: AdditionalColumnTemplate,
                 align: 'right',
-                displayProperty: additionalTextProperty,
+                displayProperty: options.additionalTextProperty,
                 width: 'auto'});
         }
     }
@@ -239,6 +254,7 @@ class ListEditor extends BaseEditor {
 
     static getDefaultOptions(): object {
         return {
+            propertyValue: [],
             style: 'default',
             itemPadding: {
                 right: 'm'

@@ -12,7 +12,7 @@ import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 
 import {Direction, IBaseSourceConfig, IHierarchyOptions, TKey} from 'Controls/interface';
-import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/list';
+import {BaseControl, IBaseControlOptions, ISiblingStrategy} from 'Controls/baseList';
 import {Collection, CollectionItem, Tree, TreeItem} from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import { NewSourceController } from 'Controls/dataSource';
@@ -503,8 +503,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     private _mouseDownExpanderKey: TKey;
     private _expandedItemsToNotify: TKey[];
 
-    constructor(options: TOptions) {
-        super(options);
+    constructor(options: TOptions, context?: object) {
+        super(options, context);
         this._expandNodeOnDrag = this._expandNodeOnDrag.bind(this);
         this._nodeDataMoreLoadCallback = this._nodeDataMoreLoadCallback.bind(this);
         if (typeof options.root !== 'undefined') {
