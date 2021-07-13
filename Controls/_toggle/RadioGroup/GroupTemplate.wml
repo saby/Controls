@@ -1,0 +1,27 @@
+<div class="controls-invalid-container {{isChildGroup ? 'controls-RadioGroup__childGroup'}}">
+    <div class="controls-RadioGroup__wrapper_{{options.direction}}">
+        <ws:for data="index, item in groups[parent].items">
+            <ws:partial
+                    template="{{item[options.itemTemplateProperty] || options.itemTemplate || defaultItemTemplate}}"
+                    on:click="_selectKeyChanged(item, options.keyProperty)"
+                    attr:class="{{(options.direction == 'horizontal' && index !== 0) || options.direction == 'vertical' ? 'controls-RadioGroup_defaultItem_' + options.direction}}
+                                         controls-RadioItem__wrapper"
+                    item="{{item}}"
+                    readOnly="{{options.readOnly || item['readOnly']}}"
+                    displayProperty="{{options.displayProperty}}"
+                    selected="{{isSelected(item)}}"/>
+            <ws:if data="{{item[options.nodeProperty]}}">
+                <ws:partial template="{{groupTemplate}}"
+                            groupTemplate="{{groupTemplate}}"
+                            defaultItemTemplate="{{defaultItemTemplate}}"
+                            _selectKeyChanged="{{_selectKeyChanged}}"
+                            isSelected="{{isSelected}}"
+                            groups="{{groups}}"
+                            isChildGroup="{{true}}"
+                            parent="{{item[options.keyProperty]}}"
+                            options="{{options}}"/>
+            </ws:if>
+        </ws:for>
+    </div>
+    <div class="{{options.validationStatus !== 'valid' ? 'controls-invalid-border controls-' + options.validationStatus + '-border'}}"></div>
+</div>

@@ -9,6 +9,8 @@
 </ws:template>
 <ws:template name="Toggle">
    <ws:partial template="{{_toggleTemplate}}"
+               on:mouseover="_toggleSwitchHoverState(_options.value !== _nextValue)"
+               on:mouseout="_toggleSwitchHoverState(false)"
                attr:class="{{_toggleHoverState ? 'controls-DoubleSwitcher__toggle_hover'}}"
                _orientation="{{_options.orientation}}"
                _enabled="{{!_options.readOnly}}"
@@ -30,7 +32,8 @@
 </ws:template>
 
 <span class="controls_toggle_theme-{{_options.theme}} controls-DoubleSwitch" title="{{_options.tooltip}}">
-   <span class="controls-DoubleSwitch__wrapper controls-DoubleSwitch__toggle_{{_options.orientation}}__wrapper">
+   <span class="controls-DoubleSwitch__wrapper controls-DoubleSwitch__toggle_{{_options.orientation}}__wrapper
+   {{_toggleHoverState ? 'controls-DoubleSwitcher__wrapper_hover'}}">
        <ws:if data="{{_options.orientation === 'vertical'}}">
           <ws:partial template="VerticalSwitcher"/>
        </ws:if>
