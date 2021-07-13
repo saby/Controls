@@ -1,4 +1,5 @@
-<svg attr:xmlns="http://www.w3.org/2000/svg" attr:id="Слой_1" attr:data-name="Слой 1" attr:class="controls-RadioCircle__svg" attr:viewBox="0 0 12 12">
+<svg attr:xmlns="http://www.w3.org/2000/svg" attr:id="Слой_1" attr:data-name="Слой 1"
+     attr:class="controls_toggle_theme-{{_options.theme}} controls-RadioCircle__svg" attr:viewBox="0 0 12 12">
     <circle attr:xmlns="http://www.w3.org/2000/svg"
             attr:class="controls-RadioCircle__borderCircle
                         controls-RadioCircle__borderCircle_{{readOnly ? 'disabled' : 'enabled'}}
