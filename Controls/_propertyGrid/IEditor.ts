@@ -1,6 +1,5 @@
 /**
  * Интерфейс редакторов propertyGrid.
- * @interface Controls/_propertyGrid/IEditor
  * @author Герасимов А.М.
  * @public
  */
