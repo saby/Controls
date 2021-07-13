@@ -164,14 +164,14 @@ class ListEditor extends BaseEditor {
     }
 
     protected _processPropertyValueChanged(value: string[] | number[], needCollapse: boolean, selectorResult?: Model[]): void {
-        const extendedValue = {
+        this._extendedValue = {
             value,
             textValue: this._getTextValue(selectorResult || value),
             needCollapse: true
         };
         this._selectedKeys = value;
         this._setColumns(this._options.displayProperty, this._selectedKeys, this._options.keyProperty, this._options.additionalTextProperty);
-        this._notifyPropertyValueChanged(extendedValue, needCollapse);
+        this._notifyPropertyValueChanged(needCollapse);
     }
 
     protected _setColumns(displayProperty: string, propertyValue: string[]|number[], keyProperty: string, additionalTextProperty?: string): void {
