@@ -218,34 +218,36 @@ class StickyController extends BaseController {
     }
 
     elementUpdated(item, container) {
-        _private.setStickyContent(item);
-        const targetCoords = this._getTargetCoords(item, item.positionConfig.sizes);
-        _private.updateStickyPosition(item, item.positionConfig, targetCoords);
-        if (this._isTargetVisible(item)) {
-            _private.updateClasses(item, item.positionConfig);
+        if (item.positionConfig) {
+            _private.setStickyContent(item);
+            const targetCoords = this._getTargetCoords(item, item.positionConfig.sizes);
+            _private.updateStickyPosition(item, item.positionConfig, targetCoords);
+            if (this._isTargetVisible(item)) {
+                _private.updateClasses(item, item.positionConfig);
 
-            // If popupOptions has new sizes, calculate position using them.
-            // Else calculate position using current container sizes.
-            _private.updateSizes(item.positionConfig, item.popupOptions);
+                // If popupOptions has new sizes, calculate position using them.
+                // Else calculate position using current container sizes.
+                _private.updateSizes(item.positionConfig, item.popupOptions);
 
-            item.position = StickyStrategy.getPosition(item.positionConfig, this._getTargetCoords(item, item.positionConfig.sizes));
+                item.position = StickyStrategy.getPosition(item.positionConfig, this._getTargetCoords(item, item.positionConfig.sizes));
 
-            // In landscape orientation, the height of the screen is low when the keyboard is opened.
-            // Open Windows are not placed in the workspace and chrome scrollit body.
-            if (detection.isMobileAndroid) {
-                const height = item.position.height || container.clientHeight;
-                if (height > document.body.clientHeight) {
-                    item.position.height = document.body.clientHeight;
-                    item.position.top = 0;
-                } else if (item.position.height + item.position.top > document.body.clientHeight) {
-                    // opening the keyboard reduces the height of the body. If popup was positioned at the bottom of
-                    // the window, he did not have time to change his top coordinate => a scroll appeared on the body
-                    const dif = item.position.height + item.position.top - document.body.clientHeight;
-                    item.position.top -= dif;
+                // In landscape orientation, the height of the screen is low when the keyboard is opened.
+                // Open Windows are not placed in the workspace and chrome scrollit body.
+                if (detection.isMobileAndroid) {
+                    const height = item.position.height || container.clientHeight;
+                    if (height > document.body.clientHeight) {
+                        item.position.height = document.body.clientHeight;
+                        item.position.top = 0;
+                    } else if (item.position.height + item.position.top > document.body.clientHeight) {
+                        // opening the keyboard reduces the height of the body. If popup was positioned at the bottom of
+                        // the window, he did not have time to change his top coordinate => a scroll appeared on the body
+                        const dif = item.position.height + item.position.top - document.body.clientHeight;
+                        item.position.top -= dif;
+                    }
                 }
+            } else {
+                this._printTargetRemovedWarn();
             }
-        } else {
-            this._printTargetRemovedWarn();
         }
     }
 
