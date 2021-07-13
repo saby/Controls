@@ -91,12 +91,8 @@
    box-shadow: var(--box-shadow_ToolbarBox);
 }
 
-.controls-Paging_icon-Begin_digits {
-   background-image: var(--icon_background-image_arrow_begin);
-}
-
-.controls-Paging__arrow__state-disabled .controls-Paging_icon-Begin_digits {
-   background-image: var(--icon_background-image_arrow_begin_disabled);
+.controls-Paging_icon-Begin_digits::before {
+   content: var(--digits_arrow_begin_icon_content_paging);
 }
 
 .controls-Paging_icon-Prev_digits::before {
@@ -107,12 +103,8 @@
    content: var(--digits_arrow_next_icon_content_paging);
 }
 
-.controls-Paging_icon-End_digits {
-   background-image: var(--icon_background-image_arrow_end);
-}
-
-.controls-Paging__arrow__state-disabled .controls-Paging_icon-End_digits {
-   background-image: var(--icon_background-image_arrow_end_disabled);
+.controls-Paging_icon-End_digits::before {
+   content: var(--digits_arrow_end_icon_content_paging);
 }
 
 .controls-Paging_icon-Begin::before {
