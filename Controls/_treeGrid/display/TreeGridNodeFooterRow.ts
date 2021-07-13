@@ -89,10 +89,6 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         return classes;
     }
 
-    shouldDisplayVisibleFooter(content: TemplateFunction): boolean {
-        return this.hasMoreStorage() || !!content;
-    }
-
     shouldDisplayContent(column: Cell<null, TreeGridNodeFooterRow>, colspan?: boolean): boolean {
         const columns = this.getColumns(colspan);
         const firstFooterCell = columns.find((it) => it['[Controls/treeGrid:TreeGridNodeFooterCell]']);
