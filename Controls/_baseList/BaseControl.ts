@@ -61,7 +61,6 @@ import {
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
 import ScrollPagingController from 'Controls/_baseList/Controllers/ScrollPaging';
-import PortionedSearch from 'Controls/_baseList/Controllers/PortionedSearch';
 import * as GroupingController from 'Controls/_baseList/Controllers/Grouping';
 import HoverFreeze from 'Controls/_baseList/Controllers/HoverFreeze';
 
@@ -108,6 +107,7 @@ import {Remove as RemoveAction, Move as MoveAction, IMoveActionOptions} from 'Co
 import {isLeftMouseButton} from 'Controls/popup';
 import {IMovableList} from './interface/IMovableList';
 import {saveConfig} from 'Controls/Application/SettingsController';
+import IndicatorsController, {IIndicatorsControllerOptions} from "Controls/_baseList/Controllers/IndicatorsController";
 
 //#endregion
 
@@ -146,7 +146,6 @@ const
         keyDownDel: constants.key.del
     };
 
-const INDICATOR_DELAY = 2000;
 const INITIAL_PAGES_COUNT = 1;
 const SET_MARKER_AFTER_SCROLL_DELAY = 100;
 const LIMIT_DRAG_SELECTION = 100;
@@ -669,27 +668,20 @@ const _private = {
         self._onFooterPrepared(options);
     },
 
-    loadToDirection(self, direction, receivedFilter) {
-        const isPortionedLoad = _private.isPortionedLoad(self);
-
-        self._recountResetTriggerOffsets(direction);
+    loadToDirection(self: BaseControl, direction, receivedFilter?) {
+        const changed = self._indicatorsController.recountResetTriggerOffsets(direction);
+        if (changed) {
+            self._updateScrollController();
+        }
 
         if (self._sourceController) {
             const filter: IHashMap<unknown> = cClone(receivedFilter || self._options.filter);
-            if (isPortionedLoad) {
-                _private.loadToDirectionWithSearchValueStarted(self, direction);
+            if (self._shouldStartPortionedSearch()) {
+                self._startPortionedSearch(direction);
             }
             if (self._options.groupProperty) {
                 GroupingController.prepareFilterCollapsedGroups(self._listViewModel.getCollapsedGroups(), filter);
             }
-            // TODO https://online.sbis.ru/news/c467b1aa-21e4-41cc-883b-889ff5c10747
-            // до реализации функционала и проблемы из новости делаем решение по месту:
-            // посчитаем число отображаемых записей до и после добавления,
-            // если не поменялось, значит прилетели элементы, попадающие в невидимую группу,
-            // надо инициировать подгрузку порции записей, больше за нас это никто не сделает.
-            // Под опцией, потому что в другом месте это приведет к ошибке.
-            // Хорошее решение будет в задаче ссылка на которую приведена
-            const itemsCountBeforeLoad = self._listViewModel.getCount();
 
             self._loadToDirectionInProgress = true;
 
@@ -709,7 +701,7 @@ const _private = {
                 // После выполнения поиска мы должны поставить маркер.
                 // Если выполняется порционный поиск и первый запрос не вернул ни одной записи,
                 // то на событие reset список будет пустой и нам некуда будет ставить маркер.
-                if (_private.hasMarkerController(self) && self._portionedSearchInProgress) {
+                if (_private.hasMarkerController(self) && self._indicatorsController.isPortionedSearchInProgress()) {
                     const newMarkedKey = _private.getMarkerController(self).onCollectionReset();
                     self._changeMarkedKey(newMarkedKey);
                 }
@@ -717,10 +709,11 @@ const _private = {
                     self._updateShadowModeHandler(self._shadowVisibility);
                 }
 
+                self._updateIndicatorsController();
                 // Пересчитывать ромашки нужно сразу после загрузки, а не по событию add, т.к.
                 // например при порционном поиске последний запрос в сторону может подгрузить пустой список
                 // и событие add не сработает
-                self._recountIndicators(direction);
+                self._indicatorsController.recountIndicators(direction);
 
                 // Скрываем ошибку после успешной загрузки данных
                 _private.hideError(self);
@@ -741,7 +734,7 @@ const _private = {
                     !self._sourceController?.isLoading();
 
                 if (hideIndicatorOnCancelQuery) {
-                    self._recountIndicators(direction);
+                    self._indicatorsController.recountIndicators(direction);
                 }
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
                 if (!error.canceled && !error.isCanceled) {
@@ -894,7 +887,7 @@ const _private = {
             !sourceController.isLoading();
         const allowLoadBySearch =
             !_private.isPortionedLoad(self) ||
-            _private.getPortionedSearch(self).shouldSearch();
+            self._indicatorsController.shouldPortionedSearch();
         const allowLoadByDrag = !(self._dndListController?.isDragging() && self._selectionController?.isAllSelected());
 
         if (allowLoadBySource && allowLoadByLoadedItems && allowLoadBySearch && allowLoadByDrag) {
@@ -1278,85 +1271,10 @@ const _private = {
         }
     },
 
-    getPortionedSearch(self: BaseControl): PortionedSearch {
-        return self._portionedSearch || (self._portionedSearch = new PortionedSearch({
-            searchStartCallback: (direction?: IDirection) => {
-                self._portionedSearchInProgress = true;
-                // Нужно сбросить флаг, чтобы подгрузка по триггеру работала после порционного поиска.
-                self._handleLoadToDirection = false;
-
-                // TODO LI возможно в этот момент нужно вызвать пересчет индикаторов, чтобы они не показывались
-                const position = direction === 'up' ? 'top' : 'bottom';
-                // TODO LI нужно показать с задержкой в 2c
-                self._listViewModel?.startPortionedSearch(position);
-            },
-            searchStopCallback: (direction?: IDirection) => {
-                self._portionedSearchInProgress = false;
-                self._showContinueSearchButtonDirection = direction;
-                if (typeof self._sourceController.cancelLoading !== 'undefined') {
-                    self._sourceController.cancelLoading();
-                }
-
-                const position = direction === 'up' ? 'top' : 'bottom';
-                self._listViewModel?.showContinueSearchState(position);
-
-                if (self._isScrollShown) {
-                    _private.updateShadowMode(self, self._shadowVisibility);
-                }
-            },
-            searchResetCallback: () => {
-                self._portionedSearchInProgress = false;
-                self._showContinueSearchButtonDirection = null;
-
-                self._listViewModel?.endPortionedSearch();
-            },
-            searchContinueCallback: () => {
-                const direction = self._hasMoreData('up') ? 'up' : 'down';
-
-                self._portionedSearchInProgress = true;
-                self._showContinueSearchButtonDirection = null;
-                _private.loadToDirectionIfNeed(self, direction);
-
-                const position = direction === 'up' ? 'top' : 'bottom';
-                self._listViewModel?.showPortionedSearchState(position);
-            },
-            searchAbortCallback: () => {
-                self._portionedSearchInProgress = false;
-                self._showContinueSearchButtonDirection = null;
-
-                if (typeof self._sourceController.cancelLoading !== 'undefined') {
-                    self._sourceController.cancelLoading();
-                }
-
-                self._listViewModel?.endPortionedSearch();
-
-                _private.disablePagingNextButtons(self);
-
-                if (self._isScrollShown) {
-                    _private.updateShadowMode(self, self._shadowVisibility);
-                }
-                self._notify('iterativeSearchAborted', []);
-            }
-        }));
-    },
-
     disablePagingNextButtons(self): void {
         if (self._pagingVisible) {
             self._pagingCfg = {...self._pagingCfg};
             self._pagingCfg.arrowState.next = self._pagingCfg.arrowState.end = 'readonly';
-        }
-    },
-
-    loadToDirectionWithSearchValueStarted(self: BaseControl, direction: IDirection): void {
-        _private.getPortionedSearch(self).startSearch(direction);
-    },
-
-    loadToDirectionWithSearchValueEnded(self, loadedItems: RecordSet): void {
-        const portionedSearch = _private.getPortionedSearch(self);
-        const isPortionedLoad = _private.isPortionedLoad(self, loadedItems);
-
-        if (!_private.hasMoreDataInAnyDirection(self) || !isPortionedLoad) {
-            portionedSearch.reset();
         }
     },
 
@@ -1366,8 +1284,9 @@ const _private = {
     },
 
     allowLoadMoreByPortionedSearch(self, direction: 'up'|'down'): boolean {
-        return (!self._showContinueSearchButtonDirection || self._showContinueSearchButtonDirection !== direction) &&
-                _private.getPortionedSearch(self).shouldSearch();
+        let portionedSearchDirection = self._indicatorsController.getPortionedSearchDirection();
+        return (!portionedSearchDirection || portionedSearchDirection !== direction) &&
+            self._indicatorsController.shouldPortionedSearch();
     },
 
     updateShadowMode(self, shadowVisibility: {up: boolean, down: boolean}): void {
@@ -1915,7 +1834,7 @@ const _private = {
      */
     processError(self: BaseControl, config: IErrbackConfig): Promise<ICrudResult> {
         if (!config.error.canceled && !config.error.isCanceled) {
-            self._hideGlobalIndicator();
+            self._indicatorsController.hideGlobalIndicator();
         }
         return self.__errorController.process({
             error: config.error,
@@ -2042,8 +1961,8 @@ const _private = {
 
         _private.callDataLoadCallbackCompatibility(this, items, direction, this._options);
 
-        if (_private.isPortionedLoad(this)) {
-            _private.loadToDirectionWithSearchValueEnded(this, items);
+        if (this._shouldEndPortionedSearch(items)) {
+            this._endPortionedSearch();
         }
 
         if (this._isMounted && this._scrollController) {
@@ -2549,8 +2468,8 @@ const _private = {
             forceInitVirtualScroll: self._needScrollCalculation,
             topTriggerOffsetCoefficient: options.topTriggerOffsetCoefficient,
             bottomTriggerOffsetCoefficient: options.bottomTriggerOffsetCoefficient,
-            resetTopTriggerOffset: self._resetTopTriggerOffset,
-            resetBottomTriggerOffset: self._resetBottomTriggerOffset,
+            resetTopTriggerOffset: self._indicatorsController.isResetTopTriggerOffset(),
+            resetBottomTriggerOffset: self._indicatorsController.isResetBottomTriggerOffset(),
             notifyKeyOnRender: options.notifyKeyOnRender
         });
         const result = self._scrollController.handleResetItems();
@@ -3092,9 +3011,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _template = BaseControlTpl;
     iWantVDOM = true;
 
-    private _resetTopTriggerOffset: boolean;
-    private _resetBottomTriggerOffset: boolean;
-    private _showIndicatorTimer: number;
+    private _indicatorsController: IndicatorsController;
 
     protected _listViewModel: Collection = null;
     _viewModelConstructor = null;
@@ -3159,8 +3076,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _viewReady = false;
 
     _portionedSearch = null;
-    _portionedSearchInProgress = null;
-    _showContinueSearchButtonDirection = null;
 
     _itemActionsController = null;
     protected _sourceController: SourceController = null;
@@ -3229,6 +3144,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._startDragNDropCallback = this._startDragNDropCallback.bind(this);
         this._resetValidation = this._resetValidation.bind(this);
         this._onWindowResize = this._onWindowResize.bind(this);
+        this._scrollToFirstItemAfterDisplayTopIndicator = this._scrollToFirstItemAfterDisplayTopIndicator.bind(this);
+        this._hasHiddenItemsByVirtualScroll = this._hasHiddenItemsByVirtualScroll.bind(this);
     }
 
     /**
@@ -3415,8 +3332,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
             _private.prepareFooter(self, newOptions, self._sourceController);
             _private.initVisibleItemActions(self, newOptions);
-            self._initIndicators(newOptions);
         }
+
+        self._createIndicatorsController(newOptions);
         _private.createScrollController(self, newOptions);
 
         if (receivedState.errorConfig) {
@@ -3679,8 +3597,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         // на мобильных устройствах не сработает mouseEnter, поэтому ромашку сверху добавляем сразу после моунта
         // до моунта нельзя, т.к. нельзя будет проскроллить
-        if (detection.isMobilePlatform && this._shouldDisplayTopIndicator()) {
-            this._showTopIndicator(true);
+        if (detection.isMobilePlatform && this._indicatorsController.shouldDisplayTopIndicator()) {
+            this._indicatorsController.displayTopIndicator(true);
         }
 
         _private.tryLoadToDirectionAgain(this);
@@ -3693,8 +3611,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             const result = this._scrollController.update({
                 options: {
                     ...options,
-                    resetTopTriggerOffset: this._resetTopTriggerOffset,
-                    resetBottomTriggerOffset: this._resetBottomTriggerOffset,
+                    resetTopTriggerOffset: this._indicatorsController.isResetTopTriggerOffset(),
+                    resetBottomTriggerOffset: this._indicatorsController.isResetBottomTriggerOffset(),
                     forceInitVirtualScroll: this._needScrollCalculation,
                     collection: this.getViewModel(),
                     needScrollCalculation: this._needScrollCalculation
@@ -3937,8 +3855,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
                 _private.initVisibleItemActions(this, newOptions);
                 this._updateScrollController(newOptions);
-
-                this._recountIndicators('all', newOptions);
             }
 
             if (newOptions.sourceController) {
@@ -4041,22 +3957,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             _private.tryLoadToDirectionAgain(this, null, newOptions);
         }
 
-
-        // порционный поиск может идти только в одну сторону. Соответственно где есть данные, в ту сторону и поиск
-        const portionedSearchDirection = this._hasMoreData('up') ? 'up' : this._hasMoreData('down') ? 'down' : null;
-        const isPortionedSearchStarted = this._loadedBySourceController && newOptions.searchValue
-            && _private.isPortionedLoad(this, this._items);
-        if (isPortionedSearchStarted) {
-            _private.getPortionedSearch(this).startSearch(portionedSearchDirection);
-        }
-
-        const isPortionedSearchEnded = this._loadedBySourceController && !this.isLoading()
-            && portionedSearchDirection && !this._hasMoreData(portionedSearchDirection);
-        const clearSearchValue = newOptions.searchValue !== this._options.searchValue && newOptions.searchValue === '';
-        if (isPortionedSearchEnded || clearSearchValue) {
-            _private.getPortionedSearch(this).reset();
-        }
-
         if (!loadStarted) {
             _private.doAfterUpdate(this, () => {
                 if (this._listViewModel) {
@@ -4121,6 +4021,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         this._spaceBlocked = false;
 
+        this._updateIndicatorsController(newOptions);
         this._updateBaseControlModel(newOptions);
         return updateResult;
     }
@@ -4212,9 +4113,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._checkTriggerVisibilityTimeout) {
             clearTimeout(this._checkTriggerVisibilityTimeout);
         }
-        if (this._showIndicatorTimer) {
-            clearTimeout(this._showIndicatorTimer);
-        }
+        this._destroyIndicatorsController();
         if (this._options.itemsDragNDrop) {
             const container = this._container[0] || this._container;
             container.removeEventListener('dragstart', this._nativeDragStart);
@@ -4726,8 +4625,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         self._noDataBeforeReload = !_private.hasDataBeforeLoad(self);
 
         if (self._sourceController) {
-            self._showGlobalIndicator();
-            _private.getPortionedSearch(self).reset();
+            self._indicatorsController.endPortionedSearch();
+            self._indicatorsController.displayGlobalIndicator();
 
             if (cfg.groupProperty) {
                 const collapsedGroups = self._listViewModel ? self._listViewModel.getCollapsedGroups() : cfg.collapsedGroups;
@@ -4791,7 +4690,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                         data: list
                     });
 
-                    self._recountIndicators('all');
+                    self._indicatorsController.recountIndicators('all');
                     _private.resetScrollAfterLoad(self);
                     _private.tryLoadToDirectionAgain(self, list);
                 });
@@ -4799,7 +4698,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (self._destroyed) {
                     return;
                 }
-                self._hideGlobalIndicator();
+                self._indicatorsController.hideGlobalIndicator();
                 return _private.processError(self, {
                     error
                 }).then(function(result: ICrudResult) {
@@ -5246,20 +5145,20 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (_private.hasHoverFreezeController(this)) {
             this._hoverFreezeController.unfreezeHover();
         }
-        this._showGlobalIndicator();
+        this._indicatorsController.displayGlobalIndicator();
         return this._getEditInPlaceController().edit(userOptions, { columnIndex }).then((result) => {
             if (shouldActivateInput && !(result && result.canceled)) {
                 this._editInPlaceInputHelper.shouldActivate();
             }
             return result;
         }).finally(() => {
-            this._hideGlobalIndicator();
+            this._indicatorsController.hideGlobalIndicator();
         });
     }
 
     _beginAdd(userOptions, {shouldActivateInput = true, addPosition = 'bottom', targetItem, columnIndex}: IBeginAddOptions = {}) {
         _private.closeSwipe(this);
-        this._showGlobalIndicator();
+        this._indicatorsController.displayGlobalIndicator();
         return this._getEditInPlaceController().add(userOptions, {addPosition, targetItem, columnIndex}).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
@@ -5276,7 +5175,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 controller.setSelection(controller.getSelection());
             }
         }).finally(() => {
-            this._hideGlobalIndicator();
+            this._indicatorsController.hideGlobalIndicator();
         });
     }
 
@@ -5284,13 +5183,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
-        this._showGlobalIndicator();
+        this._indicatorsController.displayGlobalIndicator();
         return this._getEditInPlaceController().cancel(force).finally(() => {
             if (_private.hasSelectionController(this)) {
                 const controller = _private.getSelectionController(this);
                 controller.setSelection(controller.getSelection());
             }
-            this._hideGlobalIndicator();
+            this._indicatorsController.hideGlobalIndicator();
         });
     }
 
@@ -5298,9 +5197,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
-        this._showGlobalIndicator();
+        this._indicatorsController.displayGlobalIndicator();
         return this._getEditInPlaceController().commit(commitStrategy).finally(() => {
-            this._hideGlobalIndicator();
+            this._indicatorsController.hideGlobalIndicator();
         });
     }
 
@@ -5915,8 +5814,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._dragEnter(this._getDragObject());
         }
 
-        if (this._shouldDisplayTopIndicator()) {
-            this._showTopIndicator(true);
+        if (this._indicatorsController.shouldDisplayTopIndicator()) {
+            this._indicatorsController.displayTopIndicator(true);
         }
 
         if (!this._pagingVisible) {
@@ -6195,7 +6094,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // в итоге ScrollContainer, который реагирует на afterRender beforeRender начинает восстанавливать скролл не
         // по отрисовке записей а по другой перерисовке списка, например появлению пэйджинга
         if (this._addItems && this._addItems.length) {
-            const needShift = this._shouldDisplayTopIndicator();
+            const needShift = this._indicatorsController.shouldDisplayTopIndicator();
             const result = this._scrollController.handleAddItems(this._addItemsIndex, this._addItems, direction, needShift);
             _private.handleScrollControllerResult(this, result);
         }
@@ -6279,162 +6178,58 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     // region LoadingIndicator
 
-    private _initIndicators(newOptions?: IBaseControlOptions) {
-        const displayTopIndicator = this._shouldDisplayTopIndicator(newOptions);
-        const displayBottomIndicator = this._shouldDisplayBottomIndicator(newOptions);
-
-        this._resetTopTriggerOffset = displayTopIndicator;
-        this._resetBottomTriggerOffset = displayBottomIndicator;
-
-        // Если верхний индикатор не будет показан, то сразу же показываем триггер,
-        // чтобы в кейсе когда нет данных после моунта инициировать их загрузку
-        if (!displayTopIndicator) {
-            this._listViewModel.showLoadingTopTrigger();
-        }
-        // Нижний индикатор сразу же показываем, т.к. не нужно скроллить
-        if (displayBottomIndicator) {
-            this._showBottomIndicator();
-        }
+    private _createIndicatorsController(options: IBaseControlOptions): void {
+        this._indicatorsController = new IndicatorsController(this._getIndicatorsControllerOptions(options));
     }
 
-    private _showTopIndicator(scrollToFirstItem: boolean): void {
-        const isDisplayedIndicator = this._listViewModel.hasLoadingIndicator('top');
-        if (isDisplayedIndicator) {
-            return;
-        }
+    private _updateIndicatorsController(newOptions?: IBaseControlOptions) {
+        const options = newOptions || this._options;
+        this._indicatorsController.updateOptions(this._getIndicatorsControllerOptions(options));
+    }
 
-        this._listViewModel.showLoadingIndicator('top');
-
-        if (scrollToFirstItem) {
-            const scrollAndShowTrigger = () => {
-                const scrollResult = this._scrollToFirstItem();
-                scrollResult.then(() => {
-                    this._listViewModel.showLoadingTopTrigger();
-                });
+    private _getIndicatorsControllerOptions(options: IBaseControlOptions): IIndicatorsControllerOptions {
+        const stopPortionedSearchCallback = () => {
+            if (typeof this._sourceController.cancelLoading !== 'undefined') {
+                this._sourceController.cancelLoading();
             }
 
-            // Скроллить нужно после того как ромашка отрисуется, то есть на _afterRender
-            _private.doAfterRender(this, scrollAndShowTrigger);
-        } else {
-            this._listViewModel.showLoadingTopTrigger();
+            if (this._isScrollShown) {
+                _private.updateShadowMode(this, this._shadowVisibility);
+            }
+        };
+
+        return {
+            model: this._listViewModel,
+            items: this._items,
+            isInfinityNavigation: _private.isInfinityNavigation(options.navigation),
+            hasMoreDataToTop: this._hasMoreData('up'),
+            hasMoreDataToBottom: this._hasMoreData('down'),
+            shouldShowEmptyTemplate: this.__needShowEmptyTemplate(options),
+            scrollToFirstItem: this._scrollToFirstItemAfterDisplayTopIndicator,
+            hasHiddenItemsByVirtualScroll: this._hasHiddenItemsByVirtualScroll,
+            attachLoadTopTriggerToNull: !!options.attachLoadTopTriggerToNull,
+            attachLoadDownTriggerToNull: !!options.attachLoadDownTriggerToNull,
+            stopPortionedSearchCallback
         }
     }
 
-    private _showBottomIndicator(): void {
-        const isDisplayedIndicator = this._listViewModel.hasLoadingIndicator('bottom');
-        if (isDisplayedIndicator) {
-            return;
+    private _destroyIndicatorsController(): void {
+        this._indicatorsController.destroy();
+        this._indicatorsController = null;
+    }
+
+    private _hasHiddenItemsByVirtualScroll(direction: 'up'|'down'): boolean {
+        return this._scrollController && !this._scrollController.isRangeOnEdge(direction);
+    }
+
+    private _scrollToFirstItemAfterDisplayTopIndicator(showTriggerCallback: () => void): void {
+        const scrollAndShowTrigger = () => {
+            const scrollResult = this._scrollToFirstItem();
+            scrollResult.then(showTriggerCallback);
         }
 
-        this._listViewModel.showLoadingIndicator('bottom');
-    }
-
-    protected _showGlobalIndicator(): void {
-        if (!this._showIndicatorTimer) {
-            this._showIndicatorTimer = setTimeout(() => {
-                if (this._destroyed) {
-                    return;
-                }
-
-                this._showIndicatorTimer = null;
-                this._listViewModel?.showLoadingIndicator('global');
-            }, INDICATOR_DELAY);
-        }
-    }
-
-    protected _hideGlobalIndicator(): void {
-        this._listViewModel?.hideLoadingIndicator('global');
-        if (this._showIndicatorTimer) {
-            clearTimeout(this._showIndicatorTimer);
-            this._showIndicatorTimer = null;
-        }
-    }
-
-    private _recountResetTriggerOffsets(direction: 'up'|'down'): void {
-        // после первого запроса остальные запросы нужно загружать заранее
-
-        if (direction === 'down' && this._resetBottomTriggerOffset) {
-            this._resetBottomTriggerOffset = false;
-            this._updateScrollController();
-        }
-
-        if (direction === 'up' && this._resetTopTriggerOffset) {
-            this._resetTopTriggerOffset = false;
-            this._updateScrollController();
-        }
-    }
-
-    private _recountIndicators(loadDirection: 'up'|'down'|'all', newOptions?: IBaseControlOptions): void {
-        switch (loadDirection) {
-            case "up":
-                this._recountTopIndicator(newOptions);
-                break;
-            case "down":
-                this._recountBottomIndicator(newOptions);
-                break;
-            case 'all':
-                // триггер после перезагрузки сбрасываем только если нужно показывать индикатор
-                this._resetTopTriggerOffset = this._shouldDisplayTopIndicator(newOptions);
-                this._resetBottomTriggerOffset = this._shouldDisplayBottomIndicator(newOptions);
-                this._recountTopIndicator(newOptions);
-                this._recountBottomIndicator(newOptions);
-                // после перезагрузки скрываем глобальный индикатор
-                this._hideGlobalIndicator();
-                break;
-        }
-    }
-
-    private _recountTopIndicator(newOptions?: IBaseControlOptions): void {
-        if (this._shouldDisplayTopIndicator(newOptions)) {
-            this._showTopIndicator(false);
-        } else {
-            this._listViewModel.hideLoadingIndicator('top');
-        }
-    }
-
-    private _recountBottomIndicator(newOptions?: IBaseControlOptions): void {
-        if (this._shouldDisplayBottomIndicator(newOptions)) {
-            this._showBottomIndicator();
-        } else {
-            this._listViewModel.hideLoadingIndicator('bottom');
-        }
-    }
-
-    private _shouldDisplayTopIndicator(newOptions?: IBaseControlOptions): boolean {
-        const options = newOptions || this._options;
-
-        // TODO LI нужно продумать логику для не infinity навигаций
-
-        // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
-        const isInfinityNavigation = _private.isInfinityNavigation(options.navigation);
-        return options.attachLoadTopTriggerToNull && isInfinityNavigation
-            && this._shouldDisplayIndicator('up', newOptions);
-    }
-
-    private _shouldDisplayBottomIndicator(newOptions?: IBaseControlOptions): boolean {
-        const options = newOptions || this._options;
-
-        // TODO LI нужно продумать логику для не infinity навигаций
-
-        // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
-        const isInfinityNavigation = _private.isInfinityNavigation(options.navigation);
-
-        return options.attachLoadDownTriggerToNull && isInfinityNavigation
-            && this._shouldDisplayIndicator('down', newOptions);
-    }
-
-    private _shouldDisplayIndicator(direction: 'up'|'down', newOptions?: IBaseControlOptions): boolean {
-        const hasMoreData = this._hasMoreData(direction);
-        // Если нет элементов, то должен отображаться глобальный индикатор
-        const hasItems = !!this._items && !!this._items.getCount();
-        const notHasHiddenItemsByVirtualScroll = !this._scrollController
-            || this._scrollController.isRangeOnEdge(direction);
-        const isPortionedSearchShowed = this._showContinueSearchButtonDirection || this._portionedSearchInProgress;
-        // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
-        const isPortionedSearchAborted = _private.getPortionedSearch(this).isAborted();
-        const showEmptyTemplate = this.__needShowEmptyTemplate(newOptions);
-        return hasMoreData && hasItems && notHasHiddenItemsByVirtualScroll && !isPortionedSearchShowed
-            && !isPortionedSearchAborted && !showEmptyTemplate;
+        // Скроллить нужно после того как ромашка отрисуется, то есть на _afterRender
+        _private.doAfterRender(this, scrollAndShowTrigger);
     }
 
     private _scrollToFirstItem(): Promise<void> {
@@ -6449,11 +6244,44 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     protected _onContinueSearchClick(): void {
-        _private.getPortionedSearch(this).continueSearch();
+        this._indicatorsController.continuePortionedSearch();
+        _private.loadToDirectionIfNeed(this, this._indicatorsController.getPortionedSearchDirection());
     }
 
     protected _onAbortSearchClick(): void {
-        _private.getPortionedSearch(this).abortSearch();
+        this._indicatorsController.abortPortionedSearch();
+        if (typeof this._sourceController.cancelLoading !== 'undefined') {
+            this._sourceController.cancelLoading();
+        }
+
+        _private.disablePagingNextButtons(this);
+
+        if (this._isScrollShown) {
+            _private.updateShadowMode(this, this._shadowVisibility);
+        }
+        this._notify('iterativeSearchAborted', []);
+    }
+
+    protected _shouldStartPortionedSearch(): boolean {
+        return _private.isPortionedLoad(this);
+    }
+
+    protected _startPortionedSearch(direction: IDirection): void {
+        const newDirection = direction.replace('up', 'top').replace('down', 'bottom');
+        this._indicatorsController.startPortionedSearch(newDirection as 'top'|'bottom');
+
+        // Нужно сбросить флаг, чтобы подгрузка по триггеру работала после порционного поиска.
+        this._handleLoadToDirection = false;
+    }
+
+    protected _shouldEndPortionedSearch(loadedItems: RecordSet): boolean {
+        const wasPortionedLoad = _private.isPortionedLoad(this);
+        const isPortionedLoad = _private.isPortionedLoad(this, loadedItems);
+        return wasPortionedLoad && (!_private.hasMoreDataInAnyDirection(this) || !isPortionedLoad);
+    }
+
+    protected _endPortionedSearch(): void {
+        this._indicatorsController.endPortionedSearch();
     }
 
     // endregion LoadingIndicator
@@ -6747,10 +6575,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // чтобы не было прыжков в списке, если асинхронно меняют порядок элементов
         if (this._dndListController) {
             if (dragEndResult instanceof Promise) {
-                this._showGlobalIndicator();
+                this._indicatorsController.displayGlobalIndicator();
                 dragEndResult.finally(() => {
                     endDrag();
-                    this._hideGlobalIndicator();
+                    this._indicatorsController.hideGlobalIndicator();
                 });
             } else {
                 endDrag();

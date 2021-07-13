@@ -924,12 +924,6 @@ define([
                    getExpandedItems: () => [1],
                    getCollection: () => new collection.RecordSet()
                 },
-                _showGlobalIndicator() {
-                   isIndicatorHasBeenShown = true;
-                },
-                _hideGlobalIndicator() {
-                   isIndicatorHasBeenHidden = true;
-                },
                 stopBatchAdding() {
                 },
                 getSourceController() {
@@ -1280,12 +1274,6 @@ define([
 
          treeControl._listViewModel = treeGridViewModel;
          treeControl._expandController.updateOptions({model: treeGridViewModel});
-         treeControl._showGlobalIndicator = () => {
-            isIndicatorHasBeenShown = true;
-         };
-         treeControl._hideGlobalIndicator = () => {
-            isIndicatorHasBeenHidden = true;
-         };
          treeControl.getSourceController = () => sourceController;
 
          // Initial
@@ -1543,8 +1531,6 @@ define([
             markedKey: 4
          };
          const treeControl = await correctCreateTreeControlAsync(cfg);
-         treeControl._showGlobalIndicator = () => {};
-         treeControl._hideGlobalIndicator = () => {};
          let newCfg = {...treeControl._options};
          treeControl._notify = (event, args) => {
             if (event === 'expandedItemsChanged') {

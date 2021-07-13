@@ -2974,10 +2974,6 @@ define([
                   scrollToItemCalled = true;
                   return Promise.resolve();
                });
-               sandbox.replace(ctrl, '_showGlobalIndicator', () => {
-               });
-               sandbox.replace(ctrl, '_hideGlobalIndicator', () => {
-               });
 
                ctrl._container = {
                   clientHeight: 100
