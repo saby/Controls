@@ -24,25 +24,25 @@ class ArrowButton extends Control<IArrowButtonOptions>  {
     protected _template: TemplateFunction = template;
 
     protected _getIconClass(): string {
-        let direction: string;
+        let icon: string;
         switch (this._options.direction) {
             case 'down':
-                direction = 'Expand';
+                icon = 'Expand';
                 break;
             case 'left':
-                direction = 'Left';
+                icon = 'MarkCLeft';
                 break;
             case 'right':
-                direction = 'Right';
+                icon = 'MarkCRight';
                 break;
             case 'up':
-                direction = 'Collapse';
+                icon = 'Collapse';
                 break;
             default:
-                direction = 'Right';
+                icon = 'Right';
                 break;
         }
-        return `controls-ArrowButton_icon icon icon-Mark${direction}Bold controls-icon_size-${this._options.iconSize }`;
+        return `controls-ArrowButton_icon icon icon-${icon}Light controls-icon_size-${this._options.iconSize }`;
     }
 
     protected _clickHandler(event: Event): void {
