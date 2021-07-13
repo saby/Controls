@@ -12,9 +12,18 @@
    padding-right: var(--master_item_horizontal-offset_list);
 }
 
-.controls-OldGridView__emptyTemplate,
 .controls-GridView__emptyTemplate {
    display: contents;
+}
+
+.controls-GridView__emptyTemplate .controls-EditingTemplateText_enabled {
+   background-color: var(--background-color_inputText);
+}
+
+// Курсор должен меняться только при наведении на текст, аналогично полям ввода. Он не должен меняться при
+// наведении на отступы от текста до границ.
+.controls-GridView__emptyTemplate .controls-EditingTemplateText_enabled .controls-EditingTemplateText__inner {
+   cursor: text;
 }
 
 .controls-GridView__emptyTemplate__cell {
