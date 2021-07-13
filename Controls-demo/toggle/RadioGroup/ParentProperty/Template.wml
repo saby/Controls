@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.toggle:RadioGroup source="{{_source}}"
+                                    parentProperty="parent"
+                                    nodeProperty="node"
+                                    bind:selectedKey="_selectedKey"
+                                    keyProperty="key"/>
+    </div>
+</div>
