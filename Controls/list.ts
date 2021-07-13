@@ -21,14 +21,14 @@
  * @includes IItemPadding Controls/_display/interface/ICollection/IItemPadding
  * @includes IList Controls/_list/interface/IList
  * @includes IListNavigation Controls/_list/interface/IListNavigation
- * @includes IMovableList Controls/_baseList/interface/IMovableList:IMovableList
- * @includes IMoveDialogTemplate Controls/_baseList/interface/IMovableList:IMoveDialogTemplate
+ * @includes IMovableList Controls/_baseList/interface/IMovableList
+ * @includes IMoveDialogTemplate Controls/_baseList/interface/IMovableList
  * @includes IRemovableList Controls/_list/interface/IRemovableList
  * @includes ItemsView Controls/list:ItemsView
  * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
  * @includes MoveController Controls/_list/Controllers/MoveController
- * @includes MultiSelectAccessibility Controls/_display/Collection:MultiSelectAccessibility
- * @includes RemoveController Controls/_baseList/Controllers/RemoveController:RemoveController
+ * @includes MultiSelectAccessibility Controls/_display/Collection
+ * @includes RemoveController Controls/_baseList/Controllers/RemoveController
  * @includes View Controls/_list/List
  * @public
  * @author Крайнов Д.О.
@@ -57,14 +57,14 @@
  * @includes IItemPadding Controls/_display/interface/ICollection/IItemPadding
  * @includes IList Controls/_list/interface/IList
  * @includes IListNavigation Controls/_list/interface/IListNavigation
- * @includes IMovableList Controls/_baseList/interface/IMovableList:IMovableList
- * @includes IMoveDialogTemplate Controls/_baseList/interface/IMovableList:IMoveDialogTemplate
+ * @includes IMovableList Controls/_baseList/interface/IMovableList
+ * @includes IMoveDialogTemplate Controls/_baseList/interface/IMovableList
  * @includes IRemovableList Controls/_list/interface/IRemovableList
  * @includes ItemsView Controls/list:ItemsView
  * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
  * @includes MoveController Controls/_list/Controllers/MoveController
- * @includes MultiSelectAccessibility Controls/_display/Collection:MultiSelectAccessibility
- * @includes RemoveController Controls/_baseList/Controllers/RemoveController:RemoveController
+ * @includes MultiSelectAccessibility Controls/_display/Collection
+ * @includes RemoveController Controls/_baseList/Controllers/RemoveController
  * @includes View Controls/_list/List
  * @public
  * @author Крайнов Д.О.
