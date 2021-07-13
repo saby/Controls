@@ -17,8 +17,10 @@ export interface IIndicatorsControllerOptions {
 }
 
 const INDICATOR_DELAY = 2000;
+
 const SEARCH_MAX_DURATION = 30 * 1000;
 const SEARCH_CONTINUED_MAX_DURATION = 2 * 60 * 1000;
+
 enum SEARCH_STATES {
     NOT_STARTED = 0,
     STARTED = 'started',
@@ -34,12 +36,13 @@ export default class IndicatorsController {
 
     private _resetTopTriggerOffset: boolean;
     private _resetBottomTriggerOffset: boolean;
-    private _showGlobalIndicatorTimer: number;
+    private _showIndicatorTimer: number;
 
     private _portionedSearchDirection: TPortionedSearchIndicatorPosition;
-    protected _portionedSearchTimer: NodeJS.Timeout = null;
-    protected _searchState: SEARCH_STATES = 0;
-    protected _isAborted: boolean = false;
+    private _portionedSearchTimer: number = null;
+    private _searchState: SEARCH_STATES = 0;
+    private _isAborted: boolean = false;
+    private _showPortionedSearchTimer: number;
 
     constructor(options: IIndicatorsControllerOptions) {
         this._options = options;
@@ -66,6 +69,7 @@ export default class IndicatorsController {
         const shouldRecountAllIndicators = options.items && this._options.items !== options.items;
 
         this._options = options;
+        this._model = options.model;
 
         if (shouldRecountAllIndicators) {
             this.recountIndicators('all')
@@ -73,7 +77,7 @@ export default class IndicatorsController {
     }
 
     destroy(): void {
-        clearTimeout(this._showGlobalIndicatorTimer);
+        clearTimeout(this._showIndicatorTimer);
         this._clearPortionedSearchTimer();
     }
 
@@ -120,24 +124,14 @@ export default class IndicatorsController {
     }
 
     displayGlobalIndicator(): void {
-        if (!this._showGlobalIndicatorTimer) {
-            this._showGlobalIndicatorTimer = setTimeout(() => {
-                if (!this._model || this._model.destroyed) {
-                    return;
-                }
-
-                this._showGlobalIndicatorTimer = null;
-                this._model.showLoadingIndicator('global');
-            }, INDICATOR_DELAY);
+        if (!this._showIndicatorTimer) {
+            this._startIndicatorTimer(() => this._model.showLoadingIndicator('global'));
         }
     }
 
     hideGlobalIndicator(): void {
         this._model.hideLoadingIndicator('global');
-        if (this._showGlobalIndicatorTimer) {
-            clearTimeout(this._showGlobalIndicatorTimer);
-            this._showGlobalIndicatorTimer = null;
-        }
+        this._clearIndicatorTimer();
     }
 
     recountIndicators(direction: 'up'|'down'|'all'): void {
@@ -186,6 +180,24 @@ export default class IndicatorsController {
             && !isPortionedSearchAborted && !this._options.shouldShowEmptyTemplate;
     }
 
+    private _startIndicatorTimer(showIndicator: () => void): void {
+        this._showIndicatorTimer = setTimeout(() => {
+            if (!this._model || this._model.destroyed) {
+                return;
+            }
+
+            this._showIndicatorTimer = null;
+            showIndicator();
+        }, INDICATOR_DELAY);
+    }
+
+    private _clearIndicatorTimer(): void {
+        if (this._showIndicatorTimer) {
+            clearTimeout(this._showIndicatorTimer);
+            this._showIndicatorTimer = null;
+        }
+    }
+
     // endregion LoadingIndicator
 
     // region Trigger
@@ -222,11 +234,28 @@ export default class IndicatorsController {
     startPortionedSearch(direction: TPortionedSearchIndicatorPosition): void {
         if (this._getSearchState() === SEARCH_STATES.NOT_STARTED) {
             this._setSearchState(SEARCH_STATES.STARTED);
-            this._startTimer(SEARCH_MAX_DURATION);
+            this._startPortionedSearchTimer(SEARCH_MAX_DURATION);
             this._portionedSearchDirection = direction;
-            // TODO LI нужно показать с задержкой в 2c
-            this._model.startPortionedSearch(direction);
+
+            this._startIndicatorTimer(() => this._model.startPortionedSearch(direction));
         }
+    }
+
+    /**
+     * Нужно ли перезапустить таймер для показа индикатора порционного поиска
+     * Перезапускаем, только если порционный поиск был начат, таймер запущен и еще не выполнился
+     */
+    shouldResetShowPortionedSearchTimer(): boolean {
+        return this.isPortionedSearchInProgress() && !!this._showIndicatorTimer;
+    }
+
+    /**
+     * Перезапускаем таймер для показа индикатора порционного поиска
+     */
+    resetShowPortionedSearchTimer(): void {
+        this._clearIndicatorTimer();
+        const direction = this._portionedSearchDirection;
+        this._startIndicatorTimer(() => this._model.startPortionedSearch(direction));
     }
 
     stopPortionedSearch(): void {
@@ -239,7 +268,7 @@ export default class IndicatorsController {
 
     continuePortionedSearch(): void {
         this._setSearchState(SEARCH_STATES.CONTINUED);
-        this._startTimer(SEARCH_CONTINUED_MAX_DURATION);
+        this._startPortionedSearchTimer(SEARCH_CONTINUED_MAX_DURATION);
         this._model.showPortionedSearchState(this._portionedSearchDirection);
     }
 
@@ -274,7 +303,26 @@ export default class IndicatorsController {
         return portionedSearchDirection as 'up'|'down';
     }
 
-    private _startTimer(duration: number): void {
+    /**
+     * Должны ли очистить таймеры для порционного поиск.
+     * Очищаем только если сейчас идет порционный поиск и триггер перестал быть виден, то есть загрузили страницу.
+     * По стандарту если за 30с успели загрузить страницу, то никаких индикаторов показываться не должно
+     * @param triggerVisibility
+     */
+    shouldClearPortionedSearchTimer(triggerVisibility: {up: boolean, down: boolean}): boolean {
+        const portionedSearchDirection = this.getPortionedSearchDirection();
+        return this._isPortionedSearch() && this._portionedSearchTimer && (
+            !triggerVisibility.down && portionedSearchDirection === 'down' ||
+            !triggerVisibility.up && portionedSearchDirection === 'up'
+        );
+    }
+
+    clearPortionedSearchTimer(): void {
+        this._clearIndicatorTimer();
+        this._clearPortionedSearchTimer();
+    }
+
+    private _startPortionedSearchTimer(duration: number): void {
         this._portionedSearchTimer = setTimeout(() => {
             this._stopPortionedSearch();
         }, duration);
@@ -305,5 +353,10 @@ export default class IndicatorsController {
         this._options.stopPortionedSearchCallback();
     }
 
-    // region PortionedSearch
+    private _isPortionedSearch(): boolean {
+        const metaData = this._options.items && this._options.items.getMetaData();
+        return !!(metaData && metaData['iterative']);
+    }
+
+    // endregion PortionedSearch
 }

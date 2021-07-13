@@ -690,6 +690,9 @@ const _private = {
                     return;
                 }
 
+                if (self._indicatorsController.shouldResetShowPortionedSearchTimer()) {
+                    self._indicatorsController.resetShowPortionedSearchTimer();
+                }
 
                 _private.tryLoadToDirectionAgain(self);
                 if (self._isMounted && self._scrollController) {
@@ -4371,6 +4374,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
         if (triggerUp) {
             this.handleTriggerVisible('up');
+        }
+
+        if (this._indicatorsController.shouldClearPortionedSearchTimer(this._loadTriggerVisibility)) {
+            this._indicatorsController.clearPortionedSearchTimer();
         }
     }
     handleTriggerVisible(direction: IDirection): void {
