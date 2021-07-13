@@ -1774,7 +1774,7 @@
   "--footer_height_shortDatePicker": "24px",
   "--quarterly_item-padding-left_shortDatePicker": "calc(var(--offset_m) - var(--item_border-thickness_shortDatePicker))",
   "--item_height_shortDatePicker": "32px",
-  "--item_layout_line-height_expression_shortDatePicker": "(var(--item_line-height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2)",
+  "--item_layout_line-height_expression_shortDatePicker": "(var(--item_height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2)",
   "--item_font-size_shortDatePicker": "var(--font-size_l)",
   "--item_border-thickness_shortDatePicker": "var(--border-thickness)",
   "--item_hover_border-color_shortDatePicker": "#8991A9",

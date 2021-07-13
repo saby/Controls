@@ -38,7 +38,7 @@
    --quarterly_item-padding-left_shortDatePicker: calc(var(--offset_m) - var(--item_border-thickness_shortDatePicker));
    --item_height_shortDatePicker: 32px;
    // Выносим выражение в отдельную переменную, т.к вложенные calc в IE не работают.
-   --item_layout_line-height_expression_shortDatePicker: calc(var(--item_line-height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2);
+   --item_layout_line-height_expression_shortDatePicker: calc(var(--item_height_shortDatePicker) - var(--item_border-thickness_shortDatePicker) * 2);
 
    // Текст
 
@@ -66,7 +66,7 @@
    // Стрелки переключения
    --yearselector_arrow_margin_shortDatePicker: 4px;
    --yearselector_arrow-next_margin_shortDatePicker: 8px;
-   --yearselector_arrow-prev_margin_shortDatePicker: 2px;
+   --yearselector_arrow-prev_margin_shortDatePicker: 12px;
    --yearselector_arrow_padding-bottom_shortDatePicker: 3px;
 
 
