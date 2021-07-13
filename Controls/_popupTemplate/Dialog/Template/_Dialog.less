@@ -19,9 +19,13 @@
    border-radius: var(--border-radius_dialog);
 }
 
-//Дополнительный border-radius необходим с целью решения баги на MAC, так как если на нижнем элементе диалогового окна
-//задан отступ, то он ломает border-radius.
+//Дополнительный border-radius необходим с целью решения баги на MAC, так как если на нижнем или верхнем элементе
+// диалогового окна задан отступ, то он ломает border-radius.
 .ws-is-mac {
+   .controls-DialogTemplate_border-radius {
+      border-radius: var(--border-radius_dialog);
+   }
+
    .controls-DialogTemplate_border-radius-footer {
       border-bottom-right-radius: var(--border-radius_dialog);
       border-bottom-left-radius: var(--border-radius_dialog);

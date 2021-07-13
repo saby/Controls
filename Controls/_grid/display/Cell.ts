@@ -10,7 +10,7 @@ import {
 } from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 
-import { IColumn, IColspanParams, TColumnSeparatorSize } from './interface/IColumn';
+import {IColumn, IColspanParams, TColumnSeparatorSize, ICellPadding} from './interface/IColumn';
 
 import {IEditingConfig, IItemPadding, TMarkerClassName} from 'Controls/display';
 import { COLUMN_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
@@ -356,7 +356,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         contentClasses += ' controls-Grid__row-cell__content_baseline_default';
         contentClasses += ` controls-Grid__row-cell_cursor-${cursor}`;
 
-        contentClasses += this._getHorizontalPaddingClasses(theme);
+        contentClasses += this._getHorizontalPaddingClasses(this._$column.cellPadding);
         contentClasses += this._getVerticalPaddingClasses(theme);
 
         contentClasses += ' controls-Grid__row-cell_withoutRowSeparator_size-null';
@@ -488,16 +488,13 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return ` ${COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT}`;
     }
 
-    protected _getHorizontalPaddingClasses(theme: string): string {
+    protected _getHorizontalPaddingClasses(cellPadding: ICellPadding): string {
         let classes = '';
 
         const leftPadding = this._$owner.getLeftPadding();
         const rightPadding = this._$owner.getRightPadding();
-
-        // left <-> right
-        const cellPadding = this._$column.cellPadding;
-
         const isFirstColumnAfterCheckbox = this.getColumnIndex() === 1 && this._$owner.hasMultiSelectColumn();
+
         if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn()) {
             classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
         } else if (!this.isFirstColumn() && !isFirstColumnAfterCheckbox) {

@@ -13,7 +13,8 @@ describe('toRgb(), rgbaToString()', () => {
         {input: '#8880', output: 'rgba(136,136,136,0)'},
         {input: '#88888833', output: 'rgba(136,136,136,0.2)'},
         {input: 'rgb(136,136,136)', output: 'rgba(136,136,136,1)'},
-        {input: 'rgba(136, 136 ,136, 0.2)', output: 'rgba(136,136,136,0.2)'}
+        {input: 'rgba(136, 136 ,136, 0.2)', output: 'rgba(136,136,136,0.2)'},
+        {input: null, output: null}
     ];
 
     cases.forEach(({input, output}, index) => {

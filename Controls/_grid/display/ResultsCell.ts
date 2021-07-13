@@ -113,7 +113,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
             return '';
         }
 
-        return this._getHorizontalPaddingClasses(theme);
+        return this._getHorizontalPaddingClasses(this._$column.cellPadding);
     }
 
     getWrapperStyles(): string {

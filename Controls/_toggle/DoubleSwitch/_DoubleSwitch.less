@@ -122,9 +122,23 @@
 }
 
 .ws-is-hover {
-   .controls-DoubleSwitch__text_enabled_unselected:hover,
-   .controls-DoubleSwitch__text_enabled_selected:hover {
-      text-decoration: underline;
+   .controls-DoubleSwitcher__wrapper_hover:hover {
+      .controls-DoubleSwitch__text_enabled_unselected {
+         text-decoration: underline;
+      }
+
+      .controls-SwitchCircle_selected {
+         background-color: var(--selected_marker-hover_color_switcher);
+      }
+
+      .controls-SwitchCircle_unselected {
+         background-color: var(--unselected_marker-hover_color_switcher);
+      }
+
+      .controls-DoubleSwitch__toggle_bg-contrast:not(.controls-Switch_disabled) {
+         border-color: var(--selected_marker-hover_color_switcher);
+         background-color: var(--selected_marker-hover_color_switcher);
+      }
    }
 
    // CSS cascade is needed because you can move mouse to any place of toggle, and internal part of it must be highlighted.

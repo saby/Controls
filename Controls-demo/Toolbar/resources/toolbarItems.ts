@@ -381,5 +381,76 @@ export const data = {
             group: 'group3',
             additional: true
         }
-    ])
+    ]),
+    getItemsWithDirection: () => ([
+        {
+            id: '1',
+            showType: showType.TOOLBAR,
+            icon: 'icon-Time',
+            viewMode: 'functionalButton',
+            buttonStyle: 'pale',
+            inlineHeight: 'l',
+            '@parent': false,
+            parent: null
+        }, {
+            id: '2',
+            icon: 'icon-Linked',
+            fontColorStyle: 'secondary',
+            viewMode: 'toolButton',
+            iconStyle: 'secondary',
+            contrastBackground: true,
+            title: 'Связанные документы',
+            '@parent': true,
+            parent: null
+        }, {
+            id: '3',
+            viewMode: 'icon',
+            icon: 'icon-Link',
+            title: 'Скопировать в буфер',
+            '@parent': false,
+            parent: null
+        }, {
+            id: '4',
+            icon: 'icon-EmptyMessage',
+            fontColorStyle: 'secondary',
+            showHeader: true,
+            viewMode: 'link',
+            iconStyle: 'secondary',
+            contrastBackground: true,
+            title: 'Обсудить',
+            '@parent': true,
+            parent: null,
+            readOnly: true
+        }, {
+            id: '5',
+            showType: showType.MENU,
+            title: 'Видеозвонок',
+            '@parent': false,
+            parent: '7'
+        }, {
+            id: '6',
+            showType: showType.MENU,
+            title: 'Сообщение',
+            '@parent': false,
+            parent: '7'
+        }, {
+            id: '7',
+            showType: showType.MENU,
+            icon: 'icon-Groups',
+            fontColorStyle: 'secondary',
+            title: 'Совещания',
+            '@parent': false,
+            parent: null,
+            additional: true
+        }, {
+            id: '8',
+            showType: showType.MENU,
+            icon: 'icon-Report',
+            fontColorStyle: 'secondary',
+            title: 'Список задач',
+            '@parent': true,
+            parent: null,
+            additional: true
+        }
+    ]),
 };

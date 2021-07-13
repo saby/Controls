@@ -108,5 +108,30 @@ describe('Controls/filterPanel:ListEditor', () => {
             listEditor._handleItemClick(null, item, nativeEvent);
             assert.deepEqual(listEditor._selectedKeys, [2]);
         });
+
+        it('empty _selectedKeys', () => {
+            const listEditor = new ListEditor({});
+            const options = getEditorOptionsWithMultiSelet();
+            options.propertyValue = null;
+            listEditor._beforeMount(options);
+            listEditor._getTextValue = () => '';
+            const nativeEvent = {
+                target: {
+                    closest: () => true
+                }
+            };
+            const item = new Model({
+                rawData: { id: 2, title: 'second'},
+                keyProperty: 'id'
+            });
+            let hasError = false;
+
+            try {
+                listEditor._handleItemClick(null, item, nativeEvent);
+            } catch (e) {
+                hasError = true;
+            }
+            assert.isFalse(hasError);
+        });
     });
 });
