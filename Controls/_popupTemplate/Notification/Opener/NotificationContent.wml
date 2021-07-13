@@ -1,1 +1,1 @@
-<ws:partial template="{{_options.template}}" scope="{{_options.templateOptions}}" on:mouseenter="_mouseenterHandler()" on:mouseleave="_mouseleaveHandler()"/>
+<ws:partial template="{{_options.template}}" scope="{{_options.templateOptions}}"/>

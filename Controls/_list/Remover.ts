@@ -1,7 +1,7 @@
 import {CrudEntityKey} from 'Types/source';
 import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
-import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {getItemsBySelection} from 'Controls/baseList';
 import {ContextOptions as dataOptions} from 'Controls/context';
 
 var _private = {

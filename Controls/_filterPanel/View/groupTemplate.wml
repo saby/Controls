@@ -2,12 +2,22 @@
    <div class="controls-FilterViewPanel__group-wrapper
             {{collapsedGroups[item] ? 'controls-FilterViewPanel__group-wrapper-collapsed'}}">
       <div class="controls-FilterViewPanel__group-header">
-         <div class="controls-FilterViewPanel__group" attr:key="group-{{item}}">
-            <div class="controls-FilterViewPanel__group-content"
-                 title="{{item}}">
-               {{item}}
+         <div class="controls-FilterViewPanel__group {{_options.groupItems[item].needShowExpander ?
+         'controls-PropertyGrid__groupExpander'}}"
+              attr:key="group-{{item}}">
+            <div class="controls-FilterViewPanel__group-content_container ws-flexbox">
+               <div class="controls-FilterViewPanel__group-content
+                           {{_options.groupItems[item].needShowExpander ? 'controls-FilterViewPanel__group-content-expandable'}}"
+                    title="{{item}}">
+                  {{item}}
+               </div>
+               <ws:if data="{{_options.groupItems[item].needShowExpander}}">
+                  <div title="{{!collapsedGroups[item] ? 'Свернуть' : 'Развернуть'}}"
+                       class="controls-FilterViewPanel__groupExpander controls-icon controls-icon_size-s
+                           {{!collapsedGroups[item] ? 'icon-CollapseLight' : 'icon-ExpandLight'}}">
+                  </div>
+               </ws:if>
             </div>
-            <div class="controls-FilterViewPanel__group-content_separator"></div>
             <ws:if data="{{!collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
                <div class="controls-FilterViewPanel__group-content_reset controls-FilterViewPanel__groupReset" title="{[Сбросить фильтр]}">{{rk('Сбросить')}}</div>
             </ws:if>

@@ -20,6 +20,7 @@ import {IColumn} from 'Controls/interface';
 import {List, RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
+import * as Clone from 'Core/core-clone';
 import 'css!Controls/toggle';
 import 'css!Controls/filterPanel';
 
@@ -105,7 +106,13 @@ class ListEditor extends BaseEditor {
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
         const contentClick = nativeEvent.target.closest('.controls-ListEditor__columns');
         if (contentClick) {
-            this._processPropertyValueChanged([item.get(this._options.keyProperty)], true);
+            const selectedKeysArray = this._options.multiSelect ? Clone(this._selectedKeys) : [];
+            const itemkey = item.get(this._options.keyProperty);
+            if (!selectedKeysArray.includes(itemkey)) {
+                selectedKeysArray.unshift(item.get(this._options.keyProperty));
+            }
+            this._editorTarget = this._getEditorTarget(nativeEvent);
+            this._processPropertyValueChanged(selectedKeysArray, selectedKeysArray.length === 1);
         }
     }
 

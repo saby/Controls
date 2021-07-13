@@ -53,7 +53,7 @@ const MAX_HISTORY_VISIBLE_ITEMS_COUNT = 10;
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface:ISelectorDialog
  * @mixes Controls/interface:IBackgroundStyle
- * 
+ *
  * @demo Controls-demo/Menu/Control/Source/Index
  *
  * @author Герасимов А.М.

@@ -37,7 +37,7 @@
                                           itemTemplate="{{_getItemTemplate(_viewMode, _itemTemplate, _options.listItemTemplate, _options.tileItemTemplate)}}"
                                           groupTemplate="{{_viewMode==='tile' ? _options.tileGroupTemplate : _groupTemplate}}"
                                           itemActionsPosition="{{_itemActionsPosition}}"
-                                          disableVirtualScroll="{{_viewMode==='tile'}}"
+                                          disableVirtualScroll="{{_viewMode === 'tile' || _options.useColumns && _viewMode === 'list'}}"
                                           plainItemsContainer="{{!(_options.useColumns && _viewMode === 'list')}}"
                                           actionMode="{{_viewMode==='tile' ? _options.actionMode : 'strict'}}"
                                           dragControlId="{{ _dragControlId }}"

@@ -1,10 +1,10 @@
 import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
 import cInstance = require('Core/core-instance');
-import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
+import {getItemsBySelection} from 'Controls/baseList';
 import {Logger} from 'UI/Utils';
 
-import {MoveController, IMoveControllerOptions} from './Controllers/MoveController';
+import {MoveController, IMoveControllerOptions} from 'Controls/baseList';
 import {Model} from 'Types/entity';
 import {LOCAL_MOVE_POSITION} from 'Types/source';
 

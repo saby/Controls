@@ -46,6 +46,7 @@
                             'controls-MasterDetail_details_bg-same'}}"
               template="{{_options.detail}}"
               shadowMode="js"
+              availableWidth="{{_detailWidth}}"
               selectedMasterValue="{{_selected}}"/>
    </div>
 </Controls.event:Register>

@@ -26,7 +26,6 @@
 export interface INotificationOptions {
     style?: String;
     icon?: String;
-    autoClose?: Boolean;
     text?: String;
     closeButtonVisibility?: Boolean;
 }

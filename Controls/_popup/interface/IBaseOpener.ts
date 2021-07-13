@@ -13,6 +13,7 @@ export interface IBasePopupOptions {
     opener?: Control<IControlOptions, unknown> | null;
     autofocus?: boolean;
     topPopup?: boolean;
+    autoClose?: boolean;
     modal?: boolean;
     closeOnOverlayClick?: boolean;
     eventHandlers?: IEventHandlers;
@@ -350,6 +351,12 @@ export interface IBaseOpener {
  *       ...
  *    };
  * </pre>
+ */
+
+/**
+ * @name Controls/_popup/interface/IBaseOpener#autoClose
+ * @cfg {Boolean} Автоматически закрывать окно через 5 секунд после открытия.
+ * @default false
  */
 
 /**

@@ -12,7 +12,7 @@ import * as RichContent from 'wml!Controls/_tile/render/itemsContent/Rich';
 import Tile, {
     DEFAULT_COMPRESSION_COEFF, DEFAULT_SCALE_COEFFICIENT, DEFAULT_TILE_HEIGHT, DEFAULT_TILE_WIDTH, IRoundBorder
 } from './Tile';
-import {itemTemplate} from "Controls/switchableArea";
+import {toRgb, rgbaToString, rgbToRgba} from 'Controls/Utils/colorUtil';
 
 const DEFAULT_WIDTH_PROPORTION = 1;
 
@@ -691,13 +691,19 @@ export default abstract class TileItem<T extends Model = Model> {
     getGradientStyles(itemType: TTileItem = 'default', gradientColor: string = '#ffffff', gradientType: string = 'dark'): string {
         let styles = '';
 
+        // Нельзя сделать просто градиент от цвета к прозрачному белому, так как в safari это приводит к светлым полосам на темном фоне.
+        // Поэтому нужно делать градиент от цвета к прозрачному цвету того же оттенка.
+        const rgbColor = toRgb(gradientColor);
+
         switch (itemType) {
             case 'default':
             case 'small':
             case 'medium':
                 break;
             case 'rich':
-                styles += ` background: linear-gradient(to bottom, ${gradientColor}00 0%, ${gradientColor} 100%);`;
+                if (rgbColor) {
+                    styles += ` background: linear-gradient(to bottom, ${rgbaToString(rgbToRgba(rgbColor, 0))} 0%, ${rgbaToString(rgbColor)} 100%);`;
+                }
                 break;
             case 'preview':
                 if (gradientType === 'custom') {
@@ -1020,7 +1026,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 if ((!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right') {
-                    styles += ` background-color: ${gradientColor};`;
+                    styles += ` background-color: ${rgbaToString(toRgb(gradientColor))};`;
                 }
                 break;
         }
