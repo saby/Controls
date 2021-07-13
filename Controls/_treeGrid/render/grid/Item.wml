@@ -6,20 +6,6 @@
    <div if="{{ gridColumn.shouldDisplayMarker(marker) }}"
         class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding) }}"></div>
 
-   <ws:if data="{{(item || itemData).shouldDisplayExpanderBlock(gridColumn)}}">
-      <ws:if data="{{ (item || itemData).shouldDisplayLevelPadding(withoutLevelPadding) }}">
-         <ws:for data="i in (item || itemData).getLevel() - 1">
-            <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
-         </ws:for>
-      </ws:if>
-      <ws:if data="{{ (item || itemData).shouldDisplayExpander(expanderIcon, 'default') }}">
-         <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
-      </ws:if>
-      <ws:else data="{{(item || itemData).shouldDisplayExpanderPadding(expanderIcon, expanderSize)}}">
-         <div class="{{(item || itemData).getExpanderPaddingClasses(expanderSize)}}"></div>
-      </ws:else>
-   </ws:if>
-
    <ws:partial template="{{ gridColumn.getTemplate() }}"
                scope="{{ gridColumn.config.templateOptions }}"
                attr:key="{{ gridColumn.getInstanceId() }}"
@@ -47,6 +33,25 @@
       <ws:multiSelectTemplate>
          <ws:partial template="{{ (item || itemData).getMultiSelectTemplate() }}" item="{{ (item || itemData) }}" />
       </ws:multiSelectTemplate>
+      <ws:beforeContentTemplate>
+          <!-- Экспандер узлов и отступ под экспандер у записей дерева выводится перед контентом ячейки. -->
+          <!-- Рендер экспандера обязан быть внутри блока, который обеспечивает отступы, обводку редактируемой записи и -->
+          <!-- другие визуальные решения, регулируемые опциями на шаблоне колонки. В противном случае возникают проблемы  -->
+          <!-- например, опция cursor="default" на колонке не влияет на область, где расположен отступ под иерархию/экспандер. -->
+          <ws:if data="{{(item || itemData).shouldDisplayExpanderBlock(gridColumn)}}">
+              <ws:if data="{{ (item || itemData).shouldDisplayLevelPadding(withoutLevelPadding) }}">
+                  <ws:for data="i in (item || itemData).getLevel() - 1">
+                      <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
+                  </ws:for>
+              </ws:if>
+              <ws:if data="{{ (item || itemData).shouldDisplayExpander(expanderIcon, 'default') }}">
+                  <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
+              </ws:if>
+              <ws:else data="{{(item || itemData).shouldDisplayExpanderPadding(expanderIcon, expanderSize)}}">
+                  <div class="{{(item || itemData).getExpanderPaddingClasses(expanderSize)}}"></div>
+              </ws:else>
+          </ws:if>
+      </ws:beforeContentTemplate>
       <ws:afterContentTemplate>
          <!-- Стрелка редактирования -->
          <ws:if data="{{ afterContentTemplate.shouldDisplayEditArrow && editArrowTemplate }}">
@@ -62,8 +67,8 @@
                         columnIndex="{{ (gridColumn || itemData).getColumnIndex() }}"/>
          </div>
 
-         <!-- Экспандер -->
-         <ws:if data="{{ item.shouldDisplayExpanderBlock(gridColumn) && item.shouldDisplayExpander(afterContentTemplate.expanderIcon, 'right') }}">
+          <!-- Экспандер узлов дерева выводится после контентом ячейки. -->
+          <ws:if data="{{ item.shouldDisplayExpanderBlock(gridColumn) && item.shouldDisplayExpander(afterContentTemplate.expanderIcon, 'right') }}">
             <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
          </ws:if>
       </ws:afterContentTemplate>

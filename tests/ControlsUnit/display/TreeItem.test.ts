@@ -318,12 +318,6 @@ describe('Controls/_display/TreeItem', () => {
                 CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander__spacingBottom_default');
             });
 
-            it('is dragged', () => {
-                let item = new TreeItem({ owner, dragged: true });
-                const classes = item.getExpanderClasses();
-                CssClassesAssert.include(classes, 'controls-ListView__itemContent_dragging');
-            });
-
             it('expanderPosition is right', () => {
                 owner.getExpanderPosition = () => 'right';
                 let item = new TreeItem({ owner });
