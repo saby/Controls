@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">blankAreaStyle = default</div>
+        <Controls.progress:Bar value="{{30}}" barStyle="primary" blankAreaStyle="default"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">blankAreaStyle = none</div>
+        <Controls.progress:Bar value="{{30}}" barStyle="primary" blankAreaStyle="none"/>
+    </div>
+</div>

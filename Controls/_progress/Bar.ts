@@ -6,6 +6,7 @@ import barTemplate = require('wml!Controls/_progress/Bar/Bar');
 export interface IBarOptions extends IControlOptions {
    value?: number;
    barStyle: 'primary' | 'success' | 'danger' | 'warning' | 'secondary';
+   blankAreaStyle?: 'default' | 'none';
 }
 /**
  * Базовый индикатор выполнения процесса.
@@ -64,7 +65,8 @@ class Bar extends Control<IBarOptions> {
       return {
          theme: 'default',
          value: 0,
-         barStyle: 'primary'
+         barStyle: 'primary',
+         blankAreaStyle: 'default'
       };
    }
 
@@ -109,6 +111,15 @@ Object.defineProperty(Bar, 'defaultProps', {
  * @variant secondary
  * @default primary
  * @demo Controls-demo/progress/Bar/BarStyle/Index
+ */
+
+/**
+ * @name Controls/_progress/Bar#blankAreaStyle
+ * @cfg {Enum} Стиль шкалы не заполненной области прогресс бара.
+ * @variant default
+ * @variant none
+ * @default default
+ * @demo Controls-demo/progress/Bar/BlankAreaStyle/Index
  */
 
 export default Bar;
