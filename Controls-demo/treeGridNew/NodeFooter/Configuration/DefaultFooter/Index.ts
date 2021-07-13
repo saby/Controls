@@ -4,7 +4,8 @@ import {HierarchicalMemory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
+import {Flat} from 'Controls-demo/treeGridNew/DemoHelpers/Data/Flat';
+import {Model} from 'Types/entity';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -96,6 +97,10 @@ export default class extends Control {
 
     private _toggleNodes(tree): void {
         tree.toggleExpanded(1).then(() => tree.toggleExpanded(11)).then(() => tree.toggleExpanded(12));
+    }
+
+    protected _nodeFooterVisibilityCallback(record: Model): boolean {
+        return record.getKey() === 1;
     }
 
     // tslint:disable-next-line

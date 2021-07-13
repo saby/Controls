@@ -6,7 +6,8 @@
             columns="{{_columns}}"
             parentProperty="parent"
             nodeProperty="type"
-            navigation="{{_navigation}}">
+            navigation="{{_navigation}}"
+            nodeFooterVisibilityCallback="{{_nodeFooterVisibilityCallback}}">
         <ws:nodeFooterTemplate>
             <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />
         </ws:nodeFooterTemplate>
