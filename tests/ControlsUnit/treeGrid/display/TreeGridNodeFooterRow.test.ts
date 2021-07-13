@@ -105,6 +105,14 @@ describe('Controls/_treeGrid/display/TreeGridNodeFooterRow', () => {
       CssClassesAssert.isSame(nodeFooterRow.getExpanderPaddingClasses('s'), 'controls-TreeGrid__node-footer-expanderPadding controls-TreeGrid__row-expanderPadding_size_s js-controls-ListView__notEditable');
    });
 
+   it('.shouldDisplayVisibleFooter()', () => {
+      assert.isFalse(nodeFooterRow.shouldDisplayVisibleFooter(undefined));
+      assert.isTrue(nodeFooterRow.shouldDisplayVisibleFooter({}));
+
+      treeGridCollection.setHasMoreStorage({ 3: true });
+      assert.isTrue(nodeFooterRow.shouldDisplayVisibleFooter(undefined));
+   });
+
    it('with fixed column', () => {
       treeGridCollection = getCollection({columnScroll: true});
       nodeFooterRow = treeGridCollection.at(3) as TreeGridNodeFooterRow;
