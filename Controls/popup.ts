@@ -1,6 +1,7 @@
 /**
  * Библиотека контролов, открывающих всплывающие окна. Существуют окна нескольких видов, которые различаются внешним видом и алгоритмом позиционирования.
  * @library
+ * @includes IBasePopupOptions Controls/_popup/interface/IBasePopupOptions
  * @public
  * @author Крайнов Д.О.
  */
@@ -8,6 +9,7 @@
 /*
  * popup library
  * @library
+ * @includes IBasePopupOptions Controls/_popup/interface/IBasePopupOptions
  * @public
  * @author Крайнов Д.О.
  */
