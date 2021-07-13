@@ -11,7 +11,6 @@ interface ITimeIntervalEditorOptions extends IEditorOptions, IControlOptions {
 }
 /**
  * Редактор для временного интервала.
- * @class Controls/_propertyGrid/extendedEditors/TimeInterval
  * @extends UI/Base:Control
  * @author Мельникова Е.А.
  * @demo Controls-demo/PropertyGridNew/Editors/TimeInterval/Index

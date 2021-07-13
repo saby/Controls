@@ -12,6 +12,7 @@ interface ILookupEditorOptions extends IEditorOptions {
  * Редактор для поля выбора из справочника.
  * @class Controls/_propertyGrid/extendedEditors/Lookup
  * @extends UI/Base:Control
+ * @mixes Controls/propertyGrid:IEditor
  * @author Мельникова Е.А.
  * @public
  */

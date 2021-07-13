@@ -24,6 +24,10 @@ import 'css!Controls/itemActions';
 export type TToggledEditors = Record<string, boolean>;
 type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem<Model>>;
 
+interface IPropertyGridValidatorArguments {
+    item: PropertyGridCollectionItem<Model>;
+}
+
 /**
  * Контрол, который позволяет пользователям просматривать и редактировать свойства объекта.
  *
@@ -34,9 +38,9 @@ type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less переменные тем оформления}
  *
- * @class Controls/_propertyGrid/PropertyGrid
  * @extends UI/Base:Control
  * @mixes Controls/interface/IPropertyGrid
+ * @mixes Controls/propertyGrid:IPropertyGrid
  * @demo Controls-demo/PropertyGridNew/Group/Expander/Index
  *
  * @public
@@ -47,17 +51,13 @@ type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem
  * Represents a control that allows users to inspect and edit the properties of an object.
  * You can use the standard editors that are provided with the PropertyGrid or you can use custom editors.
  * By default the propertyGrid will autogenerate all the properties for a given object
- * @class Controls/_propertyGrid/PropertyGrid
  * @extends UI/Base:Control
+ * @mixes Controls/interface/IPropertyGrid
  * @mixes Controls/propertyGrid:IPropertyGrid
  *
  * @public
  * @author Герасимов А.М.
  */
-
-interface IPropertyGridValidatorArguments {
-    item: PropertyGridCollectionItem<Model>;
-}
 export default class PropertyGridView extends Control<IPropertyGridOptions> {
     protected _template: TemplateFunction = template;
     protected _listModel: TPropertyGridCollection;

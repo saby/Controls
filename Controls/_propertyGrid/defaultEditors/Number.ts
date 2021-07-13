@@ -27,7 +27,6 @@ export interface INumberEditorOptions extends IEditorOptions {
 /**
  * Редактор численного типа данных.
  *
- * @class Controls/_propertyGrid/defaultEditors/Number
  * @extends UI/Base:Control
  * @mixes Controls/propertyGrid:IEditor
  * @demo Controls-demo/PropertyGridNew/Editors/Number/Demo
@@ -38,7 +37,6 @@ export interface INumberEditorOptions extends IEditorOptions {
 
 /*
  * Editor for the number type.
- * @class Controls/_propertyGrid/defaultEditors/Number
  * @extends UI/Base:Control
  * @mixes Controls/propertyGrid:IEditor
  *

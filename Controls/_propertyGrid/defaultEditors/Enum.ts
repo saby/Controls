@@ -11,7 +11,6 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less переменные тем оформления}
  *
- * @class Controls/_propertyGrid/defaultEditors/Enum
  * @extends UI/Base:Control
  * @mixes Controls/propertyGrid:IEditor
  * 
@@ -21,7 +20,6 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
 
 /*
  * Editor for enum type.
- * @class Controls/_propertyGrid/defaultEditors/Enum
  * @extends UI/Base:Control
  * @mixes Controls/propertyGrid:IEditor
  * 
