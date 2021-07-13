@@ -166,10 +166,10 @@ export default class WrappedSearch extends Control {
 
 /**
  * @name Controls/_search/Input/WrappedSearch#resetButtonVisible
- * @cfg {Boolean} Определяет отображение иконки сброса значения внутри поля поиска.
+ * @cfg {Boolean} Определяет отображение иконки сброса значения внутри поля поиска при введеном тексте.
  * @default true
  * @remark
- * * true - иконка отображается.
+ * * true - иконка отображается при введенном тексте.
  * * false - иконка не отображается.
  */
 
