@@ -14,6 +14,22 @@
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
  * @includes IItemsView Controls/_list/IItemsView
+ * @includes DataContainer Controls/_list/Data
+ * @includes editing Controls/list:editing
+ * @includes groupConstants Controls/list:groupConstants
+ * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
+ * @includes IItemPadding Controls/_display/interface/ICollection/IItemPadding
+ * @includes IList Controls/_list/interface/IList
+ * @includes IListNavigation Controls/_list/interface/IListNavigation
+ * @includes IMovableList Controls/_baseList/interface/IMovableList
+ * @includes IMoveDialogTemplate Controls/_baseList/interface/IMovableList
+ * @includes IRemovableList Controls/_list/interface/IRemovableList
+ * @includes ItemsView Controls/list:ItemsView
+ * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
+ * @includes MoveController Controls/_list/Controllers/MoveController
+ * @includes MultiSelectAccessibility Controls/_display/Collection
+ * @includes RemoveController Controls/_baseList/Controllers/RemoveController
+ * @includes View Controls/_list/List
  * @public
  * @author Крайнов Д.О.
  */
@@ -34,6 +50,22 @@
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
  * @includes IItemsView Controls/_list/IItemsView
+ * @includes DataContainer Controls/_list/Data
+ * @includes editing Controls/list:editing
+ * @includes groupConstants Controls/list:groupConstants
+ * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
+ * @includes IItemPadding Controls/_display/interface/ICollection/IItemPadding
+ * @includes IList Controls/_list/interface/IList
+ * @includes IListNavigation Controls/_list/interface/IListNavigation
+ * @includes IMovableList Controls/_baseList/interface/IMovableList
+ * @includes IMoveDialogTemplate Controls/_baseList/interface/IMovableList
+ * @includes IRemovableList Controls/_list/interface/IRemovableList
+ * @includes ItemsView Controls/list:ItemsView
+ * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
+ * @includes MoveController Controls/_list/Controllers/MoveController
+ * @includes MultiSelectAccessibility Controls/_display/Collection
+ * @includes RemoveController Controls/_baseList/Controllers/RemoveController
+ * @includes View Controls/_list/List
  * @public
  * @author Крайнов Д.О.
  */
