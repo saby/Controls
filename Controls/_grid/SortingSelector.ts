@@ -64,14 +64,16 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
 
     protected _beforeMount(options: ISortingSelectorOptions): void {
         this._saveLinkToItems = this._saveLinkToItemsFnc.bind(this);
-        this._arrowIconStyle = SortingSelector._getIconStyleFromTextStyle(options.fontColorStyle);
-        this._arrowIconHover = SortingSelector._isIconHover(this._arrowIconStyle);
+        if (options.fontColorStyle) {
+            this._arrowIconStyle = SortingSelector._getIconStyleFromTextStyle(options.fontColorStyle);
+        }
         this.updateConfig(options.sortingParams, options.value);
     }
 
     protected  _beforeUpdate(newOptions: ISortingSelectorOptions): void {
-        this._arrowIconStyle = SortingSelector._getIconStyleFromTextStyle(newOptions.fontColorStyle);
-        this._arrowIconHover = SortingSelector._isIconHover(this._arrowIconStyle);
+        if (newOptions.fontColorStyle !== this._options.fontColorStyle) {
+            this._arrowIconStyle = SortingSelector._getIconStyleFromTextStyle(newOptions.fontColorStyle);
+        }
         if (!isEqual(this._options.value, newOptions.value) ||
             !isEqual(this._options.sortingParams, newOptions.sortingParams)) {
             this.updateConfig(newOptions.sortingParams, newOptions.value);
