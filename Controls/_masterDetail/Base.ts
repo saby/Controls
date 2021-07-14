@@ -197,7 +197,7 @@ class Base extends Control<IMasterDetail, string> {
                     resolve(this._currentWidth);
                 });
             });
-        } else if (this._canResizing) {
+        } else {
             this.initCurrentWidth(options.masterWidth);
         }
     }

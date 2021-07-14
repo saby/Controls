@@ -1,6 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения {@link Controls/list:View плоского списка} без элементов.
- * 
+ *
  * @class Controls/_list/interface/EmptyTemplate
  * @author Авраменко А.С.
  * @see Controls/list:IList#emptyTemplate
@@ -57,5 +57,4 @@ export default interface IEmptyTemplateOptions {
      * @cfg {String|TemplateFunction|undefined} Шаблон, описывающий контент плоского списка без элементов.
      */
     contentTemplate?: string;
- }
- 
+}

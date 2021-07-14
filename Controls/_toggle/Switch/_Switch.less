@@ -95,9 +95,29 @@
 }
 
 .ws-is-hover {
-   .controls-Switch__text_enabled_unselected:hover,
-   .controls-Switch__text_enabled_selected:hover{
-      text-decoration: underline;
+   .controls-Switch__wrapper:hover {
+      .controls-Switch__text_enabled_unselected,
+      .controls-Switch__text_enabled_selected {
+         text-decoration: underline;
+      }
+
+      .controls-SwitchCircle_selected {
+         background-color: var(--selected_marker-hover_color_switcher);
+      }
+
+      .controls-SwitchCircle_unselected {
+         background-color: var(--unselected_marker-hover_color_switcher);
+      }
+
+      .controls-Switch__toggle__wrapper_bg-contrast:not(.controls-Switch_disabled) {
+         border-color: var(--unselected_marker-hover_color_switcher);
+         background-color: var(--unselected_marker-hover_color_switcher);
+      }
+
+      .controls-Switch__toggle__wrapper_bg-contrast_checked:not(.controls-Switch_disabled) {
+         border-color: var(--selected_marker-hover_color_switcher);
+         background-color: var(--selected_marker-hover_color_switcher);
+      }
    }
 
    .controls-Switch:hover {
