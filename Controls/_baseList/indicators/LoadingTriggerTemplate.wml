@@ -1,1 +1,1 @@
-<div id="{{ item.getId() }}" style="{{ item.getStyles() }}"/>
+<div name="{{item.isTopTrigger() ? 'topLoadingIndicator' : 'bottomLoadingIndicator' }}" style="{{ item.getStyles() }}" data-qa="{{ item.getQAData() }}"/>

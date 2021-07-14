@@ -179,8 +179,7 @@ export default class TreeGridCollection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
-        // TODO LI
-        this._updateItemsProperty('setColumnsConfig', this._$columns, 'setColumnsConfig');
+        this._updateItemsProperty('setColumnsConfig', this._$columns);
     }
 
     isLastItem(item: CollectionItem): boolean {

@@ -10,12 +10,7 @@ export default class extends Control {
     protected _filter: Object = null;
     private _dataArray: object[] = generateData({count: 100, entityTemplate: {title: 'lorem'}});
     private _searchValue: string = '';
-    protected _columns: [] = [
-        {
-            displayProperty: 'title',
-            width: 'max-content'
-        }
-    ];
+    protected _columns: [] = [{ displayProperty: 'title' }];
     protected _beforeMount(): void {
         this._viewSource = new PortionedSearchSource({
             source: new Memory({

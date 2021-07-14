@@ -2,7 +2,7 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Middle/ColumnScroll' }}">
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Middle/ColumnScroll/Index' }}">
             <a href="{{content.href}}">Горизонтальный скролл</a>
         </Router.router:Reference>
         <Controls-demo.gridNew.LoadingIndicator.Middle.ColumnScroll.Index/>

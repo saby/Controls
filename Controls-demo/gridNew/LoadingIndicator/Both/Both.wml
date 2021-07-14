@@ -2,7 +2,7 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Both/EnoughData' }}">
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Both/EnoughData/Index' }}">
             <a href="{{content.href}}">При инициализации данных хватает на всю страницу</a>
         </Router.router:Reference>
         <Controls-demo.gridNew.LoadingIndicator.Both.EnoughData.Index/>
@@ -11,7 +11,7 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Both/NotEnoughData' }}">
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Both/NotEnoughData/Index' }}">
             <a href="{{content.href}}">При инициализации данных не хватает на всю страницу</a>
         </Router.router:Reference>
         <Controls-demo.gridNew.LoadingIndicator.Both.NotEnoughData.Index/>
@@ -20,7 +20,7 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Both/Search' }}">
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Both/Search/Index' }}">
             <a href="{{content.href}}">Поиск</a>
         </Router.router:Reference>
         <Controls-demo.gridNew.LoadingIndicator.Both.Search.Index/>

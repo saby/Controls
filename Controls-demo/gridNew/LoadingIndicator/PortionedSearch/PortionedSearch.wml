@@ -9,7 +9,7 @@
                     searchValue="{{_searchValue}}"
                     filter="{{_filter}}">
                 <ws:navigation source="page" view="infinity">
-                    <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{true}}"/>
                     <ws:viewConfig pagingMode="basic"/>
                 </ws:navigation>
                 <ws:loadingIndicatorTemplate>

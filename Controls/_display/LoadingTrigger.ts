@@ -28,7 +28,7 @@ export default class LoadingTrigger extends CollectionItem<null> {
     }
 
     getTemplate(itemTemplateProperty: string, userTemplate: TemplateFunction | string): TemplateFunction | string {
-        return 'Controls/list:LoadingTriggerItemTemplate';
+        return 'Controls/baseList:LoadingTriggerItemTemplate';
     }
 
     getStyles(): string {
@@ -73,12 +73,8 @@ export default class LoadingTrigger extends CollectionItem<null> {
         return isHidden;
     }
 
-    getId(): string {
-        if (this.isTopTrigger()) {
-            return TOP_LOADING_TRIGGER_ID;
-        } else if (this.isBottomTrigger()) {
-            return BOTTOM_LOADING_TRIGGER_ID;
-        }
+    getQAData(marker?: boolean): string {
+        return this.key;
     }
 }
 

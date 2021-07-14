@@ -119,7 +119,6 @@ import Indicator from 'Controls/_display/Indicator';
 import LoadingTrigger from 'Controls/_display/LoadingTrigger';
 export {EIndicatorState} from 'Controls/_display/Indicator';
 export {ITriggerOffset} from 'Controls/_display/IndicatorsMixin';
-export {TOP_LOADING_TRIGGER_ID, BOTTOM_LOADING_TRIGGER_ID} from 'Controls/_display/LoadingTrigger';
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});

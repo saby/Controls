@@ -12,7 +12,7 @@ export default class Explorer extends Control<IControlOptions> {
    protected _columns: IColumn[] = [
       {
          displayProperty: 'title',
-         width: 'max-content'
+         width: '700px'
       }
    ];
    private _dataArray: unknown = generateData({count: 60, entityTemplate: {title: 'lorem'}});

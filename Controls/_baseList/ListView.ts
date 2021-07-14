@@ -1,14 +1,13 @@
 import {Logger} from 'UI/Utils';
 import {_Options} from 'UI/Vdom';
 import {isEqual} from 'Types/object';
-import {Control as BaseControl} from 'UI/Base';
+import {Control} from 'UI/Base';
 import {debounce as cDebounce} from 'Types/function';
 import * as forTemplate from 'wml!Controls/_baseList/Render/For';
 import * as GroupTemplate from 'wml!Controls/_baseList/GroupTemplate';
 import * as ListViewTpl from 'wml!Controls/_baseList/ListView/ListView';
 import * as defaultItemTemplate from 'wml!Controls/_baseList/ItemTemplate';
 import 'css!Controls/baseList';
-import {BOTTOM_LOADING_TRIGGER_ID, TOP_LOADING_TRIGGER_ID} from 'Controls/display';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -52,7 +51,7 @@ const _private = {
     }
 };
 
-const ListView = BaseControl.extend(
+const ListView = Control.extend(
     {
         _listModel: null,
         _hoveredItem: null,
@@ -265,11 +264,11 @@ const ListView = BaseControl.extend(
         },
 
         getTopLoadingTrigger(): HTMLElement {
-            return document.getElementById(TOP_LOADING_TRIGGER_ID);
+            return this._children.topLoadingIndicator;
         },
 
         getBottomLoadingTrigger(): HTMLElement {
-            return document.getElementById(BOTTOM_LOADING_TRIGGER_ID);
+            return this._children.bottomLoadingIndicator;
         },
 
         _onItemClick: function(e, dispItem) {
