@@ -47,7 +47,6 @@ const iconSizeMap = {
  */
 class SortingSelector extends Control<ISortingSelectorOptions> {
     protected _template: TemplateFunction = template;
-    protected _options: ISortingSelectorOptions;
     private _selectedKeys: [number|string];
     private _currentParamName: string = null;
     private _currentIcon: string = '';
