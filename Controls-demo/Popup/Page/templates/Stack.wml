@@ -1,0 +1,28 @@
+<Controls.popupTemplate:Stack headingCaption="Демо пример построения страницы на окне">
+    <ws:bodyContentTemplate>
+        <div class="ws-flexbox ws-flex-column">
+            <div class="ControlDemo-PopupPage__stack-staticContent">
+                <div class="ControlDemo-PopupPage__stack-staticContent-line">Общее количество виджетов - {{ _options.prefetchResult.stackTemplate[0].count || 'Не загружено' }}</div>
+                <div class="ControlDemo-PopupPage__stack-staticContent-line">Дата - {{ _options.prefetchResult.stackTemplate[0].date || 'Не загружено' }}</div>
+                <div class="ControlDemo-PopupPage__stack-staticContent-line">Описание - {{ _options.prefetchResult.stackTemplate[0].info || 'Не загружено' }}</div>
+            </div>
+            <Controls.scroll:Container
+                if="{{ _options.prefetchResult }}"
+                attr:class="ControlDemo-PopupPage__stack-scroll">
+                <Controls.list:View
+                        name="list"
+                        source="{{_options.widgetSource}}"
+                        keyProperty="key"
+                        notifyKeyOnRender="{{true}}"
+                        bottomTriggerOffsetCoefficient="{{1}}">
+                    <ws:navigation view="infinity"/>
+                    <ws:itemTemplate>
+                        <Controls-demo.Popup.Page.templates.ScrollableWidget
+                            prefetchResult="{{ _options.prefetchResult[itemTemplate.item.contents.key] }}"/>
+                    </ws:itemTemplate>
+                    <ws:virtualScrollConfig pageSize="{{15}}"/>
+                </Controls.list:View>
+            </Controls.scroll:Container>
+        </div>
+    </ws:bodyContentTemplate>
+</Controls.popupTemplate:Stack>
