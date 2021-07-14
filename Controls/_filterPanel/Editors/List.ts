@@ -145,7 +145,7 @@ class ListEditor extends BaseEditor {
             this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
         this._navigation = this._getNavigation(this._options);
-        this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
+        this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect);
     }
 
     protected _handleFooterClick(event: SyntheticEvent): void {
@@ -170,15 +170,18 @@ class ListEditor extends BaseEditor {
         });
     }
 
-    protected _processPropertyValueChanged(value: string[] | number[], needCollapse: boolean, selectorResult?: Model[]): void {
-        const extendedValue = {
-            value,
-            textValue: this._getTextValue(selectorResult || value),
-            needCollapse: true
-        };
+    protected _processPropertyValueChanged(value: string[] | number[], needCollapse: boolean): void {
         this._selectedKeys = value;
         this._setColumns(this._options, this._selectedKeys);
-        this._notifyPropertyValueChanged(extendedValue, needCollapse);
+        this._notifyPropertyValueChanged(needCollapse);
+    }
+
+    protected _getExtendedValue(needCollapse?: boolean): object {
+        return {
+            value: this._selectedKeys,
+            textValue: this._getTextValue(this._selectedKeys),
+            needCollapse
+        };
     }
 
     protected _setColumns(options: IListEditorOptions, propertyValue: string[]|number[]): void {

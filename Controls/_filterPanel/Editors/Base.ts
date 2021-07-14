@@ -8,11 +8,12 @@ export abstract class BaseEditor extends Control<IControlOptions> {
     protected _applyButtonTemplate: TemplateFunction = ApplyButton;
     protected _editorTarget: HTMLElement | EventTarget | Control<{}, void>;
 
-    protected _notifyPropertyValueChanged(value: object, needCollapse?: boolean): void {
+    abstract _getExtendedValue(needCollapse?: boolean): object;
+
+    protected _notifyPropertyValueChanged(needCollapse?: boolean): void {
         if (needCollapse || !this._options.applyButtonSticky) {
             this._hideApplyButton();
-            value.needCollapse = needCollapse;
-            this._notify('propertyValueChanged', [value], {bubbling: true});
+            this._notify('propertyValueChanged', [this._getExtendedValue(needCollapse)], {bubbling: true});
         } else {
             this._getApplyButtonSticky().open({
                 opener: null,
@@ -27,7 +28,7 @@ export abstract class BaseEditor extends Control<IControlOptions> {
                 target: this._editorTarget || this._container,
                 eventHandlers: {
                     onResult: () => {
-                        this._notify('propertyValueChanged', [value], {bubbling: true});
+                        this._notify('propertyValueChanged', [this._getExtendedValue(true)], {bubbling: true});
                         this._hideApplyButton();
                     }
                 }
