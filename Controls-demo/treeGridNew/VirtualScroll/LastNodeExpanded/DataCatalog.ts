@@ -13,13 +13,13 @@ export const generateData = (): Array<{
     const parents = [
         {
             key: '1',
-            title: 'Запись первого уровня с id = 1. Много дочерних элементов.',
+            title: 'Запись первого уровня с key = 1. Много дочерних элементов.',
             parent: null,
             type: true
         },
         {
             key: '2',
-            title: 'Запись первого уровня с id = 2. Много дочерних элементов.',
+            title: 'Запись первого уровня с key = 2. Много дочерних элементов.',
             parent: null,
             type: true
         }
@@ -28,16 +28,16 @@ export const generateData = (): Array<{
     parents.forEach((parent) => {
         result.push(parent);
         for (let i = 1; i < itemsCount; i++) {
-            const id = `${parent.id}${i}`;
+            const key = `${parent.key}${i}`;
             result.push(
                 {
-                    id,
-                    title: `Запись второго уровня с id = ${id}`,
-                    parent: parent.id,
+                    key,
+                    title: `Запись второго уровня с key = ${key}`,
+                    parent: parent.key,
                     type: null
                 }
             );
         }
     });
-    return result.sort((a, b) => a.id > b.id ? 1 : -1);
+    return result.sort((a, b) => a.key > b.key ? 1 : -1);
 };
