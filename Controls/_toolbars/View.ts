@@ -278,7 +278,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `${options.popupClassName} controls-Toolbar__popup__list controls_popupTemplate_theme-${options.theme}`,
+            className: `${options.popupClassName} controls-Toolbar-${options.direction}__popup__list controls_popupTemplate_theme-${options.theme}`,
             templateOptions: {
                 source: this._menuSource,
                 ...this._getMenuTemplateOptions(),
@@ -338,12 +338,14 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     }
 
     private _getMenuOptions(): IMenuOptions {
+        const isVertical = this._options.direction === 'vertical';
         return {
             direction: {
-                horizontal: 'left'
+                horizontal: 'left',
+                vertical: isVertical ? 'top' : 'bottom'
             },
             targetPoint: {
-                vertical: 'top',
+                vertical: isVertical ? 'bottom' : 'top',
                 horizontal: 'right'
             },
             eventHandlers: {
@@ -533,7 +535,6 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         }
 
         if (!this._options.readOnly) {
-            const menuConfig = this._getMenuConfig();
             if (!this._isLoadMenuItems) {
                 this._setMenuSource();
                 this._isLoadMenuItems = true;
