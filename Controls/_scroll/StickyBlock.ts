@@ -25,6 +25,7 @@ import {IntersectionObserver} from 'Controls/sizeUtils';
 import {EventUtils} from 'UI/Events';
 import Model = require('Controls/_scroll/StickyBlock/Model');
 import template = require('wml!Controls/_scroll/StickyBlock/StickyHeader');
+import Group from "Controls/_scroll/StickyBlock/Group";
 
 export enum BACKGROUND_STYLE {
     TRANSPARENT = 'transparent',
@@ -170,6 +171,8 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _syncDomOptimization: boolean = true;
 
+    group: Group;
+
     get index(): number {
         return this._index;
     }
@@ -262,6 +265,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             return;
         }
         this._release();
+        this.group = null;
     }
 
     _register(): void {

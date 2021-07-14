@@ -71,7 +71,7 @@ export default class ResizeObserverUtil {
     }
 
     unobserve(container: HTMLElement): void {
-        if (this._resizeObserverSupported) {
+        if (this._resizeObserverSupported && this._resizeObserver) {
             this._resizeObserver.unobserve(container);
         }
     }
