@@ -32,7 +32,7 @@ export default class LoadingTrigger extends CollectionItem<null> {
     }
 
     getStyles(): string {
-        let styles = 'position: relative;';
+        let styles = 'position: relative; grid-column: 1/-1;';
 
         if (this.isTopTrigger()) {
             styles += ` top: ${this._$offset}px;`;
