@@ -33,7 +33,7 @@ export default class extends Control {
             keyProperty: 'key',
             rawData: {
                key: guid,
-               title: `Запись первого уровня с id = ${guid}. Отменяет поведение скролла вместо кнопки "Ещё".`,
+               title: `Запись первого уровня с key = ${guid}. Отменяет поведение скролла вместо кнопки "Ещё".`,
                parent: null,
                type: null
             }
