@@ -11,7 +11,7 @@
   "--border-color": "#cccccc",
   "--separator_color": "#eaeaea",
   "--readonly_marker-color": "#313e78",
-  "--text-color": "#000000",
+  "--text-color": "#333",
   "--contrast_text-color": "#ffffff",
   "--label_text-color": "#8991a9",
 
@@ -20,7 +20,7 @@
   "--unaccented_text-color": "var(--unaccented_color)",
   "--link_text-color_inline": "var(--link_hover_text-color)",
   "--link_hover_text-color_inline": "var(--link_text-color)",
-  "--icon-color": "#000000",
+  "--icon-color": "#333",
   "--contrast_icon-color": "#ffffff",
   "--unaccented_icon-color": "#cccccc",
 
@@ -1156,7 +1156,7 @@
   "--marker_thickness-l_tabs": "3px",
   "--secondary_marker_color_tabs": "var(--link_text-color)",
   "--primary_marker_color_tabs": "#d94700",
-  "--unaccented_marker_color_tabs": "#000",
+  "--unaccented_marker_color_tabs": "#333",
   "--marker_hover_color_tabs": "#e4e4e4",
   "--marker_hover_thickness-l_tabs": "3px",
   "--main-tab-marker_length_tabs": "22px",
