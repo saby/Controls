@@ -117,7 +117,8 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    cursor: auto;
    min-height: 48px;
    pointer-events: none;
-   grid-column: 1/-1;
+   grid-column-start: 1;
+   grid-column-end: -1;
 
    // TODO: KINGO
    // Локальный индикатор загрузки на весь экран должен блокировать список, перекрывая кнопки навигации и скроллбар.
@@ -159,8 +160,8 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    cursor: auto;
    min-height: 48px;
    pointer-events: none;
-   grid-column: 1/-1;
-
+   grid-column-start: 1;
+   grid-column-end: -1;
    padding-top: var(--offset_s);
    bottom: var(--scrollpaging_offset-vertical_list);
 }
@@ -294,7 +295,8 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl__continueSearch {
    display: inline-flex;
    width: 100%;
-   grid-column: 1/-1;
+   grid-column-start: 1;
+   grid-column-end: -1;
    padding-top: calc(var(--offset_s) + var(--content_l_border_radius_loadingIndicator));
    padding-bottom: var(--content_l_padding_loadingIndicator);
 }
