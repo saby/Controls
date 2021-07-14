@@ -21,20 +21,24 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
         const rowSeparatorSize = this._$owner.getRowSeparatorSize();
 
         let classes =
-            'controls-TreeGrid__nodeFooterContent ' +
-            `controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${rowSeparatorSize} ` +
-            'controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable ';
+            'controls-TreeGrid__nodeFooterContent' +
+            ` controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${rowSeparatorSize}` +
+            ' controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable';
+
+        if (colspan !== false) {
+            classes += ' controls-TreeGrid__nodeFooterContent_colspaned';
+        }
 
         /*if (!this.isFirstColumn()) {
             classes += ` controls-TreeGrid__nodeFooterCell_columnSeparator-size_${current.getSeparatorForColumn(columns, index, current.columnSeparatorSize)}`;
         }*/
 
         if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn(colspan)) {
-            classes += `controls-TreeGrid__nodeFooterContent_spacingLeft-${this._$owner.getLeftPadding()} `;
+            classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${this._$owner.getLeftPadding()}`;
         }
 
         if (this.isLastColumn(colspan)) {
-            classes += `controls-TreeGrid__nodeFooterContent_spacingRight-${this._$owner.getRightPadding()} `;
+            classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${this._$owner.getRightPadding()}`;
         }
 
         return classes;
@@ -71,6 +75,15 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
         }
 
         return '';
+    }
+
+    // TODO нужно удалить, когда перепишем колспан для футеров узлов на Tree::colspanCallback
+    getColspan(colspan?: boolean): number {
+        if (colspan !== false) {
+            return this.getOwner().getColumnsConfig().length;
+        }
+
+        return 1;
     }
 }
 
