@@ -20,8 +20,10 @@ export function splitValue(format: IFormat, value: string): string[] {
             return index > 0 && typeof item === 'string';
         });
     }
-
-    Logger.warn('Значение не соответствует формату маски.');
+    // Отображаем предупреждение в консоли тогда, когда заданно любое не пустое значение, не подходящее формату маски
+    if (value) {
+        Logger.warn('Значение не соответствует формату маски.');
+    }
     return null;
 }
 
