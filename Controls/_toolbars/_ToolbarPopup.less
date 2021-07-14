@@ -13,7 +13,12 @@
    margin-left: calc((var(--border-thickness_sticky) + var(--item_padding-horizontal_l_menu)) / (-1));
 }
 
-.controls-Toolbar__popup__list {
+.controls-Toolbar-horizontal__popup__list {
    margin-top: calc((var(--close-button_offset-top_sticky) + var(--content_padding-top_sticky) + var(--border-thickness_sticky)) / (-1));
+   margin-left: calc(var(--close-button_offset-right_sticky) + var(--border-thickness_sticky));
+}
+
+.controls-Toolbar-vertical__popup__list {
+   margin-top: calc((var(--close-button_offset-top_sticky) + var(--content_padding-top_sticky) + var(--border-thickness_sticky)));
    margin-left: calc(var(--close-button_offset-right_sticky) + var(--border-thickness_sticky));
 }
