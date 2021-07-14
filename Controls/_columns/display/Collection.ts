@@ -62,6 +62,9 @@ export default class Collection<
             if (this._$columnsMode === 'auto' && newItems.length === 1) {
                 this._addingColumnsCounter++;
             }
+            if (this._dragColumn === null && this._$viewMode === 'list') {
+                this.updateColumns(newItemsIndex);
+            }
         }
         if (action === 'rm') {
             this.processRemoving(oldItemsIndex, oldItems);
@@ -142,10 +145,14 @@ export default class Collection<
         }
     }
 
-    private updateColumns(): void {
+    private updateColumns(offset: number = 0): void {
         this._addingColumnsCounter = 0;
         this._columnsIndexes = null;
-        this.each(this.setColumnOnItem.bind(this, 0));
+        this.each((item: T, index: number) => {
+            if (index > offset) {
+                this.setColumnOnItem(0, item, index);
+            }
+        });
         this.updateColumnIndexesByItems();
     }
 
@@ -156,11 +163,11 @@ export default class Collection<
         if (this._addingColumnsCounter < 0) {
             this._addingColumnsCounter += this._$columnsCount;
         }
-        if (this._$viewMode !== 'list' && item.columnIndex >= this._columnsIndexes[item.column].length) {
+        if (item.columnIndex >= this._columnsIndexes[item.column].length) {
             done = false;
             while (!done && (item.column + 1) < this._$columnsCount) {
 
-                if (this._columnsIndexes[item.column + 1].length > 0) {
+                if (this._columnsIndexes[item.column + 1].length > this._columnsIndexes[item.column].length) {
 
                     if (this._columnsIndexes[item.column + 1].length > 1) {
                         done = true;

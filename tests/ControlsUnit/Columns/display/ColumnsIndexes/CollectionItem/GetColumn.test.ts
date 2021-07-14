@@ -68,6 +68,13 @@ describe('Columns/display/ColumnsIndexes/CollectionItem/GetColumn', () => {
             collection.each(getColumnEach);
             assert.deepEqual(result, expected, 'wrong ColumnIndexes after adding one item');
         });
+        it('add item at position', () => {
+            const expected = [0, 1, 2, 0, 1, 2, 2, 0, 1, 2, 0, 1, 2];
+            const newItem = new Model({keyProperty: 'id', rawData: {id: 12}});
+            rs.add(newItem, 5);
+            collection.each(getColumnEach);
+            assert.deepEqual(result, expected, 'wrong ColumnIndexes after adding one item');
+        });
     });
     describe('viewMode = list', () => {
         let rs;
@@ -90,17 +97,26 @@ describe('Columns/display/ColumnsIndexes/CollectionItem/GetColumn', () => {
             result = [];
             collection = new ColumnsCollection({viewMode: 'list', collection: rs, columnsCount: 3});
         });
-        it('remove single item', () => {
-            const expected = [1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2];
-            rs.removeAt(0);
+        it('add item', () => {
+            const expected = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0];
+            const newItem = new Model({keyProperty: 'id', rawData: {id: 12}});
+            rs.add(newItem);
             collection.each(getColumnEach);
-            assert.deepEqual(result, expected, 'wrong ColumnIndexes after removing one item');
+            assert.deepEqual(result, expected, 'wrong ColumnIndexes after adding one item');
         });
-        it('remove single item from end of a column', () => {
-            const expected = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1];
-            rs.removeAt(11);
+        it('add item at 0', () => {
+            const expected = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0];
+            const newItem = new Model({keyProperty: 'id', rawData: {id: 12}});
+            rs.add(newItem, 0);
             collection.each(getColumnEach);
-            assert.deepEqual(result, expected, 'wrong ColumnIndexes after removing one item');
+            assert.deepEqual(result, expected, 'wrong ColumnIndexes after adding one item');
+        });
+        it('add item at position', () => {
+            const expected = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0];
+            const newItem = new Model({keyProperty: 'id', rawData: {id: 12}});
+            rs.add(newItem, 5);
+            collection.each(getColumnEach);
+            assert.deepEqual(result, expected, 'wrong ColumnIndexes after adding one item');
         });
     });
 });
