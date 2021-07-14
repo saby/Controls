@@ -1,21 +1,25 @@
+<ws:template name="editor">
+    <ws:if data="{{ column.config.displayProperty === 'capital' }}">
+        <Controls.input:Text contrastBackground="{{true}}"
+                             bind:value="item.contents[column.config.displayProperty || 'title']"
+                             selectOnClick="{{ false }}"/>
+    </ws:if>
+    <ws:else>
+        <Controls.input:Number contrastBackground="{{true}}"
+                               bind:value="item.contents[column.config.displayProperty || 'title']"
+                               selectOnClick="{{ false }}"/>
+    </ws:else>
+</ws:template>
+
 <ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
-<ws:contentTemplate>
-    <ws:partial template="Controls/list:EditingTemplate"
-                value="{{ item.contents[column.config.displayProperty || 'title'] }}"
-                scope="{{ _options }}"
-                enabled="{{true}}">
-        <ws:editorTemplate>
-            <ws:if data="{{ column.config.displayProperty === 'capital' }}">
-                <Controls.input:Text contrastBackground="{{true}}"
-                                     bind:value="item.contents[column.config.displayProperty || 'title']"
-                                     selectOnClick="{{ false }}"/>
-            </ws:if>
-            <ws:else>
-                <Controls.input:Number contrastBackground="{{true}}"
-                                       bind:value="item.contents[column.config.displayProperty || 'title']"
-                                       selectOnClick="{{ false }}"/>
-            </ws:else>
-        </ws:editorTemplate>
-    </ws:partial>
-</ws:contentTemplate>
+    <ws:contentTemplate>
+        <ws:partial template="Controls/list:EditingTemplate"
+                    value="{{ item.contents[column.config.displayProperty || 'title'] }}"
+                    scope="{{ _options }}"
+                    enabled="{{true}}">
+            <ws:editorTemplate>
+                <ws:partial template="editor" attr:class="js-controls-Grid__editInPlace__input-1"/>
+            </ws:editorTemplate>
+        </ws:partial>
+    </ws:contentTemplate>
 </ws:partial>
