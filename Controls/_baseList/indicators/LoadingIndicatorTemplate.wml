@@ -1,5 +1,3 @@
-<div class="{{ item.getClasses() }}" data-qa="{{ item.getQAData() }}">
-   <div class="controls-BaseControl__loadingIndicatorImg-wrapper">
-      <div class="controls-BaseControl__loadingIndicatorImg"/>
-   </div>
+<div class="controls-BaseControl__loadingIndicatorImg-wrapper">
+   <div class="controls-BaseControl__loadingIndicatorImg"/>
 </div>

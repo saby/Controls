@@ -312,7 +312,7 @@ const ListView = BaseControl.extend(
          * @private
          */
         _onItemLongTap(event, itemData): void {
-            if (itemData['Controls/display:LoadingIndicator'] || itemData['Controls/display:PortionedSearchIndicator']) {
+            if (itemData['Controls/display:Indicator']) {
                 event.stopPropagation();
                 return;
             }
@@ -323,7 +323,7 @@ const ListView = BaseControl.extend(
         },
 
         _onItemSwipe: function(event, itemData) {
-            if (itemData['Controls/display:LoadingIndicator'] || itemData['Controls/display:PortionedSearchIndicator']) {
+            if (itemData['Controls/display:Indicator']) {
                 event.stopPropagation();
                 return;
             }
@@ -340,7 +340,7 @@ const ListView = BaseControl.extend(
         },
 
         _onItemMouseDown: function(event, itemData) {
-            if (itemData['[Controls/_display/GroupItem]'] || itemData['Controls/display:LoadingIndicator'] || itemData['Controls/display:PortionedSearchIndicator']) {
+            if (itemData['[Controls/_display/GroupItem]'] || itemData['Controls/display:Indicator']) {
                 event.stopPropagation();
                 return;
             }
@@ -359,7 +359,7 @@ const ListView = BaseControl.extend(
         },
 
         _onItemMouseUp(e, itemData) {
-            if (itemData['[Controls/_display/GroupItem]'] || itemData['Controls/display:LoadingIndicator'] || itemData['Controls/display:PortionedSearchIndicator']) {
+            if (itemData['[Controls/_display/GroupItem]'] || itemData['Controls/display:Indicator']) {
                 e.stopPropagation();
                 return;
             }
@@ -367,7 +367,7 @@ const ListView = BaseControl.extend(
         },
 
         _onItemMouseEnter: function(event, itemData) {
-            if (itemData['Controls/display:LoadingIndicator'] || itemData['Controls/display:PortionedSearchIndicator']) {
+            if (itemData['Controls/display:Indicator']) {
                 event.stopPropagation();
                 return;
             }
@@ -379,7 +379,7 @@ const ListView = BaseControl.extend(
         //TODO: из-за того что ItemOutput.wml один для всех таблиц, приходится подписываться в нем на события,
         //которые не нужны для ListView. Выписана задача https://online.sbis.ru/opendoc.html?guid=9fd4922f-eb37-46d5-8c39-dfe094605164
         _onItemMouseLeave: function(event, itemData) {
-            if (itemData['Controls/display:LoadingIndicator'] || itemData['Controls/display:PortionedSearchIndicator']) {
+            if (itemData['Controls/display:Indicator']) {
                 event.stopPropagation();
                 return;
             }
@@ -389,7 +389,7 @@ const ListView = BaseControl.extend(
         },
 
         _onItemMouseMove: function(event, itemData) {
-            if (itemData['Controls/display:LoadingIndicator'] || itemData['Controls/display:PortionedSearchIndicator']) {
+            if (itemData['Controls/display:Indicator'] ) {
                 event.stopPropagation();
                 return;
             }

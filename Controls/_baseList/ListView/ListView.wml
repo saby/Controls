@@ -6,14 +6,6 @@
    "
 >
    <ws:if data="{{_listModel}}">
-
-      <!--Top portioned search indicator-->
-      <ws:partial if="{{ _listModel.getTopPortionedSearchIndicator() }}"
-                  template="{{_listModel.getTopPortionedSearchIndicator().getTemplate()}}"
-                  item="{{_listModel.getTopPortionedSearchIndicator()}}"
-                  on:continueSearchClick="_onContinueSearchClick()"
-                  on:abortSearchClick="_onAbortSearchClick()"/>
-
       <!--Top loading indicator-->
       <ws:partial if="{{ _listModel.getTopLoadingIndicator() }}"
                   template="{{_listModel.getTopLoadingIndicator().getTemplate()}}"
@@ -61,13 +53,6 @@
       <ws:partial if="{{ _listModel.getBottomLoadingIndicator() }}"
                   template="{{_listModel.getBottomLoadingIndicator().getTemplate()}}"
                   item="{{_listModel.getBottomLoadingIndicator()}}"/>
-
-      <!--Bottom portioned search indicator-->
-      <ws:partial if="{{ _listModel.getBottomPortionedSearchIndicator() }}"
-                  template="{{_listModel.getBottomPortionedSearchIndicator().getTemplate()}}"
-                  item="{{_listModel.getBottomPortionedSearchIndicator()}}"
-                  on:continueSearchClick="_onContinueSearchClick()"
-                  on:abortSearchClick="_onAbortSearchClick()"/>
 
       <ws:if data="{{_listModel.getFooter()}}">
          <ws:partial

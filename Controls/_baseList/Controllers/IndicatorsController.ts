@@ -1,6 +1,5 @@
-import { Collection } from 'Controls/display';
-import {RecordSet} from "Types/collection";
-import {TPortionedSearchIndicatorPosition} from "Controls/_display/PortionedSearchIndicator";
+import { Collection, EIndicatorState } from 'Controls/display';
+import { RecordSet } from 'Types/collection';
 
 export interface IIndicatorsControllerOptions {
     model: Collection;
@@ -29,6 +28,7 @@ enum SEARCH_STATES {
     ABORTED = 'aborted'
 }
 
+type TPortionedSearchDirection = 'top'|'bottom';
 
 export default class IndicatorsController {
     private _options: IIndicatorsControllerOptions;
@@ -38,11 +38,10 @@ export default class IndicatorsController {
     private _resetBottomTriggerOffset: boolean;
     private _showIndicatorTimer: number;
 
-    private _portionedSearchDirection: TPortionedSearchIndicatorPosition;
+    private _portionedSearchDirection: TPortionedSearchDirection;
     private _portionedSearchTimer: number = null;
     private _searchState: SEARCH_STATES = 0;
     private _isAborted: boolean = false;
-    private _showPortionedSearchTimer: number;
 
     constructor(options: IIndicatorsControllerOptions) {
         this._options = options;
@@ -105,7 +104,7 @@ export default class IndicatorsController {
             return;
         }
 
-        this._model.showLoadingIndicator('top');
+        this._model.displayIndicator('top', EIndicatorState.Loading);
 
         if (scrollToFirstItem) {
             this._options.scrollToFirstItem(() => this._model.showLoadingTopTrigger());
@@ -120,17 +119,19 @@ export default class IndicatorsController {
             return;
         }
 
-        this._model.showLoadingIndicator('bottom');
+        this._model.displayIndicator('bottom', EIndicatorState.Loading);
     }
 
     displayGlobalIndicator(): void {
         if (!this._showIndicatorTimer) {
-            this._startIndicatorTimer(() => this._model.showLoadingIndicator('global'));
+            this._startIndicatorTimer(
+                () => this._model.displayIndicator('global', EIndicatorState.Loading)
+            );
         }
     }
 
     hideGlobalIndicator(): void {
-        this._model.hideLoadingIndicator('global');
+        this._model.hideIndicator('global');
         this._clearIndicatorTimer();
     }
 
@@ -158,7 +159,7 @@ export default class IndicatorsController {
         if (this.shouldDisplayTopIndicator()) {
             this.displayTopIndicator(false);
         } else {
-            this._model.hideLoadingIndicator('top');
+            this._model.hideIndicator('top');
         }
     }
 
@@ -166,7 +167,7 @@ export default class IndicatorsController {
         if (this.shouldDisplayBottomIndicator()) {
             this.displayBottomIndicator();
         } else {
-            this._model.hideLoadingIndicator('bottom');
+            this._model.hideIndicator('bottom');
         }
     }
 
@@ -231,13 +232,15 @@ export default class IndicatorsController {
 
     // region PortionedSearch
 
-    startPortionedSearch(direction: TPortionedSearchIndicatorPosition): void {
+    startPortionedSearch(direction: TPortionedSearchDirection): void {
         if (this._getSearchState() === SEARCH_STATES.NOT_STARTED) {
             this._setSearchState(SEARCH_STATES.STARTED);
             this._startPortionedSearchTimer(SEARCH_MAX_DURATION);
             this._portionedSearchDirection = direction;
 
-            this._startIndicatorTimer(() => this._model.startPortionedSearch(direction));
+            this._startIndicatorTimer(
+                () => this._model.displayIndicator(direction, EIndicatorState.PortionedSearch)
+            );
         }
     }
 
@@ -255,7 +258,9 @@ export default class IndicatorsController {
     resetShowPortionedSearchTimer(): void {
         this._clearIndicatorTimer();
         const direction = this._portionedSearchDirection;
-        this._startIndicatorTimer(() => this._model.startPortionedSearch(direction));
+        this._startIndicatorTimer(
+            () => this._model.displayIndicator(direction, EIndicatorState.PortionedSearch)
+        );
     }
 
     stopPortionedSearch(): void {
@@ -269,14 +274,17 @@ export default class IndicatorsController {
     continuePortionedSearch(): void {
         this._setSearchState(SEARCH_STATES.CONTINUED);
         this._startPortionedSearchTimer(SEARCH_CONTINUED_MAX_DURATION);
-        this._model.showPortionedSearchState(this._portionedSearchDirection);
+        this._model.displayIndicator(this._portionedSearchDirection, EIndicatorState.PortionedSearch)
     }
 
     abortPortionedSearch(): void {
         this._setSearchState(SEARCH_STATES.ABORTED);
         this._isAborted = true;
         this._clearPortionedSearchTimer();
-        this._model.endPortionedSearch();
+        // скрываем все индикаторы, т.к. после abort никаких подгрузок не будет
+        this._model.hideIndicator('top');
+        this._model.hideIndicator('bottom');
+        this._model.hideIndicator('global');
     }
 
     endPortionedSearch(): void {
@@ -284,7 +292,7 @@ export default class IndicatorsController {
         this._setSearchState(SEARCH_STATES.NOT_STARTED);
         this._isAborted = false;
         this._clearPortionedSearchTimer();
-        this._model.endPortionedSearch();
+        this._model.hideIndicator(this._portionedSearchDirection);
     }
 
     shouldPortionedSearch(): boolean {
@@ -349,7 +357,7 @@ export default class IndicatorsController {
 
     private _stopPortionedSearch(): void {
         this._setSearchState(SEARCH_STATES.STOPPED);
-        this._model.showContinueSearchState(this._portionedSearchDirection);
+        this._model.displayIndicator(this._portionedSearchDirection, EIndicatorState.ContinueSearch)
         this._options.stopPortionedSearchCallback();
     }
 

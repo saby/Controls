@@ -1,8 +1,7 @@
-import LoadingIndicator, {
-    default as LoadingIndicatorItem,
-    IOptions as ILoadingIndicatorOptions,
-    TLoadingIndicatorPosition
-} from './LoadingIndicator';
+import Indicator, {
+    default as LoadingIndicatorItem, IOptions as ILoadingIndicatorOptions,
+    TIndicatorPosition, TIndicatorState
+} from './Indicator';
 import LoadingTrigger, {
     TLoadingTriggerPosition,
     IOptions as ILoadingTriggerOptions,
@@ -13,65 +12,71 @@ export interface ITriggerOffset {
     bottom: number;
 }
 
-export default abstract class LoadingIndicatorMixin<T = LoadingIndicator|LoadingTrigger> {
-    protected _topLoadingIndicator: LoadingIndicatorItem = null;
-    protected _bottomLoadingIndicator: LoadingIndicatorItem = null;
-    protected _globalLoadingIndicator: LoadingIndicatorItem = null;
+export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
+    protected _topIndicator: LoadingIndicatorItem = null;
+    protected _bottomIndicator: LoadingIndicatorItem = null;
+    protected _globalIndicator: LoadingIndicatorItem = null;
 
     protected _topLoadingTrigger: LoadingTrigger = null;
     protected _bottomLoadingTrigger: LoadingTrigger = null;
 
     // region Indicator
 
-    hasLoadingIndicator(position: TLoadingIndicatorPosition): boolean {
-        return !!this._getLoadingIndicator(position);
+    hasLoadingIndicator(position: TIndicatorPosition): boolean {
+        return !!this._getIndicator(position);
     }
 
-    getGlobalLoadingIndicator(): LoadingIndicator {
-        return this._globalLoadingIndicator;
+    getGlobalLoadingIndicator(): Indicator {
+        return this._globalIndicator;
     }
 
-    getTopLoadingIndicator(): LoadingIndicator {
-        return this._topLoadingIndicator;
+    getTopLoadingIndicator(): Indicator {
+        return this._topIndicator;
     }
 
-    getBottomLoadingIndicator(): LoadingIndicator {
-        return this._bottomLoadingIndicator;
+    getBottomLoadingIndicator(): Indicator {
+        return this._bottomIndicator;
     }
 
-    showLoadingIndicator(position: TLoadingIndicatorPosition): void {
-        const indicatorIsHidden  = !this._getLoadingIndicator(position);
-        if (indicatorIsHidden) {
-            this._createLoadingIndicator(position);
+    displayIndicator(position: TIndicatorPosition, state: TIndicatorState): void {
+        const indicator = this._getIndicator(position);
+        if (indicator) {
+            const changedState = indicator.setState(state);
+            if (changedState) {
+                this._nextVersion();
+            }
+        } else {
+            this._createIndicator(position, state);
             this._nextVersion();
         }
     }
 
-    hideLoadingIndicator(position: TLoadingIndicatorPosition): boolean {
-        const indicatorIsShowed = !!this._getLoadingIndicator(position);
+    hideIndicator(position: TIndicatorPosition): void {
+        const indicatorIsShowed = !!this._getIndicator(position);
         if (indicatorIsShowed) {
-            const indicatorName = this._getLoadingIndicatorName(position);
+            const indicatorName = this._getIndicatorName(position);
             this[indicatorName] = null;
             this._nextVersion();
         }
     }
 
-    private _getLoadingIndicatorName(position: TLoadingIndicatorPosition): string {
-        return `_${position}LoadingIndicator`;
+    private _getIndicatorName(position: TIndicatorPosition): string {
+        return `_${position}Indicator`;
     }
 
-    private _getLoadingIndicator(position: TLoadingIndicatorPosition): LoadingIndicatorItem {
-        const indicatorName = this._getLoadingIndicatorName(position);
+    private _getIndicator(position: TIndicatorPosition): LoadingIndicatorItem {
+        const indicatorName = this._getIndicatorName(position);
         return this[indicatorName];
     }
 
-    private _createLoadingIndicator(position: TLoadingIndicatorPosition): void {
+    private _createIndicator(position: TIndicatorPosition, state: TIndicatorState): void {
         const indicator = this.createItem({
-            itemModule: 'Controls/display:LoadingIndicator',
-            position
+            itemModule: 'Controls/display:Indicator',
+            position,
+            state
         });
 
-        const indicatorName = this._getLoadingIndicatorName(position);
+        const indicatorName = this._getIndicatorName(position);
         this[indicatorName] = indicator;
     }
 
@@ -151,8 +156,8 @@ export default abstract class LoadingIndicatorMixin<T = LoadingIndicator|Loading
     protected abstract _nextVersion(): void;
 }
 
-Object.assign(LoadingIndicatorMixin.prototype, {
-    'Controls/display:LoadingIndicatorMixin': true,
+Object.assign(IndicatorsMixin.prototype, {
+    'Controls/display:IndicatorsMixin': true,
     _topIndicator: null,
     _bottomIndicator: null,
     _globalIndicator: null,

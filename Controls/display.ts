@@ -115,10 +115,10 @@ export {IItemsStrategy, IItemsStrategyOptions};
 import {Footer} from './_display/Footer';
 export {Footer};
 
-import LoadingIndicator from 'Controls/_display/LoadingIndicator';
+import Indicator from 'Controls/_display/Indicator';
 import LoadingTrigger from 'Controls/_display/LoadingTrigger';
-import PortionedSearchIndicator from 'Controls/_display/PortionedSearchIndicator';
-export {ITriggerOffset} from 'Controls/_display/LoadingIndicatorMixin';
+export {EIndicatorState} from 'Controls/_display/Indicator';
+export {ITriggerOffset} from 'Controls/_display/IndicatorsMixin';
 export {TOP_LOADING_TRIGGER_ID, BOTTOM_LOADING_TRIGGER_ID} from 'Controls/_display/LoadingTrigger';
 
 register('Controls/display:Collection', Collection, {instantiate: false});
@@ -131,6 +131,5 @@ register('Controls/display:TreeItem', TreeItem, {instantiate: false});
 register('Controls/display:TreeItemDecorator', TreeItemDecorator, {instantiate: false});
 register('Controls/display:Footer', Footer, {instantiate: false});
 
-register('Controls/display:LoadingIndicator', LoadingIndicator, {instantiate: false});
+register('Controls/display:Indicator', Indicator, {instantiate: false});
 register('Controls/display:LoadingTrigger', LoadingTrigger, {instantiate: false});
-register('Controls/display:PortionedSearchIndicator', PortionedSearchIndicator, {instantiate: false});

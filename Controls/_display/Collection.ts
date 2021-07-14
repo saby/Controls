@@ -38,8 +38,7 @@ import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
 import {TRoundBorder} from "Controls/_display/interface/ICollection";
 import {Footer} from 'Controls/_display/Footer';
-import LoadingIndicatorMixin from './LoadingIndicatorMixin';
-import PortionedSearchMixin from './PortionedSearchMixin';
+import IndicatorsMixin from './IndicatorsMixin';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -492,15 +491,13 @@ export default class Collection<
     SerializableMixin,
     VersionableMixin,
     EventRaisingMixin,
-    LoadingIndicatorMixin,
-    PortionedSearchMixin
+    IndicatorsMixin
 >(
     Abstract,
     SerializableMixin,
     VersionableMixin,
     EventRaisingMixin,
-    LoadingIndicatorMixin,
-    PortionedSearchMixin
+    IndicatorsMixin
 ) implements ICollection<S, T>, IEnumerable<T>, IList<T> {
     /**
      * Возвращать локализованные значения

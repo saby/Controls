@@ -79,11 +79,11 @@ export {MoveController, IMoveControllerOptions}  from 'Controls/_baseList/Contro
 //endregion
 
 // region Indicators
-export * as ContinueSearchTemplate from 'wml!Controls/_baseList/indicators/ContinueSearchTemplate';
-export * as LoadingIndicatorTemplate from 'wml!Controls/_baseList/indicators/PortionedSearchTemplate';
+export * as IndicatorTemplate from 'wml!Controls/_baseList/indicators/IndicatorTemplate';
 export * as LoadingIndicatorItemTemplate from 'wml!Controls/_baseList/indicators/LoadingIndicatorTemplate';
 export * as LoadingTriggerItemTemplate from 'wml!Controls/_baseList/indicators/LoadingTriggerTemplate';
-export {default as PortionedSearchIndicatorTemplate} from 'Controls/_baseList/indicators/PortionedSearchIndicatorTemplate';
+export {default as LoadingIndicatorTemplate} from 'Controls/_baseList/indicators/PortionedSearchTemplate';
+export {default as ContinueSearchTemplate} from 'Controls/_baseList/indicators/ContinueSearchTemplate';
 // endregion Indicators
 
 export {groupConstants, IHiddenGroupPosition, IItemPadding, MultiSelectAccessibility, TRoundBorder} from './display';

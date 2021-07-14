@@ -2,9 +2,10 @@
            controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch">
   <div class="controls-BaseControl__loadingIndicatorImg"></div>
   <div class="controls-BaseControl__loadingIndicator-content ws-flexbox ws-flex-column">
-     <ws:if data="{{ contentTemplate }}">
-        <ws:partial template="{{ contentTemplate }}"/>
-     </ws:if>
+     <div class="js-controls-BaseControl__abortSearch controls-BaseControl__abortSearch controls-BaseControl__abortSearch"
+          on:click="_onAbortSearchClick()">
+         {[Прервать поиск]}
+     </div>
      <ws:if data="{{ footerTemplate }}">
         <div class="controls-BaseControl__loadingIndicator-footerTemplate">
            <ws:partial template="{{ footerTemplate }}"/>
