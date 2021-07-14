@@ -13,7 +13,8 @@ import TreeGridView from 'Controls/_treeGrid/TreeGridView';
 import * as GroupColumnTemplate from 'wml!Controls/_treeGrid/render/GroupCellContent';
 import * as GridItemTemplate from 'wml!Controls/_treeGrid/render/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_treeGrid/render/table/Item';
-import * as NodeFooterTemplate from 'wml!Controls/_treeGrid/render/NodeFooterTemplate';
+import * as NodeFooterTemplateGrid from 'wml!Controls/_treeGrid/render/grid/NodeFooterTemplate';
+import * as NodeFooterTemplateTable from 'wml!Controls/_treeGrid/render/table/NodeFooterTemplate';
 
 // FIXME: при обычном условном присвоении шаблона tmpl = isAny ? tmpl1 : tmpl2, переменной один раз присвоится значение и не будет меняться.
 //  В таком случае возникает ошибка при открытии одной страницы из разных браузеров (Chrome и IE), с сервера всегда будет возвращаться один и тот же шаблон,
@@ -27,6 +28,12 @@ const ItemTemplate = function() {
 };
 ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
+
+const NodeFooterTemplate = function() {
+    return isFullGridSupport() ? NodeFooterTemplateGrid.apply(this, arguments) : NodeFooterTemplateTable.apply(this, arguments);
+};
+NodeFooterTemplate.stable = true;
+NodeFooterTemplate.isWasabyTemplate = true;
 
 export {
     View,

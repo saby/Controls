@@ -192,7 +192,13 @@
    border-top-style: solid;
 }
 .ws-is-ie .controls-TreeGrid__nodeFooterContent {
-   display: flex;
+   // см _Table.less .controls-Grid__row-cell
+   display: table-cell;
+   vertical-align: top;
+   height: 0;
+}
+.ws-is-ie .controls-TreeGrid__nodeFooterContent_colspaned {
+   width: 100%;
 }
 .controls-TreeGrid__nodeFooterCell_columnSeparator-size_null {
    border-left-width: 0;
