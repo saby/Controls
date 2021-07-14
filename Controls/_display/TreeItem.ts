@@ -301,6 +301,12 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         return expanderSize || this._$owner.getExpanderSize();
     }
 
+    shouldDisplayExpanderBlock(): boolean {
+        return this._$owner.getExpanderVisibility() === 'hasChildren'
+            ? this._$owner.hasNodeWithChildren()
+            : this._$owner.hasNode();
+    }
+
     shouldDisplayExpander(expanderIcon?: string, position: 'default'|'right' = 'default'): boolean {
         if (this.getExpanderIcon(expanderIcon) === 'none' || this.isNode() === null) {
             return false;
