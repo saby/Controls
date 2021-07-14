@@ -29,7 +29,7 @@
     <div
         attr:class="{{ (item || itemData).getImageWrapperClasses(itemType, hasTitle, titleStyle, imageViewMode, imageProportion, imagePosition, imageSize, imageProportionOnItem) }}"
         attr:style="{{ (item || itemData).getImageWrapperStyles(itemType, imageViewMode, imagePosition) }}"
-        data-qa="controls-TileView__item_animated"
+        data-qa="{{ (item || itemData).getImageWrapperDataQa() }}"
     >
         <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight, imagePosition, imageViewMode, imageProportionOnItem) }}">
             <div class="{{ (item || itemData).getAutoResizerClasses(itemType, staticHeight, hasTitle) }}" style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion, imagePosition, imageViewMode) }}"></div>

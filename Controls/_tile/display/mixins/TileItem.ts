@@ -935,6 +935,12 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
+    getImageWrapperDataQa() {
+        return this.isAnimated() && this.getTileMode() === 'dynamic'
+            ? 'controls-TileView__item_animated'
+            : 'controls-TileView__item_not_animated'
+    }
+
     /**
      * Возвращает стили для обертки над изображением
      * @param {TTileItem} itemType Тип элемента
