@@ -1,4 +1,17 @@
 import {getModuleByName, loadModule} from 'Controls/_popup/utils/moduleHelper';
+import {Control} from 'UI/Base';
+import {IBasePopupOptions} from 'Controls/_popup/interface/IBasePopupOptions';
+
+interface IPageTemplateOptions {
+    pageTemplate: string;
+    pageTemplateOptions: object;
+    pageId: string;
+    dataLoaderResult?: Promise<any>;
+}
+
+interface IPagePopupOptions extends IBasePopupOptions {
+    templateOptions?: IPagePopupOptions;
+}
 
 class PageController {
     private _pageConfigLoaderModule: string;
@@ -39,6 +52,22 @@ class PageController {
     }
 
     /**
+     * Получение опций окна для открытия страницы
+     * @param pageId
+     * @param popupOptions
+     */
+    getPagePopupOptions(pageId: string, popupOptions: IBasePopupOptions): Promise<unknown> {
+        const resultPopupOptions = {...popupOptions};
+        return this.getPageConfig(pageId).then((pageData) => {
+            const templateOptions = this._getTemplateOptions(pageData, resultPopupOptions);
+            templateOptions.dataLoaderResult = this.loadData(pageData, templateOptions.pageTemplateOptions);
+            resultPopupOptions.template = 'Controls/popupTemplate:Page';
+            resultPopupOptions.templateOptions = templateOptions;
+            return resultPopupOptions;
+        });
+    }
+
+    /**
      * Загрузка данных по конфигу страницы
      * @param pageConfig
      * @param templateOptions
@@ -65,9 +94,20 @@ class PageController {
                         ...templateOptions
                     }
                 };
-                DataLoader.loadData(prefetchConfig).then(resolve).catch(reject);
+                DataLoader.loadData(prefetchConfig).then((promises) => {
+                    Promise.all(promises).then(resolve);
+                }).catch(reject);
             });
         });
+    }
+
+    /**
+     * Предзагрузка статики необходимая для открытия страницы на панели
+     * @param popupOptions
+     */
+    loadModules(popupOptions: IBasePopupOptions): Promise<Control> {
+        const templateOptions = popupOptions.templateOptions as IPageTemplateOptions;
+        return loadModule(templateOptions.pageTemplate);
     }
 
     /**
@@ -84,6 +124,34 @@ class PageController {
             loadModule(moduleName).then((loadedModule) => {
                 callback(loadedModule);
             });
+        }
+    }
+
+    /**
+     *
+     * @param pageData
+     * @param popupOptions
+     * @private
+     */
+    private _getTemplateOptions(
+        pageData: object,
+        popupOptions: IBasePopupOptions
+    ): IPageTemplateOptions {
+        const workspaceConfig = pageData?.contentConfig?.workspaceConfig;
+        if (workspaceConfig?.templateName) {
+            return {
+                pageTemplate: workspaceConfig.templateName,
+                pageTemplateOptions: {
+                    ...workspaceConfig.templateOptions,
+                    ...(popupOptions?.templateOptions as object || {})
+                },
+                pageId: popupOptions.pageId
+            };
+        } else {
+            throw new Error(`
+                Страница с указанным идентификатором имеет некорректное описание.
+                В описании должен быть workspaceConfig с заданным templateName.
+            `);
         }
     }
 }

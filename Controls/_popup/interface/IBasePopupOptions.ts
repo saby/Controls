@@ -13,6 +13,7 @@ export interface IBasePopupOptions {
     id?: string;
     className?: string;
     template?: Control<IControlOptions, unknown> | TemplateFunction | string;
+    pageId?: string;
     closeOnOutsideClick?: boolean;
     templateOptions?: unknown;
     opener?: Control<IControlOptions, unknown> | null;
