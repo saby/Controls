@@ -84,6 +84,7 @@ export interface IMenuOptions {
       * @cfg {String} Расположение элементов в тулбаре.
       * @variant vertical
       * @variant horizontal
+      * @demo Controls-demo/Toolbar/Direction/Index
       */
      direction: 'vertical' | 'horizontal';
     /**
@@ -131,10 +132,12 @@ export interface IMenuOptions {
      */
     contrastBackground?: true;
      /**
-      * @name Controls/toolbars:IToolbar#menuButtonViewMode
-      * @cfg {IViewMode} Режим отображения кнопки открытия выпадающего меню тулбара
+      * @name Controls/toolbars:IToolbar#translucent
+      * @cfg {boolean} Режим полупрозрачного отображения кнопки открытия выпадающего меню тулбара
+      * @default false
+      * @demo Controls-demo/Toolbar/translucent/Index
       */
-     menuButtonViewMode?: IViewMode;
+     translucent?: boolean;
 }
 
 /**
@@ -275,7 +278,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `${options.popupClassName} controls-Toolbar__popup__list controls_popupTemplate_theme-${options.theme}`,
+            className: `${options.popupClassName} controls-Toolbar-${options.direction}__popup__list controls_popupTemplate_theme-${options.theme}`,
             templateOptions: {
                 source: this._menuSource,
                 ...this._getMenuTemplateOptions(),
@@ -335,12 +338,14 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     }
 
     private _getMenuOptions(): IMenuOptions {
+        const isVertical = this._options.direction === 'vertical';
         return {
             direction: {
-                horizontal: 'left'
+                horizontal: 'left',
+                vertical: isVertical ? 'top' : 'bottom'
             },
             targetPoint: {
-                vertical: 'top',
+                vertical: isVertical ? 'bottom' : 'top',
                 horizontal: 'right'
             },
             eventHandlers: {
@@ -530,7 +535,6 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         }
 
         if (!this._options.readOnly) {
-            const menuConfig = this._getMenuConfig();
             if (!this._isLoadMenuItems) {
                 this._setMenuSource();
                 this._isLoadMenuItems = true;
@@ -644,7 +648,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             direction: 'horizontal',
             itemTemplate: defaultItemTemplate,
             iconStyle: 'secondary',
-            menuButtonViewMode: 'link'
+            menuButtonViewMode: 'link',
+            translucent: false
         };
     }
 

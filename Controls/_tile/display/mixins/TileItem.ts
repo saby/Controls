@@ -935,6 +935,12 @@ export default abstract class TileItem<T extends Model = Model> {
         return classes;
     }
 
+    getImageWrapperDataQa() {
+        return this.isAnimated() && this.getTileMode() === 'dynamic'
+            ? 'controls-TileView__item_animated'
+            : 'controls-TileView__item_not_animated'
+    }
+
     /**
      * Возвращает стили для обертки над изображением
      * @param {TTileItem} itemType Тип элемента
@@ -1094,7 +1100,9 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'medium':
                 break;
             case 'rich':
-                styles += ` background: linear-gradient(to bottom, ${rgbaToString(rgbToRgba(rgbColor, 0))} 0%, ${rgbaToString(rgbColor)} 100%);`;
+                if (rgbColor) {
+                    styles += ` background: linear-gradient(to bottom, ${rgbaToString(rgbToRgba(rgbColor, 0))} 0%, ${rgbaToString(rgbColor)} 100%);`;
+                }
                 break;
             case 'preview':
                 if (gradientType === 'custom') {

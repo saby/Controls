@@ -5,5 +5,5 @@
    <ws:partial template="{{buttonTemplate}}"
                scope="{{buttonTemplateOptions}}"
                theme="{{theme}}"
-               attr:class="controls-Toolbar__button"/>
+               attr:class="controls-Toolbar__button {{buttonClass}}"/>
 </div>

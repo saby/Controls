@@ -104,7 +104,7 @@ export interface IToolBarItem {
  * // TypeScript
  * import {showType} from 'Controls/toolbars';
  * import {Memory} from 'Types/source';
- * ... 
+ * ...
  * this._source = new Memory({
  *     keyProperty: 'key',
  *     data: [{

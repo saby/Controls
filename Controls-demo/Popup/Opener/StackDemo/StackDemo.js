@@ -1,7 +1,7 @@
-define('Controls-demo/Popup/Opener/StackDemo',
+define('Controls-demo/Popup/Opener/StackDemo/StackDemo',
    [
       'UI/Base',
-      'wml!Controls-demo/Popup/Opener/StackDemo',
+      'wml!Controls-demo/Popup/Opener/StackDemo/StackDemo',
    ],
    function(Base, template) {
       'use strict';

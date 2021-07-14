@@ -89,6 +89,9 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         return classes;
     }
 
+    // Возможна ситуация, когда nodeFooterTemplate адали только для настрйоки опций, а отображаться он будет при hasMoreStorage
+    // То есть в этой случае мы не должны отображать футер, если нет данных еще, т.к. content не задан
+    // При создании футера(в стратегии) это не определить
     shouldDisplayVisibleFooter(content: TemplateFunction): boolean {
         return this.hasMoreStorage() || !!content;
     }

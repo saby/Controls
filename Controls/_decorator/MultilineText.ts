@@ -41,7 +41,7 @@ class MultilineText extends Control<IMultilineTextDecoratorOptions> {
     }
 
     private _getTextLinesList(text: string): string[] {
-        return text.split(LINE_BREAK_SEPARATOR);
+        return text?.split(LINE_BREAK_SEPARATOR) || [];
     }
 
     static getOptionTypes(): object {
