@@ -9,6 +9,7 @@
                 <ws:partial template="{{'Controls/search:Input'}}"
                             name="searchInput"
                             searchButtonVisible="{{_options.searchButtonVisible}}"
+                            resetButtonVisible="{{_options.resetButtonVisible}}"
                             searchButtonAlign="{{_options.searchButtonAlign}}"
                             constraint="{{_options.constraint}}"
                             maxLength="{{_options.maxLength}}"
