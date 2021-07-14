@@ -309,9 +309,13 @@ class Data extends Control<IDataOptions, IReceivedState>/** @lends Controls/_lis
    // и dataContainer слушает напрямую список. Для нового грида это работает, а старый через модель сам
    // посылает события.
    _expandedItemsChanged(event: SyntheticEvent, expandedItems: CrudEntityKey[]): void {
-      if (this._shouldSetExpandedItemsOnUpdate) {
+      // Если передают expandedItems в опции, то expandedItems применим на _beforeUpdate, чтобы прикладник мог повлиять
+      if (this._shouldSetExpandedItemsOnUpdate || this._options.hasOwnProperty('expandedItems')) {
+         // Обработали событие и стреляем новым, поэтому старое останавливаем. Иначе к прикладнику долетит 2 события:
+         // одно от TreeControl, другое от DataContainer. От TreeControl долетит, т.к. DataContainer
+         // и например treeGrid:View находятся на одной ноде.
+         event.stopPropagation();
          this._notify('expandedItemsChanged', [expandedItems], { bubbling: true });
-
       } else if (this._expandedItems !== expandedItems) {
          this._sourceController.setExpandedItems(expandedItems);
          if (this._options.nodeHistoryId) {
