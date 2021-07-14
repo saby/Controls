@@ -953,27 +953,57 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         // just check _children to make sure, that the control isn't destroyed
         if (item && this._children.Sticky && this._subDropdownItem) {
             this._getPopupOptions(target, item).then((popupOptions) => {
-                this._notify('beforeSubMenuOpen', [popupOptions]);
+                this._notify('beforeSubMenuOpen', [popupOptions, this._options.alignSublevel]);
                 this._children.Sticky.open(popupOptions);
             });
         }
     }
 
+    private _getMenuPopupOffset(item: CollectionItem<Model>, options: object): string {
+        let classes = '';
+
+        if (options.alignSublevel === 'down') {
+            const paddingSize = this._listModel.getLeftPadding().toLowerCase();
+            const hasIcon = item.contents.get('icon');
+            const iconSize = item.contents.get('iconSize');
+
+            classes = ` controls_dropdownPopup_theme-${options.theme}`;
+
+            if (!!hasIcon) {
+                classes += ` controls-Menu__alignSublevelDown_iconSize_${iconSize || options.iconSize || 'm'}_offset_${paddingSize}`;
+            } else {
+                classes += ` controls-Menu__alignSublevelDown_offset_${paddingSize}`
+            }
+        }
+
+        return classes;
+    }
+
     private _getPopupOptions(target: EventTarget, item: CollectionItem<Model>): Promise<object> {
+        const alignSublevel = this._options.alignSublevel;
+        const direction = {
+            vertical: 'bottom',
+            horizontal: 'right'
+        }
+        const targetPoint = {
+            vertical: alignSublevel === 'down' ? 'bottom' : 'top',
+            horizontal: alignSublevel === 'down' ? 'left' : 'right'
+        };
+        const className = 'controls-Menu__subMenu controls-Menu__subMenu_margin' +
+            ` controls_popupTemplate_theme-${this._options.theme}` +
+            this._getMenuPopupOffset(item, this._options);
+
         return this._getTemplateOptions(item).then((templateOptions) => {
             return {
                 templateOptions,
                 target,
                 autofocus: false,
-                direction: {
-                    horizontal: 'right'
-                },
-                targetPoint: {
-                    horizontal: 'right'
-                },
+                direction,
+                targetPoint,
                 calmTimer: this._options.calmTimer,
                 backgroundStyle: this._options.backgroundStyle,
-                trigger: this._options.trigger
+                trigger: this._options.trigger,
+                className
             };
         });
     }
@@ -1178,7 +1208,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         groupTemplate,
         itemPadding: {},
         markerVisibility: 'onactivated',
-        hoverBackgroundStyle: 'default'
+        hoverBackgroundStyle: 'default',
+        alignSublevel: 'down'
     };
 }
 /**
