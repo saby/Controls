@@ -55,7 +55,7 @@ export default class IndicatorsController {
 
         // Если верхний индикатор не будет показан, то сразу же показываем триггер,
         // чтобы в кейсе когда нет данных после моунта инициировать их загрузку
-        if (!displayTopIndicator) {
+        if (!displayTopIndicator && this._model) {
             this._model.showLoadingTopTrigger();
         }
         // Нижний индикатор сразу же показываем, т.к. не нужно скроллить
@@ -174,11 +174,7 @@ export default class IndicatorsController {
     private _shouldDisplayIndicator(direction: 'up'|'down'): boolean {
         // Если нет элементов, то должен отображаться глобальный индикатор
         const hasItems = !!this._model && !!this._model.getCollection().getCount();
-        const isPortionedSearchShowed = !!this._portionedSearchDirection;
-        // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
-        const isPortionedSearchAborted = this._isAborted;
-        return hasItems && !this._options.hasHiddenItemsByVirtualScroll(direction) && !isPortionedSearchShowed
-            && !isPortionedSearchAborted && !this._options.shouldShowEmptyTemplate;
+        return hasItems && !this._options.hasHiddenItemsByVirtualScroll(direction) && !this._options.shouldShowEmptyTemplate;
     }
 
     private _startIndicatorTimer(showIndicator: () => void): void {

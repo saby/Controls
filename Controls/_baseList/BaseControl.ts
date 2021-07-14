@@ -1138,8 +1138,8 @@ const _private = {
         } else {
             if (self._pagingVisible) {
                 const hasMoreData = {
-                    up: self._hasMoreData(self._sourceController, 'up'),
-                    down: self._hasMoreData(self._sourceController, 'down')
+                    up: self._hasMoreData('up'),
+                    down: self._hasMoreData('down')
                 };
                 _private.createScrollPagingController(self, hasMoreData).then((scrollPaging) => {
                         self._scrollPagingCtr = scrollPaging;
@@ -1836,7 +1836,7 @@ const _private = {
      * @private
      */
     processError(self: BaseControl, config: IErrbackConfig): Promise<ICrudResult> {
-        if (!config.error.canceled && !config.error.isCanceled) {
+        if (!config.error.canceled && !config.error.isCanceled && self._listViewModel) {
             self._indicatorsController.hideGlobalIndicator();
         }
         return self.__errorController.process({
@@ -3791,6 +3791,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._updateScrollController(newOptions);
         }
 
+        this._updateIndicatorsController(newOptions);
+
         if (_private.hasMarkerController(this) && this._listViewModel) {
             _private.getMarkerController(this).updateOptions({
                 model: this._listViewModel,
@@ -3956,7 +3958,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // если при этом в списке кол-во записей было 0 (ноль) и поисковой запрос тоже вернул 0 записей,
         // onCollectionChange у рекордсета не стрельнёт, и не сработает код,
         // запускающий подгрузку по скролу (в навигации more: true)
-        if (this._loadedBySourceController) {
+        if (newOptions.searchValue || this._loadedBySourceController) {
             _private.tryLoadToDirectionAgain(this, null, newOptions);
         }
 
@@ -4024,7 +4026,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         this._spaceBlocked = false;
 
-        this._updateIndicatorsController(newOptions);
         this._updateBaseControlModel(newOptions);
         return updateResult;
     }
