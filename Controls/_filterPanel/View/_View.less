@@ -41,7 +41,7 @@
 .controls-FilterViewPanel__group-content {
    color: var(--label_text-color);
    font-size: var(--font-size_m);
-   flex-shrink: 0;
+   flex-shrink: 1;
    overflow: hidden;
    text-overflow: ellipsis;
    white-space: nowrap;
@@ -264,4 +264,8 @@
    padding-left: var(--offset_m);
    font-size: var(--font-size_xs);
    color: var(--contrast_text-color);
+}
+
+.controls-FilterViewPanel__group-content_container {
+   min-width: 0;
 }
