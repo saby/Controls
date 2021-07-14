@@ -221,6 +221,7 @@ export default class View extends Control<IOptions, IReceivedState> {
         const isDetailRootChanged = this._dataContext.listsConfigs.detail.root !== this._detailDataSource.getRoot();
         this._detailExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.detail, newOptions.detail);
         this._masterExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.master, newOptions.master);
+        this._viewMode = newOptions.viewMode;
 
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
