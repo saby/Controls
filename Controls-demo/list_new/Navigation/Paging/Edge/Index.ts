@@ -4,6 +4,7 @@ import {Memory} from 'Types/source';
 import {generateData} from '../../../DemoHelpers/DataCatalog';
 
 const MAX_ELEMENTS_COUNT: number = 60;
+const TIMEOUT = 20;
 
 /**
  * Отображение пейджинга с одной командой прокрутки.
@@ -24,7 +25,7 @@ export default class extends Control {
     protected _afterMount(): void {
         setTimeout(() => {
             this._children.list.scrollToItem(MAX_ELEMENTS_COUNT - 1, true, true);
-        }, 20);
+        }, TIMEOUT);
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];
