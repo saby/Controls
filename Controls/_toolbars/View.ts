@@ -135,7 +135,7 @@ export interface IMenuOptions {
       * @name Controls/toolbars:IToolbar#translucent
       * @cfg {boolean} Режим полупрозрачного отображения кнопки открытия выпадающего меню тулбара
       * @default false
-      * @demo Controls-demo/Toolbar/translucent/Index
+      * @demo Controls-demo/Toolbar/Translucent/Index
       */
      translucent?: boolean;
 }
