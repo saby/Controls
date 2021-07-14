@@ -41,7 +41,7 @@ export default class TreeGridDataRow<T extends Model = Model>
     shouldDisplayExpanderBlock(column: GridCell<T, TreeGridDataRow<T>>): boolean {
         const displayExpanderBlock = super.shouldDisplayExpanderBlock();
         const columnIndex = column.getColumnIndex();
-        const hasMultiSelect = this._$owner.hasMultiSelectColumn();
+        const hasMultiSelect = this.hasMultiSelectColumn();
         const isFirstDataColumn = columnIndex === 0 && !hasMultiSelect || columnIndex === 1 && hasMultiSelect;
         return displayExpanderBlock && isFirstDataColumn;
     }
