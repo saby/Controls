@@ -74,4 +74,12 @@
                                    searchButtonAlign="left" />
         </div>
    </div>
+
+    <div class="controlsDemo__cell">
+        <div class="controlsDemo__search-button">
+            <div class="controls-text-label">search button without reset button</div>
+            <Controls.search:Input attr:class="controlsDemo__searchBase_field"
+                                   resetButtonVisible="{{false}}"/>
+        </div>
+   </div>
 </div>
