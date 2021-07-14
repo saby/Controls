@@ -135,10 +135,10 @@ export default class IndicatorsController {
         this._clearIndicatorTimer();
     }
 
-    recountIndicators(direction: 'up'|'down'|'all'): void {
+    recountIndicators(direction: 'up'|'down'|'all', scrollToFirstItem: boolean = false): void {
         switch (direction) {
             case "up":
-                this._recountTopIndicator();
+                this._recountTopIndicator(scrollToFirstItem);
                 break;
             case "down":
                 this._recountBottomIndicator();
@@ -147,7 +147,7 @@ export default class IndicatorsController {
                 // триггер после перезагрузки сбрасываем только если нужно показывать индикатор
                 this._resetTopTriggerOffset = this.shouldDisplayTopIndicator();
                 this._resetBottomTriggerOffset = this.shouldDisplayBottomIndicator();
-                this._recountTopIndicator();
+                this._recountTopIndicator(scrollToFirstItem);
                 this._recountBottomIndicator();
                 // после перезагрузки скрываем глобальный индикатор
                 this.hideGlobalIndicator();
@@ -155,11 +155,13 @@ export default class IndicatorsController {
         }
     }
 
-    private _recountTopIndicator(): void {
+    private _recountTopIndicator(scrollToFirstItem: boolean = false): void {
+        // всегда скрываем индикатор и если нужно, то мы его покажем. Сделано так, чтобы если индикатор
+        // и так был показан, подскроллить к нему
+        this._model.hideIndicator('top');
+
         if (this.shouldDisplayTopIndicator()) {
-            this.displayTopIndicator(false);
-        } else {
-            this._model.hideIndicator('top');
+            this.displayTopIndicator(scrollToFirstItem);
         }
     }
 

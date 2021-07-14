@@ -30,11 +30,11 @@ export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
         return this._globalIndicator;
     }
 
-    getTopLoadingIndicator(): Indicator {
+    getTopIndicator(): Indicator {
         return this._topIndicator;
     }
 
-    getBottomLoadingIndicator(): Indicator {
+    getBottomIndicator(): Indicator {
         return this._bottomIndicator;
     }
 

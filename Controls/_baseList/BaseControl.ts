@@ -3792,6 +3792,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         this._updateIndicatorsController(newOptions);
+        if (this._items !== newOptions.items) {
+            this._indicatorsController.recountIndicators('all', true);
+            this._updateScrollController(newOptions);
+        }
 
         if (_private.hasMarkerController(this) && this._listViewModel) {
             _private.getMarkerController(this).updateOptions({
@@ -4698,7 +4702,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                         data: list
                     });
 
-                    self._indicatorsController.recountIndicators('all');
+                    self._indicatorsController.recountIndicators('all', true);
+                    self._updateScrollController(self._options);
                     _private.resetScrollAfterLoad(self);
                     _private.tryLoadToDirectionAgain(self, list);
                 });

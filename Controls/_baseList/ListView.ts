@@ -264,11 +264,11 @@ const ListView = Control.extend(
         },
 
         getTopLoadingTrigger(): HTMLElement {
-            return this._children.topLoadingIndicator;
+            return this._children.topLoadingTrigger;
         },
 
         getBottomLoadingTrigger(): HTMLElement {
-            return this._children.bottomLoadingIndicator;
+            return this._children.bottomLoadingTrigger;
         },
 
         _onItemClick: function(e, dispItem) {

@@ -24,9 +24,9 @@
         </ws:if>
 
         <!--Top loading indicator-->
-        <ws:partial if="{{ _listModel.getTopLoadingIndicator() }}"
-                    template="{{_listModel.getTopLoadingIndicator().getTemplate()}}"
-                    item="{{_listModel.getTopLoadingIndicator()}}"/>
+        <ws:partial if="{{ _listModel.getTopIndicator() }}"
+                    template="{{_listModel.getTopIndicator().getTemplate()}}"
+                    item="{{_listModel.getTopIndicator()}}"/>
         <!--Top loading trigger-->
         <ws:partial template="{{_listModel.getTopLoadingTrigger().getTemplate()}}"
                     item="{{_listModel.getTopLoadingTrigger()}}"/>
@@ -85,9 +85,9 @@
         <ws:partial template="{{_listModel.getBottomLoadingTrigger().getTemplate()}}"
                     item="{{_listModel.getBottomLoadingTrigger()}}"/>
         <!--Bottom loading indicator-->
-        <ws:partial if="{{ _listModel.getBottomLoadingIndicator() }}"
-                    template="{{_listModel.getBottomLoadingIndicator().getTemplate()}}"
-                    item="{{_listModel.getBottomLoadingIndicator()}}"/>
+        <ws:partial if="{{ _listModel.getBottomIndicator() }}"
+                    template="{{_listModel.getBottomIndicator().getTemplate()}}"
+                    item="{{_listModel.getBottomIndicator()}}"/>
 
         <!-- Results (bottom) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}">
