@@ -168,7 +168,6 @@ type TEditingMode = 'row' | 'cell';
  * @public
  * @autor Авраменко А.C.
  */
-
 export interface IGridEditingConfig {
     autoAddOnInit?: boolean;
     editOnClick?: boolean;
