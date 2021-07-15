@@ -122,8 +122,14 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * </Controls.list:View>
  * </pre>
  * @remark
- * При работе с {@link /doc/platform/developmentapl/interface-development/controls/list/list/ плоским списком}, {@link /doc/platform/developmentapl/interface-development/controls/list/tree/ деревом} и {@link /doc/platform/developmentapl/interface-development/controls/list/tile/ плиткой} пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/list:EmptyTemplate}. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ здесь}, {@link /platform/developmentapl/interface-development/controls/list/tree/ здесь} и {@link /doc/platform/developmentapl/interface-development/controls/list/tile/empty/ здесь} соответственно.
- * При работе с {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ таблицей}, {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/ деревом c колонками} и {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/ иерархическим проводником} пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/grid:EmptyTemplate}. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty/ здесь}, {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/empty/ здесь} и {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/empty/ здесь} соответственно.
+ * Подробнее о настройка контрола без элементов читайте в соответствующих статьях для:
+ * 
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ плоского списка}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty/ таблицы}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/empty/ дерева}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/empty/ дерева c колонками}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/empty/ плитки}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/empty/ иерархического проводника}
  */
 
 /*ENG
