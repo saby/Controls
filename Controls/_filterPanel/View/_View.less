@@ -13,13 +13,13 @@
    flex-direction: row;
    align-items: baseline;
    background-color: var(--background-color);
-   padding: var(--heading_vertical-offset_filterViewPanel) var(--offset_m);
+   padding: 0 var(--offset_m);
    height: var(--heading_height_filterViewPanel);
    line-height: var(--heading_height_filterViewPanel);
 }
 
 .controls-FilterViewPanel__header_backgroundStyle-default {
-   background-color: var(--background-color_filterViewPanel);
+   background-color: var(--master_item_background-color_list); //цвет такой же как в мастер-деталь
 }
 
 .controls-FilterViewPanel__header_backgroundStyle-filterPanelPopup {
@@ -153,7 +153,7 @@
 }
 
 .controls-FilterViewPanel__propertyGrid-default {
-   background-color: var(--background-color_filterViewPanel);
+   background-color: var(--master_item_background-color_list); //цвет такой же как в мастер-деталь
 }
 
 .controls-FilterViewPanel__propertyGrid-contrast {
@@ -194,12 +194,12 @@
 .controls-FilterViewPanel__additional-editors-container {
    flex-grow: 1;
    padding-bottom: var(--offset_2xl);
-   background-color: var(--background-color_filterViewPanel);
+   background-color: var(--master_item_background-color_list); //цвет такой же как в мастер-деталь
 }
 
 .controls-FilterViewPanel__history-editors-container {
    flex-grow: 1;
-   background-color: var(--background-color_filterViewPanel);
+   background-color: var(--master_item_background-color_list); //цвет такой же как в мастер-деталь
    padding-bottom: var(--offset_xl);
 }
 
@@ -224,8 +224,7 @@
    height: var(--inline_height_s);
    padding: 0 var(--additional-editor_horizontal-offset_filterViewPanel);
    margin-top: var(--additional-editor_margin-top_filterViewPanel);
-   border-radius: var(--additional-editor_border-radius_filterViewPanel);
-   color: var(--additional-editor_color_filterViewPanel);
+   border-radius: 100px;  //круг
 }
 
 .controls-FilterViewPanel__history-editor {
@@ -233,8 +232,7 @@
    min-height: var(--inline_height_s);
    padding: 0 var(--additional-editor_horizontal-offset_filterViewPanel);
    margin-top: var(--offset_s);
-   border-radius: var(--additional-editor_border-radius_filterViewPanel);
-   color: var(--additional-editor_color_filterViewPanel);
+   border-radius: 100px;  //круг
    display: inline-flex;
 }
 
@@ -266,7 +264,7 @@
    display: flex;
    flex-direction: column;
    align-items: center;
-   background-color: var(--background-color_filterViewPanel);
+   background-color: var(--master_item_background-color_list); //цвет такой же как в мастер-деталь
    height: var(--heading-default_height_filterViewPanel);
    line-height: var(--heading-default_height_filterViewPanel);
    padding-bottom: var(--offset_m);
@@ -280,7 +278,7 @@
 .controls-EditorList__applyButton {
    display: flex;
    align-items: center;
-   height: var(--apply-button_height_filterViewPanel);
+   height: var(--inline_height_l);
    width: var(--apply-button_width_filterViewPanel);
    background-image: var(--apply-button_image_filterViewPanel);
    margin-left: var(--offset_s);

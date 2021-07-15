@@ -12,7 +12,7 @@
 }
 
 .controls-HistoryList_block-maxHeight {
-   max-height: var(--history_max-height_filterPanel);
+   max-height: calc(var(--history_item_height_filterPanel) * 5);
    overflow: hidden;
 }
 
@@ -63,12 +63,12 @@
 }
 
 .controls-HistoryList_vertical__item:active {
-   color: var(--item_active_text-color_filterPanel);
+   color: var(--item_hover_text-color_filterPanel);
 }
 
 .controls-HistoryList_horizontal__item {
    color: var(--unaccented_text-color);
-   max-height: var(--history_horizontal_item_max-height_filterPanel);
+   max-height: calc(var(--history_item_height_filterPanel) * 2);
    margin-top: var(--offset_s);
    margin-bottom: var(--offset_s);
 }
