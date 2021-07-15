@@ -1,14 +1,17 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Logger} from 'UI/Utils';
-import Template = require('wml!Controls/_moverDialog/Template/Template');
-import ColumnTemplateWithRootButton = require('wml!Controls/_moverDialog/Template/CellTemplate');
 import {Model} from 'Types/entity';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import rk = require('i18n!Controls');
+
 import {TColumns, ColumnTemplate} from 'Controls/grid';
 import {IHierarchyOptions, TKeysSelection} from 'Controls/interface';
+
+import Template = require('wml!Controls/_moverDialog/Template/Template');
+import MoverColumnTemplate = require('wml!Controls/_moverDialog/Template/CellTemplate');
+
 import 'css!Controls/moverDialog';
 
 export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchyOptions {
@@ -33,6 +36,11 @@ export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy
     rootLabelVisible?: boolean;
 }
 
+interface IMoverColumnTemplateOptions {
+    rootLabelVisible?: boolean;
+    defaultColumnTemplate?: TemplateFunction | string;
+}
+
 /**
  * Шаблон диалогового окна, используемый в списках при перемещении элементов для выбора целевой папки.
  *
@@ -50,7 +58,6 @@ export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy
  * @mixes Controls/grid:IGridControl
  * @implements Controls/tree:ITreeControl
  * @mixes Controls/list:IList
- * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:INavigation
  *
@@ -60,7 +67,6 @@ export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy
 
 export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOptions> {
     protected _template: TemplateFunction = Template;
-    protected _itemActions: any[];
     protected _root: string|number;
     protected _expandedItems: any[];
     protected _searchValue: string = '';
@@ -68,11 +74,6 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
     private _columns: TColumns;
 
     protected _beforeMount(options: IMoverDialogTemplateOptions): void {
-        this._itemActions = [{
-            id: 1,
-            title: rk('Выбрать'),
-            showType: 2
-        }];
         this._root = options.root;
         this._filter = options.filter;
         this._expandedItems = options.expandedItems;
@@ -93,17 +94,21 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
             if (!options.rootTitle) {
                 Logger.warn('MoverDialog: Для диалога перемещения необходимо указать опцию rootTitle', this);
             }
-            this._columns[0].templateOptions = {
+            const templateOptions: IMoverColumnTemplateOptions = {
                 ...this._columns[0].templateOptions,
-                rootLabelVisible: options.rootLabelVisible !== false && !!options.rootTitle,
-                defaultColumnTemplate: this._columns[0].template || ColumnTemplate
+                rootLabelVisible: options.rootLabelVisible !== false && !!options.rootTitle
             };
-            this._columns[0].template = ColumnTemplateWithRootButton;
+
+            if (!templateOptions.defaultColumnTemplate) {
+                templateOptions.defaultColumnTemplate = this._columns[0].template || ColumnTemplate;
+            }
+
+            this._columns[0].templateOptions = templateOptions;
+            this._columns[0].template = MoverColumnTemplate;
         }
 
         this._onItemClick = this._onItemClick.bind(this);
         this._itemsFilterMethod = this._itemsFilterMethod.bind(this);
-        this._itemActionVisibilityCallback = this._itemActionVisibilityCallback.bind(this);
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
     }
 
@@ -129,17 +134,8 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
         return result;
     }
 
-    protected _itemActionVisibilityCallback(action: object, item: Model): boolean {
-        return item.get(this._options.hasChildrenProperty);
-    }
-
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
-        if (item.getKey() === 'root') {
-            this._applyMove(this._options.root);
-
-        } else {
-            this._applyMove(item);
-        }
+        this._applyMove(item.getKey() === 'root' ? this._options.root : item);
     }
 
     protected _onMarkedKeyChanged(event: SyntheticEvent<null>, newKey: string | number | null): void {
@@ -150,11 +146,7 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
         return this._notify('beforeMarkedKeyChanged', [newKey]);
     }
 
-    protected _onItemActionsClick(event: SyntheticEvent<MouseEvent>, action: object, item: Model): void {
-        this._applyMove(item);
-    }
-
-    protected _applyMove(item: Model): void {
+    protected _applyMove(item: Model | string | number): void {
         this._notify('sendResult', [item], {bubbling: true});
         this._notify('close', [], {bubbling: true});
     }
@@ -253,7 +245,7 @@ Object.defineProperty(MoverDialogTemplate, 'defaultProps', {
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Раздел, куда перемещаются выбранные записи.
  * @remark
- * Выбор раздела производится кликом по записи, кнопкам "Выбрать" и "В корень" (см. {@link rootVisible}).
+ * Выбор раздела производится кликом по записи или хлебной крошке.
  * Клик по папке не производит выбора раздела для перемещения.
  * Событие всплываемое (см. <a href="/doc/platform/developmentapl/interface-development/ui-library/events/">Работа с событиями</a>).
  * Событие происходит непосредственно перед событием {@link close}.

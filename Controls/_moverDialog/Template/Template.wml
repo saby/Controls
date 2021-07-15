@@ -22,12 +22,9 @@
                   <Controls.list:Container>
                      <Controls.explorer:View
                              name="explorer"
-                             itemActions="{{_itemActions}}"
-                             itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
                              showActionButton="{{false}}"
                              on:markedKeyChanged="_onMarkedKeyChanged()"
                              on:beforeMarkedKeyChanged="_onBeforeMarkedKeyChanged()"
-                             on:actionClick="_onItemActionsClick()"
                              on:itemClick="_onItemClick()"
                              dataLoadCallback="{{ _dataLoadCallback }}"
                              nodeProperty="{{_options.nodeProperty}}"
