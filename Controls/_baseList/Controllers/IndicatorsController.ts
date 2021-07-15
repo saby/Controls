@@ -46,8 +46,9 @@ export default class IndicatorsController {
         this._options = options;
         this._model = options.model;
 
-        const displayTopIndicator = this.shouldDisplayTopIndicator();
-        const displayBottomIndicator = this.shouldDisplayBottomIndicator();
+        const hasItems = this._model && !!this._model.getCount();
+        const displayTopIndicator = this.shouldDisplayTopIndicator() && hasItems;
+        const displayBottomIndicator = this.shouldDisplayBottomIndicator() && hasItems;
 
         this._resetTopTriggerOffset = displayTopIndicator;
         this._resetBottomTriggerOffset = displayBottomIndicator;
