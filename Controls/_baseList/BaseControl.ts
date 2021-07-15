@@ -3792,7 +3792,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         this._updateIndicatorsController(newOptions);
-        if (this._items !== newOptions.items) {
+        // если прислали новые items, то это равноценно релоаду(которые произошел выше)
+        if (this._items !== newOptions.items && this._listViewModel) {
             this._indicatorsController.recountIndicators('all', true);
             this._updateScrollController(newOptions);
         }
