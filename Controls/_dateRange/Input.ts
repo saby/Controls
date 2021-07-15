@@ -13,6 +13,7 @@ import 'css!Controls/dateRange';
 import 'css!Controls/CommonClasses';
 
 interface IDateRangeInputOptions extends IDateRangeValidatorsOptions, IControlOptions, IDateRangeOptions {
+    calendarButtonVisible: boolean;
 }
 
 /**
@@ -264,7 +265,8 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
             endValueValidators: [],
             validateByFocusOut: true,
             startValue: null,
-            endValue: null
+            endValue: null,
+            calendarButtonVisible: true
         };
     }
 
