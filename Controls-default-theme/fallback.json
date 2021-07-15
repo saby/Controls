@@ -886,7 +886,7 @@
   "--item_text_min-width_filterView": "15px",
   "--item_font-size_filterView": "var(--font-size_m)",
   "--item_color_filterView": "var(--secondary_text-color)",
-  "--item_active_color_filterView": "var(--secondary_hover_text-color)",
+  "--item_hover_color_filterView": "var(--secondary_hover_text-color)",
   "--readonly_item_color_filterView": "var(--label_text-color)",
   "--item_icon-size_filterView": "var(--icon-size_s)",
   "--item_icon-color_filterView": "var(--secondary_icon-color)",
