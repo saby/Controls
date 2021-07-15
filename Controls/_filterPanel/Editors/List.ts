@@ -100,7 +100,9 @@ class ListEditor extends BaseEditor {
     }
 
     protected _handleItemsReadyCallback(items: RecordSet): void {
-        this._items = items;
+        if (!this._items) {
+            this._items = items;
+        }
     }
 
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
