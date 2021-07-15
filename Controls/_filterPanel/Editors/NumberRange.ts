@@ -93,18 +93,22 @@ class NumberRangeEditor extends BaseEditor implements INumberRange {
         this._processPropertyValueChanged(event, [this._minValue, this._maxValue]);
     }
 
+    protected _getExtendedValue(): object {
+        const value = [this._minValue, this._maxValue];
+        return {
+            value,
+            textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : ''
+        };
+    }
+
     private _updateValues(newValue: number[]): void {
         this._minValue = newValue[0] !== undefined ? newValue[0] : null;
         this._maxValue = newValue[1] !== undefined ? newValue[1] : null;
     }
 
     private _processPropertyValueChanged(event: SyntheticEvent, value: number[]): void {
-        const extendedValue = {
-            value,
-            textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : ''
-        };
         if (this._needNotifyChanges(value)) {
-            this._notifyPropertyValueChanged(extendedValue);
+            this._notifyPropertyValueChanged();
         }
     }
 
