@@ -10,8 +10,8 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _columns: IColumn[];
-    private _selectedKeys: [];
-    private _excludedKeys: CrudEntityKey[];
+    private _selectedKeys: CrudEntityKey[] = [];
+    private _excludedKeys: CrudEntityKey[] = [];
 
     protected _beforeMount(): void {
         this._columns = [{
@@ -32,6 +32,7 @@ export default class extends Control {
                 excluded: this._excludedKeys
             };
             this._children.treeGrid.moveItemsWithDialog(selection).then(() => {
+                this._selectedKeys = [];
                 this._children.treeGrid.reload();
             });
         }

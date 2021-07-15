@@ -33,6 +33,7 @@ export default class extends Control {
                 excluded: this._excludedKeys
             };
             this._children.treeGrid.moveItemsWithDialog(selection).then(() => {
+                this._selectedKeys = [];
                 this._children.treeGrid.reload();
             });
         }
