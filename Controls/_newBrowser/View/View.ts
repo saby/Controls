@@ -30,6 +30,8 @@ interface IReceivedState {
     detailItems: RecordSet;
 }
 
+const DEFAULT_BACKGROUND_COLOR = '#ffffff';
+
 /**
  * Компонент реализует стандартную раскладку и поведение двухколоночного реестра с master и detail списками:
  *  * синхронное изменение списков при изменении корневой директории в одном из них
@@ -221,7 +223,6 @@ export default class View extends Control<IOptions, IReceivedState> {
                 this.viewMode === DetailViewMode.table ||
                 this.viewMode === DetailViewMode.search
             ) {
-                this._updateContrastBackground();
                 this._updateDetailBgColor();
             }
         }
@@ -283,7 +284,6 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._appliedViewMode = this.viewMode;
         this._updateMasterVisibility(options);
         this._updateDetailBgColor(options);
-        this._updateContrastBackground();
         if (this.viewMode === DetailViewMode.list) {
             this._listLoaded = true;
         } else if (this.viewMode === DetailViewMode.tile) {
@@ -402,10 +402,16 @@ export default class View extends Control<IOptions, IReceivedState> {
 
     private _updateDetailBgColor(options: IOptions = this._options): void {
         // Для таблицы и режима поиска (по сути та же таблица) фон должен быть белый
-        if (this.viewMode === DetailViewMode.search || this.viewMode === DetailViewMode.table) {
-            this._detailBgColor = '#ffffff';
+        if (!options.detail.hasOwnProperty('contrastBackground')) {
+            if (this.viewMode === DetailViewMode.search || this.viewMode === DetailViewMode.table) {
+                this._detailBgColor = DEFAULT_BACKGROUND_COLOR;
+            } else {
+                this._detailBgColor = options.detail.backgroundColor || DEFAULT_BACKGROUND_COLOR;
+            }
+            this._updateContrastBackground();
         } else {
-            this._detailBgColor = options.detail.backgroundColor || '#ffffff';
+            this._contrastBackground = options.detail.contrastBackground;
+            this._detailBgColor = DEFAULT_BACKGROUND_COLOR;
         }
     }
 
