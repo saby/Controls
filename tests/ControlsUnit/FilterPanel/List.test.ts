@@ -4,6 +4,25 @@ import {assert} from 'chai';
 
 describe('Controls/filterPanel:ListEditor', () => {
 
+    describe('_beforeMount', () => {
+        const filter = {
+            testParam: 'testValue'
+        };
+        const getEditorOptions = () => {
+            return {
+                propertyValue: [1],
+                filter,
+                keyProperty: 'id'
+            };
+        };
+
+        it('filter without selected items', () => {
+            const listEditor = new ListEditor({});
+            listEditor._beforeMount(getEditorOptions());
+            assert.deepEqual(listEditor._filter, filter);
+        });
+    });
+
     describe('_beforeUpdate', () => {
         const getEditorOptions = () => {
             return {

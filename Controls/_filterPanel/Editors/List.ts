@@ -85,7 +85,7 @@ class ListEditor extends BaseEditor {
         this._selectedKeys = options.propertyValue;
         this._setColumns(options, options.propertyValue);
         this._itemsReadyCallback = this._handleItemsReadyCallback.bind(this);
-        this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
+        this._setFilter(options.filter, options.keyProperty);
         this._navigation = options.navigation;
     }
 
@@ -102,7 +102,7 @@ class ListEditor extends BaseEditor {
             this._navigation = this._getNavigation(options);
         }
         if (filterChanged || (valueChanged && !this._selectedKeys.length)) {
-            this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
+            this._setFilter(options.filter, options.keyProperty, this._selectedKeys);
         }
     }
 
@@ -142,7 +142,7 @@ class ListEditor extends BaseEditor {
         });
         if (selectedKeys.length) {
             this._items.assign(result);
-            this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
+            this._setFilter(this._options.filter, this._options.keyProperty, selectedKeys);
         }
         this._navigation = this._getNavigation(this._options);
         this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect);
@@ -207,7 +207,7 @@ class ListEditor extends BaseEditor {
         }
     }
 
-    private _setFilter(selectedKeys: string[]|number[], filter: object, keyProperty: string): void {
+    private _setFilter(filter: object, keyProperty: string, selectedKeys?: string[]|number[]): void {
         this._filter = {...filter};
         if (selectedKeys && selectedKeys.length) {
             this._filter[keyProperty] = selectedKeys;
