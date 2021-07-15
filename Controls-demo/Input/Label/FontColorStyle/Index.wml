@@ -7,13 +7,4 @@
         <div class="controls-text-label">fontColorStyle=unaccented</div>
         <Controls.input:Label caption="Label" fontColorStyle="unaccented"/>
     </div>
-
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label">fontColorStyle=unaccented</div>
-        <Controls.input:Label caption="Label" readOnly={{true}} fontColorStyle="unaccented"/>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label">fontColorStyle=label</div>
-        <Controls.input:Label caption="Label" readOnly={{true}} fontColorStyle="label"/>
-    </div>
 </div>
