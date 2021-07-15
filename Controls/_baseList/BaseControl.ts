@@ -6229,6 +6229,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return {
             model: this._listViewModel,
             items: this._items,
+            isInfinityNavigation: _private.isInfinityNavigation(options.navigation),
             hasMoreDataToTop: this._hasMoreData('up'),
             hasMoreDataToBottom: this._hasMoreData('down'),
             shouldShowEmptyTemplate: this.__needShowEmptyTemplate(options),

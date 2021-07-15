@@ -4,6 +4,7 @@ import { RecordSet } from 'Types/collection';
 export interface IIndicatorsControllerOptions {
     model: Collection;
     items: RecordSet;
+    isInfinityNavigation: boolean;
     hasMoreDataToTop: boolean;
     hasMoreDataToBottom: boolean;
     shouldShowEmptyTemplate: boolean;
@@ -175,7 +176,7 @@ export default class IndicatorsController {
 
     private _shouldDisplayIndicator(direction: 'up'|'down'): boolean {
         // TODO LI нужно на навигацию смотреть
-        return !this._options.hasHiddenItemsByVirtualScroll(direction)
+        return this._options.isInfinityNavigation && !this._options.hasHiddenItemsByVirtualScroll(direction)
             && !this._options.shouldShowEmptyTemplate;
     }
 
