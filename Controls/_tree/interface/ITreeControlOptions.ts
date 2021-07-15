@@ -58,7 +58,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @cfg {Boolean} Развертывание узлов кликом по элементу в {@link Controls/treeGrid:View дереве}.
  * @default false
  * @variant true Развертывание происходит кликом по элементу, а также кликом по кнопке-экспандеру.
- * @variant false Развертывание происходит только кликом по {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/expander/ кнопке-экспандеру}.
+ * @variant false Развертывание происходит только кликом по {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/node/expander/ кнопке-экспандеру}.
  * @see expandedItems
  * @see expanderVisibility
  */
@@ -219,7 +219,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#expanderVisibility
- * @cfg {Controls/_tree/interface/ITreeControl/ExpanderVisibility.typedef} Режим отображения {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/expander/ кнопки-экспандера} в {@link Controls/treeGrid:View дереве}.
+ * @cfg {Controls/_tree/interface/ITreeControl/ExpanderVisibility.typedef} Режим отображения {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/node/expander/ кнопки-экспандера} в {@link Controls/treeGrid:View дереве}.
  * @default visible
  * @demo Controls-demo/treeGridNew/Expander/ExpanderIcon/Node/Index В следующем примере для контрола опция expanderVisibility установлена в значение visible.
  * @demo Controls-demo/treeGridNew/Expander/ExpanderVisibility/HasChildren/Index В следующем примере для контрола опция expanderVisibility установлена в значение hasChildren.
