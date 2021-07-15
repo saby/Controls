@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Logger} from 'UI/Utils';
-import {Model} from 'Types/entity';
+import {Model, adapter} from 'Types/entity';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -156,7 +156,7 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
             (this._options.showRoot || this._options.rootVisible)) {
             recordSet.add(new Model({
                 keyProperty: recordSet.getKeyProperty(),
-                rawData: this._getRootRawData(),
+                rawData: this._getRootRawData(recordSet.getAdapter()),
                 adapter: recordSet.getAdapter()
             }), 0);
         }
@@ -166,13 +166,29 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
      * Возвращает данные для записи "В корень"
      * @private
      */
-    private _getRootRawData(): {[p: string]: string | number} {
-        return {
-            [this._options.parentProperty]: this._root,
-            [this._options.nodeProperty]: null,
-            [this._options.keyProperty]: 'root',
-            [this._options.displayProperty]: this._options.rootTitle || rk('В корень')
-        };
+    private _getRootRawData(currentAdapter: adapter.IAdapter): { [p: string]: string | number | string[] | object[] } {
+        const parent = this._root;
+        const node = null;
+        const key = 'root';
+        const display = this._options.rootTitle || rk('В корень');
+        if (currentAdapter instanceof adapter.Sbis) {
+            return {
+                d: [ parent, node, key, display],
+                s: [
+                    { n: this._options.parentProperty, t: 'Строка' },
+                    { n: this._options.nodeProperty, t: 'Строка' },
+                    { n: this._options.keyProperty, t: 'Строка' },
+                    { n: this._options.displayProperty, t: 'Строка' }
+                ]
+            };
+        } else {
+            return {
+                [this._options.parentProperty]: parent,
+                [this._options.nodeProperty]: node,
+                [this._options.keyProperty]: key,
+                [this._options.displayProperty]: display
+            };
+        }
     }
 
     static getDefaultOptions = (): object => {
