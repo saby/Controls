@@ -16,15 +16,24 @@ describe('Controls/_newBrowser:View', () => {
             keyProperty: 'id'
         });
         browserInstance = new View();
+        browserInstance._detailExplorerOptions = {};
     });
     describe('_processItemsMetaData', () => {
         it('from metadata', () => {
             items.setMetaData({listConfiguration});
-            browserInstance._processItemsMetadata(items, {});
+            browserInstance._processItemsMetadata(items, {
+                detail: {
+                    columns: []
+                }
+            });
             assert.equal(browserInstance._tileCfg.tileSize, 'm');
         });
         it('from options', () => {
-            browserInstance._processItemsMetadata(items, {listConfiguration});
+            browserInstance._processItemsMetadata(items, {
+                listConfiguration, detail: {
+                    columns: []
+                }
+            });
             assert.equal(browserInstance._tileCfg.tileSize, 'm');
         });
     });
