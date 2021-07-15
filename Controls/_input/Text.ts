@@ -1,5 +1,6 @@
 import {BaseText, IBaseTextInputOptions} from 'Controls/_input/BaseText';
 import {IFieldTemplateOptions} from 'Controls/_input/interface/IFieldTemplate';
+import {getOptionBorderVisibilityTypes} from 'Controls/_input/interface/IBorderVisibility';
 
 interface ITextInputOptions extends IBaseTextInputOptions, IFieldTemplateOptions {}
 
@@ -22,7 +23,12 @@ interface ITextInputOptions extends IBaseTextInputOptions, IFieldTemplateOptions
  *
  * @author Красильников А.С.
  */
-class Text extends BaseText<ITextInputOptions> {
+export default class Text extends BaseText<ITextInputOptions> {
+   static getDefaultTypes(): object {
+      return {
+         ...getOptionBorderVisibilityTypes()
+      };
+   }
 }
 
 Object.defineProperty(Text, 'defaultProps', {
@@ -34,14 +40,12 @@ Object.defineProperty(Text, 'defaultProps', {
    }
 });
 
-export default Text;
-
 /**
  * @name Controls/_input/Text#value
  * @cfg
  * @example
  * Сохраняем данные о пользователе и текущее время при отправке формы.
- * 
+ *
  * <pre class="brush: html; highlight: [3]">
  * <!-- WML -->
  * <form action="Auth.php" name="form">
@@ -50,7 +54,7 @@ export default Text;
  *     <Controls.buttons:Button on:click="_saveUser()" caption="Отправить"/>
  * </form>
  * </pre>
- * 
+ *
  * <pre class="brush: js; highlight: [3,10]">
  * // TypeScript
  * export class Form extends Control<IControlOptions, void> {
