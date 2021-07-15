@@ -3,6 +3,7 @@ import {TemplateFunction} from 'UI/Base';
 import {RecordSet} from 'Types/collection';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
 import {NewSourceController as SourceController} from 'Controls/dataSource';
+import {TColumns} from 'Controls/grid';
 
 export interface IExplorerOptions {
     root?: TKey;
@@ -18,6 +19,8 @@ export interface IExplorerOptions {
     tileItemTemplate?: TemplateFunction | string;
     dataLoadCallback?: (items: RecordSet, direction: string) => void;
     sourceController?: SourceController;
+    columns?: TColumns;
+    imageProperty?: string;
 
     style?: string;
     viewMode?: string;
