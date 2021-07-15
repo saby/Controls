@@ -508,6 +508,7 @@ export default class ScrollController {
             this._inertialScrolling.scrollStarted();
         }
 
+        const result = this.updateContainerHeightsData(params);
         if (this._fakeScroll) {
             this._fakeScroll = false;
         } else if (!this._completeScrollToItem && this._virtualScroll && !this._virtualScroll.rangeChanged) {
@@ -517,10 +518,11 @@ export default class ScrollController {
                 const activeElement = this._options.collection.at(activeIndex).getUid();
 
                 if (activeElement !== this._options.activeElement) {
-                    return { activeElement };
+                    result.activeElement = activeElement;
                 }
             }
         }
+        return result;
     }
 
     /**
@@ -747,8 +749,10 @@ export default class ScrollController {
 
     private getTriggerOffset(scrollHeight: number, viewportHeight: number, scrollTop: number, resetTopTriggerOffset: boolean, resetDownTriggerOffset: boolean):
             {top: number, bottom: number} {
+
+        const scrollBottom = scrollHeight - scrollTop - viewportHeight;
         const maxTopOffset = Math.min(scrollTop + viewportHeight / 2, scrollHeight / 2);
-        const maxBottomOffset = scrollHeight - maxTopOffset;
+        const maxBottomOffset =  Math.min(scrollBottom + viewportHeight / 2, scrollHeight / 2);
 
         this._topTriggerOffset = Math.min((scrollHeight && viewportHeight ? Math.min(scrollHeight, viewportHeight) : 0) *
             (this._options.topTriggerOffsetCoefficient || DEFAULT_TRIGGER_OFFSET), maxTopOffset);
