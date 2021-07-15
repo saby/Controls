@@ -155,8 +155,6 @@ export interface IEditableGrid {
 /**
  * @typedef {Enum} TEditingMode
  * @description Допустимые значения для свойства {@link IGridEditingConfig mode}.
- * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
- * @demo Controls-demo/gridNew/EditInPlace/EditingCell/Index
  * @variant row Редактирование всей строки.
  * @variant cell Редактирование отдельных ячеек.
  */
@@ -164,14 +162,12 @@ type TEditingMode = 'row' | 'cell';
 
 
 /**
- * Интерфейс объекта-конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
- * 
- * @interface Controls/_grid/interface/IEditableGrid/IGridEditingConfig
+ * Интерфейс объекта-конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту} в {@link таблицах}.
+ * @interface Controls/_grid/interface/IGridEditingConfig
  * @mixes Controls/list:IEditingConfig
  * @public
  * @autor Авраменко А.C.
  */
-
 export interface IGridEditingConfig {
     autoAddOnInit?: boolean;
     editOnClick?: boolean;
@@ -182,9 +178,11 @@ export interface IGridEditingConfig {
     backgroundStyle?: string;
     addPosition?: TAddPosition;
     /**
-     * @name Controls/_grid/interface/IEditableGrid/IGridEditingConfig#mode
+     * @name Controls/_grid/interface/IGridEditingConfig#mode
      * @cfg {Controls/_grid/interface/IEditableGrid/TEditingMode.typedef} Режим редактирования таблицы.
-     * @default "row"
+     * @default row
+     * @demo Controls-demo/gridNew/EditInPlace/SingleCellEditable/Index
+     * @demo Controls-demo/gridNew/EditInPlace/EditingCell/Index
      */
     mode?: TEditingMode;
     item?: Model;
