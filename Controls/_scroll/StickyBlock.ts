@@ -1063,7 +1063,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
  *     </Controls.scroll:StickyBlock/>
  * </pre>
  * @default { vertical: 'top'}
- * @demo Controls-demo/Scroll/StickyHeader/Position/Index
+ * @demo Controls-demo/Scroll/StickyBlock/Position/Index
  */
 
 /*
