@@ -114,6 +114,15 @@
    }
 }
 
+.controls-InfoBoxTemplate__content {
+  .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
+      background-image: linear-gradient(@background-color_infobox 25%, rgba(@background-color_infobox, 0)),
+                        linear-gradient(rgba(@background-color_infobox, 0), @background-color_infobox 75%),
+                        linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
+                        linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
+   }
+}
+
 //https://online.sbis.ru/opendoc.html?guid=4e08bd9f-b3e7-4ab5-88ba-7a58127abdb5
 .ws-is-desktop-safari .controls-Scroll-containerBase_userContent {
    perspective: 1000;
