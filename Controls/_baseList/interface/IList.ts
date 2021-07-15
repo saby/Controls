@@ -12,6 +12,7 @@ type TListStyle = 'master'|'default';
 
 /**
  * Интерфейс для {@link /doc/platform/developmentapl/interface-development/controls/list/ списков}.
+ * @interface Controls/_list/interface/IList
  * @public
  * @author Авраменко А.С.
  */
