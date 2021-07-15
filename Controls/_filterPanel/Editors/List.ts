@@ -139,7 +139,7 @@ class ListEditor extends BaseEditor {
             this._items.assign(result);
             this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
-        this._navigation = this._getNavigation(this._options);
+        this._navigation = this._getNavigation(this._options, selectedKeys);
         this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect);
     }
 
@@ -212,8 +212,9 @@ class ListEditor extends BaseEditor {
         return event.target.closest('.controls-Grid__row').lastChild;
     }
 
-    private _getNavigation(options: IListEditorOptions): INavigationOptionValue<unknown> {
-        return this._selectedKeys.length ? null : options.navigation;
+    private _getNavigation(options: IListEditorOptions, selectedKeys?: string[]): INavigationOptionValue<unknown> {
+        const selectedKeysArray = selectedKeys || this._selectedKeys;
+        return selectedKeysArray.length ? null : options.navigation;
     }
 
     private _getSelectedItems(): List<Model> {

@@ -1,6 +1,7 @@
 import {ListEditor} from 'Controls/filterPanel';
 import {Model} from 'Types/entity';
 import {assert} from 'chai';
+import {RecordSet} from 'Types/collection';
 
 describe('Controls/filterPanel:ListEditor', () => {
 
@@ -107,6 +108,44 @@ describe('Controls/filterPanel:ListEditor', () => {
             });
             listEditor._handleItemClick(null, item, nativeEvent);
             assert.deepEqual(listEditor._selectedKeys, [2]);
+        });
+    });
+
+    describe('_handleSelectorResult', () => {
+        const getEditorOptions = () => {
+            return {
+                propertyValue: [],
+                filter: {},
+                keyProperty: 'id',
+                multiSelect: true,
+                displayProperty: 'title'
+            };
+        };
+        const getEditor = () => {
+            const listEditor = new ListEditor({});
+            const options = getEditorOptions();
+            listEditor._beforeMount(options);
+            listEditor.saveOptions(options);
+            listEditor._items = new RecordSet({
+                rawData: [],
+                keyProperty: 'id'
+            });
+            return listEditor;
+        };
+
+        it('navigation is null', () => {
+            const listEditor = getEditor();
+            const result = [
+                new Model({
+                    rawData: {
+                        id: 1,
+                        title: 'Test'
+                    },
+                    keyProperty: 'id'
+                })
+            ];
+            listEditor._handleSelectorResult(result);
+            assert.isNull(listEditor._navigation);
         });
     });
 });
