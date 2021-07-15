@@ -171,6 +171,8 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _syncDomOptimization: boolean = true;
 
+    private _isHidden: boolean = false;
+
     group: Group;
 
     get index(): number {
@@ -479,7 +481,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
         const isInitializing = Object.keys(oldScrollState).length === 0;
         // Если нет скролла, то и заголовки незачем обновлять
-        if (isInitializing || !scrollState.canVerticalScroll && !scrollState.canHorizontalScroll) {
+        if (this._isHidden || isInitializing || !scrollState.canVerticalScroll && !scrollState.canHorizontalScroll) {
             return;
         }
         const position = this._options.position;
@@ -594,6 +596,10 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         // Через мгновение они появляются. Проблема есть в SwitchableArea и в стэковых окнах.
         // Сценарий 2. Области создаются скрытыми. а после загрузки данных отбражаются.
         if (isHidden(this._container)) {
+            this._isHidden = true;
+            return;
+        } else if (this._isHidden) {
+            this._isHidden = false;
             return;
         }
 

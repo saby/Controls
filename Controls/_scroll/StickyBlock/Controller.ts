@@ -271,6 +271,15 @@ class StickyHeaderController {
         });
 
         this.resizeHandler();
+
+        const addedHeaders = Object.entries(headers)
+            .filter(([, header]) => { return header.operation === STACK_OPERATION.add })
+            .map(([headerId, header]) => {return parseInt(headerId, 10)});
+
+        if (addedHeaders.length) {
+            this._updateHeadersFixedPositions(addedHeaders);
+            this._updateShadowsVisibility();
+        }
     }
 
     private _changeHeadersStackByHeader(header: StickyBlock, operation: STACK_OPERATION): void {
