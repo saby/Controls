@@ -16,7 +16,7 @@
  * </pre>
  * @remark
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/item/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/item/ руководство разработчика}
  *
  * @public
  */
@@ -36,7 +36,7 @@ export default interface IItemTemplateOptions {
      * @default false
      * @see levelIndentSize
      * @remark
-     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tree/paddings/#two-level-tree здесь}.
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/paddings/#two-level-tree здесь}.
      */
     withoutLevelPadding?: boolean;
     /**
@@ -54,7 +54,7 @@ export default interface IItemTemplateOptions {
      * Когда в опции задано undefined, используются иконки узлов и скрытых узлов.
      * @see expanderSize
      * @remark
-     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/expander/#expander-icon здесь}.
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/node/expander/#expander-icon здесь}.
      */
     expanderIcon?: string;
     /**
@@ -63,7 +63,7 @@ export default interface IItemTemplateOptions {
      * @see expanderIcon
      * @remark
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
-     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tree/node/expander/#expander-size здесь}.
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/node/expander/#expander-size здесь}.
      */
     expanderSize?: string;
     /**
@@ -72,7 +72,7 @@ export default interface IItemTemplateOptions {
      * @see withoutLevelPadding
      * @remark
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
-     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tree/paddings/#hierarchical-indentation здесь}.
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/paddings/#hierarchical-indentation здесь}.
      */
     levelIndentSize?: string;
 }
