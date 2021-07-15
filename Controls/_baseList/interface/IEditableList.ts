@@ -13,7 +13,7 @@ import {LIST_EDITING_CONSTANTS} from '../BaseControl';
 export interface IEditableList {
     _options: {
         /**
-         * @name Controls/_list/interface/IEditableList#editingConfig
+         * @name Controls/_baseList/interface/IEditableList#editingConfig
          * @cfg {IEditingConfig | undefined} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
          * @demo Controls-demo/list_new/EditInPlace/EmptyActionsWithToolBar/Index
          * @example
@@ -176,80 +176,88 @@ export interface IEditableList {
 /**
  * Интерфейс объекта-конфигурации {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
  * 
- * @interface Controls/_list/interface/IEditableList/IEditingConfig
+ * @interface Controls/_baseList/interface/IEditingConfig
  * @public
  * @autor Авраменко А.C.
  */
-
-
 export interface IEditingConfig {
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#addPosition
-     * @cfg {Boolean} Автоматический запуск добавления по месту при инициализации {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}. 
+     * @name Controls/_baseList/interface/IEditingConfig#addPosition
+     * @cfg {Boolean} Автоматический запуск добавления по месту при инициализации {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}.
+     * @remark
      * По умолчанию отключено.
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/init/ здесь}.
      * @default false
+     * @see autoAdd
      */
     autoAddOnInit?: boolean;
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#editOnClick
+     * @name Controls/_baseList/interface/IEditingConfig#editOnClick
      * @cfg {Boolean} Запуск редактирования по месту при клике по элементу списка. Является частью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/basic/ базовой конфигурации} функционала редактирования по месту.
+     * @remark
      * По умолчанию отключено.
      * @default false
      */
     editOnClick?: boolean;
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#autoAdd
-     * @cfg {Boolean} Автоматический запуск добавления нового элемента, происходящий при завершении редактирования последнего элемента списка. 
+     * @name Controls/_baseList/interface/IEditingConfig#autoAdd
+     * @cfg {Boolean} Автоматический запуск добавления нового элемента, происходящий при завершении редактирования последнего элемента списка.
+     * @remark
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#add здесь}.
      * По умолчанию отключено.
      * @default false
+     * @see autoAddOnInit
      */
     autoAdd?: boolean;
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#autoAddByApplyButton
-     * @cfg Отмена автоматического запуска добавления нового элемента, если завершение добавления предыдущего элемента происходит {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/item-actions/#visible кнопкой "Сохранить"} на {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи}. 
+     * @name Controls/_baseList/interface/IEditingConfig#autoAddByApplyButton
+     * @cfg Отмена автоматического запуска добавления нового элемента, если завершение добавления предыдущего элемента происходит {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/item-actions/#visible кнопкой "Сохранить"} на {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи}.
+     * @remark
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#add здесь}.
-     * По умолчанию автоматический запуск включен.
+     * По умолчанию включен.
      * @default true
      */
     autoAddByApplyButton?: boolean;
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#sequentialEditing
+     * @name Controls/_baseList/interface/IEditingConfig#sequentialEditing
      * @cfg {Boolean} Автоматический запуск редактирования по месту для следующего элемента, происходящий при завершении редактирования любого (кроме последнего) элемента списка.
+     * @remark
      * По умолчанию автоматический запуск включен. 
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#edit здесь}.
      * @default true
      */
     sequentialEditing?: boolean;
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#toolbarVisibility
+     * @name Controls/_baseList/interface/IEditingConfig#toolbarVisibility
      * @cfg {Boolean} Видимость кнопок "Сохранить" и "Отмена", отображаемых на {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} в режиме редактирования. 
+     * @remark
      * По умолчанию кнопки скрыты. 
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/item-actions/#visible здесь}.
      * @default false
      */
     toolbarVisibility?: boolean;
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#backgroundStyle
+     * @name Controls/_baseList/interface/IEditingConfig#backgroundStyle
      * @cfg {String} Предназначен для настройки фона редактируемого элемента. 
-     * Подробнее см {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#table-background Цвет фона элемента в режиме редактирования}.
-     * @default "backgroundStyle"
+     * @remark
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/template/#table-background Цвет фона элемента в режиме редактирования}.
+     * @default backgroundStyle
      */
     backgroundStyle?: string;
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#addPosition
-     * @cfg {Controls/_list/interface/IEditableList/TAddPosition.typedef} Позиция добавления по месту. 
+     * @name Controls/_baseList/interface/IEditingConfig#addPosition
+     * @cfg {Controls/_baseList/interface/IEditableList/TAddPosition.typedef} Позиция добавления по месту. 
+     * @remark
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/code/#add-position здесь}.
-     * @default "bottom"
+     * @default bottom
      */
     addPosition?: TAddPosition;
     /**
-     * @name Controls/_list/interface/IEditableList/IEditingConfig#item
-     * @cfg {Types/entity:Model} Позиция добавления по месту. 
-     * Автоматический запуск редактирования/добавления по месту при инициализации списка. 
+     * @name Controls/_baseList/interface/IEditingConfig#item
+     * @cfg {Types/entity:Model} Автоматический запуск редактирования/добавления по месту при инициализации списка. 
+     * @remark
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/init/ здесь}.
-     * @default "undefined"
+     * @default undefined
      */
     item?: Model;
 }
@@ -283,32 +291,32 @@ type TAddPosition = 'top' | 'bottom';
 /**
  * Интерфейс объекта-конфигурации для запуска добавления по месту.
  * 
- * @interface Controls/_list/interface/IItemAddOptions
+ * @interface Controls/_baseList/interface/IItemAddOptions
  * @public
  * @autor Авраменко А.C.
  */
 
 interface IItemAddOptions {
     /**
-     * @name Controls/_list/interface/IEditableList/IItemAddOptions#targetItem
+     * @name Controls/_baseList/interface/IItemAddOptions#targetItem
      * @cfg {Types/entity:Model} Запись списка, рядом с которой будет запущено добавление по месту.
      */
     item?: Model;
     /**
-     * @name Controls/_list/interface/IEditableList/IItemAddOptions#item
+     * @name Controls/_baseList/interface/IItemAddOptions#item
      * @cfg {Types/entity:Model} Запись, которая будет запущена на добавление.
+     * @remark
      * Если из обработчика события {@link beforeBeginEdit} также будет возвращена запись, то именно она будет запущена на добавление вместо первоначальной.
      */
-
     targetItem?: Model;
     /**
-     * @name Controls/_list/interface/IEditableList/IItemAddOptions#shouldActivateInput
+     * @name Controls/_baseList/interface/IItemAddOptions#shouldActivateInput
      * @cfg {Boolean} Флаг, определяющий, следует ли усстанавливать фокус в поле ввода, после старта добавления.
      */
     shouldActivateInput?: boolean;
     /**
-     * @name Controls/_list/interface/IEditableList/IItemAddOptions#addPosition
-     * @cfg {Controls/_list/interface/IEditableList/TAddPosition.typedef} Позиция добавляемой записи. В случае, если в параметрах был передан targetItem, позиция определяется относительно его, иначе — всего списка.
+     * @name Controls/_baseList/interface/IItemAddOptions#addPosition
+     * @cfg {Controls/_baseList/interface/IEditableList/TAddPosition.typedef} Позиция добавляемой записи. В случае, если в параметрах был передан targetItem, позиция определяется относительно его, иначе — всего списка.
      */
     addPosition?: TAddPosition;
 }
@@ -316,22 +324,23 @@ interface IItemAddOptions {
 /**
  * Интерфейс объекта-конфигурации для запуска редактирования по месту.
  * 
- * @interface Controls/_list/interface/IEditableList/IItemEditOptions
+ * @interface Controls/_baseList/interface/IItemEditOptions
  * @public
  * @autor Авраменко А.C.
  */
 
 interface IItemEditOptions {
     /**
-     * @name Controls/_list/interface/IEditableList/IItemEditOptions#item
+     * @name Controls/_baseList/interface/IItemEditOptions#item
      * @cfg {Types/entity:Model} Запись, которая будет запущена на редактирование.
+     * @remark
      * Если из обработчика события {@link beforeBeginEdit} также будет возвращена запись, то именно она будет запущена на редактирование вместо первоначальной.
      */
     item?: Model;
-/**
- * @name Controls/_list/interface/IEditableList/IItemEditOptions#shouldActivateInput
- * @cfg {Boolean} Флаг, определяющий, следует ли усстанавливать фокус в поле ввода, после старта редактирования.
- */
+    /**
+     * @name Controls/_baseList/interface/IItemEditOptions#shouldActivateInput
+     * @cfg {Boolean} Флаг, определяющий, следует ли усстанавливать фокус в поле ввода, после старта редактирования.
+     */
     shouldActivateInput?: boolean;
 }
 
@@ -371,7 +380,7 @@ type TBeforeEndEditEventSyncResult = LIST_EDITING_CONSTANTS.CANCEL | undefined;
 type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBeforeBeginEditEventSyncResult>;
 
 /**
- * @event Controls/_list/interface/IEditableList#beforeBeginEdit Происходит перед запуском {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
+ * @event Controls/_baseList/interface/IEditableList#beforeBeginEdit Происходит перед запуском {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {IItemEditOptions | IItemAddOptions} options Параметры редактирования.
  * @param {Boolean} isAdd Параметр принимает значение true, когда элемент добавляется по месту.
@@ -444,7 +453,7 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  */
 
 /**
- * @event Controls/_list/interface/IEditableList#afterBeginEdit Происходит после запуска {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
+ * @event Controls/_baseList/interface/IEditableList#afterBeginEdit Происходит после запуска {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Редактируемый элемент.
  * @param {Boolean} isAdd Параметр принимает значение true, когда элемент добавляется по месту.
@@ -478,7 +487,7 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  */
 
 /**
- * @event Controls/_list/interface/IEditableList#beforeEndEdit Происходит перед завершением {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
+ * @event Controls/_baseList/interface/IEditableList#beforeEndEdit Происходит перед завершением {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Редактируемый элемент.
  * @param {Boolean} willSave Параметр принимает значение true, когда отредактированный элемент сохраняется.
@@ -522,7 +531,7 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  */
 
 /**
- * @event Controls/_list/interface/IEditableList#afterEndEdit Происходит после завершения {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
+ * @event Controls/_baseList/interface/IEditableList#afterEndEdit Происходит после завершения {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Редактируемый элемент.
  * @param {Boolean} isAdd Параметр принимает значение true, когда элемент добавляется по месту.

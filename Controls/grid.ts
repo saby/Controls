@@ -63,7 +63,7 @@ import {register} from 'Types/di';
  * @includes SortingButton Controls/_grid/SortingButton
  * @includes ItemEditorTemplate Controls/_grid/interface/IitemEditorTemplate
  * @includes IEditableGrid Controls/_grid/interface/IEditableGrid
- * @includes IGridEditingConfig Controls/_grid/interface/IEditableGrid/IGridEditingConfig
+ * @includes IGridEditingConfig Controls/_grid/interface/IGridEditingConfig
  * @public
  * @author Крайнов Д.О.
  */

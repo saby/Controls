@@ -965,6 +965,46 @@ describe('Controls/list_clean/BaseControl', () => {
         });
     });
 
+    describe('setMarkerAfterScroll', () => {
+        const baseControlCfg = getCorrectBaseControlConfig({
+            viewName: 'Controls/List/ListView',
+            keyProperty: 'key',
+            viewModelConstructor: 'Controls/display:Collection',
+            multiSelectVisibility: 'visible',
+            markerVisibility: 'visible',
+            selectedKeys: [],
+            excludedKeys: [],
+            markedKey: 0,
+            source: new Memory({
+                keyProperty: 'key',
+                data: getData(0)
+            })
+        });
+        let baseControl;
+        let changeMarkedKeyStub;
+        beforeEach(() => {
+            baseControl = new BaseControl(baseControlCfg);
+            baseControl._beforeMount(baseControlCfg);
+            baseControl.saveOptions(baseControlCfg);
+            baseControl._children = {
+                listView: {
+                    getItemsContainer: () => {}
+                }
+            };
+
+            changeMarkedKeyStub = sinon.stub(baseControl, '_changeMarkedKey').callsFake(() => Promise.resolve());
+        });
+        afterEach(() => {
+            changeMarkedKeyStub.restore();
+            baseControl.destroy();
+            baseControl = undefined;
+        });
+        it('without items', () => {
+            BaseControl._private.setMarkerAfterScrolling(baseControl, 0);
+            assert.isFalse(changeMarkedKeyStub.called);
+        });
+    });
+
     describe('shiftToDirection by moving marker', () => {
         const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',

@@ -14,8 +14,10 @@
                     on:dragStart="_notifyHandler('masterDragStart')"
                     on:dragEnd="_notifyHandler('masterDragEnd')"
                     on:dragEnter="_notifyHandler('masterDragEnter')"
-                    on:actionClick="_notifyHandler('masterActionClick')"
+                    on:arrowClick="_notifyHandler('masterArrowClick')"
+                    on:editArrowClick="_notifyHandler('masterEditArrowClick')"
                     on:beforeItemsMove="_notifyHandler('masterBeforeItemsMove')"
+                    on:actionClick="_notifyHandler('masterActionClick')"
                     on:itemClick="_onExplorerItemClick(true)"
                     on:changeDragTarget="_notifyHandler('masterChangeDragTarget')"
             />
@@ -58,7 +60,13 @@
                         on:afterBeginEdit="_notifyHandler('afterBeginEdit')"
                         on:afterEndEdit="_notifyHandler('afterEndEdit')"
                         on:dragStart="_notifyHandler('detailDragStart')"
+                        on:actionClick="_notifyHandler('detailActionClick')"
+                        on:arrowClick="_notifyHandler('detailArrowClick')"
+                        on:dragEnter="_notifyHandler('detailDragEnter')"
+                        on:dragMove="_notifyHandler('detailDragMove')"
                         on:dragEnd="_notifyHandler('detailDragEnd')"
+                        on:dragLeave="_notifyHandler('detailDragLeave')"
+                        on:itemMouseDown="_notifyHandler('detailItemMouseDown')"
                         on:drawItems="_notifyHandler('drawItems')"
                         on:beforeItemsMove="_notifyHandler('detailBeforeItemsMove')"
                         searchValue="{{_options.searchValue}}"
@@ -66,11 +74,7 @@
                         on:changeDragTarget="_notifyHandler('detailChangeDragTarget')"
                         viewMode="{{viewMode}}"
                         scope="{{_detailExplorerOptions}}"
-                        breadcrumbsVisibility="{{
-                   (_masterVisibility === _masterVisibilityEnum.visible || _appliedViewMode === _viewModeEnum.search)
-                      ? 'hidden'
-                      : 'visible'
-                }}"
+                        breadcrumbsVisibility="{{_getDetailBreadCrumbsVisibility(_options.detail)}}"
                         on:itemClick="_onExplorerItemClick(false)"
                         on:viewModeChanged="_onDetailExplorerChangedViewMode()"
                 >

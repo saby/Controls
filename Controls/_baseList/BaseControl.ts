@@ -2879,7 +2879,8 @@ const _private = {
     setMarkerAfterScrolling(self: BaseControl, scrollTop: number): void {
         // TODO вручную обрабатывать pagedown и делать stop propagation
         self._setMarkerAfterScroll = false;
-        if (self._options.markerVisibility !== 'hidden' && self._children.listView) {
+        const hasItems = self._items ? !!self._items.getCount() : false;
+        if (self._options.markerVisibility !== 'hidden' && self._children.listView && hasItems) {
             const itemsContainer = self._children.listView.getItemsContainer();
             const item = self._scrollController.getFirstVisibleRecord(itemsContainer, self._container, scrollTop);
             const markedKey = _private.getMarkerController(self).getSuitableMarkedKey(item);

@@ -137,6 +137,8 @@ export
     searchStartingWith?: string;
 
     dataLoadCallback?: (items: RecordSet, direction: string) => void;
+
+    breadcrumbsVisibility?: string;
 }
 
 /**

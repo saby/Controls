@@ -21,7 +21,7 @@
 }
 
 .controls-ListView__itemV_marker_height {
-   height: var(--marker_height_default_list);
+   height: 100%;
 }
 
 .controls-ListView__itemV_marker_padding-default_image-l,
@@ -381,7 +381,7 @@
 }
 .controls-ListView__item_dragging:before {
    height: var(--item_dragging_shadow-height_list);
-   box-shadow: 0 var(--item_dragging_shadow-top_height_list) var(--item_dragging_shadow-spread_list) var(--item_dragging_shadow-color_list);
+   box-shadow: 0 calc(-1 * var(--item_dragging_shadow-height_list)) var(--item_dragging_shadow-spread_list) var(--item_dragging_shadow-color_list);
    width: 100%;
    position: absolute;
    top: 0;
@@ -399,21 +399,21 @@
 }
 
 .controls-ListView__itemContent_dragging {
-   opacity: var(--item_dragging_opacity_list);
+   opacity: 0.6;
 }
 
 .controls-ListView__item-dragging-counter {
    position: absolute;
    display: flex;
    align-items: center;
-   right: var(--item_dragging_counter_right_list);
-   top: var(--item_dragging_counter_top_list);
+   right: var(--item_dragging_counter_offset_list);
+   top: var(--item_dragging_counter_offset_list);
    height: var(--item_dragging_counter_height_list);
    font-size: var(--item_dragging_counter_font-size_list);
    color: var(--contrast_text-color);
    background-color: var(--primary_contrast_background-color);
-   border-radius: var(--item_dragging_counter_border-radius_list);
-   padding: var(--item_dragging_counter_padding_list);
+   border-radius: 100px;  //круг
+   padding: 0 var(--offset_xs);
    z-index: 1;
 }
 
