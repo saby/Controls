@@ -106,10 +106,11 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#emptyTemplate
- * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения контрола без элементов.
  * @demo Controls-demo/list_new/EmptyList/Default/Index
  * @default undefined
  * @example
+ * В следующем примере показана настройка шаблона отображения для пустого плоского списка.
  * <pre class="brush: html; highlight: [3-7]">
  * <!-- WML -->
  * <Controls.list:View source="{{_viewSource}}">
@@ -121,7 +122,8 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * </Controls.list:View>
  * </pre>
  * @remark
- * Пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/list:EmptyTemplate}.
+ * При работе с {@link /doc/platform/developmentapl/interface-development/controls/list/list/ плоским списком}, {@link /doc/platform/developmentapl/interface-development/controls/list/tree/ деревом} и {@link /doc/platform/developmentapl/interface-development/controls/list/tile/ плиткой} пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/list:EmptyTemplate}. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ здесь}, {@link /platform/developmentapl/interface-development/controls/list/tree/ здесь} и {@link /doc/platform/developmentapl/interface-development/controls/list/tile/empty/ здесь} соответственно.
+ * При работе с {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ таблицей}, {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/ деревом c колонками} и {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/ иерархическим проводником} пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/grid:EmptyTemplate}. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty/ здесь}, {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/empty/ здесь} и {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/empty/ здесь} соответственно.
  */
 
 /*ENG
@@ -148,8 +150,17 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#footerTemplate
- * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/footer/ подвала списка}.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения подвала контрола.
  * @demo Controls-demo/list_new/FooterTemplate/Index
+ * @remark
+ * Подробнее о настройка подвала читайте в соответствующих статьях для:
+ * 
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/list/footer/ плоского списка}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/grid/footer/ таблицы}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/footer/ дерева}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/footer/ дерева c колонками}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tile/footer/ плитки}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/footer/ иерархического проводника}
  */
 
 /*ENG
