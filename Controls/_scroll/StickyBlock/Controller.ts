@@ -670,7 +670,7 @@ class StickyHeaderController {
         }
     }
 
-    private _addToHeadersStack(id: number, headerPosition: POSITION, needUpdateOffset = false): void {
+    private _addToHeadersStack(id: number, headerPosition: POSITION, needUpdateOffset: boolean = false): void {
         const positions = this._getDecomposedPosition(headerPosition);
         positions.forEach(position => {
             const headersStack = this._headersStack[position];
@@ -687,7 +687,7 @@ class StickyHeaderController {
             // Если смещение у элементов одинаковое, но у добавляемоего заголовка высота равна нулю,
             // то считаем, что добавляемый находится выше. Вставляем новый заголовок в этой позиции.
             let index = headersStack.findIndex((headerId) => {
-                const headerOffset = this._getHeaderOffset(headerId, position);
+                const headerOffset = this._getHeaderOffset(headerId, position, needUpdateOffset);
                 return headerOffset > newHeaderOffset ||
                     (headerOffset === newHeaderOffset && headerContainerSize === 0);
             });
