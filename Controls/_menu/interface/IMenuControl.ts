@@ -154,5 +154,5 @@ export default interface IMenuControl {
  * @name Controls/_menu/interface/IMenuControl#alignSublevel
  * @cfg {alignSublevel} Имя свойства, отвечающего за то, как будут раскрываться подуровни меню.
  * @default right
- * @demo Controls-demo/Buttons/Menu/Menu
+ * @demo Controls-demo/dropdown_new/Button/MenuAlignSublevel/MenuAlignSublevel
  */

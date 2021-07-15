@@ -959,7 +959,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
     }
 
-    private _getMenuPopupOffset(item: CollectionItem<Model>, options: object): string {
+    private _getMenuPopupOffsetClass(item: CollectionItem<Model>, options: object): string {
         let classes = '';
 
         if (options.alignSublevel === 'down') {
@@ -984,14 +984,14 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         const direction = {
             vertical: 'bottom',
             horizontal: 'right'
-        }
+        };
         const targetPoint = {
             vertical: alignSublevel === 'down' ? 'bottom' : 'top',
             horizontal: alignSublevel === 'down' ? 'left' : 'right'
         };
         const className = 'controls-Menu__subMenu controls-Menu__subMenu_margin' +
             ` controls_popupTemplate_theme-${this._options.theme}` +
-            this._getMenuPopupOffset(item, this._options);
+            this._getMenuPopupOffsetClass(item, this._options);
 
         return this._getTemplateOptions(item).then((templateOptions) => {
             return {
@@ -1209,7 +1209,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         itemPadding: {},
         markerVisibility: 'onactivated',
         hoverBackgroundStyle: 'default',
-        alignSublevel: 'down'
+        alignSublevel: 'right'
     };
 }
 /**

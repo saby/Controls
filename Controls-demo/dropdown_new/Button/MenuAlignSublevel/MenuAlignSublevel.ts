@@ -16,7 +16,7 @@ define('Controls-demo/dropdown_new/Button/MenuAlignSublevel/MenuAlignSublevel', 
          _multiItemsWithIcons: null,
          _multiItems: null,
 
-         _beforeMount: function() {
+         _beforeMount(): void  {
             this._multiItemsWithIcons = [
                {
                   id: 1,
@@ -73,7 +73,7 @@ define('Controls-demo/dropdown_new/Button/MenuAlignSublevel/MenuAlignSublevel', 
             ];
          },
 
-         _createBigItems: function() {
+         _createBigItems(): any[] {
             var items = [];
             for (var i = 0; i < 100; i++) {
                items.push({id: i, title: i % 10 === 0 ? ('Are we testing if there are very long records in the menu with unlimited width? This is a very long record. ' + i) : ('New record ' + i)});
@@ -81,14 +81,14 @@ define('Controls-demo/dropdown_new/Button/MenuAlignSublevel/MenuAlignSublevel', 
             return items;
          },
 
-         _createMemory: function(items) {
+         _createMemory(items): any {
             return new source.Memory({
                keyProperty: 'id',
                data: items
             });
          },
 
-         _groupingKeyCallback: function(item) {
+         _groupingKeyCallback(item): string {
             if (item.get('group') === 'hidden' || !item.get('group')) {
                return ControlsConstants.groupConstants.hiddenGroup;
             }
