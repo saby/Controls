@@ -3,7 +3,8 @@ import * as Template from 'wml!Controls-demo/treeGridNew/Mover/RootLabelVisible/
 import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import {ISelectionObject} from 'Controls/interface';
-import {Flat} from "Controls-demo/treeGridNew/DemoHelpers/Data/Flat";
+import {Flat} from 'Controls-demo/treeGridNew/DemoHelpers/Data/Flat';
+import {moverMemoryFilter} from '../moverMemoryFilter';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -20,12 +21,13 @@ export default class extends Control {
         this._viewSource = new HierarchicalMemory({
             parentProperty: 'parent',
             keyProperty: 'key',
-            data: Flat.getData()
+            data: Flat.getData(),
+            filter: moverMemoryFilter
         });
     }
 
     protected _moveButtonClick(): void {
-        if (this._selectedKeys.length) {
+        if (this._selectedKeys?.length) {
             const selection: ISelectionObject = {
                 selected: this._selectedKeys,
                 excluded: this._excludedKeys

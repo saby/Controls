@@ -1,13 +1,13 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Logger} from 'UI/Utils';
-import template = require('wml!Controls/_moverDialog/Template/Template');
-import cellTemplate = require('wml!Controls/_moverDialog/Template/CellTemplate');
+import Template = require('wml!Controls/_moverDialog/Template/Template');
+import ColumnTemplateWithRootButton = require('wml!Controls/_moverDialog/Template/CellTemplate');
 import {Model} from 'Types/entity';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import rk = require('i18n!Controls');
-import {TColumns} from 'Controls/grid';
+import {TColumns, ColumnTemplate} from 'Controls/grid';
 import {IHierarchyOptions, TKeysSelection} from 'Controls/interface';
 import 'css!Controls/moverDialog';
 
@@ -58,8 +58,8 @@ export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy
  * @author Авраменко А.С.
  */
 
-export default class extends Control<IMoverDialogTemplateOptions> {
-    protected _template: TemplateFunction = template;
+export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOptions> {
+    protected _template: TemplateFunction = Template;
     protected _itemActions: any[];
     protected _root: string|number;
     protected _expandedItems: any[];
@@ -74,7 +74,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
             showType: 2
         }];
         this._root = options.root;
-        this._filter = options.filter || {};
+        this._filter = options.filter;
         this._expandedItems = options.expandedItems;
 
         // TODO: сейчас прикладной программист передает в MoveDialog опцию columns, что плохо, он может повлиять на
@@ -88,18 +88,17 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         if (options.showRoot) {
             Logger.error('MoverDialog: Опция showRoot устарела и будет удалена в 5100. Необходимо использовать опцию rootVisible', this);
         }
-        if (!options.displayProperty) {
-            Logger.warn('MoverDialog: Для корректной работы хлебных крошек необходимо указать опцию displayProperty', this);
-        }
 
         if (options.rootVisible || options.showRoot) {
             if (!options.rootTitle) {
-                Logger.error('MoverDialog: Для диалога перемещения необходимо указать опцию rootTitle', this);
+                Logger.warn('MoverDialog: Для диалога перемещения необходимо указать опцию rootTitle', this);
             }
-            this._columns[0].template = cellTemplate;
             this._columns[0].templateOptions = {
-                rootLabelVisible: options.rootLabelVisible !== false
+                ...this._columns[0].templateOptions,
+                rootLabelVisible: options.rootLabelVisible !== false && !!options.rootTitle,
+                defaultColumnTemplate: this._columns[0].template || ColumnTemplate
             };
+            this._columns[0].template = ColumnTemplateWithRootButton;
         }
 
         this._onItemClick = this._onItemClick.bind(this);
@@ -138,7 +137,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         if (item.getKey() === 'root') {
             this._applyMove(this._options.root);
 
-        } else if (!item.get(this._options.hasChildrenProperty)) {
+        } else {
             this._applyMove(item);
         }
     }
@@ -162,34 +161,46 @@ export default class extends Control<IMoverDialogTemplateOptions> {
 
     protected _dataLoadCallback(recordSet: RecordSet): void {
         if ((!this._searchValue || this._searchValue.length === 0) &&
-            this._root === this._options.root &&
             (this._options.showRoot || this._options.rootVisible)) {
             recordSet.add(new Model({
                 keyProperty: recordSet.getKeyProperty(),
-                rawData: this._getRootRawData()
+                rawData: this._getRootRawData(),
+                adapter: recordSet.getAdapter()
             }), 0);
         }
     }
 
     /**
-     * Генерирует запись "В корень"
+     * Возвращает данные для записи "В корень"
      * @private
      */
     private _getRootRawData(): {[p: string]: string | number} {
         return {
-            [this._options.parentProperty]: this._root || null,
+            [this._options.parentProperty]: this._root,
             [this._options.nodeProperty]: null,
             [this._options.keyProperty]: 'root',
-            [this._options.displayProperty || 'title']: this._options.rootTitle
+            [this._options.displayProperty]: this._options.rootTitle || rk('В корень')
         };
     }
 
     static getDefaultOptions = (): object => {
         return {
-            root: null
+            root: null,
+            displayProperty: 'title',
+            filter: {}
         };
     }
 }
+
+Object.defineProperty(MoverDialogTemplate, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return MoverDialogTemplate.getDefaultOptions();
+    }
+});
+
 /**
  * @name Controls/_moverDialog/Template#displayProperty
  * @cfg {String} Имя поля элемента, данные которого используются для правильной работы <a href="/doc/platform/developmentapl/interface-development/controls/bread-crumbs/">Хлебных крошек</a>.

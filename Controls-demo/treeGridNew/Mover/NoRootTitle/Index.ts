@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/treeGridNew/Mover/Base/Base';
+import * as Template from 'wml!Controls-demo/treeGridNew/Mover/NoRootTitle/NoRootTitle';
 import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import {ISelectionObject} from 'Controls/interface';
@@ -10,8 +10,8 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
     protected _columns: IColumn[];
-    private _selectedKeys: CrudEntityKey[] = [];
-    private _excludedKeys: CrudEntityKey[] = [];
+    private _selectedKeys: [];
+    private _excludedKeys: CrudEntityKey[];
 
     protected _beforeMount(): void {
         this._columns = [{
@@ -19,7 +19,6 @@ export default class extends Control {
             width: ''
         }];
         this._viewSource = new HierarchicalMemory({
-            parentProperty: 'parent',
             keyProperty: 'key',
             data: Flat.getData(),
             filter: moverMemoryFilter
