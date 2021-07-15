@@ -2,6 +2,7 @@
    <div class="controls-Label__wrapper">
       <div class="controls-Label__caption controls-fontsize-{{_options.fontSize}}
                {{!_options.fontSize ? 'controls-Label__caption_fontsize-default'}}
+               controls-Label__caption_fontColorStyle-{{_options.readOnly ? 'readonly' : _options.fontColorStyle}}
                controls-Label__caption_underline_{{_options.underline}}
                controls-Label__caption_underline_{{_options.underline}}_{{_options.readOnly ? 'read' : 'edit'}}">
          <ws:partial template="{{_options.caption}}"/>
