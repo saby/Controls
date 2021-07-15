@@ -92,8 +92,20 @@ export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
         return this._getLoadingTrigger('bottom');
     }
 
-    showLoadingTopTrigger(): void {
-        this._showTrigger('top');
+    displayLoadingTopTrigger(): void {
+        const trigger = this._getLoadingTrigger('top');
+        const changed = trigger.display();
+        if (changed) {
+            this._nextVersion();
+        }
+    }
+
+    hideLoadingTopTrigger(): void {
+        const trigger = this._getLoadingTrigger('top');
+        const changed = trigger.hide();
+        if (changed) {
+            this._nextVersion();
+        }
     }
 
     setLoadingTriggerOffset(offset: ITriggerOffset): void {
@@ -113,14 +125,6 @@ export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
 
     private _getLoadingTriggerName(position: TLoadingTriggerPosition): string {
         return `_${position}LoadingTrigger`;
-    }
-
-    private _showTrigger(position: TLoadingTriggerPosition): void {
-        const trigger = this._getLoadingTrigger(position);
-        const changed = trigger.show();
-        if (changed) {
-            this._nextVersion();
-        }
     }
 
     private _getLoadingTrigger(position: TLoadingTriggerPosition): LoadingTrigger {

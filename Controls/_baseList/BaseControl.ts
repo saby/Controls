@@ -679,11 +679,12 @@ const _private = {
             if (self._shouldStartPortionedSearch()) {
                 self._startPortionedSearch(direction);
             }
+
+            self._indicatorsController.recountIndicators(direction);
+
             if (self._options.groupProperty) {
                 GroupingController.prepareFilterCollapsedGroups(self._listViewModel.getCollapsedGroups(), filter);
             }
-
-            self._loadToDirectionInProgress = true;
 
             return self._sourceController.load(direction, self._options.root).addCallback((addedItems) => {
                 if (self._destroyed) {
@@ -712,6 +713,7 @@ const _private = {
                     self._updateShadowModeHandler(self._shadowVisibility);
                 }
 
+                // нужно пересчитать hasMoreData
                 self._updateIndicatorsController();
                 // Пересчитывать ромашки нужно сразу после загрузки, а не по событию add, т.к.
                 // например при порционном поиске последний запрос в сторону может подгрузить пустой список
@@ -721,15 +723,12 @@ const _private = {
                 // Скрываем ошибку после успешной загрузки данных
                 _private.hideError(self);
 
-                self._loadToDirectionInProgress = false;
-
                 return addedItems;
             }).addErrback((error: CancelableError) => {
                 if (self._destroyed) {
                     return;
                 }
 
-                self._loadToDirectionInProgress = false;
                 self._handleLoadToDirection = false;
 
                 const hideIndicatorOnCancelQuery =
@@ -737,6 +736,7 @@ const _private = {
                     !self._sourceController?.isLoading();
 
                 if (hideIndicatorOnCancelQuery) {
+                    // при пересчете скроем все ненужые индикаторы
                     self._indicatorsController.recountIndicators(direction);
                 }
                 // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
@@ -1398,8 +1398,11 @@ const _private = {
                 }
             }
 
-            if (action === IObservable.ACTION_RESET && self._options.searchValue) {
-                _private.tryLoadToDirectionAgain(self);
+            if (action === IObservable.ACTION_RESET) {
+                if (self._options.searchValue) {
+                    _private.tryLoadToDirectionAgain(self);
+                }
+                self._indicatorsController.recountIndicators('all', true);
             }
 
             if (reason === 'assign' && self._options.itemsSetCallback) {
@@ -3794,8 +3797,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._updateIndicatorsController(newOptions);
         // если прислали новые items, то это равноценно релоаду(которые произошел выше)
         if (this._items !== newOptions.items && this._listViewModel) {
-            this._indicatorsController.recountIndicators('all', true);
             this._updateScrollController(newOptions);
+            this._indicatorsController.recountIndicators('all', true);
         }
 
         if (_private.hasMarkerController(this) && this._listViewModel) {
@@ -4444,7 +4447,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._registerIntersectionObserver();
             }
         }
-
+        // FIXME need to delete after https://online.sbis.ru/opendoc.html?guid=4db71b29-1a87-4751-a026-4396c889edd2
+        if (oldOptions.hasOwnProperty('loading') && oldOptions.loading !== this._options.loading) {
+            if (this._options.loading) {
+                this._indicatorsController.displayGlobalIndicator();
+            } else {
+                this._indicatorsController.hideGlobalIndicator();
+            }
+        }
         // Запустить валидацию, которая была заказана методом commit у редактирования по месту, после
         // применения всех обновлений реактивных состояний.
         if (this._isPendingDeferSubmit) {
@@ -5163,6 +5173,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._getEditInPlaceController().edit(userOptions, { columnIndex }).then((result) => {
             if (shouldActivateInput && !(result && result.canceled)) {
                 this._editInPlaceInputHelper.shouldActivate();
+                // раньше индикаторы вызывали ненужную перерисовку изменением стейта, теперь нужно в ручную вызвать
+                // перерисовку, чтобы поставить фокус на инпут, который уже точно отрисовался
+                this._forceUpdate();
             }
             return result;
         }).finally(() => {
@@ -6215,7 +6228,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return {
             model: this._listViewModel,
             items: this._items,
-            isInfinityNavigation: _private.isInfinityNavigation(options.navigation),
             hasMoreDataToTop: this._hasMoreData('up'),
             hasMoreDataToBottom: this._hasMoreData('down'),
             shouldShowEmptyTemplate: this.__needShowEmptyTemplate(options),

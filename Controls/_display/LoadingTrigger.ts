@@ -68,13 +68,22 @@ export default class LoadingTrigger extends CollectionItem<null> {
         return changed;
     }
 
-    show(): boolean {
+    display(): boolean {
         const isHidden = !this._$visible;
         if (isHidden) {
             this._$visible = true;
             this._nextVersion();
         }
         return isHidden;
+    }
+
+    hide() {
+        const isVisible = this._$visible;
+        if (isVisible) {
+            this._$visible = false;
+            this._nextVersion();
+        }
+        return isVisible;
     }
 
     getQAData(marker?: boolean): string {

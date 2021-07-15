@@ -4,7 +4,6 @@ import { RecordSet } from 'Types/collection';
 export interface IIndicatorsControllerOptions {
     model: Collection;
     items: RecordSet;
-    isInfinityNavigation: boolean;
     hasMoreDataToTop: boolean;
     hasMoreDataToBottom: boolean;
     shouldShowEmptyTemplate: boolean;
@@ -56,7 +55,7 @@ export default class IndicatorsController {
         // Если верхний индикатор не будет показан, то сразу же показываем триггер,
         // чтобы в кейсе когда нет данных после моунта инициировать их загрузку
         if (!displayTopIndicator && this._model) {
-            this._model.showLoadingTopTrigger();
+            this._model.displayLoadingTopTrigger();
         }
         // Нижний индикатор сразу же показываем, т.к. не нужно скроллить
         if (displayBottomIndicator) {
@@ -83,19 +82,13 @@ export default class IndicatorsController {
     // region LoadingIndicator
 
     shouldDisplayTopIndicator(): boolean {
-        // TODO LI нужно продумать логику для не infinity навигаций
-
-        // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
-        return this._options.attachLoadTopTriggerToNull && this._options.isInfinityNavigation
-            && this._options.hasMoreDataToTop && this._shouldDisplayIndicator('up');
+        return this._options.attachLoadTopTriggerToNull && this._options.hasMoreDataToTop
+            && this._shouldDisplayIndicator('up');
     }
 
     shouldDisplayBottomIndicator(): boolean {
-        // TODO LI нужно продумать логику для не infinity навигаций
-
-        // В случае с pages, demand и maxCount проблема дополнительной загрузки после инициализации списка отсутствует.
-        return this._options.attachLoadDownTriggerToNull && this._options.isInfinityNavigation
-            && this._options.hasMoreDataToBottom && this._shouldDisplayIndicator('down');
+        return this._options.attachLoadDownTriggerToNull && this._options.hasMoreDataToBottom
+            && this._shouldDisplayIndicator('down');
     }
 
     displayTopIndicator(scrollToFirstItem: boolean): void {
@@ -107,9 +100,9 @@ export default class IndicatorsController {
         this._model.displayIndicator('top', EIndicatorState.Loading);
 
         if (scrollToFirstItem) {
-            this._options.scrollToFirstItem(() => this._model.showLoadingTopTrigger());
+            this._options.scrollToFirstItem(() => this._model.displayLoadingTopTrigger());
         } else {
-            this._model.showLoadingTopTrigger();
+            this._model.displayLoadingTopTrigger();
         }
     }
 
@@ -157,8 +150,14 @@ export default class IndicatorsController {
 
     private _recountTopIndicator(scrollToFirstItem: boolean = false): void {
         // всегда скрываем индикатор и если нужно, то мы его покажем. Сделано так, чтобы если индикатор
-        // и так был показан, подскроллить к нему
+        // и так был показан, подскроллить к нему.
         this._model.hideIndicator('top');
+
+        // если нужно будет скроллить к первой записи, то значит что сверху записей нет
+        // и не нужно будет их сразу подгружать, поэтому скрываем триггер
+        if (scrollToFirstItem) {
+            this._model.hideLoadingTopTrigger();
+        }
 
         if (this.shouldDisplayTopIndicator()) {
             this.displayTopIndicator(scrollToFirstItem);
@@ -174,9 +173,9 @@ export default class IndicatorsController {
     }
 
     private _shouldDisplayIndicator(direction: 'up'|'down'): boolean {
-        // Если нет элементов, то должен отображаться глобальный индикатор
-        const hasItems = !!this._model && !!this._model.getCollection().getCount();
-        return hasItems && !this._options.hasHiddenItemsByVirtualScroll(direction) && !this._options.shouldShowEmptyTemplate;
+        // TODO LI нужно на навигацию смотреть
+        return !this._options.hasHiddenItemsByVirtualScroll(direction)
+            && !this._options.shouldShowEmptyTemplate;
     }
 
     private _startIndicatorTimer(showIndicator: () => void): void {
