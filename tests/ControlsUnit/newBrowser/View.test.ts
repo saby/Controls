@@ -28,4 +28,55 @@ describe('Controls/_newBrowser:View', () => {
             assert.equal(browserInstance._tileCfg.tileSize, 'm');
         });
     });
+
+    describe('_updateBackgroundColor', () => {
+        it('with contrast background in options', () => {
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color',
+                    contrastBackground: false
+                }
+            });
+            assert.isFalse(browserInstance._contrastBackground);
+            assert.equal(browserInstance._detailBgColor, '#ffffff');
+        });
+
+        it('without contrast background in options', () => {
+            browserInstance._viewMode = 'tile';
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color'
+                }
+            });
+            assert.equal(browserInstance._detailBgColor, 'color');
+            assert.isFalse(browserInstance._contrastBackground);
+
+            browserInstance._viewMode = 'table';
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color'
+                }
+            });
+            assert.equal(browserInstance._detailBgColor, '#ffffff');
+            assert.isTrue(browserInstance._contrastBackground);
+
+            browserInstance._viewMode = 'search';
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color'
+                }
+            });
+            assert.equal(browserInstance._detailBgColor, '#ffffff');
+            assert.isTrue(browserInstance._contrastBackground);
+
+            browserInstance._viewMode = 'list';
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color'
+                }
+            });
+            assert.equal(browserInstance._detailBgColor, 'color');
+            assert.isFalse(browserInstance._contrastBackground);
+        });
+    });
 });
