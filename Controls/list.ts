@@ -12,7 +12,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
- * @includes IEditableList Controls/_list/interface/IEditableList
+ * @includes IEditableList Controls/_baseList/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
  * @includes DataContainer Controls/_list/Data
  * @includes editing Controls/list:editing
@@ -30,9 +30,9 @@
  * @includes MultiSelectAccessibility Controls/_display/Collection
  * @includes RemoveController Controls/_baseList/Controllers/RemoveController
  * @includes View Controls/_list/List
- * @includes IEditingConfig Controls/_list/interface/IEditableList/IEditingConfig
- * @includes IItemAddOptions Controls/_list/interface/IEditableList/IItemAddOptions
- * @includes IItemEditOptions Controls/_list/interface/IEditableList/IItemEditOptions
+ * @includes IEditingConfig Controls/_baseList/interface/IEditingConfig
+ * @includes IItemAddOptions Controls/_baseList/interface/IItemAddOptions
+ * @includes IItemEditOptions Controls/_baseList/interface/IItemEditOptions
  * @public
  * @author Крайнов Д.О.
  */
@@ -51,7 +51,7 @@
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @includes IReloadableList Controls/_list/interface/IReloadableList
- * @includes IEditableList Controls/_list/interface/IEditableList
+ * @includes IEditableList Controls/_baseList/interface/IEditableList
  * @includes IItemsView Controls/_list/IItemsView
  * @includes DataContainer Controls/_list/Data
  * @includes editing Controls/list:editing

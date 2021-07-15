@@ -16,16 +16,76 @@ describe('Controls/_newBrowser:View', () => {
             keyProperty: 'id'
         });
         browserInstance = new View();
+        browserInstance._detailExplorerOptions = {};
     });
     describe('_processItemsMetaData', () => {
         it('from metadata', () => {
             items.setMetaData({listConfiguration});
-            browserInstance._processItemsMetadata(items, {});
+            browserInstance._processItemsMetadata(items, {
+                detail: {
+                    columns: []
+                }
+            });
             assert.equal(browserInstance._tileCfg.tileSize, 'm');
         });
         it('from options', () => {
-            browserInstance._processItemsMetadata(items, {listConfiguration});
+            browserInstance._processItemsMetadata(items, {
+                listConfiguration, detail: {
+                    columns: []
+                }
+            });
             assert.equal(browserInstance._tileCfg.tileSize, 'm');
+        });
+    });
+
+    describe('_updateBackgroundColor', () => {
+        it('with contrast background in options', () => {
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color',
+                    contrastBackground: false
+                }
+            });
+            assert.isFalse(browserInstance._contrastBackground);
+            assert.equal(browserInstance._detailBgColor, '#ffffff');
+        });
+
+        it('without contrast background in options', () => {
+            browserInstance._viewMode = 'tile';
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color'
+                }
+            });
+            assert.equal(browserInstance._detailBgColor, 'color');
+            assert.isFalse(browserInstance._contrastBackground);
+
+            browserInstance._viewMode = 'table';
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color'
+                }
+            });
+            assert.equal(browserInstance._detailBgColor, '#ffffff');
+            assert.isTrue(browserInstance._contrastBackground);
+
+            browserInstance._viewMode = 'search';
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color'
+                }
+            });
+            assert.equal(browserInstance._detailBgColor, '#ffffff');
+            assert.isTrue(browserInstance._contrastBackground);
+
+            browserInstance._viewMode = 'list';
+            browserInstance._updateDetailBgColor({
+                detail: {
+                    backgroundColor: 'color'
+                }
+            });
+            assert.equal(browserInstance._detailBgColor, 'color');
+            assert.isFalse(browserInstance._contrastBackground);
         });
     });
 });

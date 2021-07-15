@@ -40,6 +40,7 @@ export interface IHeadingOptions
  * @author Красильников А.С.
  *
  * @demo Controls-demo/Heading/Title/SizesAndStyles/Index
+ * @demo Controls-demo/Heading/Group/Index
  *
  */
 class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFontColorStyle, IFontSize {

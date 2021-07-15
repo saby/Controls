@@ -107,7 +107,9 @@ class ListEditor extends BaseEditor {
     }
 
     protected _handleItemsReadyCallback(items: RecordSet): void {
-        this._items = items;
+        if (!this._items) {
+            this._items = items;
+        }
     }
 
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
@@ -144,8 +146,8 @@ class ListEditor extends BaseEditor {
             this._items.assign(result);
             this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
-        this._navigation = this._getNavigation(this._options);
-        this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
+        this._navigation = this._getNavigation(this._options, selectedKeys);
+        this._processPropertyValueChanged(selectedKeys, !this._options.multiSelect);
     }
 
     protected _handleFooterClick(event: SyntheticEvent): void {
@@ -170,15 +172,18 @@ class ListEditor extends BaseEditor {
         });
     }
 
-    protected _processPropertyValueChanged(value: string[] | number[], needCollapse: boolean, selectorResult?: Model[]): void {
-        const extendedValue = {
-            value,
-            textValue: this._getTextValue(selectorResult || value),
-            needCollapse: true
-        };
+    protected _processPropertyValueChanged(value: string[] | number[], needCollapse: boolean): void {
         this._selectedKeys = value;
         this._setColumns(this._options, this._selectedKeys);
-        this._notifyPropertyValueChanged(extendedValue, needCollapse);
+        this._notifyPropertyValueChanged(needCollapse);
+    }
+
+    protected _getExtendedValue(needCollapse?: boolean): object {
+        return {
+            value: this._selectedKeys,
+            textValue: this._getTextValue(this._selectedKeys),
+            needCollapse
+        };
     }
 
     protected _setColumns(options: IListEditorOptions, propertyValue: string[]|number[]): void {
@@ -215,8 +220,9 @@ class ListEditor extends BaseEditor {
         return event.target.closest('.controls-Grid__row').lastChild;
     }
 
-    private _getNavigation(options: IListEditorOptions): INavigationOptionValue<unknown> {
-        return this._selectedKeys.length ? null : options.navigation;
+    private _getNavigation(options: IListEditorOptions, selectedKeys?: string[]): INavigationOptionValue<unknown> {
+        const selectedKeysArray = selectedKeys || this._selectedKeys;
+        return selectedKeysArray.length ? null : options.navigation;
     }
 
     private _getSelectedItems(): List<Model> {

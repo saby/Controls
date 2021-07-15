@@ -4,7 +4,7 @@ import {RecordSet} from 'Types/collection';
 import {Control, TemplateFunction} from 'UI/Base';
 import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {IOptions} from 'Controls/_newBrowser/interfaces/IOptions';
-import {DetailViewMode} from 'Controls/_newBrowser/interfaces/IDetailOptions';
+import {DetailViewMode, IDetailOptions} from 'Controls/_newBrowser/interfaces/IDetailOptions';
 import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions';
 import {MasterVisibilityEnum} from 'Controls/_newBrowser/interfaces/IMasterOptions';
 import {IBrowserViewConfig, NodesPosition} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
@@ -15,6 +15,7 @@ import {CrudEntityKey} from 'Types/source';
 import {View as ExplorerView} from 'Controls/explorer';
 import {getListConfiguration} from 'Controls/_newBrowser/utils';
 import * as ViewTemplate from 'wml!Controls/_newBrowser/View/View';
+import {TColumns} from 'Controls/grid';
 import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/ListItemTemplate';
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
 import 'css!Controls/listTemplates';
@@ -22,6 +23,7 @@ import {ContextOptions as dataContext} from 'Controls/context';
 import {default as TileController} from 'Controls/_newBrowser/TemplateControllers/Tile';
 import {default as ListController} from 'Controls/_newBrowser/TemplateControllers/List';
 import {default as TableController} from 'Controls/_newBrowser/TemplateControllers/Table';
+import {object} from 'Types/util';
 
 //endregion
 
@@ -29,6 +31,8 @@ interface IReceivedState {
     masterItems?: RecordSet;
     detailItems: RecordSet;
 }
+
+const DEFAULT_BACKGROUND_COLOR = '#ffffff';
 
 /**
  * Компонент реализует стандартную раскладку и поведение двухколоночного реестра с master и detail списками:
@@ -40,8 +44,8 @@ interface IReceivedState {
  * @demo Controls-demo/NewBrowser/Index
  *
  * @private
- * @author Уфимцев Д.Ю.
- * @class Controls/newBrowser:Browser
+ * @author Михайлов С.Е
+ * @class Controls/newBrowser:View
  */
 export default class View extends Control<IOptions, IReceivedState> {
 
@@ -131,12 +135,6 @@ export default class View extends Control<IOptions, IReceivedState> {
      */
     protected _detailExplorerOptions: IExplorerOptions;
 
-    /**
-     * Базовая часть уникального идентификатора контрола,
-     * по которому хранится конфигурация в хранилище данных.
-     */
-    protected _basePropStorageId: string;
-
     protected _detailBgColor: string = '#ffffff';
     //endregion
 
@@ -186,23 +184,36 @@ export default class View extends Control<IOptions, IReceivedState> {
     private _onDetailDataLoadCallback(event: SyntheticEvent, items: RecordSet, direction: string): void {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
-        if (direction && this._detailExplorerOptions.imageProperty && !this._hasImageInItems) {
-            this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+        const rootChanged = this._dataContext.listsConfigs.detail.root  !== this._detailDataSource.getRoot();
+        const imageProperty = this._detailExplorerOptions.imageProperty;
+        if (!direction) {
+            this._processItemsMetadata(items);
+        }
+        if (imageProperty && (!this._hasImageInItems || rootChanged)) {
+            this._hasImageInItems = this._hasImages(items, imageProperty);
             const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
-            if (imageVisibility !== this._listCfg.getImageVisibility()) {
-                this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+            if (imageVisibility !== this._listCfg?.getImageVisibility()) {
                 this._listCfg.setImageVisibility(imageVisibility);
                 this._tileCfg.setImageVisibility(imageVisibility);
                 this._tableCfg.setImageVisibility(imageVisibility);
+                /*
+                    Восстанавливать скролл нужно только если фотки появились в текущем узле при подгрузке по скроллу
+                    Если видимость меняется при проваливании в папку, то скролл всегда будет в шапке списка.
+                */
+                if (imageVisibility === 'visible' && !rootChanged && direction) {
+                    this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+                }
             }
-            return;
         } else if (!this._hasImageInItems) {
-            this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+            this._hasImageInItems = this._hasImages(items, imageProperty);
         }
 
         if (this._newMasterVisibility) {
             this._masterVisibility = this._newMasterVisibility;
             this._newMasterVisibility = null;
+        }
+        if (this._detailExplorerOptions.dataLoadCallback) {
+            this._detailExplorerOptions.dataLoadCallback(items, direction);
         }
         this._processItemsMetadata(items);
     }
@@ -210,6 +221,10 @@ export default class View extends Control<IOptions, IReceivedState> {
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
         this._dataContext = contexts.dataContext;
         const isDetailRootChanged = this._dataContext.listsConfigs.detail.root !== this._detailDataSource.getRoot();
+        this._detailExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.detail, newOptions.detail);
+        this._masterExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.master, newOptions.master);
+        this._viewMode = newOptions.viewMode;
+
         if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
@@ -221,12 +236,9 @@ export default class View extends Control<IOptions, IReceivedState> {
                 this.viewMode === DetailViewMode.table ||
                 this.viewMode === DetailViewMode.search
             ) {
-                this._updateContrastBackground();
                 this._updateDetailBgColor();
             }
         }
-        this._detailExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.detail, newOptions.detail);
-        this._masterExplorerOptions = this._getListOptions(this._dataContext.listsConfigs.master, newOptions.master);
 
         //region update master
         const newMasterVisibility = View.calcMasterVisibility(newOptions);
@@ -283,7 +295,6 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._appliedViewMode = this.viewMode;
         this._updateMasterVisibility(options);
         this._updateDetailBgColor(options);
-        this._updateContrastBackground();
         if (this.viewMode === DetailViewMode.list) {
             this._listLoaded = true;
         } else if (this.viewMode === DetailViewMode.tile) {
@@ -358,6 +369,30 @@ export default class View extends Control<IOptions, IReceivedState> {
             imageVisibility,
             browserOptions: options
         });
+        this._detailExplorerOptions = {
+            ...this._detailExplorerOptions,
+            columns: this._getPatchedColumns(this._detailExplorerOptions.columns)
+        };
+    }
+
+    protected _getPatchedColumns(columns: TColumns): TColumns {
+        let newColumns = columns;
+        if (columns) {
+            newColumns = object.clone(columns);
+            newColumns.forEach((column) => {
+                const templateOptions = column.templateOptions || {};
+                templateOptions.tableCfg = this._tableCfg;
+                column.templateOptions = templateOptions;
+            });
+        }
+        return newColumns;
+    }
+
+    protected _afterRender(): void {
+        if (this._itemToScroll) {
+            this._children.detailList.scrollToItem(this._itemToScroll, true);
+            this._itemToScroll = null;
+        }
     }
 
     //endregion
@@ -381,6 +416,16 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._updateMasterVisibility(options);
     }
 
+    protected _getDetailBreadCrumbsVisibility(detailOptions: IDetailOptions): string {
+        if (detailOptions.breadcrumbsVisibility) {
+            return detailOptions.breadcrumbsVisibility;
+        } else {
+            return (this._masterVisibility === this._masterVisibilityEnum.visible ||
+            (this._appliedViewMode === this._viewModeEnum.search)
+                ? 'hidden' : 'visible');
+        }
+    }
+
     /**
      * Обновляет видимость master-колонки на основании опций и текущей конфигурации представления.
      * Если конфигурация не задана, то видимость вычисляется на основании опций, в противном
@@ -402,10 +447,16 @@ export default class View extends Control<IOptions, IReceivedState> {
 
     private _updateDetailBgColor(options: IOptions = this._options): void {
         // Для таблицы и режима поиска (по сути та же таблица) фон должен быть белый
-        if (this.viewMode === DetailViewMode.search || this.viewMode === DetailViewMode.table) {
-            this._detailBgColor = '#ffffff';
+        if (!options.detail.hasOwnProperty('contrastBackground')) {
+            if (this.viewMode === DetailViewMode.search || this.viewMode === DetailViewMode.table) {
+                this._detailBgColor = DEFAULT_BACKGROUND_COLOR;
+            } else {
+                this._detailBgColor = options.detail.backgroundColor || DEFAULT_BACKGROUND_COLOR;
+            }
+            this._updateContrastBackground();
         } else {
-            this._detailBgColor = options.detail.backgroundColor || '#ffffff';
+            this._contrastBackground = options.detail.contrastBackground;
+            this._detailBgColor = DEFAULT_BACKGROUND_COLOR;
         }
     }
 
@@ -465,6 +516,7 @@ export default class View extends Control<IOptions, IReceivedState> {
 
         return super._notify(eventName, args, options);
     }
+
     //endregion
 
     //region • static utils

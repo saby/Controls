@@ -13,8 +13,8 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
                 closest: () => {}
             }
         };
-        numberRangeEditor._notifyPropertyValueChanged = (extendedValue) => {
-            textValue = extendedValue.textValue;
+        numberRangeEditor._notify = (eventName, extendedValue) => {
+            textValue = extendedValue[0].textValue;
             changesNotified = true;
         };
 
@@ -91,6 +91,23 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
         it('minValue is equal to maxValue', () => {
             const value = [1, 1];
             assert.isTrue(numberRangeEditor._needNotifyChanges(value));
+        });
+    });
+
+    describe('_notifyPropertyValueChanged', () => {
+        const numberRangeEditor = new NumberRangeEditor({});
+        let value;
+        numberRangeEditor._notify = (eventName, extendedValue) => {
+            value = extendedValue[0].value;
+        };
+
+        it('extended value updated after input value changed', () => {
+            const minValue = 1;
+            const maxValue = 4;
+            numberRangeEditor._handleMinValueChanged(null, minValue);
+            numberRangeEditor._handleMaxValueChanged(null, maxValue);
+            numberRangeEditor._notifyPropertyValueChanged();
+            assert.deepEqual(value, [1, 4]);
         });
     });
 });
