@@ -1,5 +1,6 @@
-import { Collection, EIndicatorState } from 'Controls/display';
+import {Collection, EIndicatorState, ITriggerOffset} from 'Controls/display';
 import { RecordSet } from 'Types/collection';
+import {DEFAULT_BOTTOM_OFFSET, DEFAULT_TOP_OFFSET} from "Controls/_display/LoadingTrigger";
 
 export interface IIndicatorsControllerOptions {
     model: Collection;
@@ -225,6 +226,33 @@ export default class IndicatorsController {
         }
 
         return changed;
+    }
+
+    setLoadingTriggerOffset(offset: ITriggerOffset): void {
+        const newOffset = this._correctTriggerOffset(offset);
+        this._model.setLoadingTriggerOffset(newOffset);
+    }
+
+    /**
+     * Корректируем оффсет на высоту индикатора, т.к. триггер отображается абсолютно, то он рисуется от края вьюхи,
+     * а надо от края индикатора.
+     * Значение офссета = 0, нам не подходит, т.к. триггер находится за индикатором
+     * Поэтому дефолтный оффсет должен быть 48 для верхней ромашки и 47 для нижней.
+     * 47 - чтобы сразу же не срабатывала загрузка вверх, а только после скролла к ромашке.
+     * @param offset
+     * @private
+     */
+    private _correctTriggerOffset(offset: ITriggerOffset): ITriggerOffset {
+        const newOffset = {...offset};
+
+        if (this._model.hasLoadingIndicator('top')) {
+            newOffset.top = newOffset.top + DEFAULT_TOP_OFFSET;
+        }
+        if (this._model.hasLoadingIndicator('bottom')) {
+            newOffset.bottom = newOffset.bottom + DEFAULT_BOTTOM_OFFSET;
+        }
+
+        return newOffset;
     }
 
     // endregion Trigger

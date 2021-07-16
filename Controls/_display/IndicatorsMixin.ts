@@ -4,7 +4,7 @@ import Indicator, {
 } from './Indicator';
 import LoadingTrigger, {
     TLoadingTriggerPosition,
-    IOptions as ILoadingTriggerOptions,
+    IOptions as ILoadingTriggerOptions, DEFAULT_TOP_OFFSET, DEFAULT_BOTTOM_OFFSET,
 } from './LoadingTrigger';
 
 export interface ITriggerOffset {
@@ -141,9 +141,18 @@ export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
     private _createLoadingTrigger(position: TLoadingTriggerPosition): void {
         const isTopTrigger = position === 'top';
         const visible = !isTopTrigger;
+
+        let offset = 0;
+        if (isTopTrigger && this.hasLoadingIndicator('top')) {
+            offset = DEFAULT_TOP_OFFSET;
+        } else if (this.hasLoadingIndicator('bottom')) {
+            offset = DEFAULT_BOTTOM_OFFSET;
+        }
+
         const trigger = this.createItem({
             itemModule: 'Controls/display:LoadingTrigger',
             position,
+            offset,
             visible
         });
 

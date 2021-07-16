@@ -10,6 +10,7 @@ export const DEFAULT_BOTTOM_OFFSET = 48;
 
 export interface IOptions extends ICollectionOptions<null> {
     position: TLoadingTriggerPosition;
+    offset: number;
     visible: boolean;
 }
 
@@ -27,7 +28,6 @@ export default class LoadingTrigger extends CollectionItem<null> {
 
     constructor(options: IOptions) {
         super(options);
-        this._$offset = this._correctOffset(0);
     }
 
     get key(): string {
@@ -67,10 +67,9 @@ export default class LoadingTrigger extends CollectionItem<null> {
     }
 
     setOffset(offset: number): boolean {
-        const newOffset = this._correctOffset(offset);
-        const changed = this._$offset !== newOffset;
+        const changed = this._$offset !== offset;
         if (changed) {
-            this._$offset = newOffset;
+            this._$offset = offset;
             this._nextVersion();
         }
         return changed;
@@ -96,23 +95,6 @@ export default class LoadingTrigger extends CollectionItem<null> {
 
     getQAData(marker?: boolean): string {
         return this.key;
-    }
-
-    /**
-     * Корректируем оффсет. Значение офссета = 0, нам не подходит, т.к. триггер находится за индикатором
-     * Поэтому дефолтный оффсет должен быть 48 для верхней ромашки и 47 для нижней.
-     * 47 - чтобы сразу же не срабатывала загрузка вверх, а только после скролла к ромашке.
-     * @param offset
-     * @private
-     */
-    private _correctOffset(offset: number): number {
-        let newOffset = offset;
-
-        if (offset === 0) {
-            newOffset = this.isTopTrigger() ? DEFAULT_TOP_OFFSET : DEFAULT_BOTTOM_OFFSET
-        }
-
-        return newOffset;
     }
 }
 

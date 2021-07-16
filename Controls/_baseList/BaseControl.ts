@@ -2363,7 +2363,7 @@ const _private = {
             }
         }
         if (result.triggerOffset) {
-            self._listViewModel.setLoadingTriggerOffset(result.triggerOffset);
+            self._indicatorsController.setLoadingTriggerOffset(result.triggerOffset);
         }
         if (result.shadowVisibility) {
             self._updateShadowModeHandler(result.shadowVisibility);
