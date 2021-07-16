@@ -31,6 +31,7 @@ export default class TileView extends ListView {
 
     protected _animatedItemTargetPosition: string;
     protected _shouldPerformAnimation: boolean;
+    protected _targetItemRect: ClientRect;
 
     protected _beforeMount(options: any): void {
         super._beforeMount(options);
@@ -40,6 +41,18 @@ export default class TileView extends ListView {
         this._notify('register', ['controlResize', this, this._onResize], {bubbling: true});
         this._notify('register', ['scroll', this, this._onScroll, {listenAll: true}], {bubbling: true});
         super._afterMount(options);
+    }
+
+    protected _onItemContextMenu(event: Event, item: TileCollectionItem): void {
+        if (this._listModel.getTileScalingMode() === 'preview') {
+
+            // не начинаем анимацию, если открываем меню, иначе, из-за анимации, меню может позиционироваться криво
+            if (!item.isScaled()) {
+                item.setAnimated(false);
+                item.setFixedPositionStyle('');
+            }
+        }
+        super._onItemContextMenu(event, item);
     }
 
     private _onResize(event: SyntheticEvent<AnimationEvent>): void {
@@ -165,19 +178,20 @@ export default class TileView extends ListView {
                 return null;
             }
 
-            const imageWrapperRect = imageWrapper.getBoundingClientRect();
+            const targetItemSize = getItemSize(itemContainer, this._listModel.getZoomCoefficient(), this._listModel.getTileMode());
+
             menuOptions.image = item.getImageUrl();
             menuOptions.title = item.getDisplayValue();
             menuOptions.additionalText = item.item.get(menuOptions.headerAdditionalTextProperty);
             menuOptions.imageClasses = item.getImageClasses();
-            menuOptions.previewHeight = imageWrapperRect.height;
-            menuOptions.previewWidth = imageWrapperRect.width;
+            menuOptions.previewHeight = this._targetItemRect && item.isScaled() ? this._targetItemRect.height : targetItemSize.height;
+            menuOptions.previewWidth = this._targetItemRect && item.isScaled() ? this._targetItemRect.width : targetItemSize.width;
 
             return {
                 templateOptions: menuOptions,
                 closeOnOutsideClick: true,
                 maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
-                target: imageWrapper,
+                target: this._targetItemRect ? {getBoundingClientRect: () => this._targetItemRect} : imageWrapper,
                 className: `controls-TileView__itemActions_menu_popup controls_popupTemplate_theme-${this._options.theme}`,
                 targetPoint: {
                     vertical: 'top',
@@ -196,9 +210,7 @@ export default class TileView extends ListView {
     }
 
     private _shouldOpenExtendedMenu(isActionMenu: boolean, isContextMenu: boolean, item: TileCollectionItem): boolean {
-        const isScalingTile = this._options.tileScalingMode !== 'none' &&
-            this._options.tileScalingMode !== 'overlap';
-        return this._options.actionMenuViewMode === 'preview' && !isActionMenu && !(isScalingTile && isContextMenu);
+        return this._options.actionMenuViewMode === 'preview' && !isActionMenu;
     }
 
     protected _onItemMouseEnter(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
@@ -280,7 +292,7 @@ export default class TileView extends ListView {
             viewContainerRect,
             documentRect
         );
-
+        this._targetItemRect = {...targetItemSize, ...targetItemPositionInDocument};
         // TODO This should probably be moved to some kind of animation manager
         if (targetItemPositionInDocument) {
             const targetPositionStyle = this._convertPositionToStyle(targetItemPositionInDocument);
