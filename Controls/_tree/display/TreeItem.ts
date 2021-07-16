@@ -18,12 +18,6 @@ export default class TreeItem<T extends Model = Model>
     readonly EnumerableItem: boolean = true;
     readonly DraggableItem: boolean = true;
 
-    // region Expander
-    shouldDisplayExpanderBlock(): boolean {
-        return this._$owner.getExpanderVisibility() === 'hasChildren' ? this._$owner.hasNodeWithChildren() : true;
-    }
-    // endregion Expander
-
     // region Classes
     getTreeWrapperClasses(): string {
         let classes = 'controls-Tree__itemContentTreeWrapper';
