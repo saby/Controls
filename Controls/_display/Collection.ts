@@ -2615,7 +2615,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     setHasMoreData(hasMoreData: IHasMoreData): void {
         if (!isEqual(this._$hasMoreData, hasMoreData)) {
             this._$hasMoreData = hasMoreData;
-            this._updateEdgeItemsSeparators();
+            this._updateEdgeItemsSeparators(true);
             this._nextVersion();
         }
     }
