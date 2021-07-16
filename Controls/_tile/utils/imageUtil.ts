@@ -164,7 +164,7 @@ export function getImageRestrictions(
  * @param {number} zoomCoefficient Коэффициент увеличения размеров при ховере
  * @param {TTileMode} tileMode Режим отображения плитки
  */
-export function getItemSize(item: HTMLElement, zoomCoefficient: number, tileMode: TTileMode): void {
+export function getItemSize(item: HTMLElement, zoomCoefficient: number, tileMode: TTileMode): IImageSize {
     var
         result,
         rectAfterZoom,
