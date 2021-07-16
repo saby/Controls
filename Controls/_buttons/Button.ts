@@ -116,7 +116,6 @@ export function getDefaultOptions(): object {
  * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/buttons-switches/buttons-links/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/6156a9009ee88d96bf73c8b1200e197f9db1c3c8/Controls-default-theme/variables/_buttons.less переменные тем оформления}
  *
- * @class Controls/_buttons/Button
  * @extends UI/Base:Control
  * @mixes Controls/interface:IHref
  * @mixes Controls/buttons:IButton
@@ -221,12 +220,12 @@ Object.defineProperty(Button, 'defaultProps', {
 
 /**
  * @name Controls/_buttons/Button#viewMode
- * @cfg {Enum} Режим отображения кнопки.
+ * @cfg {String} Режим отображения кнопки.
  * @variant button В виде обычной кнопки по-умолчанию.
  * @variant link В виде гиперссылки.
  * @variant linkButton В виде гиперссылки, имеет высоту.
  * @variant toolButton В виде кнопки для панели инструментов.
- * @variant functionalButton В виде кнопки выполняющей определенную функцию. Например добавление или сохранение.
+ * @variant functionalButton В виде кнопки выполняющей определенную функцию, например добавление или сохранение.
  * @default button
  * @demo Controls-demo/Buttons/ViewModes/Index
  * @example
@@ -290,6 +289,7 @@ Object.defineProperty(Button, 'defaultProps', {
 
 /**
  * @name Controls/_buttons/Button#textAlign
+ * @cfg {String} Выравнивание текста кнопки.
  * @variant left Текст выравнивается по левой стороне.
  * @variant right Текст выравнивается по правой стороне.
  * @variant center Текст выравнивается по центру.
