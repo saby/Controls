@@ -106,12 +106,10 @@ export default class LoadingTrigger extends CollectionItem<null> {
      * @private
      */
     private _correctOffset(offset: number): number {
-        let newOffset;
+        let newOffset = offset;
 
-        if (this.isTopTrigger() && offset === 0) {
-            newOffset = DEFAULT_TOP_OFFSET
-        } else if (this.isBottomTrigger() && offset === 0) {
-            newOffset = DEFAULT_BOTTOM_OFFSET;
+        if (offset === 0) {
+            newOffset = this.isTopTrigger() ? DEFAULT_TOP_OFFSET : DEFAULT_BOTTOM_OFFSET
         }
 
         return newOffset;
