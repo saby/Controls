@@ -16,6 +16,7 @@
                         validationStatus="{{_options.validationStatus}}"
                         wasActionByUser="{{_wasActionUser}}"
                         contrastBackground="{{ _options.contrastBackground }}"
+                        horizontalPadding="{{_horizontalPadding}}"
                         on:mouseenter="_mouseEnterHandler()"
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">
