@@ -1,0 +1,36 @@
+<div class="ControlsDemo-ButtonsMenu" style="padding: 50px;">
+    <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__fourthWrapper">
+       <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__alignSubMenuDown">
+          <h4>subMenuDirection = bottom</h4>
+          <Controls.dropdown:Button
+                  keyProperty="id"
+                  buttonStyle="secondary"
+                  fontColorStyle="link"
+                  viewMode="link"
+                  caption="Document"
+                  subMenuDirection="bottom"
+                  parentProperty="parent"
+                  nodeProperty="@parent"
+                  source="{{_source}}"
+                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__levels"
+                  tooltip="Document">
+          </Controls.dropdown:Button>
+       </div>
+       <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__alignSubMenuDown_icons">
+          <h4>subMenuDirection = bottom with icons</h4>
+          <Controls.dropdown:Button
+                  keyProperty="id"
+                  buttonStyle="secondary"
+                  fontColorStyle="link"
+                  viewMode="link"
+                  caption="Document"
+                  subMenuDirection="bottom"
+                  parentProperty="parent"
+                  nodeProperty="@parent"
+                  source="{{_sourceWithIcons}}"
+                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__levels"
+                  tooltip="Document">
+          </Controls.dropdown:Button>
+       </div>
+    </div>
+ </div>
