@@ -148,6 +148,10 @@ export default class Collection<
         }
     }
 
+    /**
+     * Пересчитывает номера колонок у записей
+     * @param {number} [offset=-1] - пропустить записи до записи с индексом offset. (-1 - обновить все записи)
+     */
     private updateColumns(offset: number = -1): void {
         this._addingColumnsCounter = 0;
         this._columnsIndexes = null;
