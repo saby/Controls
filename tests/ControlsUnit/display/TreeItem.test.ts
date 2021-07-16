@@ -171,6 +171,24 @@ describe('Controls/_display/TreeItem', () => {
     });
 
     describe('expander', () => {
+        it('.shouldDisplayExpandedBlock()', () => {
+            const owner = {
+                getExpanderVisibility: () => 'hasChildren',
+                hasNodeWithChildren: () => false,
+                hasNode: () => false
+            };
+            const item = new TreeItem({ owner});
+
+            assert.isFalse(item.shouldDisplayExpanderBlock());
+            owner.hasNodeWithChildren = () => true;
+            assert.isTrue(item.shouldDisplayExpanderBlock());
+
+            owner.getExpanderVisibility = () => 'visible';
+            assert.isFalse(item.shouldDisplayExpanderBlock());
+            owner.hasNode = () => true;
+            assert.isTrue(item.shouldDisplayExpanderBlock());
+        });
+
         it('.shouldDisplayExpander()', () => {
             let expanderPosition = 'default';
 
