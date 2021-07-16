@@ -1,5 +1,6 @@
 <Controls.calendar:MonthList
    attachLoadTopTriggerToNull="{{ false }}"
+   attachLoadDownTriggerToNull="{{ false }}"
    attr:class="controls_datePicker_theme-{{_options.theme}} controls-PeriodDialog-MonthsRange"
    segmentSize="5"
    virtualPageSize="{{5}}"
