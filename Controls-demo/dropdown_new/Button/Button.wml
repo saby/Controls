@@ -110,5 +110,15 @@
                 <Controls-demo.dropdown_new.Button.OpenToLeft.Index/>
             </div>
         </div>
+        <div class="controlsDemo-Dropdown_button_openToLeft_column">
+            <div class="controlsDemo__cell">
+                <Router.router:Reference attr:class="controls-text-label"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/dropdown_new/Button/SubMenuDirection/Index' }}">
+                    <a href="{{content.href}}">Open to left</a>
+                </Router.router:Reference>
+                <Controls-demo.dropdown_new.Button.SubMenuDirection.Index/>
+            </div>
+        </div>
     </div>
 </Controls.scroll:Container>

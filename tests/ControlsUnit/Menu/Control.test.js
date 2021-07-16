@@ -822,6 +822,31 @@ define(
             assert.equal(actualConfig, 'testSource');
          });
 
+         it('getMenuPopupOffset', async function() {
+            const menuControl = getMenu();
+            menuControl._listModel = getListModel();
+            const item = new display.CollectionItem({
+               contents: new entity.Model({
+                  rawData: {
+                     source: 'testSource',
+                     icon: 'icon',
+                     iconSize: 'm'
+                  }
+               })
+            });
+            const iconSize = item.contents.get('iconSize');
+            const paddingSize = menuControl._listModel.getLeftPadding().toLowerCase();
+            const options = Clone(defaultOptions);
+            options.subMenuDirection = 'bottom';
+            options.theme = 'default';
+
+            const expectedOffset = ` controls_dropdownPopup_theme-${options.theme}` +
+               ` controls-Menu__alignSubMenuDown_iconSize_${iconSize}_offset_${paddingSize}`;
+
+            const menuPopupOffset = menuControl._getMenuPopupOffsetClass(item, options);
+            assert.deepEqual(menuPopupOffset, expectedOffset);
+         });
+
          it('isSelectedKeysChanged', function() {
             let menuControl = getMenu();
             let initKeys = [];

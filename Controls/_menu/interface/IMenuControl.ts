@@ -15,6 +15,8 @@ import {RecordSet} from 'Types/collection';
 
 export type TKey = string|number|null;
 
+export type TSubMenuDirection = 'bottom' | 'right';
+
 export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, IBackgroundStyle,
     IBackgroundStyleOptions, INavigationOptions<INavigationSourceConfig>, IFilterOptions, ISelectorDialogOptions {
     items?: RecordSet;
@@ -30,6 +32,7 @@ export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, I
     sourceController?: NewSourceController;
     calmTimer?: CalmTimer;
     historyRoot?: string;
+    subMenuDirection?: TSubMenuDirection;
 }
 
 /**
@@ -139,4 +142,17 @@ export default interface IMenuControl {
  * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню.
  * Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/input-elements/dropdown-menu/item-config/#additional">здесь</a>.
  * @demo Controls-demo/dropdown_new/Button/AdditionalProperty/Index
+ */
+
+/**
+ * @typedef {String} subMenuDirection
+ * @variant right Значение, соответствующее раскрытию меню в бок.
+ * @variant bottom Значение, соответствующее раскрытию меню вниз.
+ */
+
+/**
+ * @name Controls/_menu/interface/IMenuControl#subMenuDirection
+ * @cfg {subMenuDirection} Имя свойства, отвечающего за то, как будут раскрываться подуровни меню.
+ * @default right
+ * @demo Controls-demo/dropdown_new/Button/SubMenuDirection/Index
  */

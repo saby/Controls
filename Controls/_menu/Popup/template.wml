@@ -106,6 +106,7 @@
                        subMenuLevel="{{_options.subMenuLevel}}"
                        theme="{{_options.theme}}"
                        calmTimer="{{_calmTimer}}"
+                       subMenuDirection ="{{_options.subMenuDirection}}"
                        on:itemClick="_sendResult('itemClick')"
                        on:moreButtonClick="_sendResult('selectorDialogOpened')"
                        on:pinClick="_sendResult('pinClick')"
