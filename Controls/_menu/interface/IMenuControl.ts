@@ -15,7 +15,7 @@ import {RecordSet} from 'Types/collection';
 
 export type TKey = string|number|null;
 
-export type TAlignSublevel = 'down' | 'right';
+export type TSubMenuDirection = 'bottom' | 'right';
 
 export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, IBackgroundStyle,
     IBackgroundStyleOptions, INavigationOptions<INavigationSourceConfig>, IFilterOptions, ISelectorDialogOptions {
@@ -32,7 +32,7 @@ export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, I
     sourceController?: NewSourceController;
     calmTimer?: CalmTimer;
     historyRoot?: string;
-    alignSublevel?: TAlignSublevel;
+    subMenuDirection?: TSubMenuDirection;
 }
 
 /**
@@ -145,14 +145,14 @@ export default interface IMenuControl {
  */
 
 /**
- * @typedef {String} alignSublevel
+ * @typedef {String} subMenuDirection
  * @variant right Значение, соответствующее раскрытию меню в бок.
- * @variant down  Значение, соответствующее раскрытию меню вниз.
+ * @variant bottom Значение, соответствующее раскрытию меню вниз.
  */
 
 /**
- * @name Controls/_menu/interface/IMenuControl#alignSublevel
- * @cfg {alignSublevel} Имя свойства, отвечающего за то, как будут раскрываться подуровни меню.
+ * @name Controls/_menu/interface/IMenuControl#subMenuDirection
+ * @cfg {subMenuDirection} Имя свойства, отвечающего за то, как будут раскрываться подуровни меню.
  * @default right
- * @demo Controls-demo/dropdown_new/Button/MenuAlignSublevel/MenuAlignSublevel
+ * @demo Controls-demo/dropdown_new/Button/SubMenuDirection/Index
  */

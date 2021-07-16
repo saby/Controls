@@ -953,7 +953,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         // just check _children to make sure, that the control isn't destroyed
         if (item && this._children.Sticky && this._subDropdownItem) {
             this._getPopupOptions(target, item).then((popupOptions) => {
-                this._notify('beforeSubMenuOpen', [popupOptions, this._options.alignSublevel]);
+                this._notify('beforeSubMenuOpen', [popupOptions, this._options.subMenuDirection]);
                 this._children.Sticky.open(popupOptions);
             });
         }
@@ -962,17 +962,17 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     private _getMenuPopupOffsetClass(item: CollectionItem<Model>, options: object): string {
         let classes = '';
 
-        if (options.alignSublevel === 'down') {
+        if (options.subMenuDirection === 'bottom') {
             const paddingSize = this._listModel.getLeftPadding().toLowerCase();
             const hasIcon = item.contents.get('icon');
-            const iconSize = item.contents.get('iconSize');
+            const iconSize = item.contents.get('iconSize') || options.iconSize || 'm';
 
             classes = ` controls_dropdownPopup_theme-${options.theme}`;
 
             if (!!hasIcon) {
-                classes += ` controls-Menu__alignSublevelDown_iconSize_${iconSize || options.iconSize || 'm'}_offset_${paddingSize}`;
+                classes += ` controls-Menu__alignSubMenuDown_iconSize_${iconSize}_offset_${paddingSize}`;
             } else {
-                classes += ` controls-Menu__alignSublevelDown_offset_${paddingSize}`
+                classes += ` controls-Menu__alignSubMenuDown_offset_${paddingSize}`
             }
         }
 
@@ -980,14 +980,14 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getPopupOptions(target: EventTarget, item: CollectionItem<Model>): Promise<object> {
-        const alignSublevel = this._options.alignSublevel;
+        const subMenuDirection = this._options.subMenuDirection;
         const direction = {
             vertical: 'bottom',
             horizontal: 'right'
         };
         const targetPoint = {
-            vertical: alignSublevel === 'down' ? 'bottom' : 'top',
-            horizontal: alignSublevel === 'down' ? 'left' : 'right'
+            vertical: subMenuDirection === 'bottom' ? 'bottom' : 'top',
+            horizontal: subMenuDirection === 'bottom' ? 'left' : 'right'
         };
         const className = 'controls-Menu__subMenu controls-Menu__subMenu_margin' +
             ` controls_popupTemplate_theme-${this._options.theme}` +
@@ -1209,7 +1209,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         itemPadding: {},
         markerVisibility: 'onactivated',
         hoverBackgroundStyle: 'default',
-        alignSublevel: 'right'
+        subMenuDirection: 'right'
     };
 }
 /**

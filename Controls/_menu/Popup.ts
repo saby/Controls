@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import IMenuPopup, {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
 import PopupTemplate = require('wml!Controls/_menu/Popup/template');
-import {TAlignSublevel} from 'Controls/_menu/interface/IMenuControl';
+import {TSubMenuDirection} from 'Controls/_menu/interface/IMenuControl';
 import {default as MenuControl} from 'Controls/_menu/Control';
 import {default as searchHeaderTemplate} from 'Controls/_menu/Popup/searchHeaderTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -178,9 +178,9 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         }
     }
 
-    protected _prepareSubMenuConfig(event: SyntheticEvent<MouseEvent>, popupOptions: IStickyPopupOptions, alignSublevel: TAlignSublevel): void {
+    protected _prepareSubMenuConfig(event: SyntheticEvent<MouseEvent>, popupOptions: IStickyPopupOptions, subMenuDirection: TSubMenuDirection): void {
         // The first level of the popup is always positioned on the right by standard
-        if (this._options.root && alignSublevel === 'right') {
+        if (this._options.root && subMenuDirection === 'right') {
             popupOptions.direction.horizontal = this._horizontalDirection;
             popupOptions.targetPoint.horizontal = this._horizontalDirection;
         }

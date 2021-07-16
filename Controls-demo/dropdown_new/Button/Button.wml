@@ -114,10 +114,10 @@
             <div class="controlsDemo__cell">
                 <Router.router:Reference attr:class="controls-text-label"
                                          state="/Controls-demo/app/:app"
-                                         app="{{ 'Controls-demo/dropdown_new/Button/MenuAlignSublevel/MenuAlignSublevel' }}">
+                                         app="{{ 'Controls-demo/dropdown_new/Button/SubMenuDirection/Index' }}">
                     <a href="{{content.href}}">Open to left</a>
                 </Router.router:Reference>
-                <Controls-demo.dropdown_new.Button.MenuAlignSublevel.MenuAlignSublevel/>
+                <Controls-demo.dropdown_new.Button.SubMenuDirection.Index/>
             </div>
         </div>
     </div>

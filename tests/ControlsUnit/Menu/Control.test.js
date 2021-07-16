@@ -837,11 +837,11 @@ define(
             const iconSize = item.contents.get('iconSize');
             const paddingSize = menuControl._listModel.getLeftPadding().toLowerCase();
             const options = Clone(defaultOptions);
-            options.alignSublevel = 'down';
+            options.subMenuDirection = 'bottom';
             options.theme = 'default';
 
             const expectedOffset = ` controls_dropdownPopup_theme-${options.theme}` +
-               ` controls-Menu__alignSublevelDown_iconSize_${iconSize}_offset_${paddingSize}`;
+               ` controls-Menu__alignSubMenuDown_iconSize_${iconSize}_offset_${paddingSize}`;
 
             const menuPopupOffset = menuControl._getMenuPopupOffsetClass(item, options);
             assert.deepEqual(menuPopupOffset, expectedOffset);
