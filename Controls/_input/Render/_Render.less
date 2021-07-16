@@ -254,12 +254,7 @@
 }
 
 .controls-Render_borderRadius {
-   @variants: xs, s, m, l, xl, 2xl, default;
-   .for(@variants, {
-      &-@{_item} {
-         border-radius: ~"var(--border-radius_@{_item}_inputText)";
-      }
-   });
+   border-radius: var(--border-radius_default_inputText);
 }
 
 //fontsize
