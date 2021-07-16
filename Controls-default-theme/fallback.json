@@ -1017,7 +1017,7 @@
   "--item_icon_offset_menu": "var(--offset_xs)",
   "--hierarchy_icon-size_menu": "var(--icon-size_s)",
   "--hierarchy_icon-color_menu": "var(--secondary_icon-color)",
-
+  "--readonly_hierarchy_icon-color_menu": "var(--readonly_color)",
   "--hierarchy_icon_offset-right_menu": "var(--offset_xs)",
   "--hierarchy_icon_offset-left_menu": "var(--offset_xs)",
   "--pin-button_offset-right_menu": "var(--offset_m)",
