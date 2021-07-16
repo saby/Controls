@@ -68,6 +68,9 @@ export default class Collection<
         }
         if (action === 'rm') {
             this.processRemoving(oldItemsIndex, oldItems);
+            if (this._dragColumn === null && this._$viewMode === 'list') {
+                this.updateColumns();
+            }
         }
         if (action === 'rs') {
             this.updateColumns();
@@ -145,7 +148,11 @@ export default class Collection<
         }
     }
 
-    private updateColumns(offset: number = 0): void {
+    /**
+     * Пересчитывает номера колонок у записей
+     * @param {number} [offset=-1] - пропустить записи до записи с индексом offset. (-1 - обновить все записи)
+     */
+    private updateColumns(offset: number = -1): void {
         this._addingColumnsCounter = 0;
         this._columnsIndexes = null;
         this.each((item: T, index: number) => {
