@@ -270,6 +270,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
         if (MenuControl._isPinIcon(sourceEvent.target)) {
             this._pinClick(event, item);
+        } else if (MenuControl._isRightTemplateClick(sourceEvent.target)) {
+            this._rightTemplateClick(event, item);
         } else {
             if (this._options.multiSelect && this._selectionChanged &&
                 !this._isEmptyItem(treeItem.getContents()) && !MenuControl._isFixedItem(item)) {
@@ -369,6 +371,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _pinClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
         this._notify('pinClick', [item]);
+    }
+
+    private _rightTemplateClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
+        this._notify('rightTemplateClick', [item]);
     }
 
     private _isTouch(): boolean {
@@ -1151,6 +1157,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private static _isPinIcon(target: EventTarget): boolean {
         return !!((target as HTMLElement)?.closest('.controls-Menu__iconPin'));
+    }
+
+    private static _isRightTemplateClick(target: EventTarget): boolean {
+        return !!((target as HTMLElement)?.closest('.controls-Menu__row__rightTemplate_wrapper'));
     }
 
     private static _calculatePointRelativePosition(firstSegmentPointX: number,
