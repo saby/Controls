@@ -17,10 +17,6 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover?: boolean, templateHoverBackgroundStyle?: string): string {
         let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
 
-        if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn() && isFullGridSupport()) {
-            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
-        }
-
         if (this._$owner.isDragTargetNode()) {
             classes += ' controls-TreeGridView__dragTargetNode';
             if (this.isFirstColumn()) {
@@ -52,6 +48,15 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
         return classes;
     }
 
+    getContentClasses(theme: string, backgroundColorStyle: string = this._$column.backgroundColorStyle, cursor: string = 'pointer', templateHighlightOnHover: boolean = true, tmplIsEditable: boolean = true): string {
+        let classes = super.getContentClasses(theme, backgroundColorStyle, cursor, templateHighlightOnHover, tmplIsEditable);
+
+        if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn() && isFullGridSupport()) {
+            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
+        }
+        return classes;
+    }
+
     isDragTargetNode(): boolean {
         return this._$isDragTargetNode;
     }
@@ -73,18 +78,6 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
             classes += ' controls-TreeGrid__row-cell__hiddenNode';
         } else {
             classes += ' controls-TreeGrid__row-cell__item';
-        }
-
-        return classes;
-    }
-
-    protected _getHorizontalPaddingClasses(cellPadding: ICellPadding): string {
-        let classes = super._getHorizontalPaddingClasses(cellPadding);
-
-        // если текущая колонка первая и для нее не задан мультиселект, то убираем левый отступ
-        const hasMultiSelect = this._$owner.hasMultiSelectColumn();
-        if (this.isFirstColumn() && !hasMultiSelect || this.getColumnIndex() === 1 && hasMultiSelect) {
-            classes += ' controls-TreeGrid__row-cell__firstColumn__contentSpacing_null';
         }
 
         return classes;

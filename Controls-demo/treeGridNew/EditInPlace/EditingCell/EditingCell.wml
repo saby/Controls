@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <Controls.treeGrid:View keyProperty="key"
+                            source="{{_viewSource}}"
+                            columns="{{_columns}}"
+                            parentProperty="parent"
+                            nodeProperty="type">
+        <ws:editingConfig editOnClick="{{ true }}" mode="cell"/>
+    </Controls.treeGrid:View>
+</div>
