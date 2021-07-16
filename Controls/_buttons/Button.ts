@@ -294,6 +294,7 @@ Object.defineProperty(Button, 'defaultProps', {
  * @variant right Текст выравнивается по правой стороне.
  * @variant center Текст выравнивается по центру.
  * @default center
+ * @demo Controls-demo/Buttons/TextAlign/Index
  */
 
 /**
