@@ -112,6 +112,14 @@ function onCollectionChange<T>(
         this.instance.resetHasNode();
     }
 
+    if (action == IObservable.ACTION_CHANGE) {
+        if (this.instance.__isChangedValueInParentProperty(oldItems, newItems)) {
+            const session = this.instance._startUpdateSession();
+            this.instance._reBuild(true);
+            this.instance._finishUpdateSession(session, true);
+        }
+    }
+
     if (action === IObservable.ACTION_RESET) {
         this.instance.setExpandedItems(this.instance.getExpandedItems());
     }
@@ -144,6 +152,12 @@ function onCollectionItemChange<T extends Model>(event: EventObject, item: T, in
         displayItem.setNode(item.get(this.instance.getNodeProperty()));
 
         this.instance.resetHasNode();
+    }
+
+    if (this.instance.__isChangedValueInParentProperty(null, null, properties)) {
+        const session = this.instance._startUpdateSession();
+        this.instance._reBuild(true);
+        this.instance._finishUpdateSession(session, true);
     }
 }
 
@@ -581,6 +595,8 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region Public methods
 
+    // region ParentProperty
+
     /**
      * Возвращает название свойства, содержащего идентификатор родительского узла
      */
@@ -600,6 +616,36 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._setImportantProperty(name);
         this._reBuild(true);
     }
+
+    /**
+     * @param oldItems
+     * @param newItems
+     * @param changedProperties Объект содержащий измененные свойства элемента
+     * @private
+     */
+    protected __isChangedValueInParentProperty(oldItems?: S[], newItems?: S[], changedProperties?: Object): boolean {
+        if (changedProperties) {
+            return changedProperties.hasOwnProperty(this.getParentProperty());
+        } else {
+            let changed = false;
+
+            for (let i = 0; i < oldItems.length; i++) {
+                // oldItem и newItem в событии приходят как один и тот же рекорд, поэтому мы не можем узнать
+                // так старое значение, но у нас есть CollectionItem, в котором хрантся старое значение
+                const oldCollectionItem = this.getItemBySourceItem(oldItems[i]);
+                const oldValue = oldCollectionItem.getParent().key;
+                const newValue = newItems[i].get(this.getParentProperty());
+                if (oldValue !== newValue) {
+                    changed = true;
+                    break;
+                }
+            }
+
+            return changed;
+        }
+    }
+
+    // endregion ParentProperty
 
     /**
      * Возвращает название свойства, содержащего признак узла

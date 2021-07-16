@@ -1421,6 +1421,18 @@ describe('Controls/_display/Tree', () => {
                     newItemsIndex: 0,
                     oldItems: [1, 11, 111, 1111],
                     oldItemsIndex: 0
+                }, {
+                    action: IBindCollectionDisplay.ACTION_REMOVE,
+                    newItems: [],
+                    newItemsIndex: 0,
+                    oldItems: [1, 11, 111, 1111],
+                    oldItemsIndex: 0
+                }, {
+                    action: IBindCollectionDisplay.ACTION_ADD,
+                    newItems: [1, 11, 111, 1111],
+                    newItemsIndex: 0,
+                    oldItems: [],
+                    oldItemsIndex: 0
                 }];
                 const given = [];
                 const handler = getCollectionChangeHandler(given, (item) => item.getContents().get('id'));
@@ -1452,6 +1464,18 @@ describe('Controls/_display/Tree', () => {
                     newItemsIndex: 3,
                     oldItems: ['AC'],
                     oldItemsIndex: 3
+                }, {
+                    action: IBindCollectionDisplay.ACTION_REMOVE,
+                    newItems: [],
+                    newItemsIndex: 0,
+                    oldItems: ['A', 'AA', 'AB', 'AC', 'ACA', 'ACB', 'ACC', 'D', 'B', 'BA', 'BAA', 'BAAA', 'C'],
+                    oldItemsIndex: 0
+                }, {
+                    action: IBindCollectionDisplay.ACTION_ADD,
+                    newItems: ['A', 'AA', 'AB', 'AC', 'ACA', 'ACB', 'ACC', 'D', 'B', 'BA', 'BAA', 'BAAA', 'C'],
+                    newItemsIndex: 0,
+                    oldItems: [],
+                    oldItemsIndex: 0
                 }];
                 const given = [];
                 const handler = getCollectionChangeHandler(given, (item) => item.getContents().get('title'));
@@ -1487,6 +1511,18 @@ describe('Controls/_display/Tree', () => {
                     newItemsIndex: 10,
                     oldItems: ['BA'],
                     oldItemsIndex: 10
+                }, {
+                    action: IBindCollectionDisplay.ACTION_REMOVE,
+                    newItems: [],
+                    newItemsIndex: 0,
+                    oldItems: ['A', 'AA', 'AB', 'AC', 'ACA', 'ACB', 'ACC', 'BAA', 'BAAA', 'B', 'BA', 'C', 'D'],
+                    oldItemsIndex: 0
+                }, {
+                    action: IBindCollectionDisplay.ACTION_ADD,
+                    newItems: ['A', 'AA', 'AB', 'AC', 'ACA', 'ACB', 'ACC', 'BAA', 'BAAA', 'B', 'BA', 'C', 'D'],
+                    newItemsIndex: 0,
+                    oldItems: [],
+                    oldItemsIndex: 0
                 }];
                 const given = [];
                 const handler = getCollectionChangeHandler(given, (item) => item.getContents().get('title'));
