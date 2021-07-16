@@ -981,7 +981,6 @@
 
   "--tabs_offset-top_suggestSearch": "0",
 
-  "--trigger_icon-size_combobox": "var(--icon-size_toggleSeparator)",
   "--trigger_padding-right_combobox": "var(--offset_2xs)",
   "--inline_height_default_link_button": "18px",
   "--height_dropdownSelector": "var(--inline_height_default)",
