@@ -1,5 +1,5 @@
 <Controls._suggest._InputController
-   attr:class="{{_options.suggestState ? 'controls-Scroll_webkitOverflowScrollingTouch'}}"
+   attr:class="{{_options.suggestState ? 'controls-Scroll_webkitOverflowScrollingTouch'}} controls_toggle_theme-{{_options.theme}}"
    on:choose="_choose()"
    on:deactivated="_deactivated()"
    on:suggestStateChanged="_suggestStateChanged()"
