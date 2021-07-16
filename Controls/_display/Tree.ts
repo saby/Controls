@@ -113,7 +113,7 @@ function onCollectionChange<T>(
     }
 
     if (action == IObservable.ACTION_CHANGE) {
-        if (this.instance.__isChangedValueInParentProperty(oldItems, newItems)) {
+        if (this.instance._isChangedValueInParentProperty(oldItems, newItems)) {
             const session = this.instance._startUpdateSession();
             this.instance._reBuild(true);
             this.instance._finishUpdateSession(session, true);
@@ -154,7 +154,7 @@ function onCollectionItemChange<T extends Model>(event: EventObject, item: T, in
         this.instance.resetHasNode();
     }
 
-    if (this.instance.__isChangedValueInParentProperty(null, null, properties)) {
+    if (this.instance._isChangedValueInParentProperty(null, null, properties)) {
         const session = this.instance._startUpdateSession();
         this.instance._reBuild(true);
         this.instance._finishUpdateSession(session, true);
@@ -623,7 +623,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
      * @param changedProperties Объект содержащий измененные свойства элемента
      * @private
      */
-    protected __isChangedValueInParentProperty(oldItems?: S[], newItems?: S[], changedProperties?: Object): boolean {
+    protected _isChangedValueInParentProperty(oldItems?: S[], newItems?: S[], changedProperties?: Object): boolean {
         if (changedProperties) {
             return changedProperties.hasOwnProperty(this.getParentProperty());
         } else {

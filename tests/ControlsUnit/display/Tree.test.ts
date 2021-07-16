@@ -1368,7 +1368,7 @@ describe('Controls/_display/Tree', () => {
 
                 let level;
                 tree.subscribe('onCollectionChange', (e, action, newItems) => {
-                    if (newItems[0].getContents() === item) {
+                    if (action === 'm' && newItems[0].getContents() === item) {
                         level = newItems[0].getLevel();
                     }
                 });
@@ -1390,7 +1390,7 @@ describe('Controls/_display/Tree', () => {
 
                 let level;
                 tree.subscribe('onCollectionChange', (e, action, newItems) => {
-                    if (newItems[0].getContents() === item) {
+                    if (action === 'm' && newItems[0].getContents() === item) {
                         level = newItems[0].getLevel();
                     }
                 });
