@@ -1,0 +1,12 @@
+<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+    <div class="separator">Style="secondary", with Photo item template</div>
+    <div class="photo_before_bg"></div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__withPhoto">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey'
+                keyProperty="id"
+                style="secondary"
+                itemTemplateProperty="carambola"
+                source = "{{_source}}"/>
+    </div>
+</div>

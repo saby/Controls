@@ -1,0 +1,17 @@
+<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+    <div class="separator">Style="secondary", custom displayProperty</div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__displayProperty">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey'
+                keyProperty="id"
+                style="secondary"
+                source="{{_source}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/tabs:buttonsItemTemplate"
+                            item="{{itemTemplate.item}}"
+                            displayProperty="carambola"
+                ></ws:partial>
+            </ws:itemTemplate>
+        </Controls.tabs:Buttons>
+    </div>
+</div>

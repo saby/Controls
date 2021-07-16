@@ -1,0 +1,15 @@
+<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+    <div class="separator">
+        <span>Style="primary", change source after click</span>
+        <div class="clickmebtn" on:click="_setSource()">click me</div>
+    </div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__clickable">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey'
+                keyProperty="id"
+                name="lazy"
+                source = "{{_source}}"
+        />
+
+    </div>
+</div>

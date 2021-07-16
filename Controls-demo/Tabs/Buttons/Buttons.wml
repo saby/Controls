@@ -1,128 +1,57 @@
 <div class="root {{_options.theme.indexOf('default') !== 0 ? ' root__dark_background'}}">
-    <div class="separator">Прижатые к правому краю</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__rightAlign">
-        <Controls.tabs:Buttons
-                      bind:selectedKey='SelectedKey1'
-                      keyProperty="id"
-                      items="{{_items}}"
-        />
-    </div>
-    <div class="separator">Прижатые к левому краю</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__leftAlign">
-        <Controls.tabs:Buttons
-                bind:selectedKey="SelectedKeyLeft"
-                keyProperty="id"
-                source="{{_sourceLeft }}"
-        />
-    </div>
-    <div class="separator">Главная вкладка отдельно от остальных вкладок</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__mainSeparate">
-        <Controls.tabs:Buttons
-                      bind:selectedKey='SelectedKey2'
-                      keyProperty="id"
-                      itemTemplateProperty="itemTemplate"
-                      source="{{_source2}}"
-        />
-     </div>
-    <div class="separator">Главная вкладка вместе с другими вкладками</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__allTogether">
-        <Controls.tabs:Buttons
-                bind:selectedKey='SelectedKey9'
-                keyProperty="id"
-                itemTemplateProperty="itemTemplate"
-                source="{{_source9}}"
-        />
-    </div>
-    <div class="separator">Вкладки с кастомным содержимым</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__custom">
-        <Controls.tabs:Buttons
-                bind:selectedKey='SelectedKey5'
-                keyProperty="id"
-                itemTemplateProperty="itemTemplate"
-                leftTemplateProperty="leftTemplate"
-                source="{{_source5}}"
-        >
-            <ws:itemRightTemplate>
-                <ws:if data="{{itemRightTemplate.item.get('rightTemplate')}}">
-                    <ws:partial template="{{ itemRightTemplate.item.get('rightTemplate') }}"
-                                item="{{itemRightTemplate.item}}"
-                                counter="{{1000}}"
-                    />
-                </ws:if>
-            </ws:itemRightTemplate>
-        </Controls.tabs:Buttons>
-    </div>
-    <div class="separator">Ни одной выбранной вкладки</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__custom">
-        <Controls.tabs:Buttons
-                bind:selectedKey='SelectedKeyNull'
-                keyProperty="id"
-                items="{{_items}}"
-        />
-    </div>
-    <div class="separator">Прикладной контент перед вкладками</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__contentBefore">
-        <div class="demo-TabButtons-container controls-Tabs__item-underline">
-                <Controls.heading:Title caption="Бизнес" fontColorStyle="secondary"/>
-        </div>
-        <Controls.tabs:Buttons
-                bind:selectedKey='SelectedKey8'
-                keyProperty="id"
-                itemTemplateProperty="itemTemplate"
-                source="{{_source8}}"
-        />
-    </div>
-    <div class="separator">Style="secondary", custom displayProperty</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__displayProperty">
-        <Controls.tabs:Buttons
-                      bind:selectedKey='SelectedKey3'
-                      keyProperty="id"
-                      style="secondary"
-                      source="{{_source3}}"
-        >
-            <ws:itemTemplate>
-                <ws:partial template="Controls/tabs:buttonsItemTemplate"
-                            item="{{itemTemplate.item}}"
-                            displayProperty="carambola"
-                ></ws:partial>
-            </ws:itemTemplate>
-        </Controls.tabs:Buttons>
-    </div>
-    <div class="separator">Style="secondary", with space template</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__withSpace">
-        <Controls.tabs:Buttons
-                      bind:selectedKey='SelectedKey4'
-                      keyProperty="id"
-                      style="secondary"
-                      source="{{_source4}}"
-        >
-            <ws:tabSpaceTemplate>
-                <ws:partial template="{{_spaceTemplate}}" dropDownSource="{{_source8}}"/>
-            </ws:tabSpaceTemplate>
-        </Controls.tabs:Buttons>
-    </div>
-    <div class="separator">
-        <span>Style="primary", change source after click</span>
-        <div class="clickmebtn" on:click="_setSource()">click me</div>
-    </div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__clickable">
-        <Controls.tabs:Buttons
-                      bind:selectedKey='SelectedKey6'
-                      keyProperty="id"
-                      name="lazy"
-                      source = "{{_source6}}"
-        />
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/Tabs/Buttons/ItemAlign/Index' }}">
+        <a href="{{content.href}}">Расположение вкладок</a>
+    </Router.router:Reference>
+    <Controls-demo.Tabs.Buttons.ItemAlign.Index/>
 
-    </div>
-    <div class="separator">Style="secondary", with Photo item template</div>
-    <div class="photo_before_bg"></div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__withPhoto">
-        <Controls.tabs:Buttons
-                      bind:selectedKey='SelectedKey7'
-                      keyProperty="id"
-                      style="secondary"
-                      itemTemplateProperty="carambola"
-                      source = "{{_source7}}"
-        />
-    </div>
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/Tabs/Buttons/ItemRightTemplate/Index' }}">
+        <a href="{{content.href}}">itemTemplate</a>
+    </Router.router:Reference>
+    <Controls-demo.Tabs.Buttons.ItemRightTemplate.Index/>
+
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/Tabs/Buttons/SelectedKey/Index' }}">
+        <a href="{{content.href}}">selectedKey</a>
+    </Router.router:Reference>
+    <Controls-demo.Tabs.Buttons.SelectedKey.Index/>
+
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/Tabs/Buttons/UserContent/Index' }}">
+        <a href="{{content.href}}">Прикладной контент</a>
+    </Router.router:Reference>
+    <Controls-demo.Tabs.Buttons.UserContent.Index/>
+
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/Tabs/Buttons/DisplayProperty/Index' }}">
+        <a href="{{content.href}}">displayProperty</a>
+    </Router.router:Reference>
+    <Controls-demo.Tabs.Buttons.DisplayProperty.Index/>
+
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/Tabs/Buttons/TabSpaceTemplate/Index' }}">
+        <a href="{{content.href}}">tabSpaceTemplate</a>
+    </Router.router:Reference>
+    <Controls-demo.Tabs.Buttons.TabSpaceTemplate.Index/>
+
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/Tabs/Buttons/ChangeSource/Index' }}">
+        <a href="{{content.href}}">ChangeSource</a>
+    </Router.router:Reference>
+    <Controls-demo.Tabs.Buttons.ChangeSource.Index/>
+
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/Tabs/Buttons/WithPhoto/Index' }}">
+        <a href="{{content.href}}">WithPhoto</a>
+    </Router.router:Reference>
+    <Controls-demo.Tabs.Buttons.WithPhoto.Index/>
 </div>
