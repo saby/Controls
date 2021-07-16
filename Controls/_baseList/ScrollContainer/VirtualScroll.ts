@@ -191,6 +191,7 @@ export default class VirtualScroll {
         this._savedDirection = direction;
         const itemsHeightsData = this._itemsHeightData;
         const itemsCount = this._itemsCount;
+        const pageSize = this._options.pageSize;
         const segmentSize = this._segmentSize || this._options.segmentSize;
         let {start, stop} = this._range;
 
@@ -199,10 +200,10 @@ export default class VirtualScroll {
 
             if (direction === 'up') {
                 start = Math.max(0, start - segmentSize);
-                stop -= quantity;
+                stop = Math.max(stop - quantity, Math.min(start + pageSize, itemsCount));
             } else {
                 stop = Math.min(stop + segmentSize, itemsCount);
-                start += quantity;
+                start = Math.min(start + quantity, Math.max(stop - pageSize, 0));
             }
         } else {
             start = 0;

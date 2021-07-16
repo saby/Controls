@@ -461,7 +461,7 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
             // tslint:disable-next-line:no-magic-numbers
             instance.updateItemsHeights(getItemsHeightsData([3, 3, 3, 3, 3, 3, 3, 3, 3, 3]));
             // tslint:disable-next-line:no-magic-numbers
-            assert.deepEqual({direction: 'up', heightDifference: -6}, instance.getParamsToRestoreScroll());
+            assert.deepEqual({direction: 'up', heightDifference: 0}, instance.getParamsToRestoreScroll());
         });
         it('after shifting and adding items in opposite directiond', () => {
             // test for task https://online.sbis.ru/opendoc.html?guid=9040b3b7-eb6c-4a1f-b16a-7cf917bf6137
@@ -565,7 +565,7 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
             // tslint:disable-next-line:no-magic-numbers
             instance.updateItemsHeights(getItemsHeightsData([60, 60, 60]));
             // tslint:disable-next-line:no-magic-numbers
-            assert.deepEqual({range: {start: 2, stop: 4}, placeholders: {top: 120, bottom: 0}},
+            assert.deepEqual({range: {start: 1, stop: 4}, placeholders: {top: 60, bottom: 0}},
                 instance.shiftRange('down'));
         });
     });
