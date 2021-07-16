@@ -1,7 +1,7 @@
 <div class="controlsDemo__flex">
    <div class="controlsDemo__wrapper">
       <span> Включение/Отлкючение фиксации</span>
-      <Controls.scroll:Container attr:class="controlsDemo_fixedWidth350 controlsDemo__height300">
+      <Controls.scroll:Container attr:class="controlsDemo_fixedWidth350 controlsDemo__height300" attr:data-qa="controlsDemo_scrollmode__fix_off">
          <Controls.scroll:StickyBlock mode="{{_mode}}">
             <h2 class="controlsDemo__wrapper">Header</h2>
          </Controls.scroll:StickyBlock>
@@ -29,7 +29,7 @@
    </div>
    <div class="controlsDemo__wrapper">
       <span>Смена режима</span>
-      <Controls.scroll:Container attr:class="controlsDemo_fixedWidth350 controlsDemo__height300">
+      <Controls.scroll:Container attr:class="controlsDemo_fixedWidth350 controlsDemo__height300" attr:data-qa="controlsDemo_scrollmode__change_mode">
          <Controls.scroll:StickyBlock mode="{{_stickyMode}}">
             <h2 class="controlsDemo__wrapper">Header1</h2>
          </Controls.scroll:StickyBlock>
@@ -60,7 +60,7 @@
    </div>
    <div class="controlsDemo__wrapper">
       <span>Смена режима у группы</span>
-         <Controls.scroll:Container attr:class="controlsDemo_fixedWidth350 controlsDemo__height300">
+         <Controls.scroll:Container attr:class="controlsDemo_fixedWidth350 controlsDemo__height300" attr:data-qa="controlsDemo_scrollmode__change_mode_group">
             <div class="controlsDemo-StickyHeader-Mode__headers">
                <Controls.scroll:Group>
                   <div class="controlsDemo-StickyHeader-Mode__headers-wrapper">
