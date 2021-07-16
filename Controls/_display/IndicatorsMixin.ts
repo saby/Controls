@@ -140,13 +140,10 @@ export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
 
     private _createLoadingTrigger(position: TLoadingTriggerPosition): void {
         const isTopTrigger = position === 'top';
-        // У верхнего триггера оффсет должен быть изначально -1, иначе обсервер сразу сработает
-        const offset = isTopTrigger ? -1 : 0;
         const visible = !isTopTrigger;
         const trigger = this.createItem({
             itemModule: 'Controls/display:LoadingTrigger',
             position,
-            offset,
             visible
         });
 

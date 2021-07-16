@@ -2,12 +2,14 @@ import CollectionItem, {IOptions as ICollectionOptions} from 'Controls/_display/
 import { TemplateFunction } from 'UI/Base';
 
 export type TLoadingTriggerPosition = 'top'|'bottom';
-export const TOP_LOADING_TRIGGER_ID = 'topLoadingTrigger';
-export const BOTTOM_LOADING_TRIGGER_ID = 'bottomLoadingTrigger';
+
+// триггер находится за индикатором, чтобы загрузка срабатывал при подскролле к индикатору,
+// делаем оффсет равный высоте индикатора
+export const DEFAULT_TOP_OFFSET = 47;
+export const DEFAULT_BOTTOM_OFFSET = 48;
 
 export interface IOptions extends ICollectionOptions<null> {
     position: TLoadingTriggerPosition;
-    offset: number;
     visible: boolean;
 }
 
@@ -22,6 +24,11 @@ export default class LoadingTrigger extends CollectionItem<null> {
     protected _$position: TLoadingTriggerPosition;
     protected _$offset: number;
     protected _$visible: boolean;
+
+    constructor(options: IOptions) {
+        super(options);
+        this._$offset = this._correctOffset(0);
+    }
 
     get key(): string {
         return this._instancePrefix + this._$position;
@@ -60,9 +67,10 @@ export default class LoadingTrigger extends CollectionItem<null> {
     }
 
     setOffset(offset: number): boolean {
-        const changed = this._$offset !== offset;
+        const newOffset = this._correctOffset(offset);
+        const changed = this._$offset !== newOffset;
         if (changed) {
-            this._$offset = offset;
+            this._$offset = newOffset;
             this._nextVersion();
         }
         return changed;
@@ -88,6 +96,25 @@ export default class LoadingTrigger extends CollectionItem<null> {
 
     getQAData(marker?: boolean): string {
         return this.key;
+    }
+
+    /**
+     * Корректируем оффсет. Значение офссета = 0, нам не подходит, т.к. триггер находится за индикатором
+     * Поэтому дефолтный оффсет должен быть 48 для верхней ромашки и 47 для нижней.
+     * 47 - чтобы сразу же не срабатывала загрузка вверх, а только после скролла к ромашке.
+     * @param offset
+     * @private
+     */
+    private _correctOffset(offset: number): number {
+        let newOffset;
+
+        if (this.isTopTrigger() && offset === 0) {
+            newOffset = DEFAULT_TOP_OFFSET
+        } else if (this.isBottomTrigger() && offset === 0) {
+            newOffset = DEFAULT_BOTTOM_OFFSET;
+        }
+
+        return newOffset;
     }
 }
 
