@@ -388,7 +388,7 @@ export default class VirtualScroll {
      */
     private _updateItemsHeights(itemsHeightsData: IItemsHeights): void {
         for (let i = 0, len = Math.min(itemsHeightsData.itemsHeights.length, this._range.stop - this._range.start);
-                i < len; i++) {
+             i < len; i++) {
             this._itemsHeightData.itemsHeights[this._range.start + i] = itemsHeightsData.itemsHeights[i];
             this._itemsHeightData.itemsOffsets[this._range.start + i] = itemsHeightsData.itemsOffsets[i];
         }
@@ -539,9 +539,9 @@ export default class VirtualScroll {
     private _getItemsToHideQuantityToUp(): number {
         let quantity = 0;
         let stop = this._range.stop - 1;
-        const {viewport, topTrigger} = this._containerHeightsData;
+        const {viewport, topTrigger, bottomTrigger} = this._containerHeightsData;
         const {itemsOffsets} = this._itemsHeightData;
-        const offsetDistance = viewport * 2 + topTrigger;
+        const offsetDistance = viewport + topTrigger + bottomTrigger;
 
         while (itemsOffsets[stop] > offsetDistance) {
             stop--;
@@ -558,9 +558,9 @@ export default class VirtualScroll {
         let quantity = 0;
         let start = this._range.start;
         let sumHeight = 0;
-        const {viewport, bottomTrigger, scroll} = this._containerHeightsData;
+        const {viewport, bottomTrigger, scroll, topTrigger} = this._containerHeightsData;
         const {itemsHeights} = this._itemsHeightData;
-        const offsetDistance = (scroll - viewport) - bottomTrigger - viewport;
+        const offsetDistance = scroll - viewport - bottomTrigger - topTrigger;
 
         while (sumHeight + itemsHeights[start] < offsetDistance) {
             sumHeight += itemsHeights[start];
