@@ -1,0 +1,10 @@
+<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+    <div class="separator">Ни одной выбранной вкладки</div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__custom">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey'
+                keyProperty="id"
+                items="{{_items}}"
+        />
+    </div>
+</div>
