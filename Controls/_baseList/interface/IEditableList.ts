@@ -3,18 +3,17 @@ import {LIST_EDITING_CONSTANTS} from '../BaseControl';
 
 /**
  * Интерфейс для {@link /doc/platform/developmentapl/interface-development/controls/list/ списков} с возможностью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
- *
  * @public
  * @author Авраменко А.С.
  * @see Controls/editableArea:View
  * @remark
- * Разница между этим интерфейсом и {@link Controls/editableArea:View Controls/editableArea:View} заключается в том, что первый используется в списках, а второй - вне их (например, на вкладках).
+ * Разница между этим интерфейсом и {@link Controls/editableArea:View Controls/editableArea:View} заключается в том, что первый используется в списках, а второй — вне их (например, на вкладках).
  */
 export interface IEditableList {
     _options: {
         /**
          * @name Controls/_baseList/interface/IEditableList#editingConfig
-         * @cfg {IEditingConfig | undefined} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
+         * @cfg {Controls/list:IEditingConfig | undefined} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
          * @demo Controls-demo/list_new/EditInPlace/EmptyActionsWithToolBar/Index
          * @example
          * В следующем примере в режиме редактирования по месту отображаются кнопки "Сохранить" и "Отмена" на панели опций записи.
@@ -43,7 +42,7 @@ export interface IEditableList {
      * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
      * Использование метода в списке с режимом "только чтение" невозможно.
      * @function
-     * @param {IItemEditOptions} options Параметры редактирования.
+     * @param {Controls/list:IItemEditOptions} options Параметры редактирования.
      * @returns {TAsyncOperationResult}
      * @remark
      * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ панели действий элемента}.
@@ -79,14 +78,14 @@ export interface IEditableList {
      * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ добавление по месту}.
      * Использование метода в списке с режимом "только чтение" невозможно.
      * @function
-     * @param {IItemAddOptions} options Параметры добавления.
+     * @param {Controls/list:IItemAddOptions} options Параметры добавления.
      * @returns {TAsyncOperationResult}
      * @remark
      * Promise разрешается после монтирования контрола в DOM.
      *
-     * Перед запуском добавления по месту происходит событие {@link beforeBeginEdit beforeBeginEdit}, а после запуска — {@link afterBeginEdit afterBeginEdit}.
+     * Перед запуском добавления по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
      *
-     * Вы можете задать позицию, в которой отображается шаблон редактирования строки. Для этого в опции {@link editingConfig} установите значение для параметра {@link IEditingConfig addPosition}. Шаблон редактирования строки может отображаться в начале и в конце списка, группы (если включена {@link Controls/interface/IGroupedList#groupProperty группировка}) или узла (для иерархических списков).
+     * Вы можете задать позицию, в которой отображается шаблон редактирования строки. Для этого в опции {@link editingConfig} установите значение для параметра {@link Controls/list:IEditingConfig#addPosition addPosition}. Шаблон редактирования строки может отображаться в начале и в конце списка, группы (если включена {@link Controls/interface/IGroupedList#groupProperty группировка}) или узла (для иерархических списков).
      *
      * В случае, когда метод beginAdd вызван без аргументов, добавляемая запись будет создана при помощи установленного на списке источника данных путем вызова у него метода {@link Types/source:ICrud#create create}.
      * @demo Controls-demo/list_new/EditInPlace/AddItem/Index
@@ -184,28 +183,30 @@ export interface IEditingConfig {
     /**
      * @name Controls/_baseList/interface/IEditingConfig#addPosition
      * @cfg {Boolean} Автоматический запуск добавления по месту при инициализации {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}.
-     * @remark
-     * По умолчанию отключено.
-     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/init/ здесь}.
+     * @variant true Включен.
+     * @variant false Отключен.
      * @default false
+     * @remark
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/init/ здесь}.
      * @see autoAdd
      */
     autoAddOnInit?: boolean;
     /**
      * @name Controls/_baseList/interface/IEditingConfig#editOnClick
      * @cfg {Boolean} Запуск редактирования по месту при клике по элементу списка. Является частью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/basic/ базовой конфигурации} функционала редактирования по месту.
-     * @remark
-     * По умолчанию отключено.
+     * @variant true Включен.
+     * @variant false Отключен.
      * @default false
      */
     editOnClick?: boolean;
     /**
      * @name Controls/_baseList/interface/IEditingConfig#autoAdd
      * @cfg {Boolean} Автоматический запуск добавления нового элемента, происходящий при завершении редактирования последнего элемента списка.
+     * @variant true Включен.
+     * @variant false Отключен.
+     * @default false
      * @remark
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#add здесь}.
-     * По умолчанию отключено.
-     * @default false
      * @see autoAddOnInit
      */
     autoAdd?: boolean;
@@ -214,26 +215,29 @@ export interface IEditingConfig {
      * @cfg Отмена автоматического запуска добавления нового элемента, если завершение добавления предыдущего элемента происходит {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/item-actions/#visible кнопкой "Сохранить"} на {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи}.
      * @remark
      * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#add здесь}.
-     * По умолчанию включен.
+     * @variant true Автоматический запуск добавления включен.
+     * @variant false Автоматический запуск добавления отменен.
      * @default true
      */
     autoAddByApplyButton?: boolean;
     /**
      * @name Controls/_baseList/interface/IEditingConfig#sequentialEditing
      * @cfg {Boolean} Автоматический запуск редактирования по месту для следующего элемента, происходящий при завершении редактирования любого (кроме последнего) элемента списка.
-     * @remark
-     * По умолчанию автоматический запуск включен. 
-     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#edit здесь}.
+     * @variant true Включен.
+     * @variant false Отключен.
      * @default true
+     * @remark
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#edit здесь}.
      */
     sequentialEditing?: boolean;
     /**
      * @name Controls/_baseList/interface/IEditingConfig#toolbarVisibility
      * @cfg {Boolean} Видимость кнопок "Сохранить" и "Отмена", отображаемых на {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} в режиме редактирования. 
-     * @remark
-     * По умолчанию кнопки скрыты. 
-     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/item-actions/#visible здесь}.
+     * @variant true Кнопки видны.
+     * @variant false Кнопки скрыты.
      * @default false
+     * @remark
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/item-actions/#visible здесь}.
      */
     toolbarVisibility?: boolean;
     /**
@@ -282,20 +286,19 @@ interface IOperationCanceledResult { canceled: true; }
 
 /**
  * @typedef {Enum} TAddPosition
- * @description Допустимые значения для свойства {@link IEditingConfig addPosition}.
+ * @description Допустимые значения для свойства {@link Controls/list:IEditingConfig#addPosition addPosition}.
  * @variant top В начале.
  * @variant bottom В конце.
  */
 type TAddPosition = 'top' | 'bottom';
 
 /**
- * Интерфейс объекта-конфигурации для запуска добавления по месту.
+ * Интерфейс объекта-конфигурации для запуска {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/add/ добавления по месту}.
  * 
  * @interface Controls/_baseList/interface/IItemAddOptions
  * @public
  * @autor Авраменко А.C.
  */
-
 interface IItemAddOptions {
     /**
      * @name Controls/_baseList/interface/IItemAddOptions#targetItem
@@ -322,13 +325,12 @@ interface IItemAddOptions {
 }
 
 /**
- * Интерфейс объекта-конфигурации для запуска редактирования по месту.
+ * Интерфейс объекта-конфигурации для запуска {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
  * 
  * @interface Controls/_baseList/interface/IItemEditOptions
  * @public
  * @autor Авраменко А.C.
  */
-
 interface IItemEditOptions {
     /**
      * @name Controls/_baseList/interface/IItemEditOptions#item
@@ -382,13 +384,13 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
 /**
  * @event Controls/_baseList/interface/IEditableList#beforeBeginEdit Происходит перед запуском {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
- * @param {IItemEditOptions | IItemAddOptions} options Параметры редактирования.
+ * @param {Controls/list:IItemEditOptions | Controls/list:IItemAddOptions} options Параметры редактирования.
  * @param {Boolean} isAdd Параметр принимает значение true, когда элемент добавляется по месту.
  * Добавление элемента происходит в следующих случаях:
  * 1. вызов метода {@link beginAdd}.
  * 2. после окончания редактирования:
- *     * последнего (уже существующего) элемента списка (см. свойство {@link IEditingConfig autoAdd});
- *     * только что добавленного элемента списка (см. свойство {@link IEditingConfig autoAddByApplyButton}).
+ *     * последнего (уже существующего) элемента списка (см. опцию {@link Controls/list:IEditingConfig#autoAdd autoAdd});
+ *     * только что добавленного элемента списка (см. опцию {@link Controls/list:IEditingConfig#autoAddByApplyButton autoAddByApplyButton}).
  * @returns {TBeforeBeginEditEventResult}
  * @demo Controls-demo/list_new/EditInPlace/BeginEdit/Index
  * @example
@@ -460,8 +462,8 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  * Добавление элемента происходит в следующих случаях:
  * 1. вызов метода {@link beginAdd}.
  * 2. после окончания редактирования:
- *     * последнего (уже существующего) элемента списка (см. свойство {@link IEditingConfig autoAdd}).
- *     * только что добавленного элемента списка (см. свойство {@link IEditingConfig autoAddByApplyButton}).
+ *     * последнего (уже существующего) элемента списка (см. опцию {@link Controls/list:IEditingConfig#autoAdd autoAdd}).
+ *     * только что добавленного элемента списка (см. опцию {@link Controls/list:IEditingConfig#autoAddByApplyButton autoAddByApplyButton}).
  * @remark
  * Подпишитесь на событие, если необходимо что-либо сделать после начала редактирования (например, скрыть кнопку "Добавить").
  * Событие запускается, когда подготовка данных успешно завершена и возможно безопасно обновить пользовательский интерфейс.
@@ -500,8 +502,8 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  * Добавление элемента происходит в следующих случаях:
  * 1. вызов метода {@link beginAdd}.
  * 2. после окончания редактирования:
- *     * последнего (уже существующего) элемента списка (см. свойство {@link IEditingConfig autoAdd});
- *     * только что добавленного элемента списка (см. свойство {@link IEditingConfig autoAddByApplyButton}).
+ *     * последнего (уже существующего) элемента списка (см. опцию {@link Controls/list:IEditingConfig#autoAdd autoAdd});
+ *     * только что добавленного элемента списка (см. опцию {@link Controls/list:IEditingConfig#autoAddByApplyButton autoAddByApplyButton}).
  * @returns {TBeforeEndEditEventResult}
  * @demo Controls-demo/list_new/EditInPlace/EndEdit/Index
  * @remark
@@ -538,8 +540,8 @@ type TBeforeEndEditEventResult = TBeforeBeginEditEventSyncResult | Promise<TBefo
  * Добавление элемента происходит в следующих случаях:
  * 1. вызов метода {@link beginAdd}.
  * 2. после окончания редактирования:
- *     * последнего (уже существующего) элемента списка (см. свойство {@link IEditingConfig autoAdd});
- *     * после окончания редактирования только что добавленного элемента списка (см. свойство {@link IEditingConfig autoAddByApplyButton}).
+ *     * последнего (уже существующего) элемента списка (см. опцию {@link Controls/list:IEditingConfig#autoAdd autoAdd});
+ *     * после окончания редактирования только что добавленного элемента списка (см. опцию {@link Controls/list:IEditingConfig#autoAddByApplyButton autoAddByApplyButton}).
  * @remark
  * Подпишитесь на событие, если необходимо что-либо сделать после завершения редактирования (например, показать кнопку "Добавить").
  * Событие запускается, когда редактирование успешно завершено и возможно безопасно обновить пользовательский интерфейс.

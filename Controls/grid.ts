@@ -44,7 +44,7 @@ import SortingSelector from 'Controls/_grid/SortingSelector';
 import {register} from 'Types/di';
 
 /**
- * Библиотека контролов, которые реализуют плоский список, отображающийся в виде таблицы.
+ * Библиотека контролов, которые реализуют плоский список, отображающийся в виде {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ таблицы}.
  * @library
  * @includes ItemTemplate Controls/_grid/interface/ItemTemplate
  * @includes ResultsTemplate Controls/_grid/interface/ResultsTemplate
@@ -64,6 +64,8 @@ import {register} from 'Types/di';
  * @includes ItemEditorTemplate Controls/_grid/interface/IitemEditorTemplate
  * @includes IEditableGrid Controls/_grid/interface/IEditableGrid
  * @includes IGridEditingConfig Controls/_grid/interface/IGridEditingConfig
+ * @includes IItemAddOptions Controls/_grid/interface/IItemAddOptions
+ * @includes IItemEditOptions Controls/_grid/interface/IItemEditOptions
  * @public
  * @author Крайнов Д.О.
  */
