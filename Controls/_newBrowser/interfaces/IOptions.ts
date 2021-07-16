@@ -161,4 +161,6 @@ export interface IOptions extends IControlOptions, ISourceOptions {
      * Шаблон, который будет выведен под detail-списком
      */
     detailFooterTemplate?: TemplateFunction | string;
+
+    contrastBackground?: boolean;
 }
