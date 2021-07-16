@@ -5193,6 +5193,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
             if (shouldActivateInput) {
                 this._editInPlaceInputHelper.shouldActivate();
+                // раньше индикаторы вызывали ненужную перерисовку изменением стейта, теперь нужно в ручную вызвать
+                // перерисовку, чтобы поставить фокус на инпут, который уже точно отрисовался
+                this._forceUpdate();
             }
             if (!this._isMounted) {
                 return addResult;
