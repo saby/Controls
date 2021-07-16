@@ -111,7 +111,7 @@
 .controls-Menu__row__rightTemplate_separator {
    width: var(--rightTemplate_separator_thickness_menu);
    background-color: var(--item_background-color_menu);
-   margin: 0 var(--offset_m) 0 var(--offset_m);
+   margin: 0 0 0 var(--offset_m);
    height: 100%;
    flex-shrink: 0;
 }
@@ -348,6 +348,17 @@
 
 .controls-Menu__group_content_textAlign-left {
    margin-left: var(--grouping_padding-horizontal_menu);
+}
+
+.controls-Menu__row.controls-Menu__row-rightPadding_menu-rightTemplate {
+   padding-right: 0;
+}
+
+.controls-Menu__row__rightTemplate_wrapper {
+   display: flex;
+   align-items: center;
+   height: 100%;
+   padding: 0 var(--item_padding-right_m_list) 0 var(--offset_m);
 }
 
 @padding-right_menu-multiSelect: calc(var(--apply-button_inline-height_menuPopup) + var(--offset_xs) * 2);
