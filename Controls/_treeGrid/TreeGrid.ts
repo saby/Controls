@@ -13,7 +13,7 @@ import 'css!Controls/grid';
 import 'css!Controls/treeGrid';
 
 /**
- * Контрол "Дерево" позволяет отображать данные из различных источников в виде иерархического списка.
+ * Контрол "Дерево с колонками" позволяет отображать данные из различных источников в виде иерархического списка.
  * Контрол поддерживает широкий набор возможностей, позволяющих разработчику максимально гибко настраивать отображение данных.
  * @remark
  * Дополнительно о контроле:
@@ -25,23 +25,20 @@ import 'css!Controls/treeGrid';
  * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_list.less переменные тем оформления list}
  *
  * @mixes Controls/interface:ISource
- * @mixes Controls/list:IClickableView
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedGrid
  * @mixes Controls/interface:INavigation
  * @mixes Controls/interface:IFilterChanged
- * @mixes Controls/list:IList
- * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/interface:IHierarchy
- * @implements Controls/tree:ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/interface:IDraggable
  * @mixes Controls/interface:IGridControl
- * @mixes Controls/grid:IPropStorage
- * @mixes Controls/treeGrid:IReloadableTreeGrid
- *
  * @mixes Controls/list:IVirtualScrollConfig
- *
+ * @mixes Controls/list:IList
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/grid:IPropStorage
+ * @implements Controls/tree:ITreeControl
+ * @mixes Controls/itemActions:IItemActions
  *
  * @public
  * @author Авраменко А.С.
