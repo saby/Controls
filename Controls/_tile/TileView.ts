@@ -31,7 +31,6 @@ export default class TileView extends ListView {
 
     protected _animatedItemTargetPosition: string;
     protected _shouldPerformAnimation: boolean;
-    protected _animationBlocked: boolean;
     protected _targetItemRect: ClientRect;
 
     protected _beforeMount(options: any): void {
@@ -48,7 +47,6 @@ export default class TileView extends ListView {
         if (this._listModel.getTileScalingMode() === 'preview') {
 
             // не начинаем анимацию, если открываем меню, иначе, из-за анимации, меню может позиционироваться криво
-            this._animationBlocked = true;
             if (!item.isScaled()) {
                 item.setAnimated(false);
                 item.setFixedPositionStyle('');
@@ -117,7 +115,7 @@ export default class TileView extends ListView {
             this._setHoveredItem(this, null, null);
         }
         const hoveredItem = this._listModel.getHoveredItem();
-        this._shouldPerformAnimation = !this._animationBlocked && hoveredItem && !hoveredItem.destroyed
+        this._shouldPerformAnimation = hoveredItem && !hoveredItem.destroyed
             && hoveredItem['[Controls/_tile/mixins/TileItem]'] && hoveredItem.isFixed();
     }
 
@@ -325,7 +323,6 @@ export default class TileView extends ListView {
         if (this._destroyed || !this._listModel || this._listModel.destroyed) {
             return;
         }
-        this._animationBlocked = false;
 
         // Элемент могут удалить, но hover на нем успеет сработать. Проверяем что элемент точно еще есть в модели.
         // Может прийти null, чтобы сбросить элемент
