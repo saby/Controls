@@ -952,8 +952,8 @@
   "--height_applyButton_editableArea": "var(--inline_height_m)",
 
   "--border-radius_applyButton_editableArea": "12px",
-  "--box-shadow_applyButton_editableArea": "0 1px 4px rgba(0, 0, 0, 0.05)",
-  "--background-color_applyButton_editableArea": "var(--success_color)",
+  "--box-shadow_applyButton_editableArea": "none",
+  "--background-color_applyButton_editableArea": "var(--success_contrast_background-color)",
   "--background-color_hover_applyButton_editableArea": "var(--success_hover_background-color_button_functionalButton)",
 
   "--text-shadow_applyButton_editableArea": "var(--text-shadow_button)",
