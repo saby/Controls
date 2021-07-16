@@ -1,0 +1,16 @@
+<ws:partial template="Controls/grid:ColumnTemplate"
+            scope="{{ _options }}"
+            cursor="default"
+            editable="{{ !(column.config.displayProperty === 'title' && item.contents.get('title') === 'Samsung') }}">
+    <ws:contentTemplate>
+        <ws:partial template="Controls/list:EditingTemplate"
+                    scope="{{ contentTemplate }}"
+                    value="{{ contentTemplate.item.contents[contentTemplate.column.config.displayProperty] }}">
+            <ws:editorTemplate>
+                <Controls.input:Text borderVisibility="hidden"
+                                     fontSize="inherit"
+                                     bind:value="contentTemplate.item.contents[contentTemplate.column.config.displayProperty]"/>
+            </ws:editorTemplate>
+        </ws:partial>
+    </ws:contentTemplate>
+</ws:partial>
