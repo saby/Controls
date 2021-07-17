@@ -1,5 +1,5 @@
 import {Collection, EIndicatorState, ITriggerOffset} from 'Controls/display';
-import { RecordSet } from 'Types/collection';
+import {RecordSet} from 'Types/collection';
 import {DEFAULT_BOTTOM_OFFSET, DEFAULT_TOP_OFFSET} from "Controls/_display/LoadingTrigger";
 
 export interface IIndicatorsControllerOptions {
@@ -42,7 +42,6 @@ export default class IndicatorsController {
     private _portionedSearchDirection: TPortionedSearchDirection;
     private _portionedSearchTimer: number = null;
     private _searchState: SEARCH_STATES = 0;
-    private _isAborted: boolean = false;
 
     constructor(options: IIndicatorsControllerOptions) {
         this._options = options;
@@ -115,7 +114,8 @@ export default class IndicatorsController {
             return;
         }
 
-        this._model.displayIndicator('bottom', EIndicatorState.Loading);
+        const indicatorState = this._isPortionedSearch() ? EIndicatorState.PortionedSearch : EIndicatorState.Loading;
+        this._model.displayIndicator('bottom', indicatorState);
     }
 
     displayGlobalIndicator(): void {
@@ -132,6 +132,11 @@ export default class IndicatorsController {
     }
 
     recountIndicators(direction: 'up'|'down'|'all', scrollToFirstItem: boolean = false): void {
+        // если поиск был прерван, то ничего делать не нужно, т.к. ромашек теперь точно не будет
+        if (this._getSearchState() === SEARCH_STATES.ABORTED) {
+            return;
+        }
+
         switch (direction) {
             case "up":
                 this._recountTopIndicator(scrollToFirstItem);
@@ -265,6 +270,9 @@ export default class IndicatorsController {
             this._startPortionedSearchTimer(SEARCH_MAX_DURATION);
             this._portionedSearchDirection = direction;
 
+            // скрываем индикатор, т.к. после начала порционного поиска индикатор долежн показаться через 2с,
+            // а на момент начала поиска может быть уже показан индикатор
+            this._model.hideIndicator(direction);
             this._startIndicatorTimer(
                 () => this._model.displayIndicator(direction, EIndicatorState.PortionedSearch)
             );
@@ -306,7 +314,6 @@ export default class IndicatorsController {
 
     abortPortionedSearch(): void {
         this._setSearchState(SEARCH_STATES.ABORTED);
-        this._isAborted = true;
         this._clearPortionedSearchTimer();
         // скрываем все индикаторы, т.к. после abort никаких подгрузок не будет
         this._model.hideIndicator('top');
@@ -317,7 +324,6 @@ export default class IndicatorsController {
     endPortionedSearch(): void {
         this._portionedSearchDirection = null;
         this._setSearchState(SEARCH_STATES.NOT_STARTED);
-        this._isAborted = false;
         this._clearPortionedSearchTimer();
         this._model.hideIndicator(this._portionedSearchDirection);
     }

@@ -1,5 +1,5 @@
 import {Logger} from 'UI/Utils';
-import {_Options} from 'UI/Vdom';
+import {_Options, SyntheticEvent} from 'UI/Vdom';
 import {isEqual} from 'Types/object';
 import {Control} from 'UI/Base';
 import {debounce as cDebounce} from 'Types/function';
@@ -8,6 +8,7 @@ import * as GroupTemplate from 'wml!Controls/_baseList/GroupTemplate';
 import * as ListViewTpl from 'wml!Controls/_baseList/ListView/ListView';
 import * as defaultItemTemplate from 'wml!Controls/_baseList/ItemTemplate';
 import 'css!Controls/baseList';
+import { Indicator } from 'Controls/display';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -263,14 +264,6 @@ const ListView = Control.extend(
             return this._children.itemsContainer;
         },
 
-        getTopLoadingTrigger(): HTMLElement {
-            return this._children.topLoadingTrigger;
-        },
-
-        getBottomLoadingTrigger(): HTMLElement {
-            return this._children.bottomLoadingTrigger;
-        },
-
         _onItemClick: function(e, dispItem) {
             // Флаг preventItemEvent выставлен, если нужно предотвратить возникновение
             // событий itemClick, itemMouseDown по нативному клику, но по какой-то причине
@@ -399,13 +392,29 @@ const ListView = Control.extend(
         _onItemWheel: function(event) {
         },
 
-        _onContinueSearchClick(): void {
-            this._notify('continueSearchClick');
+        // region Indicators
+
+        getTopLoadingTrigger(): HTMLElement {
+            return this._children.topLoadingTrigger;
+        },
+
+        getBottomLoadingTrigger(): HTMLElement {
+            return this._children.bottomLoadingTrigger;
+        },
+
+        _onIndicatorClick(event: SyntheticEvent, indicator: Indicator): void {
+            if (event.target.closest('.js-controls-BaseControl__continueSearch')) {
+                this._notify('continueSearchClick');
+            }
+            if (event.target.closest('.js-controls-BaseControl__abortSearch')) {
+                this._notify('abortSearchClick');
+            }
         },
 
         _onAbortSearchClick(): void {
-            this._notify('abortSearchClick');
         },
+
+        // endregion Indicators
 
         setHoveredItem: function (item) {
             this._listModel.setHoveredItem(item);

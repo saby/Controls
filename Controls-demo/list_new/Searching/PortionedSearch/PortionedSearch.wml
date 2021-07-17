@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper controlsDemo__height300">
+<div class="controlsDemo__wrapper controlsDemo__height300 controlsDemo__width800px">
     <Controls.scroll:Container attr:class="controlsDemo__height300">
         <Controls.scroll:HotKeysContainer>
             <Controls.list:View
@@ -7,9 +7,8 @@
                     source="{{_viewSource}}"
                     searchValue="{{_searchValue}}"
                     filter="{{_filter}}">
-                <ws:navigation source="page" view="infinity">
-                    <ws:sourceConfig pageSize="{{15}}" page="{{0}}" hasMore="{{false}}"/>
-                    <ws:viewConfig pagingMode="basic"/>
+                <ws:navigation source="position" view="infinity">
+                    <ws:sourceConfig field="key" position="{{_position}}" direction="forward" limit="{{15}}"/>
                 </ws:navigation>
                 <ws:loadingIndicatorTemplate>
                     <ws:partial template="Controls/list:LoadingIndicatorTemplate"

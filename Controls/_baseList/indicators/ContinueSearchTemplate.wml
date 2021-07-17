@@ -1,6 +1,5 @@
 <ws:template name="contentTemplate">
-    <div class="js-controls-BaseControl__continueSearch controls-BaseControl__continueSearch_caption"
-         on:click="_onContinueSearchClick()">
+    <div class="js-controls-BaseControl__continueSearch controls-BaseControl__continueSearch_caption">
         {[Продолжить поиск]}
     </div>
 </ws:template>
@@ -12,7 +11,7 @@
 <ws:template name="searchWithoutFooter">
     <div class="controls-BaseControl__continueSearch_wrapper ws-inline-flexbox ws-align-items-center">
         <ws:partial template="searchIcon" iconSize="m"/>
-        <ws:partial template="{{ contentTemplate }}"/>
+        <ws:partial template="contentTemplate"/>
     </div>
 </ws:template>
 
@@ -20,15 +19,15 @@
     <ws:partial template="searchIcon" iconSize="l"/>
     <div>
         <div class="controls-BaseControl__continueSearch_wrapper ws-inline-flexbox ws-align-items-center">
-            <ws:partial template="{{ contentTemplate }}"/>
+            <ws:partial template="contentTemplate"/>
         </div>
         <div class="controls-BaseControl__continueSearch_footerTemplate">
-            <ws:partial template="{{ footerTemplate }}"/>
+            <ws:partial template="{{ _options.footerTemplate }}"/>
         </div>
     </div>
 </ws:template>
 
-<ws:if data="{{footerTemplate}}">
+<ws:if data="{{ _options.footerTemplate }}">
     <ws:partial template="searchWithFooter"/>
 </ws:if>
 <ws:else>

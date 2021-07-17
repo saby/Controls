@@ -3,7 +3,8 @@
       <!--Top loading indicator-->
       <ws:partial if="{{ _listModel.getTopIndicator() }}"
                   template="{{_listModel.getTopIndicator().getTemplate()}}"
-                  item="{{_listModel.getTopIndicator()}}"/>
+                  item="{{_listModel.getTopIndicator()}}"
+                  on:click="_onIndicatorClick(_listModel.getTopIndicator())"/>
       <!--Top loading trigger-->
       <ws:partial template="{{_listModel.getTopLoadingTrigger().getTemplate()}}"
                   item="{{_listModel.getTopLoadingTrigger()}}"/>
@@ -36,7 +37,8 @@
       <!--Bottom loading indicator-->
       <ws:partial if="{{ _listModel.getBottomIndicator() }}"
                   template="{{_listModel.getBottomIndicator().getTemplate()}}"
-                  item="{{_listModel.getBottomIndicator()}}"/>
+                  item="{{_listModel.getBottomIndicator()}}"
+                  on:click="_onIndicatorClick(_listModel.getBottomIndicator())"/>
    </ws:if>
    <ws:if data="{{ _options.emptyTemplate }}">
       <ws:partial template="{{ _options.emptyTemplate }}" />

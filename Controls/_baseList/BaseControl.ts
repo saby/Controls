@@ -6207,7 +6207,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    // region LoadingIndicator
+    // region Indicators
 
     private _createIndicatorsController(options: IBaseControlOptions): void {
         this._indicatorsController = new IndicatorsController(this._getIndicatorsControllerOptions(options));
@@ -6315,7 +6315,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._indicatorsController.endPortionedSearch();
     }
 
-    // endregion LoadingIndicator
+    // endregion Indicators
 
     // region Drag-N-Drop
 
