@@ -2278,6 +2278,24 @@ describe('Controls/_display/Tree', () => {
             }));
             assert.isTrue(tree.hasNode());
         });
+
+        it('recount on change root', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0},
+                    {id: 11, hasChildren: false, node: null, pid: 1}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+            assert.isTrue(tree.hasNode());
+
+            tree.setRoot(1);
+            assert.isFalse(tree.hasNode());
+
+            tree.setRoot(0);
+            assert.isTrue(tree.hasNode());
+        });
     });
 
     describe('node footers', () => {

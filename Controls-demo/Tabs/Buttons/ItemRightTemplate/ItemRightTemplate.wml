@@ -1,0 +1,21 @@
+<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+    <div class="separator">Вкладки с кастомным содержимым</div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__custom">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey'
+                keyProperty="id"
+                itemTemplateProperty="itemTemplate"
+                leftTemplateProperty="leftTemplate"
+                source="{{_source}}"
+        >
+            <ws:itemRightTemplate>
+                <ws:if data="{{itemRightTemplate.item.get('rightTemplate')}}">
+                    <ws:partial template="{{ itemRightTemplate.item.get('rightTemplate') }}"
+                                item="{{itemRightTemplate.item}}"
+                                counter="{{1000}}"
+                    />
+                </ws:if>
+            </ws:itemRightTemplate>
+        </Controls.tabs:Buttons>
+    </div>
+</div>

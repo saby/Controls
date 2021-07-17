@@ -1,5 +1,5 @@
 /**
- * Библиотека контролов, которые реализуют плоский список. Список может строиться по данным, полученным из источника. Также можно организовать удаление и перемещение данных.
+ * Библиотека контролов, которые реализуют {@link /doc/platform/developmentapl/interface-development/controls/list/list/ плоский список}. Список может строиться по данным, полученным из источника. Также можно организовать удаление и перемещение данных.
  * @library
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
  * @includes IClickableView Controls/_list/interface/IClickableView

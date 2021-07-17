@@ -301,6 +301,12 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         return expanderSize || this._$owner.getExpanderSize();
     }
 
+    shouldDisplayExpanderBlock(): boolean {
+        return this._$owner.getExpanderVisibility() === 'hasChildren'
+            ? this._$owner.hasNodeWithChildren()
+            : this._$owner.hasNode();
+    }
+
     shouldDisplayExpander(expanderIcon?: string, position: 'default'|'right' = 'default'): boolean {
         if (this.getExpanderIcon(expanderIcon) === 'none' || this.isNode() === null) {
             return false;
@@ -365,10 +371,6 @@ export default class TreeItem<T extends Model = Model> extends mixin<
 
         let expanderClasses = 'js-controls-Tree__row-expander controls-TreeGrid__row-expander';
         expanderClasses += ' js-controls-ListView__notEditable';
-
-        if (this.isDragged()) {
-            expanderClasses += ' controls-ListView__itemContent_dragging';
-        }
 
         if (expanderPosition === 'default') {
             expanderClasses += ` controls-TreeGrid__row_${this.getStyle()}-expander_size_${(expanderSize || 'default')} `;

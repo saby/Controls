@@ -1,0 +1,14 @@
+<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+    <div class="separator">Прикладной контент перед вкладками</div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__contentBefore">
+        <div class="demo-TabButtons-container controls-Tabs__item-underline">
+            <Controls.heading:Title caption="Бизнес" fontColorStyle="secondary"/>
+        </div>
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey'
+                keyProperty="id"
+                itemTemplateProperty="itemTemplate"
+                source="{{_source}}"
+        />
+    </div>
+</div>

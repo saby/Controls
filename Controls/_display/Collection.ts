@@ -2621,7 +2621,7 @@ export default class Collection<
     setHasMoreData(hasMoreData: IHasMoreData): void {
         if (!isEqual(this._$hasMoreData, hasMoreData)) {
             this._$hasMoreData = hasMoreData;
-            this._updateEdgeItemsSeparators();
+            this._updateEdgeItemsSeparators(true);
             this._nextVersion();
         }
     }

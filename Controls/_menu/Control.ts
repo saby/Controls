@@ -270,6 +270,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
         if (MenuControl._isPinIcon(sourceEvent.target)) {
             this._pinClick(event, item);
+        } else if (MenuControl._isRightTemplateClick(sourceEvent.target)) {
+            this._rightTemplateClick(event, item);
         } else {
             if (this._options.multiSelect && this._selectionChanged &&
                 !this._isEmptyItem(treeItem.getContents()) && !MenuControl._isFixedItem(item)) {
@@ -369,6 +371,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _pinClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
         this._notify('pinClick', [item]);
+    }
+
+    private _rightTemplateClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
+        this._notify('rightTemplateClick', [item]);
     }
 
     private _isTouch(): boolean {
@@ -953,27 +959,57 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         // just check _children to make sure, that the control isn't destroyed
         if (item && this._children.Sticky && this._subDropdownItem) {
             this._getPopupOptions(target, item).then((popupOptions) => {
-                this._notify('beforeSubMenuOpen', [popupOptions]);
+                this._notify('beforeSubMenuOpen', [popupOptions, this._options.subMenuDirection]);
                 this._children.Sticky.open(popupOptions);
             });
         }
     }
 
+    private _getMenuPopupOffsetClass(item: CollectionItem<Model>, options: object): string {
+        let classes = '';
+
+        if (options.subMenuDirection === 'bottom') {
+            const paddingSize = this._listModel.getLeftPadding().toLowerCase();
+            const hasIcon = item.contents.get('icon');
+            const iconSize = item.contents.get('iconSize') || options.iconSize || 'm';
+
+            classes = ` controls_dropdownPopup_theme-${options.theme}`;
+
+            if (!!hasIcon) {
+                classes += ` controls-Menu__alignSubMenuDown_iconSize_${iconSize}_offset_${paddingSize}`;
+            } else {
+                classes += ` controls-Menu__alignSubMenuDown_offset_${paddingSize}`
+            }
+        }
+
+        return classes;
+    }
+
     private _getPopupOptions(target: EventTarget, item: CollectionItem<Model>): Promise<object> {
+        const subMenuDirection = this._options.subMenuDirection;
+        const direction = {
+            vertical: 'bottom',
+            horizontal: 'right'
+        };
+        const targetPoint = {
+            vertical: subMenuDirection === 'bottom' ? 'bottom' : 'top',
+            horizontal: subMenuDirection === 'bottom' ? 'left' : 'right'
+        };
+        const className = 'controls-Menu__subMenu controls-Menu__subMenu_margin' +
+            ` controls_popupTemplate_theme-${this._options.theme}` +
+            this._getMenuPopupOffsetClass(item, this._options);
+
         return this._getTemplateOptions(item).then((templateOptions) => {
             return {
                 templateOptions,
                 target,
                 autofocus: false,
-                direction: {
-                    horizontal: 'right'
-                },
-                targetPoint: {
-                    horizontal: 'right'
-                },
+                direction,
+                targetPoint,
                 calmTimer: this._options.calmTimer,
                 backgroundStyle: this._options.backgroundStyle,
-                trigger: this._options.trigger
+                trigger: this._options.trigger,
+                className
             };
         });
     }
@@ -1123,6 +1159,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return !!((target as HTMLElement)?.closest('.controls-Menu__iconPin'));
     }
 
+    private static _isRightTemplateClick(target: EventTarget): boolean {
+        return !!((target as HTMLElement)?.closest('.controls-Menu__row__rightTemplate_wrapper'));
+    }
+
     private static _calculatePointRelativePosition(firstSegmentPointX: number,
                                                    secondSegmentPointX: number,
                                                    firstSegmentPointY: number,
@@ -1178,7 +1218,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         groupTemplate,
         itemPadding: {},
         markerVisibility: 'onactivated',
-        hoverBackgroundStyle: 'default'
+        hoverBackgroundStyle: 'default',
+        subMenuDirection: 'right'
     };
 }
 /**

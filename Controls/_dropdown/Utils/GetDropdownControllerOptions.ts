@@ -62,7 +62,8 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         searchParam: options.searchParam,
         minSearchLength: options.minSearchLength,
         searchDelay: options.searchDelay,
-        searchValueTrim: options.searchValueTrim
+        searchValueTrim: options.searchValueTrim,
+        subMenuDirection: options.subMenuDirection
     };
     return dropdownOptions;
 }

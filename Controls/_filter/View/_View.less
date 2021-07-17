@@ -79,12 +79,12 @@
 
 .controls-FilterView__block:active {
    .controls-FilterView__text_state_enabled {
-      color: var(--item_active_color_filterView);
+      color: var(--item_hover_color_filterView);
       text-decoration: underline;
    }
 
    .controls-FilterView__iconArrow_state_enabled {
-      color: var(--item_active_icon-color_filterView);
+      color: var(--secondary_hover_icon-color);
    }
 }
 
@@ -116,8 +116,8 @@
 }
 
 .controls-FilterView__icon_state_enabled:active {
-   color: var(--active_icon-color_filterButton_filterView);
-   background-color: var(--background-color_active_filterButton_filterView);
+   color: var(--hover_icon-color_filterButton_filterView);
+   background-color: var(--background-color_hover_filterButton_filterView);
 }
 
 .controls-FilterView__icon_state_disabled {
@@ -135,7 +135,7 @@
 }
 
 .controls-FilterView__iconReset:active {
-   color: var(--reset-button_active_icon-color_filterView);
+   color: var(--reset-button_hover_icon-color_filterView);
 }
 
 //arrow
@@ -170,11 +170,11 @@
 }
 
 .controls-text-filterItem {
-   color: var(--link_text-color);
+   color: var(--secondary_text-color);
 }
 
 .controls-text-filterItem:active {
-   color: var(--link_hover_text-color);
+   color: var(--secondary_hover_text-color);
 }
 
 .controls-text-filterItem_readOnly {
@@ -195,7 +195,7 @@
    }
 
    .controls-text-filterItem:hover {
-      color: var(--link_hover_text-color);
+      color: var(--secondary_hover_text-color);
    }
 
    .controls-FilterView__iconReset:hover {

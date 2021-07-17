@@ -689,6 +689,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         this._reIndex();
         this._reAnalize();
         this._updateEdgeItemsSeparators();
+        this.resetHasNode();
     }
 
     /**

@@ -266,4 +266,26 @@ describe('Controls/list/display/RowSeparator/CollectionItem', () => {
         assert.isFalse(collection.getItemBySourceKey(2).isBottomSeparatorEnabled());
         assert.isTrue(newItem.isBottomSeparatorEnabled());
     });
+
+    it('setHasMoreData', () => {
+        const recordSet = new RecordSet({ rawData: [{id: 1}], keyProperty: 'id' });
+        const collection = new Collection({
+            keyProperty: 'id',
+            collection: recordSet,
+            rowSeparatorSize: 's',
+            navigation: {
+                view: 'infinity',
+                viewConfig: {
+                    pagingMode: 'page'
+                }
+            }
+        });
+        assert.isTrue(collection.at(0).isBottomSeparatorEnabled());
+
+        collection.setHasMoreData({up: false, down: true});
+        assert.isFalse(collection.at(0).isBottomSeparatorEnabled());
+
+        collection.setHasMoreData({up: false, down: false});
+        assert.isTrue(collection.at(0).isBottomSeparatorEnabled());
+    });
 });
