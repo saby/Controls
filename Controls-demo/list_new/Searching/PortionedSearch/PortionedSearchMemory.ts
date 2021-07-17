@@ -5,7 +5,22 @@ interface IItem {
     title: string;
 }
 
+const FAST_SEARCH_DELAY = 800;
+const SEARCH_DELAY = 2500;
+const LONG_SEARCH_DELAY = 10000;
+
 export default class PositionSourceMemory extends Memory {
+    private _longLoad: boolean = false;
+    private _fastLoad: boolean = false;
+
+    setLongLoad(longLoad: boolean) {
+        this._longLoad = longLoad;
+    }
+
+    setFastLoad(fastLoad: boolean) {
+        this._fastLoad = fastLoad;
+    }
+
     query(query?: Query<unknown>): Promise<DataSet> {
         const filter = query.getWhere();
         const limit = query.getLimit();
@@ -34,7 +49,7 @@ export default class PositionSourceMemory extends Memory {
                     items,
                     meta: {
                         total: isPosition ? { before: true, after: true } : true,
-                        iterative: true
+                        iterative: position < 100 // находим всего 100 записей
                     }
                 }, null)
             );
@@ -55,11 +70,18 @@ export default class PositionSourceMemory extends Memory {
     }
 
     private _getSearchItems(position: number): Promise<IItem[]> {
+        let delay = SEARCH_DELAY;
+        if (this._fastLoad) {
+            delay = FAST_SEARCH_DELAY;
+        } else if (this._longLoad) {
+            delay = LONG_SEARCH_DELAY;
+        }
+
         return new Promise((resolve) => {
             setTimeout(() => {
                 const items = this._getItems(position, 3);
                 resolve(items);
-            }, 2500);
+            }, delay);
         });
     }
 }

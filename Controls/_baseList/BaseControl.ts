@@ -807,7 +807,7 @@ const _private = {
         if (navigation) {
             switch (navigation.view) {
                 case 'infinity':
-                    result = !loadedList || (!loadedList.getCount() && _private.isPortionedLoad(this, loadedList));
+                    result = !loadedList || _private.isPortionedLoad(this, loadedList);
                     break;
                 case 'maxCount':
                     result = _private.needLoadByMaxCountNavigation(listViewModel, navigation);
@@ -1402,7 +1402,11 @@ const _private = {
                 if (self._options.searchValue) {
                     _private.tryLoadToDirectionAgain(self);
                 }
-                self._indicatorsController.recountIndicators('all', true);
+                if (self._shouldStartPortionedSearch()) {
+                    self._startPortionedSearch();
+                } else {
+                    self._indicatorsController.recountIndicators('all', true);
+                }
             }
 
             if (reason === 'assign' && self._options.itemsSetCallback) {
@@ -3019,6 +3023,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     iWantVDOM = true;
 
     private _indicatorsController: IndicatorsController;
+    /**
+     * Флаг, который означает что сейчас уже идет подгрузка в каком-либо направлении.
+     * Используется, чтобы не запускалась одновременно подгрузка в две стороны.
+     * Например, если при наличии данных в обе стороны и при изначальной отрисовке(или релоаде) загрузилось элементов
+     * не на целую страницу.
+     * @private
+     */
+    private _handleLoadToDirection: boolean;
 
     protected _listViewModel: Collection = null;
     _viewModelConstructor = null;
@@ -3447,7 +3459,16 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         this._scrollController?.setTriggerVisibility(direction, state);
         if (state) {
             this.handleTriggerVisible(direction);
+        } else if (
+            _private.isPortionedLoad(this) && direction === this._indicatorsController.getPortionedSearchDirection()
+        ) {
+            // если загрузилась целая страница раньше чем прервался поиск, то приостанавливаем его
+            // лучший способ узнать, что страница загрузилась - это скрылся триггер
+            if (this._indicatorsController.shouldStopPortionedSearch(true)) {
+                this._indicatorsController.stopPortionedSearch();
+            }
         }
+
         if (detection.isMobilePlatform) {
             _private.initPaging(this);
         }
@@ -3970,6 +3991,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (newOptions.searchValue || this._loadedBySourceController) {
             _private.tryLoadToDirectionAgain(this, null, newOptions);
         }
+        if (this._options.searchValue  && !newOptions.searchValue) {
+            this._endPortionedSearch();
+        }
 
         if (!loadStarted) {
             _private.doAfterUpdate(this, () => {
@@ -4385,10 +4409,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (triggerUp) {
             this.handleTriggerVisible('up');
         }
-
-        if (this._indicatorsController.shouldClearPortionedSearchTimer(this._loadTriggerVisibility)) {
-            this._indicatorsController.clearPortionedSearchTimer();
-        }
     }
     handleTriggerVisible(direction: IDirection): void {
         // Если уже идет загрузка в какую-то сторону, то в другую сторону не начинаем загрузку
@@ -4448,14 +4468,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 this._registerIntersectionObserver();
             }
         }
-        // FIXME need to delete after https://online.sbis.ru/opendoc.html?guid=4db71b29-1a87-4751-a026-4396c889edd2
-        if (oldOptions.hasOwnProperty('loading') && oldOptions.loading !== this._options.loading) {
-            if (this._options.loading) {
-                this._indicatorsController.displayGlobalIndicator();
-            } else {
-                this._indicatorsController.hideGlobalIndicator();
-            }
-        }
+
         // Запустить валидацию, которая была заказана методом commit у редактирования по месту, после
         // применения всех обновлений реактивных состояний.
         if (this._isPendingDeferSubmit) {
@@ -6297,15 +6310,24 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return _private.isPortionedLoad(this);
     }
 
-    protected _startPortionedSearch(direction: IDirection): void {
-        const newDirection = direction.replace('up', 'top').replace('down', 'bottom');
+    protected _startPortionedSearch(direction?: IDirection): void {
+        let newDirection;
+
+        if (direction) {
+            newDirection = direction.replace('up', 'top').replace('down', 'bottom');
+        } else {
+            // если после прерывания порционного поиска нажимают на лупу, то сработает только событие
+            // onCollectionChanged(reset), в котором мы не знаем точно направление
+            newDirection = this._hasMoreData('down') ? 'bottom' : 'top';
+        }
+
         this._indicatorsController.startPortionedSearch(newDirection as 'top'|'bottom');
 
         // Нужно сбросить флаг, чтобы подгрузка по триггеру работала после порционного поиска.
         this._handleLoadToDirection = false;
     }
 
-    protected _shouldEndPortionedSearch(loadedItems: RecordSet): boolean {
+    protected _shouldEndPortionedSearch(loadedItems?: RecordSet): boolean {
         const wasPortionedLoad = _private.isPortionedLoad(this);
         const isPortionedLoad = _private.isPortionedLoad(this, loadedItems);
         return wasPortionedLoad && (!_private.hasMoreDataInAnyDirection(this) || !isPortionedLoad);
