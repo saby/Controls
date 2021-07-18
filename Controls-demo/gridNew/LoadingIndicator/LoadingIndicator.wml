@@ -34,14 +34,5 @@
         </Router.router:Reference>
         <Controls-demo.gridNew.LoadingIndicator.Middle.Index/>
     </div>
-
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/PortionedSearch/Index' }}">
-            <a href="{{content.href}}">Порционный поиск</a>
-        </Router.router:Reference>
-        <Controls-demo.gridNew.LoadingIndicator.PortionedSearch.Index/>
-    </div>
 </div>
 

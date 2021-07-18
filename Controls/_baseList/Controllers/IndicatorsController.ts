@@ -156,6 +156,14 @@ export default class IndicatorsController {
         }
     }
 
+    hasDisplayedIndicator(): boolean {
+        return !!(
+            this._model.hasLoadingIndicator('top') ||
+            this._model.hasLoadingIndicator('bottom') ||
+            this._model.hasLoadingIndicator('global')
+        );
+    }
+
     private _recountTopIndicator(scrollToFirstItem: boolean = false): void {
         // если сейчас порционный поиск и у нас еще не кончился таймер показа индикатора, то не нужно пересчитывать
         if (this._isPortionedSearch() && this._showIndicatorTimer) {
@@ -191,7 +199,6 @@ export default class IndicatorsController {
     }
 
     private _shouldDisplayIndicator(direction: 'up'|'down'): boolean {
-        // TODO LI нужно на навигацию смотреть
         return this._options.isInfinityNavigation && !this._options.hasHiddenItemsByVirtualScroll(direction)
             && !this._options.shouldShowEmptyTemplate;
     }

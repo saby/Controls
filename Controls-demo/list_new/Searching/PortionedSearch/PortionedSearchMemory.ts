@@ -48,7 +48,8 @@ export default class PositionSourceMemory extends Memory {
                 .then((items) => this._prepareQueryResult({
                     items,
                     meta: {
-                        total: isPosition ? { before: true, after: true } : true,
+                        total: isPosition ? { before: true, after: true } : position < 100,
+                        more: position < 100,
                         iterative: position < 100 // находим всего 100 записей
                     }
                 }, null)

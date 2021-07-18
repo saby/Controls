@@ -1408,6 +1408,13 @@ const _private = {
                     self._indicatorsController.recountIndicators('all', true);
                 }
             }
+            if (action === IObservable.ACTION_ADD) {
+                // на beforeUpdate ожем показать глоабльный индкатор по началу загрузки,
+                // после загрузки данных если их больше нет, то скрываем
+                if (!_private.hasMoreDataInAnyDirection(self) && !_private.isPortionedLoad(self)) {
+                    self._indicatorsController.hideGlobalIndicator();
+                }
+            }
 
             if (reason === 'assign' && self._options.itemsSetCallback) {
                 self._options.itemsSetCallback();
@@ -3984,6 +3991,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             });
         }
 
+        // region Indicators
+
         // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
         // если при этом в списке кол-во записей было 0 (ноль) и поисковой запрос тоже вернул 0 записей,
         // onCollectionChange у рекордсета не стрельнёт, и не сработает код,
@@ -3994,6 +4003,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.searchValue  && !newOptions.searchValue) {
             this._endPortionedSearch();
         }
+        // если началась загрузка и не показан ни один индикатор, то показываем глобальный
+        if (loadStarted && !this._indicatorsController.hasDisplayedIndicator()) {
+            this._indicatorsController.displayGlobalIndicator();
+        }
+
+        // endregion Indicators
 
         if (!loadStarted) {
             _private.doAfterUpdate(this, () => {
