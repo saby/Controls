@@ -27,6 +27,7 @@ import TreeTileView from './TreeTileView';
  *
  * @author Панихин К.А.
  * @public
+ * @demo Controls-demo/treeTileNew/Default/Index
  */
 
 export default class View extends TileView {
