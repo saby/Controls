@@ -12,8 +12,11 @@ import {
 import * as LabelTemplate from 'wml!Controls/_input/Label/Label';
 import 'css!Controls/input';
 
+type TFontColorStyle = 'label' | 'unaccented';
+
 export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSizeOptions, IHrefOptions, IUnderlineOptions {
     required?: boolean;
+    fontColorStyle?: TFontColorStyle;
 }
 
 /**
@@ -45,7 +48,8 @@ class Label extends Control<ILabelOptions> implements ICaption, IFontSize, IHref
 
     static getDefaultOptions(): object {
         return {
-            underline: 'none'
+            underline: 'none',
+            fontColorStyle: 'label'
         };
     }
 
@@ -58,6 +62,10 @@ class Label extends Control<ILabelOptions> implements ICaption, IFontSize, IHref
                 'none',
                 'fixed',
                 'hovered'
+            ]),
+            fontColorStyle: EntityDescriptor(String).oneOf([
+                'label',
+                'unaccented'
             ]),
             required: EntityDescriptor(Boolean)
         };
@@ -89,4 +97,13 @@ export default Label;
  * @name Controls/_input/Label#underline
  * @cfg {String} Стиль декоративной линии, отображаемой для текста метки.
  * @default none
+ */
+
+/**
+ * @name Controls/_input/Label#fontColorStyle
+ * @cfg {String} Стиль цвета текста контрола
+ * @variant label
+ * @variant unaccented
+ * @default label
+ * @demo Controls-demo/Input/Label/FontColorStyle/Index
  */

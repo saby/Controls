@@ -26,23 +26,25 @@
    font-size: var(--font-size_default_label);
 }
 
-.controls-Label__caption_underline_none {
+.controls-Label__caption_fontColorStyle-label {
    color: var(--label_text-color);
+}
+
+.controls-Label__caption_fontColorStyle-readonly {
+   color: var(--readonly_color);
+}
+
+.controls-Label__caption_fontColorStyle-unaccented {
+   color: var(--unaccented_color);
 }
 
 .controls-Label__caption_underline_hovered_edit {
    cursor: pointer;
-   color: var(--label_text-color);
-}
-
-.controls-Label__caption_underline_hovered_read {
-   color: var(--readonly_color);
 }
 
 .ws-is-hover .controls-Label__caption_underline_hovered_edit:hover,
 .controls-Label__caption_underline_hovered_edit:active {
    text-decoration: underline;
-   color: var(--label_text-color);
 }
 
 .controls-Label__caption_underline_fixed {
@@ -51,11 +53,6 @@
 
 .controls-Label__caption_underline_fixed_edit {
    cursor: pointer;
-   color: var(--label_text-color);
-}
-
-.controls-Label__caption_underline_fixed_read {
-   color: var(--readonly_color);
 }
 
 .ws-is-hover .controls-Label__caption_underline_fixed_edit:hover,
