@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">fontColorStyle=label</div>
+        <Controls.input:Label caption="Label" fontColorStyle="label"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">fontColorStyle=unaccented</div>
+        <Controls.input:Label caption="Label" fontColorStyle="unaccented"/>
+    </div>
+</div>
