@@ -114,7 +114,7 @@ class Rating extends Control<IRatingOptions> {
     }
 
     protected _beforeUpdate(options: IRatingOptions): void {
-        const valueChanged = this._options.value !== options.value;
+        const valueChanged = this._selectStars !== options.value;
         const precisionChanged = this._options.precision !== options.precision;
         if (valueChanged) {
             this._selectStars = options.value;
