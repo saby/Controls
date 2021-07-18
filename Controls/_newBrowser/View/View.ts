@@ -241,7 +241,11 @@ export default class View extends Control<IOptions, IReceivedState> {
         }
 
         //region update master
-        const newMasterVisibility = View.calcMasterVisibility(newOptions);
+        const newMasterVisibility = View.calcMasterVisibility({
+            master: newOptions.master,
+            userViewMode: newOptions.userViewMode,
+            listConfiguration: newOptions.listConfiguration || this._listConfiguration
+        });
         const masterVisibilityChanged = this._masterVisibility !== newMasterVisibility;
 
         if (masterVisibilityChanged) {
