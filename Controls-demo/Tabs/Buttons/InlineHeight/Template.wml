@@ -1,28 +1,19 @@
 <div class="root controlsDemo_fixedWidth500 {{_options.theme !== 'default' ? ' root__dark_background'}}">
-    <div class="separator">inlineHeight = 's', markerThickness = 's'</div>
+    <div class="separator">inlineHeight = 's'</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__rightAlign">
         <Controls.tabs:Buttons
                 bind:selectedKey='SelectedKey1'
                 keyProperty="id"
-                markerThickness="s"
                 items="{{_items1}}"
         />
     </div>
-    <div class="separator">inlineHeight = 'l', markerThickness = 'l'</div>
-    <div class="demo-TabButtons ControlsDemo-Tabs__mainSeparate">
-        <Controls.tabs:Buttons
-                bind:selectedKey='SelectedKey2'
-                keyProperty="id"
-                inlineHeight="l"
-                items="{{_items1}}"
-        />
-    </div>
-    <div class="separator">inlineHeight = 's', markerThickness = 'l'</div>
+    <div class="separator">inlineHeight = 'l'</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__mainSeparate">
         <Controls.tabs:Buttons
                 bind:selectedKey='SelectedKey3'
                 keyProperty="id"
                 items="{{_items1}}"
+                inlineHeight="l"
         />
     </div>
 </div>
