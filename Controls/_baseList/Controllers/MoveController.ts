@@ -214,6 +214,7 @@ export class MoveController {
         } else if (callbackResult !== false) {
             return this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>;
         }
+        return Promise.reject();
     }
 
     /**

@@ -100,6 +100,7 @@ describe('Controls/List/Controllers/MoveController/BeforeMoveCallback', () => {
 
     it('-beforeMoveCallback; call moveInSource', () => {
         const moveController = getMoveController();
+        let callCatch = false;
         sandbox.stub(Dialog, 'openPopup').callsFake((args) => {
             return Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])));
         });
@@ -107,16 +108,20 @@ describe('Controls/List/Controllers/MoveController/BeforeMoveCallback', () => {
         return moveController
             .moveWithDialog(selectionObject)
             .then((result) => {})
-            .catch(() => {})
+            .catch(() => {
+                callCatch = true;
+            })
             .finally(() => {
                 sinon.assert.called(spySourceQuery);
                 sinon.assert.notCalled(stubLoggerError);
+                assert.isFalse(callCatch);
             });
 
         // asserts are above
     });
     it('beforeMoveCallback => true; call moveInSource', () => {
         beforeMoveCallback = (selection: ISelectionObject, target: Model | CrudEntityKey) => true;
+        let callCatch = false;
         const moveController = getMoveController();
         sandbox.stub(Dialog, 'openPopup').callsFake((args) => {
             return Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])));
@@ -125,16 +130,20 @@ describe('Controls/List/Controllers/MoveController/BeforeMoveCallback', () => {
         return moveController
             .moveWithDialog(selectionObject)
             .then((result) => {})
-            .catch(() => {})
+            .catch(() => {
+                callCatch = true;
+            })
             .finally(() => {
                 sinon.assert.called(spySourceQuery);
                 sinon.assert.notCalled(stubLoggerError);
+                assert.isFalse(callCatch);
             });
 
         // asserts are above
     });
     it('beforeMoveCallback => Promise.resolve(); call moveInSource', () => {
         beforeMoveCallback = (selection: ISelectionObject, target: Model | CrudEntityKey) => Promise.resolve();
+        let callCatch = false;
         const moveController = getMoveController();
         sandbox.stub(Dialog, 'openPopup').callsFake((args) => {
             return Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])));
@@ -143,16 +152,20 @@ describe('Controls/List/Controllers/MoveController/BeforeMoveCallback', () => {
         return moveController
             .moveWithDialog(selectionObject)
             .then((result) => {})
-            .catch(() => {})
+            .catch(() => {
+                callCatch = true;
+            })
             .finally(() => {
                 sinon.assert.called(spySourceQuery);
                 sinon.assert.notCalled(stubLoggerError);
+                assert.isFalse(callCatch);
             });
 
         // asserts are above
     });
     it('beforeMoveCallback => false; don\'t call moveInSource', () => {
         beforeMoveCallback = (selection: ISelectionObject, target: Model | CrudEntityKey) => false;
+        let callCatch = false;
         const moveController = getMoveController();
         sandbox.stub(Dialog, 'openPopup').callsFake((args) => {
             return Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])));
@@ -161,16 +174,20 @@ describe('Controls/List/Controllers/MoveController/BeforeMoveCallback', () => {
         return moveController
             .moveWithDialog(selectionObject)
             .then((result) => {})
-            .catch(() => {})
+            .catch(() => {
+                callCatch = true;
+            })
             .finally(() => {
                 sinon.assert.notCalled(spySourceQuery);
                 sinon.assert.notCalled(stubLoggerError);
+                assert.isTrue(callCatch);
             });
 
         // asserts are above
     });
     it('beforeMoveCallback => Promise<false>; don\'t call moveInSource', () => {
         beforeMoveCallback = (selection: ISelectionObject, target: Model | CrudEntityKey) => Promise.reject();
+        let callCatch = false;
         const moveController = getMoveController();
         sandbox.stub(Dialog, 'openPopup').callsFake((args) => {
             return Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])));
@@ -179,10 +196,13 @@ describe('Controls/List/Controllers/MoveController/BeforeMoveCallback', () => {
         return moveController
             .moveWithDialog(selectionObject)
             .then((result) => {})
-            .catch(() => {})
+            .catch(() => {
+                callCatch = true;
+            })
             .finally(() => {
                 sinon.assert.notCalled(spySourceQuery);
                 sinon.assert.notCalled(stubLoggerError);
+                assert.isTrue(callCatch);
             });
 
         // asserts are above
