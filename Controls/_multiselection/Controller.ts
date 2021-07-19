@@ -14,6 +14,7 @@ import {
 import { CrudEntityKey } from 'Types/source';
 import clone = require('Core/core-clone');
 import { isEqual } from 'Types/object';
+import {TreeSelectionStrategy} from "Controls/_multiselection/SelectionStrategy/Tree";
 
 /**
  * Контроллер множественного выбора
@@ -354,6 +355,14 @@ export class Controller {
          return;
       }
       this._updateModel(this._selection, false, addedItems.filter((it) => it.SelectableItem));
+   }
+
+   onCollectionMove() {
+      // Если в дереве переместили записи в другой узел, то нужно обновить selection на модели, иначе на родителе
+      // останется ненужная отметка, а на новом родителе не появится
+      if (this._strategy instanceof TreeSelectionStrategy) {
+         this._updateModel(this._selection);
+      }
    }
 
    // region rightSwipe

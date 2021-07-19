@@ -1857,6 +1857,9 @@ const _private = {
                     case IObservable.ACTION_REPLACE:
                         selectionController.onCollectionReplace(newItems);
                         break;
+                    case IObservable.ACTION_MOVE:
+                        selectionController.onCollectionMove();
+                        break;
                 }
 
                 if (newSelection) {
