@@ -25,6 +25,7 @@ export default class Row<T>
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;
+    readonly EdgeRowSeparatorItem: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
 

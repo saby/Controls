@@ -12,6 +12,7 @@ export default class TreeGridGroupDataRow<T extends Model> extends TreeGridDataR
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;
+    readonly EdgeRowSeparatorItem: boolean = true;
     readonly DraggableItem: boolean = false;
     readonly LadderSupport: boolean = false;
     readonly ItemActionsItem: boolean = false;
