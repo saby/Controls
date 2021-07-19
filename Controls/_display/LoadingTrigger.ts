@@ -5,8 +5,8 @@ export type TLoadingTriggerPosition = 'top'|'bottom';
 
 // триггер находится за индикатором, чтобы загрузка срабатывал при подскролле к индикатору,
 // делаем оффсет равный высоте индикатора
-export const DEFAULT_TOP_OFFSET = 47;
-export const DEFAULT_BOTTOM_OFFSET = 48;
+export const DEFAULT_TOP_TRIGGER_OFFSET = 47;
+export const DEFAULT_BOTTOM_TRIGGER_OFFSET = 48;
 
 export interface IOptions extends ICollectionOptions<null> {
     position: TLoadingTriggerPosition;

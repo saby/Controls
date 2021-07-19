@@ -1,10 +1,10 @@
 import Indicator, {
-    default as LoadingIndicatorItem, IOptions as ILoadingIndicatorOptions,
+    IOptions as ILoadingIndicatorOptions,
     TIndicatorPosition, TIndicatorState
 } from './Indicator';
 import LoadingTrigger, {
     TLoadingTriggerPosition,
-    IOptions as ILoadingTriggerOptions, DEFAULT_TOP_OFFSET, DEFAULT_BOTTOM_OFFSET,
+    IOptions as ILoadingTriggerOptions, DEFAULT_TOP_TRIGGER_OFFSET, DEFAULT_BOTTOM_TRIGGER_OFFSET,
 } from './LoadingTrigger';
 
 export interface ITriggerOffset {
@@ -13,20 +13,20 @@ export interface ITriggerOffset {
 }
 
 export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
-    protected _topIndicator: LoadingIndicatorItem = null;
-    protected _bottomIndicator: LoadingIndicatorItem = null;
-    protected _globalIndicator: LoadingIndicatorItem = null;
+    protected _topIndicator: Indicator = null;
+    protected _bottomIndicator: Indicator = null;
+    protected _globalIndicator: Indicator = null;
 
     protected _topLoadingTrigger: LoadingTrigger = null;
     protected _bottomLoadingTrigger: LoadingTrigger = null;
 
     // region Indicator
 
-    hasLoadingIndicator(position: TIndicatorPosition): boolean {
+    hasIndicator(position: TIndicatorPosition): boolean {
         return !!this._getIndicator(position);
     }
 
-    getGlobalLoadingIndicator(): Indicator {
+    getGlobalIndicator(): Indicator {
         return this._globalIndicator;
     }
 
@@ -64,7 +64,7 @@ export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
         return `_${position}Indicator`;
     }
 
-    private _getIndicator(position: TIndicatorPosition): LoadingIndicatorItem {
+    private _getIndicator(position: TIndicatorPosition): Indicator {
         const indicatorName = this._getIndicatorName(position);
         return this[indicatorName];
     }
@@ -143,10 +143,10 @@ export default abstract class IndicatorsMixin<T = Indicator|LoadingTrigger> {
         const visible = !isTopTrigger;
 
         let offset = 0;
-        if (isTopTrigger && this.hasLoadingIndicator('top')) {
-            offset = DEFAULT_TOP_OFFSET;
-        } else if (this.hasLoadingIndicator('bottom')) {
-            offset = DEFAULT_BOTTOM_OFFSET;
+        if (isTopTrigger && this.hasIndicator('top')) {
+            offset = DEFAULT_TOP_TRIGGER_OFFSET;
+        } else if (this.hasIndicator('bottom')) {
+            offset = DEFAULT_BOTTOM_TRIGGER_OFFSET;
         }
 
         const trigger = this.createItem({

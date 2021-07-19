@@ -105,9 +105,9 @@
         </ws:if>
 
         <!--Global loading indicator-->
-        <ws:partial if="{{ _listModel.getGlobalLoadingIndicator() }}"
-                    template="{{_listModel.getGlobalLoadingIndicator().getTemplate()}}"
-                    item="{{_listModel.getGlobalLoadingIndicator()}}"/>
+        <ws:partial if="{{ _listModel.getGlobalIndicator() }}"
+                    template="{{_listModel.getGlobalIndicator().getTemplate()}}"
+                    item="{{_listModel.getGlobalIndicator()}}"/>
     </table>
 </ws:template>
 

@@ -107,7 +107,10 @@ import {Remove as RemoveAction, Move as MoveAction, IMoveActionOptions} from 'Co
 import {isLeftMouseButton} from 'Controls/popup';
 import {IMovableList} from './interface/IMovableList';
 import {saveConfig} from 'Controls/Application/SettingsController';
-import IndicatorsController, {IIndicatorsControllerOptions} from "Controls/_baseList/Controllers/IndicatorsController";
+import IndicatorsController, {
+    DIRECTION_COMPATIBILITY,
+    IIndicatorsControllerOptions
+} from "Controls/_baseList/Controllers/IndicatorsController";
 
 //#endregion
 
@@ -678,9 +681,9 @@ const _private = {
             const filter: IHashMap<unknown> = cClone(receivedFilter || self._options.filter);
             if (self._shouldStartPortionedSearch()) {
                 self._startPortionedSearch(direction);
+            } else {
+                self._indicatorsController.recountIndicators(direction);
             }
-
-            self._indicatorsController.recountIndicators(direction);
 
             if (self._options.groupProperty) {
                 GroupingController.prepareFilterCollapsedGroups(self._listViewModel.getCollapsedGroups(), filter);
@@ -890,7 +893,7 @@ const _private = {
             !sourceController.isLoading();
         const allowLoadBySearch =
             !_private.isPortionedLoad(self) ||
-            self._indicatorsController.shouldPortionedSearch();
+            self._indicatorsController.shouldContinuePortionedSearch();
         const allowLoadByDrag = !(self._dndListController?.isDragging() && self._selectionController?.isAllSelected());
 
         if (allowLoadBySource && allowLoadByLoadedItems && allowLoadBySearch && allowLoadByDrag) {
@@ -1289,7 +1292,7 @@ const _private = {
     allowLoadMoreByPortionedSearch(self, direction: 'up'|'down'): boolean {
         let portionedSearchDirection = self._indicatorsController.getPortionedSearchDirection();
         return (!portionedSearchDirection || portionedSearchDirection !== direction) &&
-            self._indicatorsController.shouldPortionedSearch();
+            self._indicatorsController.shouldContinuePortionedSearch();
     },
 
     updateShadowMode(self, shadowVisibility: {up: boolean, down: boolean}): void {
@@ -1405,7 +1408,10 @@ const _private = {
                 if (self._shouldStartPortionedSearch()) {
                     self._startPortionedSearch();
                 } else {
-                    self._indicatorsController.recountIndicators('all', true);
+                    const changedResetTrigger = self._indicatorsController.recountIndicators('all', true);
+                    if (changedResetTrigger) {
+                        self._updateScrollController();
+                    }
                 }
             }
             if (action === IObservable.ACTION_ADD) {
@@ -1979,7 +1985,7 @@ const _private = {
         _private.callDataLoadCallbackCompatibility(this, items, direction, this._options);
 
         if (this._shouldEndPortionedSearch(items)) {
-            this._endPortionedSearch();
+            this._indicatorsController.endPortionedSearch();
         }
 
         if (this._isMounted && this._scrollController) {
@@ -3005,6 +3011,7 @@ export interface IBaseControlOptions extends IControlOptions, IItemActionsOption
     navigation?: INavigationOptionValue<INavigationSourceConfig>;
     sourceController?: SourceController;
     items?: RecordSet;
+    searchValue?: string;
 }
 
 export default class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOptions>
@@ -3823,13 +3830,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             this._updateScrollController(newOptions);
         }
 
-        this._updateIndicatorsController(newOptions);
-        // если прислали новые items, то это равноценно релоаду(которые произошел выше)
-        if (this._items !== newOptions.items && this._listViewModel) {
-            this._updateScrollController(newOptions);
-            this._indicatorsController.recountIndicators('all', true);
-        }
-
         if (_private.hasMarkerController(this) && this._listViewModel) {
             _private.getMarkerController(this).updateOptions({
                 model: this._listViewModel,
@@ -3993,15 +3993,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         // region Indicators
 
-        // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
-        // если при этом в списке кол-во записей было 0 (ноль) и поисковой запрос тоже вернул 0 записей,
-        // onCollectionChange у рекордсета не стрельнёт, и не сработает код,
-        // запускающий подгрузку по скролу (в навигации more: true)
-        if (newOptions.searchValue || this._loadedBySourceController) {
-            _private.tryLoadToDirectionAgain(this, null, newOptions);
-        }
+        this._updateIndicatorsController(newOptions);
+
         if (this._options.searchValue  && !newOptions.searchValue) {
-            this._endPortionedSearch();
+            this._indicatorsController.endPortionedSearch();
         }
         // если началась загрузка и не показан ни один индикатор, то показываем глобальный
         if (loadStarted && !this._indicatorsController.hasDisplayedIndicator()) {
@@ -4009,6 +4004,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
 
         // endregion Indicators
+
+        // После нажатии на enter или лупу в строке поиска, будут загружены данные и установлены в recordSet,
+        // если при этом в списке кол-во записей было 0 (ноль) и поисковой запрос тоже вернул 0 записей,
+        // onCollectionChange у рекордсета не стрельнёт, и не сработает код,
+        // запускающий подгрузку по скролу (в навигации more: true)
+        if (newOptions.searchValue || this._loadedBySourceController) {
+            _private.tryLoadToDirectionAgain(this, null, newOptions);
+        }
 
         if (!loadStarted) {
             _private.doAfterUpdate(this, () => {
@@ -4670,7 +4673,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     protected _reload(cfg, sourceConfig?: IBaseSourceConfig): Promise<any> | Deferred<any> {
         const filter: IHashMap<unknown> = cClone(cfg.filter);
-        const navigation = cClone(cfg.navigation);
         const resDeferred = new Deferred();
         const self = this;
 
@@ -4742,8 +4744,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                         data: list
                     });
 
-                    self._indicatorsController.recountIndicators('all', true);
-                    self._updateScrollController(self._options);
+                    const changedResetTrigger = self._indicatorsController.recountIndicators('all', true);
+                    if (changedResetTrigger) {
+                        self._updateScrollController();
+                    }
                     _private.resetScrollAfterLoad(self);
                     _private.tryLoadToDirectionAgain(self, list);
                 });
@@ -6243,7 +6247,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     private _updateIndicatorsController(newOptions?: IBaseControlOptions) {
         const options = newOptions || this._options;
-        this._indicatorsController.updateOptions(this._getIndicatorsControllerOptions(options));
+        const controllerOptions = this._getIndicatorsControllerOptions(options);
+        const changedResetTrigger = this._indicatorsController.updateOptions(controllerOptions);
+        if (changedResetTrigger) {
+            this._updateScrollController(newOptions);
+        }
     }
 
     private _getIndicatorsControllerOptions(options: IBaseControlOptions): IIndicatorsControllerOptions {
@@ -6326,15 +6334,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     protected _startPortionedSearch(direction?: IDirection): void {
-        let newDirection;
+        let newDirection = direction;
 
-        if (direction) {
-            newDirection = direction.replace('up', 'top').replace('down', 'bottom');
-        } else {
+        if (!direction) {
             // если после прерывания порционного поиска нажимают на лупу, то сработает только событие
             // onCollectionChanged(reset), в котором мы не знаем точно направление
-            newDirection = this._hasMoreData('down') ? 'bottom' : 'top';
+            newDirection = this._indicatorsController.getPortionedSearchDirection();
         }
+
+        newDirection = DIRECTION_COMPATIBILITY[newDirection] as IDirection;
 
         this._indicatorsController.startPortionedSearch(newDirection as 'top'|'bottom');
 
@@ -6346,10 +6354,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const wasPortionedLoad = _private.isPortionedLoad(this);
         const isPortionedLoad = _private.isPortionedLoad(this, loadedItems);
         return wasPortionedLoad && (!_private.hasMoreDataInAnyDirection(this) || !isPortionedLoad);
-    }
-
-    protected _endPortionedSearch(): void {
-        this._indicatorsController.endPortionedSearch();
     }
 
     // endregion Indicators

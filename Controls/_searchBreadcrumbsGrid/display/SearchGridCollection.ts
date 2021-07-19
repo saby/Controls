@@ -13,7 +13,7 @@ import {GridHeader, GridTableHeader} from 'Controls/grid';
  * @param {TreeItem<T>} item
  */
 function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
-   if (item.Indicator || item['[Controls/treeGrid:TreeGridGroupDataRow]'] || item['[Controls/_display/GroupItem]']) {
+   if (item['[Controls/treeGrid:TreeGridGroupDataRow]'] || item['[Controls/_display/GroupItem]']) {
       return true;
    }
 

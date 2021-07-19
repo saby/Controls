@@ -75,10 +75,6 @@ export default class Indicator extends CollectionItem<null> {
         return classes
     }
 
-    getQAData(marker?: boolean): string {
-        return this.key;
-    }
-
     isTopIndicator(): boolean {
         return this._$position === 'top';
     }
@@ -89,6 +85,10 @@ export default class Indicator extends CollectionItem<null> {
 
     isGlobalIndicator(): boolean {
         return this._$position === 'global';
+    }
+
+    getQAData(marker?: boolean): string {
+        return this.key;
     }
 }
 

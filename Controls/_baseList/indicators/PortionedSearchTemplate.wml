@@ -2,7 +2,7 @@
            controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch">
   <div class="controls-BaseControl__loadingIndicatorImg"></div>
   <div class="controls-BaseControl__loadingIndicator-content ws-flexbox ws-flex-column">
-     <div class="js-controls-BaseControl__abortSearch controls-BaseControl__abortSearch controls-BaseControl__abortSearch">
+     <div class="js-controls-BaseControl__abortSearch controls-BaseControl__abortSearch">
          {[Прервать поиск]}
      </div>
      <ws:if data="{{ _options.footerTemplate }}">

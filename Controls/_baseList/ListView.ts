@@ -8,7 +8,6 @@ import * as GroupTemplate from 'wml!Controls/_baseList/GroupTemplate';
 import * as ListViewTpl from 'wml!Controls/_baseList/ListView/ListView';
 import * as defaultItemTemplate from 'wml!Controls/_baseList/ItemTemplate';
 import 'css!Controls/baseList';
-import { Indicator } from 'Controls/display';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -304,22 +303,12 @@ const ListView = Control.extend(
          * @private
          */
         _onItemLongTap(event, itemData): void {
-            if (itemData['Controls/display:Indicator']) {
-                event.stopPropagation();
-                return;
-            }
-
             if (this._options.contextMenuEnabled !== false && this._options.contextMenuVisibility !== false && !this._options.listModel.isEditing()) {
                 this._notify('itemLongTap', [itemData, event]);
             }
         },
 
         _onItemSwipe: function(event, itemData) {
-            if (itemData['Controls/display:Indicator']) {
-                event.stopPropagation();
-                return;
-            }
-
             if (event.nativeEvent.direction === 'left') {
                 this.activate();
             }
@@ -332,7 +321,7 @@ const ListView = Control.extend(
         },
 
         _onItemMouseDown: function(event, itemData) {
-            if (itemData['[Controls/_display/GroupItem]'] || itemData['Controls/display:Indicator']) {
+            if (itemData['[Controls/_display/GroupItem]']) {
                 event.stopPropagation();
                 return;
             }
@@ -351,7 +340,7 @@ const ListView = Control.extend(
         },
 
         _onItemMouseUp(e, itemData) {
-            if (itemData['[Controls/_display/GroupItem]'] || itemData['Controls/display:Indicator']) {
+            if (itemData['[Controls/_display/GroupItem]']) {
                 e.stopPropagation();
                 return;
             }
@@ -359,11 +348,6 @@ const ListView = Control.extend(
         },
 
         _onItemMouseEnter: function(event, itemData) {
-            if (itemData['Controls/display:Indicator']) {
-                event.stopPropagation();
-                return;
-            }
-
             this._notify('itemMouseEnter', [itemData, event]);
             this._debouncedSetHoveredItem(this, itemData, event);
         },
@@ -371,21 +355,11 @@ const ListView = Control.extend(
         //TODO: из-за того что ItemOutput.wml один для всех таблиц, приходится подписываться в нем на события,
         //которые не нужны для ListView. Выписана задача https://online.sbis.ru/opendoc.html?guid=9fd4922f-eb37-46d5-8c39-dfe094605164
         _onItemMouseLeave: function(event, itemData) {
-            if (itemData['Controls/display:Indicator']) {
-                event.stopPropagation();
-                return;
-            }
-
             this._notify('itemMouseLeave', [itemData, event]);
             this._debouncedSetHoveredItem(this, null);
         },
 
         _onItemMouseMove: function(event, itemData) {
-            if (itemData['Controls/display:Indicator'] ) {
-                event.stopPropagation();
-                return;
-            }
-
             this._notify('itemMouseMove', [itemData, event]);
         },
 
@@ -402,16 +376,13 @@ const ListView = Control.extend(
             return this._children.bottomLoadingTrigger;
         },
 
-        _onIndicatorClick(event: SyntheticEvent, indicator: Indicator): void {
+        _onIndicatorClick(event: SyntheticEvent): void {
             if (event.target.closest('.js-controls-BaseControl__continueSearch')) {
                 this._notify('continueSearchClick');
             }
             if (event.target.closest('.js-controls-BaseControl__abortSearch')) {
                 this._notify('abortSearchClick');
             }
-        },
-
-        _onAbortSearchClick(): void {
         },
 
         // endregion Indicators

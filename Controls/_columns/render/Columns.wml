@@ -49,5 +49,10 @@
       </div>
    </ws:if>
 
+   <!--Global loading indicator-->
+   <ws:partial if="{{ _listModel.getGlobalIndicator() }}"
+               template="{{_listModel.getGlobalIndicator().getTemplate()}}"
+               item="{{_listModel.getGlobalIndicator()}}"/>
+
    <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()"/>
 </div>

@@ -1,6 +1,8 @@
-import {Collection, EIndicatorState, ITriggerOffset} from 'Controls/display';
+import {
+    Collection, EIndicatorState, ITriggerOffset,
+    DEFAULT_BOTTOM_TRIGGER_OFFSET, DEFAULT_TOP_TRIGGER_OFFSET
+} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
-import {DEFAULT_BOTTOM_OFFSET, DEFAULT_TOP_OFFSET} from "Controls/_display/LoadingTrigger";
 
 export interface IIndicatorsControllerOptions {
     model: Collection;
@@ -31,13 +33,20 @@ enum SEARCH_STATES {
 
 type TPortionedSearchDirection = 'top'|'bottom';
 
+export const DIRECTION_COMPATIBILITY = {
+    'top': 'up',
+    'up': 'down',
+    'bottom': 'down',
+    'down': 'bottom',
+}
+
 export default class IndicatorsController {
     private _options: IIndicatorsControllerOptions;
     private _model: Collection;
 
     private _resetTopTriggerOffset: boolean;
     private _resetBottomTriggerOffset: boolean;
-    private _showIndicatorTimer: number;
+    private _displayIndicatorTimer: number;
 
     private _portionedSearchDirection: TPortionedSearchDirection;
     private _portionedSearchTimer: number = null;
@@ -65,19 +74,20 @@ export default class IndicatorsController {
         }
     }
 
-    updateOptions(options: IIndicatorsControllerOptions): void {
+    updateOptions(options: IIndicatorsControllerOptions): boolean {
         const shouldRecountAllIndicators = options.items && this._options.items !== options.items;
 
         this._options = options;
         this._model = options.model;
 
+        let changedResetTrigger = false;
         if (shouldRecountAllIndicators) {
-            this.recountIndicators('all')
+            changedResetTrigger = this.recountIndicators('all', true)
         }
+        return changedResetTrigger;
     }
 
     destroy(): void {
-        clearTimeout(this._showIndicatorTimer);
         this.clearPortionedSearchTimer();
     }
 
@@ -88,13 +98,8 @@ export default class IndicatorsController {
             && this._shouldDisplayIndicator('up');
     }
 
-    shouldDisplayBottomIndicator(): boolean {
-        return this._options.attachLoadDownTriggerToNull && this._options.hasMoreDataToBottom
-            && this._shouldDisplayIndicator('down');
-    }
-
     displayTopIndicator(scrollToFirstItem: boolean): void {
-        const isDisplayedIndicator = this._model.hasLoadingIndicator('top');
+        const isDisplayedIndicator = this._model.hasIndicator('top');
         if (isDisplayedIndicator) {
             return;
         }
@@ -108,8 +113,13 @@ export default class IndicatorsController {
         }
     }
 
+    shouldDisplayBottomIndicator(): boolean {
+        return this._options.attachLoadDownTriggerToNull && this._options.hasMoreDataToBottom
+            && this._shouldDisplayIndicator('down');
+    }
+
     displayBottomIndicator(): void {
-        const isDisplayedIndicator = this._model.hasLoadingIndicator('bottom');
+        const isDisplayedIndicator = this._model.hasIndicator('bottom');
         if (isDisplayedIndicator) {
             return;
         }
@@ -119,8 +129,8 @@ export default class IndicatorsController {
     }
 
     displayGlobalIndicator(): void {
-        if (!this._showIndicatorTimer) {
-            this._startIndicatorTimer(
+        if (!this._displayIndicatorTimer) {
+            this._startDisplayIndicatorTimer(
                 () => this._model.displayIndicator('global', EIndicatorState.Loading)
             );
         }
@@ -128,13 +138,15 @@ export default class IndicatorsController {
 
     hideGlobalIndicator(): void {
         this._model.hideIndicator('global');
-        this._clearIndicatorTimer();
+        this._clearDisplayIndicatorTimer();
     }
 
-    recountIndicators(direction: 'up'|'down'|'all', scrollToFirstItem: boolean = false): void {
+    recountIndicators(direction: 'up'|'down'|'all', scrollToFirstItem: boolean = false): boolean {
+        let changedResetTrigger = false;
+
         // если поиск был прерван, то ничего делать не нужно, т.к. ромашек теперь точно не будет
         if (this._getSearchState() === SEARCH_STATES.ABORTED) {
-            return;
+            return changedResetTrigger;
         }
 
         switch (direction) {
@@ -145,28 +157,29 @@ export default class IndicatorsController {
                 this._recountBottomIndicator();
                 break;
             case 'all':
-                // триггер после перезагрузки сбрасываем только если нужно показывать индикатор
-                this._resetTopTriggerOffset = this.shouldDisplayTopIndicator();
-                this._resetBottomTriggerOffset = this.shouldDisplayBottomIndicator();
+                changedResetTrigger = this.recountResetTriggerOffsets('all');
                 this._recountTopIndicator(scrollToFirstItem);
                 this._recountBottomIndicator();
                 // после перезагрузки скрываем глобальный индикатор
                 this.hideGlobalIndicator();
                 break;
         }
+
+        return changedResetTrigger;
     }
 
     hasDisplayedIndicator(): boolean {
         return !!(
-            this._model.hasLoadingIndicator('top') ||
-            this._model.hasLoadingIndicator('bottom') ||
-            this._model.hasLoadingIndicator('global')
+            this._model.hasIndicator('top') ||
+            this._model.hasIndicator('bottom') ||
+            this._model.hasIndicator('global')
         );
     }
 
     private _recountTopIndicator(scrollToFirstItem: boolean = false): void {
-        // если сейчас порционный поиск и у нас еще не кончился таймер показа индикатора, то не нужно пересчитывать
-        if (this._isPortionedSearch() && this._showIndicatorTimer) {
+        // если сейчас порционный поиск и у нас еще не кончился таймер показа индикатора, то не нужно пересчитывать,
+        // т.к. при порционном поиске индикатор покажется с задержкой в 2с, дожидаемся её
+        if (this._isPortionedSearch() && this._displayIndicatorTimer) {
             return;
         }
 
@@ -186,8 +199,9 @@ export default class IndicatorsController {
     }
 
     private _recountBottomIndicator(): void {
-        // если сейчас порционный поиск и у нас еще не кончился таймер показа индикатора, то не нужно пересчитывать
-        if (this._isPortionedSearch() && this._showIndicatorTimer) {
+        // если сейчас порционный поиск и у нас еще не кончился таймер показа индикатора, то не нужно пересчитывать,
+        // т.к. при порционном поиске индикатор покажется с задержкой в 2с, дожидаемся её
+        if (this._isPortionedSearch() && this._displayIndicatorTimer) {
             return;
         }
 
@@ -203,21 +217,21 @@ export default class IndicatorsController {
             && !this._options.shouldShowEmptyTemplate;
     }
 
-    private _startIndicatorTimer(showIndicator: () => void): void {
-        this._showIndicatorTimer = setTimeout(() => {
+    private _startDisplayIndicatorTimer(showIndicator: () => void): void {
+        this._displayIndicatorTimer = setTimeout(() => {
             if (!this._model || this._model.destroyed) {
                 return;
             }
 
-            this._showIndicatorTimer = null;
+            this._displayIndicatorTimer = null;
             showIndicator();
         }, INDICATOR_DELAY);
     }
 
-    private _clearIndicatorTimer(): void {
-        if (this._showIndicatorTimer) {
-            clearTimeout(this._showIndicatorTimer);
-            this._showIndicatorTimer = null;
+    private _clearDisplayIndicatorTimer(): void {
+        if (this._displayIndicatorTimer) {
+            clearTimeout(this._displayIndicatorTimer);
+            this._displayIndicatorTimer = null;
         }
     }
 
@@ -233,15 +247,33 @@ export default class IndicatorsController {
         return this._resetBottomTriggerOffset;
     }
 
-    recountResetTriggerOffsets(directionOfLoadItems: 'up'|'down'): boolean {
+    /**
+     * Сбрасывает флаг resetTriggerOffset для направления directionOfLoadItems
+     * @param directionOfLoadItems Направление подгрузки данных
+     */
+    recountResetTriggerOffsets(directionOfLoadItems: 'up'|'down'|'all'): boolean {
         let changed = false;
-        // после первого запроса остальные запросы нужно загружать заранее
+
+        if (directionOfLoadItems === 'all') {
+            // триггер после перезагрузки сбрасываем только если нужно показывать индикатор
+            const displayTopTrigger = this.shouldDisplayTopIndicator();
+            const displayBottomTrigger = this.shouldDisplayBottomIndicator();
+
+            if (displayTopTrigger && !this._resetTopTriggerOffset) {
+                this._resetTopTriggerOffset = true;
+                changed = true;
+            }
+
+            if (displayBottomTrigger && !this._resetBottomTriggerOffset) {
+                this._resetBottomTriggerOffset = true;
+                changed = true;
+            }
+        }
 
         if (directionOfLoadItems === 'up' && this._resetTopTriggerOffset) {
             this._resetTopTriggerOffset = false;
             changed = true;
         }
-
         if (directionOfLoadItems === 'down' && this._resetBottomTriggerOffset) {
             this._resetBottomTriggerOffset = false;
             changed = true;
@@ -267,11 +299,11 @@ export default class IndicatorsController {
     private _correctTriggerOffset(offset: ITriggerOffset): ITriggerOffset {
         const newOffset = {...offset};
 
-        if (this._model.hasLoadingIndicator('top')) {
-            newOffset.top = newOffset.top + DEFAULT_TOP_OFFSET;
+        if (this._model.hasIndicator('top')) {
+            newOffset.top = newOffset.top + DEFAULT_TOP_TRIGGER_OFFSET;
         }
-        if (this._model.hasLoadingIndicator('bottom')) {
-            newOffset.bottom = newOffset.bottom + DEFAULT_BOTTOM_OFFSET;
+        if (this._model.hasIndicator('bottom')) {
+            newOffset.bottom = newOffset.bottom + DEFAULT_BOTTOM_TRIGGER_OFFSET;
         }
 
         return newOffset;
@@ -291,29 +323,10 @@ export default class IndicatorsController {
             // скрываем индикатор, т.к. после начала порционного поиска индикатор долежн показаться через 2с,
             // а на момент начала поиска может быть уже показан индикатор
             this._model.hideIndicator(direction);
-            this._startIndicatorTimer(
+            this._startDisplayIndicatorTimer(
                 () => this._model.displayIndicator(direction, EIndicatorState.PortionedSearch)
             );
         }
-    }
-
-    /**
-     * Нужно ли перезапустить таймер для показа индикатора порционного поиска
-     * Перезапускаем, только если порционный поиск был начат, таймер запущен и еще не выполнился
-     */
-    shouldResetShowPortionedSearchTimer(): boolean {
-        return this.isPortionedSearchInProgress() && !!this._showIndicatorTimer;
-    }
-
-    /**
-     * Перезапускаем таймер для показа индикатора порционного поиска
-     */
-    resetShowPortionedSearchTimer(): void {
-        this._clearIndicatorTimer();
-        const direction = this._portionedSearchDirection;
-        this._startIndicatorTimer(
-            () => this._model.displayIndicator(direction, EIndicatorState.PortionedSearch)
-        );
     }
 
     /**
@@ -356,7 +369,28 @@ export default class IndicatorsController {
         this.clearPortionedSearchTimer();
     }
 
-    shouldPortionedSearch(): boolean {
+    /**
+     * Нужно ли перезапустить таймер для показа индикатора порционного поиска
+     * Перезапускаем, только если порционный поиск был начат, таймер запущен и еще не выполнился
+     */
+    shouldResetShowPortionedSearchTimer(): boolean {
+        return this.isPortionedSearchInProgress() && !!this._displayIndicatorTimer;
+    }
+
+    /**
+     * Перезапускаем таймер для показа индикатора порционного поиска
+     */
+    resetShowPortionedSearchTimer(): void {
+        this._clearDisplayIndicatorTimer();
+        this._startDisplayIndicatorTimer(
+            () => this._model.displayIndicator(
+                this._portionedSearchDirection, EIndicatorState.PortionedSearch
+            )
+        );
+    }
+
+    shouldContinuePortionedSearch(): boolean {
+        // TODO LI точно ли нужна проверка на STOPPED
         return this._getSearchState() !== SEARCH_STATES.STOPPED && this._getSearchState() !== SEARCH_STATES.ABORTED;
     }
 
@@ -366,14 +400,11 @@ export default class IndicatorsController {
 
     getPortionedSearchDirection(): 'up'|'down' {
         // Приводим новые названия направлений к старым
-        const portionedSearchDirection = this._portionedSearchDirection
-            ? this._portionedSearchDirection.replace('top', 'up').replace('bottom', 'down')
-            : null;
-        return portionedSearchDirection as 'up'|'down';
+        return DIRECTION_COMPATIBILITY[this._portionedSearchDirection] as 'up'|'down';
     }
 
     clearPortionedSearchTimer(): void {
-        this._clearIndicatorTimer();
+        this._clearDisplayIndicatorTimer();
         if (this._portionedSearchTimer) {
             clearTimeout(this._portionedSearchTimer);
             this._portionedSearchTimer = null;
