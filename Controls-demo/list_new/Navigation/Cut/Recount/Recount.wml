@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper controlsDemo__maxWidth200">
+    <Controls.list:View
+        name="list"
+        source="{{_source}}"
+        navigation="{{_navigation}}"
+        itemsReadyCallback="{{_itemsReadyCallback}}"/>
+
+    <div class="controlsDemo__flexColumn controlsDemo__wrapper__padding-top" style="width: 200px;">
+        <Controls.buttons:Button caption="+Запись" on:click="_onAddItem()"/>
+        <Controls.buttons:Button caption="Удалить с начала" on:click="_onRemoveItemByStart()"/>
+        <Controls.buttons:Button caption="Удалить с конца" on:click="_onRemoveItemByEnd()"/>
+    </div>
+</div>
