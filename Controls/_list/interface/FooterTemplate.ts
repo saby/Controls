@@ -1,5 +1,5 @@
 /**
- * Шаблон, который по умолчанию используется для отображения подала {@link Controls/grid:View таблицы}.
+ * Шаблон, который по умолчанию используется для отображения подвала {@link Controls/list:View плоского списка}.
  * 
  * @class Controls/_list/interface/FooterTemplate
  * @author Авраменко А.С.
