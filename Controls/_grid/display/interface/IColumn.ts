@@ -415,17 +415,19 @@ export interface IColumn extends IColspanParams {
     tagStyleProperty?: string;
     /**
      * @cfg Тип отображаемых данных.
+     * @remark
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/visual/type/ здесь}.
      * @example
      * В следующем примере показано как отобразить поле записи типа "число"
      *
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [6]">
+     * // TypeScript
      * ...
      * protected _columns: IColumn[] = [
      *     {
      *         displayProperty: 'price',
      *         displayType: 'number'
-     *     },
-     *     ...
+     *     }
      * ]
      * </pre>
      */
