@@ -165,7 +165,7 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
         });
 
         record.addField({ name: this._options.parentProperty, type: 'string', defaultValue: this._root });
-        record.addField( { name: this._options.nodeProperty, type: 'string', defaultValue: null });
+        record.addField( { name: this._options.nodeProperty, type: 'boolean', defaultValue: null });
         record.addField({ name: this._options.keyProperty, type: 'string', defaultValue: 'root' });
         record.addField({
             name: this._options.displayProperty,
