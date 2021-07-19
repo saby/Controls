@@ -101,7 +101,7 @@ class ListEditor extends BaseEditor {
             this._setColumns(options, options.propertyValue);
             this._navigation = this._getNavigation(options);
         }
-        if (filterChanged || (valueChanged && !this._selectedKeys.length)) {
+        if (filterChanged || valueChanged) {
             this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
         }
     }
