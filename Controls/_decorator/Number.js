@@ -126,5 +126,4 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
 /**
  * @name Controls/_decorator/INumber#tooltip
  * @cfg {string} Текст всплывающей подсказки, отображаемой при наведении курсора мыши.
- * @demo Controls-demo/Decorator/Number/Value/Index
  */
