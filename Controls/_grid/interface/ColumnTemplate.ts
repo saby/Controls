@@ -241,7 +241,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     tagStyle?: 'info' | 'danger' | 'primary' | 'success' | 'secondary';
 
     /**
-     * @cfg {Controls/grid.TMarkerClassName} Размер маркера.
+     * @cfg {Controls/display.TMarkerClassName} Размер маркера.
      * @default default
      */
     markerClassName?: TMarkerClassName;
