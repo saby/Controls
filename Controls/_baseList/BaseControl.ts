@@ -4001,9 +4001,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (this._options.searchValue  && !newOptions.searchValue) {
             this._indicatorsController.endPortionedSearch();
         }
-        // если началась загрузка и не показан ни один индикатор, то показываем глобальный
         if (loadStarted && !this._indicatorsController.hasDisplayedIndicator()) {
             this._indicatorsController.displayGlobalIndicator();
+        }
+        if (this._loadedBySourceController) {
+            this._indicatorsController.hideGlobalIndicator();
         }
 
         // endregion Indicators
@@ -6342,7 +6344,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!direction) {
             // если после прерывания порционного поиска нажимают на лупу, то сработает только событие
             // onCollectionChanged(reset), в котором мы не знаем точно направление
-            newDirection = this._indicatorsController.getPortionedSearchDirection();
+            newDirection = this._hasMoreData('down') ? 'down' : 'up';
         }
 
         newDirection = DIRECTION_COMPATIBILITY[newDirection] as IDirection;

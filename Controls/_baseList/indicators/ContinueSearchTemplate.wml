@@ -22,12 +22,12 @@
             <ws:partial template="contentTemplate"/>
         </div>
         <div class="controls-BaseControl__continueSearch_footerTemplate">
-            <ws:partial template="{{ _options.footerTemplate }}"/>
+            <ws:partial template="{{ footerTemplate }}"/>
         </div>
     </div>
 </ws:template>
 
-<ws:if data="{{ _options.footerTemplate }}">
+<ws:if data="{{ footerTemplate }}">
     <ws:partial template="searchWithFooter"/>
 </ws:if>
 <ws:else>
