@@ -816,6 +816,33 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
+    /**
+     * Метод для определения позиции добавляемой записи по-умолчанию.
+     * Если в дереве маркер стоит на развернутом узле или на его дочерних записях/свёрнутых узлах,
+     * то позиция по-умолчанию для добавляемой записи - этот раскрытый узел.
+     * Во всех остальных случаях позицией будет текущий корень дерева.
+     *
+     * @return {TKey} Ключ розительского узла для добавления по-умолчанию.
+     */
+    getDefaultAddParentKey(): TKey {
+        const markedKey = this.getMarkerController().getMarkedKey();
+
+        if (typeof markedKey !== 'undefined') {
+            const markedRecord = this.getViewModel().getItemBySourceKey(markedKey);
+
+            if (markedRecord.isExpanded()) {
+                // Узел раскрыт.
+                return markedRecord.contents.getKey();
+            } else if (!markedRecord.getParent().isRoot()) {
+                // Если запись вложена, то добавлять нужно в родителя, т.к. он - развернутый узел.
+                return markedRecord.getParent().contents.getKey();
+            }
+        }
+
+        const currentRoot = this.getViewModel().getRoot();
+        return currentRoot.isRoot() ? currentRoot.contents : currentRoot.contents.getKey();
+    }
+
     resetExpandedItems(): void {
         _private.resetExpandedItems(this);
     }
