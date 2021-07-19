@@ -381,7 +381,9 @@ export default class Explorer extends Control<IExplorerOptions> {
             cfg.sourceController) {
             // https://online.sbis.ru/opendoc.html?guid=7d20eb84-51d7-4012-8943-1d4aaabf7afe
             if (!VIEW_MODEL_CONSTRUCTORS[this._pendingViewMode]) {
-                this._loadTileViewMode(this._pendingViewMode, cfg);
+                Promise.resolve(this._loadTileViewMode()).then(() => {
+                    this._setViewModeSync(this._pendingViewMode, cfg);
+                });
             } else {
                 this._setViewModeSync(this._pendingViewMode, cfg);
             }
@@ -974,14 +976,23 @@ export default class Explorer extends Control<IExplorerOptions> {
         if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
+        let action: Promise<void> | void;
 
         if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
-            return this._loadTileViewMode(viewMode, cfg);
+            action = this._loadTileViewMode();
         } else if (viewMode === 'list' && cfg.useColumns) {
-            return this._loadColumnsViewMode(viewMode, cfg);
+            action = this._loadColumnsViewMode();
         } else {
-            this._setViewModeSync(viewMode, cfg);
+            return this._setViewModeSync(viewMode, cfg);
         }
+
+        if (action instanceof Promise) {
+            return action.then(() => {
+                this._setViewModeSync(viewMode, cfg)
+            });
+        }
+
+        return this._setViewModeSync(viewMode, cfg);
     }
 
     private _applyNewVisualOptions(): void {
@@ -1081,24 +1092,20 @@ export default class Explorer extends Control<IExplorerOptions> {
         return itemFromRoot;
     }
 
-    private _loadTileViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): Promise<void> | void {
+    private _loadTileViewMode(): Promise<void> | void {
         return executeSyncOrAsync(['Controls/treeTile'], (tile) => {
             VIEW_NAMES.tile = tile.TreeTileView;
             VIEW_TABLE_NAMES.tile = tile.TreeTileView;
             VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
-
-            this._setViewModeSync(viewMode, cfg);
         });
     }
 
-    private _loadColumnsViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): Promise<void> | void {
+    private _loadColumnsViewMode(): Promise<void> | void {
         return executeSyncOrAsync(['Controls/columns'], (columns) => {
             VIEW_NAMES.list = columns.ViewTemplate;
             MARKER_STRATEGY.list = MultiColumnStrategy;
             ITEM_GETTER.list = columns.ItemContainerGetter;
             VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
-
-            this._setViewModeSync(viewMode, cfg);
         });
     }
 
