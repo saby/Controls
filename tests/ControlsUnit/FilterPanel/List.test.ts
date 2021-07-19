@@ -30,6 +30,15 @@ describe('Controls/filterPanel:ListEditor', () => {
             assert.deepEqual(listEditor._filter, {});
         });
 
+        it('filter updated after propertyValue changed', () => {
+            const newPropertyValue = [2];
+            const listEditor = getEditor();
+            const options = getEditorOptions();
+            options.propertyValue = newPropertyValue;
+            listEditor._beforeUpdate(options);
+            assert.deepEqual(listEditor._filter[options.keyProperty], newPropertyValue);
+        });
+
         it('propertyValue changed with multiSelect', () => {
             const listEditor = getEditor();
             const newPropertyValue = [1];
