@@ -105,6 +105,7 @@ export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHei
  * @mixes Controls/dropdown:IIconSize
  * @mixes Controls/dropdown:IBaseDropdown
  * @mixes Controls/dropdown:IGrouped
+ * @mixes Controls/dropdown:IButton
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IIconStyle
  * @mixes Controls/interface:IFontColorStyle
