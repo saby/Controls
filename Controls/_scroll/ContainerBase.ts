@@ -1011,7 +1011,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
         // Величина на которую делаем подскролл
         const delta = 30;
-        const timeout = 100;
+        const delay = 100;
         // Вешаем интервал что бы если пользователь остановил курсор автоскролл продолжал работать
         this._autoScrollInterval = setInterval(() => {
             if (!this._autoScroll) {
@@ -1027,7 +1027,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             if (cursorAtBorder.near && cursorAtBorder.nearBottom) {
                 this._setScrollTop(scrollTop + delta);
             }
-        }, timeout);
+        }, delay);
     }
 
     // Виртуальный скролл
