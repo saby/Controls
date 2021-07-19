@@ -158,10 +158,6 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
         }
     }
 
-    /**
-     * Возвращает данные для записи "В корень"
-     * @private
-     */
     private _getRootRecord(keyProperty: string, rsAdapter: adapter.IAdapter): Model {
         const record = new Model({
             keyProperty,
