@@ -1,5 +1,5 @@
 /**
- * Шаблон, который по умолчанию используется для отображения подала {@link Controls/grid:View таблицы}.
+ * Шаблон, который по умолчанию используется для отображения подвала {@link Controls/grid:View таблицы}.
  * 
  * @class Controls/_grid/interface/FooterTemplate
  * @author Авраменко А.С.
