@@ -581,7 +581,7 @@
   "--header_lineheight_stack": "25px",
   "--header_min-width_stack": "30px",
   "--header_padding-left_stack": "var(--offset_m)",
-  "--header-content_padding-right_stack": "var(--offset_l)",
+  "--header-content_padding-right_stack": "var(--offset_m)",
   "--header_caption_offset-right_stack": "var(--offset_m)",
   "--background-color_stack": "var(--background-color)",
   "--width_stack-right_panel": "52px",
