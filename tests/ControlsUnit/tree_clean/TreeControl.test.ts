@@ -10,10 +10,11 @@ import { ITreeControlOptions } from 'Controls/_tree/TreeControl';
 * 1
 *    2
 *       3
-*       4
-*    5
-* 6
+*          4
+*       5
+*    6
 * 7
+* 8
 */
 const DEFAULT_DATA = [{
     id: 1,
@@ -32,21 +33,26 @@ const DEFAULT_DATA = [{
     hasChildren: false
 }, {
     id: 4,
-    parent: 2,
+    parent: 3,
     node: null,
     hasChildren: false
 }, {
     id: 5,
-    parent: 1,
+    parent: 2,
     node: null,
     hasChildren: false
 }, {
     id: 6,
+    parent: 1,
+    node: null,
+    hasChildren: false
+}, {
+    id: 7,
     parent: null,
     node: true,
     hasChildren: false
 }, {
-    id: 7,
+    id: 8,
     parent: null,
     node: null,
     hasChildren: false
@@ -127,5 +133,59 @@ describe('Controls/tree/TreeControl', () => {
         }).then(isToggledSuccess => {
             assert.isFalse(isToggledSuccess);
         })
+    });
+
+    describe('.getDefaultAddParentKey()', () => {
+        describe('marker missing', () => {
+            it('marker not setted, root=null => default add position = current root(null)', () => {
+                const treeControl = createTreeControl();
+                assert.equal(treeControl.getDefaultAddParentKey(), null);
+            });
+
+            it('marker not setted, root=1 => default add position = current root(1)', () => {
+                const treeControl = createTreeControl(DEFAULT_DATA, { root: 1 });
+                assert.equal(treeControl.getDefaultAddParentKey(), 1);
+            });
+        });
+
+        describe('root = null', () => {
+            it('marker setted to collapsed root folder(1), root=null => default add position = current root(null)', () => {
+                const treeControl = createTreeControl();
+                treeControl.setMarkedKey(1);
+                assert.equal(treeControl.getDefaultAddParentKey(), null);
+            });
+
+            it('marker setted to expanded root folder(1), root=null => default add position = expanded folder(1)', () => {
+                const treeControl = createTreeControl(DEFAULT_DATA, { expandedItems: [1] });
+                treeControl.setMarkedKey(1);
+                assert.equal(treeControl.getDefaultAddParentKey(), 1);
+            });
+
+            it('marker setted to expanded root folder(2), root=null => default add position = expanded folder(2)', () => {
+                const treeControl = createTreeControl(DEFAULT_DATA, { expandedItems: [1, 2] });
+                treeControl.setMarkedKey(2);
+                assert.equal(treeControl.getDefaultAddParentKey(), 2);
+            });
+        });
+
+        describe('root = folder', () => {
+            it('marker setted to collapsed root folder(2), root=1 => default add position = current root(1)', () => {
+                const treeControl = createTreeControl(DEFAULT_DATA, { root: 1 });
+                treeControl.setMarkedKey(2);
+                assert.equal(treeControl.getDefaultAddParentKey(), 1);
+            });
+
+            it('marker setted to expanded root folder(2), root=1 => default add position = expanded folder(2)', () => {
+                const treeControl = createTreeControl(DEFAULT_DATA, { root: 1, expandedItems: [2] });
+                treeControl.setMarkedKey(2);
+                assert.equal(treeControl.getDefaultAddParentKey(), 2);
+            });
+
+            it('marker setted to expanded root folder(2), root=1 => default add position = expanded folder(3)', () => {
+                const treeControl = createTreeControl(DEFAULT_DATA, { expandedItems: [1, 2, 3] });
+                treeControl.setMarkedKey(3);
+                assert.equal(treeControl.getDefaultAddParentKey(), 3);
+            });
+        });
     });
 });
