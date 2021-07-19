@@ -38,6 +38,8 @@
         <ws:if data="{{_options.detailContentTemplate}}">
             <ws:partial
                     template="{{_options.detailContentTemplate}}"
+                    tileCfg="{{_tileCfg}}"
+                    listCfg="{{_listCfg}}"
                     loading="{{_detailLoading}}"
                     attr:class="controls-newBrowser__detail-list"
                     on:itemClick="_onExplorerItemClick(false)"
@@ -69,6 +71,8 @@
                         on:itemMouseDown="_notifyHandler('detailItemMouseDown')"
                         on:drawItems="_notifyHandler('drawItems')"
                         on:beforeItemsMove="_notifyHandler('detailBeforeItemsMove')"
+                        afterBreadCrumbsTemplate="{{_options.detail.afterBreadCrumbsTemplate}}"
+                        dataLoadCallback="{{_onDetailDataLoadCallback}}"
                         searchValue="{{_options.searchValue}}"
                         tileSize="{{_tileCfg.tileSize}}"
                         on:changeDragTarget="_notifyHandler('detailChangeDragTarget')"
@@ -78,15 +82,6 @@
                         on:itemClick="_onExplorerItemClick(false)"
                         on:viewModeChanged="_onDetailExplorerChangedViewMode()"
                 >
-                    <ws:afterBreadCrumbsTemplate>
-                        <ws:if data="{{_options.detail.afterBreadCrumbsTemplate}}">
-                            <ws:partial template="{{_options.detail.afterBreadCrumbsTemplate}}"/>
-                        </ws:if>
-                        <ws:else>
-                            <invisible-node/>
-                        </ws:else>
-                    </ws:afterBreadCrumbsTemplate>
-
                     <ws:itemTemplate>
                         <!-- В режиме "таблица" или "поиск" нужно использовать шаблон строки таблицы -->
                         <ws:if data="{{_appliedViewMode === _viewModeEnum.table || _appliedViewMode === _viewModeEnum.search}}">

@@ -25,6 +25,11 @@ type TResultsVisibility = 'visible' | 'hasdata';
 
 export type TEditArrowVisibilityCallback = (item: EntityModel) => boolean;
 
+/**
+ * @typedef {Number|String} TColspanCallbackResult
+ * @description Количество объединяемых колонок, учитывая текущую.
+ * @variant end Объединить все колонки, начиная с текущей.
+ */
 export type TColspanCallbackResult = number | 'end';
 
 export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex: number, isEditing: boolean) => TColspanCallbackResult;

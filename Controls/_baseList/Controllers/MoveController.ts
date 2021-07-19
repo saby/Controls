@@ -203,17 +203,21 @@ export class MoveController {
                                       target: Model | CrudEntityKey): Promise<DataSet> {
         const root = (this._popupOptions?.templateOptions as IMoverDialogTemplateOptions)?.root || null;
         const targetKey = target === root ? target : (target as Model).getKey();
-        let callbackResult: Promise<void> | boolean;
+        let callbackResult: Promise<void | boolean> | boolean;
         if (this._popupOptions.beforeMoveCallback) {
             callbackResult = this._popupOptions.beforeMoveCallback(selection, target);
         }
         if (callbackResult instanceof Promise) {
-            return callbackResult.then(() => {
+            return callbackResult.then((promiseResult) => {
+                if (promiseResult === false) {
+                    return Promise.reject();
+                }
                 return this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>;
             });
         } else if (callbackResult !== false) {
             return this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>;
         }
+        return Promise.reject();
     }
 
     /**

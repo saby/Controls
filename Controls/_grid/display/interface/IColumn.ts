@@ -18,13 +18,22 @@ export type TColumns = IColumn[];
 export type TCellPaddingVariant = 'S' | 'M' | 'null';
 
 /**
- * @typedef {Object} ICellPadding
- * @description Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней.
- * @property {TCellPaddingVariant} [left=null] Отступ от левой границы ячейки.
- * @property {TCellPaddingVariant} [right=null] Отступ от правой границы ячейки.
+ * Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней.
+ * @public
+ * @author Аверкиев П.А.
  */
 export interface ICellPadding {
+    /**
+     * @cfg Отступ от левой границы ячейки.
+     * @default null
+     * @see right
+     */
     left?: TCellPaddingVariant;
+    /**
+     * @cfg Отступ от правой границы ячейки.
+     * @default null
+     * @see left
+     */
     right?: TCellPaddingVariant;
 }
 
@@ -43,12 +52,6 @@ export type TCellVerticalAlign = 'top' | 'center' | 'bottom' | 'baseline';
 
 export type TOverflow = 'ellipsis' | 'none';
 
-/**
- * @typedef {Enum} TColumnSeparatorSize
- * @description Размер линии-разделителя колонок.
- * @variant s Размер тонкой линии-разделителя.
- * @variant null Без линии-разделителя.
- */
 export type TColumnSeparatorSize = 's' | null;
 
 /**
@@ -58,11 +61,15 @@ export type TColumnSeparatorSize = 's' | null;
  */
 export interface IColumnSeparatorSizeConfig {
     /**
-     * @cfg Размер линии-разделителя колонок слева.
+     * @cfg {String|null} Размер линии-разделителя колонок слева.
+     * @variant s Размер тонкой линии-разделителя.
+     * @variant null Без линии-разделителя.
      */
     left?: TColumnSeparatorSize;
     /**
-     * @cfg Размер линии-разделителя колонок справа.
+     * @cfg {String|null} Размер линии-разделителя колонок справа.
+     * @variant s Размер тонкой линии-разделителя.
+     * @variant null Без линии-разделителя.
      */
     right?: TColumnSeparatorSize;
 }
@@ -408,17 +415,19 @@ export interface IColumn extends IColspanParams {
     tagStyleProperty?: string;
     /**
      * @cfg Тип отображаемых данных.
+     * @remark
+     * Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/visual/type/ здесь}.
      * @example
      * В следующем примере показано как отобразить поле записи типа "число"
      *
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [6]">
+     * // TypeScript
      * ...
      * protected _columns: IColumn[] = [
      *     {
      *         displayProperty: 'price',
      *         displayType: 'number'
-     *     },
-     *     ...
+     *     }
      * ]
      * </pre>
      */
@@ -460,7 +469,7 @@ export interface IColumn extends IColspanParams {
     displayTypeOptions?: IDisplayTypeOptions;
     fontColorStyle?: TFontColorStyle;
     /**
-     * @cfg Цвет фона колонки.
+     * @cfg {Controls/display:IMarkable/BackgroundColorStyle.typedef} Цвет фона колонки.
      * @see hoverBackgroundStyle
      */
     backgroundColorStyle?: string;

@@ -396,6 +396,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @name Controls/_list/interface/IList#dataLoadErrback
  * @cfg {Function} Функция обратного вызова для определения сбоя загрузки данных из источника.
+ * @remark Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/source/#data-load-callback здесь}.
  * @see itemsReadyCallback
  * @see dataLoadCallback
  */

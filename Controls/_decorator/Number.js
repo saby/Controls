@@ -78,7 +78,7 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
 
 /**
  * @name Controls/_decorator/INumber#value
- * @cfg {Controls/_decorator/INumber/TValue.typedef} Декорируемое число.
+ * @cfg {string|number|null} Декорируемое число.
  * @demo Controls-demo/Decorator/Number/Value/Index
  */
 
@@ -99,13 +99,18 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
  * @name Controls/_decorator/INumber#roundMode
  * @cfg {Controls/_decorator/INumber/RoundMode.typedef} Режим форматирования дробной части числа.
  * @default trunc
+ * @variant round При необходимости число округляется, а дробная часть дополняется нулями, чтобы она имела заданную длину.
+ * @variant trunc Усекает (отсекает) цифры справа от точки так, чтобы дробная часть имела заданную длину, независимо от того, является ли аргумент положительным или отрицательным числом.
  * @demo Controls-demo/Decorator/Number/RoundMode/Index
  */
 
 /**
  * @name Controls/_decorator/INumber#abbreviationType
  * @cfg {Controls/_decorator/INumber/TAbbreviationType.typedef} Тип аббревиатуры.
- * @default 'none'
+ * @default none
+ * @variant short
+ * @variant long
+ * @variant none
  * @demo Controls-demo/Decorator/Number/Abbreviation/Index
  */
 
@@ -113,31 +118,12 @@ define('Controls/_decorator/Number', ['UI/Executor', 'Controls/_decorator/resour
  * @name Controls/_decorator/INumber#underline
  * @cfg {Controls/_decorator/INumber/TUnderline.typedef} Вариант подчеркивания.
  * @default none
+ * @variant hovered
+ * @variant none
  * @demo Controls-demo/Decorator/Number/Underline/Index
  */
 
 /**
- * Тип данных для форматируемого значения
- * @typedef {string|number|null} Controls/_decorator/INumber/TValue
- */
-
-/**
- * Тип данных для аббревиатуры
- * @typedef {string} Controls/_decorator/INumber/TAbbreviationType
- * @variant short
- * @variant long
- * @variant none
- */
-
-/**
- * Тип данных для подчеркивания
- * @typedef {string} Controls/_decorator/INumber/TUnderline
- * @variant hovered
- * @variant none
- */
-
-/**
- * @typedef Controls/_decorator/INumber/RoundMode
- * @variant round При необходимости число округляется, а дробная часть дополняется нулями, чтобы она имела заданную длину.
- * @variant trunc Усекает (отсекает) цифры справа от точки так, чтобы дробная часть имела заданную длину, независимо от того, является ли аргумент положительным или отрицательным числом.
+ * @name Controls/_decorator/INumber#tooltip
+ * @cfg {string} Текст всплывающей подсказки, отображаемой при наведении курсора мыши.
  */
