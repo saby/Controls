@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
    <div class="controlsDemo__cell">
       <Controls.decorator:Highlight value="Я подсвечиваю текст, который вам требуется" highlightedValue="подсвечиваю текст"/>
    </div>
