@@ -111,6 +111,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     private _isUnmounted: boolean = false;
 
+    private _scrollMoveTimer: number;
+
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
         if (!this._isHorizontalScroll(options.scrollOrientation)) {
@@ -144,7 +146,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     protected _componentDidMount(): void {
         const isInitialScrollPositionStart: boolean = !this._options.initialScrollPosition ||
             !this._options.initialScrollPosition?.vertical ||
-            this._options.initialScrollPosition?.vertical === SCROLL_POSITION.START
+            this._options.initialScrollPosition?.vertical === SCROLL_POSITION.START;
         // Если одна область заменяется на другую с однотипной версткой и встроенным скролл контейнером,
         // то ядро не пересоздает dom контейнеры, и может так полуится, что вновь созданный скролл контейнер
         // может быть сразу проскролен. Исправляем эту ситуацию.
@@ -315,7 +317,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         return this._observedElements.includes(element);
     }
 
-    protected _getScrollNotifyConfig(): any[] {
+    protected _getScrollNotifyConfig(): number[] {
         return [
             this._scrollModel.scrollTop,
             this._scrollModel.scrollLeft
@@ -333,11 +335,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
         this.onScrollContainer({
             scrollTop: e.currentTarget.scrollTop,
-            scrollLeft: e.currentTarget.scrollLeft,
+            scrollLeft: e.currentTarget.scrollLeft
         });
     }
 
-    _registerIt(event: SyntheticEvent, registerType: string, component: any,
+    _registerIt(event: SyntheticEvent, registerType: string, component: Control,
                 callback: Function, triggers): void {
         switch (registerType) {
             case 'scrollStateChanged':
@@ -369,7 +371,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
     }
 
-    _unRegisterIt(event: SyntheticEvent, registerType: string, component: any): void {
+    _unRegisterIt(event: SyntheticEvent, registerType: string, component: Control): void {
         switch (registerType) {
             case 'scrollStateChanged':
                 this._registrars.scrollStateChanged.unregister(event, registerType, component);
@@ -623,12 +625,12 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
     }
 
-    _generateEvent(eventType: string, params: object[], notifyParams: any[] = params): void {
+    _generateEvent(eventType: string, params: object[], notifyParams: object[] = params): void {
         this._registrars[eventType].start(...params);
         this._notify(eventType, notifyParams);
     }
 
-    _resizeObserverCallback(entries: any): void {
+    _resizeObserverCallback(entries: object[]): void {
         if (isHidden(this._container)) {
             return;
         }
@@ -720,14 +722,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         const elements: HTMLElement[] = [];
         const _container: HTMLElement = container || this._children.userContent;
 
-        for (const child of _container.children) {
-            const ignoredChild = this._getIgnoredChild(child);
+        for (const containerChild of _container.children) {
+            const ignoredChild = this._getIgnoredChild(containerChild);
             if (ignoredChild) {
                 for (const child of ignoredChild) {
                     elements.push(child);
                 }
             } else {
-                elements.push(child);
+                elements.push(containerChild);
             }
         }
 
@@ -754,12 +756,13 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // возвращают округленные целые значения. В событиях ресайза приходят дробные значения соответсвующие
         // getBoundingClientRect. Если использовать clientHeight и clientWidth, то будут генериоваться лишние
         // события сообщающие что изменился размер скорлл контейнера на значения меньше одного пикселя.
-        const containerRect: DOMRect = this._children.content.getBoundingClientRect()
+        const containerRect: DOMRect = this._children.content.getBoundingClientRect();
         const newState = {
             scrollTop: this._children.content.scrollTop,
             scrollLeft: this._children.content.scrollLeft,
             clientHeight: containerRect.height,
-            scrollHeight: this._children.content.scrollHeight, // В observer берем со content, иначе значения будут отличаться
+            // В observer берем со content, иначе значения будут отличаться
+            scrollHeight: this._children.content.scrollHeight,
             clientWidth: containerRect.width,
             scrollWidth: this._children.content.scrollWidth
         };
@@ -803,11 +806,12 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         if (scrollParam === 'top') {
             this._setScrollTop(0);
         } else {
-            const
-                headersHeight = getHeadersHeight(this._container, 'top', 'allFixed') || 0,
-                clientHeight = this._scrollModel.clientHeight - headersHeight,
-                scrollHeight = this._scrollModel.scrollHeight,
-                currentScrollTop = this._scrollModel.scrollTop + (this._isVirtualPlaceholderMode() ? this._topPlaceholderSize : 0);
+            const headersHeight = getHeadersHeight(this._container, 'top', 'allFixed') || 0;
+            const clientHeight = this._scrollModel.clientHeight - headersHeight;
+            const scrollHeight = this._scrollModel.scrollHeight;
+            const currentScrollTop = this._scrollModel.scrollTop + (this._isVirtualPlaceholderMode() ?
+                this._topPlaceholderSize :
+                0);
             if (scrollParam === 'bottom') {
                 this._setScrollTop(scrollHeight - clientHeight);
             } else if (scrollParam === 'pageUp') {
@@ -835,7 +839,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _updateContentWrapperCssClass(): void {
-        const cssClass: string = this._getContentWrapperCssClass()
+        const cssClass: string = this._getContentWrapperCssClass();
         if (cssClass !== this._contentWrapperCssClass) {
             this._contentWrapperCssClass = this._getContentWrapperCssClass();
         }
@@ -846,12 +850,6 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     // Слой совместимости с таблицами
-
-    private _observers: {
-        [id: string]: IntersectionObserver;
-    } = {};
-
-    private _scrollMoveTimer: number;
 
     private _generateCompatibleEvents(): void {
         if ((this._scrollModel.clientHeight !== this._oldScrollState.clientHeight) ||
@@ -899,7 +897,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             }
 
             this._scrollMoveTimer = setTimeout(() => {
-                // Т.к код выполняется асинхронно, может получиться, что контрол к моменту вызова функции уже уничтожился
+                // Т.к код выполняется асинхронно, может получиться, что контрол к моменту вызова функции уже
+                // уничтожился
                 if (!this._isUnmounted) {
                     this._sendByListScrollRegistrar('scrollMove', {
                         scrollTop: this._scrollModel.scrollTop,
@@ -956,7 +955,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
          */
         this.onScrollContainer({
             scrollTop: this._children.content.scrollTop,
-            scrollLeft: this._children.content.scrollLeft,
+            scrollLeft: this._children.content.scrollLeft
         });
     }
 
@@ -1050,12 +1049,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             const scrollTopOverflow = scrollState.scrollHeight - realScrollTop - scrollState.clientHeight < 0;
             const applyScrollTop = () => {
 
-                // нужный scrollTop будет отличным от realScrollTop, если изменился _topPlaceholderSize. Вычисляем его по месту
+                // нужный scrollTop будет отличным от realScrollTop, если изменился _topPlaceholderSize.
+                // Вычисляем его по месту
                 scrollContainer.scrollTop = cachedScrollTop - this._topPlaceholderSize;
             };
             if (realScrollTop >= 0 && !scrollTopOverflow) {
                 scrollContainer.scrollTop = realScrollTop;
-            } else if (this._topPlaceholderSize === 0 && realScrollTop < 0 || scrollTopOverflow && this._bottomPlaceholderSize === 0) {
+            } else if (this._topPlaceholderSize === 0 && realScrollTop < 0 || scrollTopOverflow
+                && this._bottomPlaceholderSize === 0) {
                 applyScrollTop();
             } else {
                 const scrollState = this._scrollModel.clone();
@@ -1078,7 +1079,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         } else {
             scrollContainer.scrollTop = scrollTop;
             this._updateStateAndGenerateEvents({
-                scrollTop: scrollTop
+                scrollTop
             });
         }
     }
