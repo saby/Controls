@@ -6,7 +6,9 @@ import 'css!Controls/suggest';
 
 var _private = {
    getBorderWidth: function(container) {
-      return +getComputedStyle(container, null).getPropertyValue('border-left-width').replace('px', '') * 2;
+      return Number(getComputedStyle(container, null).getPropertyValue('border-left-width').replace('px', '') * 2) -
+             Number(getComputedStyle(container, null).getPropertyValue('margin-right').replace('px', '')) +
+             Number(getComputedStyle(container, null).getPropertyValue('margin-left').replace('px', ''));
    },
    getSuggestWidth(target: HTMLElement, container?: HTMLElement): number {
       return target.offsetWidth - (container ? _private.getBorderWidth(container) : 0);
