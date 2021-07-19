@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">borderVisibility="visible"</div>
+        <Controls.input:Area attr:class="controlsDemo_fixedWidth300" borderVisibility="visible" minLines="{{4}}" maxLines="{{4}}"></Controls.input:Area>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">borderVisibility="partial"</div>
+        <Controls.input:Area attr:class="controlsDemo_fixedWidth300" borderVisibility="partial" minLines="{{4}}" maxLines="{{4}}"></Controls.input:Area>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">borderVisibility="hidden"</div>
+        <Controls.input:Area attr:class="controlsDemo_fixedWidth300" borderVisibility="hidden" minLines="{{4}}" maxLines="{{4}}"></Controls.input:Area>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label">borderVisibility="bottom"</div>
+        <Controls.input:Area attr:class="controlsDemo_fixedWidth300" borderVisibility="bottom" minLines="{{4}}" maxLines="{{4}}"></Controls.input:Area>
+    </div>
+</div>
+

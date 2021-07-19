@@ -10,6 +10,7 @@ import {BaseText} from 'Controls/_input/BaseText';
 import {processKeydownEvent} from 'Controls/_input/resources/Util';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
 import LINE_HEIGHT_FOR_IE from 'Controls/_input/Area/IECompatibleLineHeights';
+import {getOptionBorderVisibilityAreaTypes} from 'Controls/_input/interface/IBorderVisibilityArea';
 import template = require('wml!Controls/_input/Area/Area');
 import fieldTemplate = require('wml!Controls/_input/Area/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Area/ReadOnly');
@@ -34,6 +35,7 @@ import 'css!Controls/input';
  * @implements Controls/interface:IFontSize
  * @implements Controls/input:IValue
  * @implements Controls/interface:IInputPlaceholder
+ * @implements Controls/interface:IBorderVisibilityArea
  * @implements Controls/input:IText
  * @implements Controls/interface:IContrastBackground
  * @public
@@ -338,16 +340,16 @@ export default class Area extends BaseText<IAreaOptions> {
     }
 
     static getOptionTypes(): object {
-        const optionTypes = BaseText.getOptionTypes();
-
-        optionTypes.minLines = descriptor(Number, null);
-        optionTypes.maxLines = descriptor(Number, null);
-        optionTypes.newLineKey = descriptor(String).oneOf([
-            'enter',
-            'ctrlEnter'
-        ]);
-
-        return optionTypes;
+        return {
+            ...BaseText.getOptionTypes(),
+            ...getOptionBorderVisibilityAreaTypes(),
+            minLines: descriptor(Number, null),
+            maxLines: descriptor(Number, null),
+            newLineKey: descriptor(String).oneOf([
+                'enter',
+                'ctrlEnter'
+            ])
+        };
     }
 }
 
