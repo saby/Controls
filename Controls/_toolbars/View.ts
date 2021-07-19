@@ -472,7 +472,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     protected _resultHandler(action, data, nativeEvent): void {
         if (action === 'itemClick' || action === 'rightTemplateClick') {
             const item = data;
-            this._notify('itemClick', [item, nativeEvent]);
+            this._notify(action, [item, nativeEvent]);
 
             /**
              * menuOpener may not exist because toolbar can be closed by toolbar parent in item click handler
