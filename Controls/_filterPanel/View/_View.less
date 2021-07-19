@@ -122,6 +122,8 @@
 
 .controls-FilterViewPanel__group-result_wrapper {
    display: flex;
+   width: 100%;
+   box-sizing: border-box;
    flex-direction: row;
    background-color: var(--background-color);
    border-radius: var(--group-result_border-radius_filterViewPanel);
@@ -136,6 +138,8 @@
 
 .controls-FilterViewPanel__group-result {
    font-size: var(--font-size_m);
+   text-overflow: ellipsis;
+   overflow: hidden;
 }
 
 .controls-FilterViewPanel__propertyGrid.controls-PropertyGrid {
