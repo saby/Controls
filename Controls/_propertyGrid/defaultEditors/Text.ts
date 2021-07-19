@@ -8,9 +8,8 @@ import StringEditor = require('Controls/_propertyGrid/defaultEditors/String');
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less переменные тем оформления}
  * 
- * @class Controls/_propertyGrid/defaultEditors/Text
  * @extends UI/Base:Control
- * @mixes Controls/propertyGrid:IEditor
+ * @implements Controls/propertyGrid:IEditor
  * 
  * @public
  * @author Герасимов А.М.
@@ -18,9 +17,8 @@ import StringEditor = require('Controls/_propertyGrid/defaultEditors/String');
 
 /*
  * Editor for multiline string type.
- * @class Controls/_propertyGrid/defaultEditors/Text
  * @extends UI/Base:Control
- * @mixes Controls/propertyGrid:IEditor
+ * @implements Controls/propertyGrid:IEditor
  * 
  * @public
  * @author Герасимов А.М.
