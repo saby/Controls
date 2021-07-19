@@ -23,6 +23,7 @@ import 'css!Controls/calendar';
  * @mixes Controls/dateRange:IRangeSelectable
  * @mixes Controls/dateRange:IDateRangeSelectable
  * @mixes Controls/dateRange:IDayTemplate
+ * @mixes Controls/interface:IDisplayedRanges
  *
  * @public
  * @author Красильников А.С.
@@ -34,7 +35,7 @@ export {default as Base} from './MonthSlider/Slider';
 
 export default class MonthSlider extends Control<IControlOptions> {
     _template: TemplateFunction = monthTmpl;
-    _month: Date | string;
+    _month: Date;
     _animation: object = Slider.ANIMATIONS.slideLeft;
     _isHomeVisible: boolean = true;
     _days: object[] = [];
@@ -72,8 +73,17 @@ export default class MonthSlider extends Control<IControlOptions> {
     }
 
     private _slideMonth(event, delta): void {
-        this._setMonth(new this._options.dateConstructor(this._month.getFullYear(),
-                this._month.getMonth() + delta, 1), false, this._options.dateConstructor);
+        const newDate = new this._options.dateConstructor(this._month.getFullYear(),
+            this._month.getMonth() + delta, 1);
+        if (this._options.displayedRanges) {
+            for (const range of this._options.displayedRanges) {
+                if (range[0] <= newDate && range[1] >= newDate) {
+                    this._setMonth(newDate, false, this._options.dateConstructor);
+                }
+            }
+        } else {
+            this._setMonth(newDate, false, this._options.dateConstructor);
+        }
     }
 
     protected _setCurrentMonth(): void {
