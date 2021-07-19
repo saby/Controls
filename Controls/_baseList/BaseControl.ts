@@ -1412,7 +1412,7 @@ const _private = {
                 // на beforeUpdate ожем показать глоабльный индкатор по началу загрузки,
                 // после загрузки данных если их больше нет, то скрываем
                 if (!_private.hasMoreDataInAnyDirection(self) && !_private.isPortionedLoad(self)) {
-                    self._indicatorsController.hideGlobalIndicator();
+                    self._indicatorsController?.hideGlobalIndicator();
                 }
             }
 
