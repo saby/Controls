@@ -114,9 +114,7 @@ function onCollectionChange<T>(
 
     if (action == IObservable.ACTION_CHANGE) {
         if (this.instance._isChangedValueInParentProperty(oldItems, newItems)) {
-            const session = this.instance._startUpdateSession();
-            this.instance._reBuild(true);
-            this.instance._finishUpdateSession(session, true);
+            this.instance._reCountHierarchy();
         }
     }
 
@@ -155,9 +153,7 @@ function onCollectionItemChange<T extends Model>(event: EventObject, item: T, in
     }
 
     if (this.instance._isChangedValueInParentProperty(null, null, properties)) {
-        const session = this.instance._startUpdateSession();
-        this.instance._reBuild(true);
-        this.instance._finishUpdateSession(session, true);
+        this.instance._reCountHierarchy();
     }
 }
 
@@ -643,6 +639,16 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
             return changed;
         }
+    }
+
+    protected _reCountHierarchy(): void {
+        const session = this._startUpdateSession();
+
+        const strategy = this.getStrategyInstance(AdjacencyListStrategy);
+        strategy.invalidate();
+        this._childrenMap = {};
+
+        this._finishUpdateSession(session, true);
     }
 
     // endregion ParentProperty

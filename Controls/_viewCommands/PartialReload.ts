@@ -71,8 +71,8 @@ export default class Reload {
            oldItem = oldItems.getRecordById(key);
            newItem = selectedItems.getRecordById(key);
            if (oldItem && newItem) {
-               // oldItem.merge(newItem) не работает https://online.sbis.ru/opendoc.html?guid=3ab98669-85b6-484c-b0de-1df6a83b4d02
-               this._merge(oldItems, oldItem, newItem, options);
+               oldItem.merge(newItem) // не работает https://online.sbis.ru/opendoc.html?guid=3ab98669-85b6-484c-b0de-1df6a83b4d02
+               // this._merge(oldItems, oldItem, newItem, options);
            } else if (oldItem) {
                 this._removeItem(options, key);
            } else if (newItem) {

@@ -1421,18 +1421,6 @@ describe('Controls/_display/Tree', () => {
                     newItemsIndex: 0,
                     oldItems: [1, 11, 111, 1111],
                     oldItemsIndex: 0
-                }, {
-                    action: IBindCollectionDisplay.ACTION_REMOVE,
-                    newItems: [],
-                    newItemsIndex: 0,
-                    oldItems: [1, 11, 111, 1111],
-                    oldItemsIndex: 0
-                }, {
-                    action: IBindCollectionDisplay.ACTION_ADD,
-                    newItems: [1, 11, 111, 1111],
-                    newItemsIndex: 0,
-                    oldItems: [],
-                    oldItemsIndex: 0
                 }];
                 const given = [];
                 const handler = getCollectionChangeHandler(given, (item) => item.getContents().get('id'));
@@ -1464,18 +1452,6 @@ describe('Controls/_display/Tree', () => {
                     newItemsIndex: 3,
                     oldItems: ['AC'],
                     oldItemsIndex: 3
-                }, {
-                    action: IBindCollectionDisplay.ACTION_REMOVE,
-                    newItems: [],
-                    newItemsIndex: 0,
-                    oldItems: ['A', 'AA', 'AB', 'AC', 'ACA', 'ACB', 'ACC', 'D', 'B', 'BA', 'BAA', 'BAAA', 'C'],
-                    oldItemsIndex: 0
-                }, {
-                    action: IBindCollectionDisplay.ACTION_ADD,
-                    newItems: ['A', 'AA', 'AB', 'AC', 'ACA', 'ACB', 'ACC', 'D', 'B', 'BA', 'BAA', 'BAAA', 'C'],
-                    newItemsIndex: 0,
-                    oldItems: [],
-                    oldItemsIndex: 0
                 }];
                 const given = [];
                 const handler = getCollectionChangeHandler(given, (item) => item.getContents().get('title'));
@@ -1511,18 +1487,6 @@ describe('Controls/_display/Tree', () => {
                     newItemsIndex: 10,
                     oldItems: ['BA'],
                     oldItemsIndex: 10
-                }, {
-                    action: IBindCollectionDisplay.ACTION_REMOVE,
-                    newItems: [],
-                    newItemsIndex: 0,
-                    oldItems: ['A', 'AA', 'AB', 'AC', 'ACA', 'ACB', 'ACC', 'BAA', 'BAAA', 'B', 'BA', 'C', 'D'],
-                    oldItemsIndex: 0
-                }, {
-                    action: IBindCollectionDisplay.ACTION_ADD,
-                    newItems: ['A', 'AA', 'AB', 'AC', 'ACA', 'ACB', 'ACC', 'BAA', 'BAAA', 'B', 'BA', 'C', 'D'],
-                    newItemsIndex: 0,
-                    oldItems: [],
-                    oldItemsIndex: 0
                 }];
                 const given = [];
                 const handler = getCollectionChangeHandler(given, (item) => item.getContents().get('title'));
@@ -2709,5 +2673,31 @@ describe('Controls/_display/Tree', () => {
 
             assert.isTrue(tree._displayExpanderPadding);
         })
+    });
+
+    describe('parent', () => {
+        it('recount hierarchy on change parent vakue in record', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0},
+                    {id: 11, hasChildren: false, node: true, pid: 1},
+                    {id: 2, hasChildren: false, node: true, pid: 0},
+                    {id: 21, hasChildren: false, node: true, pid: 2},
+                    {id: 22, hasChildren: false, node: true, pid: 2}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+
+            // переместили одну запись в соседний узел
+            rs.getRecordById(21).set('pid', 1);
+            assert.equal(tree.getItemBySourceKey(21).getParent().key, 1);
+
+            // переместили 2 записи из разных узлов в корень
+            rs.getRecordById(21).set('pid', 0);
+            rs.getRecordById(22).set('pid', 0);
+            assert.isTrue(tree.getItemBySourceKey(21).getParent().isRoot());
+            assert.isTrue(tree.getItemBySourceKey(22).getParent().isRoot());
+        });
     });
 });
