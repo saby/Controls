@@ -11,6 +11,31 @@ import TreeView from 'Controls/_tree/TreeView';
 
 import 'css!Controls/treeGrid';
 
+/**
+ * Контрол "Дерево без колонок" позволяет отображать данные из различных источников в виде иерархического списка.
+ * Контрол поддерживает широкий набор возможностей, позволяющих разработчику максимально гибко настраивать отображение данных.
+ * @remark
+ * Дополнительно о контроле:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/ руководство разработчика}
+ *
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface/IPromisedSelectable
+ * @mixes Controls/interface/IGroupedGrid
+ * @mixes Controls/interface:INavigation
+ * @mixes Controls/interface:IFilterChanged
+ * @mixes Controls/interface:IHierarchy
+ * @mixes Controls/interface/ITreeGridItemTemplate
+ * @mixes Controls/interface:IDraggable
+ * @mixes Controls/list:IVirtualScrollConfig
+ * @mixes Controls/list:IList
+ * @mixes Controls/list:IClickableView
+ * @mixes Controls/grid:IPropStorage
+ * @implements Controls/tree:ITreeControl
+ * @mixes Controls/itemActions:IItemActions
+ *
+ * @public
+ * @author Авраменко А.С.
+ */
 export default class Tree extends List implements ITree {
     protected _viewName: TemplateFunction = TreeView;
     protected _viewTemplate: TemplateFunction = TreeControl;

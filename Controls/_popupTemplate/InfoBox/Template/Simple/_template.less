@@ -1,3 +1,5 @@
+@_text_padding-horizontal_infobox: calc(var(--close-button_offset-left_infobox) + var(--width_closeButton_link) + var(--close-button_offset-right_infobox) - var(--content_padding-horizontal_infobox));
+
 .controls-InfoBox {
    height: 100%;
    box-sizing: border-box;
@@ -10,7 +12,7 @@
 }
 
 .controls-InfoBox__message_margin {
-   margin-right: var(--text_padding-horizontal_infobox);
+   margin-right: @_text_padding-horizontal_infobox;
 }
 
 .controls-InfoBox__message {
@@ -23,8 +25,8 @@
 
 .controls-InfoBox_floatElement {
    float: right;
-   width: var(--text_padding-horizontal_infobox);
-   height: var(--text_padding-horizontal_infobox);
+   width: @_text_padding-horizontal_infobox;
+   height: @_text_padding-horizontal_infobox;
 }
 
 /*

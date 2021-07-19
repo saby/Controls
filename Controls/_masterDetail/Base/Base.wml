@@ -2,6 +2,7 @@
    <ws:partial
            backgroundStyle="master"
            template="{{_options.master}}"
+           shadowMode="js"
            attr:class="controls-MasterDetail_master-template controls-master-template-{{_newDesign ? 'newDesign' : 'default'}}
                            controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast'}}"
            on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>

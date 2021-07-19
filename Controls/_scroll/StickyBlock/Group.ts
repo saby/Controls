@@ -255,6 +255,8 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
                 bottom: 0
             };
 
+            data.inst.group = this;
+
             if (this._options.calculateHeadersOffsets) {
                 this._updateTopBottom(data);
             } else {

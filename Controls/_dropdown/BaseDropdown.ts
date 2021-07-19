@@ -69,6 +69,11 @@ export abstract class BaseDropdown extends Control<IControlOptions, DropdownRece
         this._notify('footerClick', [data]);
     }
 
+    protected _rightTemplateClick(data): void {
+        this._notify('rightTemplateClick', [data]);
+        this._controller.closeMenu();
+    }
+
     protected _selectorDialogOpened(data): void {
         this._initSelectorItems = data;
         this._controller.closeMenu();

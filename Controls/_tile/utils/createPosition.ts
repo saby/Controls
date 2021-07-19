@@ -43,6 +43,6 @@ export function createPositionInBounds(
     if (left < 0 || right < 0 || top < 0 || bottom < 0) {
         return null;
     } else {
-        return { left, top, right, bottom };
+        return {left, top, right, bottom};
     }
 }

@@ -1,6 +1,9 @@
 <div class="{{ (gridColumn || itemData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover, editable) }}"
      style="{{ (gridColumn || itemData).getContentStyles() }}">
 
+    <ws:partial if="{{ beforeContentTemplate }}"
+                template="{{ beforeContentTemplate }}"/>
+
     <ws:if data="{{ !!contentTemplate }}">
         <!-- Прикладной контент -->
         <ws:partial

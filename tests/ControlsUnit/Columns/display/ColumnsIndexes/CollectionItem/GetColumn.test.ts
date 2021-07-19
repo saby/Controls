@@ -118,5 +118,11 @@ describe('Columns/display/ColumnsIndexes/CollectionItem/GetColumn', () => {
             collection.each(getColumnEach);
             assert.deepEqual(result, expected, 'wrong ColumnIndexes after adding one item');
         });
+        it('remove single item', () => {
+            const expected = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1];
+            rs.removeAt(0);
+            collection.each(getColumnEach);
+            assert.deepEqual(result, expected, 'wrong ColumnIndexes after removing one item');
+        });
     });
 });

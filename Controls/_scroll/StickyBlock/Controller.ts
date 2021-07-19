@@ -7,27 +7,20 @@ import {
     POSITION,
     SHADOW_VISIBILITY,
     SHADOW_VISIBILITY_BY_CONTROLLER,
-    STACK_OPERATION,
     TRegisterEventData,
     TYPE_FIXED_HEADERS
 } from './Utils';
 import {SHADOW_VISIBILITY as SCROLL_SHADOW_VISIBILITY} from 'Controls/_scroll/Container/Interface/IShadows';
 import StickyBlock from 'Controls/_scroll/StickyBlock';
 import fastUpdate from './FastUpdate';
-import {ResizeObserverUtil} from 'Controls/sizeUtils';
 import {IPositionOrientation} from './StickyBlock/Utils';
-import { getClosestControl } from 'UI/NodeCollector';
+import SizeAndVisibilityObserver, {STACK_OPERATION} from "Controls/_scroll/StickyBlock/Controller/SizeAndVisibilityObserver";
 
 // @ts-ignore
 
 interface IShadowVisibility {
     top: SCROLL_SHADOW_VISIBILITY;
     bottom: SCROLL_SHADOW_VISIBILITY;
-}
-
-interface IHeightEntry {
-    key: HTMLElement;
-    value: number;
 }
 
 interface IStickyHeaderController {
@@ -52,8 +45,7 @@ class StickyHeaderController {
     private _initialized: boolean = false;
     private _syncUpdate: boolean = false;
     private _updateTopBottomInitialized: boolean = false;
-    private _stickyHeaderResizeObserver: ResizeObserverUtil;
-    private _elementsHeight: IHeightEntry[] = [];
+    private _sizeObserver: SizeAndVisibilityObserver;
     private _canScroll: boolean = false;
     private _resizeHandlerDebounced: Function;
     private _container: HTMLElement;
@@ -80,23 +72,23 @@ class StickyHeaderController {
         this._options.resizeCallback = options.resizeCallback;
         this._headers = {};
         this._resizeHandlerDebounced = debounce(this.resizeHandler.bind(this), 50);
-        this._stickyHeaderResizeObserver = new ResizeObserverUtil(
-            undefined, this._resizeObserverCallback.bind(this), this.resizeHandler.bind(this));
+        this._sizeObserver = new SizeAndVisibilityObserver(this._headersResizeHandler.bind(this), this.resizeHandler.bind(this));
     }
 
     init(container: HTMLElement): void {
         this.updateContainer(container);
         this._initialized = true;
-        this._stickyHeaderResizeObserver.initialize();
+        this._sizeObserver.init(this._container);
         this._registerDelayed();
     }
 
     updateContainer(container: HTMLElement): void {
         this._container = container;
+        this._sizeObserver.updateContainer(container);
     }
 
     destroy(): void {
-        this._stickyHeaderResizeObserver.terminate();
+        this._sizeObserver.destroy();
     }
 
     /**
@@ -259,14 +251,12 @@ class StickyHeaderController {
             // Невидимые заголовки нельзя обсчитать, потому что нельзя узнать их размеры и положение.
             this._delayedHeaders.push(data);
 
-            this._observeStickyHeader(data);
             if (!isHidden(data.inst.getHeaderContainer()) && (this._initialized || syncUpdate) && this._canScroll) {
                 return Promise.resolve().then(this._registerDelayed.bind(this));
             }
         } else {
             // При 'отрегистриации' удаляем заголовок из всех возможных стэков
-            this._deleteElementFromElementsHeight(this._headers[data.id].inst.getHeaderContainer());
-            this._unobserveStickyHeader(this._headers[data.id]);
+            this._sizeObserver.unobserve(this._headers[data.id].inst);
             delete this._headers[data.id];
             this._removeFromStack(data.id, this._headersStack);
             this._removeFromStack(data.id, this._fixedHeadersStack);
@@ -275,126 +265,20 @@ class StickyHeaderController {
         return Promise.resolve();
     }
 
-    private _observeStickyHeader(header: TRegisterEventData): void {
-        // Подпишемся на изменение размеров всех заголовков 1 раз после того как они все зарегистрируются.
-        setTimeout(() => {
-            const stickyHeaders = this._getStickyHeaderElements(header);
-            stickyHeaders.forEach((elem: HTMLElement) => {
-                this._stickyHeaderResizeObserver.observe(elem);
-            });
-        });
-    }
-
-    private _unobserveStickyHeader(header: TRegisterEventData): void {
-        const stickyHeaders = this._getStickyHeaderElements(header);
-        stickyHeaders.forEach((elem: HTMLElement) => {
-            this._stickyHeaderResizeObserver.unobserve(elem);
-        });
-    }
-    private _deleteElementFromElementsHeight(element: HTMLElement): void {
-        this._elementsHeight = this._elementsHeight.filter((item) => item.key !== element);
-    }
-
-    private _getElementHeightEntry(element: HTMLElement): IHeightEntry {
-        return this._elementsHeight.find((item: IHeightEntry) => item.key === element);
-    }
-
-    private _updateElementHeight(element: HTMLElement, height: number): boolean {
-        let heightChanged: boolean = false;
-        const heightEntry: IHeightEntry = this._getElementHeightEntry(element);
-
-        if (heightEntry) {
-            if (heightEntry.value !== height) {
-                heightEntry.value = height;
-                heightChanged = true;
-            }
-        } else {
-            // ResizeObserver всегда кидает событие сразу после добавления элемента. Не будем генерировать
-            // событие, а просто сохраним текущую высоту если это первое событие для элемента и высоту
-            // этого элемента мы еще не сохранили.
-            this._elementsHeight.push({key: element, value: height});
-        }
-        return heightChanged;
-    }
-
-    private _getOperationForHeadersStack(newHeight: number, oldHeight: number): string {
-        let result;
-        if (newHeight === 0 && oldHeight !== 0) {
-            result = STACK_OPERATION.remove;
-        } else if (newHeight !== 0 && oldHeight === 0) {
-            result = STACK_OPERATION.add;
-        }
-        return result;
-    }
-
-    private _isHeaderOfGroup(id: number): boolean {
-        return !this._headers[id];
-    }
-
-    private _isGroup(id: number): boolean {
-        return !!this._headers[id].inst.getChildrenHeaders;
-    }
-
-    private _getGroupByHeader(header: StickyBlock) {
-        for (const headerId in this._headers) {
-            if (this._isGroup(headerId)) {
-                const groupChildren = this._headers[headerId].inst.getChildrenHeaders();
-                const isHeaderGroup = groupChildren.find((groupHeader) => groupHeader.id === header.index);
-                if (isHeaderGroup) {
-                    return this._headers[headerId];
-                }
-            }
-        }
-    }
-
-    private _resizeObserverCallback(entries: any): void {
-        if (isHidden(this._container)) {
-            return;
-        }
-
-        let heightChanged = false;
-        let operation;
-        const updateHeaders = {};
-        for (const entry of entries) {
-            const header = this._getHeaderFromNode(entry.target);
-            // В момент переключения по вкладкам в мастер детейле на ноде может не быть замаунчен стикиБлок
-            // Контроллер инициализируется при наведении мыши или когда заголовки зафиксированы.
-            if (header && this._initialized) {
-                const heightEntry = this._getElementHeightEntry(entry.target);
-                const isDelayedHeader = this._delayedHeaders.some(delayedHeader => delayedHeader.id === header.index);
-                // Не будем обрабатывать delayedHeader, т.к он обработается позже в _registerDelayed.
-                if (heightEntry && !isDelayedHeader) {
-                    operation = this._getOperationForHeadersStack(entry.contentRect.height, heightEntry.value, header.index);
-                }
-
-                if (operation) {
-                    if (this._isHeaderOfGroup(header.index)) {
-                        const groupHeader = this._getGroupByHeader(header);
-                        const groupInUpdateHeaders = Object.entries(updateHeaders).find(([, updateHeader]) => updateHeader.header.id === groupHeader.id);
-                        if (!groupInUpdateHeaders) {
-                            updateHeaders[groupHeader.id] = {
-                                header: groupHeader,
-                                operation
-                            };
-                        }
-                    } else {
-                        updateHeaders[header.index] = {
-                            header: this._headers[header.index],
-                            operation
-                        };
-                    }
-                }
-            }
-
-            heightChanged = this._updateElementHeight(entry.target, entry.contentRect.height) || heightChanged;
-        }
-
-        Object.entries(updateHeaders).forEach(([, updateHeader]) => {
+    private _headersResizeHandler(headers): void {
+        Object.entries(headers).forEach(([, updateHeader]) => {
             this._changeHeadersStackByHeader(updateHeader.header, updateHeader.operation);
         });
 
-        if (heightChanged) {
-            this.resizeHandler();
+        this.resizeHandler();
+
+        const addedHeaders = Object.entries(headers)
+            .filter(([, header]) => { return header.operation === STACK_OPERATION.add })
+            .map(([headerId, header]) => {return parseInt(headerId, 10)});
+
+        if (addedHeaders.length) {
+            this._updateHeadersFixedPositions(addedHeaders);
+            this._updateShadowsVisibility();
         }
     }
 
@@ -416,22 +300,6 @@ class StickyHeaderController {
                     this._addToHeadersStack(header.id, position, true);
                 }
             });
-        }
-    }
-
-    private _getHeaderFromNode(container: HTMLElement): any {
-        const control = getClosestControl(container);
-        if (control?._container === container) {
-            // если контейнер ближайшего контрола совпадает с таргетом - это хедер
-            return control;
-        }
-    }
-
-    private _getStickyHeaderElements(header: TRegisterEventData): NodeListOf<HTMLElement> {
-        if (header.inst.getChildrenHeaders) {
-            return header.inst.getChildrenHeaders().map(h => h.inst.getHeaderContainer());
-        } else {
-            return [header.inst.getHeaderContainer()];
         }
     }
 
@@ -507,7 +375,7 @@ class StickyHeaderController {
         if (!this._initialized) {
             return;
         }
-        this._stickyHeaderResizeObserver.controlResizeHandler();
+        this._sizeObserver.controlResizeHandler();
         // TODO: Переделать по https://online.sbis.ru/opendoc.html?guid=73950100-bf2c-44cf-9e59-d29ddbb58d3a
         // Чинит проблемы https://online.sbis.ru/opendoc.html?guid=a6f1e8c3-dd71-43b9-a1a8-9270c2f85c0d
         // Нужно как то сообщать контроллеру фиксированных блоков, что блок стал видимым, что бы рассчитать его.
@@ -545,6 +413,7 @@ class StickyHeaderController {
             const newHeaders: [] = [];
             this._delayedHeaders = this._delayedHeaders.filter((header: TRegisterEventData) => {
                 if (!isHidden(header.inst.getHeaderContainer())) {
+                    this._sizeObserver.observe(header.inst);
                     const headerPosition = header.position;
                     this._addToHeadersStack(header.id, headerPosition);
                     newHeaders.push(header.id);
@@ -670,7 +539,7 @@ class StickyHeaderController {
         }
     }
 
-    private _addToHeadersStack(id: number, headerPosition: POSITION, needUpdateOffset = false): void {
+    private _addToHeadersStack(id: number, headerPosition: POSITION, needUpdateOffset: boolean = false): void {
         const positions = this._getDecomposedPosition(headerPosition);
         positions.forEach(position => {
             const headersStack = this._headersStack[position];
@@ -687,7 +556,7 @@ class StickyHeaderController {
             // Если смещение у элементов одинаковое, но у добавляемоего заголовка высота равна нулю,
             // то считаем, что добавляемый находится выше. Вставляем новый заголовок в этой позиции.
             let index = headersStack.findIndex((headerId) => {
-                const headerOffset = this._getHeaderOffset(headerId, position);
+                const headerOffset = this._getHeaderOffset(headerId, position, needUpdateOffset);
                 return headerOffset > newHeaderOffset ||
                     (headerOffset === newHeaderOffset && headerContainerSize === 0);
             });
@@ -852,7 +721,7 @@ class StickyHeaderController {
                                     if (position === 'top' || position === 'bottom') {
                                         // Сохраним высоты по которым рассчитали позицию заголовков,
                                         // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
-                                        this._updateElementHeight(header.inst.getHeaderContainer(), size);
+                                        this._sizeObserver.updateElementHeight(header.inst.getHeaderContainer(), size);
                                     }
                                     return offset + size;
                                 } else if (j > 0) {

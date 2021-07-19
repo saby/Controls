@@ -40,6 +40,8 @@ import { isFullGridSupport } from 'Controls/display';
 import PathController from 'Controls/_explorer/PathController';
 import {Object as EventObject} from 'Env/Event';
 import {IColumn, IGridControl, IHeaderCell} from 'Controls/grid';
+import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
+import { addPageDeps } from 'UICommon/Deps';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -210,8 +212,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _markerForRestoredScroll: TKey;
     private _resetScrollAfterViewModeChange: boolean = false;
     private _isMounted: boolean = false;
-    // TODO: используется только в ф-ии _setViewMode, нет смысла хранить это промис
-    private _setViewModePromise: Promise<void>;
     private _restoredMarkedKeys: IMarkedKeysStore;
     private _potentialMarkedKey: TKey;
     private _newItemPadding: IItemPadding;
@@ -230,7 +230,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _searchInitialBreadCrumbsMode: 'row' | 'cell';
     //endregion
 
-    protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
+    protected _beforeMount(cfg: IExplorerOptions): Promise<void> | void {
         if (cfg.itemPadding) {
             this._itemPadding = cfg.itemPadding;
         }
@@ -383,7 +383,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             cfg.sourceController) {
             // https://online.sbis.ru/opendoc.html?guid=7d20eb84-51d7-4012-8943-1d4aaabf7afe
             if (!VIEW_MODEL_CONSTRUCTORS[this._pendingViewMode]) {
-                this._loadTileViewMode(cfg).then(() => {
+                runSyncOrAsync(this._loadTileViewMode(), () => {
                     this._setViewModeSync(this._pendingViewMode, cfg);
                 });
             } else {
@@ -974,25 +974,22 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
-    private _setViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): Promise<void> {
+    private _setViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): Promise<void> | void {
         if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
 
         if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
-            this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
+            return runSyncOrAsync(this._loadTileViewMode(), () => {
                 this._setViewModeSync(viewMode, cfg);
             });
         } else if (!this._columnsViewLoaded && viewMode === 'list' && cfg.useColumns) {
-            this._setViewModePromise = this._loadColumnsViewMode().then(() => {
+            return runSyncOrAsync(this._loadColumnsViewMode(), () => {
                 this._setViewModeSync(viewMode, cfg);
             });
         } else {
-            this._setViewModePromise = Promise.resolve();
             this._setViewModeSync(viewMode, cfg);
         }
-
-        return this._setViewModePromise;
     }
 
     private _applyNewVisualOptions(): void {
@@ -1092,29 +1089,30 @@ export default class Explorer extends Control<IExplorerOptions> {
         return itemFromRoot;
     }
 
-    private _loadTileViewMode(options: IExplorerOptions): Promise<void> {
-        return new Promise((resolve) => {
-            import('Controls/treeTile').then((tile) => {
+    private _loadTileViewMode(): Promise<void> | void {
+        try {
+            return runSyncOrAsync(geLoadAction('Controls/treeTile'), (tile) => {
                 VIEW_NAMES.tile = tile.TreeTileView;
                 VIEW_TABLE_NAMES.tile = tile.TreeTileView;
                 VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
-                resolve();
-            }).catch((err) => {
-                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
             });
-        });
+        } catch (err) {
+            Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+        }
     }
 
-    private _loadColumnsViewMode(): Promise<void> {
-        return import('Controls/columns').then((columns) => {
-            VIEW_NAMES.list = columns.ViewTemplate;
-            MARKER_STRATEGY.list = MultiColumnStrategy;
-            ITEM_GETTER.list = columns.ItemContainerGetter;
-            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
-            this._columnsViewLoaded = true;
-        }).catch((err) => {
+    private _loadColumnsViewMode(): Promise<void> | void {
+        try {
+            return runSyncOrAsync(geLoadAction('Controls/columns'), (columns) => {
+                VIEW_NAMES.list = columns.ViewTemplate;
+                MARKER_STRATEGY.list = MultiColumnStrategy;
+                ITEM_GETTER.list = columns.ItemContainerGetter;
+                VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+                this._columnsViewLoaded = true;
+            });
+        } catch (err) {
             Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-        });
+        }
     }
 
     private _canStartDragNDropFunc(): boolean {
@@ -1122,16 +1120,15 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _checkedChangeViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
-        this._setViewMode(viewMode, cfg)
+        runSyncOrAsync(this._setViewMode(viewMode, cfg), () => {
             // Обрабатываем searchNavigationMode только после того как
             // проставится setViewMode, т.к. он может проставится асинхронно
             // а код ниже вызывает изменение версии модели что приводит к лишней
             // перерисовке до изменения viewMode
-            .then(() => {
-                if (cfg.searchNavigationMode !== 'expand') {
-                    this._children.treeControl.resetExpandedItems();
-                }
-            });
+            if (cfg.searchNavigationMode !== 'expand') {
+                this._children.treeControl.resetExpandedItems();
+            }
+        });
     }
 
     /**
@@ -1237,6 +1234,51 @@ export default class Explorer extends Control<IExplorerOptions> {
             breadCrumbsMode: 'row'
         };
     }
+}
+
+/**
+ * Контролу нужна дополнительная оперия по загрузке другой либы
+ * Эту либу нельзя добавить в супербандл
+ * На сервере операция долна проходить синхронно
+ * А на клиенте операция можно произвести синхронно, если либа уже в памяти и зарегистрирована requirejs`ом
+ * Метод предназначен для решения этой самой проблемы выбора способа загрузки
+ * @param moduleName
+ */
+function geLoadAction(moduleName: string): unknown {
+    let action;
+
+    if (constants.isServerSide) {
+        addPageDeps([moduleName]);
+        action = ModulesLoader.loadSync(moduleName);
+    }
+    if (constants.isBrowserPlatform) {
+        action = ModulesLoader.isLoaded(moduleName) ? ModulesLoader.loadSync(moduleName) : import(moduleName);
+    }
+
+    return action;
+}
+
+/**
+ * Контрол был написан из расчета на асинхронность в определенном месте.
+ * Поступили требоания на сервере избавиться от этой асинхронности, но на клиенте все может пойти асинхронно
+ * Метод предназначен нивелировать разниц между асинхронным и синхронным способом ожидания резльтата
+ * @param result асинхронный или сихронный результат
+ * @param callBack функция успешного обратного вызова
+ * @param fallBack функция обратного вызова для неуспешного результата
+ */
+function runSyncOrAsync<T = unknown>(
+    result: Promise<T> | T,
+    callBack: (a?: T) => void,
+    fallBack: (a?: T) => void = () => void 0): Promise<void> | void {
+    if (typeof result === 'undefined') {
+        return callBack(result);
+    }
+
+    if ('then' in result) {
+        return result.then(callBack).catch(fallBack);
+    }
+
+    return callBack(result);
 }
 
 Object.defineProperty(Explorer, 'defaultProps', {

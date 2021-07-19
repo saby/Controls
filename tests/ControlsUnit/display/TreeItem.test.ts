@@ -171,6 +171,24 @@ describe('Controls/_display/TreeItem', () => {
     });
 
     describe('expander', () => {
+        it('.shouldDisplayExpandedBlock()', () => {
+            const owner = {
+                getExpanderVisibility: () => 'hasChildren',
+                hasNodeWithChildren: () => false,
+                hasNode: () => false
+            };
+            const item = new TreeItem({ owner});
+
+            assert.isFalse(item.shouldDisplayExpanderBlock());
+            owner.hasNodeWithChildren = () => true;
+            assert.isTrue(item.shouldDisplayExpanderBlock());
+
+            owner.getExpanderVisibility = () => 'visible';
+            assert.isFalse(item.shouldDisplayExpanderBlock());
+            owner.hasNode = () => true;
+            assert.isTrue(item.shouldDisplayExpanderBlock());
+        });
+
         it('.shouldDisplayExpander()', () => {
             let expanderPosition = 'default';
 
@@ -316,12 +334,6 @@ describe('Controls/_display/TreeItem', () => {
                 CssClassesAssert.include(classes, 'controls-TreeGrid__row_default-expander_size_default');
                 CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander__spacingTop_default');
                 CssClassesAssert.include(classes, 'controls-TreeGrid__row-expander__spacingBottom_default');
-            });
-
-            it('is dragged', () => {
-                let item = new TreeItem({ owner, dragged: true });
-                const classes = item.getExpanderClasses();
-                CssClassesAssert.include(classes, 'controls-ListView__itemContent_dragging');
             });
 
             it('expanderPosition is right', () => {

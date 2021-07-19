@@ -9,10 +9,11 @@ import {
     IBorderStyle, IBorderStyleOptions, IValidationStatus,
     IValidationStatusOptions, IContrastBackground
 } from 'Controls/interface';
-import IBorderVisibility, {
+import {
     TBorderVisibility, IBorderVisibilityOptions,
-    getDefaultBorderVisibilityOptions, getOptionBorderVisibilityTypes
+    getDefaultBorderVisibilityOptions, getOptionBorderVisibilityTypes, IBorderVisibility
 } from './interface/IBorderVisibility';
+import {IBorderVisibilityArea} from './interface/IBorderVisibilityArea';
 
 // @ts-ignore
 import * as template from 'wml!Controls/_input/Render/Render';
@@ -198,7 +199,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         return detection.isIE || (detection.isWinXP && detection.yandex);
     }
 
-    private static _detectToBorder(borderVisibility: TBorderVisibility, minLines: number, contrastBackground: boolean): IBorder {
+    private static _detectToBorder(borderVisibility: TBorderVisibility | IBorderVisibilityArea, minLines: number, contrastBackground: boolean): IBorder {
         switch (borderVisibility) {
             case 'visible':
                 return {
@@ -219,6 +220,13 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
                     top: false,
                     right: false,
                     bottom: false,
+                    left: false
+                };
+            case 'bottom':
+                return {
+                    top: false,
+                    right: false,
+                    bottom: true,
                     left: false
                 };
         }

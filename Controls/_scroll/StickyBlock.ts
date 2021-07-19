@@ -25,6 +25,7 @@ import {IntersectionObserver} from 'Controls/sizeUtils';
 import {EventUtils} from 'UI/Events';
 import Model = require('Controls/_scroll/StickyBlock/Model');
 import template = require('wml!Controls/_scroll/StickyBlock/StickyHeader');
+import Group from "Controls/_scroll/StickyBlock/Group";
 
 export enum BACKGROUND_STYLE {
     TRANSPARENT = 'transparent',
@@ -170,6 +171,10 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
     private _syncDomOptimization: boolean = true;
 
+    private _isHidden: boolean = false;
+
+    group: Group;
+
     get index(): number {
         return this._index;
     }
@@ -262,6 +267,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             return;
         }
         this._release();
+        this.group = null;
     }
 
     _register(): void {
@@ -475,7 +481,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
 
         const isInitializing = Object.keys(oldScrollState).length === 0;
         // Если нет скролла, то и заголовки незачем обновлять
-        if (isInitializing || !scrollState.canVerticalScroll && !scrollState.canHorizontalScroll) {
+        if (this._isHidden || isInitializing || !scrollState.canVerticalScroll && !scrollState.canHorizontalScroll) {
             return;
         }
         const position = this._options.position;
@@ -590,6 +596,10 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         // Через мгновение они появляются. Проблема есть в SwitchableArea и в стэковых окнах.
         // Сценарий 2. Области создаются скрытыми. а после загрузки данных отбражаются.
         if (isHidden(this._container)) {
+            this._isHidden = true;
+            return;
+        } else if (this._isHidden) {
+            this._isHidden = false;
             return;
         }
 
@@ -1063,7 +1073,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
  *     </Controls.scroll:StickyBlock/>
  * </pre>
  * @default { vertical: 'top'}
- * @demo Controls-demo/Scroll/StickyHeader/Position/Index
+ * @demo Controls-demo/Scroll/StickyBlock/Position/Index
  */
 
 /*

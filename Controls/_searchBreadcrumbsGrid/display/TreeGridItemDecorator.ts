@@ -1,6 +1,8 @@
 import BreadcrumbsItemRow from './BreadcrumbsItemRow';
 import SearchGridDataRow from './SearchGridDataRow';
-import { Model } from 'Types/entity';
+import {Model} from 'Types/entity';
+import {GridCell} from 'Controls/grid';
+import {TreeGridDataRow} from 'Controls/treeGrid';
 
 export interface IOptions<T extends Model> {
     source: SearchGridDataRow<T>;
@@ -30,7 +32,7 @@ export default class TreeGridItemDecorator<T extends Model> extends SearchGridDa
 
         // Декоратор нужен, чтобы задать правильный parent для item-a, при этом не испортив оригинальный item
         // Прокидываем все методы из оригинального item-a в decorator, за исключением методов, связанных с parent
-        const notRewriteProperties = ['getLevel', 'getParent'];
+        const notRewriteProperties = ['getLevel', 'getParent', 'shouldDisplayExpanderBlock'];
         for (const property in this._$source) {
             if (typeof this._$source[property] === 'function' && !notRewriteProperties.includes(property)) {
                 this[property] = this._$source[property].bind(this._$source);
@@ -40,6 +42,14 @@ export default class TreeGridItemDecorator<T extends Model> extends SearchGridDa
 
     getSource(): SearchGridDataRow<T> {
         return this._$source;
+    }
+
+    shouldDisplayExpanderBlock(column: GridCell<T, TreeGridDataRow<T>>): boolean {
+        // Для детей хлебной крошки должен рисоваться всегда один отступ, поэтому в первой колонке разрешаем
+        // отрисовать expanderBlock
+        const columnIndex = column.getColumnIndex();
+        const hasMultiSelect = this.hasMultiSelectColumn();
+        return columnIndex === 0 && !hasMultiSelect || columnIndex === 1 && hasMultiSelect;
     }
 }
 
