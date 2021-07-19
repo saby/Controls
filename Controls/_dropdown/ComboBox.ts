@@ -39,7 +39,6 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdownPopup.less переменные тем оформления dropdownPopup}
  *
- * @class Controls/_dropdown/ComboBox
  * @extends UI/Base:Control
  * @implements Controls/interface:ISource
  * @implements Controls/dropdown:IBaseDropdown
@@ -64,7 +63,6 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * Control that shows list of options. In the default state, the list is collapsed, showing only one choice.
  * The full list of options is displayed when you click on the control.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FCombobox%2FComboboxVDom">Demo-example</a>.
- * @class Controls/_dropdown/ComboBox
  * @extends UI/Base:Control
  * @implements Controls/interface:ISource
  * @implements Controls/interface/IItemTemplate
