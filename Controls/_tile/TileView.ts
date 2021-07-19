@@ -375,8 +375,20 @@ export default class TileView extends ListView {
         });
     }
 
-    protected _getItemsPaddingContainerClasses(): string {
-        let classes = 'controls-TileView__itemPaddingContainer';
+    protected _getViewClasses(): string {
+        let classes = `controls_list_theme-${this._options.theme} controls-TileView_new`;
+
+        // если показывается emptyTemplate отступы между элементом и границей вьюхи не нужны.
+        // Иначе будут прыжки при переключении viewMode
+        if (!this._options.needShowEmptyTemplate) {
+            classes += this._getItemsPaddingContainerClasses();
+        }
+
+        return classes;
+    }
+
+    private _getItemsPaddingContainerClasses(): string {
+        let classes = ' controls-TileView__itemPaddingContainer';
 
         const itemPadding = this._getPadding('itemPadding');
         if (this._options.itemsContainerPadding) {
