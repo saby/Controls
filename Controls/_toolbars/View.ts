@@ -470,7 +470,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     }
 
     protected _resultHandler(action, data, nativeEvent): void {
-        if (action === 'itemClick') {
+        if (action === 'itemClick' || action === 'rightTemplateClick') {
             const item = data;
             this._notify('itemClick', [item, nativeEvent]);
 
