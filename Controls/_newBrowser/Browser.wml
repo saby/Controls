@@ -73,18 +73,9 @@
                  on:dragEnd="_notifyHandler('detailDragEnd')"
                  on:dragLeave="_notifyHandler('detailDragLeave')"
                  on:dragStart="_notifyHandler('detailDragStart')"
+                 afterBreadCrumbsTemplate="{{_options.detail.afterBreadCrumbsTemplate}}"
                  on:itemMouseDown="_notifyHandler('detailItemMouseDown')"
-                 on:viewModeChanged="_onDetailExplorerChangedViewMode()"
-         >
-            <ws:afterBreadCrumbsTemplate>
-               <ws:if data="{{_options.detail.afterBreadCrumbsTemplate}}">
-                  <ws:partial template="{{_options.detail.afterBreadCrumbsTemplate}}"/>
-               </ws:if>
-               <ws:else>
-                  <invisible-node/>
-               </ws:else>
-            </ws:afterBreadCrumbsTemplate>
-
+                 on:viewModeChanged="_onDetailExplorerChangedViewMode()">
             <ws:itemTemplate>
                <!-- В режиме "таблица" или "поиск" нужно использовать шаблон строки таблицы -->
                <ws:if data="{{_appliedViewMode === _viewModeEnum.table || _appliedViewMode === _viewModeEnum.search}}">
