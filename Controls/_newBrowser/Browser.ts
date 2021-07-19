@@ -380,7 +380,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     // нужно уметь реагировать на результат выполнения команд самостоятельно.
     reloadMaster(): Promise<RecordSet> {
         const masterExplorer = this._children.masterList;
-        return masterExplorer.reload.apply(masterExplorer, arguments);
+        if (masterExplorer) {
+            return masterExplorer.reload.apply(masterExplorer, arguments);
+        }
     }
 
     reloadItem(): unknown {
