@@ -168,10 +168,14 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
             adapter: rsAdapter
         });
 
-        record.addField({ name: this._options.parentProperty, type: 'string' }, 0, this._root);
-        record.addField( { name: this._options.nodeProperty, type: 'string' }, 0, null);
-        record.addField({ name: this._options.keyProperty, type: 'string' }, 0, 'root');
-        record.addField({ name: this._options.displayProperty, type: 'string' }, 0, this._options.rootTitle || rk('В корень'));
+        record.addField({ name: this._options.parentProperty, type: 'string', defaultValue: this._root });
+        record.addField( { name: this._options.nodeProperty, type: 'string', defaultValue: null });
+        record.addField({ name: this._options.keyProperty, type: 'string', defaultValue: 'root' });
+        record.addField({
+            name: this._options.displayProperty,
+            type: 'string',
+            defaultValue: this._options.rootTitle || rk('В корень')
+        });
         return record;
     }
 
