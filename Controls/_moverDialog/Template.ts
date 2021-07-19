@@ -154,11 +154,7 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
     protected _dataLoadCallback(recordSet: RecordSet): void {
         if ((!this._searchValue || this._searchValue.length === 0) &&
             (this._options.showRoot || this._options.rootVisible)) {
-            recordSet.add(new Model({
-                keyProperty: recordSet.getKeyProperty(),
-                rawData: this._getRootRawData(recordSet.getAdapter()),
-                adapter: recordSet.getAdapter()
-            }), 0);
+            recordSet.add(this._getRootRecord(recordSet.getKeyProperty(), recordSet.getAdapter()), 0);
         }
     }
 
@@ -166,29 +162,17 @@ export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOpt
      * Возвращает данные для записи "В корень"
      * @private
      */
-    private _getRootRawData(currentAdapter: adapter.IAdapter): { [p: string]: string | number | string[] | object[] } {
-        const parent = this._root;
-        const node = null;
-        const key = 'root';
-        const display = this._options.rootTitle || rk('В корень');
-        if (currentAdapter instanceof adapter.Sbis) {
-            return {
-                d: [ parent, node, key, display],
-                s: [
-                    { n: this._options.parentProperty, t: 'Строка' },
-                    { n: this._options.nodeProperty, t: 'Строка' },
-                    { n: this._options.keyProperty, t: 'Строка' },
-                    { n: this._options.displayProperty, t: 'Строка' }
-                ]
-            };
-        } else {
-            return {
-                [this._options.parentProperty]: parent,
-                [this._options.nodeProperty]: node,
-                [this._options.keyProperty]: key,
-                [this._options.displayProperty]: display
-            };
-        }
+    private _getRootRecord(keyProperty: string, rsAdapter: adapter.IAdapter): Model {
+        const record = new Model({
+            keyProperty,
+            adapter: rsAdapter
+        });
+
+        record.addField({ name: this._options.parentProperty, type: 'string' }, 0, this._root);
+        record.addField( { name: this._options.nodeProperty, type: 'string' }, 0, null);
+        record.addField({ name: this._options.keyProperty, type: 'string' }, 0, 'root');
+        record.addField({ name: this._options.displayProperty, type: 'string' }, 0, this._options.rootTitle || rk('В корень'));
+        return record;
     }
 
     static getDefaultOptions = (): object => {
