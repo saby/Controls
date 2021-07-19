@@ -57,18 +57,18 @@ export default class LookupBaseControllerClass {
         }
 
         if (itemsChanged) {
-            this._setItems(newOptions.items);
             updateResult = true;
+            this._setItems(newOptions.items);
+
+            if (!keysChanged) {
+                this._setSelectedKeys(this._getSelectedKeysByItems());
+            }
         }
 
         if (keysChanged || sourceIsChanged && hasSelectedKeysInOptions) {
             this._setSelectedKeys(newOptions.selectedKeys.slice());
         } else if (isKeyPropertyChanged) {
-            const selectedKeys = [];
-            this._getItems().each((item) => {
-                selectedKeys.push(item.get(newOptions.keyProperty));
-            });
-            this._setSelectedKeys(selectedKeys);
+            this._setSelectedKeys(this._getSelectedKeysByItems());
         }
 
         if (!newOptions.multiSelect && this._selectedKeys.length > 1) {
@@ -206,6 +206,14 @@ export default class LookupBaseControllerClass {
             Logger.error('Controls/lookup: передано несколько ключей в опции selectedKeys для поля с единичным выбором (опция multiSelect: false)');
         }
         this._selectedKeys = keys;
+    }
+
+    private _getSelectedKeysByItems(): TKey[] {
+        const selectedKeys = [];
+        this._getItems().each((item) => {
+            selectedKeys.push(item.get(this._options.keyProperty));
+        });
+        return selectedKeys;
     }
 
     private _setItems(items: SelectedItems): void {
