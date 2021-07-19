@@ -1,6 +1,6 @@
-<div attr:style="margin: 30px 30px">
+<div attr:class="controlsDemo_fixedWidth350 controlsDemo_m3">
 <div class="controls-text-label">readOnly=false</div>
-<div class="controlsDemo__cell controlsDemo_m3">
+<div class="controlsDemo__cell">
     <Controls.popup:PreviewerTarget readOnly="{{false}}" trigger="hoverAndClick"
                                     template="Controls-demo/Popup/Edit/MyFormController">
         <ws:content>
@@ -9,7 +9,7 @@
     </Controls.popup:PreviewerTarget>
 </div>
 <div class="controls-text-label">readOnly=true</div>
-<div class="controlsDemo__cell controlsDemo_m3">
+<div class="controlsDemo__cell">
     <Controls.popup:PreviewerTarget readOnly="{{true}}" trigger="hoverAndClick"
                                     template="Controls-demo/Popup/Edit/MyFormController">
         <ws:content>
@@ -18,7 +18,7 @@
     </Controls.popup:PreviewerTarget>
 </div>
 <div class="controls-text-label">readOnly=false and content readOnly true</div>
-<div class="controlsDemo__cell controlsDemo_m3">
+<div class="controlsDemo__cell">
     <Controls.popup:PreviewerTarget readOnly="{{false}}" trigger="hoverAndClick"
                                     template="Controls-demo/Popup/Edit/MyFormController">
         <ws:content>
