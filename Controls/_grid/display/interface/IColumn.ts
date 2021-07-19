@@ -460,7 +460,7 @@ export interface IColumn extends IColspanParams {
     displayTypeOptions?: IDisplayTypeOptions;
     fontColorStyle?: TFontColorStyle;
     /**
-     * @cfg Цвет фона колонки.
+     * @cfg {Controls/display:IMarkable/BackgroundColorStyle.typedef} Цвет фона колонки.
      * @see hoverBackgroundStyle
      */
     backgroundColorStyle?: string;
