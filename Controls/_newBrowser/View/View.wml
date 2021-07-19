@@ -36,6 +36,8 @@
         <ws:if data="{{_options.detailContentTemplate}}">
             <ws:partial
                     template="{{_options.detailContentTemplate}}"
+                    tileCfg="{{_tileCfg}}"
+                    listCfg="{{_listCfg}}"
                     loading="{{_detailLoading}}"
                     attr:class="controls-newBrowser__detail-list"
                     on:itemClick="_onExplorerItemClick(false)"

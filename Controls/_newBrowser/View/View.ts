@@ -188,23 +188,36 @@ export default class View extends Control<IOptions, IReceivedState> {
     private _onDetailDataLoadCallback(event: SyntheticEvent, items: RecordSet, direction: string): void {
         // Не обрабатываем последующие загрузки страниц. Нас интересует только
         // загрузка первой страницы
-        if (direction && this._detailExplorerOptions.imageProperty && !this._hasImageInItems) {
-            this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+        const rootChanged = this._dataContext.listsConfigs.detail.root  !== this._detailDataSource.getRoot();
+        const imageProperty = this._detailExplorerOptions.imageProperty;
+        if (!direction) {
+            this._processItemsMetadata(items);
+        }
+        if (imageProperty && (!this._hasImageInItems || rootChanged)) {
+            this._hasImageInItems = this._hasImages(items, imageProperty);
             const imageVisibility = this._hasImageInItems ? 'visible' : 'hidden';
-            if (imageVisibility !== this._listCfg.getImageVisibility()) {
-                this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+            if (imageVisibility !== this._listCfg?.getImageVisibility()) {
                 this._listCfg.setImageVisibility(imageVisibility);
                 this._tileCfg.setImageVisibility(imageVisibility);
                 this._tableCfg.setImageVisibility(imageVisibility);
+                /*
+                    Восстанавливать скролл нужно только если фотки появились в текущем узле при подгрузке по скроллу
+                    Если видимость меняется при проваливании в папку, то скролл всегда будет в шапке списка.
+                */
+                if (imageVisibility === 'visible' && !rootChanged && direction) {
+                    this._itemToScroll = this._children.detailList.getLastVisibleItemKey();
+                }
             }
-            return;
         } else if (!this._hasImageInItems) {
-            this._hasImageInItems = this._hasImages(items, this._detailExplorerOptions.imageProperty);
+            this._hasImageInItems = this._hasImages(items, imageProperty);
         }
 
         if (this._newMasterVisibility) {
             this._masterVisibility = this._newMasterVisibility;
             this._newMasterVisibility = null;
+        }
+        if (this._detailExplorerOptions.dataLoadCallback) {
+            this._detailExplorerOptions.dataLoadCallback(items, direction);
         }
         this._processItemsMetadata(items);
     }
