@@ -25,6 +25,7 @@ import {
 import {SyntheticEvent} from 'Vdom/Vdom';
 import ButtonTemplate = require('wml!Controls/_buttons/Button');
 import {descriptor} from 'Types/entity';
+import {constants} from 'Env/Env';
 import 'wml!Controls/_buttons/ButtonBase';
 import 'css!Controls/buttons';
 import 'css!Controls/CommonClasses';
@@ -157,7 +158,8 @@ export function getDefaultOptions(): object {
  * @author Красильников А.С.
  * @demo Controls-demo/Buttons/ViewModes/Index
  */
-class Button extends Control<IButtonControlOptions> implements IHref, ICaption, IIcon, IIconStyle, ITooltip, IIconSize, IClick, IFontColorStyle, IFontSize, IHeight, IButton {
+class Button extends Control<IButtonControlOptions> implements IHref, ICaption, IIcon, IIconStyle, ITooltip, IIconSize,
+                                                               IClick, IFontColorStyle, IFontSize, IHeight, IButton {
     protected _template: TemplateFunction = ButtonTemplate;
 
     // Называть _style нельзя, так как это состояние используется для темизации
@@ -187,7 +189,7 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
     }
 
     protected _keyUpHandler(e: SyntheticEvent<KeyboardEvent>): void {
-        if (e.nativeEvent.keyCode === 13 && !this._options.readOnly) {
+        if (e.nativeEvent.keyCode === constants.key.enter && !this._options.readOnly) {
             this._notify('click');
         }
     }
