@@ -388,7 +388,6 @@
  * @see ImageFit.wml
  * @see imageProperty
  * @remark Особенно актуально при использовании imageFit в режиме cover.
- * @fuction
  * @param {number} width - ширина изображения.
  * @param {number} height - высота изображения.
  * @param {string} baseUrl - url, полученный с записи через imageProperty.

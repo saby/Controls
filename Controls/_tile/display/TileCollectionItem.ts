@@ -1,7 +1,10 @@
-import { CollectionItem } from 'Controls/display';
+import {CollectionItem, ICollectionItemOptions} from 'Controls/display';
 import {Model} from 'Types/entity';
 import { mixin } from 'Types/util';
 import TileItem from 'Controls/_tile/display/mixins/TileItem';
+import {ITileAspectOptions} from '../TileView';
+
+export interface ITileCollectionItemOptions extends ICollectionItemOptions, ITileAspectOptions {}
 
 /**
  * Элемент плиточной коллекции
@@ -28,8 +31,11 @@ export default class TileCollectionItem<T extends Model = Model>
 
     getMultiSelectClasses(): string {
         let classes = super.getMultiSelectClasses();
-        classes = classes.replace(`controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()}`, '');
+
+        const checkboxPositionClass = `controls-ListView__checkbox_position-${this.getMultiSelectPosition()}`;
+        classes = classes.replace(checkboxPositionClass, '');
         classes += ' controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom';
+
         return classes;
     }
 }

@@ -34,6 +34,7 @@ export type TTitleStyle = 'light'|'dark'|'accent'|'onhover'|'partial';
 export type TGradientPlace = 'image'|'title';
 export type TGradientType = 'dark'|'light'|'custom';
 export type TFooterPlace = 'wrapper'|'content';
+export type TActionMode = 'showType'|'adaptive'|'strict';
 
 export const TILE_SIZES = {
     s: {
@@ -217,7 +218,8 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     /**
-     * Возвращает название свойства на рекорде, которое содержит коэффициент для расчета ширины от высоты в динамическом режиме
+     * Возвращает название свойства на рекорде, которое содержит коэффициент
+     * для расчета ширины от высоты в динамическом режиме
      * @return {string} Название свойства
      */
     getTileFitProperty(): string {
@@ -225,7 +227,8 @@ export default abstract class TileItem<T extends Model = Model> {
     }
 
     /**
-     * Устанавливает название свойства на рекорде, которое содержит коэффициент для расчета ширины от высоты в динамическом режиме
+     * Устанавливает название свойства на рекорде, которое содержит коэффициент
+     * для расчета ширины от высоты в динамическом режиме
      * @param {string} tileFitProperty Название свойства
      * @void
      */
@@ -377,10 +380,16 @@ export default abstract class TileItem<T extends Model = Model> {
         imagePosition: TImagePosition = 'top',
         imageViewMode: TImageViewMode = 'rectangle'
     ): string {
+        let paddingTop;
+
         if (itemType === 'rich') {
-            return ` padding-top: ${100 * imageProportion}%`;
+            paddingTop = imageProportion * 100;
+        } else {
+            const tileProportion = this.getTileHeight() / this.getTileWidth(width, imagePosition, imageViewMode);
+            paddingTop = tileProportion * 100;
         }
-        return `padding-top: ${(this.getTileHeight() / this.getTileWidth(width, imagePosition, imageViewMode)) * 100}%;`;
+
+        return `padding-top: ${paddingTop}%;`;
     }
 
     /**
@@ -524,12 +533,15 @@ export default abstract class TileItem<T extends Model = Model> {
      * @param {TItemActionsPlace} place Место в темплейте, в котором будет отрисовываться темплейт операций над записью
      * @return {boolean}
      */
-    shouldDisplayItemActions(itemType: TTileItem = 'default', itemActionsPositionTemplate: TItemActionsPosition, place?: TItemActionsPlace): boolean {
+    shouldDisplayItemActions(
+        itemType: TTileItem = 'default', itemActionsPositionTemplate: TItemActionsPosition, place?: TItemActionsPlace
+    ): boolean {
         // В превью темплейте itemActions должны показываться внутри блока с названием
         if (itemType === 'preview' && place === 'wrapper') {
             return false;
         }
-        const itemActionsPosition = itemActionsPositionTemplate || this.getOwner().getActionsTemplateConfig()?.itemActionsPosition;
+        const itemActionsPosition = itemActionsPositionTemplate
+            || this.getOwner().getActionsTemplateConfig()?.itemActionsPosition;
         return !this.isSwiped() && (this.hasVisibleActions() || this.isEditing()) && itemActionsPosition !== 'custom';
     }
 
@@ -590,14 +602,12 @@ export default abstract class TileItem<T extends Model = Model> {
      * @param {TTileItem} itemType Тип элемента
      * @return {string}
      */
-    getActionMode(itemType: TTileItem = 'default'): string {
+    getActionMode(itemType: TTileItem = 'default'): TActionMode|void {
         if (itemType === 'preview') {
             return 'adaptive';
         } else if (itemType === 'small') {
             return 'strict';
         }
-
-        return '';
     }
 
     /**
@@ -783,7 +793,9 @@ export default abstract class TileItem<T extends Model = Model> {
                 this.getImageWidth(),
                 this.getImageFit()
             );
-            return getImageUrl(imageSizes.width, imageSizes.height, baseUrl, this.getContents(), this.getImageUrlResolver());
+            return getImageUrl(
+                imageSizes.width, imageSizes.height, baseUrl, this.getContents(), this.getImageUrlResolver()
+            );
         } else {
             return baseUrl;
         }
@@ -853,9 +865,16 @@ export default abstract class TileItem<T extends Model = Model> {
                 }
                 classes += ` controls-TileView__image_align_${imageAlign} `;
 
-                const imageRestrictions = this.getImageFit(imageFit) === 'cover'
-                    ? getImageRestrictions(this.getImageHeight(), this.getImageWidth(), this.getTileHeight(), this.getTileWidth(widthTpl, imagePosition, imageViewMode))
-                    : {};
+                let imageRestrictions = {};
+                if (this.getImageFit(imageFit) === 'cover') {
+                    imageRestrictions = getImageRestrictions(
+                        this.getImageHeight(),
+                        this.getImageWidth(),
+                        this.getTileHeight(),
+                        this.getTileWidth(widthTpl, imagePosition, imageViewMode)
+                    );
+                }
+
                 classes += getImageClasses(this.getImageFit(imageFit), imageRestrictions);
                 break;
             case 'small':
@@ -923,8 +942,10 @@ export default abstract class TileItem<T extends Model = Model> {
                 classes = ' controls-TileView__richTemplate_imageWrapper';
                 classes += ` controls-TileView_richTemplate_image_spacing_viewMode_${imageViewMode}`;
                 if (!imageProportionOnItem || imageViewMode !== 'rectangle' || imagePosition !== 'top') {
-                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition}_viewMode_${imageViewMode}`;
-                    classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition !== 'top' ? 'vertical' : 'top'}`;
+                    classes += ` controls-TileView__richTemplate_image_size_` +
+                        `${imageSize}_position_${imagePosition}_viewMode_${imageViewMode}`;
+                    classes += ` controls-TileView__richTemplate_image_size_` +
+                        `${imageSize}_position_${imagePosition !== 'top' ? 'vertical' : 'top'}`;
                 }
                 break;
             case 'preview':
@@ -1019,7 +1040,8 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'medium':
                 return false;
             case 'rich':
-                return position === 'image' && imageEffect === 'gradient' && imageViewMode === 'rectangle' && imagePosition === 'top';
+                return position === 'image' && imageEffect === 'gradient'
+                    && imageViewMode === 'rectangle' && imagePosition === 'top';
             case 'preview':
                 return position === 'title';
         }
@@ -1070,7 +1092,9 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'preview':
                 break;
             case 'rich':
-                styles += ` background: linear-gradient(to bottom, ${gradientStartColor} 0%, ${gradientStopColor} 100%);`;
+                const startColor = `${gradientStartColor} 0%`;
+                const endColor = `${gradientStopColor} 100%`;
+                styles += ` background: linear-gradient(to bottom, ${startColor}, ${endColor});`;
                 break;
         }
 
@@ -1090,7 +1114,8 @@ export default abstract class TileItem<T extends Model = Model> {
     ): string {
         let styles = '';
 
-        // Нельзя сделать просто градиент от цвета к прозрачному белому, так как в safari это приводит к светлым полосам на темном фоне.
+        // Нельзя сделать просто градиент от цвета к прозрачному белому,
+        // так как в safari это приводит к светлым полосам на темном фоне.
         // Поэтому нужно делать градиент от цвета к прозрачному цвету того же оттенка.
         const rgbColor = toRgb(gradientColor);
 
@@ -1101,12 +1126,17 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 if (rgbColor) {
-                    styles += ` background: linear-gradient(to bottom, ${rgbaToString(rgbToRgba(rgbColor, 0))} 0%, ${rgbaToString(rgbColor)} 100%);`;
+                    const startColor = `${rgbaToString(rgbToRgba(rgbColor, 0))} 0%`;
+                    const endColor = `${rgbaToString(rgbColor)} 100%`;
+                    styles += ` background: linear-gradient(to bottom, ${startColor}, ${endColor});`;
                 }
                 break;
             case 'preview':
                 if (gradientType === 'custom') {
-                    styles += ` background: linear-gradient(to top, ${gradientColor} 0%, ${gradientColor} calc(100% - 4px), rgba(255, 255, 255, 0) 100%);`;
+                    const startColor = `${gradientColor} 0%`;
+                    const midColor = `${gradientColor} calc(100% - 4px)`;
+                    const endColor = 'rgba(255, 255, 255, 0) 100%';
+                    styles += ` background: linear-gradient(to top, ${startColor}, ${midColor}, ${endColor});`;
                 }
                 break;
         }
@@ -1234,7 +1264,7 @@ export default abstract class TileItem<T extends Model = Model> {
      */
     getWrapperClasses(
         itemType: TTileItem = 'default',
-        templateShadowVisibility?: string,
+        templateShadowVisibility?: TShadowVisibility,
         marker?: boolean,
         highlightOnHover?: boolean,
         backgroundColorStyle?: TBackgroundColorStyle,
@@ -1407,7 +1437,8 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
             case 'small':
-                // TODO переопределяем left и top, т.к. в метод getMultiSelectClasses мы не можем прокинуть параметр itemType
+                // TODO переопределяем left и top, т.к. в метод getMultiSelectClasses
+                //  мы не можем прокинуть параметр itemType
                 styles += ' left: unset; top: unset;';
                 break;
         }
@@ -1464,7 +1495,8 @@ export default abstract class TileItem<T extends Model = Model> {
                 classes += ' controls-TileView__mediumTemplate_content';
                 break;
             case 'rich':
-                classes += ` controls-TileView__richTemplate controls-TileView__richTemplate_imagePosition_${imagePosition}`;
+                classes += ' controls-TileView__richTemplate';
+                classes += ` controls-TileView__richTemplate_imagePosition_${imagePosition}`;
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate_content';
@@ -1557,7 +1589,11 @@ export default abstract class TileItem<T extends Model = Model> {
                 styles += ' width: 100%;';
                 break;
             case 'rich':
-                if ((!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right') {
+                if (
+                    (!imageViewMode || imageViewMode === 'rectangle') &&
+                    imagePosition !== 'left' &&
+                    imagePosition !== 'right'
+                ) {
                     styles += ` background-color: ${rgbaToString(toRgb(gradientColor))};`;
                 }
                 break;
@@ -1731,7 +1767,9 @@ export default abstract class TileItem<T extends Model = Model> {
      * @param {number} descriptionLines Кол-во строк в описании
      * @param {string} textColor Цвет текста
      */
-    getDescriptionStyles(itemType: TTileItem = 'default', descriptionLines: number = 1, textColor: string = 'inherit'): string {
+    getDescriptionStyles(
+        itemType: TTileItem = 'default', descriptionLines: number = 1, textColor: string = 'inherit'
+    ): string {
         let styles = '';
         switch (itemType) {
             case 'default':

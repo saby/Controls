@@ -14,7 +14,7 @@ export interface ISourceCollection<T extends Model = Model> extends IEnumerable<
  * @variant S
  * @variant nyll
  */
-export type TVerticalItemPadding = 'S'|'null';
+export type TVerticalItemPadding = 'S'|'null'|'default';
 
 /**
  * @typedef {String} THorizontalItemPadding
@@ -26,7 +26,7 @@ export type TVerticalItemPadding = 'S'|'null';
  * @variant XXL
  * @variant null
  */
-export type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'null';
+export type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'null'|'default';
 
 /**
  * Интерфейс настройки отступов записи

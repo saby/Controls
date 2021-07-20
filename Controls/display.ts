@@ -63,6 +63,8 @@ import {default as Search} from './_display/Search';
 export {Search};
 import {default as Tree} from './_display/Tree';
 export {Tree};
+import {IOptions as ITreeOptions} from './_display/Tree';
+export {ITreeOptions};
 import {default as TreeItem} from './_display/TreeItem';
 export {TreeItem};
 import {IOptions as ITreeItemOptions} from './_display/TreeItem';

@@ -56,7 +56,6 @@ interface IItemsFactoryOptions<S> {
 }
 
 export interface IOptions<S, T> extends ICollectionOptions<S, T> {
-    keyProperty?: string;
     parentProperty?: string;
     nodeProperty?: string;
     childrenProperty?: string;

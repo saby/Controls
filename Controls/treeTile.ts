@@ -21,7 +21,8 @@ export {
     ItemsView,
     TreeTileView,
     FolderTemplate,
-    TreeTileItemActions
+    TreeTileItemActions,
+    TreeTileCollection
 };
 
 register('Controls/treeTile:TreeTileCollection', TreeTileCollection, {instantiate: false});

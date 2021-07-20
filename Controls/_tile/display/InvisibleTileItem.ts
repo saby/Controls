@@ -1,13 +1,18 @@
-import TileCollectionItem from './TileCollectionItem';
+import TileCollectionItem, {ITileCollectionItemOptions} from './TileCollectionItem';
 import InvisibleItem from './mixins/InvisibleItem';
 import { mixin } from 'Types/util';
+
+export interface IInvisibleTileItemOptions extends ITileCollectionItemOptions {
+    lastInvisibleItem: boolean;
+}
 
 /**
  * Невидимый элемент в плиточной коллекции
  * @author Панихин К.А.
  */
-export default class InvisibleTileItem extends mixin<TileCollectionItem, InvisibleItem>(TileCollectionItem, InvisibleItem) {
-    constructor(options: any) {
+export default class InvisibleTileItem
+    extends mixin<TileCollectionItem, InvisibleItem>(TileCollectionItem, InvisibleItem) {
+    constructor(options: IInvisibleTileItemOptions) {
         super(options);
         InvisibleItem.call(this, options);
     }
