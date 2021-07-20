@@ -2,8 +2,6 @@
             scope="{{_options}}">
     <ws:contentTemplate>
         <span>{{item.contents['title']}}</span>
-        <ws:if data="{{column.configIndex === 0}}">
-            <ws:partial template="{{ expanderTemplate }}"/>
-        </ws:if>
+        <ws:partial template="{{ expanderTemplate }}"/>
     </ws:contentTemplate>
 </ws:partial>
