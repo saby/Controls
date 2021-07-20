@@ -43,7 +43,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_down  controlsDemo__ml1">
       <div class="controls-text-label">Постраничная навигация (вверх)</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNew__pageNavigationUp"
+              attr:class="controlsDemo__input  controlsDemo__wrapper__padding-left  demo-SuggestNew__pageNavigationUp"
               bind:value="_suggestCustomValueUp"
               displayProperty="title"
               searchParam="title"
