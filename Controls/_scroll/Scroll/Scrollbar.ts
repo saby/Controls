@@ -27,7 +27,7 @@ export interface IScrollBarOptions extends IControlOptions {
  * @extends UI/Base:Control
  *
  * @public
- * 
+ *
  * @author Красильников А.С.
  */
 
@@ -58,7 +58,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
     private _viewportSize: number | null = null;
 
     protected _beforeMount(options: IScrollBarOptions): void {
-        //TODO Compatibility на старых страницах нет Register, который скажет controlResize
+        // TODO Compatibility на старых страницах нет Register, который скажет controlResize
         this._resizeHandler = this._resizeHandler.bind(this);
         this._thumbStyle = this._getThumbStyle(options);
         this._thumbThickness = this._getThumbThickness(options);
@@ -88,7 +88,8 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._thumbStyle = this._getThumbStyle(options);
         this._thumbThickness = this._getThumbThickness(options);
 
-        // TODO: Позиция сейчас принимается и через опции и через сеттер. чтобы не было лишних обновлений нужно оставить только сеттер
+        // TODO: Позиция сейчас принимается и через опции и через сеттер.
+        //  Чтобы не было лишних обновлений нужно оставить только сеттер
         const position = this._scrollPosition || options.position || 0;
         let shouldUpdatePosition = !this._dragging && this._position !== position;
         if (options.contentSize !== this._options.contentSize) {
@@ -102,7 +103,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
         }
     }
 
-    protected _afterUpdate(oldOptions?: IScrollBarOptions, oldContext?: any) {
+    protected _afterUpdate(oldOptions?: IScrollBarOptions, oldContext?: {}): void {
         // Если после перерисовки поменялись размеры скролбара, то обновим его. Сценарий очень редкий,
         // например после фиксации заголовков надо сдвинуть вершнюю грань скролбара вниз.
         // Для оптимизации, если родитель заранее знает размер скролбара, можно задать его через метод setViewportSize,
@@ -112,7 +113,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
     }
 
     protected _beforeUnmount(): void {
-        //TODO Compatibility на старых страницах нет Register, который скажет controlResize
+        // TODO Compatibility на старых страницах нет Register, который скажет controlResize
         if (!newEnv() && constants.isBrowserPlatform) {
             window.removeEventListener('resize', this._resizeHandler);
         }
@@ -220,7 +221,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._viewportSize = size;
     }
 
-    public recalcSizes(): void {
+    recalcSizes(): void {
         this._resizeHandler();
     }
 
@@ -454,13 +455,14 @@ class Scrollbar extends Control<IScrollBarOptions> {
      */
     private static _calcWheelDelta(firefox: boolean, delta: number): number {
         if (firefox) {
-            return Math.sign(delta) * 100;
+            const additionalWheelOffset = 100;
+            return Math.sign(delta) * additionalWheelOffset;
         }
         return delta;
     }
 }
 
-Scrollbar.getDefaultOptions = function () {
+Scrollbar.getDefaultOptions = () => {
     return {
         position: 0,
         direction: 'vertical'

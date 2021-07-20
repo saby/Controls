@@ -1,3 +1,6 @@
+.controls-Scroll-ContainerBase {
+   display: flex;
+}
 .ws-is-mobile-chrome-ios,
 .ws-is-mobile-safari {
    .controls-Scroll-ContainerBase {
@@ -6,10 +9,6 @@
       // В старом скролл контейнере было свойсвто perspective: 1000, но на IOS 14 из-за него полностью пропадает скрообар.
       z-index: 0;
    }
-}
-
-.controls-Scroll-ContainerBase {
-   display: flex;
 }
 
 .controls-Scroll-ContainerBase__scrollPosition-regular {
