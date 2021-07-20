@@ -197,7 +197,7 @@ interface ISuggest {
        * <pre class="brush: html">
        * <!-- mySuggest.wml -->
        * <Controls.suggest:Input>
-       *    <ws:footerTemplate templateName="myFooter">
+       *    <ws:footerTemplate templateName="myFooter"/>
        * </Controls.suggest:Input>
        * </pre>
        * @remark
@@ -226,7 +226,7 @@ interface ISuggest {
        * <pre class="brush: html">
        * <!-- mySuggest.wml -->
        * <Controls.suggest:Input>
-       *    <ws:footerTemplate templateName="myFooter">
+       *    <ws:footerTemplate templateName="myFooter"/>
        * </Controls.suggest:Input>
        * </pre>
        */
