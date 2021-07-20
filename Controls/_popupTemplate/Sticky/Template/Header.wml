@@ -1,4 +1,7 @@
-<div class="controls-StickyTemplate__top-area controls_popupTemplate_theme-{{_options.theme}} controls-StickyTemplate__top-area-{{_options.closeButtonVisibility ? 'withClose' : 'withoutClose'}}">
+<div class="controls-StickyTemplate__top-area
+            controls_popupTemplate_theme-{{_options.theme}}
+            controls-StickyTemplate-background-{{_options.backgroundStyle}}
+            controls-StickyTemplate__top-area-{{_options.closeButtonVisibility ? 'withClose' : 'withoutClose'}}">
    <div class="controls-StickyTemplate__top-area-content">
       <ws:if data="{{_options.headingCaption && !_options.headerContentTemplate}}">
          <div class="controls-StickyTemplate__caption">
