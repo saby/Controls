@@ -26,8 +26,6 @@ import {
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
-import {SearchView, SearchViewTable} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView, TreeGridViewTable } from 'Controls/treeGrid';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
@@ -41,6 +39,7 @@ import PathController from 'Controls/_explorer/PathController';
 import {Object as EventObject} from 'Env/Event';
 import {IColumn, IGridControl, IHeaderCell} from 'Controls/grid';
 import { executeSyncOrAsync } from 'UICommon/Deps';
+import {AbstractStrategy} from 'Controls/marker';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -53,14 +52,14 @@ const ITEM_TYPES = {
 const DEFAULT_VIEW_MODE = 'table';
 
 const VIEW_NAMES = {
-    search: SearchView,
+    search: null,
     tile: null,
-    table: TreeGridView,
+    table: null,
     list: ListView
 };
 
 const MARKER_STRATEGY = {
-    list: SingleColumnStrategy,
+    list: AbstractStrategy,
     tile: SingleColumnStrategy,
     table: SingleColumnStrategy
 };
@@ -70,9 +69,9 @@ const ITEM_GETTER = {
 };
 
 const VIEW_TABLE_NAMES = {
-    search: SearchViewTable,
+    search: null,
     tile: null,
-    table: TreeGridViewTable,
+    table: null,
     list: ListView
 };
 const VIEW_MODEL_CONSTRUCTORS = {
@@ -375,15 +374,19 @@ export default class Explorer extends Control<IExplorerOptions> {
             } else {
                 this._checkedChangeViewMode(cfg.viewMode, cfg);
             }
-        } else if (!isViewModeChanged &&
+        } else if (
+            !isViewModeChanged &&
             this._pendingViewMode &&
             cfg.viewMode === this._pendingViewMode &&
-            cfg.sourceController) {
+            cfg.sourceController
+        ) {
             // https://online.sbis.ru/opendoc.html?guid=7d20eb84-51d7-4012-8943-1d4aaabf7afe
             if (!VIEW_MODEL_CONSTRUCTORS[this._pendingViewMode]) {
-                Promise.resolve(this._loadTileViewMode()).then(() => {
-                    this._setViewModeSync(this._pendingViewMode, cfg);
-                });
+                Promise
+                    .resolve(this._loadTileViewMode())
+                    .then(() => {
+                        this._setViewModeSync(this._pendingViewMode, cfg);
+                    });
             } else {
                 this._setViewModeSync(this._pendingViewMode, cfg);
             }
@@ -399,7 +402,6 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._notify('doScroll', ['top'], {bubbling: true});
             this._resetScrollAfterViewModeChange = false;
         }
-
     }
 
     protected _afterRender(): void {
@@ -499,7 +501,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         const changeRoot = () => {
             // Перед проваливанием запомним значение курсора записи, т.к. в крошках могут его не прислать
             const currRootInfo = this._restoredMarkedKeys[this._getRoot(this._options.root)];
-            if (currRootInfo && this._isCursorNavigation(this._navigation)) {
+            if (currRootInfo && Explorer._isCursorNavigation(this._navigation)) {
                 const cursorValue = this._getCursorValue(item as Model, this._navigation);
                 if (cursorValue) {
                     currRootInfo.cursorPosition = cursorValue;
@@ -509,7 +511,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             // При проваливании нужно сбросить восстановленное значение курсора
             // иначе данные загрузятся не корректные
             if (
-                this._isCursorNavigation(this._navigation) &&
+                Explorer._isCursorNavigation(this._navigation) &&
                 this._restoredCursor === this._navigation.sourceConfig.position
             ) {
                 this._navigation.sourceConfig.position = null;
@@ -646,7 +648,7 @@ export default class Explorer extends Control<IExplorerOptions> {
         // Если загрузка данных осуществляется снаружи explorer и включена навигация по курсору,
         // то нужно восстановить курсор что бы тот, кто грузит данные сверху выполнил запрос с
         // корректным значением курсора
-        if (this._isCursorNavigation(this._options.navigation)) {
+        if (Explorer._isCursorNavigation(this._options.navigation)) {
             this._restoredCursor = this._restorePositionNavigation(root);
         }
     }
@@ -678,6 +680,8 @@ export default class Explorer extends Control<IExplorerOptions> {
         const item = this._children.treeControl.getViewModel().getMarkedItem().getContents();
         this._notifyHandler(e, 'arrowClick', item);
     }
+
+    //region proxy methods to TreeControl
 
     scrollToItem(key: string | number, toBottom?: boolean): void {
         this._children.treeControl.scrollToItem(key, toBottom);
@@ -758,6 +762,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     _clearSelection(): void {
         this._children.treeControl.clearSelection();
     }
+    //endregion
 
     /**
      * Возвращает идентификатор текущего корневого узла
@@ -838,7 +843,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             if (store[parentKey]) {
                 store[parentKey].markedKey = crumbKey;
 
-                if (this._isCursorNavigation(navigation)) {
+                if (Explorer._isCursorNavigation(navigation)) {
                     const cursorValue = this._getCursorValue(crumb, navigation);
                     if (cursorValue) {
                         store[parentKey].cursorPosition = cursorValue;
@@ -912,7 +917,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             }
 
             if (
-                this._isCursorNavigation(this._navigation) &&
+                Explorer._isCursorNavigation(this._navigation) &&
                 this._restoredCursor === this._navigation.sourceConfig.position
             ) {
                 this._navigation.sourceConfig.position = null;
@@ -972,23 +977,21 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
+    /**
+     * Переключает режим отображения списка. Данная операция может быть асинхронной если
+     * модули для требуемого режима отображения еще не загружены.
+     */
     private _setViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): Promise<void> | void {
-        if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
-            this._updateRootOnViewModeChanged(viewMode, cfg);
-        }
-        let action: Promise<void> | void;
+        this._updateRootOnViewModeChanged(viewMode, cfg);
 
-        if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
-            action = this._loadTileViewMode();
-        } else if (viewMode === 'list' && cfg.useColumns) {
-            action = this._loadColumnsViewMode();
-        } else {
-            return this._setViewModeSync(viewMode, cfg);
+        let loadResult: Promise<void> | void;
+        if (!VIEW_NAMES[viewMode] || (viewMode === 'list' && cfg.useColumns)) {
+            loadResult = this._loadViewModules(viewMode, cfg.useColumns);
         }
 
-        if (action instanceof Promise) {
-            return action.then(() => {
-                this._setViewModeSync(viewMode, cfg)
+        if (loadResult instanceof Promise) {
+            return loadResult.then(() => {
+                this._setViewModeSync(viewMode, cfg);
             });
         }
 
@@ -1092,6 +1095,24 @@ export default class Explorer extends Control<IExplorerOptions> {
         return itemFromRoot;
     }
 
+    //region lazy loading views modules
+    /**
+     * Выполняет загрузку модулей для указанного режима отображения
+     */
+    private _loadViewModules(viewMode: TExplorerViewMode, useColumns: boolean = false): Promise<void> | void {
+        if (useColumns && viewMode === 'list') {
+            return this._loadColumnsViewMode();
+        }
+
+        switch (viewMode) {
+            case 'tile': return this._loadTileViewMode();
+            case 'table': return this._loadTableView();
+            case 'search': return this._loadSearchView();
+        }
+
+        return Promise.resolve();
+    }
+
     private _loadTileViewMode(): Promise<void> | void {
         return executeSyncOrAsync(['Controls/treeTile'], (tile) => {
             VIEW_NAMES.tile = tile.TreeTileView;
@@ -1109,27 +1130,37 @@ export default class Explorer extends Control<IExplorerOptions> {
         });
     }
 
+    private _loadTableView(): Promise<void> | void {
+        return executeSyncOrAsync(['Controls/treeGrid'], (treeGrid) => {
+            VIEW_NAMES.table = treeGrid.TreeGridView;
+            VIEW_TABLE_NAMES.table = treeGrid.TreeGridViewTable;
+        });
+    }
+
+    private _loadSearchView(): Promise<void> | void {
+        return executeSyncOrAsync(['Controls/searchBreadcrumbsGrid'], (search) => {
+            VIEW_NAMES.search = search.SearchView;
+            VIEW_TABLE_NAMES.search = search.SearchViewTable;
+        });
+    }
+    //endregion
+
     private _canStartDragNDropFunc(): boolean {
         return this._viewMode !== 'search';
     }
 
     private _checkedChangeViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
-        Promise.resolve(this._setViewMode(viewMode, cfg)).then(() => { //
-            // Обрабатываем searchNavigationMode только после того как
-            // проставится setViewMode, т.к. он может проставится асинхронно
-            // а код ниже вызывает изменение версии модели что приводит к лишней
-            // перерисовке до изменения viewMode
-            if (cfg.searchNavigationMode !== 'expand') {
-                this._children.treeControl.resetExpandedItems();
-            }
-        });
-    }
-
-    /**
-     * На основании настроек навигации определяет используется ли навигация по курсору.
-     */
-    private _isCursorNavigation(navigation: INavigationOptionValue<unknown>): boolean {
-        return !!navigation && navigation.source === 'position';
+        Promise
+            .resolve(this._setViewMode(viewMode, cfg))
+            .then(() => { //
+                // Обрабатываем searchNavigationMode только после того как
+                // проставится setViewMode, т.к. он может проставится асинхронно
+                // а код ниже вызывает изменение версии модели что приводит к лишней
+                // перерисовке до изменения viewMode
+                if (cfg.searchNavigationMode !== 'expand') {
+                    this._children.treeControl.resetExpandedItems();
+                }
+            });
     }
 
     /**
@@ -1194,13 +1225,18 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
     }
 
+    /**
+     * Меняет текущий root на корневой если переданный viewMode === 'search' и
+     * опция searchStartingWith === 'root'.
+     */
     private _updateRootOnViewModeChanged(viewMode: string, options: IExplorerOptions): void {
-        if (viewMode === 'search' && options.searchStartingWith === 'root') {
-            const currentRoot = this._getRoot(options.root);
+        if (viewMode !== 'search' || options.searchStartingWith !== 'root') {
+            return;
+        }
 
-            if (this._topRoot !== currentRoot) {
-                this._setRoot(this._topRoot, this._topRoot);
-            }
+        const currentRoot = this._getRoot(options.root);
+        if (this._topRoot !== currentRoot) {
+            this._setRoot(this._topRoot, this._topRoot);
         }
     }
 
@@ -1213,6 +1249,13 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     static _constants: object = EXPLORER_CONSTANTS;
+
+    /**
+     * На основании настроек навигации определяет используется ли навигация по курсору.
+     */
+    private static _isCursorNavigation(navigation: INavigationOptionValue<unknown>): boolean {
+        return !!navigation && navigation.source === 'position';
+    }
 
     static getDefaultOptions(): object {
         return {
