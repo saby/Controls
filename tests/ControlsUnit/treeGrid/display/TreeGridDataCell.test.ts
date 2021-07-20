@@ -147,17 +147,5 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
 
          sandbox.restore();
       });
-
-      it('left padding when not support grid', () => {
-         const sandbox = sinon.createSandbox();
-         const stubIsFullGridSupport = sandbox.stub(Display, 'isFullGridSupport');
-         stubIsFullGridSupport.returns(false);
-
-         treeGridCollection.setMultiSelectVisibility('hidden');
-         const cell = treeGridCollection.at(0).getColumns()[0];
-         CssClassesAssert.include(cell.getRelativeCellWrapperClasses('default'), 'controls-Grid__cell_spacingFirstCol_default');
-
-         sandbox.restore();
-      });
    });
 });
