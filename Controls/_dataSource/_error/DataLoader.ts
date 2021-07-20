@@ -77,7 +77,7 @@ export default class DataLoader extends Control<IErrorContainerOptions, IErrorCo
    }> {
       const sourcesResult: ILoadDataResult[] = [];
       const errorsResult: Error[] = [];
-      const loadPromises = (new DataLoaderController()).loadEvery(sources);
+      const loadPromises = (new DataLoaderController()).loadEvery(sources, loadDataTimeout);
 
       loadPromises.forEach((loadPromise, sourceIndex) => {
          loadPromise.then((loadDataResult: ILoadDataResult) => {
