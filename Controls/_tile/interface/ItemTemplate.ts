@@ -34,7 +34,8 @@ export default interface IItemTemplateOptions {
     */
    hasTitle?: string;
    /**
-    * @cfg {Boolean} Динамическое изменение высоты плитки, когда плитка отображается со статической шириной, т.е. опция {@link Controls/tile:ITile#tileMode tileMode} установлена в значение static.
+    * @cfg {Boolean} Динамическое изменение высоты плитки, когда плитка отображается со статической шириной,
+    * т.е. опция {@link Controls/tile:ITile#tileMode tileMode} установлена в значение static.
     */
    staticHeight?: boolean;
    /**

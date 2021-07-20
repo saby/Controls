@@ -1,11 +1,26 @@
 import {Model} from 'Types/entity';
 import { mixin } from 'Types/util';
-import {TileItemMixin, TTileItem} from 'Controls/tile';
-import { TreeItem } from 'Controls/display';
+import {
+    TileItemMixin,
+    TTileItem,
+    TActionMode,
+    TGradientType,
+    TImagePosition,
+    TImageViewMode,
+    TShadowVisibility,
+    TTitleStyle,
+    ITileCollectionItemOptions
+} from 'Controls/tile';
+import {ITreeItemOptions, TreeItem} from 'Controls/display';
 import { TemplateFunction } from 'UI/Base';
 import * as FolderIcon from 'wml!Controls/_treeTile/render/FolderIcon';
+import { TCursor } from 'Controls/baseList';
+import {ITreeTileAspectOptions} from './TreeTileCollection';
 
 const DEFAULT_FOLDER_WIDTH = 250;
+
+export interface ITreeTileCollectionItemOptions<S extends Model = Model>
+    extends ITreeItemOptions<S>, ITileCollectionItemOptions, ITreeTileAspectOptions {}
 
 export default class TreeTileCollectionItem<T extends Model = Model>
     extends mixin<TreeItem, TileItemMixin>(TreeItem, TileItemMixin) {
@@ -14,7 +29,9 @@ export default class TreeTileCollectionItem<T extends Model = Model>
 
     protected _$folderWidth: number;
 
-    getContentTemplate(itemType: TTileItem = 'default', contentTemplate?: TemplateFunction, nodeContentTemplate?: TemplateFunction): TemplateFunction {
+    getContentTemplate(
+        itemType: TTileItem = 'default', contentTemplate?: TemplateFunction, nodeContentTemplate?: TemplateFunction
+    ): TemplateFunction {
         if (this.isNode() && nodeContentTemplate) {
             return nodeContentTemplate;
         }
@@ -43,7 +60,11 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         }
     }
 
-    getTileWidth(widthTpl?: number, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): number {
+    getTileWidth(
+        widthTpl?: number,
+        imagePosition: TImagePosition = 'top',
+        imageViewMode: TImageViewMode = 'rectangle'
+    ): number {
         if (this.isNode() && !this.getTileSize()) {
             return widthTpl || this.getFolderWidth() || DEFAULT_FOLDER_WIDTH;
         } else {
@@ -88,7 +109,7 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return control;
     }
 
-    getActionMode(itemType: TTileItem = 'default'): string {
+    getActionMode(itemType: TTileItem = 'default'): TActionMode|void {
         if (itemType === 'preview' && this.isNode()) {
             return 'strict';
         } else {
@@ -104,8 +125,18 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         }
     }
 
-    getItemClasses(itemType: TTileItem = 'default', templateClickable?: boolean, hasTitle?: boolean, cursor: string = 'pointer', marker?: boolean, shadowVisibility?: string, border?: boolean): string {
-        let classes = super.getItemClasses(itemType, templateClickable, hasTitle, cursor, marker, shadowVisibility, border);
+    getItemClasses(
+        itemType: TTileItem = 'default',
+        templateClickable?: boolean,
+        hasTitle?: boolean,
+        cursor: TCursor = 'pointer',
+        marker?: boolean,
+        shadowVisibility?: TShadowVisibility,
+        border?: boolean
+    ): string {
+        let classes = super.getItemClasses(
+            itemType, templateClickable, hasTitle, cursor, marker, shadowVisibility, border
+        );
 
         if (this.isNode()) {
             classes += ' controls-TreeTileView__node';
@@ -138,7 +169,13 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return classes;
     }
 
-    getItemStyles(itemType: TTileItem = 'default', templateWidth?: number, staticHeight?: boolean, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): string {
+    getItemStyles(
+        itemType: TTileItem = 'default',
+        templateWidth?: number,
+        staticHeight?: boolean,
+        imagePosition: TImagePosition = 'top',
+        imageViewMode: TImageViewMode = 'rectangle'
+    ): string {
         if (this.isNode() && (itemType === 'default' || itemType === 'small')) {
             const width = this.getTileWidth(templateWidth, imagePosition, imageViewMode);
             let styles = `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
@@ -165,7 +202,13 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         }
     }
 
-    getTitleClasses(itemType: TTileItem = 'default', titleStyle?: string, hasTitle?: boolean, titleLines: number = 1, titleColorStyle: string = 'default'): string {
+    getTitleClasses(
+        itemType: TTileItem = 'default',
+        titleStyle?: TTitleStyle,
+        hasTitle?: boolean,
+        titleLines: number = 1,
+        titleColorStyle: string = 'default'
+    ): string {
         let classes = super.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle);
 
         switch (itemType) {
@@ -196,7 +239,12 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         return classes;
     }
 
-    getTitleWrapperClasses(itemType: TTileItem = 'default', titleLines: number = 1, gradientType: string = 'dark', titleStyle: string = 'light'): string {
+    getTitleWrapperClasses(
+        itemType: TTileItem = 'default',
+        titleLines: number = 1,
+        gradientType: TGradientType = 'dark',
+        titleStyle: TTitleStyle = 'light'
+    ): string {
         let classes = super.getTitleWrapperClasses(itemType, titleLines, gradientType, titleStyle);
         switch (itemType) {
             case 'default':
@@ -243,8 +291,11 @@ export default class TreeTileCollectionItem<T extends Model = Model>
 
     getMultiSelectClasses(): string {
         let classes = super.getMultiSelectClasses();
-        classes = classes.replace(`controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()}`, '');
+
+        const checkboxPositionClass = `controls-ListView__checkbox_position-${this.getMultiSelectPosition()}`;
+        classes = classes.replace(checkboxPositionClass, '');
         classes += ' controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom';
+
         return classes;
     }
 

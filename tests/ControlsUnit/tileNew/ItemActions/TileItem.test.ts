@@ -6,7 +6,7 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
     describe('.getActionMode', () => {
         it('default item', () => {
             const item = new TileCollectionItem();
-            assert.equal(item.getActionMode('default'), '');
+            assert.isNotOk(item.getActionMode('default'));
         });
 
         it('preview item', () => {

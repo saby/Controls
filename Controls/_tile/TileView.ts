@@ -1,4 +1,4 @@
-import {IItemPadding, ListView} from 'Controls/baseList';
+import {IItemPadding, IListViewOptions, ListView} from 'Controls/baseList';
 import template = require('wml!Controls/_tile/render/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/render/items/Default');
 import { TouchDetect } from 'Env/Touch';
@@ -11,19 +11,52 @@ import {SyntheticEvent} from 'UI/Vdom';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
-import {createPositionInBounds} from './utils/createPosition';
+import {TImageFit, TImageUrlResolver, TTileMode, TTileScalingMode, TTileSize} from './display/mixins/Tile';
+import { TActionMode } from './display/mixins/TileItem';
 import 'css!Controls/tile';
-import CollectionItem from 'Controls/_display/CollectionItem';
 
 const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
 const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
 const AVAILABLE_ITEM_PADDINGS = ['null', 'default', '3xs', '2xs', 'xs', 's', 'm'];
+
+type TActionMenuViewMode = 'menu'|'preview'
+
+export interface ITileAspectOptions {
+    tileSize: TTileSize;
+    tileMode: TTileMode;
+    tileWidth: number;
+    tileHeight: number;
+    tileWidthProperty: string;
+    tileScalingMode: TTileScalingMode;
+    tileFitProperty: string;
+
+    imageProperty: string;
+    imageWidthProperty: string;
+    imageHeightProperty: string;
+    imageFit: TImageFit;
+    imageUrlResolver: TImageUrlResolver;
+
+    actionMenuViewMode: TActionMenuViewMode;
+    actionMode: TActionMode;
+    itemsContainerPadding: IItemPadding;
+}
+
+export interface ITileOptions extends IListViewOptions, ITileAspectOptions {
+    listModel: TileCollection;
+}
+
+interface IChildren {
+    tileContainer: HTMLElement;
+}
 
 /**
  * Представление плиточного контрола
  */
 export default class TileView extends ListView {
     protected _template: TemplateFunction = template;
+    protected _options: ITileOptions;
+    protected _children: IChildren;
+
     protected _defaultItemTemplate: TemplateFunction = defaultItemTpl;
     protected _hoveredItem: TileCollectionItem;
     protected _mouseMoveTimeout: number;
@@ -33,11 +66,11 @@ export default class TileView extends ListView {
     protected _shouldPerformAnimation: boolean;
     protected _targetItemRect: ClientRect;
 
-    protected _beforeMount(options: any): void {
+    protected _beforeMount(options: ITileOptions): void {
         super._beforeMount(options);
     }
 
-    protected _afterMount(options: any): void {
+    protected _afterMount(options: ITileOptions): void {
         this._notify('register', ['controlResize', this, this._onResize], {bubbling: true});
         this._notify('register', ['scroll', this, this._onScroll, {listenAll: true}], {bubbling: true});
         super._afterMount(options);
@@ -45,7 +78,6 @@ export default class TileView extends ListView {
 
     protected _onItemContextMenu(event: Event, item: TileCollectionItem): void {
         if (this._listModel.getTileScalingMode() === 'preview') {
-
             // не начинаем анимацию, если открываем меню, иначе, из-за анимации, меню может позиционироваться криво
             if (!item.isScaled()) {
                 item.setAnimated(false);
@@ -63,7 +95,7 @@ export default class TileView extends ListView {
         }
     }
 
-    protected _beforeUpdate(newOptions: any): void {
+    protected _beforeUpdate(newOptions: ITileOptions): void {
         super._beforeUpdate(newOptions);
 
         // region Update Model
@@ -146,7 +178,7 @@ export default class TileView extends ListView {
      *  Костыль, позволяющий определить, что мы загружаем файл и его прогрессбар изменяется
      *  Это нужно, чтобы в ListView не вызывался resize при изменении прогрессбара и не сбрасывался hovered в плитке
      */
-    isLoadingPercentsChanged(newItems: Array<CollectionItem<Model>>): boolean {
+    isLoadingPercentsChanged(newItems: Array<TileCollectionItem<Model>>): boolean {
         return newItems &&
             newItems[0] &&
             newItems[0].getContents() &&
@@ -169,7 +201,7 @@ export default class TileView extends ListView {
         item: TileCollectionItem
     ): Record<string, any> {
         const isActionMenu = !!action && !action.isMenu;
-        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, item) && menuConfig) {
+        if (this._shouldOpenExtendedMenu(isActionMenu) && menuConfig) {
             const MENU_MAX_WIDTH = 200;
             const menuOptions = menuConfig.templateOptions;
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
@@ -178,14 +210,20 @@ export default class TileView extends ListView {
                 return null;
             }
 
-            const targetItemSize = getItemSize(itemContainer, this._listModel.getZoomCoefficient(), this._listModel.getTileMode());
+            const targetItemSize = getItemSize(
+                itemContainer, this._listModel.getZoomCoefficient(), this._listModel.getTileMode()
+            );
 
             menuOptions.image = item.getImageUrl();
             menuOptions.title = item.getDisplayValue();
-            menuOptions.additionalText = item.item.get(menuOptions.headerAdditionalTextProperty);
+            menuOptions.additionalText = item.getContents().get(menuOptions.headerAdditionalTextProperty);
             menuOptions.imageClasses = item.getImageClasses();
-            menuOptions.previewHeight = this._targetItemRect && item.isScaled() ? this._targetItemRect.height : targetItemSize.height;
-            menuOptions.previewWidth = this._targetItemRect && item.isScaled() ? this._targetItemRect.width : targetItemSize.width;
+            menuOptions.previewHeight = this._targetItemRect && item.isScaled()
+                ? this._targetItemRect.height
+                : targetItemSize.height;
+            menuOptions.previewWidth = this._targetItemRect && item.isScaled()
+                ? this._targetItemRect.width
+                : targetItemSize.width;
 
             return {
                 templateOptions: menuOptions,
@@ -211,7 +249,7 @@ export default class TileView extends ListView {
         }
     }
 
-    private _shouldOpenExtendedMenu(isActionMenu: boolean, isContextMenu: boolean, item: TileCollectionItem): boolean {
+    private _shouldOpenExtendedMenu(isActionMenu: boolean): boolean {
         return this._options.actionMenuViewMode === 'preview' && !isActionMenu;
     }
 
@@ -233,7 +271,7 @@ export default class TileView extends ListView {
         super._onItemMouseLeave(event, item);
     }
 
-    protected _onItemMouseMove(event: SyntheticEvent, item: TileCollectionItem): void {
+    protected _onItemMouseMove(event: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
         if (!item['[Controls/_display/GroupItem]'] &&
             this._shouldProcessHover() &&
             !this._listModel.isDragging() &&
@@ -276,7 +314,9 @@ export default class TileView extends ListView {
             : constants.isBrowserPlatform && document.documentElement;
         const viewContainerRect = viewContainer.getBoundingClientRect();
 
-        const targetItemSize = getItemSize(itemContainer, this._listModel.getZoomCoefficient(), this._listModel.getTileMode());
+        const targetItemSize = getItemSize(
+            itemContainer, this._listModel.getZoomCoefficient(), this._listModel.getTileMode()
+        );
         const targetItemPosition = this._listModel.getItemContainerPosition(
             targetItemSize,
             itemContainerRect,
@@ -355,7 +395,8 @@ export default class TileView extends ListView {
     }
 
     private _getZoomCoefficient(): number {
-        return this._options.tileScalingMode !== TILE_SCALING_MODE.NONE && this._options.tileScalingMode !== TILE_SCALING_MODE.OVERLAP
+        const tileScalingMode = this._listModel.getTileScalingMode();
+        return tileScalingMode !== TILE_SCALING_MODE.NONE && tileScalingMode !== TILE_SCALING_MODE.OVERLAP
             ? ZOOM_COEFFICIENT
             : 1;
     }
@@ -369,12 +410,27 @@ export default class TileView extends ListView {
         };
     }
 
-    private _preparePadding(availablePadding: string[], padding: IItemPadding): void {
+    private _prepareItemsPadding(padding: IItemPadding): void {
         Object.keys(padding).forEach((key) => {
-            if (!availablePadding.includes(padding[key])) {
+            if (!AVAILABLE_ITEM_PADDINGS.includes(padding[key])) {
                 padding[key] = 'default';
             }
         });
+    }
+
+    private _prepareItemsContainerPadding(padding: IItemPadding): void {
+        if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(padding.top)) {
+            padding.top = 'default';
+        }
+        if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(padding.bottom)) {
+            padding.bottom = 'default';
+        }
+        if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(padding.left)) {
+            padding.left = 'default';
+        }
+        if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(padding.right)) {
+            padding.right = 'default';
+        }
     }
 
     protected _getViewClasses(): string {
@@ -392,31 +448,21 @@ export default class TileView extends ListView {
     private _getItemsPaddingContainerClasses(): string {
         let classes = ' controls-TileView__itemPaddingContainer';
 
+        const prefix = ' controls-TileView__itemsPaddingContainer_spacing';
         const itemPadding = this._getPadding('itemPadding');
         if (this._options.itemsContainerPadding) {
             const itemsContainerPadding = this._getPadding('itemsContainerPadding');
-            this._preparePadding(AVAILABLE_ITEM_PADDINGS, itemPadding);
-            if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(itemsContainerPadding.top)) {
-                itemsContainerPadding.top = 'default';
-            }
-            if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(itemsContainerPadding.bottom)) {
-                itemsContainerPadding.bottom = 'default';
-            }
-            if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.left)) {
-                itemsContainerPadding.left = 'default';
-            }
-            if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.right)) {
-                itemsContainerPadding.right = 'default';
-            }
-            classes += ` controls-TileView__itemsPaddingContainer_spacingLeft_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}`;
-            classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}`;
-            classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}`;
-            classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}`;
+            this._prepareItemsPadding(itemPadding);
+            this._prepareItemsContainerPadding(itemsContainerPadding);
+            classes += `${prefix}Left_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}`;
+            classes += `${prefix}Right_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}`;
+            classes += `${prefix}Top_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}`;
+            classes += `${prefix}Bottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}`;
         } else {
-            classes += ` controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding.left}`;
-            classes += ` controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding.right}`;
-            classes += ` controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding.top}`;
-            classes += ` controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding.bottom}`;
+            classes += `${prefix}Left_${itemPadding.left}`;
+            classes += `${prefix}Right_${itemPadding.right}`;
+            classes += `${prefix}Top_${itemPadding.top}`;
+            classes += `${prefix}Bottom_${itemPadding.bottom}`;
         }
         return classes;
     }
@@ -429,11 +475,9 @@ export default class TileView extends ListView {
         this.onScroll();
     }
 
-    getItemsContainer(): object {
+    getItemsContainer(): HTMLElement {
         return this._children.tileContainer;
     }
-
-    protected _onTileViewKeyDown(): void {}
 
     private onScroll(): void {
         this._clearMouseMoveTimeout(this);

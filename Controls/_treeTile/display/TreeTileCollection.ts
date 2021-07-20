@@ -1,15 +1,16 @@
 import {Model} from 'Types/entity';
 import { mixin } from 'Types/util';
-import {TileMixin} from 'Controls/tile';
-import TreeTileCollectionItem from './TreeTileCollectionItem';
-import {ItemsFactory, itemsStrategy, Tree, TreeItem} from 'Controls/display';
+import {ITileCollectionOptions, TileMixin} from 'Controls/tile';
+import TreeTileCollectionItem, {ITreeTileCollectionItemOptions} from './TreeTileCollectionItem';
+import {ItemsFactory, itemsStrategy, ITreeOptions, Tree, TreeItem} from 'Controls/display';
 import InvisibleStrategy from './strategy/Invisible';
+import TileCollectionItem from "Controls/_tile/display/TileCollectionItem";
 
 /**
  * Рекурсивно проверяет скрыт ли элемент сворачиванием родительских узлов
- * @param {TreeItem<T>} item
+ * @param {TreeItem} item
  */
-function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
+function itemIsVisible(item: TreeItem): boolean  {
     if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/BreadcrumbsItem]']) {
         return true;
     }
@@ -25,6 +26,16 @@ function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
     return itemIsVisible(parent);
 }
 
+export interface ITreeTileCollectionOptions<
+    S extends Model = Model,
+    T extends TreeTileCollectionItem<S> = TreeTileCollectionItem<S>
+> extends ITreeOptions<S, T>, ITileCollectionOptions<S, T>, ITreeTileAspectOptions {}
+
+export interface ITreeTileAspectOptions {
+    nodesHeight: number;
+    folderWidth: number;
+}
+
 export default class TreeTileCollection<
     S extends Model = Model,
     T extends TreeTileCollectionItem = TreeTileCollectionItem
@@ -35,13 +46,13 @@ export default class TreeTileCollection<
 
     readonly SupportExpand: boolean = false;
 
-    constructor(options: any) {
+    constructor(options: ITreeTileCollectionOptions<S, T>) {
         super(options);
 
         // TODO должно быть в Tree. Перенести туда, когда полностью перейдем на новые коллекции.
         //  Если сразу в Tree положим, то все разломаем
         this.addFilter(
-            (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)
+            (contents, sourceIndex, item) => itemIsVisible(item)
         );
     }
 
@@ -59,7 +70,9 @@ export default class TreeTileCollection<
     setNodesHeight(nodesHeight: number): void {
         if (this._$nodesHeight !== nodesHeight) {
             this._$nodesHeight = nodesHeight;
-            this._updateItemsProperty('setNodesHeight', this._$nodesHeight, 'setNodesHeight');
+            this._updateItemsProperty(
+                'setNodesHeight', this._$nodesHeight, 'setNodesHeight'
+            );
             this._nextVersion();
         }
     }
@@ -71,7 +84,9 @@ export default class TreeTileCollection<
     setFolderWidth(folderWidth: number): void {
         if (this._$folderWidth !== folderWidth) {
             this._$folderWidth = folderWidth;
-            this._updateItemsProperty('setFolderWidth', this._$folderWidth, 'setFolderWidth');
+            this._updateItemsProperty(
+                'setFolderWidth', this._$folderWidth, 'setFolderWidth'
+            );
             this._nextVersion();
         }
     }
@@ -89,7 +104,7 @@ export default class TreeTileCollection<
     protected _getItemsFactory(): ItemsFactory<T> {
         const parent = super._getItemsFactory();
 
-        return function TileItemsFactory(options: any): T {
+        return function TileItemsFactory(options: ITreeTileCollectionItemOptions): T {
             const params = this._getItemsFactoryParams(options);
             return parent.call(this, params);
         };
@@ -103,7 +118,7 @@ export default class TreeTileCollection<
         return params;
     }
 
-    protected _createComposer(): itemsStrategy.Composer<any, TreeItem<any>> {
+    protected _createComposer(): itemsStrategy.Composer<S, TreeItem<Model>> {
         const composer = super._createComposer();
 
         composer.append(InvisibleStrategy, {

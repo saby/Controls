@@ -21,11 +21,11 @@ import * as RichTemplate from 'wml!Controls/_tile/render/items/Rich';
 import {default as ActionsMenu} from 'Controls/_tile/itemActions/Menu';
 import {getImageUrl, getImageSize, getImageClasses, getImageRestrictions, getItemSize} from 'Controls/_tile/utils/imageUtil';
 
-import TileCollection from 'Controls/_tile/display/TileCollection';
-import TileCollectionItem from 'Controls/_tile/display/TileCollectionItem';
+import TileCollection, { ITileCollectionOptions } from 'Controls/_tile/display/TileCollection';
+import TileCollectionItem, { ITileCollectionItemOptions } from 'Controls/_tile/display/TileCollectionItem';
 import InvisibleTileItem from 'Controls/_tile/display/InvisibleTileItem';
 import Tile from 'Controls/_tile/display/mixins/Tile';
-import TileItem, {TTileItem} from 'Controls/_tile/display/mixins/TileItem';
+import TileItem from 'Controls/_tile/display/mixins/TileItem';
 import InvisibleStrategy, { COUNT_INVISIBLE_ITEMS } from 'Controls/_tile/display/strategies/Invisible';
 import TileView from 'Controls/_tile/TileView';
 import ItemsView from 'Controls/_tile/ItemsView';
@@ -43,14 +43,15 @@ export {
     RichTemplate,
     ActionsMenu,
     TileCollection,
+    ITileCollectionOptions,
     TileCollectionItem,
+    ITileCollectionItemOptions,
     Tile as TileMixin,
     TileItem as TileItemMixin,
     InvisibleItem,
     InvisibleTileItem,
     InvisibleStrategy,
     COUNT_INVISIBLE_ITEMS,
-    TTileItem,
     TileItemActions,
     ITileItemActionsOptions,
     getImageUrl,
@@ -59,6 +60,16 @@ export {
     getImageRestrictions,
     getItemSize
 };
+
+export {
+    TTileItem,
+    TActionMode,
+    TGradientType,
+    TImagePosition,
+    TImageViewMode,
+    TShadowVisibility,
+    TTitleStyle
+} from 'Controls/_tile/display/mixins/TileItem';
 
 register('Controls/tile:TileCollection', TileCollection, {instantiate: false});
 register('Controls/tile:TileCollectionItem', TileCollectionItem, {instantiate: false});
