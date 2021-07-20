@@ -1,0 +1,6 @@
+<div class="controls-BaseControl__cut ws-flexbox ws-justify-content-center controls-BaseControl__cut-container_{{cutSize}}">
+    <Controls.Container.Async templateName="Controls/toggle:BigSeparator">
+        <ws:partial template="{{content.resolvedTemplate}}"
+                    on:click="_onClickMoreButton()"/>
+    </Controls.Container.Async>
+</div>

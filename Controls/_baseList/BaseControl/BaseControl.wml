@@ -78,11 +78,13 @@
                 </ws:else>
             </div>
         </ws:if>
-        <ws:if data="{{_shouldDrawFooter}}">
+
+        <ws:if data="{{_shouldDrawMoreButton}}">
             <ws:partial
-               template="wml!Controls/_baseList/BaseControl/Footer"
+               template="wml!Controls/_baseList/BaseControl/MoreButton"
                moreFontColorStyle="{{_options.moreFontColorStyle}}"
                loadMoreCaption="{{_loadMoreCaption}}"
+               moreButtonTemplate="{{_options.moreButtonTemplate}}"
                theme="{{_options.theme}}"
             />
         </ws:if>
