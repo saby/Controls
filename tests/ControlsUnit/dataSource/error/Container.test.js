@@ -30,7 +30,7 @@ define([
          return {
             mode,
             options,
-            template: 'template',
+            template: () => 'template',
             status: undefined,
             getVersion: () => Date.now()
          };
