@@ -1,17 +1,17 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import { SyntheticEvent } from 'UI/Vdom';
 import * as template from 'wml!Controls/_popupTemplate/Page/Page';
-import {PageController} from 'Controls/popup';
+import {PageController} from 'Controls/dataSource';
 import {CancelablePromise} from 'Types/entity';
 
+type TPrefetchResult = Array<Record<string, unknown>>;
+
 interface IPageTemplateOptions extends IControlOptions {
-    dataLoaderResult: Promise<unknown>;
+    prefetchResult: Promise<TPrefetchResult>;
     pageTemplate: string;
     pageTemplateOptions: object;
     pageId: string;
 }
-
-type TPrefetchResult = Array<Record<string, unknown>>;
 
 /**
  * Контрол, который отвечает за построение шаблона страницы в окне
@@ -27,16 +27,16 @@ export default class Template extends Control<IControlOptions> {
     protected _processingLoaders: Array<CancelablePromise<unknown>> = [];
 
     protected _beforeMount(options: IPageTemplateOptions): void {
-        if (options.dataLoaderResult) {
-            this._processPreloadResult(options.pageId, options.dataLoaderResult);
+        if (options.prefetchResult) {
+            this._processPreloadResult(options.pageId, options.prefetchResult);
         }
     }
 
     protected _beforeUpdate(options: IPageTemplateOptions): void {
-        if (options.dataLoaderResult && this._options.dataLoaderResult !== options.dataLoaderResult) {
-            this._prefetchData = null;
+        if (options.prefetchResult && this._options.prefetchResult !== options.prefetchResult) {
             this._cancelCurrentLoading();
-            this._processPreloadResult(options.pageId, options.dataLoaderResult, options.pageId);
+            this._prefetchData = null;
+            this._processPreloadResult(options.pageId, options.prefetchResult);
         }
     }
 
@@ -90,24 +90,21 @@ export default class Template extends Control<IControlOptions> {
      *
      * @param pageId
      * @param prefetchResult
-     * @param additionalLoadedData
      * @private
      */
     private _getPrefetchData(
         pageId: string,
-        prefetchResult: TPrefetchResult,
-        additionalLoadedData: Record<string, unknown> = {}
+        prefetchResult: TPrefetchResult
     ): Record<string, unknown> {
         const result = {
-            [pageId]: prefetchResult,
-            ...additionalLoadedData
+            [pageId]: prefetchResult
         };
 
         prefetchResult.forEach((data) => {
             if (data && data._isAdditionalDependencies) {
                 Object.keys(data).forEach((key) => {
                     if (key !== '_isAdditionalDependencies') {
-                        result[key] = data[key];
+                        result[key] = data[key] as TPrefetchResult;
                     }
                 });
             }

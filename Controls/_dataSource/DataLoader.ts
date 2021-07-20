@@ -20,7 +20,7 @@ import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
 import {TArrayGroupId} from 'Controls/list';
 import {constants} from 'Env/Constants';
 import {PrefetchProxy} from 'Types/source';
-import {PageController} from 'Controls/popup';
+import PageController from 'Controls/_dataSource/PageController';
 
 const QUERY_PARAMS_LOAD_TIMEOUT = 5000;
 const DEFAULT_LOAD_TIMEOUT = 10000;
@@ -105,14 +105,6 @@ type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
 type TLoadConfig = ILoadDataConfig|ILoadDataCustomConfig|ILoadDataAdditionalDepsConfig;
 type TLoadResult = ILoadDataResult|ILoadDataCustomConfig|boolean;
 type TLoadPromiseResult = Promise<TLoadResult>;
-
-function getPageController(callback: (controller: typeof PageController) => unknown): void {
-    if (isLoaded('Controls/popup')) {
-        callback(loadSync('Controls/popup:PageController'));
-    } else {
-        loadAsync('Controls/popup:PageController').then(callback);
-    }
-}
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
     return !!(loadDataConfig.filterButtonSource || loadDataConfig.fastFilterSource || loadDataConfig.searchValue);
@@ -269,7 +261,9 @@ export default class DataLoader {
 
     constructor(options: IDataLoaderOptions = {}) {
         this._loadDataConfigs = options.loadDataConfigs || [];
-        this._fillLoadedConfigStorage(this._loadDataConfigs);
+        this._loadDataConfigs.forEach((config) => {
+            this._setDataToConfigStorage(config, config.id);
+        });
     }
 
     load<T extends ILoadDataResult>(
@@ -337,10 +331,6 @@ export default class DataLoader {
             });
             allLoadersCalled = loadDataPromises.reduce((result, current) => result && !!current, true);
         }
-
-        Promise.all(loadDataPromises).then((results) => {
-            this._fillLoadedConfigStorage(results);
-        });
 
         return loadDataPromises;
     }
@@ -425,13 +415,11 @@ export default class DataLoader {
         });
     }
 
-    private _fillLoadedConfigStorage(
-        data: ILoadDataConfig[]|ILoadDataResult[]
+    private _setDataToConfigStorage(
+        data: ILoadDataConfig|ILoadDataResult,
+        id?: string
     ): void {
-        this._loadedConfigStorage.clear();
-        data.forEach((result) => {
-            this._loadedConfigStorage.set(result?.id || Guid.create(), result);
-        });
+        this._loadedConfigStorage.set(id || Guid.create(), data);
     }
 
     private _getConfig(id?: string): ILoadDataResult {
@@ -491,7 +479,10 @@ export default class DataLoader {
                 }
             });
         }
-        return loadPromise;
+        return loadPromise.then((result) => {
+            this._setDataToConfigStorage(result, loaderConfig.id);
+            return result;
+        });
     }
 
     private _isValidDependencies(loadersKeys: string[], dependencies: string[] = []): boolean {
@@ -537,9 +528,11 @@ export default class DataLoader {
      * @param loadDataMethodArguments
      * @private
      */
-    private _loadDepsData(pagesKeys: string[], loadDataMethodArguments: object): Promise<{[pageId: string]: unknown}> {
+    private _loadDepsData(
+        pagesKeys: string[],
+        loadDataMethodArguments: Record<string, unknown>
+    ): Promise<{[pageId: string]: unknown}> {
         const result = {
-
             /*
                FIXME EXPERIMENT
                Для того, чтобы пока это эксперимент можно было понять,
@@ -548,15 +541,13 @@ export default class DataLoader {
             _isAdditionalDependencies: true
         };
         return new Promise((resolve) => {
-            getPageController((Controller) => {
-                Promise.all(pagesKeys.map((key) => {
-                    return Controller.getPageConfig(key).then((pageConfig) => {
-                        return Controller.loadData(pageConfig, loadDataMethodArguments).then((pageLoadedData) => {
-                            result[key] = pageLoadedData;
-                        });
+            Promise.all(pagesKeys.map((key) => {
+                return PageController.getPageConfig(key).then((pageConfig) => {
+                    return PageController.loadData(pageConfig, loadDataMethodArguments).then((pageLoadedData) => {
+                        result[key] = pageLoadedData;
                     });
-                })).then(() => resolve(result)).catch((error) => resolve(error));
-            });
+                });
+            })).then(() => resolve(result)).catch((error) => resolve(error));
         });
     }
 }

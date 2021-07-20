@@ -1,7 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import {StackOpener, Controller, PageController} from 'Controls/popup';
+import {StackOpener} from 'Controls/popup';
 import * as Template from 'wml!Controls-demo/Popup/Page/Index';
 import {Memory} from 'Types/source';
+import {PageController} from 'Controls/dataSource';
 
 const WIDGETS_COUNT = 50;
 
@@ -52,10 +53,6 @@ export default class extends Control {
     private _stackOpener: StackOpener = new StackOpener();
 
     _openStack(): void {
-
-        // Потому что в странице которая строит демки на WI не задал лоадер
-        const popupManager = Controller.getManager();
-        popupManager._dataLoaderModule = 'Controls-demo/DataLoader';
 
         this._stackOpener.open({
             pageId: 'stackTemplate',
