@@ -109,4 +109,31 @@ describe('Controls/filterPanel:ViewModel', () => {
             assert.isEmpty(viewModel._collapsedGroups);
         });
     });
+
+    describe('handleGroupClick', () => {
+        const source = [
+            {
+                group: 'owners',
+                name: 'owner',
+                value: null,
+                textValue: 'Test owner',
+                resetValue: null
+            }
+        ];
+        const collapsedGroups = [];
+        const viewModel = new ViewModel({
+            source,
+            collapsedGroups
+        });
+
+        it('value added to collapsed groups', () => {
+            viewModel.handleGroupClick('owners', true);
+            assert.deepEqual(viewModel._collapsedGroups, ['owners']);
+        });
+
+        it('value removed from collapsed groups', () => {
+            viewModel.handleGroupClick('owners', true);
+            assert.deepEqual(viewModel._collapsedGroups, []);
+        });
+    });
 });
