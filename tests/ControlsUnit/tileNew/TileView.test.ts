@@ -33,7 +33,8 @@ describe('Controls/_tile/TileView', () => {
             listModel: model,
             keyProperty: 'id',
             tileScalingMode: 'outside',
-            tileWidth: 200
+            tileWidth: 200,
+            theme: 'default'
         };
 
         tileView = new TileView(cfg);
@@ -87,14 +88,30 @@ describe('Controls/_tile/TileView', () => {
         });
     });
 
+    describe('_getViewClasses', () => {
+        it('default', () => {
+           CssClassesAssert.include(tileView._getViewClasses(), 'controls-TileView_new');
+           CssClassesAssert.include(tileView._getViewClasses(), 'controls_list_theme-default');
+        });
+
+        it('needShowEmptyTemplate option', () => {
+            tileView.saveOptions({...cfg, needShowEmptyTemplate: true});
+            CssClassesAssert.notInclude(tileView._getViewClasses(), 'controls-TileView__itemPaddingContainer');
+
+            tileView.saveOptions({...cfg, needShowEmptyTemplate: false});
+            CssClassesAssert.include(tileView._getViewClasses(), 'controls-TileView__itemPaddingContainer');
+        });
+    })
+
     describe('_getItemsPaddingContainerClasses', () => {
         it('_getItemsPaddingContainerClasses', () => {
             tileView.saveOptions({});
-            CssClassesAssert.isSame(tileView._getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_default controls-TileView__itemsPaddingContainer_spacingRight_default controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
-            tileView.saveOptions({
-                itemPadding: {left: 's', right: 'null'}
-            });
-            CssClassesAssert.isSame(tileView._getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s controls-TileView__itemsPaddingContainer_spacingRight_null controls-TileView__itemsPaddingContainer_spacingTop_default controls-TileView__itemsPaddingContainer_spacingBottom_default');
+            let classes = tileView._getItemsPaddingContainerClasses();
+            CssClassesAssert.include(classes, 'controls-TileView__itemPaddingContainer');
+            CssClassesAssert.include(classes, 'controls-TileView__itemsPaddingContainer_spacingLeft_default');
+            CssClassesAssert.include(classes, 'controls-TileView__itemsPaddingContainer_spacingRight_default');
+            CssClassesAssert.include(classes, 'controls-TileView__itemsPaddingContainer_spacingTop_default');
+            CssClassesAssert.include(classes, 'controls-TileView__itemsPaddingContainer_spacingBottom_default');
         });
 
         it('with itemPaddingsContainerOptions', () => {
@@ -104,7 +121,12 @@ describe('Controls/_tile/TileView', () => {
                     right: 'null'
                 }
             });
-            CssClassesAssert.isSame(tileView._getItemsPaddingContainerClasses(), 'controls-TileView__itemPaddingContainer controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default');
+            const classes = tileView._getItemsPaddingContainerClasses();
+            CssClassesAssert.include(classes, 'controls-TileView__itemPaddingContainer');
+            CssClassesAssert.include(classes, 'controls-TileView__itemsPaddingContainer_spacingLeft_s_itemPadding_default');
+            CssClassesAssert.include(classes, 'controls-TileView__itemsPaddingContainer_spacingRight_null_itemPadding_default');
+            CssClassesAssert.include(classes, 'controls-TileView__itemsPaddingContainer_spacingTop_default_itemPadding_default');
+            CssClassesAssert.include(classes, 'controls-TileView__itemsPaddingContainer_spacingBottom_default_itemPadding_default');
         });
     });
 
