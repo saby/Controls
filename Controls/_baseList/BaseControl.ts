@@ -3468,7 +3468,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _shouldDrawCut = false;
 
     _expanded = false;
-    _cutSize = 'm';
 
     _loader = null;
     _loadingState = null;
@@ -7298,7 +7297,11 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
             stickyHeader: true,
             stickyColumnsCount: 1,
-            notifyKeyOnRender: false
+            notifyKeyOnRender: false,
+
+            cutSize: 'm',
+            cutContrastBackground: true,
+            cutPosition: 'center'
         };
     }
 }

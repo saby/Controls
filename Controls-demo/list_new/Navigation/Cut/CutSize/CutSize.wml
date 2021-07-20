@@ -1,0 +1,25 @@
+<div class="ws-flexbox controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo__maxWidth200">
+        <div class="controls-text-secondary">default size(m)</div>
+        <Controls.list:View source="{{_source}}"
+                            navigation="{{_navigation}}"/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__maxWidth200">
+        <div class="controls-text-secondary">size s</div>
+        <Controls.list:View source="{{_source}}"
+                            navigation="{{_navigation}}"
+                            cutSize="s"/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__maxWidth200">
+        <div class="controls-text-secondary">size m</div>
+        <Controls.list:View source="{{_source}}"
+                            navigation="{{_navigation}}"
+                            cutSize="m"/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__maxWidth200">
+        <div class="controls-text-secondary">size l</div>
+        <Controls.list:View source="{{_source}}"
+                            navigation="{{_navigation}}"
+                            cutSize="l"/>
+    </div>
+</div>

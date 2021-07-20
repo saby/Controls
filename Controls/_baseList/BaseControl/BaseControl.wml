@@ -87,7 +87,11 @@
             />
         </ws:if>
         <ws:if data="{{_shouldDrawCut}}">
-            <ws:partial template="wml!Controls/_baseList/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
+            <ws:partial template="wml!Controls/_baseList/BaseControl/Cut"
+                        bind:expanded="_expanded"
+                        cutSize="{{ _options.cutSize }}"
+                        contrastBackground="{{ _options.cutContrastBackground }}"
+                        cutPosition="{{ _options.cutPosition }}"/>
         </ws:if>
     </div>
 </ws:template>

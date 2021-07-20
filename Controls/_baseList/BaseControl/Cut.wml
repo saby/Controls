@@ -1,7 +1,9 @@
-<div class="controls-BaseControl__cut ws-flexbox ws-justify-content-center controls-BaseControl__cut-container_{{cutSize}}">
+<div class="controls-BaseControl__cut ws-flexbox ws-justify-content-{{cutPosition}} controls-BaseControl__cut-container_{{cutSize}}">
     <Controls.Container.Async templateName="Controls/toggle:BigSeparator">
         <ws:partial template="{{content.resolvedTemplate}}"
                     value="{{expanded}}"
+                    iconSize="{{cutSize}}"
+                    contrastBackground="{{contrastBackground}}"
                     on:valueChanged="_onCutClick()"/>
     </Controls.Container.Async>
 </div>
