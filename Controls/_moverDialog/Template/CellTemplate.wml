@@ -12,5 +12,5 @@
     </ws:partial>
 </ws:if>
 <ws:else>
-    <ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}"/>
+    <ws:partial template="{{ _options.defaultColumnTemplate }}" scope="{{ _options }}"/>
 </ws:else>
