@@ -56,7 +56,7 @@ export default interface IMenuBase {
 
 /**
  * @name Controls/_menu/interface/IMenuBase#itemTemplate
- * @cfg {Function} Устанавливает шаблон отображения элемента в выпадающем списке. Подробнее про найстройку шаблона {@link Controls/menu:ItemTemplate здесь}.
+ * @cfg {Function} Устанавливает шаблон отображения элемента в выпадающем списке. Подробнее про настройку шаблона {@link Controls/menu:ItemTemplate здесь}.
  * Для контролов из библиотеки dropdown используйте в качестве шаблона Controls/dropdown:ItemTemplate для ленивой загрузки библиотеки menu.
  * @default Controls/menu:ItemTemplate
  * @demo Controls-demo/Menu/Control/ItemTemplate/ContentTemplate/Index
@@ -65,7 +65,7 @@ export default interface IMenuBase {
 
 /**
  * @name Controls/_menu/interface/IMenuBase#itemTemplateProperty
- * @cfg {String} Устанавливает имя поля, которое содержит имя шаблона отображения элемента. Подробнее про найстройку шаблона {@link Controls/menu:ItemTemplate здесь}.
+ * @cfg {String} Устанавливает имя поля, которое содержит имя шаблона отображения элемента. Подробнее про настройку шаблона {@link Controls/menu:ItemTemplate здесь}.
  * Для контролов из библиотеки dropdown используйте в качестве шаблона Controls/dropdown:ItemTemplate для ленивой загрузки библиотеки menu.
  * @demo Controls-demo/Menu/Control/ItemTemplate/ItemTemplateProperty/RightTemplate/Index
  * @example

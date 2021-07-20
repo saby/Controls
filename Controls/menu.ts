@@ -2,7 +2,6 @@
  * Библиотека контролов, которые реализуют элемент интерфейса, позволяющий выбрать одну или несколько перечисленных опций.
  * Может отображаться на странице или в выпадающем блоке.
  * @library
- * @includes IMenuControlOptions Controls/_menu/interface/IMenuControl
  * @includes IMenuPopupOptions Controls/_menu/interface/IMenuPopup
  * @includes ItemTemplate Controls/menu:ItemTemplate
  * @public
