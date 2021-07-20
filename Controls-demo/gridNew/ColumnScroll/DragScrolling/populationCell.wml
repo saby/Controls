@@ -2,7 +2,7 @@
     <ws:contentTemplate>
         <div>
             <div style="padding-left: 4px;">{{ item.contents.get('population') }}</div>
-            <div class="js-controls-ColumnScroll__notDraggable controls-List_DragNDrop__notDraggable"
+            <div class="js-controls-DragScroll__notDraggable controls-List_DragNDrop__notDraggable"
                  style="background-color: bisque; margin-top: 3px; border-radius: 5px; padding: 0 4px;"
             >Выдели меня, я не скролюсь</div>
         </div>

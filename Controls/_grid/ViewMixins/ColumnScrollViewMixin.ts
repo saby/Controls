@@ -1,8 +1,9 @@
 import {TColumnScrollViewMixin, IAbstractViewOptions} from './ColumnScroll/IColumnScroll';
 import {
-    COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS,
-    NewColumnScrollController as ColumnScrollController,
-    DragScrollController
+    ColumnScrollController,
+    COLUMN_SCROLL_JS_SELECTORS,
+    DragScrollController,
+    DRAG_SCROLL_JS_SELECTORS
 } from 'Controls/columnScroll';
 import {_Options, SyntheticEvent} from 'UI/Vdom';
 import {Logger} from 'UI/Utils';
@@ -154,7 +155,7 @@ const createDragScroll = (self: TColumnScrollViewMixin, options: IAbstractViewOp
             self._$dragScrollStylesContainer.innerHTML = '';
         },
         onOverlayShown(): void {
-            self._$dragScrollStylesContainer.innerHTML = `.${self._$columnScrollSelector}>.controls-Grid__DragScrollNew__overlay{display: block;}`;
+            self._$dragScrollStylesContainer.innerHTML = `.${self._$columnScrollSelector}>.${DRAG_SCROLL_JS_SELECTORS.OVERLAY}{display: block;}`;
         }
     });
 };
@@ -690,7 +691,7 @@ export const ColumnScrollViewMixin: TColumnScrollViewMixin = {
     _onColumnScrollStopDragScrolling(e: SyntheticEvent<TouchEvent | MouseEvent>, startBy: 'mouse' | 'touch'): void {
         // TODO: Поправить пахины правки, здесь не работает скорее всего на IPAD.
         if (this._$dragScrollController && this._$dragScrollController.isStarted()) {
-            const isOverlay = e.target.className.indexOf(DRAG_SCROLL_JS_SELECTORS.OVERLAY) !== -1;
+            const isOverlay = e.target.className.indexOf && e.target.className.indexOf(DRAG_SCROLL_JS_SELECTORS.OVERLAY) !== -1;
             const isTouch = startBy === 'touch';
             const action = `on${isOverlay ? 'Overlay' : 'View'}${isTouch ? 'Touch' : 'Mouse'}${isTouch ? 'End' : 'Up'}`;
             const isScrolled = this._$dragScrollController.isScrolled();

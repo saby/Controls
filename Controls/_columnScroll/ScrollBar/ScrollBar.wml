@@ -1,32 +1,33 @@
 <ws:if data="{{_options.stickyHeader}}">
-    <!-- backgroundStyle transparent служит временным решением ошибки. https://online.sbis.ru/opendoc.html?guid=6f6af645-3f36-4081-810c-652fa25eebd5 -->
+    <!-- backgroundStyle transparent служит временным решением ошибки. -->
     <!-- Если прикладной разработчик не конфигурировал backgroundStyle, он должен быть прозрачным, иначе будет белая подложка у стики шапки. -->
-    <Controls.scroll:StickyBlock
-            attr:class="controls-Grid_columnScroll_wrapper js-controls-Grid_columnScroll_thumb-wrapper"
-            backgroundStyle="{{ (_options.backgroundStyle || _options.style) === 'default' ? 'transparent' : (_options.backgroundStyle || _options.style) }}"
-            mode="stackable"
-            ntype="scroll"
-            fixedZIndex="{{5}}"
-            shadowVisibility="hidden">
-        <Controls.scroll:_Scrollbar
-                name="scrollbar"
-                position="{{_position}}"
-                direction="horizontal"
-                contentSize="{{_options.contentSize}}"
-                shouldSetMarginTop="{{ true }}"
-                trackVisible="{{_options.trackVisible}}"
-                attr:class="controls-ColumnScroll"
-                on:positionChanged="_onPositionChanged()"/>
+    <!-- https://online.sbis.ru/opendoc.html?guid=6f6af645-3f36-4081-810c-652fa25eebd5 -->
+    <Controls.scroll:StickyBlock attr:class="controls-ColumnScroll__thumbWrapper {{ _fixedClass }} js-controls-ColumnScroll__thumbWrapper"
+                                  attr:style="z-index: 4;"
+                                  backgroundStyle="{{ (_options.backgroundStyle || _options.style) === 'default' ? 'transparent' : (_options.backgroundStyle || _options.style) }}"
+                                  mode="stackable"
+                                  ntype="scroll"
+                                  fixedZIndex="{{5}}"
+                                  shadowVisibility="hidden">
+        <Controls.scroll:_Scrollbar name="scrollbar"
+                                    attr:class="js-controls-ColumnScroll__thumb controls-ColumnScroll__thumb"
+                                    position="{{_position}}"
+                                    contentSize="{{_contentSize}}"
+                                    direction="horizontal"
+                                    shouldSetMarginTop="{{ true }}"
+                                    trackVisible="{{ true }}"
+                                    on:positionChanged="_onPositionChanged()"
+                                    on:draggingChanged="_onDraggingChanged()"/>
     </Controls.scroll:StickyBlock>
 </ws:if>
 <ws:else>
-        <Controls.scroll:_Scrollbar
-            name="scrollbar"
-            position="{{_position}}"
-            direction="horizontal"
-            contentSize="{{_options.contentSize}}"
-            shouldSetMarginTop="{{ false }}"
-            trackVisible="{{_options.trackVisible}}"
-            attr:class="js-controls-Grid_columnScroll_thumb-wrapper controls-ColumnScroll"
-            on:positionChanged="_onPositionChanged()"/>
+    <Controls.scroll:_Scrollbar name="scrollbar"
+                                attr:class="js-controls-ColumnScroll__thumb controls-ColumnScroll__thumb"
+                                position="{{_position}}"
+                                contentSize="{{_contentSize}}"
+                                direction="horizontal"
+                                shouldSetMarginTop="{{ false }}"
+                                trackVisible="{{ true }}"
+                                on:positionChanged="_onPositionChanged()"
+                                on:draggingChanged="_onDraggingChanged()"/>
 </ws:else>

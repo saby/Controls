@@ -1,7 +1,7 @@
 import {Control, IControlOptions} from 'UI/Base';
 import {
-    NewColumnScrollController as ColumnScrollController,
-    NewScrollBar as ScrollBar,
+    ColumnScrollController,
+    ScrollBar,
     DragScrollController,
     StyleContainers
 } from 'Controls/columnScroll';

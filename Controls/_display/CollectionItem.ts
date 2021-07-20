@@ -459,7 +459,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     getMultiSelectClasses(): string {
         let classes = 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable ';
-        classes += 'js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable ';
+        classes += 'js-controls-ListView__checkbox js-controls-DragScroll__notDraggable ';
         classes += 'controls-CheckboxMarker_inList controls-ListView__checkbox ';
         classes += this.getMultiSelectOffsetClass();
 

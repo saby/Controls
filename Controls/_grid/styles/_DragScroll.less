@@ -1,56 +1,14 @@
-.controls-Grid__DragScroll__overlay,
-.controls-Grid__DragScrollNew__overlay {
+.controls-DragScroll__overlay {
    position: fixed;
    left: 0;
    top: 0;
    width: 100%;
    height: 100%;
-}
-
-.controls-Grid__DragScrollNew__overlay,
-.controls-Grid__DragScroll__overlay_activated {
    z-index: 999;
    cursor: grabbing;
-}
-
-.controls-Grid__Wrapper_table-layout {
-   .controls-Grid__DragScrollNew__overlay,
-   .controls-Grid__DragScroll__overlay_activated {
-      cursor: move;
-   }
-}
-
-.controls-Grid__DragScrollNew__overlay,
-.controls-Grid__DragScroll__overlay_deactivated {
    display: none;
 }
 
-.controls-Grid__DragScroll__content_grabbing {
-   .controls-Grid__row-cell:not(.js-controls-ColumnScroll__notDraggable) {
-      .controls-Grid__row-cell__content {
-         cursor: grabbing;
-      }
-   }
-
-   .controls-Grid__header-cell:not(.js-controls-ColumnScroll__notDraggable) {
-      // Удалить после https://online.sbis.ru/opendoc.html?guid=43399cd1-c875-42da-8b6c-3c1e3a413cbc
-      cursor: grabbing;
-
-      .controls-Grid__header-cell__content {
-         cursor: grabbing;
-      }
-   }
-
-   .controls-Grid__results-cell:not(.js-controls-ColumnScroll__notDraggable) {
-      // Удалить после https://online.sbis.ru/opendoc.html?guid=43399cd1-c875-42da-8b6c-3c1e3a413cbc
-      cursor: grabbing;
-
-      .controls-Grid__results-cell__content {
-         cursor: grabbing;
-      }
-   }
-
-   .controls-GridView__footer__cell:not(.controls-Grid_columnScroll__fixed) {
-      cursor: grabbing;
-   }
+.controls-DragScroll__overlay_not-full-grid-support {
+   cursor: move;
 }

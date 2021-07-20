@@ -1,4 +1,4 @@
-<ws:partial attr:class="controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable"
+<ws:partial attr:class="controls-List_DragNDrop__notDraggable js-controls-DragScroll__notDraggable"
             template="{{_options.content}}"
             scope="{{_options}}"
             on:click="_stopMouseEvent('click')"

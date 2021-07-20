@@ -88,7 +88,7 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
       it('with multiselect && first column', () => {
          treeGridCollection.setMultiSelectVisibility('visible');
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell-checkbox controls-Grid__row-cell_default_min_height controls-Grid__no-rowSeparator ' +
-            'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-ColumnScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
+            'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-DragScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
             'controls-Grid__row-checkboxCell_rowSpacingTop_default controls-Grid__row-cell-background-hover-default controls-Grid__row-cell_rowSpacingBottom_default';
          const cell = treeGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getWrapperClasses('default', 'default'), expected);
@@ -110,7 +110,7 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
          treeGridCollection.setMultiSelectVisibility('visible');
 
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell-checkbox controls-Grid__row-cell_default_min_height controls-Grid__no-rowSeparator ' +
-            'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-ColumnScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
+            'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-DragScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
             'controls-Grid__row-checkboxCell_rowSpacingTop_default controls-Grid__row-cell-background-hover-default controls-Grid__row-cell_rowSpacingBottom_default';
 
          const cell = treeGridCollection.at(0).getColumns()[0];

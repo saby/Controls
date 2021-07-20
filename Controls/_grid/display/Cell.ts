@@ -13,7 +13,7 @@ import { TemplateFunction } from 'UI/Base';
 import {IColumn, IColspanParams, TColumnSeparatorSize, ICellPadding} from './interface/IColumn';
 
 import {IEditingConfig, IItemPadding, TMarkerClassName} from 'Controls/display';
-import { COLUMN_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
+import { COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
 
 import Row from './Row';
 
@@ -481,9 +481,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return '';
     }
 
-    protected _getColumnScrollWrapperClasses(theme: string): string {
+    protected _getColumnScrollWrapperClasses(): string {
         if (this._$isFixed) {
-            return ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed`;
+            return ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE} controls-GridView__cell_fixed`;
         }
         return ` ${COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT}`;
     }
