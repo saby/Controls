@@ -1,5 +1,5 @@
 <div class="controls-Tabs controls-Tabs_inlineHeight-{{_options.inlineHeight}}
-            {{_options.borderVisible ? 'controls-Tabs_border-' + _options.markerThickness}}" name="container">
+            {{_options.borderVisible ? 'controls-Tabs_border'}}" name="container">
     <div class="controls-Tabs-wrapper {{!_options.canShrink ? controls-Tabs__scrollWrapper}}"
          name="wrapper"
          on:mouseenter="_mouseEnterHandler()"

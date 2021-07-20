@@ -387,7 +387,7 @@ define([
                const tabs = new tabsMod.Buttons();
                tabs.saveOptions(options);
 
-               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker controls-Tabs__main-marker-l');
+               assert.equal(tabs._prepareItemMarkerClass(item), 'controls-Tabs__main-marker');
 
                tabs.destroy();
             });
@@ -416,7 +416,7 @@ define([
 
                assert.equal(
                   tabs._prepareItemMarkerClass(item),
-                  'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness-undefined controls-Tabs_style_undefined__item-marker_state_selected'
+                  'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness controls-Tabs_style_undefined__item-marker_state_selected'
                );
 
                tabs.destroy();
@@ -447,10 +447,10 @@ define([
 
          assert.equal(
             tabs._prepareItemMarkerClass(item),
-            'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness-undefined controls-Tabs_style_secondary__item-marker_state_selected');
+            'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness controls-Tabs_style_secondary__item-marker_state_selected');
          assert.equal(
             tabs._prepareItemMarkerClass(item2),
-            'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness-undefined controls-Tabs__item-marker_state_default');
+            'controls-Tabs__itemClickableArea_marker controls-Tabs__itemClickableArea_markerThickness controls-Tabs__item-marker_state_default');
 
          tabs.destroy();
       });

@@ -163,7 +163,7 @@ class TabsButtons extends Control<ITabsOptions, IReceivedState> implements ITabs
                 this._isAnimatedMakerVisible = false;
             }
         }
-        if (newOptions.style !== this._options.style || newOptions.markerThickness !== this._options.markerThickness) {
+        if (newOptions.style !== this._options.style) {
             this._updateMarkerCssClass(newOptions);
         }
     }
@@ -291,7 +291,7 @@ class TabsButtons extends Control<ITabsOptions, IReceivedState> implements ITabs
     protected _updateMarkerCssClass(options: ITabsButtonsOptions): void {
         const style = TabsButtons._prepareStyle(options.style);
         this._markerCssClass = `controls-Tabs__marker_style-${style} ` +
-            `controls-Tabs__marker_thickness-${options.markerThickness}`;
+            `controls-Tabs__marker_thickness`;
     }
 
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
@@ -432,11 +432,10 @@ class TabsButtons extends Control<ITabsOptions, IReceivedState> implements ITabs
         if (item.isMainTab) {
             if (item[options.keyProperty] === options.selectedKey) {
                 classes.push('controls-Tabs__main-marker');
-                classes.push(`controls-Tabs__main-marker-${options.markerThickness}`);
             }
         } else {
             classes.push('controls-Tabs__itemClickableArea_marker');
-            classes.push(`controls-Tabs__itemClickableArea_markerThickness-${options.markerThickness}`);
+            classes.push(`controls-Tabs__itemClickableArea_markerThickness`);
 
             if (!(this._marker.isInitialized() && this._isAnimatedMakerVisible) && item[options.keyProperty] === options.selectedKey ) {
                 // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
@@ -586,7 +585,6 @@ class TabsButtons extends Control<ITabsOptions, IReceivedState> implements ITabs
         return {
             style: 'primary',
             inlineHeight: 's',
-            markerThickness: 'l',
             borderVisible: true,
             separatorVisible: true,
             displayProperty: 'title',

@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {RecordSet} from 'Types/collection';
 import {data} from '../tabsItems';
-import template = require('wml!Controls-demo/Tabs/Buttons/MarkerThickness/MarkerThickness');
+import template = require('wml!Controls-demo/Tabs/Buttons/InlineHeight/Template');
 
 export default class TabButtonsDemo extends Control {
     protected _template: TemplateFunction = template;
