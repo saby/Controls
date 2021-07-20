@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml2">
       <div class="controls-text-label">Постраничная навигация</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__pageNavigation"
@@ -13,7 +13,7 @@
           </ws:suggestTemplate>
       </Controls.suggest:Input>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml2">
       <div class="controls-text-label">Без указания настроек навигации</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__noSettingsNavigation"
@@ -26,7 +26,7 @@
           </ws:suggestTemplate>
       </Controls.suggest:Input>
    </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml2">
       <div class="controls-text-label">Подгружать данные, пока не будет достигут порог</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__loadData"
@@ -40,7 +40,7 @@
           </ws:suggestTemplate>
       </Controls.suggest:Input>
    </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_down">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_down controlsDemo__ml2">
       <div class="controls-text-label">Постраничная навигация (вверх)</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__pageNavigationUp"
