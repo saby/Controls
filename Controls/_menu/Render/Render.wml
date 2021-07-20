@@ -15,6 +15,7 @@
                multiLine="{{_options.multiLine}}"
                allowPin="{{_options.allowPin}}"
                historyRoot="{{_options.historyRoot}}"
+               width="{{_options.width}}"
                scope="{{item.contents['itemTemplateOptions']}}"
                attr:data-qa="{{item.getContents()[_options.nodeProperty] ? 'node' : 'leaf'}}"
                item="{{_getItemData(item)}}" />  <!-- https://online.sbis.ru/opendoc.html?guid=47950520-ef97-4302-8573-4b8495a3f0ee -->
