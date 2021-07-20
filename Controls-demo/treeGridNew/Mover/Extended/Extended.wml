@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="key" bind:filter="_filter">
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="key" bind:filter="_filter" parentProperty="parent">
         <div>
             <Controls.buttons:Button icon="icon-Move" caption="Переместить" on:click="_moveButtonClick()"
                                      viewMode="linkButton"/>
@@ -21,7 +21,6 @@
                         <Controls.treeGrid:View
                                 name="treeGrid"
                                 multiSelectVisibility="visible"
-                                parentProperty="parent"
                                 nodeProperty="type"
                                 columns="{{_columns}}"/>
                     </Controls.list:Container>

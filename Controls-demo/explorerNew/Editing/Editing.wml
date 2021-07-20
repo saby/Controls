@@ -1,6 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
-        <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
+        <Controls.list:DataContainer source="{{_viewSource}}"
+                                     keyProperty="id"
+                                     parentProperty="parent">
             <Controls.operations:Controller>
                 <Controls.list:Container>
                     <Controls.explorer:View
@@ -8,7 +10,6 @@
                             columns="{{_columns}}"
                             bind:root="_root"
                             displayProperty="title"
-                            parentProperty="parent"
                             nodeProperty="parent@"
                             viewMode="table">
                         <ws:editingConfig editOnClick="{{true}}" toolbarVisibility="{{true}}"/>
