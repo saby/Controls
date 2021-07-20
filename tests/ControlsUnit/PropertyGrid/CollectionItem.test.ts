@@ -175,4 +175,16 @@ describe('Controls/propertyGrid:CollectionItem', () => {
             assert.isFalse(readOnly);
         });
     });
+
+    describe('getEditorClasses', () => {
+        it('returns editorClasses from item', () => {
+            const classes = collection.getItemBySourceIndex(0).getEditorClasses();
+            assert.ok(classes ===  source.at(0).get('editorClass'));
+        });
+
+        it('returns editorClasses from item and without caption class', () => {
+            const classes = collection.getItemBySourceKey('function').getEditorClasses();
+            assert.ok(classes ===  (source.at(0).get('editorClass') + ' controls-PropertyGrid__editor-withoutCaption'));
+        });
+    });
 });
