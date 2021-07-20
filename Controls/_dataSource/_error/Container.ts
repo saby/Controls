@@ -4,6 +4,7 @@ import { constants } from 'Env/Env';
 import { Mode, Popup, ViewConfig } from 'Controls/error';
 import { isEqual } from 'Types/object';
 import { load } from 'Core/library';
+import { loadSync, loadAsync, isLoaded } from 'WasabyLoader/ModulesLoader';
 import { default as IContainer, IContainerConfig } from './IContainer';
 /**
  * Нужно загружать стили для показа диалога сразу.
@@ -242,13 +243,25 @@ export default class Container extends Control<IContainerConfig> implements ICon
             this.__viewConfig = null;
             return;
         }
-        let templateName: string;
-        if (typeof viewConfig.template === 'string') {
-            templateName = viewConfig.template;
+
+        /**
+         * Если шаблон отображения ошибки не был загружен, то ничего не остается, кроме как показать alert.
+         * Показывать диалоговое окно нельзя, так как viewConfig.template может быть для режима include или page.
+         */
+        if (typeof viewConfig.template === 'string' && !isLoaded(viewConfig.template)) {
+            loadAsync(viewConfig.template)
+                .then((template: TemplateFunction) => {
+                    this.__viewConfig = { ...viewConfig, template };
+                })
+                .catch(() => {
+                    alert((viewConfig.options as { message: string }).message);
+                });
+            return;
         }
+
         this.__viewConfig = {
             ...viewConfig,
-            templateName
+            template: typeof viewConfig.template === 'string' ? loadSync(viewConfig.template) : viewConfig.template
         };
     }
 
