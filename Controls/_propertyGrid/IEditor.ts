@@ -1,6 +1,5 @@
 /**
  * Интерфейс редакторов propertyGrid.
- * @interface Controls/_propertyGrid/IEditor
  * @author Герасимов А.М.
  * @public
  */
@@ -15,7 +14,7 @@ export default interface IEditor {
     /**
      * @event Происходит после изменения значения свойства.
      * @name Controls/_propertyGrid/IEditor#propertyValueChanged
-     * @param {Event} event Дескриптор события.
+     * @param {UICommon/Events:SyntheticEvent} event Дескриптор события.
      * @param {*} value Новое значение свойства.
      */
 

@@ -1,48 +1,14 @@
 /**
  * Библиотека контролов, которые реализуют propertyGrid и набор стандартных редакторов типов.
  * @library
- * @includes PropertyGrid Controls/_propertyGrid/PropertyGrid
- * @includes TabbedView Controls/_propertyGrid/TabbedView
  * @includes GroupTemplate Controls/propertyGrid:GroupTemplate
- * @includes BooleanEditor Controls/_propertyGrid/defaultEditors/Boolean
- * @includes StringEditor Controls/_propertyGrid/defaultEditors/String
- * @includes TextEditor Controls/_propertyGrid/defaultEditors/Text
- * @includes EnumEditor Controls/_propertyGrid/defaultEditors/Enum
- * @includes NumberEditor Controls/_propertyGrid/defaultEditors/Number
- * @includes DateEditor Controls/_propertyGrid/defaultEditors/Date
- * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
- * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnum
- * @includes TimeIntervalEditor Controls/_propertyGrid/extendedEditors/TimeInterval
- * @includes CheckboxGroupEditor Controls/_propertyGrid/extendedEditors/CheckboxGroup
- * @includes DropdownEditor Controls/_propertyGrid/extendedEditors/Dropdown
- * @includes LookupEditor Controls/_propertyGrid/extendedEditors/Lookup
- * @includes LogicEditor Controls/_propertyGrid/extendedEditors/Logic
- * @includes IPropertyGrid Controls/propertyGrid:GroupTemplate
- * @includes IEditor Controls/_propertyGrid/IEditor
- * @includes IProperty Controls/_propertyGrid/IProperty
  * @author Герасимов А.М.
  */
 
 /*
  * PropertyGrid library
  * @library
- * @includes PropertyGrid Controls/_propertyGrid/PropertyGrid
- * @includes GroupTemplate Controls/_propertyGrid/groupTemplate
- * @includes BooleanEditor Controls/_propertyGrid/defaultEditors/Boolean
- * @includes StringEditor Controls/_propertyGrid/defaultEditors/String
- * @includes TextEditor Controls/_propertyGrid/defaultEditors/Text
- * @includes EnumEditor Controls/_propertyGrid/defaultEditors/Enum
- * @includes NumberEditor Controls/_propertyGrid/defaultEditors/Number
- * @includes DateEditor Controls/_propertyGrid/defaultEditors/Date
- * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
- * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnum
- * @includes TimeIntervalEditor Controls/_propertyGrid/extendedEditors/TimeInterval
- * @includes CheckboxGroupEditor Controls/_propertyGrid/extendedEditors/CheckboxGroup
- * @includes DropdownEditor Controls/_propertyGrid/extendedEditors/Dropdown
- * @includes LookupEditor Controls/_propertyGrid/extendedEditors/Lookup
- * @includes IPropertyGrid Controls/propertyGrid:GroupTemplate
- * @includes IEditor Controls/_propertyGrid/IEditor
- * @includes IProperty Controls/_propertyGrid/IProperty
+ * @includes GroupTemplate Controls/propertyGrid:GroupTemplate
  * @author Герасимов А.М.
  */
 
