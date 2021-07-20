@@ -103,7 +103,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
 
       this._controller = new Controller(this._getControllerOptions(options));
       this._borderStyle = this._getBorderStyle(options.borderStyle, options.validationStatus);
-      return loadItems(this._controller, receivedState, options.source);
+      return loadItems(this._controller, receivedState, options);
    }
 
    protected _afterMount(options: IComboboxOptions): void {
@@ -131,7 +131,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
       return { ...controllerOptions, ...{
             selectedKeys: [options.selectedKey],
             markerVisibility: 'hidden',
-            dataLoadCallback: this._dataLoadCallback.bind(this),
+            dataLoadCallback: this._dataLoadCallback.bind(this, options),
             popupClassName: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup'),
             typeShadow: 'suggestionsContainer',
             close: this._onClose,
@@ -163,22 +163,22 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
       };
    }
 
-   _dataLoadCallback(items: RecordSet<Model>): void {
+   _dataLoadCallback(options: IComboboxOptions, items: RecordSet<Model>): void {
       this._countItems = items.getCount();
       if (this._countItems === 1) {
          this._selectedItem = items.at(0);
       }
-      if (this._countItems && this._options.emptyText) {
+      if (this._countItems && options.emptyText) {
          this._countItems += 1;
       }
-      const readOnly = this._getReadOnly(this._options.readOnly);
+      const readOnly = this._getReadOnly(options.readOnly);
       if (readOnly !== this._readOnly) {
          this._readOnly = readOnly;
-         this._controller.update(this._getControllerOptions(this._options));
+         this._controller.update(this._getControllerOptions(options));
       }
 
-      if (this._options.dataLoadCallback) {
-         this._options.dataLoadCallback(items);
+      if (options.dataLoadCallback) {
+         options.dataLoadCallback(items);
       }
    }
 
