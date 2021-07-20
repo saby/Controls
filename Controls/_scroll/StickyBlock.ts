@@ -61,7 +61,7 @@ interface IResizeObserver {
  * @public
  * @extends UI/Base:Control
  *
- * @mixes Control/interface:IBackgroundStyle
+ * @implements Control/interface:IBackgroundStyle
  *
  * @author Красильников А.С.
  * @demo Controls-demo/Scroll/Container/StickyBlock/SomeSimpleHeaders/Index

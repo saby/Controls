@@ -62,8 +62,8 @@ const DEFAULT_BACKGROUND_STYLE = 'default';
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
  * @extends Controls/_scroll/ContainerBase
- * @mixes Controls/scroll:IScrollbars
- * @mixes Controls/scroll:IShadows
+ * @implements Controls/scroll:IScrollbars
+ * @implements Controls/scroll:IShadows
  *
  * @public
  * @author Миронов А.Ю.
