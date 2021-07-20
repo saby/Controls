@@ -19,9 +19,8 @@ interface IOptions extends IEditorOptions, IControlOptions {
 /**
  * Редактор для набора логических значений.
  *
- * @class Controls/_propertyGrid/extendedEditors/BooleanGroup
  * @extends UI/Base:Control
- * @mixes Controls/propertyGrid:IEditor
+ * @implements Controls/propertyGrid:IEditor
  * @demo Controls-demo/PropertyGridNew/Editors/BooleanGroup/Demo
  * @public
  * @author Борисов А.Н.
