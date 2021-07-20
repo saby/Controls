@@ -1191,13 +1191,13 @@ define([
 
       describe('restore position navigation when going back', () => {
          it('_private::isCursorNavigation', () => {
-            assert.isFalse(GlobalView._isCursorNavigation({}));
-            assert.isFalse(GlobalView._isCursorNavigation({}));
-            assert.isFalse(GlobalView._isCursorNavigation({
+            assert.isFalse(explorerMod.View._isCursorNavigation({}));
+            assert.isFalse(explorerMod.View._isCursorNavigation({}));
+            assert.isFalse(explorerMod.View._isCursorNavigation({
                source: 'page'
             }));
 
-            assert.isTrue(GlobalView._isCursorNavigation({
+            assert.isTrue(explorerMod.View._isCursorNavigation({
                source: 'position'
             }));
          });
