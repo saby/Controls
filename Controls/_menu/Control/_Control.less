@@ -16,10 +16,23 @@
    margin-top: calc(-1 * (var(--content_padding-top_sticky) + var(--border-thickness_sticky)));
 }
 
+.controls-Menu__subMenu_marginLeft {
+   margin-left: var(--offset_xs);
+}
+
+.controls-Menu__subMenu_marginLeft-revert {
+   margin-left: calc(-1 * var(--offset_xs));
+}
+
 .controls-Menu__row {
    position: relative;
    display: flex;
    align-items: center;
+   overflow: hidden;
+}
+
+.controls-Menu__row_roundBorder {
+   border-radius: var(--item_border-radius_menu);
 }
 
 .controls-background-menuPopup {
@@ -51,7 +64,7 @@
    position: absolute;
    display: inline-flex;
    align-items: baseline;
-   left: 0;
+   left: var(--offset_2xs);
    &::before {
       content: '\200b';
       font-size: inherit;
@@ -61,8 +74,16 @@
       display: block;
       background: var(--marker_color_menu);
       width: var(--marker_width_menu);
-      height: var(--marker_height_menu);
+      border-radius: var(--border-radius_default_block);
    }
+}
+
+.controls-Menu__row_selected_markerSize_default::after {
+   height: var(--marker_height_menu);
+}
+
+.controls-Menu__row_selected_markerSize_s::after {
+   height: var(--empty-item-marker_height_filterSimplePanel);
 }
 
 // Будет удалено после: https://online.sbis.ru/opendoc.html?guid=8b5f2552-e249-4783-b551-3e37b285aad5
@@ -401,11 +422,11 @@
    padding-right: calc(var(--pin-button_offset-left_menu) + var(--pin-button_icon-size_menu) + var(--pin-button_offset-right_menu));
 }
 
-.controls-ListView__item-rightPadding_menu-xs {
+.controls-ListView__item-rightPadding_menu-s {
    padding-right: var(--item_padding-horizontal_s_menu);
 }
 
-.controls-ListView__item-leftPadding_menu-xs {
+.controls-ListView__item-leftPadding_menu-s {
    padding-left: var(--item_padding-horizontal_s_menu);
 }
 

@@ -953,4 +953,48 @@ describe('Controls/_multiselection/Controller', () => {
          assert.isFalse(model.getItemBySourceKey(21).isSelected());
       });
    });
+
+   describe('onCollectionMove', () => {
+      it('in tree recount state', () => {
+         const rs = new RecordSet({
+            rawData: [
+               {id: 1, hasChildren: false, node: true, parent: null},
+               {id: 11, hasChildren: false, node: true, parent: 1},
+               {id: 2, hasChildren: false, node: true, parent: null},
+               {id: 21, hasChildren: false, node: true, parent: 2}
+            ],
+            keyProperty: 'id'
+         })
+         const tree = new Tree({
+            collection: rs,
+            root: null,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'node',
+            hasChildrenProperty: 'hasChildren'
+         });
+         const treeController = new SelectionController({
+            model: tree,
+            strategy: new TreeSelectionStrategy({
+               model: tree,
+               selectDescendants: true,
+               selectAncestors: true,
+               rootId: null,
+               selectionType: 'all'
+            }),
+            selectedKeys: [null],
+            excludedKeys: []
+         });
+
+         treeController.setSelection({selected: [21], excluded: []});
+
+         rs.getRecordById(21).set('parent', 1);
+         treeController.onCollectionMove();
+
+         assert.isNull(tree.getItemBySourceKey(1).isSelected());
+         assert.isFalse(tree.getItemBySourceKey(11).isSelected());
+         assert.isTrue(tree.getItemBySourceKey(21).isSelected());
+         assert.isFalse(tree.getItemBySourceKey(2).isSelected());
+      });
+   });
 });

@@ -16,7 +16,6 @@
                             <ws:templateOptions
                                     root="{{null}}"
                                     rootVisible="{{true}}"
-                                    rootTitle="Каталог"
                                     keyProperty="key"
                                     parentProperty="parent"
                                     displayProperty="title"

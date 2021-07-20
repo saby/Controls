@@ -1,14 +1,17 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Logger} from 'UI/Utils';
-import template = require('wml!Controls/_moverDialog/Template/Template');
-import cellTemplate = require('wml!Controls/_moverDialog/Template/CellTemplate');
-import {Model} from 'Types/entity';
+import {Model, adapter} from 'Types/entity';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import rk = require('i18n!Controls');
-import {TColumns} from 'Controls/grid';
+
+import {TColumns, ColumnTemplate} from 'Controls/grid';
 import {IHierarchyOptions, TKeysSelection} from 'Controls/interface';
+
+import Template = require('wml!Controls/_moverDialog/Template/Template');
+import MoverColumnTemplate = require('wml!Controls/_moverDialog/Template/CellTemplate');
+
 import 'css!Controls/moverDialog';
 
 export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchyOptions {
@@ -33,6 +36,11 @@ export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy
     rootLabelVisible?: boolean;
 }
 
+interface IMoverColumnTemplateOptions {
+    rootLabelVisible?: boolean;
+    defaultColumnTemplate?: TemplateFunction | string;
+}
+
 /**
  * Шаблон диалогового окна, используемый в списках при перемещении элементов для выбора целевой папки.
  *
@@ -50,7 +58,6 @@ export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy
  * @mixes Controls/grid:IGridControl
  * @implements Controls/tree:ITreeControl
  * @mixes Controls/list:IList
- * @mixes Controls/itemActions:IItemActions
  * @mixes Controls/explorer:IExplorer
  * @mixes Controls/interface:INavigation
  *
@@ -58,9 +65,8 @@ export interface IMoverDialogTemplateOptions extends IControlOptions, IHierarchy
  * @author Авраменко А.С.
  */
 
-export default class extends Control<IMoverDialogTemplateOptions> {
-    protected _template: TemplateFunction = template;
-    protected _itemActions: any[];
+export default class MoverDialogTemplate extends Control<IMoverDialogTemplateOptions> {
+    protected _template: TemplateFunction = Template;
     protected _root: string|number;
     protected _expandedItems: any[];
     protected _searchValue: string = '';
@@ -68,13 +74,8 @@ export default class extends Control<IMoverDialogTemplateOptions> {
     private _columns: TColumns;
 
     protected _beforeMount(options: IMoverDialogTemplateOptions): void {
-        this._itemActions = [{
-            id: 1,
-            title: rk('Выбрать'),
-            showType: 2
-        }];
         this._root = options.root;
-        this._filter = options.filter || {};
+        this._filter = options.filter;
         this._expandedItems = options.expandedItems;
 
         // TODO: сейчас прикладной программист передает в MoveDialog опцию columns, что плохо, он может повлиять на
@@ -88,23 +89,26 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         if (options.showRoot) {
             Logger.error('MoverDialog: Опция showRoot устарела и будет удалена в 5100. Необходимо использовать опцию rootVisible', this);
         }
-        if (!options.displayProperty) {
-            Logger.warn('MoverDialog: Для корректной работы хлебных крошек необходимо указать опцию displayProperty', this);
-        }
 
         if (options.rootVisible || options.showRoot) {
             if (!options.rootTitle) {
-                Logger.error('MoverDialog: Для диалога перемещения необходимо указать опцию rootTitle', this);
+                Logger.warn('MoverDialog: Для диалога перемещения необходимо указать опцию rootTitle', this);
             }
-            this._columns[0].template = cellTemplate;
-            this._columns[0].templateOptions = {
-                rootLabelVisible: options.rootLabelVisible !== false
+            const templateOptions: IMoverColumnTemplateOptions = {
+                ...this._columns[0].templateOptions,
+                rootLabelVisible: options.rootLabelVisible !== false && !!options.rootTitle
             };
+
+            if (!templateOptions.defaultColumnTemplate) {
+                templateOptions.defaultColumnTemplate = this._columns[0].template || ColumnTemplate;
+            }
+
+            this._columns[0].templateOptions = templateOptions;
+            this._columns[0].template = MoverColumnTemplate;
         }
 
         this._onItemClick = this._onItemClick.bind(this);
         this._itemsFilterMethod = this._itemsFilterMethod.bind(this);
-        this._itemActionVisibilityCallback = this._itemActionVisibilityCallback.bind(this);
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
     }
 
@@ -130,17 +134,8 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         return result;
     }
 
-    protected _itemActionVisibilityCallback(action: object, item: Model): boolean {
-        return item.get(this._options.hasChildrenProperty);
-    }
-
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
-        if (item.getKey() === 'root') {
-            this._applyMove(this._options.root);
-
-        } else if (!item.get(this._options.hasChildrenProperty)) {
-            this._applyMove(item);
-        }
+        this._applyMove(item.getKey() === 'root' ? this._options.root : item);
     }
 
     protected _onMarkedKeyChanged(event: SyntheticEvent<null>, newKey: string | number | null): void {
@@ -151,45 +146,53 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         return this._notify('beforeMarkedKeyChanged', [newKey]);
     }
 
-    protected _onItemActionsClick(event: SyntheticEvent<MouseEvent>, action: object, item: Model): void {
-        this._applyMove(item);
-    }
-
-    protected _applyMove(item: Model): void {
+    protected _applyMove(item: Model | string | number): void {
         this._notify('sendResult', [item], {bubbling: true});
         this._notify('close', [], {bubbling: true});
     }
 
     protected _dataLoadCallback(recordSet: RecordSet): void {
         if ((!this._searchValue || this._searchValue.length === 0) &&
-            this._root === this._options.root &&
             (this._options.showRoot || this._options.rootVisible)) {
-            recordSet.add(new Model({
-                keyProperty: recordSet.getKeyProperty(),
-                rawData: this._getRootRawData()
-            }), 0);
+            recordSet.add(this._getRootRecord(recordSet.getKeyProperty(), recordSet.getAdapter()), 0);
         }
     }
 
-    /**
-     * Генерирует запись "В корень"
-     * @private
-     */
-    private _getRootRawData(): {[p: string]: string | number} {
-        return {
-            [this._options.parentProperty]: this._root || null,
-            [this._options.nodeProperty]: null,
-            [this._options.keyProperty]: 'root',
-            [this._options.displayProperty || 'title']: this._options.rootTitle
-        };
+    private _getRootRecord(keyProperty: string, rsAdapter: adapter.IAdapter): Model {
+        const record = new Model({
+            keyProperty,
+            adapter: rsAdapter
+        });
+
+        record.addField({ name: this._options.parentProperty, type: 'string', defaultValue: this._root });
+        record.addField( { name: this._options.nodeProperty, type: 'boolean', defaultValue: null });
+        record.addField({ name: this._options.keyProperty, type: 'string', defaultValue: 'root' });
+        record.addField({
+            name: this._options.displayProperty,
+            type: 'string',
+            defaultValue: this._options.rootTitle || rk('В корень')
+        });
+        return record;
     }
 
     static getDefaultOptions = (): object => {
         return {
-            root: null
+            root: null,
+            displayProperty: 'title',
+            filter: {}
         };
     }
 }
+
+Object.defineProperty(MoverDialogTemplate, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return MoverDialogTemplate.getDefaultOptions();
+    }
+});
+
 /**
  * @name Controls/_moverDialog/Template#displayProperty
  * @cfg {String} Имя поля элемента, данные которого используются для правильной работы <a href="/doc/platform/developmentapl/interface-development/controls/bread-crumbs/">Хлебных крошек</a>.
@@ -242,7 +245,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Раздел, куда перемещаются выбранные записи.
  * @remark
- * Выбор раздела производится кликом по записи, кнопкам "Выбрать" и "В корень" (см. {@link rootVisible}).
+ * Выбор раздела производится кликом по записи или хлебной крошке.
  * Клик по папке не производит выбора раздела для перемещения.
  * Событие всплываемое (см. <a href="/doc/platform/developmentapl/interface-development/ui-library/events/">Работа с событиями</a>).
  * Событие происходит непосредственно перед событием {@link close}.

@@ -2,7 +2,7 @@
    <ws:bodyContentTemplate>
       <Controls.browser:Browser source="{{_options.source}}"
                                 bind:filter="_filter"
-                                bind:root="_root"
+                                root="{{_root}}"
                                 bind:expandedItems="_expandedItems"
                                 searchValue="{{_searchValue}}"
                                 navigation="{{_options.navigation}}"
@@ -22,12 +22,9 @@
                   <Controls.list:Container>
                      <Controls.explorer:View
                              name="explorer"
-                             itemActions="{{_itemActions}}"
-                             itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
                              showActionButton="{{false}}"
                              on:markedKeyChanged="_onMarkedKeyChanged()"
                              on:beforeMarkedKeyChanged="_onBeforeMarkedKeyChanged()"
-                             on:actionClick="_onItemActionsClick()"
                              on:itemClick="_onItemClick()"
                              dataLoadCallback="{{ _dataLoadCallback }}"
                              nodeProperty="{{_options.nodeProperty}}"

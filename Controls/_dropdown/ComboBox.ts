@@ -140,8 +140,8 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
             selectedItemsChangedCallback: this._setText.bind(this, options),
             theme: options.theme,
             itemPadding: {
-               right: 'menu-xs',
-               left: 'menu-xs'
+               right: 'menu-s',
+               left: 'menu-s'
             },
             targetPoint: this._targetPoint,
             openerControl: this,
@@ -238,7 +238,8 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder, IContrastBackg
    protected _deactivated(event: SyntheticEvent<Event>): void {
       // если фокус ушел в меню, не закрываем его
       // TODO https://online.sbis.ru/opendoc.html?guid=b34ba2ef-fec0-42df-87d8-77541ec82c34
-      if (!event.nativeEvent.relatedTarget?.closest('.controls-Menu__popup') && this._options.closeMenuOnOutsideClick) {
+      if (event.nativeEvent.relatedTarget &&
+          !event.nativeEvent.relatedTarget?.closest('.controls-Menu__popup') && this._options.closeMenuOnOutsideClick) {
          this.closeMenu();
       }
    }

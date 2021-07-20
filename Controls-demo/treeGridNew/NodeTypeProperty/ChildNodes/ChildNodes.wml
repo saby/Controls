@@ -11,7 +11,8 @@
             navigation="{{ _navigation }}"
             columns="{{ _columns }}"
             bind:expandedItems="_expandedItems"
-            bind:collapsedItems="_collapsedItems">
+            bind:collapsedItems="_collapsedItems"
+            attr:data-qa="controlsDemo_treeGridNew_ChildNodes">
         <ws:nodeFooterTemplate>
             <ws:partial template="Controls/treeGrid:NodeFooterTemplate">
                 <Controls.list:AddButton caption="Добавить товар"/>

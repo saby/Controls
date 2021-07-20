@@ -14,9 +14,7 @@ export interface IOptions extends IPropertyGridOptions {
  * Контрол, который позволяет пользователям просматривать и редактировать свойства объекта с возможностью группировки по вкладкам
  * @author Герасимов А.М.
  * @public
- * @control
- * @class Controls/_propertyGrid/TabbedView
- * @mixes Controls/propertyGrid:IPropertyGrid
+ * @implements Controls/propertyGrid:IPropertyGrid
  * @demo Controls-demo/PropertyGridNew/TabbedView/Index
  * @extends UI/Base:Control
  */
