@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml2">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
          <div class="controls-text-label">Подсказка при вооде с неправильной раскладкой</div>
          <Controls.suggest:Selector
-                 attr:class="controlsDemo__input"
+                 attr:class="controlsDemo__input  controlsDemo__ml1 "
                  bind:value="_suggestDownValue"
                  displayProperty="title"
                  searchParam="title"

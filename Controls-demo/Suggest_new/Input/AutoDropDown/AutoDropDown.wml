@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__wrapper__padding-left">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
          <div class="controls-text-label">Открытие автодополнения при фокусе</div>
          <Controls.suggest:Input
-                 attr:class="controlsDemo__input demo-SuggestNew__auto"
+                 attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNew__auto"
                  bind:value="_suggestDownValue"
                  displayProperty="title"
                  searchParam="title"

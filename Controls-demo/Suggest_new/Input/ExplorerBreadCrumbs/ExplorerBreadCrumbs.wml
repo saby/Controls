@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__wrapper__padding-left">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
          <div class="controls-text-label">Автодополнение с хлебными крошками</div>
          <Controls.suggest:Input
-                 attr:class="controlsDemo__input"
+                 attr:class="controlsDemo__input  controlsDemo__ml1 "
                  bind:value="_suggestDefaultValue"
                  displayProperty="title"
                  searchParam="title"

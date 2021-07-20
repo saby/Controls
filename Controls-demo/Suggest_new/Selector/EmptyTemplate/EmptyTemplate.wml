@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml2">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Шаблон пустого списка с кнопкой</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__emptyWithButton"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__emptyWithButton"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -14,10 +14,10 @@
           </ws:suggestTemplate>
       </Controls.suggest:Selector>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml2">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Шаблон пустого списка по умолчанию</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__emptyDefault"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__emptyDefault"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"

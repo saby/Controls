@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__wrapper__padding-left">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
         <div class="controls-text-label">Шаблон подвала с использованием стандарного footer'a</div>
         <Controls.suggest:Input
-                attr:class="controlsDemo__input demo-SuggestNew__defaultFooter"
+                attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNew__defaultFooter"
                 displayProperty="title"
                 searchParam="title"
                 navigation="{{_navigation}}"
@@ -19,10 +19,10 @@
             </ws:footerTemplate>
         </Controls.suggest:Input>
     </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__wrapper__padding-left">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
       <div class="controls-text-label">Шаблон подвала со стандартной кнопкой открытия</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input demo-SuggestNew__templateFooter"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNew__templateFooter"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -34,10 +34,10 @@
           <ws:footerTemplate templateName="wml!Controls-demo/Suggest_new/Input/FooterTemplate/resources/StandartFooterTemplate"/>
       </Controls.suggest:Input>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__wrapper__padding-left">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
        <div class="controls-text-label">Шаблон подвала со своей кнопкой открытия</div>
        <Controls.suggest:Input
-               attr:class="controlsDemo__input demo-SuggestNew__selfButtonFooter"
+               attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNew__selfButtonFooter"
                bind:value="_suggestStandartValue"
                displayProperty="title"
                searchParam="title"
@@ -55,10 +55,10 @@
            </ws:footerTemplate>
        </Controls.suggest:Input>
    </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__wrapper__padding-left">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
       <div class="controls-text-label">Без подвала</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input demo-SuggestNew__noFooter"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNew__noFooter"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"
