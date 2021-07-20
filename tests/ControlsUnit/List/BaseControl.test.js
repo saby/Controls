@@ -3262,7 +3262,11 @@ define([
                   stopPropagation() {},
                   isStopped() { return true },
                   original: {
-                     target: { closest() {} }
+                      target: {
+                          closest(name) {
+                              return name === '.js-controls-ListView__editingTarget'
+                          }
+                      }
                   }
                };
                let beginEditStarted = false;
@@ -7233,7 +7237,7 @@ define([
                const item = baseControl.getViewModel().getItemBySourceKey(1).contents;
                const originalEvent = {
                   target: {
-                     closest: () => null
+                     closest: (name) => name === '.js-controls-ListView__editingTarget'
                   },
                   type: 'click'
                };
