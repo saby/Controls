@@ -104,7 +104,10 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     protected _isMobileIOS: boolean = detection.isMobileIOS;
 
     private _isFixed: boolean = false;
-    private _isShadowVisibleByController: { top: SHADOW_VISIBILITY_BY_CONTROLLER; bottom: SHADOW_VISIBILITY_BY_CONTROLLER; } = {
+    private _isShadowVisibleByController: {
+        top: SHADOW_VISIBILITY_BY_CONTROLLER;
+        bottom: SHADOW_VISIBILITY_BY_CONTROLLER;
+    } = {
         top: SHADOW_VISIBILITY_BY_CONTROLLER.auto,
         bottom: SHADOW_VISIBILITY_BY_CONTROLLER.auto
     };
@@ -243,7 +246,13 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             }
         }
         if (options.fixedZIndex !== this._options.fixedZIndex) {
-            this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
+            this._updateStyle(
+                options.position,
+                options.fixedZIndex,
+                options.zIndex, options.offsetTop,
+                options.task1177692247,
+                options.task1181007458
+            );
         }
         if (options.offsetTop !== this._options.offsetTop) {
             this._offsetTopChanged = true;
@@ -316,7 +325,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         UnregisterUtil(this, 'scrollResize');
         UnregisterUtil(this, 'scrollStateChanged');
         if (this._model) {
-            //Let the listeners know that the element is no longer fixed before the unmount.
+            // Let the listeners know that the element is no longer fixed before the unmount.
             this._fixationStateChangeHandler('', this._model.fixedPosition);
             this._model.destroy();
             this._model = null;
@@ -625,7 +634,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         }
     }
 
-    setFixedPosition(position: string) {
+    setFixedPosition(position: string): void {
         // Спилить метод после того как будет сделана задача
         // https://online.sbis.ru/opendoc.html?guid=8089ac76-89d3-42c0-9ef2-8b187014559f
         this._init();
@@ -671,30 +680,38 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     }
 
     private _updateStyles(options: IStickyHeaderOptions): void {
-        this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
+        this._updateStyle(
+            options.position,
+            options.fixedZIndex,
+            options.zIndex,
+            options.offsetTop,
+            options.task1177692247,
+            options.task1181007458
+        );
         this._updateShadowStyles(options.mode, options.shadowVisibility, options.position);
         this._updateObserversStyles(options.offsetTop, options.shadowVisibility);
     }
 
-    private _updateStyle(position: POSITION, fixedZIndex: number, zIndex: number, offsetTop: number, task1177692247?, task1181007458?): void {
+    private _updateStyle(position: POSITION,fixedZIndex: number,
+                         zIndex: number, offsetTop: number, task1177692247?, task1181007458?): void {
         const style = this._getStyle(position, fixedZIndex, zIndex, offsetTop, task1177692247);
         if (this._style !== style) {
             this._style = style;
         }
     }
 
-    protected _getStyle(positionFromOptions: POSITION, fixedZIndex: number, zIndex: number, offsetTop: number, task1177692247?, task1181007458?): string {
-        let
-            offset: number = 0,
-            container: HTMLElement,
-            top: number,
-            left: number,
-            bottom: number,
-            right: number,
-            fixedPosition: POSITION,
-            styles: CSSStyleDeclaration,
-            style: string = '',
-            minHeight: number;
+    protected _getStyle(positionFromOptions: POSITION,fixedZIndex: number,
+                        zIndex: number, offsetTop: number, task1177692247?, task1181007458?): string {
+        let offset: number = 0;
+        let container: HTMLElement;
+        let top: number;
+        let left: number;
+        let bottom: number;
+        let right: number;
+        let fixedPosition: POSITION;
+        let styles: CSSStyleDeclaration;
+        let style: string = '';
+        let minHeight: number;
 
         // Этот костыль нужен, чтобы убрать щели между заголовками. Для прозрачных заголовков он не нужен.
         offset = this._options.backgroundStyle !== 'transparent' ? getGapFixSize() : 0;
@@ -705,9 +722,11 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         const stickyPosition = positionFromOptions;
 
         const isStickedOnTop = stickyPosition.vertical && stickyPosition.vertical?.indexOf(POSITION.top) !== -1;
-        const isStickedOnBottom = stickyPosition.vertical && stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1;
+        const isStickedOnBottom = stickyPosition.vertical &&
+            stickyPosition.vertical?.toLowerCase().indexOf(POSITION.bottom) !== -1;
         const isStickedOnLeft = stickyPosition.horizontal && stickyPosition.horizontal?.indexOf(POSITION.left) !== -1;
-        const isStickedOnRight = stickyPosition.horizontal && stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1;
+        const isStickedOnRight = stickyPosition.horizontal &&
+            stickyPosition.horizontal?.toLowerCase().indexOf(POSITION.right) !== -1;
 
         if (isStickedOnTop) {
             // После построения контролов на afterMount инициализируется контроллер, он проставит заголовкам
@@ -859,8 +878,10 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         }
     }
 
-    protected _isShadowVisible(shadowPosition: POSITION, mode: MODE, shadowVisibility: SHADOW_VISIBILITY, position: IPositionOrientation): boolean {
-        //The shadow from above is shown if the element is fixed from below, from below if the element is fixed from above.
+    protected _isShadowVisible(shadowPosition: POSITION, mode: MODE,
+                               shadowVisibility: SHADOW_VISIBILITY, position: IPositionOrientation): boolean {
+        // The shadow from above is shown if the element is fixed from below,
+        // from below if the element is fixed from above.
         const fixedPosition: POSITION = shadowPosition === POSITION.top ? POSITION.bottom : POSITION.top;
 
         if (this._initialShowShadow && position.vertical === fixedPosition) {
@@ -916,7 +937,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
     }
 
     private _getNormalizedContainer(): HTMLElement {
-        //TODO remove after complete https://online.sbis.ru/opendoc.html?guid=7c921a5b-8882-4fd5-9b06-77950cbe2f79
+        // TODO remove after complete https://online.sbis.ru/opendoc.html?guid=7c921a5b-8882-4fd5-9b06-77950cbe2f79
         // There's no container at first building of template.
         if (!this._container) {
             return;
@@ -943,6 +964,8 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             this._canShadowVisible = { top, bottom };
         }
     }
+
+    static _theme: string[] = ['Controls/scroll'];
 
     static _isIOSChrome(): boolean {
         return detection.isMobileIOS && detection.chrome;
@@ -986,8 +1009,6 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
         }
         return 1;
     }
-
-    static _theme: string[] = ['Controls/scroll'];
 
 }
 /**
