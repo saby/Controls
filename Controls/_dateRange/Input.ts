@@ -196,14 +196,14 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         if (selection.end === displayValue.length) {
             this._children.endValueField.activate({enableScreenKeyboard: true});
         }
-        this._validateAfterInputControl('endValue');
+        this._validateAfterInput('endValue');
     }
 
     protected _endFieldInputControlHandler(): void {
-        this._validateAfterInputControl('startValue');
+        this._validateAfterInput('startValue');
     }
 
-    private _validateAfterInputControl(fieldName: string): void {
+    private _validateAfterInput(fieldName: string): void {
         // После смены значения в поле ввода сбрасывается результат валидации.
         // Проблема в том, что результат валидации не сбрасывается в другом поле. Из-за этого появляется инфобокс при
         // наведении https://online.sbis.ru/opendoc.html?guid=42046d94-7a30-491a-b8b6-1ce710bddbaa
@@ -220,7 +220,13 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         }
     }
 
-    protected _notifyInputCompleted(): void {
+    protected _inputCompletedHandler(): void {
+        this._validateAfterInput('startValue');
+        this._validateAfterInput('endValue');
+        this._notifyInputCompleted();
+    }
+
+    private _notifyInputCompleted(): void {
         const converter = new StringValueConverter({
             mask: this._options.mask,
             replacer: this._options.replacer,
