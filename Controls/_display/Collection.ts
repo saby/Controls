@@ -71,10 +71,10 @@ export interface ISplicedArray<T> extends Array<T> {
     start?: number;
 }
 
-type FilterFunction<S> = (
+type FilterFunction<S extends Model, T extends CollectionItem> = (
     item: S,
     index: number,
-    collectionItem: CollectionItem<S>,
+    collectionItem: T,
     collectionIndex: number,
     hasMembers?: boolean,
     group?: GroupItem<S>

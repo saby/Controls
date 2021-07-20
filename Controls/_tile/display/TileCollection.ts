@@ -1,10 +1,16 @@
 import TileCollectionItem from './TileCollectionItem';
 import {Model} from 'Types/entity';
-import {Collection, ItemsFactory, itemsStrategy, TreeItem} from 'Controls/display';
+import {Collection, CollectionItem, ICollectionOptions, ItemsFactory, itemsStrategy} from 'Controls/display';
 import Tile from 'Controls/_tile/display/mixins/Tile';
 import { mixin } from 'Types/util';
 import {IOptions} from 'Controls/_tile/display/mixins/TileItem';
 import InvisibleStrategy from './strategies/Invisible';
+import {ITileAspectOptions} from '../TileView';
+
+export interface ITileCollectionOptions<
+    S extends Model = Model,
+    T extends TileCollectionItem<S> = TileCollectionItem<S>
+> extends ICollectionOptions<S, T>, ITileAspectOptions { }
 
 /**
  * Плиточная коллекция
@@ -13,8 +19,8 @@ import InvisibleStrategy from './strategies/Invisible';
 export default class TileCollection<
     S extends Model = Model,
     T extends TileCollectionItem<S> = TileCollectionItem<S>
-> extends mixin<Collection<S, T>, Tile>(Collection, Tile) {
-    constructor(options: any) {
+> extends mixin<Collection, Tile>(Collection, Tile) {
+    constructor(options: ITileCollectionOptions<S, T>) {
         super(options);
         Tile.call(this, options);
     }
@@ -35,7 +41,7 @@ export default class TileCollection<
         };
     }
 
-    protected _createComposer(): itemsStrategy.Composer<any, TreeItem<any>> {
+    protected _createComposer(): itemsStrategy.Composer<S, CollectionItem<Model>> {
         const composer = super._createComposer();
 
         composer.append(InvisibleStrategy, {

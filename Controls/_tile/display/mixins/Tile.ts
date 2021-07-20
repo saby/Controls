@@ -1,7 +1,7 @@
 import {Model} from 'Types/entity';
 import TileItem, { IOptions as ITileItemOptions } from 'Controls/_tile/display/mixins/TileItem';
 import {isEqual} from 'Types/object';
-import { TRoundBorder, IViewIterator } from 'Controls/display';
+import {TRoundBorder, IViewIterator, IItemPadding, IItemActionsTemplateConfig} from 'Controls/display';
 import {createPositionInBounds} from 'Controls/_tile/utils/createPosition';
 
 export const DEFAULT_TILE_HEIGHT = 200;
@@ -25,17 +25,10 @@ interface ITileItemPosition {
     bottom: number;
 }
 
-interface IItemPadding {
-    left: string;
-    right: string;
-    bottom: string;
-    top: string;
-}
-
 export type TImageUrlResolver = (width: number, height: number, url: string, item: Model) => string;
 export type TTileMode = 'static'|'dynamic';
 export type TTileSize = 's'|'m'|'l';
-export type TTileScalingMode = 'none'|'outside'|'inside';
+export type TTileScalingMode = 'none'|'outside'|'inside'|'preview'|'overlap';
 export type TImageFit = 'none'|'cover'|'contain';
 
 /**
@@ -134,7 +127,9 @@ export default abstract class Tile<
     setTileHeight(tileHeight: number): void {
         if (this._$tileHeight !== tileHeight) {
             this._$tileHeight = tileHeight;
-            this._updateItemsProperty('setTileHeight', this._$tileHeight, 'setTileHeight');
+            this._updateItemsProperty(
+                'setTileHeight', this._$tileHeight, 'setTileHeight'
+            );
             this._nextVersion();
         }
     }
@@ -176,15 +171,19 @@ export default abstract class Tile<
     setTileWidthProperty(tileWidthProperty: string): void {
         if (this._$tileWidthProperty !== tileWidthProperty) {
             this._$tileWidthProperty = tileWidthProperty;
-            this._updateItemsProperty('setTileWidthProperty', this._$tileWidthProperty, 'setTileWidthProperty');
+            this._updateItemsProperty(
+                'setTileWidthProperty', this._$tileWidthProperty, 'setTileWidthProperty'
+            );
             this._nextVersion();
         }
     }
 
     /**
-     * Возвращает название свойства на рекорде, которое содержит коэффициент для расчета ширины от высоты в динамическом режиме
+     * Возвращает название свойства на рекорде, которое содержит коэффициент
+     * для расчета ширины от высоты в динамическом режиме
      * @remark
-     * используется только тут https://git.sbis.ru/root/sbis3-docview/blob/rc-21.3100/DOCVIEW3Core/_list/InternalFull.wml#L73
+     * используется только тут
+     * https://git.sbis.ru/root/sbis3-docview/blob/rc-21.3100/DOCVIEW3Core/_list/InternalFull.wml#L73
      * Их задача: отображать файлы разный расширений с разной шириной в динамическом режиме
      * @return {string} Название свойства
      */
@@ -193,14 +192,17 @@ export default abstract class Tile<
     }
 
     /**
-     * Устанавливает название свойства на рекорде, которое содержит коэффициент для расчета ширины от высоты в динамическом режиме
+     * Устанавливает название свойства на рекорде, которое содержит коэффициент
+     * для расчета ширины от высоты в динамическом режиме
      * @param {string} tileFitProperty Название свойства
      * @void
      */
     setTileFitProperty(tileFitProperty: string): void {
         if (this._$tileFitProperty !== tileFitProperty) {
             this._$tileFitProperty = tileFitProperty;
-            this._updateItemsProperty('setTileFitProperty', this._$tileFitProperty, 'setTileFitProperty');
+            this._updateItemsProperty(
+                'setTileFitProperty', this._$tileFitProperty, 'setTileFitProperty'
+            );
             this._nextVersion();
         }
     }
@@ -221,7 +223,9 @@ export default abstract class Tile<
     setTileScalingMode(tileScalingMode: TTileScalingMode): void {
         if (this._$tileScalingMode !== tileScalingMode) {
             this._$tileScalingMode = tileScalingMode;
-            this._updateItemsProperty('setTileScalingMode', this._$tileScalingMode, 'setTileScalingMode');
+            this._updateItemsProperty(
+                'setTileScalingMode', this._$tileScalingMode, 'setTileScalingMode'
+            );
             this._nextVersion();
         }
     }
@@ -242,7 +246,9 @@ export default abstract class Tile<
     setImageProperty(imageProperty: string): void {
         if (imageProperty !== this._$imageProperty) {
             this._$imageProperty = imageProperty;
-            this._updateItemsProperty('setImageProperty', this._$imageProperty, 'setImageProperty');
+            this._updateItemsProperty(
+                'setImageProperty', this._$imageProperty, 'setImageProperty'
+            );
             this._nextVersion();
         }
     }
@@ -284,7 +290,11 @@ export default abstract class Tile<
     setImageHeightProperty(imageHeightProperty: string): void {
         if (imageHeightProperty !== this._$imageHeightProperty) {
             this._$imageHeightProperty = imageHeightProperty;
-            this._updateItemsProperty('setImageHeightProperty', this._$imageHeightProperty, 'setImageHeightProperty');
+            this._updateItemsProperty(
+                'setImageHeightProperty',
+                this._$imageHeightProperty,
+                'setImageHeightProperty'
+            );
             this._nextVersion();
         }
     }
@@ -305,7 +315,11 @@ export default abstract class Tile<
     setImageWidthProperty(imageWidthProperty: string): void {
         if (imageWidthProperty !== this._$imageWidthProperty) {
             this._$imageWidthProperty = imageWidthProperty;
-            this._updateItemsProperty('setImageWidthProperty', this._$imageWidthProperty, 'setImageWidthProperty');
+            this._updateItemsProperty(
+                'setImageWidthProperty',
+                this._$imageWidthProperty,
+                'setImageWidthProperty'
+            );
             this._nextVersion();
         }
     }
@@ -326,7 +340,9 @@ export default abstract class Tile<
     setImageUrlResolver(imageUrlResolver: TImageUrlResolver): void {
         if (imageUrlResolver !== this._$imageUrlResolver) {
             this._$imageUrlResolver = imageUrlResolver;
-            this._updateItemsProperty('setImageUrlResolver', this._$imageUrlResolver, 'setImageUrlResolver');
+            this._updateItemsProperty(
+                'setImageUrlResolver', this._$imageUrlResolver, 'setImageUrlResolver'
+            );
             this._nextVersion();
         }
     }
@@ -355,7 +371,9 @@ export default abstract class Tile<
     setRoundBorder(roundBorder: TRoundBorder): void {
         if (!isEqual(this._$roundBorder, roundBorder)) {
             this._$roundBorder = roundBorder;
-            this._updateItemsProperty('setRoundBorder', this._$roundBorder, 'setRoundBorder');
+            this._updateItemsProperty(
+                'setRoundBorder', this._$roundBorder, 'setRoundBorder'
+            );
             this._nextVersion();
         }
     }
@@ -517,6 +535,7 @@ export default abstract class Tile<
     abstract getRightPadding(): string;
     abstract getTopPadding(): string;
     abstract getBottomPadding(): string;
+    abstract getActionsTemplateConfig(): IItemActionsTemplateConfig;
     protected abstract _updateItemsProperty(updateMethodName: string,
                                             newPropertyValue: any,
                                             conditionProperty?: string,

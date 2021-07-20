@@ -84,7 +84,7 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
     protected _viewModelConstructor = null;
     protected _children: { listControl: ListControl };
 
-    _beforeMount(options) {
+    protected _beforeMount(options) {
         this._viewModelConstructor = this._getModelConstructor();
     }
 

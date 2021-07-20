@@ -1,11 +1,13 @@
-import {COUNT_INVISIBLE_ITEMS, InvisibleStrategy as TileInvisibleStrategy } from 'Controls/tile';
+import {COUNT_INVISIBLE_ITEMS, InvisibleStrategy as TileInvisibleStrategy, TileCollectionItem } from 'Controls/tile';
 import {Model} from 'Types/entity';
-import TreeTileCollectionItem from '../TreeTileCollectionItem';
+import TreeTileCollectionItem, {ITreeTileCollectionItemOptions} from '../TreeTileCollectionItem';
 import TreeTileCollection from '../TreeTileCollection';
 import InvisibleTreeTileItem from '../InvisibleTreeTileItem';
-import {TileCollectionItem} from 'Controls/tile';
 
-interface ISortOptions<S extends Model = Model, T extends TreeTileCollectionItem<S>> {
+interface ISortOptions<
+    S extends Model = Model,
+    T extends TreeTileCollectionItem<S> = TreeTileCollectionItem<S>
+> {
     display: TreeTileCollection<S, T>;
     invisibleItems: InvisibleTreeTileItem[];
 }
@@ -14,6 +16,8 @@ export default class InvisibleStrategy<
     S extends Model = Model,
     T extends TreeTileCollectionItem<S> = TreeTileCollectionItem<S>
 > extends TileInvisibleStrategy<S, T> {
+
+    protected _invisibleItems: InvisibleTreeTileItem[];
 
     protected _createItemsOrder(): number[] {
         return InvisibleStrategy.sortItems<S, T>(this.source.items, {
@@ -79,7 +83,9 @@ export default class InvisibleStrategy<
             }
         }
 
-        const itemsOrder = items.map((it, index) => index + newInvisibleItems.length * COUNT_INVISIBLE_ITEMS);
+        const itemsOrder = items.map(
+            (it, index) => index + newInvisibleItems.length * COUNT_INVISIBLE_ITEMS
+        );
 
         for (let i = 0; i < newInvisibleItems.length; i++) {
             const items = newInvisibleItems[i];
@@ -94,7 +100,9 @@ export default class InvisibleStrategy<
         return itemsOrder;
     }
 
-    protected static _getInvisibleItemParams(display: TreeTileCollection, prevItem: TileCollectionItem, options: object): object {
+    protected static _getInvisibleItemParams(
+        display: TreeTileCollection, prevItem: TileCollectionItem, options: Partial<ITreeTileCollectionItemOptions>
+    ): Partial<ITreeTileCollectionItemOptions> {
         const params = super._getInvisibleItemParams(display, prevItem, options);
         params.itemModule = 'Controls/treeTile:InvisibleTreeTileItem';
         params.node = options.isNodeItems;

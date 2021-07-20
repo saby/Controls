@@ -1,6 +1,6 @@
 import {assert} from "chai";
+import { TreeTileCollection } from 'Controls/treeTile';
 import {RecordSet} from "Types/collection";
-import TreeTileCollection from "Controls/_treeTile/display/TreeTileCollection";
 
 describe('Controls/_treeTile/display/TreeTileCollection', () => {
     describe('::getChildren', () => {

@@ -2,14 +2,14 @@ import { IItemsStrategy } from 'Controls/display';
 import {Model} from 'Types/entity';
 import TileCollection from '../TileCollection';
 import TileCollectionItem from '../TileCollectionItem';
-import InvisibleTileItem from '../InvisibleTileItem';
+import InvisibleTileItem, { IInvisibleTileItemOptions } from '../InvisibleTileItem';
 
 export const COUNT_INVISIBLE_ITEMS = 10;
 
 /**
  * Интерфейс опций, с которыми создается стратегия InvisibleStrategy
  */
-interface IOptions<S extends Model = Model, T extends TileCollectionItem<S>> {
+interface IOptions<S extends Model = Model, T extends TileCollectionItem<S> = TileCollectionItem<S>> {
     source: IItemsStrategy<S, T>;
     display: TileCollection<S, T>;
 }
@@ -17,7 +17,7 @@ interface IOptions<S extends Model = Model, T extends TileCollectionItem<S>> {
 /**
  * Интерфейс опций метода InvisibleStrategy::sortItems
  */
-interface ISortOptions<S extends Model = Model, T extends TileCollectionItem<S>> {
+interface ISortOptions<S extends Model = Model, T extends TileCollectionItem<S> = TileCollectionItem<S>> {
     display: TileCollection<S, T>;
     invisibleItems: InvisibleTileItem[];
 }
@@ -165,7 +165,9 @@ export default class InvisibleStrategy<
         const itemsOrder = items.map((it, index) => index + offset);
 
         if (needAppendInvisibleItems) {
-            options.invisibleItems.push(...InvisibleStrategy._createInvisibleItems(options.display, items[items.length - 1], {}));
+            const lastItem = items[items.length - 1];
+            const invisibleItems = InvisibleStrategy._createInvisibleItems(options.display, lastItem);
+            options.invisibleItems.push(...invisibleItems);
             for (let i = 0; i < options.invisibleItems.length; i++) {
                 itemsOrder.push(i);
             }
@@ -174,7 +176,9 @@ export default class InvisibleStrategy<
         return itemsOrder;
     }
 
-    protected static _createInvisibleItems(display: TileCollection, prevItem: TileCollectionItem, options: object): InvisibleTileItem[] {
+    protected static _createInvisibleItems(
+        display: TileCollection, prevItem: TileCollectionItem, options: Partial<IInvisibleTileItemOptions> = {}
+    ): InvisibleTileItem[] {
         const items = [];
 
         const params = this._getInvisibleItemParams(display, prevItem, options);
@@ -188,7 +192,9 @@ export default class InvisibleStrategy<
         return items;
     }
 
-    protected static _getInvisibleItemParams(display: TileCollection, prevItem: TileCollectionItem, options: object): object {
+    protected static _getInvisibleItemParams(
+        display: TileCollection, prevItem: TileCollectionItem, options: Partial<IInvisibleTileItemOptions>
+    ): Partial<IInvisibleTileItemOptions> {
         return {
             ...options,
             itemModule: 'Controls/tile:InvisibleTileItem',

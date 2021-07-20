@@ -1,5 +1,4 @@
 import {View as List} from 'Controls/baseList';
-import { TemplateFunction } from 'UI/Base';
 import TileView from './TileView';
 
 /**
@@ -68,7 +67,7 @@ import TileView from './TileView';
  */
 
 export default class View extends List {
-    protected _viewName: TemplateFunction = TileView;
+    protected _viewName: TileView = TileView;
 
     protected _beforeMount(): void {
         this._viewModelConstructor = this._getModelConstructor();

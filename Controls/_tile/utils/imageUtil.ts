@@ -1,5 +1,5 @@
 import {Model} from 'Types/entity';
-import {TImageFit, TImageUrlResolver, TTileMode} from "Controls/_tile/display/mixins/Tile";
+import {TImageFit, TImageUrlResolver, TTileMode} from '../display/mixins/Tile';
 
 /**
  * Содержит базовые методы для подсчета параметров изображения
@@ -69,8 +69,8 @@ export function getImageSize(
     imageWidth: number,
     imageFit: string
 ): IImageSize {
-    let width = imageWidth;
-    let height = imageHeight;
+    let width: number;
+    let height: number;
     if (imageFit === IMAGE_FIT.COVER && imageWidth && imageHeight) {
         const imageDeltaW = imageWidth / imageHeight;
         const tileDeltaW =  tileWidth / tileHeight;
@@ -165,29 +165,24 @@ export function getImageRestrictions(
  * @param {TTileMode} tileMode Режим отображения плитки
  */
 export function getItemSize(item: HTMLElement, zoomCoefficient: number, tileMode: TTileMode): IImageSize {
-    var
-        result,
-        rectAfterZoom,
-        imageWrapper,
-        imageWrapperRect,
-        tileContent = item.querySelector('.controls-TileView__itemContent'),
-        tileContentRect = tileContent.getBoundingClientRect();
-
+    const tileContent = item.querySelector('.controls-TileView__itemContent');
     tileContent.classList.add('controls-TileView__item_hovered');
     tileContent.classList.remove('controls-TileView__item_unfixed');
-    tileContent.style.width = tileContentRect.width * zoomCoefficient + 'px';
+    tileContent.style.width = tileContent.getBoundingClientRect().width * zoomCoefficient + 'px';
 
+    let imageWrapper;
+    let imageWrapperRect;
     //Плитка с динамической шириной не увеличивается по высоте, при изменении ширины.
-    //Поэтом при расчете размеров увеличенного элемента, сами увеличим высоту плитки.
+    //Поэтому при расчете размеров увеличенного элемента, сами увеличим высоту плитки.
     if (tileMode === 'dynamic') {
         imageWrapper = item.querySelector('.controls-TileView__imageWrapper');
         imageWrapperRect = imageWrapper.getBoundingClientRect();
         imageWrapper.style.height = imageWrapperRect.height * zoomCoefficient + 'px';
     }
 
-    rectAfterZoom = tileContent.getBoundingClientRect();
+    const rectAfterZoom = tileContent.getBoundingClientRect();
 
-    result = {
+    const result = {
         width: rectAfterZoom.width,
         height: rectAfterZoom.height
     };
