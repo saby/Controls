@@ -8,16 +8,16 @@ interface IToggleOptions extends IControlOptions {
     selectedKeys: boolean[];
 }
 
+const items = [
+    {key: true, title: rk('Да'), icon: 'icon-Successfully', iconStyle: 'success'},
+    {key: false, title: rk('Нет'), icon: 'icon-Decline', iconStyle: 'danger'}
+];
+
 /**
- * Контрол, позволяющий выбрать значение из списка. Отображается в виде выпадающего списка с тремя значениями:
- * • Да
- * • Нет
- * • Не выбрано
- *
+ * Контрол, позволяющий выбрать значение из списка. Отображается в виде выпадающего списка с тремя значениями: "Да", "Нет" и "Не выбрано".
  * @remark
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
  *
- * @class Controls/_dropdown/Toggle
  * @extends UI/Base:Control
  * @mixes Controls/interface:IMultiSelectable
  * @demo Controls-demo/dropdown_new/Toggle/Index
@@ -25,12 +25,6 @@ interface IToggleOptions extends IControlOptions {
  * @public
  * @author Золотова Э.Е.
  */
-
-const items = [
-    {key: true, title: rk('Да'), icon: 'icon-Successfully', iconStyle: 'success'},
-    {key: false, title: rk('Нет'), icon: 'icon-Decline', iconStyle: 'danger'}
-];
-
 export default class Toggle extends Control<IToggleOptions> {
     protected _template: TemplateFunction = template;
     protected _source: Memory;

@@ -1,10 +1,6 @@
 /**
  * Библиотека контролов, которые служат для отображения элемента коллекции или выбора элемента из выпадающего окна.
  * @library
- * @includes Button Controls/_dropdown/Button
- * @includes Selector Controls/_dropdown/Selector
- * @includes Combobox Controls/_dropdown/ComboBox
- * @includes Toggle Controls/_dropdown/Toggle
  * @includes ItemTemplate Controls/dropdown:ItemTemplate
  * @includes HeaderTemplate Controls/dropdown:HeaderTemplate
  * @includes GroupTemplate Controls/dropdown:GroupTemplate
@@ -12,6 +8,7 @@
  * @includes IHeaderTemplate Controls/_dropdown/interface/IHeaderTemplate
  * @includes inputDefaultContentTemplate Controls/dropdown:inputDefaultContentTemplate
  * @includes IIconSize Controls/_dropdown/interface/IIconSize
+ * @includes IButton Controls/dropdown:IButton
  * @public
  * @author Крайнов Д.О.
  */
@@ -19,9 +16,6 @@
 /*
  * dropdown library
  * @library
- * @includes Button Controls/_dropdown/Button
- * @includes Selector Controls/_dropdown/Selector
- * @includes Combobox Controls/_dropdown/ComboBox
  * @includes ItemTemplate Controls/dropdown:ItemTemplate
  * @includes HeaderTemplate Controls/dropdown:HeaderTemplate
  * @includes GroupTemplate Controls/dropdown:GroupTemplate
@@ -29,6 +23,7 @@
  * @includes IHeaderTemplate Controls/_dropdown/interface/IHeaderTemplate
  * @includes inputDefaultContentTemplate wml!Controls/_dropdown/Selector/resources/defaultContentTemplate
  * @includes IIconSize Controls/_dropdown/interface/IIconSize
+ * @includes IButton Controls/dropdown:IButton
  * @public
  * @author Крайнов Д.О.
  */

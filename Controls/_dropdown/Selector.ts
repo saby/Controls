@@ -44,7 +44,6 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdownPopup.less переменные тем оформления dropdownPopup}
  *
- * @class Controls/_dropdown/Selector
  * @extends UI/Base:Control
  * @mixes Controls/menu:IMenuPopup
  * @mixes Controls/menu:IMenuControl
@@ -70,7 +69,6 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * The full list of options is displayed when you click on the control.
  *
  * To work with single selectedKeys option you can use control with {@link Controls/source:SelectedKey}.
- * @class Controls/_dropdown/Input
  * @extends UI/Base:Control
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IHierarchy
