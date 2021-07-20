@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml2">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__wrapper__padding-left">
       <div class="controls-text-label">Поиск без задержки</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__noDelay"
@@ -14,7 +14,7 @@
           </ws:suggestTemplate>
       </Controls.suggest:Input>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml2">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__wrapper__padding-left">
       <div class="controls-text-label">Поиск с задержкой 1.5 секунды</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input  demo-SuggestNew__withDelay"
