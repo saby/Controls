@@ -1,13 +1,13 @@
-<div class="ws-flexbox ws-align-items-baseline">
+<div class="ws-flexbox ws-align-self-center">
     <div>{{item.caption}}</div>
     <ws:if data="{{item.icon}}">
-        <div class="controls-Tabs_margin-left">
-            <div class="icon-{{item.icon}} controls-icon_size-s
+        <div class="controls-Tabs_margin-left ws-align-self-center">
+            <div class="icon-{{item.icon}} controls-icon_size-{{item.iconSize || 's'}}
                         controls-icon_style-{{item.iconStyle || 'unaccented'}}"></div>
         </div>
     </ws:if>
     <ws:if data="{{item.mainCounter}}">
-        <div class="controls-Tabs_margin-left">
+        <div class="controls-Tabs_margin-left ws-align-self-center">
             <Controls.heading:Counter class="controls-fontweight-default"
                                       caption="{{item.mainCounter}}"
                                       fontColorStyle="{{item.mainCounterStyle || 'unaccented'}}"/>
