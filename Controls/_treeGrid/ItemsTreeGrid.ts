@@ -16,26 +16,26 @@ import {default as ITreeGrid, IOptions as ITreeGridOptions} from 'Controls/_tree
 export interface IItemsTreeGridOptions extends IItemsViewOptions, ITreeGridOptions {}
 
 /**
- * Контрол древовидной таблицы, который умеет работать без источника данных.
- * В качестве данных ожидает {@link Types/collection:RecordSet} переданный в опцию
- * {@link Controls/_list/IItemsView#items}.
+ * Контрол древовидной {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/ таблицы}, который умеет работать без {@link /doc/platform/developmentapl/interface-development/controls/list/source/ источника данных}.
+ * В качестве данных ожидает {@link Types/collection:RecordSet} переданный в опцию {@link Controls/list:IItemsView#items items}.
  *
  * @demo Controls-demo/treeGridNew/ItemsView/Base/Index
  *
  * @class Controls/treeGrid:ItemsView
  * @extends Controls/grid:ItemsView
- * @mixes Controls/list:IItemsView
- * @mixes Controls/interface/IGroupedList
- * @mixes Controls/list:IVirtualScrollConfig
- * @mixes Controls/list:IList
- * @mixes Controls/list:IClickableView
- * @mixes Controls/marker:IMarkerList
- * @mixes Controls/itemActions:IItemActions
- * @mixes Controls/grid:IGridControl
- * @mixes Controls/interface/IGridItemTemplate
- * @mixes Controls/interface/IGroupedGrid
- * @mixes Controls/interface/IGridItemTemplate
- * @mixes Controls/interface:IHierarchy
+ * @implements Controls/list:IItemsView
+ * @implements Controls/list:IVirtualScrollConfig
+ * @implements Controls/list:IList
+ * @implements Controls/list:IClickableView
+ * @implements Controls/interface/IGridItemTemplate
+ * @implements Controls/interface/IGroupedGrid
+ * @implements Controls/interface/IGridItemTemplate
+ * @implements Controls/interface:IHierarchy
+ * @implements Controls/interface/IGroupedList
+ * @implements Controls/interface:IMultiSelectable
+ * @implements Controls/marker:IMarkerList
+ * @implements Controls/itemActions:IItemActions
+ * @implements Controls/grid:IGridControl
  *
  * @public
  * @author Уфимцев Д.Ю.
