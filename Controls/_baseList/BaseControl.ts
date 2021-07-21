@@ -6204,12 +6204,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     // region Cut
 
     protected _onCutClick() {
-        this._cutExpanded = !this._cutExpanded;
-        this._reCountCut();
+        const newExpanded = !this._cutExpanded;
+        this._reCountCut(newExpanded).then(() => this._cutExpanded = newExpanded);
     }
 
-    private _reCountCut(): Promise<void> {
-        if (this._cutExpanded) {
+    private _reCountCut(newExpanded: boolean): Promise<void> {
+        if (newExpanded) {
             this._sourceController.setNavigation(undefined);
             return this._reload(this._options).then(() => {
                 _private.prepareFooter(this, this._options, this._sourceController);
