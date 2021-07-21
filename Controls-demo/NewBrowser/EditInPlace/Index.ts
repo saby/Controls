@@ -9,7 +9,7 @@ import * as Template from 'wml!Controls-demo/NewBrowser/EditInPlace/Index';
 import {SyntheticEvent} from 'UI/Vdom';
 import {TKey} from 'Controls/_interface/IItems';
 import 'css!Controls-demo/Controls-demo';
-import Images from "Controls-demo/tileNew/DataHelpers/Images";
+import Images from 'Controls-demo/tileNew/DataHelpers/Images';
 
 const DATA_FOR_EDITING = [
     {
