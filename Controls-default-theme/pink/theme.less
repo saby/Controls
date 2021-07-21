@@ -2,38 +2,37 @@
 @import "../_variables";
 
 .controls_theme-@{themeName} {
+   // палитра
+   --primary_color: #e44766;
+   --primary_text-color: var(--primary_color);
+   --primary_hover_text-color: #d1002a;
+   --primary_icon-color: var(--primary_color);
+   --primary_hover_icon-color: var(--primary_hover_text-color);
+   --primary_border-color: var(--primary_color);
+   --primary_background-color: #fff5f7;
+   --primary_hover_background-color: #ffebef;
+   --primary_active_background-color: #ffdbe2;
+   --primary_same_background-color: #ffebef;
+   --primary_hover_same_background-color: #ffdbe2;
+   --primary_active_same_background-color: #ffccd6;
+   --primary_contrast_background-color: var(--primary_color); //todo не по формуле
+   --primary_hover_contrast_background-color: #dd2044; //todo не по формуле делаю как раньше
+   --primary_active_contrast_background-color: var(--primary_hover_contrast_background-color); //todo не по формуле делаю как раньше
 
-    // палитра
-    --primary_color: #e44766;
-    --primary_text-color: var(--primary_color);
-    --primary_hover_text-color: #d1002a;
-    --primary_icon-color: var(--primary_color);
-    --primary_hover_icon-color: var(--primary_hover_text-color);
-    --primary_border-color: var(--primary_color);
-    --primary_background-color: #fff5f7;
-    --primary_hover_background-color: #ffebef;
-    --primary_active_background-color: #ffdbe2;
-    --primary_same_background-color: #ffebef;
-    --primary_hover_same_background-color: #ffdbe2;
-    --primary_active_same_background-color: #ffccd6;
-    --primary_contrast_background-color: var(--primary_color);  //todo не по формуле
-    --primary_hover_contrast_background-color: #dd2044; //todo не по формуле делаю как раньше
-    --primary_active_contrast_background-color: var(--primary_hover_contrast_background-color); //todo не по формуле делаю как раньше
+   // heading
+   --primary_icon_background-image_m_headingBack: url('./img/BackArrow.svg');
+   --primary_icon_hover_background-image_m_headingBack: url('./img/BackArrow.svg');
 
-    // heading
-    --primary_icon_background-image_m_headingBack: url('./img/BackArrow.svg');
-    --primary_icon_hover_background-image_m_headingBack: url('./img/BackArrow.svg');
+   //tabs
+   --unselected_item_text-color_tabs: #000;
+   --primary_marker_color_tabs: #e44766;
 
-    //tabs
-    --unselected_item_text-color_tabs: #000;
-    --primary_marker_color_tabs: #e44766;
-
-    // other
-    --marker_color: var(--primary_color);
-    --master-marker_color_list: var(--primary_color);
-    --master_item_selected_text-color_list: var(--primary_color);
-
-    --primary_scale_color_progressBar: var(--primary_color);
+   // other
+   --marker_color: var(--primary_color);
+   --master-marker_color_list: var(--primary_color);
+   --master_item_selected_text-color_list: var(--primary_color);
+   --primary_scale_color_progressBar: var(--primary_color);
+   --primary_text-color_decorator_fraction: #ccacb2;
 }
 
 .controls_dropdownPopup_theme-@{themeName} {
