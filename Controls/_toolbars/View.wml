@@ -27,7 +27,7 @@
                  tooltip="{[Открыть меню]}"
                  iconSize="{{_options.iconSize === 'l' ? 'l' : 'm'}}"
                  icon="icon-SettingsNew"
-                 inlineHeight="{{_options.inlineHeight ? _options.inlineHeight : (_options.iconSize === 'l' ? 'l' : 'm')}}"
+                 inlineHeight="{{_options.direction === 'vertical' ? 'l' : (_options.inlineHeight ? _options.inlineHeight : (_options.iconSize === 'l' ? 'l' : 'm'))}}"
                  readOnly="{{_options.readOnly}}"
                  contrastBackground="{{_options.contrastBackground}}"
                  attr:data-qa="controls-Toolbar__menu"

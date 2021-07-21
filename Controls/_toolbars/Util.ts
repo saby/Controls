@@ -32,7 +32,9 @@ export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions
     const isSVG = isSVGIcon(item.get('icon'));
     const readOnly = item.get('readOnly') || toolbarOptions.readOnly;
     const buttonStyle = item.get('buttonStyle') || defaultOptions.buttonStyle;
-    const iconStyle = item.get('iconStyle') || toolbarOptions.iconStyle || defaultOptions.iconStyle;
+    const isVerticalDirection = toolbarOptions.direction === 'vertical';
+    const iconStyle = isVerticalDirection ? 'm' :
+        (item.get('iconStyle') || toolbarOptions.iconStyle || defaultOptions.iconStyle);
 
     let viewMode = item.get('viewMode');
     let caption = '';
@@ -44,8 +46,8 @@ export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions
     }
 
     // todo: https://online.sbis.ru/opendoc.html?guid=244a5058-47c1-4896-a494-318ba2422497
-    const inlineHeight = item.get('inlineHeight') ||
-        (viewMode === 'functionalButton' ? 'default' : defaultHeight(viewMode));
+    const inlineHeight = isVerticalDirection ? 'l' :
+        (item.get('inlineHeight') || (viewMode === 'functionalButton' ? 'default' : defaultHeight(viewMode)));
     const iconSize = item.get('iconSize') || (viewMode === 'functionalButton' ? 's' : toolbarOptions.iconSize || 'm');
 
     cfg._hoverIcon = true;
