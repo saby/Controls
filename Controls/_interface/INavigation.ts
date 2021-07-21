@@ -40,6 +40,7 @@ export type TNavigationSource = 'position' | 'page';
  * Список отображает настроенное количество записей.
  * Загрузка оставшихся записей происходит по кнопке сворачивания/разворачивания.
  * При развернутом списке отображаются все записи, при свернутом количество записей настраивается в параметре pageSize.
+ * Чтобы перерисовался cut при добавлении или удалении записей, нужно позвать {@link /docs/js/Controls/list/View/methods/reload/ reload}
  */
 export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount' | 'cut';
 
