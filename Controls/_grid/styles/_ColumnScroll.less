@@ -1,20 +1,17 @@
 @import '../../_scroll/Scroll/_contentEnvironmentZIndex';
 
-.controls-ColumnScroll__thumb,
-.controls-ColumnScroll {
+// НА ОБЁРТКЕ ГОРИЗОНТАЛЬНОГО СКРОЛЛА  НЕ ДОЛЖНО быть стилей, которые формируют
+// новый контекст z-index'ов. В противном случае оверлей скроллирования колонок
+// мышью будет ограничен размерами таблицы (даже будучи fixed).
+// https://www.w3.org/TR/css-transforms-1/#transform-rendering
+
+.controls-ColumnScroll__thumb {
    position: absolute;
    top: 0;
    left: 0;
    right: 0;
    z-index: var(--z-index_Scroll-contentEnvironment_horizontal);
    width: inherit;
-}
-
-.controls-ColumnScroll_content_wrapper {
-   // Здесь НЕ ДОЛЖНО быть стилей, которые формируют новый контекст z-index'ов.
-   // В противном случае оверлей скроллирования колонок мышью будет ограничен
-   // размерами таблицы (даже будучи fixed).
-   // https://www.w3.org/TR/css-transforms-1/#transform-rendering
 }
 
 .controls-ColumnScroll__shadow {
@@ -24,9 +21,6 @@
    pointer-events: none;
    width: var(--columnscroll_shadow-blur_grid);
    box-sizing: border-box;
-}
-
-.controls-GridNew__ColumnScroll__shadow {
    visibility: hidden;
 }
 
@@ -39,63 +33,24 @@
 }
 
 // Набор классов для установки градиента горизонтального скролла через backgroundStyle (default, transparent)
-.controls-horizontal-gradient-default,
-.controls-horizontal-gradient-default,
-.controls-horizontal-gradient-stack,
-.controls-horizontal-gradient-stackHeader,
-.controls-horizontal-infoBox-detail {
+.controls-ColumnScroll__shadow-default,
+.controls-ColumnScroll__shadow-default,
+.controls-ColumnScroll__shadow-stack,
+.controls-ColumnScroll__shadow-stackHeader,
+.controls-ColumnScroll__shadow-infoBox-detail {
    background: linear-gradient(to right, var(--columnscroll_shadow-start-color_grid), var(--columnscroll_shadow-end-color_grid));
    border-left: var(--columnscroll_separator_thickness_grid) solid var(--columnscroll_separator_color_grid);
 }
 
-.controls-ColumnScroll__shadow-end {
+.controls-ColumnScroll__shadow_position-end {
    right: 0;
    transform: scaleX(-1);
 }
 
-.controls-Grid__ColumnScroll_hidden {
-   visibility: hidden;
-}
-
 // Усиление необходимо, т.к. z-index навешивается контроллером скрола через GUID-селектор
-// .GUID-селектор .controls-Grid_columnScroll__fixed {} и имеет больший вес.
-.controls-Grid_columnScroll__fixed.controls-Grid__row-cell_single-cell-editable_fixed:hover {
+// .GUID-селектор .controls-ColumnScroll__fixedElement {} и имеет больший вес.
+.controls-ColumnScroll__fixedElement.controls-Grid__row-cell_single-cell-editable_fixed:hover {
    z-index: 4;
-}
-
-.controls-Grid__ColumnScroll__fixedPart {
-   // Зафиксированные колонки при серверной верстке таблицы проскроленной в конец прижимаются к
-   // левому краю с помощью position: absolute
-   position: absolute;
-   top: 0;
-   left: 0;
-
-   // На такой таблице не должны срабатывать события, например, ховер по строке
-   pointer-events: none;
-
-   // Такая таблица должна перекрыть скроллируемые колонки с z индексом 4
-   z-index: 5;
-
-   .controls-Grid_columnScroll__scrollable.controls-Grid__row-cell,
-   .controls-Grid_columnScroll__scrollable.controls-Grid__header-cell,
-   .controls-Grid_columnScroll__scrollable.controls-Grid__results-cell {
-      visibility: hidden;
-   }
-}
-
-.controls-Grid__ColumnScroll__scrollablePart {
-   // Скроллируемые колонки при серверной верстке таблицы проскроленной в конец прижимаются к
-   // правому краю с помощью position: absolute
-   position: absolute;
-   top: 0;
-   right: 0;
-
-   // На такой таблице не должны срабатывать события, например, ховер по строке
-   pointer-events: none;
-}
-
-.controls-Grid__ColumnScroll__shadow_withMultiselect {
-   margin-left: var(--click-area_width_checkbox);
 }
 
 .controls-VScrollbar.controls-ColumnScroll__thumb {
@@ -115,7 +70,7 @@
    z-index: 1;
 }
 // Скроллируемые ячейки фиксированной части скрыты.
-.controls-Grid__ColumnScroll__fakeFixedPart .controls-Grid_columnScroll__scrollable {
+.controls-Grid__ColumnScroll__fakeFixedPart .controls-ColumnScroll__scrollableElement {
    visibility: hidden;
 }
 

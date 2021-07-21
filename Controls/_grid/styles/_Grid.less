@@ -98,8 +98,8 @@
    min-height: var(--header_cell_min-height_grid);
 }
 
-.controls-Grid_columnScroll .controls-Grid__header-cell,
-.controls-Grid_columnScroll .controls-Grid__results-cell {
+.controls-ColumnScroll__content .controls-Grid__header-cell,
+.controls-ColumnScroll__content .controls-Grid__results-cell {
    // With enabled column scroll and setting the value of grid column width as 'auto' in template columns, flex starts to shrink
    // because grid has no fixed width and hack as min-width allows such behaviour.
    min-width: auto;
@@ -260,24 +260,6 @@
 .controls-Grid__row-cell_master {
    font-size: var(--font-size_l);
    border-bottom: var(--master_item_separator_thickness_list) solid var(--master_item_background-color_list) ;
-}
-
-// Строка редактирования имеет свой z-index, который вешается на все ячейки.
-// У фиксированных необходимо увеличить для перекрывания скроллируемых.
-.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-cell-background-editing,
-.controls-Grid__cell_fixed.controls-Grid__row-cell-background-editing {
-   z-index: 3;
-}
-
-// Чтобы перетаскиваемая запись при днд была выше всех и соседние записи не перекрывали тень у неё
-.controls-Grid__cell_fixed.controls-ListView__item_dragging {
-   z-index: 4;
-}
-
-// In IE z-index on positioned elements and transform by itself create new "stacking contexts" on elements.
-// Setting relative position for fixed column makes context-level higher then context-level of transformed column.
-.ws-is-ie .controls-Grid__cell_fixed {
-   position: relative;
 }
 
 .controls-Grid__header-cell__content-ellipsis,
@@ -801,7 +783,7 @@
 }
 
 // При включенном скроле колонок также нужен min-width https://online.sbis.ru/opendoc.html?guid=fe24dbc6-e04f-4cf3-a397-39c8e074f5f8
-.controls-Grid_columnScroll .controls-Grid__header-cell-checkbox.controls-Grid__header-cell-checkbox_min-width,
+.controls-ColumnScroll__content .controls-Grid__header-cell-checkbox.controls-Grid__header-cell-checkbox_min-width,
 .controls-Grid__header-cell-checkbox_min-width {
    min-width: var(--click-area_width_checkbox);
 }

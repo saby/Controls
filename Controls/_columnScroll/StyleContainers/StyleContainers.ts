@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_columnScroll/New/StyleContainers/StyleContainers';
+import * as template from 'wml!Controls/_columnScroll/StyleContainers/StyleContainers';
 
 export interface IContainers {
     staticStyles: HTMLStyleElement;
