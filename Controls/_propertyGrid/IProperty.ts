@@ -15,10 +15,9 @@ type TProperty = 'string' | 'boolean' | 'number' | 'date' | 'enum' | 'text';
 export default interface IProperty {
     /**
      * @cfg Имя свойства.
-     * @required
      * @remark Значения из редакторов свойств попадают в editingObject по имени свойства.
      * @example
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [10,15];">
      * // JavaScript
      * _beforeMount() {
      *    this._editingObject = {
@@ -41,7 +40,7 @@ export default interface IProperty {
      * }
      * </pre>
      *
-     * <pre class="brush: html">
+     * <pre class="brush: html;">
      * <!-- WML -->
      * <Controls.propertyGrid:PropertyGrid
      *     bind:editingObject="_editingObject"
@@ -52,7 +51,7 @@ export default interface IProperty {
     /**
      * @cfg Текст метки редактора свойства.
      * @example
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [11,16];">
      * // JavaScript
      * _beforeMount() {
      *    this._editingObject = {
@@ -81,8 +80,8 @@ export default interface IProperty {
      *     bind:editingObject="_editingObject"
      *     source="{{_source}}"/>
      * </pre>
-     * @see captionTemplate
      * @see captionOptions
+     * @see captionTemplate
      */
     caption?: string;
     /**
@@ -99,9 +98,9 @@ export default interface IProperty {
      */
     captionTemplate?: TemplateFunction;
     /**
-     * @cfg {Controls/input:Label} Опция для метки, отображающейся рядом с редактором
+     * @cfg Опция для метки, отображающейся рядом с редактором
      * @example
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [12-15];">
      * // JavaScript
      * _beforeMount() {
      *    this._editingObject = {
@@ -136,12 +135,13 @@ export default interface IProperty {
      * При изменении значения редактор должен пронотифицировать об изменениях событием propertyValueChanged
      * @demo Controls-demo/PropertyGridNew/Editors/CustomEditor/Index
      * @see editorOptions
+     * @see type
      */
     editorTemplateName?: string;
     /**
      * @cfg Опции редактора свойства.
      * @example
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [12-15];">
      * // JavaScript
      * _beforeMount() {
      *    this._editingObject = {
@@ -161,9 +161,8 @@ export default interface IProperty {
      *    ]
      * }
      * </pre>
-     * 
      * Включение jumpingLabel для редактора
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [12-14]">
      * // JavaScript
      * _beforeMount() {
      *    this._editingObject = {
@@ -216,7 +215,7 @@ export default interface IProperty {
     /**
      * @cfg Поле, по которому будут сгруппированы редакторы.
      * @example
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [13,17]">
      * // JavaScript
      * _beforeMount() {
      *    this._editingObject = {
