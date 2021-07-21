@@ -154,7 +154,7 @@ export class ViewModel extends BaseViewModel {
             if (typeof item === 'number' && !isNaN(item)) {
                 clearArray.push(item);
             } else {
-                clearArray.push(0);
+                clearArray.push('');
             }
         }
 

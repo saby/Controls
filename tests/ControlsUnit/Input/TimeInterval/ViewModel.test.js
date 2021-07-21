@@ -55,7 +55,7 @@ define([
                sandbox = sinon.createSandbox();
             model.value = model._convertToValue('1 :1 :1 ');
             model.autoComplete();
-            assert.strictEqual(model.displayValue, '10:10:10');
+            assert.strictEqual(model.displayValue, '01:01:01');
             model.value = model._convertToValue(' 1: 1: 1');
             model.autoComplete();
             assert.strictEqual(model.displayValue, '01:01:01');
