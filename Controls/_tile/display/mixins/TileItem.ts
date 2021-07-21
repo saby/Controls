@@ -1249,6 +1249,9 @@ export default abstract class TileItem<T extends Model = Model> {
             if (this.canShowActions()) {
                 classes += ' controls-ListView__item_showActions';
             }
+            if (this.isDragged()) {
+                classes += ' controls-ListView__itemContent_dragging';
+            }
             return classes;
         }
 

@@ -40,8 +40,7 @@ import { isFullGridSupport } from 'Controls/display';
 import PathController from 'Controls/_explorer/PathController';
 import {Object as EventObject} from 'Env/Event';
 import {IColumn, IGridControl, IHeaderCell} from 'Controls/grid';
-import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
-import { addPageDeps } from 'UICommon/Deps';
+import { executeSyncOrAsync } from 'UICommon/Deps';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -223,7 +222,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     // Восстановленное значение курсора при возврате назад по хлебным крошкам
     private _restoredCursor: unknown;
     private _pendingViewMode: TExplorerViewMode;
-    private _columnsViewLoaded: boolean = false;
 
     private _items: RecordSet;
     private _isGoingFront: boolean;
@@ -383,7 +381,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             cfg.sourceController) {
             // https://online.sbis.ru/opendoc.html?guid=7d20eb84-51d7-4012-8943-1d4aaabf7afe
             if (!VIEW_MODEL_CONSTRUCTORS[this._pendingViewMode]) {
-                runSyncOrAsync(this._loadTileViewMode(), () => {
+                Promise.resolve(this._loadTileViewMode()).then(() => {
                     this._setViewModeSync(this._pendingViewMode, cfg);
                 });
             } else {
@@ -978,18 +976,23 @@ export default class Explorer extends Control<IExplorerOptions> {
         if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
+        let action: Promise<void> | void;
 
         if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
-            return runSyncOrAsync(this._loadTileViewMode(), () => {
-                this._setViewModeSync(viewMode, cfg);
-            });
-        } else if (!this._columnsViewLoaded && viewMode === 'list' && cfg.useColumns) {
-            return runSyncOrAsync(this._loadColumnsViewMode(), () => {
-                this._setViewModeSync(viewMode, cfg);
-            });
+            action = this._loadTileViewMode();
+        } else if (viewMode === 'list' && cfg.useColumns) {
+            action = this._loadColumnsViewMode();
         } else {
-            this._setViewModeSync(viewMode, cfg);
+            return this._setViewModeSync(viewMode, cfg);
         }
+
+        if (action instanceof Promise) {
+            return action.then(() => {
+                this._setViewModeSync(viewMode, cfg)
+            });
+        }
+
+        return this._setViewModeSync(viewMode, cfg);
     }
 
     private _applyNewVisualOptions(): void {
@@ -1090,29 +1093,20 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _loadTileViewMode(): Promise<void> | void {
-        try {
-            return runSyncOrAsync(geLoadAction('Controls/treeTile'), (tile) => {
-                VIEW_NAMES.tile = tile.TreeTileView;
-                VIEW_TABLE_NAMES.tile = tile.TreeTileView;
-                VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
-            });
-        } catch (err) {
-            Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-        }
+        return executeSyncOrAsync(['Controls/treeTile'], (tile) => {
+            VIEW_NAMES.tile = tile.TreeTileView;
+            VIEW_TABLE_NAMES.tile = tile.TreeTileView;
+            VIEW_MODEL_CONSTRUCTORS.tile = 'Controls/treeTile:TreeTileCollection';
+        });
     }
 
     private _loadColumnsViewMode(): Promise<void> | void {
-        try {
-            return runSyncOrAsync(geLoadAction('Controls/columns'), (columns) => {
-                VIEW_NAMES.list = columns.ViewTemplate;
-                MARKER_STRATEGY.list = MultiColumnStrategy;
-                ITEM_GETTER.list = columns.ItemContainerGetter;
-                VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
-                this._columnsViewLoaded = true;
-            });
-        } catch (err) {
-            Logger.error('Controls/_explorer/View: ' + err.message, this, err);
-        }
+        return executeSyncOrAsync(['Controls/columns'], (columns) => {
+            VIEW_NAMES.list = columns.ViewTemplate;
+            MARKER_STRATEGY.list = MultiColumnStrategy;
+            ITEM_GETTER.list = columns.ItemContainerGetter;
+            VIEW_MODEL_CONSTRUCTORS.list = 'Controls/columns:ColumnsCollection';
+        });
     }
 
     private _canStartDragNDropFunc(): boolean {
@@ -1120,7 +1114,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _checkedChangeViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
-        runSyncOrAsync(this._setViewMode(viewMode, cfg), () => {
+        Promise.resolve(this._setViewMode(viewMode, cfg)).then(() => { //
             // Обрабатываем searchNavigationMode только после того как
             // проставится setViewMode, т.к. он может проставится асинхронно
             // а код ниже вызывает изменение версии модели что приводит к лишней
@@ -1234,51 +1228,6 @@ export default class Explorer extends Control<IExplorerOptions> {
             breadCrumbsMode: 'row'
         };
     }
-}
-
-/**
- * Контролу нужна дополнительная оперия по загрузке другой либы
- * Эту либу нельзя добавить в супербандл
- * На сервере операция долна проходить синхронно
- * А на клиенте операция можно произвести синхронно, если либа уже в памяти и зарегистрирована requirejs`ом
- * Метод предназначен для решения этой самой проблемы выбора способа загрузки
- * @param moduleName
- */
-function geLoadAction(moduleName: string): unknown {
-    let action;
-
-    if (constants.isServerSide) {
-        addPageDeps([moduleName]);
-        action = ModulesLoader.loadSync(moduleName);
-    }
-    if (constants.isBrowserPlatform) {
-        action = ModulesLoader.isLoaded(moduleName) ? ModulesLoader.loadSync(moduleName) : import(moduleName);
-    }
-
-    return action;
-}
-
-/**
- * Контрол был написан из расчета на асинхронность в определенном месте.
- * Поступили требоания на сервере избавиться от этой асинхронности, но на клиенте все может пойти асинхронно
- * Метод предназначен нивелировать разниц между асинхронным и синхронным способом ожидания резльтата
- * @param result асинхронный или сихронный результат
- * @param callBack функция успешного обратного вызова
- * @param fallBack функция обратного вызова для неуспешного результата
- */
-function runSyncOrAsync<T = unknown>(
-    result: Promise<T> | T,
-    callBack: (a?: T) => void,
-    fallBack: (a?: T) => void = () => void 0): Promise<void> | void {
-    if (typeof result === 'undefined') {
-        return callBack(result);
-    }
-
-    if ('then' in result) {
-        return result.then(callBack).catch(fallBack);
-    }
-
-    return callBack(result);
 }
 
 Object.defineProperty(Explorer, 'defaultProps', {

@@ -6,7 +6,6 @@ import * as template from 'wml!Controls/_propertyGrid/defaultEditors/Date';
 
 /**
  * Редактор для данных с типом "дата".
- * @class Controls/_propertyGrid/defaultEditors/DateEditor
  * @extends UI/Base:Control
  * @author Герасимов А.М.
  * @public

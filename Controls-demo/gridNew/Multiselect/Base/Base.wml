@@ -9,7 +9,7 @@
     <div class="controlsDemo__wrapper">
         <Controls.grid:View
                 keyProperty="key"
-                multiSelectVisibility="{{_multiselect}}"
+                multiSelectVisibility="{{_selectedKey}}"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"/>
     </div>

@@ -1,6 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth550">
     <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
-    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}"
+                                 keyProperty="id"
+                                 parentProperty="parent">
         <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
             <div>
                 <Controls.list:Mover name="listMover" parentProperty="parent"/>
@@ -11,7 +13,6 @@
                             keyProperty="id"
                             on:dragStart="_dragStart()"
                             on:dragEnd="_dragEnd()"
-                            parentProperty="parent"
                             multiSelectVisibility="{{_multiselect}}"
                             nodeProperty="parent@"
                             viewMode="{{_viewMode}}"

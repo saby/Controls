@@ -23,4 +23,12 @@
         </Router.router:Reference>
         <Controls-demo.treeGridNew.Mover.RootLabelVisible.Index/>
     </div>
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Mover/NoRootTitle/Index' }}">
+            <a href="{{content.href}}">Конфигурация перемещения без указания опции rootTitle</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Mover.NoRootTitle.Index/>
+    </div>
 </div>
