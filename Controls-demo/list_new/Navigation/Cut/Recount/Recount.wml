@@ -6,8 +6,7 @@
         itemsReadyCallback="{{_itemsReadyCallback}}"/>
 
     <div class="controlsDemo__flexColumn controlsDemo__wrapper__padding-top" style="width: 200px;">
-        <Controls.buttons:Button caption="+Запись" on:click="_onAddItem()"/>
-        <Controls.buttons:Button caption="Удалить с начала" on:click="_onRemoveItemByStart()"/>
-        <Controls.buttons:Button caption="Удалить с конца" on:click="_onRemoveItemByEnd()"/>
+        <Controls.buttons:Button caption="Добавить запись" on:click="_onAddItem()"/>
+        <Controls.buttons:Button caption="Удалить запись" on:click="_onRemoveItem()"/>
     </div>
 </div>

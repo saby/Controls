@@ -1748,20 +1748,6 @@ const _private = {
                 }
             }
 
-            if (_private.isCutNavigation(self._navigation)) {
-                switch (action) {
-                    case IObservable.ACTION_ADD:
-                        const pageSize = self._navigation.sourceConfig.pageSize;
-                        const isItemsMorePageSize = self._items.getCount() > pageSize;
-                        if (isItemsMorePageSize) {
-                            // если элементов добавили больше, чем разрешено pageSize, то перезагружаем список
-                            // чтобы лишние не загрузились и скрылись катом
-                            self._reCountCut();
-                        }
-                        break;
-                }
-            }
-
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 _private.recountAttachIndicatorsAfterReload(self);
             }

@@ -70,19 +70,14 @@ export default class Index extends Control {
            keyProperty: 'key',
            rawData: { key: this._newKey, title: `Запись #${this._newKey}` }
        });
-       this._source.update(newItem).then(() => this._items.add(newItem, 0));
-   }
-
-   protected _onRemoveItemByStart(): void {
-       const firstItemKey = this._items.at(0).getKey();
-       this._children.list.removeItems({selected: [firstItemKey], excluded: []})
+       this._source.update(newItem)
+           .then(() => this._items.add(newItem, 0))
            .then(() => this._children.list.reload());
    }
 
-   protected _onRemoveItemByEnd(): void {
-       const lastIndex = this._items.getCount() - 1;
-       const lastItemKey = this._items.at(lastIndex).getKey();
-       this._children.list.removeItems({selected: [lastItemKey], excluded: []})
+   protected _onRemoveItem(): void {
+       const firstItemKey = this._items.at(0).getKey();
+       this._children.list.removeItems({selected: [firstItemKey], excluded: []})
            .then(() => this._children.list.reload());
    }
 
