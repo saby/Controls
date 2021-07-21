@@ -42,7 +42,7 @@
  * });
  * </pre>
  *
- * В следующем примере показано, как в {@link Controls/treeGrid:View дереве} выполнить перезагрузку с {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/node/managing-node-expand/#multi-navigation сохранением развёрнутых узлов}.
+ * В следующем примере показано, как в {@link Controls/treeGrid:View дереве с колонками} выполнить перезагрузку с {@link /doc/platform/developmentapl/interface-development/controls/list/tree-column/node/managing-node-expand/#multi-navigation сохранением развёрнутых узлов}.
  * <pre class="brush: html; highlight: [4]">
  * <!-- WML -->
  * <Controls.treeGrid:View
