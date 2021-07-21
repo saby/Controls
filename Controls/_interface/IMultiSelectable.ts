@@ -7,7 +7,7 @@ export interface IMultiSelectableOptions {
 }
 
 /**
- * Интерфейс для поддержки выбора элементов в списках, где одновременно можно выбрать несколько элементов и известно количество выбранных элементов. Этот интерфейс подходит для небольших списков, где все элементы будут всегда загружены.
+ * Интерфейс для поддержки выбора элементов в {@link /doc/platform/developmentapl/interface-development/controls/list/ списках}, где одновременно можно выбрать несколько элементов и известно количество выбранных элементов. Этот интерфейс подходит для небольших списков, где все элементы будут всегда загружены.
  * @public
  * @author Герасимов А.М.
  * @see Controls/_interface/ISingleSelectable
@@ -70,7 +70,7 @@ export default interface IMultiSelectable {
  * @name Controls/_interface/IMultiSelectable#selectedKeysChanged
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} keys Набор ключей выбранных элементов.
- * Для плоских списков (см. {@link Controls/list:View Плоский список} и {@link Controls/grid:View таблица}) параметр содержит значение [null], когда выбраны все элементы .
+ * Для {@link Controls/list:View плоских списков} параметр содержит значение [null], когда выбраны все элементы .
  * Для иерархических списков (см. {@link Controls/treeGrid:View Дерево}, {@link Controls/tile:View Плитка} и {@link Controls/explorer:View Иерархический проводник}) параметр содержит массив с единственным элементом - идентификатором узла, когда для узла выбраны все элементы, или [null], когда корнем дерева иерархии является null.
  * @param {Array.<Number|String>} added Набор ключей элементов, добавленных к выборке.
  * @param {Array.<Number|String>} deleted Набор ключей элементов, удаленных из выборки.

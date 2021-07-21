@@ -2,6 +2,7 @@
  * Библиотека контролов, которые служат для {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ организации поиска в списках}.
  * @markdown
  * @library
+ * @includes IExpandableInput Controls/search:IExpandableInput
  * @public
  * @author Крайнов Д.О.
  */
@@ -9,6 +10,7 @@
 /*
  * Search library
  * @library
+ * @includes IExpandableInput Controls/search:IExpandableInput
  * @public
  * @author Крайнов Д.О.
  */
