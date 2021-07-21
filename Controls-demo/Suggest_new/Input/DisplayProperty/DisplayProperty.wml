@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
          <div class="controls-text-label">Отображение в поле ввода имени руководителя отдела</div>
          <Controls.suggest:Input
-                 attr:class="controlsDemo__input demo-SuggestNew__displayProperty"
+                 attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNew__displayProperty"
                  bind:value="_suggestDownValue"
                  displayProperty="owner"
                  searchParam="title"

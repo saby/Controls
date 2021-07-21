@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Постраничная навигация</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__pageNav"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__pageNav"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -13,10 +13,10 @@
           </ws:suggestTemplate>
       </Controls.suggest:Selector>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Без указания настроек навигации</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__noSettingsNav"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__noSettingsNav"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"
@@ -26,10 +26,10 @@
           </ws:suggestTemplate>
       </Controls.suggest:Selector>
    </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Подгружать данные, пока не будет достигут порог</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__autoLoadNav"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__autoLoadNav"
               bind:value="_maxCountValue"
               displayProperty="title"
               searchParam="title"

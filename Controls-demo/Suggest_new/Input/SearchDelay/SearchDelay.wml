@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
       <div class="controls-text-label">Поиск без задержки</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input demo-SuggestNew__noDelay"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNew__noDelay"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -14,10 +14,10 @@
           </ws:suggestTemplate>
       </Controls.suggest:Input>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
       <div class="controls-text-label">Поиск с задержкой 1.5 секунды</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input  demo-SuggestNew__withDelay"
+              attr:class="controlsDemo__input  controlsDemo__ml1   demo-SuggestNew__withDelay"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"

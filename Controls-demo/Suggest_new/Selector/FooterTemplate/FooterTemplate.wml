@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Шаблон подвала со стандартной кнопкой открытия</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__footerStandardButton"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__footerStandardButton"
               bind:value="_suggestStandartValue"
               displayProperty="title"
               searchParam="title"
@@ -14,10 +14,10 @@
           <ws:footerTemplate templateName="wml!Controls-demo/Suggest_new/Selector/FooterTemplate/resources/StandartFooterTemplate"/>
       </Controls.suggest:Selector>
   </div>
-  <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+  <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Шаблон подвала со своей кнопкой открытия</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__footerSelfButton"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__footerSelfButton"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
