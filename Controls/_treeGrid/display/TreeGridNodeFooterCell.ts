@@ -7,14 +7,12 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
 
     getTemplate(content?: TemplateFunction): TemplateFunction|string {
         const nav = this.getOwner().getOwner().getNavigation();
-        const isDemandNav = nav?.view === 'demand';
+        const isInfinityNav = nav?.view === 'infinity';
 
-        // Если подгрузка данных осуществляется по кнопке "Ещё" и есть что загружать, то возвращаем null,
-        // шаблон сам отрисует кнопку "Ещё". В противном случае возвращаем тот контент, который пришел
-        // к нам он и будет отрисован.
-        // Возвращать шаблон кнопки "Ещё".
-        // https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b
-        return isDemandNav && this._$owner.hasMoreStorage() ? null : content;
+        // Если подгрузка данных осуществляется по скролу, то нет смысла выводить кнопку "Ещё".
+        // TODO: Возвращать шаблон кнопки "Ещё".
+        //  https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b
+        return !isInfinityNav && this._$owner.hasMoreStorage() ? null : content;
     }
 
     getContentClasses(
