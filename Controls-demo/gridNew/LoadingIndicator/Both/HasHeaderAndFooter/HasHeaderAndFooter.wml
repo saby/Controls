@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.buttons:Button caption="Reload" on:click="_onReload()"/>
+    </div>
+    <Controls.scroll:Container attr:class="controlsDemo__height400" attr:style="max-width: 700px">
+        <Controls.grid:View
+                name="list"
+                keyProperty="key"
+                columns="{{_columns}}"
+                header="{{_header}}"
+                source="{{_viewSource}}"
+                stickyFooter="{{true}}">
+            <ws:navigation source="page" view="infinity">
+                <ws:sourceConfig pageSize="{{20}}" page="{{5}}" hasMore="{{false}}"/>
+            </ws:navigation>
+            <ws:footer>
+                <ws:Array>
+                    <ws:Object>
+                        <ws:template>
+                            <ws:partial template="Controls/grid:FooterColumnTemplate">
+                                <i>Колонка подвала</i>
+                            </ws:partial>
+                        </ws:template>
+                    </ws:Object>
+                </ws:Array>
+            </ws:footer>
+        </Controls.grid:View>
+    </Controls.scroll:Container>
+</div>

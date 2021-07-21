@@ -1,5 +1,6 @@
 <Controls.calendar:MonthList
         attachLoadTopTriggerToNull="{{ false }}"
+        attachLoadDownTriggerToNull="{{ false }}"
         displayedRanges="{{_displayedRanges}}"
         stubTemplate="{{stubTemplate}}"
         bind:position="_position"

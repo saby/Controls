@@ -28,6 +28,15 @@
             </thead>
         </Controls.scroll:VirtualScrollContainer>
 
+        <!--Top loading indicator-->
+        <ws:partial if="{{ _listModel.getTopIndicator() }}"
+                    template="{{_listModel.getTopIndicator().getTemplate()}}"
+                    item="{{_listModel.getTopIndicator()}}"
+                    on:click="_onIndicatorClick(_listModel.getTopIndicator())"/>
+        <!--Top loading trigger-->
+        <ws:partial template="{{_listModel.getTopLoadingTrigger().getTemplate()}}"
+                    item="{{_listModel.getTopLoadingTrigger()}}"/>
+
         <!-- Items -->
         <tbody name="itemsContainer" class="controls-GridViewV__itemsContainer">
 
@@ -67,6 +76,15 @@
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
 
+        <!--Bottom loading trigger-->
+        <ws:partial template="{{_listModel.getBottomLoadingTrigger().getTemplate()}}"
+                    item="{{_listModel.getBottomLoadingTrigger()}}"/>
+        <!--Bottom loading indicator-->
+        <ws:partial if="{{ _listModel.getBottomIndicator() }}"
+                    template="{{_listModel.getBottomIndicator().getTemplate()}}"
+                    item="{{_listModel.getBottomIndicator()}}"
+                    on:click="_onIndicatorClick(_listModel.getBottomIndicator())"/>
+
         <!-- Results (bottom) -->
         <Controls.scroll:VirtualScrollContainer if="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}" position="top">
             <ws:partial template="{{ _listModel.getResults().getTemplate() }}"
@@ -85,6 +103,11 @@
                         style="{{ _options.style }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
+
+        <!--Global loading indicator-->
+        <ws:partial if="{{ _listModel.getGlobalIndicator() }}"
+                    template="{{_listModel.getGlobalIndicator().getTemplate()}}"
+                    item="{{_listModel.getGlobalIndicator()}}"/>
     </table>
 </ws:template>
 

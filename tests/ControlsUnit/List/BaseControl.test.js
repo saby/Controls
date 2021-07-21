@@ -280,27 +280,6 @@ define([
          assert.isTrue(lists.BaseControl._private.needLoadNextPageAfterLoad(emptyList, listViewModel, infinityNavigation));
       });
 
-      it('_private::checkLoadToDirectionCapability', () => {
-         const self = {_options: {}};
-         const sandbox = sinon.createSandbox();
-         const myFilter = {testField: 'testValue'};
-         const resultNavigation = 'testNavigation';
-         let maxCountNavigation;
-
-         self._needScrollCalculation = false;
-         // loadToDirectionIfNeed вызывается с фильтром, переданным в checkLoadToDirectionCapability
-         sandbox.replace(lists.BaseControl._private, 'needLoadByMaxCountNavigation', (model, navigation) => {
-            maxCountNavigation = navigation;
-         });
-         sandbox.replace(lists.BaseControl._private, 'loadToDirectionIfNeed', (baseControl, direction, filter) => {
-            assert.equal(direction, 'down');
-            assert.deepEqual(filter, myFilter);
-         });
-         lists.BaseControl._private.checkLoadToDirectionCapability(self, myFilter, resultNavigation);
-         assert.equal(resultNavigation, maxCountNavigation);
-         sandbox.restore();
-      });
-
       describe('_private::loadToDirectionIfNeed', () => {
          const getInstanceMock = function() {
             return {
@@ -315,39 +294,19 @@ define([
             };
          };
 
-         it('hasMoreData:true', () => {
-            const self = getInstanceMock();
-            const sandbox = sinon.createSandbox();
-            let isLoadStarted;
+         let sandbox;
 
-            // navigation.view !== 'infinity'
-            sandbox.replace(lists.BaseControl._private, 'needScrollCalculation', () => false);
-            sandbox.replace(lists.BaseControl._private, 'setHasMoreData', () => null);
-            sandbox.replace(lists.BaseControl._private, 'loadToDirection', () => {
-               isLoadStarted = true;
-            });
-
-            lists.BaseControl._private.loadToDirectionIfNeed(self);
-            assert.isTrue(isLoadStarted);
-            sandbox.restore();
+         beforeEach(() => {
+            sandbox = sinon.createSandbox();
          });
 
-         it('iterative search', () => {
-            const self = getInstanceMock();
-            const sandbox = sinon.createSandbox();
-            let isLoadStarted;
-            let shouldSearch;
+         afterEach(() => {
+            sandbox.restore();
+         })
 
-            self._items = new collection.RecordSet();
-            self._items.setMetaData({
-               iterative: true
-            });
-            self._portionedSearch = {
-               shouldSearch: () => {
-                  return shouldSearch;
-               }
-            };
-            self._loadedItems = new collection.RecordSet();
+         it('hasMoreData:true', () => {
+            const self = getInstanceMock();
+            let isLoadStarted;
 
             // navigation.view !== 'infinity'
             sandbox.replace(lists.BaseControl._private, 'needScrollCalculation', () => false);
@@ -356,16 +315,8 @@ define([
                isLoadStarted = true;
             });
 
-            shouldSearch = true;
             lists.BaseControl._private.loadToDirectionIfNeed(self);
             assert.isTrue(isLoadStarted);
-
-            shouldSearch = false;
-            isLoadStarted = false;
-            lists.BaseControl._private.loadToDirectionIfNeed(self);
-            assert.isFalse(isLoadStarted);
-
-            sandbox.restore();
          });
       });
 
@@ -481,7 +432,7 @@ define([
          assert.isFalse(dataLoadCallbackCalled, 'dataLoadCallback is called.');
       });
 
-      it('save loaded items into the controls\' state', async function () {
+      it('save loaded items into the controls state', async function () {
          var source = new sourceLib.Memory({});
          var sourceController = new dataSource.NewSourceController({
             source: source,
@@ -491,7 +442,10 @@ define([
          var
              cfg = {
                 viewName: 'Controls/List/ListView',
-                source: source,
+                items: new collection.RecordSet({
+                   keyProperty: 'id',
+                   rawData: [{ id: 2, title: 'abc' }]
+                }),
                 sourceController: sourceController,
                 viewModelConstructor: 'Controls/display:Collection',
                 keyProperty: 'id'
@@ -560,19 +514,6 @@ define([
          assert.isTrue(isItemsReadyCallbackSetted);
       });
 
-      it('_private.checkPortionedSearchByScrollTriggerVisibility', () => {
-         const self = {};
-         lists.BaseControl._private.checkPortionedSearchByScrollTriggerVisibility(self, false);
-
-         assert.isTrue(!self._portionedSearch);
-
-         self._portionedSearchInProgress = true;
-         lists.BaseControl._private.checkPortionedSearchByScrollTriggerVisibility(self, false);
-
-         assert.isTrue(self._portionedSearch._searchTimer !== null);
-         self._portionedSearch._clearTimer();
-      });
-
       it('_needScrollCalculation', function(done) {
          var source = new sourceLib.Memory({
             keyProperty: 'id',
@@ -638,117 +579,6 @@ define([
          assert.isTrue(ctrl._needScrollCalculation, 'Wrong _needScrollCalculation value after mounting');
       });
 
-      it('loadToDirection down', async function() {
-         let source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: data
-         });
-         let dataLoadFired = false;
-         const cfg = {
-            viewName: 'Controls/List/ListView',
-            dataLoadCallback: function() {
-               dataLoadFired = true;
-            },
-            source: source,
-            viewConfig: {
-               keyProperty: 'id'
-            },
-            viewModelConfig: {
-               collection: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: 'Controls/display:Collection',
-            navigation: {
-               source: 'page',
-               sourceConfig: {
-                  pageSize: 2,
-                  page: 0,
-                  hasMore: false
-               }
-            },
-            root: 'testRoot',
-            searchValue: 'test'
-         };
-
-         var ctrl = await correctCreateBaseControlAsync(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl._container = {
-            getElementsByClassName: () => ([{ clientHeight: 100, offsetHeight: 0 }]),
-            getBoundingClientRect: function() { return {}; }
-         };
-         ctrl._afterMount(cfg);
-
-         ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
-
-         let loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         assert.equal(ctrl._loadingState, 'down');
-         ctrl._portionedSearch.continueSearch();
-         await loadPromise;
-         assert.isTrue(ctrl._portionedSearchInProgress);
-         assert.isNull(ctrl._showContinueSearchButtonDirection);
-         assert.equal(4, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
-         assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
-         assert.equal(ctrl._loadingState, null);
-         assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: true });
-         assert.isTrue(ctrl._sourceController.hasMoreData('down', 'testRoot'));
-
-         loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         await loadPromise;
-         assert.isNull(ctrl._showContinueSearchButtonDirection);
-         assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: false });
-      });
-
-      it('loadToDirection down with portioned load', async function() {
-         let isIterativeSearch = false;
-
-         const sourceMock = new sourceLib.Memory({
-            keyProperty: 'id'
-         });
-         sourceMock.query = () => {
-            const items = new collection.RecordSet();
-            let metaData = items.getMetaData();
-            metaData.iterative = isIterativeSearch;
-            items.setMetaData(metaData);
-            return Promise.resolve(items);
-         };
-
-         const cfg = {
-            viewName: 'Controls/List/ListView',
-            source: sourceMock,
-            viewConfig: {
-               keyProperty: 'id'
-            },
-            viewModelConfig: {
-               collection: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: 'Controls/display:Collection',
-            navigation: {
-               source: 'page',
-               sourceConfig: {
-                  pageSize: 2,
-                  page: 0,
-                  hasMore: false
-               }
-            }
-         };
-         var ctrl = await correctCreateBaseControlAsync(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl._container = {
-            getElementsByClassName: () => ([{ clientHeight: 100, offsetHeight: 0 }]),
-            getBoundingClientRect: function() { return {}; }
-         };
-         ctrl._afterMount(cfg);
-         ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
-
-         isIterativeSearch = true;
-         await lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         assert.isNull(ctrl._showContinueSearchButtonDirection);
-         assert.isNull(ctrl._loadingIndicatorTimer);
-      });
-
       it('loadToDirection down with getHasMoreData option', async function() {
          const source = new sourceLib.Memory({
             keyProperty: 'id',
@@ -803,74 +633,15 @@ define([
          ctrl._afterMount(cfg);
 
          let loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         assert.equal(ctrl._loadingState, 'down');
          await loadPromise;
 
          assert.equal(4, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
          assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
-         assert.equal(ctrl._loadingState, null);
          assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: true });
 
          loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
          await loadPromise;
          assert.deepEqual(ctrl._listViewModel.getHasMoreData(), { up: false, down: false });
-      });
-
-      describe('_continueSearch', () => {
-         let moreDataUp;
-         let moreDataDown;
-         let sandbox;
-         let baseControl;
-         let sourceController;
-         let loadDirection;
-
-         beforeEach(() => {
-            moreDataUp = false;
-            moreDataDown = false;
-            sandbox = sinon.createSandbox();
-            baseControl = new lists.BaseControl({});
-            sourceController = {
-               hasMoreData: direction => (direction === 'up' ? moreDataUp : moreDataDown)
-            };
-            baseControl._sourceController = sourceController;
-            sandbox.replace(lists.BaseControl._private, 'loadToDirectionIfNeed', (self, direction) => {
-               loadDirection = direction;
-            });
-         });
-
-         afterEach(() => {
-            sandbox.restore();
-         });
-
-         it('continue search up', () => {
-            moreDataUp = true;
-            baseControl._continueSearch();
-            assert.equal(loadDirection, 'up');
-         });
-
-         it('continue search down', () => {
-            moreDataDown = true;
-            baseControl._continueSearch();
-            assert.equal(loadDirection, 'down');
-         });
-      });
-
-      it('_private.hasMoreData', function() {
-         let hasMoreDataResult = false;
-         const self = {
-            _options: {}
-         };
-         const sourceController = {
-            hasMoreData: () => {
-               return hasMoreDataResult;
-            }
-         };
-         const ctrl = new lists.BaseControl({});
-         assert.isFalse(ctrl._hasMoreData(sourceController));
-         assert.isFalse(ctrl._hasMoreData());
-
-         hasMoreDataResult = true;
-         assert.isTrue(ctrl._hasMoreData(sourceController));
       });
 
       it('isPortionedLoad',  () => {
@@ -897,158 +668,6 @@ define([
       });
 
 
-      it('loadToDirection indicator triggerVisibility', async () => {
-         var source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: data
-         });
-         const sandbox = sinon.createSandbox();
-         sandbox.replace(lists.BaseControl._private, 'updateIndicatorContainerHeight', () => {});
-
-         var dataLoadFired = false;
-         var shadowVisibility = true;
-
-         var cfg = {
-            viewName: 'Controls/List/ListView',
-            dataLoadCallback: function() {
-               dataLoadFired = true;
-            },
-            source: source,
-            viewConfig: {
-               keyProperty: 'id'
-            },
-            viewModelConfig: {
-               collection: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: 'Controls/display:Collection',
-            navigation: {
-               view: 'infinity',
-               source: 'page',
-               sourceConfig: {
-                  pageSize: 2,
-                  page: 0,
-                  hasMore: false
-               }
-            },
-            searchValue: 'test'
-         };
-
-         var ctrl = await correctCreateBaseControlAsync(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl.saveOptions(cfg);
-         ctrl._container = {
-            getElementsByClassName: () => ([{clientHeight: 100, offsetHeight:0}]),
-            getBoundingClientRect: () => {}
-         };
-         ctrl._afterMount(cfg);
-         ctrl._loadTriggerVisibility = {
-            up: false,
-            down: true
-         };
-         ctrl._isScrollShown = true;
-         ctrl._shadowVisibility = {};
-         ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
-
-         ctrl._loadingIndicatorState = 'down';
-         ctrl._hideIndicatorOnTriggerHideDirection = 'down';
-
-         ctrl._items.setMetaData({
-            iterative: true
-         });
-         ctrl._portionedSearchInProgress = true;
-
-         // Up trigger became visible, no changes to indicator
-         ctrl.triggerVisibilityChangedHandler('up', true);
-         assert.isNotNull(ctrl._loadingIndicatorState);
-         assert.isNull(ctrl._showContinueSearchButtonDirection);
-
-         const items = ctrl._items.clone();
-         ctrl._items.clear();
-         ctrl.triggerVisibilityChangedHandler('down', false);
-         assert.isNull(ctrl._showContinueSearchButtonDirection);
-         ctrl._items.assign(items);
-         ctrl._hideIndicatorOnTriggerHideDirection = 'down';
-         ctrl._portionedSearchInProgress = true;
-
-         // Down trigger became hidden, hide the indicator, show "Continue search" button
-         ctrl.triggerVisibilityChangedHandler('down', false);
-         assert.isNull(ctrl._loadingIndicatorState);
-         assert.isTrue(ctrl._showContinueSearchButtonDirection === 'down');
-
-         ctrl._loadTriggerVisibility.down = true;
-         ctrl._hideIndicatorOnTriggerHideDirection = 'down';
-         ctrl._sourceController.isLoading = () => true;
-         ctrl.triggerVisibilityChangedHandler('down', false);
-         assert.isTrue(ctrl._hideIndicatorOnTriggerHideDirection === 'down');
-         sandbox.restore();
-      });
-
-      it('loadToDirection hides indicator with false navigation', async () => {
-         var source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: data
-         });
-         const sourceController = new dataSource.NewSourceController({
-            source: source,
-            keyProperty: 'id'
-         });
-         sourceController.setItems(new collection.RecordSet({
-            rawData: data
-         }));
-
-         var dataLoadFired = false;
-
-         var cfg = {
-            viewName: 'Controls/List/ListView',
-            dataLoadCallback: function() {
-               dataLoadFired = true;
-            },
-            source: source,
-            sourceController: sourceController,
-            viewConfig: {
-               keyProperty: 'id'
-            },
-            viewModelConfig: {
-               collection: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: 'Controls/display:Collection',
-            navigation: {
-               view: 'infinity',
-               source: 'page',
-               sourceConfig: {
-                  pageSize: 2,
-                  page: 0,
-                  hasMore: false
-               }
-            },
-            searchValue: 'test'
-         };
-
-         var ctrl = correctCreateBaseControl(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl._container = {
-            getElementsByClassName: () => ([{ clientHeight: 100, offsetHeight: 0 }]),
-            getBoundingClientRect: function() { return {}; }
-         };
-         ctrl._afterMount(cfg);
-         ctrl._loadTriggerVisibility = {
-            up: false,
-            down: true
-         };
-
-         ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
-         ctrl._sourceController.hasMoreData = () => false;
-
-         let loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         assert.equal(ctrl._loadingState, 'down');
-         ctrl._portionedSearch.continueSearch();
-         await loadPromise;
-
-         assert.isNull(ctrl._loadingIndicatorState);
-      });
       it('shouldDrawCut', () => {
          const shouldDrawCut = lists.BaseControl._private.shouldDrawCut;
          assert.isTrue(shouldDrawCut({view: 'cut', sourceConfig: {pageSize: 3}}, { getCount: () => 3 }, true, false));
@@ -1269,71 +888,6 @@ define([
          lists.BaseControl._private.scrollToItem = originalScrollToItem;
       });
 
-      it('moveMarkerToNext && moveMarkerToPrevious while loading', async function() {
-         var data = [{
-            key: 1
-         }, {
-            key: 2
-         }, {
-            key: 3
-         }];
-         var source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: data
-         });
-         const sourceController = new dataSource.NewSourceController({
-            source: source,
-            keyProperty: 'id'
-         });
-         sourceController.setItems(new collection.RecordSet({
-            rawData: data
-         }));
-         var
-            cfg = {
-               viewModelConstructor: 'Controls/display:Collection',
-               markerVisibility: 'visible',
-               keyProperty: 'key',
-               source: source,
-               sourceController: sourceController
-            },
-            baseControl = correctCreateBaseControl(cfg);
-         baseControl.saveOptions(cfg);
-         await baseControl._beforeMount(cfg);
-         baseControl.setMarkedKey(1);
-         assert.equal(1, baseControl.getMarkerController().getMarkedKey());
-         baseControl._loadingIndicatorState = 'all';
-         baseControl._onViewKeyDown({
-            target: {
-               closest: function() {
-                  return false;
-               }
-            },
-            stopImmediatePropagation: function() {
-            },
-            nativeEvent: {
-               keyCode: Env.constants.key.down
-            },
-            preventDefault: function() {
-            },
-         });
-         assert.isTrue(baseControl._listViewModel.at(0).isMarked());
-         baseControl._onViewKeyDown({
-            target: {
-               closest: function() {
-                  return false;
-               }
-            },
-            stopImmediatePropagation: function() {
-            },
-            nativeEvent: {
-               keyCode: Env.constants.key.up
-            },
-            preventDefault: function() {
-            },
-         });
-         assert.isTrue(baseControl._listViewModel.at(0).isMarked());
-      });
-
       it('enterHandler', async function() {
          var
             cfg = {
@@ -1383,35 +937,6 @@ define([
          ctrlKey = true;
          notified = false;
          lists.BaseControl._private.enterHandler(baseControl, getEvent());
-         assert.isFalse(notified);
-      });
-
-      it('enterHandler while loading', function() {
-         let
-            myMarkedItem = null,
-            notified = false;
-
-         function enterClick(markedItem) {
-            const event = { nativeEvent: { ctrlKey: false }, isStopped: () => true, stopImmediatePropagation: () => {} };
-            lists.BaseControl._private.enterHandler(
-            {
-               _options: {},
-               getViewModel: () => ({
-                  getMarkedItem: () => myMarkedItem
-               }),
-               _notify: () => {
-                  notified = true;
-               },
-               _loadingIndicatorState: 'all'
-            }, event);
-         }
-
-         // Without marker
-         enterClick(null);
-         assert.isFalse(notified);
-
-         // With marker
-         enterClick({ getContents: () => ({ key: 123 }) });
          assert.isFalse(notified);
       });
 
@@ -1587,9 +1112,7 @@ define([
          baseControl._afterMount(cfg);
 
          const loadPromise = lists.BaseControl._private.loadToDirection(baseControl, 'up');
-         assert.equal(baseControl._loadingState, 'up');
          await loadPromise;
-         assert.equal(baseControl._loadingState, null);
          assert.equal(6, lists.BaseControl._private.getItemsCount(baseControl), 'Items wasn\'t load');
       });
 
@@ -1654,113 +1177,6 @@ define([
             .then(callback => callback());
 
          assert.isNull(ctrl.__error, 'error was not hidden after successful loading');
-      });
-
-      it('items should get loaded when a user scrolls to the bottom edge of the list', function(done) {
-         var rs = new collection.RecordSet({
-            keyProperty: 'id',
-            rawData: data
-         });
-
-         var source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: data
-         });
-
-         var cfg = {
-            viewName: 'Controls/List/ListView',
-            source: source,
-            viewConfig: {
-               keyProperty: 'id'
-            },
-            viewModelConfig: {
-               collection: rs,
-               keyProperty: 'id'
-            },
-            viewModelConstructor: 'Controls/display:Collection',
-            navigation: {
-               view: 'infinity',
-               source: 'page',
-               sourceConfig: {
-                  pageSize: 3,
-                  page: 0,
-                  hasMore: false
-               }
-            }
-         };
-         var ctrl = correctCreateBaseControl(cfg);
-         ctrl.saveOptions(cfg);
-         ctrl._beforeMount(cfg);
-
-         // два таймаута, первый - загрузка начального рекордсета, второй - на последюущий запрос
-         setTimeout(function() {
-            /**
-             * _beforeMount will load some items, so _loadedItems will get set. Normally, it will reset in _afterUpdate, but since we don't have lifecycle in tests,
-             * we'll reset it here manually.
-             */
-            ctrl._loadedItems = null;
-
-            lists.BaseControl._private.onScrollLoadEdge(ctrl, 'down');
-            setTimeout(function() {
-               assert.equal(6, ctrl._listViewModel.getCount(), 'Items weren\\\'t loaded');
-               done();
-            }, 100);
-         }, 100);
-      });
-
-      it('indicator', function() {
-         var cfg = {};
-         var ctrl = correctCreateBaseControl(cfg);
-         ctrl._container =  {getElementsByClassName: () => ([{
-               getBoundingClientRect: () => ({})
-            }]), getBoundingClientRect: () => ({})};
-         ctrl._scrollTop = 200;
-
-         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0, 'Wrong top offset');
-         lists.BaseControl._private.showIndicator(ctrl, 'down');
-         assert.isNull(ctrl._loadingState, 'Wrong loading state');
-         assert.isNull(ctrl._loadingIndicatorState, 'Wrong loading state');
-         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0, 'Wrong top offset');
-
-         ctrl._isMounted = true;
-
-         lists.BaseControl._private.showIndicator(ctrl, 'down');
-         assert.equal(ctrl._loadingState, 'down', 'Wrong loading state');
-         assert.equal(ctrl._loadingIndicatorState, null, 'Wrong loading state');
-         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0, 'Wrong top offset');
-
-         lists.BaseControl._private.showIndicator(ctrl);
-         assert.equal(ctrl._loadingState, 'all', 'Wrong loading state');
-         assert.equal(ctrl._loadingIndicatorState, 'all', 'Wrong loading state');
-         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0, 'Wrong top offset');
-         lists.BaseControl._private.hideIndicator(ctrl);
-
-         lists.BaseControl._private.showIndicator(ctrl);
-         assert.equal(ctrl._loadingState, 'all', 'Wrong loading state');
-         assert.equal(ctrl._loadingIndicatorState, 'all', 'Wrong loading state');
-         assert.isTrue(!!ctrl._loadingIndicatorTimer, 'Loading timer should created');
-         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0, 'Wrong top offset');
-         lists.BaseControl._private.hideIndicator(ctrl);
-
-         lists.BaseControl._private.showIndicator(ctrl, 'down');
-         assert.equal(ctrl._loadingState, 'down', 'Wrong loading state');
-
-         // картинка должнa появляться через 2000 мс, проверим, что её нет сразу
-         assert.isFalse(!!ctrl._showLoadingIndicator, 'Wrong loading indicator image state');
-
-         // искуственно покажем картинку
-         ctrl._showLoadingIndicator = true;
-
-         lists.BaseControl._private.hideIndicator(ctrl);
-         lists.BaseControl._private.showIndicator(ctrl);
-         assert.isTrue(ctrl._loadingIndicatorTimer === ctrl._loadingIndicatorTimer, 'all', 'Loading timer created one more tile');
-
-         // и вызовем скрытие
-         lists.BaseControl._private.hideIndicator(ctrl);
-         assert.equal(ctrl._loadingState, null, 'Wrong loading state');
-         assert.equal(ctrl._loadingIndicatorState, null, 'Wrong loading indicator state');
-         assert.isFalse(!!ctrl._showLoadingIndicator, 'Wrong loading indicator image state');
-         assert.isFalse(!!ctrl._loadingIndicatorTimer);
       });
 
       it('_updateShadowModeHandler', () => {
@@ -2011,7 +1427,7 @@ define([
             }, ctrl._pagingCfg.arrowState, 'Wrong state of paging arrows after scroll');
 
             ctrl._pagingVisible = true;
-            ctrl._abortSearch();
+            ctrl._onAbortSearchClick();
             assert.deepEqual({
                     begin: "visible",
                     end: "readonly",
@@ -2026,7 +1442,6 @@ define([
                     next: "readonly",
                     prev: "visible"
             }, ctrl._pagingCfg.arrowState, 'Wrong state of paging arrows after abort search');
-            lists.BaseControl._private.getPortionedSearch(ctrl).reset();
 
             // Если данные не были загружены после последнего подскролла в конец (и hasMoreData все еще false),
             // и еще раз доскроллили до конца, то самое время блокировать кнопки.
@@ -2049,86 +1464,6 @@ define([
                assert.isFalse(ctrl._pagingVisible);
             }, 100);
          });
-      });
-
-      it('abortSearch', async () => {
-         const heightParams = {
-            scrollHeight: 400,
-            clientHeight: 1000
-         };
-         const source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: data
-         });
-
-         const cfg = {
-            viewName: 'Controls/List/ListView',
-            source: source,
-            viewConfig: {
-               keyProperty: 'id'
-            },
-            viewModelConfig: {
-               collection: rs,
-               keyProperty: 'id'
-            },
-            viewModelConstructor: 'Controls/display:Collection',
-            navigation: {
-               view: 'infinity',
-               source: 'page',
-               viewConfig: {
-                  pagingMode: 'direct'
-               },
-               sourceConfig: {
-                  pageSize: 3,
-                  page: 0,
-                  hasMore: false
-               }
-            },
-         };
-         const ctrl = correctCreateBaseControl(cfg);
-         let shadowMode;
-         let iterativeSearchAborted;
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl._container = {
-            getElementsByClassName: () => ([{ clientHeight: 100, offsetHeight: 0 }]),
-            getBoundingClientRect: function() { return {}; }
-         };
-         ctrl._getItemsContainer = () => ({
-            children: [],
-            querySelectorAll: () => []
-         });
-         lists.BaseControl._private.onScrollShow(ctrl, heightParams);
-         ctrl._updateShadowModeHandler({}, {top: 0, bottom: 0});
-         ctrl._pagingVisible = true;
-       ctrl._pagingCfg = {
-           arrowState: {
-               begin: 'visible',
-               prev: 'visible',
-               next: 'visible',
-               end: 'visible'
-           }
-       };
-         ctrl._notify = (eventName, eventResult) => {
-            if (eventName === 'updateShadowMode') {
-               shadowMode = eventResult[0];
-            }
-            if (eventName === 'iterativeSearchAborted') {
-               iterativeSearchAborted = true;
-            }
-         };
-         ctrl._abortSearch();
-         assert.isNull(ctrl._showContinueSearchButtonDirection);
-         assert.deepEqual(ctrl._pagingCfg, {
-            arrowState: {
-               begin: 'visible',
-               prev: 'visible',
-               next: 'readonly',
-               end: 'readonly'
-            }
-         });
-         assert.deepEqual(shadowMode, {top: 'auto', bottom: 'auto'});
-         assert.isTrue(iterativeSearchAborted);
       });
 
       it('scrollHide/scrollShow base control state', function() {
@@ -2544,6 +1879,7 @@ define([
          await baseControl._beforeMount(baseControlOptions);
 
          let editingItem;
+         const viewModel = baseControl._listViewModel;
 
          baseControl._editInPlaceController = {
             isEditing: () => {
@@ -2551,34 +1887,36 @@ define([
             }
          };
 
-         assert.isFalse(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
+         assert.isFalse(!!baseControl.__needShowEmptyTemplate());
 
          baseControl._listViewModel.getCount = function() {
             return 0;
          };
 
-         assert.isTrue(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
+         assert.isTrue(!!baseControl.__needShowEmptyTemplate());
 
-         assert.isTrue(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, null));
+         baseControl._listViewModel = null;
+         assert.isTrue(!!baseControl.__needShowEmptyTemplate());
 
-         assert.isFalse(!!baseControl.__needShowEmptyTemplate(null, baseControl._listViewModel));
+         baseControl._listViewModel = viewModel;
+         assert.isFalse(!!baseControl.__needShowEmptyTemplate({...baseControlOptions, emptyTemplate: null}));
 
          baseControl._sourceController.isLoading = function() {
             return true;
          };
 
          baseControl._noDataBeforeReload = false;
-         assert.isFalse(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
+         assert.isFalse(!!baseControl.__needShowEmptyTemplate());
 
          baseControl._noDataBeforeReload = true;
-         assert.isTrue(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
+         assert.isTrue(!!baseControl.__needShowEmptyTemplate());
 
          editingItem = {};
-         assert.isFalse(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
+         assert.isFalse(!!baseControl.__needShowEmptyTemplate());
 
          editingItem = null;
          baseControl._sourceController = null;
-         assert.isTrue(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
+         assert.isTrue(!!baseControl.__needShowEmptyTemplate());
 
          baseControl._sourceController = {
             hasMoreData: function() {
@@ -2588,7 +1926,7 @@ define([
                return true;
             }
          };
-         assert.isFalse(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
+         assert.isFalse(!!baseControl.__needShowEmptyTemplate());
       });
 
       it('reload with changing source/navig/filter should call scroll to start', async function() {
@@ -2899,33 +2237,37 @@ define([
          });
       });
       describe('resetScrollAfterReload', function() {
-         var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: data
-            }),
-            cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               keyProperty: 'id',
-               viewModelConstructor: 'Controls/display:Collection'
-            },
-            baseControl = correctCreateBaseControl(cfg),
-            doScrollNotified = false;
+         var cfg = {
+                viewName: 'Controls/List/ListView',
+                items:  new collection.RecordSet({
+                   rawData: data,
+                   keyProperty: 'id'
+                }),
+                keyProperty: 'id',
+                viewModelConstructor: 'Controls/display:Collection'
+             },
+             baseControl,
+             doScrollNotified = false,
+             scrollContainer;
 
-         baseControl._viewportRect = {top: 0}
-         baseControl._notify = function(eventName) {
-            if (eventName === 'doScroll') {
-               doScrollNotified = true;
-            }
-         };
-         let scrollContainer = { getBoundingClientRect: () => ({ y: 0 })};
-         baseControl._container = Object.assign({}, scrollContainer, {
-            getElementsByClassName: () => ([scrollContainer])
+         beforeEach(() => {
+            baseControl = correctCreateBaseControl(cfg)
+            baseControl._beforeMount(cfg);
+
+            baseControl._viewportRect = {top: 0}
+            baseControl._notify = function(eventName) {
+               if (eventName === 'doScroll') {
+                  doScrollNotified = true;
+               }
+            };
+            scrollContainer = { getBoundingClientRect: () => ({ y: 0 })};
+            baseControl._container = Object.assign({}, scrollContainer, {
+               getElementsByClassName: () => ([scrollContainer])
+            });
+            baseControl.saveOptions(cfg);
          });
-         baseControl.saveOptions(cfg);
 
          it('before mounting', async function() {
-            await baseControl._beforeMount(cfg);
             await baseControl._reload(cfg);
             assert.isFalse(baseControl._resetScrollAfterReload);
             scrollContainer.clientHeight = 100;
@@ -3321,17 +2663,16 @@ define([
                      }
                   }
                };
+
+               ctrl = correctCreateBaseControl(cfg);
+               ctrl.saveOptions(cfg);
+
                sandbox = sinon.createSandbox();
                sandbox.replace(lists.BaseControl._private, 'scrollToItem', () => {
                   scrollToItemCalled = true;
                   return Promise.resolve();
                });
-               sandbox.replace(lists.BaseControl._private, 'showIndicator', () => {
-               });
-               sandbox.replace(lists.BaseControl._private, 'hideIndicator', () => {
-               });
-               ctrl = correctCreateBaseControl(cfg);
-               ctrl.saveOptions(cfg);
+
                ctrl._container = {
                   clientHeight: 100
                };
@@ -3341,13 +2682,15 @@ define([
                ctrl._editInPlaceController = {
                   add: function() {
                      return Promise.resolve();
-                  }
+                  },
+                  isEditing: () => false
                };
             });
 
             afterEach(() => {
                sandbox.restore();
             });
+
             it('scrollToItem not called on beginAdd if adding item is in range', async () => {
                await ctrl._beforeMount(cfg);
                ctrl._isMounted = true;
@@ -3509,18 +2852,13 @@ define([
          describe('Fast edit by arrows', () => {
             let cfg, ctrl, sandbox;
 
-            beforeEach(() => {
+            beforeEach(async () => {
                cfg = {
                   viewName: 'Controls/List/ListView',
-                  source: source,
-                  viewConfig: {
+                  source: new sourceLib.Memory({
+                     data,
                      keyProperty: 'id'
-                  },
-                  viewModelConfig: {
-                     collection: rs,
-                     keyProperty: 'id',
-                     selectedKeys: [1, 3]
-                  },
+                  }),
                   viewModelConstructor: 'Controls/display:Collection',
                   navigation: {
                      source: 'page',
@@ -3536,6 +2874,7 @@ define([
                   }
                };
                ctrl = correctCreateBaseControl(cfg);
+               await ctrl._beforeMount(cfg);
                ctrl._editInPlaceController = {
                   cancel: () => Promise.resolve(),
                   commit: () => Promise.resolve(),
@@ -3662,8 +3001,6 @@ define([
                      isRegistered = true;
                   }
                };
-               baseControl.showIndicator = () => {};
-               baseControl.hideIndicator = () => {};
 
                baseControl.saveOptions(cfg);
                baseControl._beforeMount(cfg).then(() => {
@@ -3799,82 +3136,6 @@ define([
             sinon.assert.called(spySetCollapsedGroups);
             spySetCollapsedGroups.restore();
          });
-      });
-
-      it('can\'t start drag on readonly list', async function() {
-         let
-             cfg = {
-                viewName: 'Controls/List/ListView',
-                source: source,
-                viewConfig: {
-                   keyProperty: 'id'
-                },
-                viewModelConfig: {
-                   collection: rs,
-                   keyProperty: 'id',
-                   selectedKeys: [1, 3]
-                },
-                viewModelConstructor: 'Controls/display:Collection',
-                navigation: {
-                   source: 'page',
-                   sourceConfig: {
-                      pageSize: 6,
-                      page: 0,
-                      hasMore: false
-                   },
-                   view: 'infinity',
-                   viewConfig: {
-                      pagingMode: 'direct'
-                   }
-                },
-                readOnly: true,
-             },
-             ctrl;
-
-         ctrl = await correctCreateBaseControlAsync(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl.itemsDragNDrop = true;
-         ctrl._itemMouseDown({}, ctrl.getViewModel().at(0), {target: { closest: () => null }, nativeEvent: {button: 0}});
-         assert.isNull(ctrl._draggingItem);
-      });
-      it('can\'t start drag if canStartDragNDrop return false', async function () {
-         let
-            cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  collection: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: 'Controls/display:Collection',
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               },
-               canStartDragNDrop: function() {
-                  return false;
-               }
-            },
-            ctrl;
-         ctrl = await correctCreateBaseControlAsync(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl.itemsDragNDrop = true;
-         ctrl._itemMouseDown({}, ctrl.getViewModel().at(0), { target: { closest: () => null }, nativeEvent: { button: 0 } });
-         assert.isNull(ctrl._draggingItem);
       });
 
       it('startDragNDrop', () => {
@@ -4105,92 +3366,6 @@ define([
          assert.isTrue(isDefaultPrevented);
       });
 
-      it('_documentDragEnd', async function() {
-         const cfg = {
-            viewName: 'Controls/List/ListView',
-            source: source,
-            viewConfig: {
-               keyProperty: 'id'
-            },
-            viewModelConfig: {
-               collection: rs,
-               keyProperty: 'id'
-            },
-            viewModelConstructor: 'Controls/display:Collection'
-         };
-         var
-            dragEnded,
-            ctrl;
-
-         ctrl = await correctCreateBaseControlAsync(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl.saveOptions(cfg);
-
-         ctrl._isMounted = true;
-         ctrl._scrollTop = 0;
-         ctrl._container = {
-            getBoundingClientRect() {
-               return {
-                  y: -900
-               };
-            }
-         };
-
-         ctrl._viewportRect = { top: 0 }
-         //dragend without deferred
-         dragEnded = false;
-
-         ctrl._documentDragEnd();
-         assert.isFalse(dragEnded, 'DndController was not created');
-
-         ctrl._dndListController = {
-            endDrag() {
-               dragEnded = true;
-            },
-            getDragPosition: () => {
-               return {
-                  dispItem: {
-                     getContents: () => {}
-                  }
-               };
-            },
-            getDraggableItem: () => ({
-               getContents: () => ({
-                  getKey: () => 1
-               })
-            }),
-            isDragging: () => true
-         };
-         ctrl._documentDragEnd({entity: {}});
-         assert.isTrue(dragEnded);
-
-         //dragend with deferred
-         dragEnded = false;
-         ctrl._dndListController = {
-            endDrag() {
-               dragEnded = true;
-            },
-            getDragPosition: () => {
-               return {
-                  dispItem: {
-                     getContents: () => {}
-                  }
-               };
-            },
-            getDraggableItem: () => ({
-               getContents: () => ({
-                  getKey: () => 1
-               })
-            }),
-            isDragging: () => true
-         };
-         ctrl._insideDragging = true;
-         ctrl._notify = () => new cDeferred();
-         ctrl._documentDragEnd({entity: {}});
-         assert.isFalse(dragEnded);
-         assert.isTrue(!!ctrl._loadingState);
-      });
-
       describe('Calling animation handlers', () => {
          let deactivateSwipeCalled;
          let stopItemAnimationCalled;
@@ -4362,7 +3537,7 @@ define([
 
                // Если Активирован свайп на одной записи и свайпнули по любой другой записи, надо закрыть свайп
                it('should close swipe when any record has been swiped right', () => {
-                  const item = instance._listViewModel.at(0);
+                  const item = instance._listViewModel.getFirst();
                   const spySetSwipeAnimation = sinon.spy(item, 'setSwipeAnimation');
                   item.setSwiped(true, true);
                   instance._onItemSwipe({}, instance._listViewModel.at(2), swipeEvent);
@@ -4374,7 +3549,7 @@ define([
                // Если Активирован свайп на одной записи и свайпнули по любой другой записи, надо переместить маркер
                it('should change marker when any other record has been swiped right', () => {
                   const spySetMarkedKey = sinon.spy(instance, 'setMarkedKey');
-                  instance._listViewModel.at(0).setSwiped(true, true);
+                  instance._listViewModel.getFirst().setSwiped(true, true);
                   instance._onItemSwipe({}, instance._listViewModel.at(2), swipeEvent);
 
                   sinon.assert.calledOnce(spySetMarkedKey);
@@ -4384,8 +3559,8 @@ define([
                // Если Активирован свайп на одной записи и свайпнули по той же записи, не надо вызывать установку маркера
                it('should deactivate swipe when any other record has been swiped right', () => {
                   const spySetMarkedKey = sinon.spy(instance, 'setMarkedKey');
-                  instance._listViewModel.at(0).setSwiped(true, true);
-                  instance._onItemSwipe({}, instance._listViewModel.at(0), swipeEvent);
+                  instance._listViewModel.getFirst().setSwiped(true, true);
+                  instance._onItemSwipe({}, instance._listViewModel.getFirst(), swipeEvent);
 
                   sinon.assert.notCalled(spySetMarkedKey);
                   spySetMarkedKey.restore();
@@ -4394,7 +3569,7 @@ define([
                // Должен работать свайп по breadcrumbs
                it('should work with breadcrumbs', () => {
                   swipeEvent = initSwipeEvent('left');
-                  const itemAt0 = instance._listViewModel.at(0);
+                  const itemAt0 = instance._listViewModel.getFirst();
                   const breadcrumbItem = {
                      '[Controls/_display/BreadcrumbsItem]': true,
                      _$active: false,
@@ -4424,7 +3599,7 @@ define([
             it('it should fire event', () => {
                initTest();
                const spyNotify = sinon.spy(instance, '_notify');
-               instance._onItemSwipe({}, instance._listViewModel.at(0), swipeEvent);
+               instance._onItemSwipe({}, instance._listViewModel.getFirst(), swipeEvent);
                sinon.assert.called(spyNotify);
                spyNotify.restore();
             });
@@ -4465,7 +3640,7 @@ define([
                   ]
                }).then(() => {
                   lists.BaseControl._private.updateItemActions(instance, instance._options);
-                  const item = instance._listViewModel.at(0);
+                  const item = instance._listViewModel.getFirst();
                   instance._onItemSwipe({}, item, swipeEvent);
                   assert.notExists(instance._itemActionsController.getSwipeItem());
                   assert.equal(item, instance._selectionController.getAnimatedItem());
@@ -4497,7 +3672,7 @@ define([
                  }).then(() => {
                      lists.BaseControl._private.createSelectionController(instance, instance._options);
                      lists.BaseControl._private.updateItemActions(instance, instance._options);
-                     const item = instance._listViewModel.at(0);
+                     const item = instance._listViewModel.getFirst();
                      instance._onItemSwipe({}, item, swipeEvent);
                      assert.ok(instance._selectionController.getAnimatedItem() === item);
                  });
@@ -4529,7 +3704,7 @@ define([
                }).then(() => {
                   lists.BaseControl._private.createSelectionController(instance, instance._options);
                   lists.BaseControl._private.updateItemActions(instance, instance._options);
-                  const item = instance._listViewModel.at(0);
+                  const item = instance._listViewModel.getFirst();
                   instance._onItemSwipe({}, item, swipeEvent);
                   assert.isNull(instance._selectionController.getAnimatedItem());
                });
@@ -4766,11 +3941,11 @@ define([
                   parent: 1
                })
             };
-            await instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.at(0));
+            await instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.getFirst());
 
             // popup.Sticky.openPopup called in openItemActionsMenu is an async function
             // we cannot determine that it has ended
-            instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
+            instance._listViewModel.setActiveItem(instance._listViewModel.getFirst());
             instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[2], 'Third argument has not been set');
@@ -4806,7 +3981,7 @@ define([
                   'parent@': true
                })
             };
-            instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
+            instance._listViewModel.setActiveItem(instance._listViewModel.getFirst());
             instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
             sinon.assert.called(stubHandleItemActionClick);
             stubHandleItemActionClick.restore();
@@ -4829,7 +4004,7 @@ define([
                   'parent@': true
                })
             };
-            instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
+            instance._listViewModel.setActiveItem(instance._listViewModel.getFirst());
             instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
             sinon.assert.notCalled(spyCloseActionsMenu);
             stubNotify.restore();
@@ -4853,7 +4028,7 @@ define([
                   'parent@': true
                })
             };
-            instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
+            instance._listViewModel.setActiveItem(instance._listViewModel.getFirst());
             instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
             sinon.assert.called(stubCloseActionsMenu);
             stubNotify.restore();
@@ -5186,7 +4361,7 @@ define([
                showType: 0
             };
             instance._listViewModel.getIndex = (item) => 0;
-            instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.at(0));
+            instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.getFirst());
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[2], 'Third argument has not been set');
             assert.equal(outgoingEventsMap.actionClick[2].className, 'controls-ListView__itemV');
@@ -5200,7 +4375,7 @@ define([
                showType: 0
             };
             instance._listViewModel.getIndex = (item) => 0;
-            instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.at(0));
+            instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.getFirst());
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[3], 'Third argument has not been set');
             assert.exists(outgoingEventsMap.actionClick[3].preventDefault, 'Third argument should be nativeEvent');
@@ -5282,54 +4457,6 @@ define([
          instance._onListDeactivated();
          assert.isTrue(isCloseSwipeCalled);
          sandbox.restore();
-      });
-
-      it('resolveIndicatorStateAfterReload', function() {
-         let listViewModelCount = 0;
-         var baseControlMock = {
-            _needScrollCalculation: true,
-            _hasMoreData: () => {
-               return true;
-            },
-            _sourceController: {
-               hasMoreData: () => {
-                  return true;
-               }
-            },
-            _listViewModel: {
-               getCount: function() {
-                  return listViewModelCount;
-               }
-            },
-            _notify: () => {},
-            _isMounted: true,
-            _scrollTop: 0,
-            _container: {
-               getBoundingClientRect() {
-                  return {
-                     y: -900
-                  };
-               }
-            },
-            _viewportRect: { top: 0 },
-            _options: {}
-         };
-         const navigation = {
-            view: 'maxCount'
-         };
-         var emptyList = new collection.List();
-         var list = new collection.List({ items: [{ test: 'testValue' }] });
-
-         lists.BaseControl._private.resolveIndicatorStateAfterReload(baseControlMock, emptyList, navigation);
-         assert.equal(baseControlMock._loadingState, 'down');
-
-         listViewModelCount = 1;
-         lists.BaseControl._private.resolveIndicatorStateAfterReload(baseControlMock, emptyList, navigation);
-         assert.equal(baseControlMock._loadingState, 'down');
-
-         lists.BaseControl._private.resolveIndicatorStateAfterReload(baseControlMock, list, navigation);
-         assert.isNull(baseControlMock._loadingState);
-
       });
 
       it('reloadItem with new model', function() {
@@ -5462,53 +4589,6 @@ define([
             assert.isFalse(isEIPDestroyed);
             assert.isNotNull(instance._editInPlaceController);
          });
-      });
-
-      it('getListTopOffset', function () {
-         let resultsHeight = 0;
-         let headerHeight = 0;
-
-         const enableHeader = () => { bc._children.listView.getHeaderHeight = () => headerHeight };
-         const disableHeader = () => { bc._children.listView.getHeaderHeight = undefined };
-         const enableResults = () => { bc._children.listView.getResultsHeight = () => resultsHeight };
-         const disableResults = () => { bc._children.listView.getResultsHeight = undefined };
-
-         const bc = {
-            _children: {
-               listView: {
-               }
-            }
-         };
-         assert.equal(lists.BaseControl._private.getListTopOffset(bc), 0);
-
-         enableHeader();
-         headerHeight = 40;
-         assert.equal(lists.BaseControl._private.getListTopOffset(bc), 40);
-
-         enableResults();
-         resultsHeight = 30;
-         assert.equal(lists.BaseControl._private.getListTopOffset(bc), 70);
-
-         disableHeader();
-         disableResults();
-
-         /* Список находится в скроллконтейнере, но не личном. До списка лежит контент */
-         bc._isScrollShown = true;
-         bc._viewportRect = {
-            top: 50
-         };
-         bc._scrollTop = 1000;
-         bc._container = {
-            getBoundingClientRect() {
-               return {
-                  y: -900
-               };
-            }
-         };
-         bc._isMounted = false;
-         assert.equal(lists.BaseControl._private.getListTopOffset(bc), 0);
-         bc._isMounted = true;
-         assert.equal(lists.BaseControl._private.getListTopOffset(bc), 50);
       });
 
       it('should fire "drawItems" in afterMount', async function() {
@@ -5774,43 +4854,6 @@ define([
          });
       });
 
-      it('_afterUpdate while loading do not update loadingState', async function() {
-         var cfg = {
-            viewName: 'Controls/List/ListView',
-            viewModelConfig: {
-               collection: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: 'Controls/display:Collection',
-            keyProperty: 'id',
-            source: source
-         };
-         var instance = correctCreateBaseControl(cfg);
-         var cfgClone = { ...cfg };
-
-         instance.saveOptions(cfg);
-         await instance._beforeMount(cfg);
-         instance._container = {
-            getElementsByClassName: () => ([{clientHeight: 100, getBoundingClientRect: () => ({ y: 0 }), offsetHeight:0 }]),
-            clientHeight: 100,
-            getBoundingClientRect: () => ({ y: 0 })
-         };
-         instance._afterMount(cfg);
-
-         instance._beforeUpdate(cfg);
-         instance._afterUpdate(cfg);
-         instance._afterRender();
-
-         lists.BaseControl._private.showIndicator(instance, 'down');
-         assert.equal(instance._loadingState, 'down');
-
-         cfgClone.loading = true;
-         instance.saveOptions(cfg);
-         instance._afterUpdate(cfg);
-         instance._afterRender();
-         assert.equal(instance._loadingState, 'down');
-      });
-
       it('_beforeUpdate with new viewModelConstructor', function() {
          let cfg = {
             viewName: 'Controls/List/ListView',
@@ -5846,12 +4889,6 @@ define([
          };
          let instance = await correctCreateBaseControlAsync(cfg);
          let cfgClone = { ...cfg };
-         let portionSearchReseted = false;
-
-         instance._portionedSearch = lists.BaseControl._private.getPortionedSearch(instance);
-         instance._portionedSearch.reset = () => {
-            portionSearchReseted = true;
-         };
 
          instance.saveOptions(cfg);
          await instance._beforeMount(cfg);
@@ -5861,21 +4898,12 @@ define([
          instance._afterUpdate(cfgClone);
          instance._afterRender();
 
-         assert.isTrue(portionSearchReseted);
-         portionSearchReseted = false;
-
          cfgClone.searchValue = 'test';
          instance._beforeUpdate(cfgClone);
          assert.isTrue(instance._listViewModel.getSearchValue() !== cfgClone.searchValue);
          instance._afterUpdate({});
          instance._afterRender();
          assert.isTrue(instance._listViewModel.getSearchValue() === cfgClone.searchValue);
-
-         assert.isTrue(portionSearchReseted);
-         portionSearchReseted = false;
-
-         await instance.reload();
-         assert.isTrue(portionSearchReseted);
       });
 
       // Иногда необходимо переинициализировать опции записи в момент обновления контрола
@@ -6077,13 +5105,6 @@ define([
          assert.isTrue(item.isSelected());
       });
 
-      it('_beforeUnmount', function() {
-         let instance = new lists.BaseControl();
-         instance._portionedSearch = lists.BaseControl._private.getPortionedSearch(instance);
-         instance._beforeUnmount();
-         assert.isNull(instance._portionedSearch);
-      });
-
       describe('beforeUpdate', () => {
          let cfg;
          let instance;
@@ -6093,27 +5114,22 @@ define([
                viewName: 'Controls/List/ListView',
                viewModelConstructor: 'Controls/display:Collection',
                keyProperty: 'id',
-               source,
-               viewModelConfig: {
-                  collection: new collection.RecordSet({
-                     keyProperty: 'id',
-                     rawData: data
-                  }),
+               source: new sourceLib.Memory({
+                  data,
                   keyProperty: 'id'
-               },
+               }),
                markerVisibility: 'hidden',
                selectedKeys: [],
                excludedKeys: []
             };
             instance = await correctCreateBaseControlAsync(cfg);
+            await instance._beforeMount(cfg);
             instance.saveOptions(cfg);
-            instance._listViewModel = new display.Collection(cfg.viewModelConfig);
             instance._keyProperty = 'id';
          });
 
          it('should create selection controller', async () => {
             assert.isNull(instance._selectionController);
-            instance._items = instance._listViewModel.getCollection();
             await instance._beforeUpdate({
                ...cfg,
                selectedKeys: [1]
@@ -6124,8 +5140,7 @@ define([
          it('not should create selection controller', async () => {
             assert.isNull(instance._selectionController);
             await instance._beforeUpdate({
-               ...cfg,
-               viewModelConstructor: null
+               ...cfg
             });
             assert.isNull(instance._selectionController);
          });
@@ -6159,376 +5174,6 @@ define([
          assert.isFalse(isGetItemsContainerCalled);
          assert.isNull(baseControl._scrollController);
       });
-
-      it('_getLoadingIndicatorClasses', function() {
-         const theme = 'default';
-         function testCaseWithArgs(indicatorState, hasPaging, isPortionedSearchInProgress = false) {
-            return lists.BaseControl._private.getLoadingIndicatorClasses({
-               hasItems: true,
-               hasPaging: hasPaging,
-               loadingIndicatorState: indicatorState,
-               theme,
-               isPortionedSearchInProgress,
-               attachLoadTopTriggerToNullOption: true
-            });
-         }
-
-         assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-all', testCaseWithArgs('all', false));
-         assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-up', testCaseWithArgs('up', false));
-         assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down', testCaseWithArgs('down', false));
-         assert.equal(`controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down`, testCaseWithArgs('down', true));
-         assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl__loadingIndicator_style-portionedSearch', testCaseWithArgs('down', false, true));
-
-      });
-
-      it('_getLoadingIndicatorStyles', function() {
-         const baseControl = new lists.BaseControl();
-         let itemsCount;
-         baseControl._listViewModel = {
-            getCount: () => itemsCount
-         };
-
-         assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), '');
-
-         baseControl._loadingIndicatorContainerHeight = 32;
-         itemsCount = 0;
-         assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'min-height: 32px; ');
-         assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
-
-         itemsCount = 10;
-         assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'min-height: 32px; ');
-         assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
-
-         baseControl._loadingIndicatorContainerOffsetTop = 48;
-         itemsCount = 0;
-         assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'min-height: 32px; top: 48px;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
-
-         itemsCount = 10;
-         assert.equal(baseControl._getLoadingIndicatorStyles('down'), 'display: none;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('all'), 'min-height: 32px; top: 48px;');
-         assert.equal(baseControl._getLoadingIndicatorStyles('up'), 'display: none; ');
-      });
-
-      it('hide indicator if shouldn\'t load more', function() {
-         const baseControl = new lists.BaseControl();
-         baseControl._isMounted = true;
-
-         baseControl._loadingIndicatorState = 'down';
-         baseControl._loadTriggerVisibility = {down: false};
-         baseControl._afterRender();
-         assert.isNull(baseControl._loadingIndicatorState);
-
-         baseControl._loadingIndicatorState = 'up';
-         baseControl._loadTriggerVisibility = {up: false};
-         baseControl._afterRender();
-         assert.isNull(baseControl._loadingIndicatorState);
-
-         baseControl._loadingIndicatorState = 'down';
-         baseControl._loadTriggerVisibility = {down: true};
-         baseControl._afterRender();
-         assert.equal(baseControl._loadingIndicatorState, 'down');
-
-         baseControl._loadingIndicatorState = 'up';
-         baseControl._loadTriggerVisibility = {up: true};
-         baseControl._afterRender();
-         assert.equal(baseControl._loadingIndicatorState, 'up');
-      });
-
-      it('setIndicatorContainerHeight: list bigger then scrollContainer', function() {
-
-          const fakeBaseControl = {
-              _loadingIndicatorContainerHeight: 0,
-              _isScrollShown: true,
-          };
-
-          const viewRect = {
-             y: -10,
-             height: 1000
-          };
-
-          const viewPortRect = {
-             y: 100,
-             height: 500
-          };
-
-          lists.BaseControl._private.updateIndicatorContainerHeight(fakeBaseControl, viewRect, viewPortRect);
-          assert.equal(fakeBaseControl._loadingIndicatorContainerHeight, 500);
-       });
-
-       it('setIndicatorContainerHeight: list smaller then scrollContainer', function () {
-          const fakeBaseControl = {
-             _loadingIndicatorContainerHeight: 0,
-             _isScrollShown: true,
-          };
-
-          const viewRect = {
-             y: 50,
-             height: 200
-          };
-
-          const viewPortRect = {
-             y: 0,
-             height: 500
-          };
-
-          lists.BaseControl._private.updateIndicatorContainerHeight(fakeBaseControl, viewRect, viewPortRect);
-          assert.equal(fakeBaseControl._loadingIndicatorContainerHeight, 200);
-       });
-
-      describe('loading indicators', () => {
-          let baseControl,  testCases;
-
-          const emptyRs = new collection.RecordSet();
-          const notEmptyRs = new collection.RecordSet({
-             rawData: [{'id': 1}],
-             keyProperty: 'id'
-          });
-
-          const getErrorMsg = (index, caseData) => `Test case ${index} failed. Expected ${caseData[4]}. ` +
-              `Params: { _loadingIndicatorState: ${caseData[0]}, _attachLoadTopTriggerToNull: ${caseData[1]},
-              _loadToDirectionInProgress: ${caseData[2]}, _items: ${caseData[3]} }.`;
-
-          const checkCase = (index, caseData, method) => {
-             baseControl._loadingIndicatorState = caseData[0];
-             baseControl._attachLoadTopTriggerToNull = caseData[1];
-             baseControl._loadToDirectionInProgress = caseData[2];
-             baseControl._items = caseData[3];
-             assert.equal(!!method.apply(baseControl), caseData[4], getErrorMsg(index, caseData));
-          };
-
-          beforeEach(() => {
-             testCases = [];
-             baseControl = new lists.BaseControl();
-             baseControl._scrollController = {
-                isRangeOnEdge: () => true
-             };
-          });
-
-          describe('_shouldDisplayTopLoadingIndicator', () => {
-            it('_shouldDisplayTopLoadingIndicator', () => {
-               // indicatorState, _attachLoadTopTriggerToNull, _loadToDirectionInProgress, _items, expected
-               testCases = [
-                  ['up',   true,  true,  notEmptyRs,  true],
-                  ['up',   true,  true,  emptyRs,     false],
-                  ['up',   false, false, notEmptyRs,  true],
-                  ['up',   false, false, notEmptyRs,  true],
-
-                  ['down', true,  true,  notEmptyRs,  true],
-                  ['down', false, true,  emptyRs,     false],
-                  ['down', false, false, notEmptyRs,  false],
-                  ['down', false, false, notEmptyRs,  false],
-
-                  ['all',  true,  true,  notEmptyRs,  true],
-                  ['all',  false, true,  emptyRs,     false],
-                  ['all',  false, false, notEmptyRs,  false],
-                  ['all',  false, false, notEmptyRs,  false],
-               ];
-
-               testCases.forEach((caseData, index) => {
-                  checkCase(index, caseData, baseControl._shouldDisplayTopLoadingIndicator);
-               });
-
-               baseControl._loadingIndicatorState = 'up';
-               baseControl._portionedSearchInProgress = true;
-               assert.equal(baseControl._shouldDisplayTopLoadingIndicator(), false);
-
-               baseControl._portionedSearchInProgress = false;
-               baseControl._loadingIndicatorState = 'bottom';
-               baseControl.__needShowEmptyTemplate = () => true;
-               assert.equal(baseControl._shouldDisplayTopLoadingIndicator(), false);
-            });
-
-            it('has hidden items by virtual scroll', () => {
-               baseControl._scrollController.isRangeOnEdge = () => false;
-               baseControl._attachLoadTopTriggerToNull = true;
-               baseControl._items = notEmptyRs;
-               assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
-            });
-
-             it('portioned search in progress', () => {
-                baseControl._attachLoadTopTriggerToNull = true;
-                baseControl._portionedSearchInProgress = true;
-                baseControl._items = notEmptyRs;
-                assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
-             });
-
-             it('continue search showed', () => {
-                baseControl._attachLoadTopTriggerToNull = true;
-                baseControl._showContinueSearchButtonDirection = 'up';
-                baseControl._items = notEmptyRs;
-                assert.isNotOk(baseControl._shouldDisplayTopLoadingIndicator());
-             });
-          });
-
-          it('_shouldDisplayMiddleLoadingIndicator', () => {
-             testCases = [
-                ['up',   true,  true, notEmptyRs, false],
-                ['up',   false, false, emptyRs,    false],
-                ['down', true,  true, notEmptyRs, false],
-                ['down', false, false, emptyRs,    false],
-                ['all',  true,  true, notEmptyRs, true],
-                ['all',  false, true, emptyRs, true],
-                ['all',  true,  false, notEmptyRs,    false],
-                ['all',  false, false, emptyRs,    false]
-             ];
-
-             testCases.forEach((caseData, index) => {
-                baseControl._showLoadingIndicator = caseData[2];
-                checkCase(index, caseData, baseControl._shouldDisplayMiddleLoadingIndicator);
-             });
-
-             baseControl._loadingIndicatorState = 'all';
-             baseControl.__needShowEmptyTemplate = () => false;
-             baseControl._children = {
-                listView: {
-                   isColumnScrollVisible: () => true
-                }
-             };
-             assert.equal(baseControl._shouldDisplayMiddleLoadingIndicator(), false);
-          });
-
-          describe('_shouldDisplayBottomLoadingIndicator', () => {
-             it('_shouldDisplayBottomLoadingIndicator', () => {
-                // indicatorState, __needShowEmptyTemplate, _loadToDirectionInProgress, _showLoadingIndicator, expected
-                testCases = [
-                   ['up',   true,  true,  notEmptyRs,  false],
-                   ['up',   false, true,  emptyRs,     false],
-                   ['up',   false, false, notEmptyRs,  false],
-                   ['up',   false, false, notEmptyRs,  false],
-
-                   ['down', true,  true,  notEmptyRs,  true],
-                   ['down', false, true,  emptyRs,     false],
-                   ['down', false, false, notEmptyRs,  true],
-                   ['down', false, false, notEmptyRs,  true],
-
-                   ['all',  true,  true,  notEmptyRs,  false],
-                   ['all',  false, true,  emptyRs,     false],
-                   ['all',  false, false, notEmptyRs,  false],
-                   ['all',  false, false, notEmptyRs,  false],
-                ];
-
-                testCases.forEach((caseData, index) => {
-                   checkCase(index, caseData, baseControl._shouldDisplayBottomLoadingIndicator);
-                });
-
-                baseControl._loadingIndicatorState = 'bottom';
-                baseControl.__needShowEmptyTemplate = () => true;
-                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
-
-                baseControl._loadingIndicatorState = 'bottom';
-                baseControl._attachLoadDownTriggerToNull = true;
-                baseControl.__needShowEmptyTemplate = () => false;
-                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), true);
-
-                baseControl._showContinueSearchButtonDirection = true;
-                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
-
-                baseControl._showContinueSearchButtonDirection = false;
-                baseControl._portionedSearch = {
-                   isAborted: () => true
-                };
-                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
-             });
-
-             it('has hidden items by virtual scroll', () => {
-                baseControl._scrollController.isRangeOnEdge = () => false;
-                baseControl._attachLoadDownTriggerToNull = true;
-                baseControl._items = notEmptyRs;
-                assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
-             });
-
-             it('portioned search in progress', () => {
-                baseControl._attachLoadDownTriggerToNull = true;
-                baseControl._portionedSearchInProgress = true;
-                baseControl._items = notEmptyRs;
-                assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
-             });
-
-             it('continue search showed', () => {
-                baseControl._attachLoadDownTriggerToNull = true;
-                baseControl._showContinueSearchButtonDirection = 'down';
-                baseControl._items = notEmptyRs;
-                assert.isNotOk(baseControl._shouldDisplayBottomLoadingIndicator());
-             });
-
-             it('empty model', () => {
-                baseControl._loadingIndicatorState = 'bottom';
-                baseControl._attachLoadDownTriggerToNull = true;
-                baseControl.__needShowEmptyTemplate = () => false;
-                baseControl._items = null;
-                assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
-             });
-          });
-
-          it('attachToNull, onCollectionChanged', () => {
-            const control = new lists.BaseControl();
-            control.saveOptions({
-               navigation: {
-                  view: 'infinity'
-               }
-            });
-            control._hasMoreData = () => true;
-            control._sourceController = {
-               hasMoreData: () => false
-            };
-            control._isMounted = true;
-            control._listViewModel = {
-               isActionsAssigned: () => false
-            };
-
-            lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [], 0, [], 0);
-            assert.isFalse(control._attachLoadTopTriggerToNull);
-            assert.isFalse(control._hideTopTrigger);
-            assert.isFalse(control._resetTopTriggerOffset);
-
-            lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [1], 0, [], 0);
-            assert.isFalse(control._attachLoadTopTriggerToNull);
-            assert.isTrue(control._hideTopTrigger);
-            assert.isTrue(control._resetTopTriggerOffset);
-
-            control._attachLoadTopTriggerToNull = false;
-            control._hideTopTrigger = false;
-            control._resetTopTriggerOffset = false;
-            lists.BaseControl._private.onCollectionChanged(control, {}, 'collectionChanged', 'rs', [], 0, [1], 0);
-            assert.isFalse(control._attachLoadTopTriggerToNull);
-            assert.isTrue(control._hideTopTrigger);
-            assert.isTrue(control._resetTopTriggerOffset);
-          });
-
-          describe('_getLoadingIndicatorClasses', () => {
-             it('portioned search', async() => {
-                const cfg = getCorrectBaseControlConfig({
-                   keyProperty: 'id',
-                   source: new sourceLib.Memory({
-                      keyProperty: 'id',
-                      data: [
-                         {
-                            id: 1,
-                            title: 'Первый'
-                         }
-                      ]
-                   }),
-                   viewModelConstructor: 'Controls/display:Collection',
-                });
-
-                const control = new lists.BaseControl();
-                control.saveOptions(cfg);
-                await control._beforeMount(cfg);
-
-                control._loadingIndicatorState = 'down';
-                control._portionedSearchInProgress = true;
-                assert.equal(control._getLoadingIndicatorClasses('down'), 'controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl__loadingIndicator_style-portionedSearch');
-
-                assert.equal(control._getLoadingIndicatorClasses('up'), 'controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-up controls-BaseControl__loadingIndicator__state-up-absolute');
-             });
-          });
-       });
 
       describe('navigation', function() {
          it('Navigation demand', async function() {
@@ -6579,14 +5224,12 @@ define([
             assert.equal(ctrl._loadMoreCaption, 3, 'Failed draw footer on first load.');
 
             const loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
-            assert.equal(ctrl._loadingState, 'down');
             assert.equal(ctrl._markerController.getMarkedKey(), 1);
 
             await loadPromise;
             assert.isFalse(ctrl._shouldDrawFooter, 'Failed draw footer on second load.');
             assert.equal(6, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
             assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
-            assert.equal(ctrl._loadingState, null);
          });
 
          it('notify itemMouseEnter to parent', function() {
@@ -6626,99 +5269,6 @@ define([
             assert.isTrue(called);
          });
 
-         it('Reload with empty results', async function() {
-            let src = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: []
-            });
-            const cfg = {
-               source: src,
-               viewName: 'Controls/List/ListView',
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  collection: [],
-                  keyProperty: 'id'
-               },
-               viewModelConstructor: 'Controls/display:Collection',
-               navigation: {
-                  view: 'infinity',
-                  source: 'page',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  },
-                  sourceConfig: {
-                     pageSize: 3,
-                     page: 0
-                  }
-               }
-            };
-
-            const ctrl = correctCreateBaseControl(cfg);
-
-            ctrl._setLoadOffset = lists.BaseControl._private.startScrollEmitter = function() {
-            };
-            ctrl._loadTriggerVisibility = {
-               up: false,
-               down: true
-            };
-
-            ctrl._container = {
-               getElementsByClassName: () => ([{
-                  clientHeight: 100,
-                  getBoundingClientRect: () => ({y: 0})
-               }]),
-               clientHeight: 100,
-               getBoundingClientRect: () => ({y: 0})
-            };
-            ctrl._children = {
-               scrollObserver: {
-                  startRegister: () => undefined
-               }
-            };
-            ctrl._loadingIndicatorContainerOffsetTop = 222;
-            ctrl.saveOptions(cfg);
-            await ctrl._beforeMount(cfg);
-            ctrl._afterMount(cfg);
-
-            let queryCallsCount = 0;
-            src.query = function(query) {
-               if (queryCallsCount === 0) {
-                  queryCallsCount++;
-                  return Promise.resolve(new sourceLib.DataSet({
-                     keyProperty: 'id',
-                     metaProperty: 'meta',
-                     itemsProperty: 'items',
-                     rawData: {
-                        items: [],
-                        meta: {
-                           more: true
-                        }
-                     }
-                  }));
-               } else if (queryCallsCount === 1) {
-                  queryCallsCount++;
-                  return Promise.resolve(new sourceLib.DataSet({
-                     keyProperty: 'id',
-                     metaProperty: 'meta',
-                     itemsProperty: 'items',
-                     rawData: {
-                        items: [{ id: 1 }, { id: 2 }],
-                        meta: {
-                           more: false
-                        }
-                     }
-                  }));
-               }
-            };
-
-            let cfgClone = { ...cfg };
-            await ctrl._reload(cfgClone);
-
-            assert.equal(1, queryCallsCount);
-            assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0);
-         });
          it('Navigation position', function() {
             return new Promise(function(resolve, reject) {
                var
@@ -6973,6 +5523,7 @@ define([
             var baseControl = correctCreateBaseControl(cfg);
             baseControl.saveOptions(cfg);
             baseControl._children = triggers;
+
             it('infinity navigation', function() {
                lists.BaseControl._private.initializeNavigation(baseControl, cfg);
                assert.isTrue(baseControl._needScrollCalculation);
@@ -7110,7 +5661,7 @@ define([
                };
                const event = { stopPropagation: () => {} };
                baseControl._unprocessedDragEnteredItem = {};
-               baseControl._itemMouseDown(event, baseControl.getViewModel().at(0), originalEvent);
+               baseControl._itemMouseDown(event, baseControl.getViewModel().getFirst(), originalEvent);
                assert.isNull(baseControl._unprocessedDragEnteredItem);
             });
             it('notify parent', () => {
@@ -7123,13 +5674,13 @@ define([
                baseControl._notify = (eName, args) => {
                   if (eName === 'itemMouseDown') {
                      isNotified = true;
-                     assert.equal(args[0], baseControl.getViewModel().at(0).contents);
+                     assert.equal(args[0], baseControl.getViewModel().getFirst().contents);
                      assert.equal(args[1], originalEvent.nativeEvent);
                   }
                };
 
                let isNotified = false;
-               baseControl._itemMouseDown(event, baseControl.getViewModel().at(0), originalEvent);
+               baseControl._itemMouseDown(event, baseControl.getViewModel().getFirst(), originalEvent);
                assert.isTrue(isNotified);
             });
 
@@ -7171,7 +5722,6 @@ define([
                   startDrag() {},
                   calculateDragPosition() {}
                };
-               baseControl._draggingItem = { dispItem: {} };
                baseControl._unprocessedDragEnteredItem = null;
                baseControl._itemMouseEnter(event, itemData, originalEvent);
                assert.equal(baseControl._unprocessedDragEnteredItem, itemData, 'should save itemData');
@@ -7202,13 +5752,13 @@ define([
                baseControl._notify = (eName, args) => {
                   if (eName === 'itemMouseUp') {
                      isNotified = true;
-                     assert.equal(args[0], baseControl.getViewModel().at(0).contents);
+                     assert.equal(args[0], baseControl.getViewModel().getFirst().contents);
                      assert.equal(args[1], originalEvent.nativeEvent);
                   }
                };
 
                let isNotified = false;
-               baseControl._itemMouseUp(event, baseControl.getViewModel().at(0), originalEvent);
+               baseControl._itemMouseUp(event, baseControl.getViewModel().getFirst(), originalEvent);
                assert.isTrue(isNotified);
             });
          });
@@ -7279,7 +5829,7 @@ define([
                   stopPropagation() { isStopped = true; }
                };
 
-               baseControl._itemMouseUp(e, baseControl.getViewModel().at(0), originalEvent);
+               baseControl._itemMouseUp(e, baseControl.getViewModel().getFirst(), originalEvent);
 
                // click on checkbox
                baseControl._onItemClick(e, { key: 1 }, originalEvent);
@@ -7354,61 +5904,6 @@ define([
             });
             await baseControl._beforeMount(cfg);
             baseControl._afterMount(cfg);
-         });
-      });
-
-      describe('_afterMount registerIntersectionObserver', () => {
-         const cfg = {
-            viewName: 'Controls/List/ListView',
-            keyProperty: 'id',
-            viewModelConstructor: 'Controls/display:Collection',
-            source: new sourceLib.Memory({
-               keyProperty: 'id',
-               data: [
-                  {
-                     id: 1,
-                     title: 'Первый'
-                  },
-                  {
-                     id: 2,
-                     title: 'Второй'
-                  }
-               ]
-            }),
-            navigation: {
-               view: 'infinity'
-            },
-            virtualScrollConfig: {
-               pageSize: 100
-            }
-         };
-         let baseControl;
-         let registered;
-         let registerIntersectionObserver = () => { registered = true; }
-         beforeEach(() => {
-            registered = false;
-            baseControl = correctCreateBaseControl(cfg);
-            baseControl._registerIntersectionObserver = registerIntersectionObserver;
-         });
-         afterEach(() => {
-            baseControl = null;
-         });
-         it('without error', async () => {
-
-            baseControl._container = {};
-            baseControl.saveOptions(cfg);
-            await baseControl._beforeMount(cfg);
-            baseControl._afterMount(cfg);
-            assert.isTrue(registered);
-         });
-         it('with error', async () => {
-
-            baseControl._container = {};
-            baseControl.saveOptions(cfg);
-            await baseControl._beforeMount(cfg);
-            baseControl.__error = {};
-            baseControl._afterMount(cfg);
-            assert.isFalse(registered);
          });
       });
 
@@ -8276,7 +6771,8 @@ define([
                      rawData: data,
                      keyProperty: 'id'
                   }),
-                  setDataLoadCallback: () => null
+                  setDataLoadCallback: () => null,
+                  hasMoreData: () => false
                };
                const newCfg = {
                   ...cfg,

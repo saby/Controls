@@ -6,6 +6,15 @@
    "
 >
    <ws:if data="{{_listModel}}">
+      <!--Top loading indicator-->
+      <ws:partial if="{{ _listModel.getTopIndicator() }}"
+                  template="{{_listModel.getTopIndicator().getTemplate()}}"
+                  item="{{_listModel.getTopIndicator()}}"
+                  on:click="_onIndicatorClick(_listModel.getTopIndicator())"/>
+      <!--Top loading trigger-->
+      <ws:partial template="{{_listModel.getTopLoadingTrigger().getTemplate()}}"
+                  item="{{_listModel.getTopLoadingTrigger()}}"/>
+
       <div name="itemsContainer" class="controls-ListViewV__itemsContainer">
          <ws:partial
              template="{{_forTemplate}}"
@@ -38,6 +47,15 @@
          <ws:partial template="{{_options.emptyTemplate}}"/>
       </ws:if>
 
+      <!--Bottom loading trigger-->
+      <ws:partial template="{{_listModel.getBottomLoadingTrigger().getTemplate()}}"
+                  item="{{_listModel.getBottomLoadingTrigger()}}"/>
+      <!--Bottom loading indicator-->
+      <ws:partial if="{{ _listModel.getBottomIndicator() }}"
+                  template="{{_listModel.getBottomIndicator().getTemplate()}}"
+                  item="{{_listModel.getBottomIndicator()}}"
+                  on:click="_onIndicatorClick(_listModel.getBottomIndicator())"/>
+
       <ws:if data="{{_listModel.getFooter()}}">
          <ws:partial
             template="{{_listModel.getFooter().getTemplate()}}"
@@ -45,5 +63,10 @@
             attr:class="{{_getFooterClasses()}}"
          />
       </ws:if>
+
+      <!--Global loading indicator-->
+      <ws:partial if="{{ _listModel.getGlobalIndicator() }}"
+                  template="{{_listModel.getGlobalIndicator().getTemplate()}}"
+                  item="{{_listModel.getGlobalIndicator()}}"/>
    </ws:if>
 </div>

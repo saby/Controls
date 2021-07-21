@@ -396,8 +396,8 @@ define([
          lv1._notify = mockNotify;
          lv2._notify = mockNotify;
 
-         lv1._onItemMouseLeave({});
-         lv2._onItemMouseLeave({});
+         lv1._onItemMouseLeave({}, {});
+         lv2._onItemMouseLeave({}, {});
 
          setTimeout(function() {
             assert.equal(2, hoveredItemChangedCount, 'event hoveredItemChanged should be notified on both listViews');

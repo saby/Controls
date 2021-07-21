@@ -1,5 +1,14 @@
 <div attr:class="controls_columns_theme-{{_options.theme}} controls-ListViewV controls-ColumnsView">
    <ws:if data="{{ _options.listModel }}">
+      <!--Top loading indicator-->
+      <ws:partial if="{{ _listModel.getTopIndicator() }}"
+                  template="{{_listModel.getTopIndicator().getTemplate()}}"
+                  item="{{_listModel.getTopIndicator()}}"
+                  on:click="_onIndicatorClick(_listModel.getTopIndicator())"/>
+      <!--Top loading trigger-->
+      <ws:partial template="{{_listModel.getTopLoadingTrigger().getTemplate()}}"
+                  item="{{_listModel.getTopLoadingTrigger()}}"/>
+
       <div attr:class="controls-ColumnsView__itemsContainer" style="{{_getItemsContainerStyle()}}" name="itemsContainer">
          <ws:for data="i in _options.listModel.getColumnsCount()">
             <div class="controls-ColumnsView_column" style="{{_getColumnStyle(i)}}">
@@ -21,6 +30,15 @@
             </div>
          </ws:for>
       </div>
+
+      <!--Bottom loading trigger-->
+      <ws:partial template="{{_listModel.getBottomLoadingTrigger().getTemplate()}}"
+                  item="{{_listModel.getBottomLoadingTrigger()}}"/>
+      <!--Bottom loading indicator-->
+      <ws:partial if="{{ _listModel.getBottomIndicator() }}"
+                  template="{{_listModel.getBottomIndicator().getTemplate()}}"
+                  item="{{_listModel.getBottomIndicator()}}"
+                  on:click="_onIndicatorClick(_listModel.getBottomIndicator())"/>
    </ws:if>
    <ws:if data="{{ _options.emptyTemplate }}">
       <ws:partial template="{{ _options.emptyTemplate }}" />
@@ -30,6 +48,11 @@
          <ws:partial template="{{ _options.footerTemplate }}" />
       </div>
    </ws:if>
+
+   <!--Global loading indicator-->
+   <ws:partial if="{{ _listModel.getGlobalIndicator() }}"
+               template="{{_listModel.getGlobalIndicator().getTemplate()}}"
+               item="{{_listModel.getGlobalIndicator()}}"/>
 
    <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()"/>
 </div>

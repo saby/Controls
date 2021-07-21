@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Up/EnoughData/Index' }}">
+            <a href="{{content.href}}">При инициализации данных хватает на всю страницу</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Up.EnoughData.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Up/NotEnoughData/Index' }}">
+            <a href="{{content.href}}">При инициализации данных не хватает на всю страницу</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Up.NotEnoughData.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Up/VirtualPageSize/Index' }}">
+            <a href="{{content.href}}">Настроен virtualPageSize</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Up.VirtualPageSize.Index/>
+    </div>
+</div>
+

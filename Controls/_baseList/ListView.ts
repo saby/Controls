@@ -1,7 +1,7 @@
 import {Logger} from 'UI/Utils';
-import {_Options} from 'UI/Vdom';
+import {_Options, SyntheticEvent} from 'UI/Vdom';
 import {isEqual} from 'Types/object';
-import {Control as BaseControl} from 'UI/Base';
+import {Control} from 'UI/Base';
 import {debounce as cDebounce} from 'Types/function';
 import * as forTemplate from 'wml!Controls/_baseList/Render/For';
 import * as GroupTemplate from 'wml!Controls/_baseList/GroupTemplate';
@@ -59,7 +59,7 @@ const _private = {
     }
 };
 
-const ListView = BaseControl.extend(
+const ListView = Control.extend(
     {
         _listModel: null,
         _hoveredItem: null,
@@ -287,6 +287,7 @@ const ListView = BaseControl.extend(
                     this._notify('checkBoxClick', [dispItem, e]);
                     return;
                 }
+
                 var item = dispItem.getContents();
                 this._notify('itemClick', [item, e]);
             }
@@ -372,6 +373,27 @@ const ListView = BaseControl.extend(
 
         _onItemWheel: function(event) {
         },
+
+        // region Indicators
+
+        getTopLoadingTrigger(): HTMLElement {
+            return this._children.topLoadingTrigger;
+        },
+
+        getBottomLoadingTrigger(): HTMLElement {
+            return this._children.bottomLoadingTrigger;
+        },
+
+        _onIndicatorClick(event: SyntheticEvent): void {
+            if (event.target.closest('.js-controls-BaseControl__continueSearch')) {
+                this._notify('continueSearchClick');
+            }
+            if (event.target.closest('.js-controls-BaseControl__abortSearch')) {
+                this._notify('abortSearchClick');
+            }
+        },
+
+        // endregion Indicators
 
         setHoveredItem: function (item) {
             this._listModel.setHoveredItem(item);
