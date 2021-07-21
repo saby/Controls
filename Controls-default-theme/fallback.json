@@ -826,15 +826,12 @@
   "--caret-color_empty_searchInput": "var(--placeholder-color_inputText)",
 
   "--height_searchMisspell": "var(--inline_height_default)",
-  "--font-weight_searchMisspell": "bold",
 
   "--input_m-width-expandableSearch": "184px",
   "--input_l-width-expandableSearch": "300px",
-  "--input_container_l-width-expandableSearch": "calc(var(--input_l-width-expandableSearch) + var(--icon-size-expandableSearch) + var(--close-button_shadow-width-expandableSearch))",
-  "--input_container_m-width-expandableSearch": "calc(var(--input_m-width-expandableSearch) + var(--icon-size-expandableSearch) + var(--close-button_shadow-width-expandableSearch))",
+  "--input_container_l-width-expandableSearch": "calc(var(--input_l-width-expandableSearch) + var(--icon-size_m) + var(--close-button_shadow-width-expandableSearch))",
+  "--input_container_m-width-expandableSearch": "calc(var(--input_m-width-expandableSearch) + var(--icon-size_m) + var(--close-button_shadow-width-expandableSearch))",
   "--close-button_icon-background-expandableSearch": "#ffffff",
-  "--close-button_shadow-start-color-expandableSearch": "rgba(255, 255, 255, 1)",
-  "--close-button_shadow-end-color-expandableSearch": "rgba(255, 255, 255, 0.6)",
   "--close-button_shadow-width-expandableSearch": "10px",
 
   "--font-weight_headingPathBack_headingBack": "bold",
@@ -1086,8 +1083,6 @@
 
   "--tick_height_slider": "4px",
   "--tick_thickness_slider": "1px",
-  "--tooltip_border-thickness_slider": "0",
-  "--tooltip_border-color_slider": "transparent",
   "--tooltip_border-radius_slider": "4px",
   "--tooltip_box-shadow_slider": "0 0 6px 0 #999",
 
