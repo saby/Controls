@@ -15,22 +15,22 @@ import 'css!Controls/search';
  */
  interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
  IRenderOptions, IPaddingOptions, ITagOptions {
-/**
- * @name Controls/search:IExpandableInput#inlineWidth
- * @cfg {String} Ширина строки поиска.
- * @variant m Строка поиска средней ширины.
- * @variant l Строка поиска большой ширины.
- * @default m
- */
-inlineWidth?: string;
-/**
- * @name Controls/search:IExpandableInput#expanded
- * @cfg {Boolean} Состояние развернутости строки поиска.
- * @variant false Строка поиска свернута.
- * @variant true Строка поиска развернута.
- * @default false
- */
-expanded?: boolean;
+   /**
+    * @name Controls/search:IExpandableInput#inlineWidth
+    * @cfg {String} Ширина строки поиска.
+    * @variant m Строка поиска средней ширины.
+    * @variant l Строка поиска большой ширины.
+    * @default m
+    */
+   inlineWidth?: string;
+   /**
+    * @name Controls/search:IExpandableInput#expanded
+    * @cfg {Boolean} Состояние развернутости строки поиска.
+    * @variant false Строка поиска свернута.
+    * @variant true Строка поиска развернута.
+    * @default false
+    */
+   expanded?: boolean;
 }
 /**
  * Контрол "Разворачиваемый поиск". Является однострочным полем ввода. Контрол используют в реестрах для ввода поискового запроса.
