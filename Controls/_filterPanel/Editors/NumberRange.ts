@@ -75,7 +75,7 @@ class NumberRangeEditor extends BaseEditor implements INumberRange {
     }
 
     protected _handleMinValueChanged(event: SyntheticEvent, value: number): void {
-        if (value < this._maxValue || !this._maxValue) {
+        if (value <= this._maxValue || !this._maxValue) {
             this._minValue = value;
         } else {
             this._processPropertyValueChanged(event, [this._minValue, this._maxValue]);
