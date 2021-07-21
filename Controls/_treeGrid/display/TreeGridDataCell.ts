@@ -39,10 +39,6 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
 
         if (!isFullGridSupport()) {
             classes = 'controls-TreeGridView__row-cell_innerWrapper ' + classes;
-
-            if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn()) {
-                classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
-            }
         }
 
         return classes;
