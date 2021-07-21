@@ -22,10 +22,8 @@ import {Logger} from 'UI/Utils';
  * * cancel:Function - вызов происходит перед показом вопроса о сохранении
  * * isDestroyed:Function - функция, которая сообщает о том, не разрушился ли контрол, зарегистрировавший операцию.
  * В случае, если он будет разрушен - операция автоматически удалится из списка зарегистрированных
- *
- * @class Controls/_form/ControllerBase
  * @extends UI/Base:Control
- * @mixes Controls/form:IControllerBase
+ * @implements Controls/form:IControllerBase
  * @public
  * @author Красильников А.С.
  *

@@ -83,10 +83,9 @@ export const enum INITIALIZING_WAY {
  * * isDestroyed:Function - функция, которая сообщает о том, не разрушился ли контрол, зарегистрировавший операцию.
  * В случае, если он будет разрушен - операция автоматически удалится из списка зарегистрированных
  *
- * @class Controls/_form/FormController
- * @extends Controls/_form/ControllerBase
- * @mixes Controls/interface:ISource
- * @mixes Controls/form:IFormController
+ * @extends Controls/form:ControllerBase
+ * @implements Controls/interface:ISource
+ * @implements Controls/form:IFormController
  * @implements Controls/interface:IErrorController
  * @public
  * @author Красильников А.С.
@@ -98,9 +97,9 @@ export const enum INITIALIZING_WAY {
  * Record editing controller. The control stores data about the record and can execute queries CRUD methods on the BL.
  * <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/">More information and details.</a>.
  * @class Controls/_form/FormController
- * @extends Controls/_form/ControllerBase
- * @mixes Controls/interface:ISource
- * @mixes Controls/form:IFormController
+ * @extends Controls/form:ControllerBase
+ * @implements Controls/interface:ISource
+ * @implements Controls/form:IFormController
  * @implements Controls/interface:IErrorController
  * @demo Controls-demo/Popup/Edit/Opener
  *
