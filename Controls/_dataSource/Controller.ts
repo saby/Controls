@@ -308,15 +308,10 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
      * @return {Types/collection:RecordSet}
      */
     reload(sourceConfig?: INavigationSourceConfig, isFirstLoad?: boolean): LoadResult {
-        this._deepReload = true;
-
         return this._load({
             key: this._root,
             navigationSourceConfig: sourceConfig,
             isFirstLoad
-        }).then((result) => {
-            this._deepReload = false;
-            return result;
         });
     }
 
@@ -498,7 +493,7 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
             !isEqual(newOptions.sorting, this._options.sorting) ||
             (this._parentProperty && rootChanged);
 
-        const resetExpandedItemsOnDeepReload = this.isDeepReload() && !rootChanged;
+        const resetExpandedItemsOnDeepReload = newOptions.deepReload && !rootChanged;
         if (isChanged && !(isExpadedItemsChanged || resetExpandedItemsOnDeepReload || this.isExpandAll())) {
             this.setExpandedItems([]);
         }
@@ -648,10 +643,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         return this._options;
     }
 
-    isDeepReload(): boolean {
-        return this._deepReload || this._options.deepReload;
-    }
-
     isExpandAll(): boolean {
         const expandedItems = this.getExpandedItems();
         return expandedItems instanceof Array && expandedItems[0] === null;
@@ -750,7 +741,6 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
         const expandedItems = this.getExpandedItems();
         const isHierarchyQueryParamsNeeded =
             isMultiNavigation &&
-            this.isDeepReload() &&
             expandedItems?.length &&
             !direction &&
             key === this._root;
@@ -931,7 +921,8 @@ export default class Controller extends mixin<ObservableMixin>(ObservableMixin) 
                 this.setExpandedItems(expandedItems);
                 resultFilter = {...initialFilter};
                 const isLoadToDirectionWithExpandedItems = direction && this._options.deepScrollLoad;
-                const isDeepReload = (this.isDeepReload() || isLoadToDirectionWithExpandedItems) && root === this._root;
+                const isDeepReload = (!direction || this._options.deepReload || isLoadToDirectionWithExpandedItems)
+                                     && root === this._root;
 
                 // Набираем все раскрытые узлы
                 if (expandedItems?.length && expandedItems?.[0] !== null && isDeepReload) {
