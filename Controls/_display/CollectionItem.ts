@@ -756,7 +756,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
                       showItemActionsOnHover: boolean = true): string {
         const hoverBackgroundStyle = this.getOwner().getHoverBackgroundStyle() || style;
         const editingBackgroundStyle = this.getOwner().getEditingBackgroundStyle();
-        let wrapperClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor)}`;
+
+        // TODO: Убрать js-controls-ListView__editingTarget' по задаче
+        //  https://online.sbis.ru/opendoc.html?guid=deef0d24-dd6a-4e24-8782-5092e949a3d9
+        let wrapperClasses = `controls-ListView__itemV js-controls-ListView__editingTarget ${this._getCursorClasses(cursor)}`;
         wrapperClasses += ` controls-ListView__item_${style}`;
         if (showItemActionsOnHover !== false) {
             wrapperClasses += ' controls-ListView__item_showActions';

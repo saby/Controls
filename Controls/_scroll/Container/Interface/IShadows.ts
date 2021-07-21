@@ -1,8 +1,6 @@
 /**
- * Набор констант, используемых при работе с опциями интерфейса {@link Controls/_scroll/Container/Interface/IShadows IShadows}, управляющих видимостью тени.
- * @class Controls/scroll:SHADOW_VISIBILITY
- * @public
- * @author Миронов А.Ю.
+ * Допустимые значения для опций интерфейса {@link Controls/_scroll/Container/Interface/IShadows IShadows}, управляющих видимостью тени.
+ * @typedef SHADOW_VISIBILITY
  */
 export const enum SHADOW_VISIBILITY {
    /**
@@ -20,10 +18,8 @@ export const enum SHADOW_VISIBILITY {
 }
 
 /**
- * Набор констант для опции {@link Controls/scroll:IShadows#shadowMode shadowMode}.
- * @class Controls/scroll:SHADOW_MODE
- * @public
- * @author Миронов А.Ю.
+ * Допустимые значения для опции {@link Controls/_scroll/Container/Interface/IShadows#shadowMode shadowMode}.
+ * @typedef SHADOW_MODE
  */
 export const enum SHADOW_MODE {
     /**
@@ -45,34 +41,34 @@ export const enum SHADOW_MODE {
 
 export interface IShadowsOptions {
     /**
-     * @name Controls/scroll:IShadows#topShadowVisibility
-     * @cfg Режим отображения тени сверху.
+     * @name Controls/_scroll/Container/Interface/IShadows#topShadowVisibility
+     * @cfg {SHADOW_VISIBILITY} Режим отображения тени сверху.
      * @default auto
      * @demo Controls-demo/Scroll/Container/TopShadowVisibility/Index
      */
     topShadowVisibility: SHADOW_VISIBILITY;
     /**
-     * @name Controls/scroll:IShadows#bottomShadowVisibility
-     * @cfg Режим отображения тени снизу.
+     * @name Controls/_scroll/Container/Interface/IShadows#bottomShadowVisibility
+     * @cfg {SHADOW_VISIBILITY} Режим отображения тени снизу.
      * @default auto
      * @demo Controls-demo/Scroll/Container/BottomShadowVisibility/Index
      */
     bottomShadowVisibility: SHADOW_VISIBILITY;
     /**
-     * @name Controls/scroll:IShadows#leftShadowVisibility
-     * @cfg Режим отображения тени слева.
+     * @name Controls/_scroll/Container/Interface/IShadows#leftShadowVisibility
+     * @cfg {SHADOW_VISIBILITY} Режим отображения тени слева.
      * @default auto
      */
     leftShadowVisibility: SHADOW_VISIBILITY;
     /**
-     * @name Controls/scroll:IShadows#rightShadowVisibility
-     * @cfg Режим отображения тени справа.
+     * @name Controls/_scroll/Container/Interface/IShadows#rightShadowVisibility
+     * @cfg {SHADOW_VISIBILITY} Режим отображения тени справа.
      * @default auto
      */
     rightShadowVisibility: SHADOW_VISIBILITY;
     /**
-     * @name Controls/scroll:IShadows#shadowMode
-     * @cfg {String} Режим отображения тени.
+     * @name Controls/_scroll/Container/Interface/IShadows#shadowMode
+     * @cfg {SHADOW_MODE} Режим отображения тени.
      * @default mixed
      */
     shadowMode: SHADOW_MODE;
@@ -102,7 +98,6 @@ export function getDefaultOptions(): IShadowsOptions {
  * @public
  * @author Миронов А.Ю.
  */
-
 export interface IShadows {
     readonly '[Controls/_scroll/Container/Interface/IShadows]': boolean;
 }

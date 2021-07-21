@@ -83,7 +83,9 @@
                         </ws:if>
                     </ws:afterContentTemplate>
                     <ws:expanderTemplate>
-                        <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
+                        <ws:if data="{{ item.shouldDisplayExpander(afterContentTemplate.expanderIcon, 'custom') }}">
+                            <ws:partial template="EXPANDER" item="{{ (item || itemData) }}"/>
+                        </ws:if>
                     </ws:expanderTemplate>
                 </ws:partial>
                 <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">

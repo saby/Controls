@@ -39,6 +39,7 @@ export default class GroupRow<T> extends mixin<
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;
     readonly EdgeRowSeparatorItem: boolean = true;
+    readonly DisplayItemActions: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly LadderSupport: boolean = false;
     readonly ItemActionsItem: boolean = false;

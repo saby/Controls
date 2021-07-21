@@ -11,8 +11,8 @@ interface IDropdownEditorOptions extends IEditorOptions{
 
 /**
  * Редактор для массива в виде выпадающего списка.
- * @class Controls/_propertyGrid/extendedEditors/Dropdown
  * @extends UI/Base:Control
+ * @implements Controls/propertyGrid:IEditor
  * @author Мельникова Е.А.
  * @public
  */

@@ -9,6 +9,9 @@ describe('Controls/_tile/display/mixins/TileItem', () => {
 
             item = new TileCollectionItem({canShowActions: true});
             CssClassesAssert.include(item.getWrapperClasses('small'), 'controls-ListView__item_showActions');
+
+            item = new TileCollectionItem({dragged: true});
+            CssClassesAssert.include(item.getWrapperClasses('small'), 'controls-ListView__itemContent_dragging');
         });
 
         it('roundBorder', () => {

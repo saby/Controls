@@ -4,9 +4,11 @@
 
    max-width: var(--max-width_filterSimplePanel);
    border: var(--border-thickness_sticky) solid var(--border-color_sticky);
+   border-radius: var(--border-radius_default_block);
    background: var(--background-color_sticky);
    box-sizing: border-box;
    box-shadow: var(--popup_box-shadow-color_menuPopup) 0 0 var(--popup_box-shadow-offset_menuPopup) 0;
+   padding: 0 var(--offset_xs);
    width: 100%;
 }
 
@@ -25,7 +27,7 @@
 
 .controls-SimplePanel__applyButton {
    position: absolute;
-   top: var(--offset_2xs);
+   top: calc((var(--item_height_menu) - var(--inline_height_l)) / 2 + var(--content_padding-top_sticky));
    right: calc(var(--offset_l) + var(--width_closeButton_link) + var(--close-button_offset-right_sticky) + var(--border-thickness_sticky));
    z-index: 2;
 }
@@ -38,6 +40,7 @@
 }
 
 .controls-SimplePanel-dropdown__emptyItem {
+   border-radius: var(--item_border-radius_menu);
    color: var(--primary_text-color);
    font-size: var(--empty-item_font-size_filterSimplePanel);
    font-weight: bold;

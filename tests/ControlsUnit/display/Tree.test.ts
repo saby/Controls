@@ -1368,7 +1368,7 @@ describe('Controls/_display/Tree', () => {
 
                 let level;
                 tree.subscribe('onCollectionChange', (e, action, newItems) => {
-                    if (newItems[0].getContents() === item) {
+                    if (action === 'm' && newItems[0].getContents() === item) {
                         level = newItems[0].getLevel();
                     }
                 });
@@ -1390,7 +1390,7 @@ describe('Controls/_display/Tree', () => {
 
                 let level;
                 tree.subscribe('onCollectionChange', (e, action, newItems) => {
-                    if (newItems[0].getContents() === item) {
+                    if (action === 'm' && newItems[0].getContents() === item) {
                         level = newItems[0].getLevel();
                     }
                 });
@@ -2673,5 +2673,31 @@ describe('Controls/_display/Tree', () => {
 
             assert.isTrue(tree._displayExpanderPadding);
         })
+    });
+
+    describe('parent', () => {
+        it('recount hierarchy on change parent vakue in record', () => {
+            const rs = new RecordSet({
+                rawData: [
+                    {id: 1, hasChildren: false, node: true, pid: 0},
+                    {id: 11, hasChildren: false, node: true, pid: 1},
+                    {id: 2, hasChildren: false, node: true, pid: 0},
+                    {id: 21, hasChildren: false, node: true, pid: 2},
+                    {id: 22, hasChildren: false, node: true, pid: 2}
+                ],
+                keyProperty: 'id'
+            });
+            const tree = getTree(rs);
+
+            // переместили одну запись в соседний узел
+            rs.getRecordById(21).set('pid', 1);
+            assert.equal(tree.getItemBySourceKey(21).getParent().key, 1);
+
+            // переместили 2 записи из разных узлов в корень
+            rs.getRecordById(21).set('pid', 0);
+            rs.getRecordById(22).set('pid', 0);
+            assert.isTrue(tree.getItemBySourceKey(21).getParent().isRoot());
+            assert.isTrue(tree.getItemBySourceKey(22).getParent().isRoot());
+        });
     });
 });

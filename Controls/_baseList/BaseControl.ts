@@ -1857,6 +1857,9 @@ const _private = {
                     case IObservable.ACTION_REPLACE:
                         selectionController.onCollectionReplace(newItems);
                         break;
+                    case IObservable.ACTION_MOVE:
+                        selectionController.onCollectionMove();
+                        break;
                 }
 
                 if (newSelection) {
@@ -5432,7 +5435,18 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             return;
         }
 
-        const canEditByClick = !this._options.readOnly && this._getEditingConfig().editOnClick && !originalEvent.target.closest(`.${JS_SELECTORS.NOT_EDITABLE}`);
+        const canEditByClick = !this._options.readOnly && this._getEditingConfig().editOnClick && (
+            // В процессе перехода на новые коллекции был неспециально изменен способ навешивания классов
+            // для разделителей строки и колонок. Классы должны вешаться в шаблоне колонки, т.к. на этом
+            // шаблоне есть несколько опций, регулирующих внешний вид ячейки (cursor и editable).
+            // при применении классов "выше" шаблона колонки, визуальные изменения не применяются к разделителям.
+            // Это приводит к ошибкам:
+            // 1) курсор в ячейке "стрелка", а над разделителями - "указатель-лапка"
+            // 2) в ячейке запрещено редактирование, но клик по разделителю запускает редактирование.
+            // TODO: Убрать по задаче проверку ну '.js-controls-ListView__editingTarget' по задаче
+            //  https://online.sbis.ru/opendoc.html?guid=deef0d24-dd6a-4e24-8782-5092e949a3d9
+            originalEvent.target.closest('.js-controls-ListView__editingTarget') && !originalEvent.target.closest(`.${JS_SELECTORS.NOT_EDITABLE}`)
+        );
         if (canEditByClick) {
             e.stopPropagation();
             this._beginEdit({ item }, { columnIndex }).then((result) => {
