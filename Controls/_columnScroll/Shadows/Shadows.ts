@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_columnScroll/New/Shadows/Shadows';
+import * as template from 'wml!Controls/_columnScroll/Shadows/Shadows';
 import ColumnScrollController from './../ColumnScrollController';
 
 interface IShadowsOptions extends IControlOptions {

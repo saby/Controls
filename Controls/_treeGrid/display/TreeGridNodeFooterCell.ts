@@ -1,6 +1,7 @@
 import { TemplateFunction } from 'UI/Base';
 import { GridCell } from 'Controls/grid';
 import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
+import {COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 
 export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeFooterRow> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterCell]': boolean;
@@ -27,7 +28,7 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
         let classes =
             'controls-TreeGrid__nodeFooterContent' +
             ` controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${rowSeparatorSize}` +
-            ' controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable';
+            ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE}`;
 
         if (colspan !== false) {
             classes += ' controls-TreeGrid__nodeFooterContent_colspaned';

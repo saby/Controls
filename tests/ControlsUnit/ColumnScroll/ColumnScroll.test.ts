@@ -91,9 +91,9 @@ function mockContentContainer(params: {
     return {
         scrollWidth: params.scrollWidth,
         offsetWidth: params.offsetWidth,
-        querySelectorAll: (selector: string) => (selector === '.controls-Grid_columnScroll_wrapper' && !!params.stickyElements) ? params.stickyElements : [],
+        querySelectorAll: () => [],
         querySelector: (selector: string) => {
-            const lastStickyColumnSelector = `.controls-Grid_columnScroll__fixed:nth-child(${(params.stickyColumnsCount || 1) + (params.hasMultiSelect ? 1 : 0)})`;
+            const lastStickyColumnSelector = `.controls-ColumnScroll__fixedElement:nth-child(${(params.stickyColumnsCount || 1) + (params.hasMultiSelect ? 1 : 0)})`;
             if (selector === lastStickyColumnSelector) {
                 return mockStickyCellContainer();
             }
@@ -132,77 +132,33 @@ describe('Controls/columnScroll', () => {
     });
     //#endregion
 
-    describe('constructor', () => {
-        it('initial state: transformSelector', () => {
-            assert.equal(columnScroll.getTransformSelector(), 'controls-ColumnScroll__transform-12345');
-        });
-        it('initial state: scrollPosition', () => {
-            assert.equal(columnScroll.getScrollPosition(), 0);
-        });
-    });
-
-    describe('.updateSizes()', () => {
-
-        it('should call only once(last callback) in debounced updateSizes', (done) => {
-            let updateCounter = 0;
-            let isFiredLast = false;
-
-            columnScroll.updateSizes(() => {
-                // Должен быть проигнорирован.
-                updateCounter++;
-            });
-            columnScroll.updateSizes(() => {
-                // Должен быть проигнорирован.
-                updateCounter++;
-            });
-            columnScroll.updateSizes(() => {
-                updateCounter++;
-                isFiredLast = true;
-                assert.equal(updateCounter, 1, 'Debounced updating sizes called then more then 1 time.');
-                assert.isTrue(isFiredLast, 'Should fire callback only on rea update(last in debounced fn).');
-                done();
-            });
-        });
-
-        it('should not call debounced updateSizes if controller was destroyed', () => {
-            let isCallbackCalled = false;
-            columnScroll.updateSizes(() => {
-                isCallbackCalled = true;
-            });
-
-            columnScroll.destroy();
-
-            columnScroll.updateSizes(() => {
-                isCallbackCalled = true;
-            });
-            assert.isFalse(isCallbackCalled, 'Callback wasCalled for destroyed controller.');
-        });
-    });
-
     // TODO: Убрать ts-ignore
     it('.getShadowClasses()', () => {
-        // @ts-ignore
-        columnScroll._shadowState = {start: true, end: true};
-
         CssClassesAssert.isSame(
-            columnScroll.getShadowClasses('start'),
+            ColumnScroll.getShadowClasses('start', {
+                isVisible: true,
+                backgroundStyle: 'default'
+            }),
             [
-                'js-controls-ColumnScroll__shadow-start',
+                'js-controls-ColumnScroll__shadow_position-start',
                 'controls-ColumnScroll__shadow',
                 'controls-ColumnScroll__shadow_without-bottom-padding',
-                'controls-ColumnScroll__shadow-start',
-                'controls-horizontal-gradient-default'
+                'controls-ColumnScroll__shadow_position-start',
+                'controls-ColumnScroll__shadow-default'
             ]
         );
 
         CssClassesAssert.isSame(
-            columnScroll.getShadowClasses('end'),
+            ColumnScroll.getShadowClasses('end', {
+                isVisible: true,
+                backgroundStyle: 'default'
+            }),
             [
-                'js-controls-ColumnScroll__shadow-end',
+                'js-controls-ColumnScroll__shadow_position-end',
                 'controls-ColumnScroll__shadow',
                 'controls-ColumnScroll__shadow_without-bottom-padding',
-                'controls-ColumnScroll__shadow-end',
-                'controls-horizontal-gradient-default'
+                'controls-ColumnScroll__shadow_position-end',
+                'controls-ColumnScroll__shadow-default'
             ]
         );
 
@@ -210,8 +166,6 @@ describe('Controls/columnScroll', () => {
 
     // TODO: Переписать на публичные вызовы. Тестировать поведение кусками.
     describe('tests in old format. REWRITE.', () => {
-
-        // FIXME: Этот тест неправильный, не может быть отрицательного значения
         it('should scroll to position', () => {
             const target = {
                 left: 0,
@@ -219,25 +173,7 @@ describe('Controls/columnScroll', () => {
             };
             assert.equal(columnScroll.getScrollPosition(), 0);
             columnScroll.scrollToElementIfHidden(target);
-            assert.equal(columnScroll.getScrollPosition(), -12);
+            assert.equal(columnScroll.getScrollPosition(), 0);
         });
-
-        it('should scroll to right column when not multiHeader', () => {
-            columnScroll.setScrollPosition(8);
-            assert.equal(columnScroll.getScrollPosition(), 8);
-            const mockContainer = mockColumnsHTMLContainer([100, 150, 51, 51], columnScroll.getScrollPosition());
-            columnScroll.scrollToColumnWithinContainer(mockContainer);
-            assert.equal(columnScroll.getScrollPosition(), 18);
-        });
-
-        it('should scroll to right column when multiHeader', () => {
-            columnScroll.setScrollPosition(8);
-            assert.equal(columnScroll.getScrollPosition(), 8);
-            columnScroll.scrollToColumnWithinContainer(mockColumnsHTMLContainer([
-                [250, 102],
-                [100, 150, 51, 51]
-            ], columnScroll.getScrollPosition()));
-            assert.equal(columnScroll.getScrollPosition(), 18);
-        });
-    })
+    });
 });

@@ -11,6 +11,7 @@ import StickyLadderCell from '../StickyLadderCell';
 import CheckboxCell from '../CheckboxCell';
 import ItemActionsCell from './../ItemActionsCell';
 import {TColspanCallback, TColspanCallbackResult} from './Grid';
+import {DRAG_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 
 const DEFAULT_GRID_ROW_TEMPLATE = 'Controls/grid:ItemTemplate';
 
@@ -157,7 +158,7 @@ export default abstract class Row<T> {
         const hoverBackgroundStyle = this.getHoverBackgroundStyle();
 
         let classes = 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable';
-        classes += ' js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable';
+        classes += ` js-controls-ListView__checkbox ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE}`;
         classes += ' controls-CheckboxMarker_inList';
 
         if (this._$owner.getMultiSelectVisibility() === 'onhover' && this.isSelected() === false) {

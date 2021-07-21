@@ -25,7 +25,7 @@
 
         <!-- Скроллбар горизонтального скролла. -->
         <ws:if data="{{ _options.columnScroll }}">
-            <Controls.columnScroll:NewScrollBar
+            <Controls.columnScroll:ScrollBar
                     name="horizontalScrollBar{{columnScrollPartName === 'scrollable' ? '_fake'}}"
                     attr:style="{{ _getColumnScrollThumbStyles(_options) }}"
                     stickyHeader="{{ true }}"

@@ -2,6 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { IMarkable } from 'Controls/display';
 import Cell from './Cell';
 import DataRow from './DataRow';
+import {DRAG_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 
 export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, TOwner> implements IMarkable {
     readonly Markable: boolean = true;
@@ -18,7 +19,7 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         wrapperClasses += this._getWrapperBaseClasses(theme, style, templateHighlightOnHover);
         wrapperClasses += this._getWrapperSeparatorClasses(theme);
         wrapperClasses += ' js-controls-ListView__notEditable' +
-            ' js-controls-ColumnScroll__notDraggable' +
+            ` ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE}` +
             ' controls-GridView__checkbox' +
             ' controls-GridView__checkbox_position-default' +
             ' controls-Grid__row-cell-checkbox';

@@ -1,7 +1,7 @@
 <ws:partial template="Controls/grid:ColumnTemplate" scope="{{ _options }}">
     <ws:contentTemplate>
         <ws:if data="{{ item.contents.show }}">
-            <div class="js-controls-ColumnScroll__notDraggable"
+            <div class="js-controls-DragScroll__notDraggable"
                  style="width: 80px; border-radius: 5px; padding: 3px; background-color: #fadadd;"
             >За этот див нельзя скроллить</div>
         </ws:if>
