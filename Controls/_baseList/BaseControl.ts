@@ -730,13 +730,13 @@ const _private = {
     },
     // endregion key handlers
 
-    shouldDrawCut(navigation, items, hasMoreData, expanded): boolean {
+    shouldDrawCut(navigation, items, hasMoreData): boolean {
         /*
          * Кат нужен, если есть еще данные
-         * или кат развернут и данных больше, чем размер страницы
+         * или данных больше, чем размер страницы
          */
         return _private.isCutNavigation(navigation) &&
-                    (hasMoreData || expanded && items && items.getCount() > (navigation.sourceConfig.pageSize));
+                    (hasMoreData || items && items.getCount() > (navigation.sourceConfig.pageSize));
     },
 
     prepareFooter(self: BaseControl, options: IBaseControlOptions, sourceController: SourceController): void {
@@ -749,8 +749,7 @@ const _private = {
         } else if (
             _private.shouldDrawCut(options.navigation,
                                    self._items,
-                                   self._hasMoreData(sourceController, 'down'),
-                                   self._expanded)
+                                   self._hasMoreData(sourceController, 'down'))
         ) {
             self._shouldDrawCut = true;
         } else {
@@ -3467,7 +3466,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _shouldDrawFooter = false;
     _shouldDrawCut = false;
 
-    _expanded = false;
+    _cutExpanded = false;
     _cutSize = 'm';
 
     _loader = null;
@@ -6213,21 +6212,28 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.loadToDirectionIfNeed(this, 'down');
     }
 
-    _onCutClick() {
-        if (!this._expanded) {
+    // region Cut
+
+    protected _onCutClick() {
+        const newExpanded = !this._cutExpanded;
+        this._reCountCut(newExpanded).then(() => this._cutExpanded = newExpanded);
+    }
+
+    private _reCountCut(newExpanded: boolean): Promise<void> {
+        if (newExpanded) {
             this._sourceController.setNavigation(undefined);
-            this._reload(this._options).then(() => {
-                this._expanded = true;
+            return this._reload(this._options).then(() => {
                 _private.prepareFooter(this, this._options, this._sourceController);
             });
         } else {
             this._sourceController.setNavigation(this._options.navigation);
-            this._reload(this._options).then(() => {
-                this._expanded = false;
+            return this._reload(this._options).then(() => {
                 _private.prepareFooter(this, this._options, this._sourceController);
             });
         }
     }
+
+    // endregion Cut
 
     _continueSearch(): void {
         _private.getPortionedSearch(this).continueSearch();
