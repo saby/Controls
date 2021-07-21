@@ -43,4 +43,13 @@
       </Router.router:Reference>
       <Controls-demo.OperationsPanelNew.PanelWithList.Index/>
    </div>
+
+   <div class="controlsDemo__cell">
+    <Router.router:Reference attr:class="controls-text-label"
+                             state="/Controls-demo/app/:app"
+                             app="{{ 'Controls-demo/OperationsPanelNew/OperationsPanelAndDescendantsOff/Index' }}">
+       <a href="{{content.href}}">Operations Panel с отключенной отметкой детей</a>
+    </Router.router:Reference>
+    <Controls-demo.OperationsPanelNew.OperationsPanelAndDescendantsOff.Index/>
+ </div>
 </div>
