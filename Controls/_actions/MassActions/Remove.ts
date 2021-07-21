@@ -8,10 +8,10 @@ export default class Remove extends MassAction {
 }
 
 Object.assign(Remove.prototype, {
-    _$id: 'remove',
-    _$title: rk('Удалить'),
-    _$icon: 'icon-Erase',
-    _$iconStyle: 'danger',
-    _$commandName: 'Controls/listActions:Remove',
-    _$viewCommandName: 'Controls/viewCommands:PartialReload'
+    id: 'remove',
+    title: rk('Удалить'),
+    icon: 'icon-Erase',
+    iconStyle: 'danger',
+    commandName: 'Controls/listActions:Remove',
+    viewCommandName: 'Controls/viewCommands:PartialReload'
 });

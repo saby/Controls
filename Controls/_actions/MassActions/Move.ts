@@ -8,10 +8,10 @@ export default class Move extends MassAction {
 }
 
 Object.assign(Move.prototype, {
-    _$id: 'move',
-    _$title: rk('Переместить'),
-    _$icon: 'icon-Move',
-    _$iconStyle: 'secondary',
-    _$commandName: 'Controls/listActions:Move',
-    _$viewCommandName: 'Controls/viewCommands:PartialReload'
+    id: 'move',
+    title: rk('Переместить'),
+    icon: 'icon-Move',
+    iconStyle: 'secondary',
+    commandName: 'Controls/listActions:Move',
+    viewCommandName: 'Controls/viewCommands:PartialReload'
 });

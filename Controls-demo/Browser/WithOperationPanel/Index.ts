@@ -25,10 +25,4 @@ export default class extends Control<IControlOptions> {
         template: 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo'
     }];
     protected _panelSource = getPanelData();
-
-    protected _selectedKeysChanged(event, keys): void {
-        if (keys.length && !this._operationsItems.find((item) => item.id === 'sum')) {
-            this._operationsItems = this._operationsItems.concat(this._addedOperationsItems);
-        }
-    }
 }

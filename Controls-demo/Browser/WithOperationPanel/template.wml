@@ -2,7 +2,6 @@
     <Controls.browser:Browser
         bind:selectedKeys="_selectedKeys"
         bind:excludedKeys="_excludedKeys"
-        on:selectedKeysChanged="_selectedKeysChanged()"
         multiSelectVisibility="visible"
         navigation="{{null}}"
         nodeProperty="Раздел@"
