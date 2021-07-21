@@ -22,7 +22,7 @@ import {IColumn} from 'Controls/grid';
 export type TTagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | 'secondary';
 
 /**
- * Интерфейс для конфигурации колонки c тегом в {@link Controls/grid:View таблице} и {@link Controls/treeGrid:View дереве}.
+ * Интерфейс для конфигурации колонки c тегом в {@link Controls/grid:View таблице} и {@link Controls/treeGrid:View дереве с колонками}.
  *
  * @interface Controls/_grid/interface/ITagColumn
  * @public
