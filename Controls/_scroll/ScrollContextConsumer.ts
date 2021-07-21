@@ -24,8 +24,8 @@ interface IScrollContextConsumerContext {
  *
  * @class Controls/_scroll/Container
  * @extends Controls/_scroll/ContainerBase
- * @mixes Controls/scroll:IScrollbars
- * @mixes Controls/scroll:IShadows
+ * @implements Controls/scroll:IScrollbars
+ * @implements Controls/scroll:IShadows
  *
  * @public
  * @author Миронов А.Ю.

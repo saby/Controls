@@ -25,7 +25,6 @@ export function getDefaultOptions(): IScrollbarsOptions {
  * @public
  * @author Миронов А.Ю.
  */
-
 export interface IScrollbars {
     readonly '[Controls/_scroll/Container/Interface/IScrollbars]': boolean;
 }

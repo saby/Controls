@@ -10,8 +10,6 @@
                           {{!_options.headerTemplate && _verticalDirection === 'top' ? 'controls-Menu__popup-reverse'}}
                           controls-Menu__popup-shadow-{{_options.typeShadow || 'default'}}
                           {{_options.dropdownClassName}}"
-              attr:style="width: {{_options.width ? _options.width + 'px'}};
-                          max-width: {{_options.width ? _options.width + 'px'}}"
               icon="{{_headingIcon}}"
               headingIconSize="{{_headingIconSize}}"
               caption="{{_headingCaption}}"
@@ -19,7 +17,6 @@
               headingCaption="{{!_options.headerTemplate ? _headingCaption : ''}}"
               iconSize="{{_options.iconSize}}"
               iconStyle="{{_options.iconStyle}}"
-              dropdownClassName="{{_options.dropdownClassName}}"
               footerContentTemplate="{{footerContent}}"
               headerContentTemplate="{{headerContentTemplate || _headerTemplate}}"
               footerItemData="{{_options.footerItemData}}"
@@ -30,7 +27,7 @@
               on:footerClick="_footerClick()">
          <ws:bodyContentTemplate>
             <div class="{{_options.headerTemplate && _verticalDirection === 'top' ? 'controls-Menu__popup-reverse'}}
-             controls-Menu__popup-content">
+                        controls-Menu__popup-content">
                <ws:if data="{{_applyButtonVisible}}">
                   <div class="controls-Menu__popup_applyButton
                         controls-Menu_{{(_options.headerTemplate || _headingCaption || _headerTemplate) ? 'withHeader' +
@@ -61,6 +58,7 @@
                <Controls._menu.Control
                        name="menuControl"
                        attr:class="controls-Menu__popup-list controls-Menu__popup-list-padding-{{_verticalDirection}}"
+                       dropdownClassName="{{_options.dropdownClassName}}"
                        selectorOpenCallback="{{_options.selectorOpenCallback}}"
                        nodeFooterTemplate="{{_options.nodeFooterTemplate}}"
                        root="{{_options.root}}"
@@ -75,6 +73,7 @@
                        emptyText="{{_options.emptyText}}"
                        emptyKey="{{_options.emptyKey}}"
                        searchParam="{{_options.searchParam}}"
+                       width="{{_options.width}}"
                        breadCrumbsItemTemplate="{{_options.breadCrumbsItemTemplate}}"
                        multiSelect="{{_options.multiSelect}}"
                        markerVisibility="{{_options.markerVisibility}}"

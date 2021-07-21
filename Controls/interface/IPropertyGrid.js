@@ -17,7 +17,7 @@ define('Controls/interface/IPropertyGrid', [
     */
 
    /**
-    * @typedef {Object} PropertyGridItems
+    * @typedef {Object} Controls/interface/IPropertyGrid/PropertyGridItems
     * @property {*} value Текущее значение свойства.
     * @property {*} resetValue Значение свойства при сбросе.
     */
@@ -30,12 +30,12 @@ define('Controls/interface/IPropertyGrid', [
 
    /**
     * @name Controls/interface/IPropertyGrid#items
-    * @cfg {PropertyGridItems} Свойства для редактирования или отображения.
+    * @cfg {Controls/interface/IPropertyGrid/PropertyGridItems.typedef} Свойства для редактирования или отображения.
     */
 
    /*
     * @name Controls/interface/IPropertyGrid#items
-    * @cfg {PropertyGridItems} Properties for editing or showing.
+    * @cfg {Controls/interface/IPropertyGrid/PropertyGridItems.typedef} Properties for editing or showing.
     */
 
 });

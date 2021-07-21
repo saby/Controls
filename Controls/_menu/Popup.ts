@@ -184,6 +184,11 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
             popupOptions.direction.horizontal = this._horizontalDirection;
             popupOptions.targetPoint.horizontal = this._horizontalDirection;
         }
+        if (this._horizontalDirection === 'right') {
+            popupOptions.className += ' controls-Menu__subMenu_marginLeft';
+        } else {
+            popupOptions.className += ' controls-Menu__subMenu_marginLeft-revert';
+        }
     }
 
     protected _setSelectedItems(event: SyntheticEvent<MouseEvent>, items: Model[]): void {

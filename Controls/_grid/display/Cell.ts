@@ -351,7 +351,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                       templateHighlightOnHover: boolean = true): string {
         const hoverBackgroundStyle = this._$column.hoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
 
-        let contentClasses = 'controls-Grid__row-cell__content';
+        // TODO: Убрать js-controls-ListView__editingTarget' по задаче
+        //  https://online.sbis.ru/opendoc.html?guid=deef0d24-dd6a-4e24-8782-5092e949a3d9
+        let contentClasses = 'controls-Grid__row-cell__content js-controls-ListView__editingTarget';
 
         contentClasses += ' controls-Grid__row-cell__content_baseline_default';
         contentClasses += ` controls-Grid__row-cell_cursor-${cursor}`;

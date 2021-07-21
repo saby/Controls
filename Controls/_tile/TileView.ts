@@ -192,7 +192,9 @@ export default class TileView extends ListView {
                 closeOnOutsideClick: true,
                 maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
                 target: this._targetItemRect ? {getBoundingClientRect: () => this._targetItemRect} : imageWrapper,
-                className: `controls-TileView__itemActions_menu_popup controls_popupTemplate_theme-${this._options.theme}`,
+                className: `controls-TileView__itemActions_menu_popup
+                            controls_popupTemplate_theme-${this._options.theme}
+                            controls_list_theme-${this._options.theme}`,
                 targetPoint: {
                     vertical: 'top',
                     horizontal: 'left'
