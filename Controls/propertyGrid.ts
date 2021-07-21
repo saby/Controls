@@ -1,6 +1,7 @@
 /**
  * Библиотека контролов, которые реализуют propertyGrid и набор стандартных редакторов типов.
  * @library
+ * @includes IItemsContainerPadding Controls/_propertyGrid/IItemsContainerPadding
  * @includes GroupTemplate Controls/propertyGrid:GroupTemplate
  * @author Герасимов А.М.
  */
@@ -8,6 +9,7 @@
 /*
  * PropertyGrid library
  * @library
+ * @includes IItemsContainerPadding Controls/_propertyGrid/IItemsContainerPadding
  * @includes GroupTemplate Controls/propertyGrid:GroupTemplate
  * @author Герасимов А.М.
  */
