@@ -17,7 +17,7 @@
          />
 
          <ws:if data="{{_options.toolbarContentTemplate}}">
-            <ws:partial template="{{_options.toolbarContentTemplate}}" attr:class="controls-padding_top-xs"/>
+            <ws:partial template="{{_options.toolbarContentTemplate}}" attr:class="controls-margin_top-xs"/>
          </ws:if>
       </div>
 
