@@ -6,9 +6,13 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
     readonly '[Controls/treeGrid:TreeGridNodeFooterCell]': boolean;
 
     getTemplate(content?: TemplateFunction): TemplateFunction|string {
-        // Возвращать шаблон кнопки "Ещё".
-        // https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b
-        return this._$owner.hasMoreStorage() ? null : content;
+        const nav = this.getOwner().getOwner().getNavigation();
+        const isInfinityNav = nav?.view === 'infinity';
+
+        // Если подгрузка данных осуществляется по скролу, то нет смысла выводить кнопку "Ещё".
+        // TODO: Возвращать шаблон кнопки "Ещё".
+        //  https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b
+        return !isInfinityNav && this._$owner.hasMoreStorage() ? null : content;
     }
 
     getContentClasses(
