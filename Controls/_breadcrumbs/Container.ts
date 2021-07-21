@@ -11,6 +11,7 @@ interface IDataOptionsValue {
     sourceController?: SourceController;
     keyProperty: string;
     parentProperty: string;
+    root: string;
 }
 
 interface IContainerOptions extends IControlOptions {
@@ -22,6 +23,8 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     protected _template: TemplateFunction = template;
     protected _sourceController: SourceController;
     protected _breadCrumbsItems: Path;
+    protected _root: string;
+    protected _topRoot: string;
     protected _keyProperty: string;
     protected _parentProperty: string;
     protected _hoveredBreadCrumb: string;
@@ -31,6 +34,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
     protected _beforeMount(options: IContainerOptions): void {
         this._breadCrumbsDragHighlighter = this._dragHighlighter.bind(this);
         this._updateBreadCrumbsItems = this._updateBreadCrumbsItems.bind(this);
+        this._root = BreadCrumbsContainer._getRoot(options);
         this._keyProperty = BreadCrumbsContainer._getKeyProperty(options);
         this._parentProperty = BreadCrumbsContainer._getParentProperty(options);
 
@@ -76,7 +80,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         if (this._options.itemsDragNDrop &&
             this._parentProperty &&
             cInstance.instanceOfModule(dragObject.entity, 'Controls/dragnDrop:ItemsEntity')) {
-            this._dragOnBreadCrumbs = true;
+            this._dragOnBreadCrumbs = !this._dragItemsFromRoot(dragObject.entity.getItems());
         }
     }
 
@@ -87,6 +91,34 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         this._dragOnBreadCrumbs = false;
     }
 
+    private _getTopRoot(): string {
+        // Если есть хлебные крошки, то получаем top root из них.
+        // В противном случае просто возвращаем текущий root
+        if (this._breadCrumbsItems && this._breadCrumbsItems.length) {
+            return this._breadCrumbsItems[0].get(this._parentProperty);
+        }
+        else {
+            return this._root;
+        }
+    };
+
+    private _dragItemsFromRoot(dragItems: TKey[]): boolean {
+        let itemFromRoot = true;
+        if (this._sourceController) {
+            const items = this._sourceController.getItems();
+
+            dragItems.forEach((key) => {
+                const item = items.getRecordById(key);
+
+                if (!item || item.get(this._parentProperty) !== this._topRoot) {
+                    itemFromRoot = false;
+                }
+            });
+        }
+
+        return itemFromRoot;
+    }
+
     private _subscribeItemsChanged(sourceController): void {
         this._sourceController = sourceController;
         this._sourceController.subscribe('itemsChanged', this._updateBreadCrumbsItems);
@@ -95,6 +127,7 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
 
     private _updateBreadCrumbsItems(): void {
         this._breadCrumbsItems = this._sourceController.getState().breadCrumbsItems;
+        this._topRoot = this._getTopRoot();
     }
 
     private _setBreadCrumbsItems(options): void {
@@ -122,10 +155,16 @@ export default class BreadCrumbsContainer extends Control<IContainerOptions> {
         return options._dataOptionsValue;
     }
 
+    private static _getRoot(options): string {
+        return BreadCrumbsContainer._getContextOptions(options).root ||
+            options.sourceController && options.sourceController.getRoot();
+    }
+
     private static _getKeyProperty(options): string {
         return BreadCrumbsContainer._getContextOptions(options).keyProperty ||
             options.sourceController && options.sourceController.getKeyProperty();
     }
+
     private static _getParentProperty(options): string {
         return BreadCrumbsContainer._getContextOptions(options).parentProperty ||
             options.sourceController && options.sourceController.getParentProperty();
