@@ -23,6 +23,7 @@ import IItemActionsItem from './interface/IItemActionsItem';
 import {TRoundBorder} from "Controls/_tile/display/mixins/Tile";
 import {isEqual} from "Types/object";
 import IEnumerableItem from './interface/IEnumerableItem';
+import IEdgeRowSeparatorItem from './interface/IEdgeRowSeparatorItem';
 
 export interface IOptions<T extends Model = Model> {
     itemModule?: string;
@@ -96,7 +97,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     InstantiableMixin,
     SerializableMixin,
     ItemCompatibilityListViewModel
-) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable, IItemActionsItem, IEnumerableItem {
+) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable, IItemActionsItem, IEnumerableItem, IEdgeRowSeparatorItem {
 
     // region IInstantiable
 
@@ -104,6 +105,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
     readonly EnumerableItem: boolean = true;
+    readonly EdgeRowSeparatorItem: boolean = true;
     readonly DraggableItem: boolean = true;
     readonly ItemActionsItem: boolean = true;
     readonly DisplaySearchValue: boolean = true;
