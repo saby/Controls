@@ -72,7 +72,6 @@
                         on:drawItems="_notifyHandler('drawItems')"
                         on:beforeItemsMove="_notifyHandler('detailBeforeItemsMove')"
                         afterBreadCrumbsTemplate="{{_options.detail.afterBreadCrumbsTemplate}}"
-                        dataLoadCallback="{{_onDetailDataLoadCallback}}"
                         searchValue="{{_options.searchValue}}"
                         tileSize="{{_tileCfg.tileSize}}"
                         on:changeDragTarget="_notifyHandler('detailChangeDragTarget')"
