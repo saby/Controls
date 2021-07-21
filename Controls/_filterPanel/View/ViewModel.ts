@@ -229,7 +229,12 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._nextVersion();
     }
 
-    handleGroupClick(group: string): void {
-        this._expandGroup(group);
+    handleGroupClick(group: string, isExpanderClick?: boolean): void {
+        const groupCollapsed = this._collapsedGroups.includes(group);
+        if (isExpanderClick && !groupCollapsed) {
+            this.collapseGroup(group);
+        } else {
+            this._expandGroup(group);
+        }
     }
 }
