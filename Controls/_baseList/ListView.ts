@@ -383,13 +383,21 @@ const ListView = BaseControl.extend(
 
         // protected
         _getFooterClasses(): string {
+            let result = 'controls-ListView__footer';
+
+            if (this._options.itemActionsPosition === 'outside') {
+                result += ' controls-ListView__footer__itemActionsV_outside';
+            }
+
             let leftPadding: string;
             if (this._options.multiSelectVisibility !== 'hidden') {
                 leftPadding = 'withCheckboxes';
             } else {
                 leftPadding = (this._options.itemPadding && this._options.itemPadding.left || 'default').toLowerCase();
             }
-            return `controls-ListView__footer controls-ListView__footer__paddingLeft_${leftPadding}`;
+            result += ` controls-ListView__footer__paddingLeft_${leftPadding}`;
+
+            return result;
         },
 
         activateEditingRow(enableScrollToElement?: boolean): boolean {
