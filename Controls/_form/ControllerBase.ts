@@ -270,12 +270,17 @@ export default class ControllerBase<T extends IControllerBase> extends Control<T
                     // если были ошибки валидации, уведомим о них
                     const validationErrors = this._validateController.getValidationResult();
                     this._notify('validationFailed', [validationErrors]);
+                    return {
+                        data: {
+                            validationErrors: results
+                        }
+                    };
                 } else {
                     this._notify('validationSuccessed', []);
                     this._record.acceptChanges();
                     this._notify('updateSuccessed', [this._record]);
+                    return results;
                 }
-                return results;
             });
         });
         this._notify('registerPending', [updatePromise, { showLoadingIndicator: false }], { bubbling: true });
