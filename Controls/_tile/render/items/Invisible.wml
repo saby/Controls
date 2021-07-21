@@ -1,9 +1,11 @@
-<div
-    attr:class="{{ (item || itemData).getInvisibleClasses() }}"
-    attr:style="{{ (item || itemData).getItemStyles('invisible', width || itemWidth, staticHeight, imagePosition, imageViewMode) }}"
-    data-qa="controls-TileView__item_not_invisible"
->
-</div>
 <ws:if data="{{ (item || itemData).isLastInvisibleItem() }}">
     <div class="controls-TreeTileView__separator js-controls-List_invisible-for-VirtualScroll" attr:key="separator-{{ item.key }}"></div>
 </ws:if>
+<ws:else>
+    <div
+        attr:class="{{ (item || itemData).getInvisibleClasses() }}"
+        attr:style="{{ (item || itemData).getItemStyles('invisible', width || itemWidth, staticHeight, imagePosition, imageViewMode) }}"
+        data-qa="controls-TileView__item_not_invisible"
+    >
+    </div>
+</ws:else>
