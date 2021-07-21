@@ -23,6 +23,7 @@ export interface IBasePopupOptions {
      * @see templateOptions
      */
     template?: Control<IControlOptions, unknown> | TemplateFunction | string;
+    pageId?: string;
     /**
      * @cfg Определяет возможность закрытия окна по клику вне.
      * @default false
