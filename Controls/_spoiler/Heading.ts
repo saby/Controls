@@ -47,7 +47,9 @@ export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IF
     captions: TCaptions;
     /**
      * @name Controls/_spoiler/IHeading#captionPosition
-     * @cfg {string} Позиция заголовка относительно контейнера.
+     * @cfg {String} Позиция заголовка относительно контейнера.
+     * @variant left
+     * @variant right
      * @default right
      * @demo Controls-demo/Spoiler/Heading/CaptionPosition/Index
      */
@@ -72,7 +74,6 @@ export interface IHeading extends IExpandable, IFontSize, ITooltip, IFontWeight,
  * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_spoiler.less переменные тем оформления}
  * * {@link http://axure.tensor.ru/StandardsV8/%D1%81%D0%BF%D0%BE%D0%B9%D0%BB%D0%B5%D1%80%D1%8B_%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B0_%D1%81%D0%BF%D0%BE%D0%B9%D0%BB%D0%B5%D1%80%D0%BE%D0%B2.html стандарт}
  *
- * @class Controls/_spoiler/Heading
  * @extends UI/Base:Control
  * @implements Controls/interface:IFontSize
  * @implements Controls/interface:ITooltip
@@ -243,6 +244,12 @@ export default Heading;
  * @remark
  * Когда опция не задана, то её значение определяется контролом в зависимости от состояния развернутости.
  * В развернутом состоянии это "secondary", а в свёрнутом — "label".
+ * 
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.spoiler:Heading captions="{{_captions}}" fontColorStyle="secondary"/>
+ * </pre>
  *
  * @demo Controls-demo/Spoiler/Heading/FontColorStyle/Index
  * @see expanded

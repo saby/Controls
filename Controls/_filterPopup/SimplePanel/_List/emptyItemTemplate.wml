@@ -1,10 +1,11 @@
 <Controls.scroll:StickyBlock
         mode="replaceable"
+        attr:class="controls-SimplePanel-dropdown__emptyItem"
         shadowVisibility="visible">
    <ws:partial template="Controls/dropdown:ItemTemplate"
                itemData="{{itemData}}"
                displayProperty="{{displayProperty}}"
                multiSelect="{{false}}"
-               class="controls-SimplePanel-dropdown__emptyItem">
+               markerSize="s">
    </ws:partial>
 </Controls.scroll:StickyBlock>

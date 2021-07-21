@@ -6,10 +6,10 @@
 }
 
 .controls-Menu__popup-template {
+   padding: 0 var(--offset_xs);
    max-width: var(--popup_max-width_menuPopup);
    .flexbox();
    .flex-direction(column);
-   border: var(--border-thickness_sticky) solid var(--border-color_sticky);
    box-sizing: border-box;
    overflow: hidden;
 }
@@ -39,7 +39,7 @@
 }
 
 .controls-Menu__popup-background-unaccented {
-    background-color: var(--unaccented_contrast_background-color);
+    background-color: var(--unaccented_background-color);
 }
 
 .controls-Menu__popup-list {
@@ -151,7 +151,7 @@
 .controls-MenuButton__popup-header {
    padding-left: var(--header_padding-horizontal_sticky);
    min-height: var(--header_min-height_sticky);
-   background: var(--header_background-color_sticky);
+   background: transparent;
 }
 
 .controls-MenuButton__popup-header-paddingRight {
@@ -180,11 +180,11 @@
 }
 
 .controls-Menu_withClose__applyButton {
-   right: calc(var(--close-button_offset-right_sticky) + var(--width_closeButton_link) + var(--offset_xs));
+   right: calc(var(--close-button_offset-right_sticky) + var(--width_closeButton_link) + var(--offset_xs) + var(--offset_xs));
 }
 
 .controls-Menu_withoutClose__applyButton {
-   right: var(--offset_xs);
+   right: calc(var(--offset_xs) + var(--offset_xs));
 }
 
 // в edge не работает box-shadow с calc

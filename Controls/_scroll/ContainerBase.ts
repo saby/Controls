@@ -911,7 +911,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             }, 0);
     }
 
-    _onRegisterNewListScrollComponent(component: any): void {
+    _onRegisterNewListScrollComponent(component: Control): void {
         // Списку нужны события canScroll и cantScroll в момент инициализации до того,
         // как у нас отработают обработчики и инициализируются состояние.
         if (!this._scrollModel) {
@@ -1011,6 +1011,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
         // Величина на которую делаем подскролл
         const delta = 30;
+        const delay = 100;
         // Вешаем интервал что бы если пользователь остановил курсор автоскролл продолжал работать
         this._autoScrollInterval = setInterval(() => {
             if (!this._autoScroll) {
@@ -1026,7 +1027,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             if (cursorAtBorder.near && cursorAtBorder.nearBottom) {
                 this._setScrollTop(scrollTop + delta);
             }
-        }, 100);
+        }, delay);
     }
 
     // Виртуальный скролл
@@ -1059,10 +1060,10 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 && this._bottomPlaceholderSize === 0) {
                 applyScrollTop();
             } else {
-                const scrollState = this._scrollModel.clone();
+                const scrollStateClone = this._scrollModel.clone();
                 this._generateEvent('virtualScrollMove', [{
                     scrollTop,
-                    scrollState,
+                    scrollState: scrollStateClone,
                     applyScrollTopCallback: applyScrollTop
                 }]);
                 // TODO: Удалить после перехода списков на новые события
@@ -1071,8 +1072,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                     'virtualScrollMove',
                     {
                         scrollTop,
-                        scrollHeight: scrollState.scrollHeight,
-                        clientHeight: scrollState.clientHeight,
+                        scrollHeight: scrollStateClone.scrollHeight,
+                        clientHeight: scrollStateClone.clientHeight,
                         applyScrollTopCallback: applyScrollTop
                     });
             }

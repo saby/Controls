@@ -37,12 +37,12 @@ export interface IEditOpener {
 /**
  * Открывает всплывающее окно диалога редактирования.
  * @function Controls/_popup/interface/IEditOpener#open
- * @param {Object} meta Данные, по которым определяется, откуда диалог получит редактируемую запись. В объект можно передать свойства key и record. Политика обработки свойств подробно описана {@link /doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/#step22 здесь}.
- * @param {Object} popupOptions Опции всплывающего окна диалога редактирования.
- * В зависимости от значения опции {@link Controls/_popup/interface/IEditOpener#mode mode}:
- * * "stack" — смотреть {@link Controls/popup:IStackOpener.PopupOptions.typedef стекового окна}
- * * "dialog" — смотреть {@link Controls/popup:IDialogOpener.PopupOptions.typedef диалогового окна}
- * * "sticky" — смотреть {@link Controls/popup:IStickyOpener.PopupOptions.typedef окна прилипающего блока}
+ * @param {Object} meta Данные, которые определяют откуда диалог получит редактируемую запись. В объект можно передать свойства key и record, политика обработки которых описана {@link /doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/#step22 здесь}.
+ * @param {Object} popupOptions Конфигурация всплывающего окна.
+ * Набор опций, которым задается конфигурация, зависит от установленного значения в опции {@link Controls/_popup/interface/IEditOpener#mode mode}:
+ * * если задано значение "stack", тогда в popupOptions передается набор опций для {@link Controls/popup:IStackOpener.PopupOptions.typedef конфигурации стекового окна}.
+ * * если задано значение "dialog", тогда в popupOptions передается набор опций для {@link Controls/popup:IDialogOpener.PopupOptions.typedef конфигурации диалогового окна}
+ * * если задано значение "sticky", тогда в popupOptions передается набор опций для {@link Controls/popup:IStickyOpener.PopupOptions.typedef конфигурации окна прилипающего блока}
  * @returns {undefined}
  * @example
  * <pre class="brush: html">

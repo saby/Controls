@@ -1,10 +1,9 @@
 <div class="controlsDemo__wrapper demo-Mover controlsDemo_fixedWidth300">
-   <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="key">
+   <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="key" parentProperty="parent">
       <Controls.list:Container>
          <Controls.treeGrid:View
                  name="treeGrid"
                  multiSelectVisibility="visible"
-                 parentProperty="parent"
                  nodeProperty="type"
                  itemActions="{{_itemActions}}"
                  columns="{{_columns}}"/>

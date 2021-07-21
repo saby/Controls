@@ -2,6 +2,8 @@
     <Controls.treeGrid:View keyProperty="key"
                             source="{{_viewSource}}"
                             columns="{{_columns}}"
+                            rowSeparatorSize="l"
+                            columnSeparatorSize="s"
                             parentProperty="parent"
                             nodeProperty="type">
         <ws:editingConfig editOnClick="{{ true }}" mode="cell"/>
