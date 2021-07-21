@@ -383,7 +383,8 @@ export default class TreeItem<T extends Model = Model> extends mixin<
 
         let expanderIconClass = '';
         const iconStyle = this.getStyle() === 'master' && expanderPosition !== 'right' ? 'master' : 'default';
-        const appliedIcon = expanderIcon && expanderIcon !== 'node' && expanderIcon !== 'hiddenNode';
+        const appliedIcon = expanderIcon && expanderIcon !== 'node' && expanderIcon !== 'hiddenNode' &&
+            expanderIcon !== 'emptyNode';
         if (appliedIcon) {
             expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;
         } else {

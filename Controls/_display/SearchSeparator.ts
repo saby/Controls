@@ -17,6 +17,7 @@ export default class SearchSeparator<T extends Model = Model> extends Collection
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;
+    readonly EdgeRowSeparatorItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
     readonly GroupNodeItem: boolean = false;
 

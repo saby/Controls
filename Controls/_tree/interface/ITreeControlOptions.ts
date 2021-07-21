@@ -479,6 +479,7 @@ export interface ITreeControlOptions extends IControlOptions {
 /**
  * @name Controls/_tree/interface/ITreeControl#selectionType
  * @cfg {String} Тип записей, которые можно выбрать.
+ * @default all
  * @variant node Только узлы доступны для выбора.
  * @variant leaf Только листья доступны для выбора.
  * @variant all Все типы записей доступны для выбора.

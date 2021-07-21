@@ -157,6 +157,7 @@ function getLoadResult(
         sourceController,
         filterController,
         historyItems,
+        filterButtonSource: filterController?.getFilterButtonItems(),
         source: loadConfig.source ? new PrefetchProxy({
             target: loadConfig.source,
             data: {

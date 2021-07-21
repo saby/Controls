@@ -3,6 +3,11 @@
    box-shadow: var(--box-shadow_ArrowButton);
    border-color: var(--border-color_ArrowButton);
    background-color: var(--background-color_ArrowButton);
+   border-style: solid;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .controls-ArrowButton_inlineHeight-s {
@@ -19,12 +24,21 @@
    color: var(--icon-color_ArrowButton);
 }
 
-.controls-ArrowButton {
-   border-style: solid;
-   border-radius: 50%;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+.controls-ArrowButton-readOnly {
+   border-color: var(--readonly_border-color_ArrowButton);
+
+   .controls-ArrowButton_icon {
+      color: var(--readonly_icon-color_ArrowButton);
+   }
+}
+
+.controls-ArrowButton-active:active {
+   border-color: var(--border-color_hover_ArrowButton);
+   background-color: var(--background-color_hover_ArrowButton);
+
+   .controls-ArrowButton_icon {
+      color: var(--hover_icon-color_ArrowButton);
+   }
 }
 
 .ws-is-hover {
@@ -32,23 +46,9 @@
       cursor: pointer;
       border-color: var(--border-color_hover_ArrowButton);
       background-color: var(--background-color_hover_ArrowButton);
+
       .controls-ArrowButton_icon {
          color: var(--hover_icon-color_ArrowButton);
       }
-   }
-}
-
-.controls-ArrowButton-active:active {
-   border-color: var(--border-color_hover_ArrowButton);
-   background-color: var(--background-color_hover_ArrowButton);
-   .controls-ArrowButton_icon {
-      color: var(--hover_icon-color_ArrowButton);
-   }
-}
-
-.controls-ArrowButton-readOnly {
-   border-color: var(--readonly_border-color_ArrowButton);
-   .controls-ArrowButton_icon {
-      color: var(--readonly_icon-color_ArrowButton);
    }
 }

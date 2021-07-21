@@ -8,6 +8,7 @@ export default class TreeNodeFooterItem extends TreeItem<null> {
     readonly DraggableItem: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly EnumerableItem: boolean = false;
+    readonly EdgeRowSeparatorItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
 
     protected _$moreFontColorStyle: string;

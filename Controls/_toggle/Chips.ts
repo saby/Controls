@@ -37,20 +37,20 @@ export interface IChipsOptions extends IMultiSelectableOptions, IControlOptions,
  *
  * <pre>
  *   new RecordSet({
-            rawData: [
-                {
-                    id: '1',
-                    caption: 'caption 1',
-                    title: 'title 1'
-                },
-                {
-                    id: '2',
-                    caption: 'Caption 2',
-                    title: 'title 2'
-                }
-            ],
-            keyProperty: 'id'
-        });
+ *          rawData: [
+ *              {
+ *                  id: '1',
+ *                  caption: 'caption 1',
+ *                  title: 'title 1'
+ *              },
+ *              {
+ *                  id: '2',
+ *                  caption: 'Caption 2',
+ *                  title: 'title 2'
+ *              }
+ *          ],
+ *          keyProperty: 'id'
+ *      });
  * </pre>
  *
  * @demo Controls-demo/toggle/Chips/displayProperty/Index
