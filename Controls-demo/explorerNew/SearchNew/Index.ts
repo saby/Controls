@@ -5,6 +5,7 @@ import {HierarchicalMemory, Memory} from 'Types/source';
 import {IColumn} from 'Controls/grid';
 import {TRoot} from 'Controls-demo/types';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
+import {memoryFilter} from 'Controls-demo/treeGridNew/DemoHelpers/Filter/memoryFilter';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -39,7 +40,10 @@ export default class extends Control {
         this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
             parentProperty: 'parent',
-            data: Gadgets.getSearchData()
+            data: Gadgets.getSearchData(),
+            filter(item, filter): boolean {
+                return memoryFilter.call(this, item, filter, 'id');
+            }
         });
         this._startingWithSource = new Memory({
             keyProperty: 'id',

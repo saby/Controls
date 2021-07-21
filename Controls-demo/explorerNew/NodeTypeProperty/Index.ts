@@ -1,59 +1,14 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
+import {Model} from 'Types/entity';
 import {IColumn, TColspanCallbackResult} from 'Controls/grid';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
 import {IGroupNodeColumn} from 'Controls/_treeGrid/interface/IGroupNodeColumn';
 
-import {extendedData as data} from './data/NodeTypePropertyData';
+import {columns, data} from './data/NodeTypePropertyData';
+import {memoryFilter} from 'Controls-demo/treeGridNew/DemoHelpers/Filter/memoryFilter';
 
-import * as PriceColumnTemplate from 'wml!Controls-demo/explorerNew/NodeTypeProperty/resources/PriceColumnTemplate';
 import * as Template from 'wml!Controls-demo/explorerNew/NodeTypeProperty/NodeTypeProperty';
-import {Model} from "Types/entity";
-
-const columns: IGroupNodeColumn[] = [
-    {
-        width: '300px',
-        displayProperty: 'title',
-        groupNodeConfig: {
-            textAlign: 'center'
-        }
-    },
-    {
-        width: '100px',
-        displayProperty: 'count',
-        align: 'right'
-    },
-    {
-        width: '100px',
-        displayProperty: 'price',
-        align: 'right',
-        template: PriceColumnTemplate
-    },
-    {
-        width: '100px',
-        displayProperty: 'price1',
-        align: 'right',
-        template: PriceColumnTemplate
-    },
-    {
-        width: '100px',
-        displayProperty: 'price2',
-        align: 'right',
-        template: PriceColumnTemplate
-    },
-    {
-        width: '50px',
-        displayProperty: 'tax',
-        align: 'right'
-    },
-    {
-        width: '100px',
-        displayProperty: 'price3',
-        align: 'right',
-        template: PriceColumnTemplate,
-        fontSize: 's'
-    }
-];
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -81,9 +36,10 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({
-            keyProperty: 'id',
+            keyProperty: 'key',
             parentProperty: 'parent',
-            data
+            data,
+            filter: memoryFilter
         });
     }
 

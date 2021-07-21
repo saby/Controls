@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
     <Controls.treeGrid:View
-            keyProperty="id"
+            keyProperty="key"
             source="{{ _viewSource }}"
             parentProperty="parent"
             nodeProperty="type"
