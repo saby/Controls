@@ -4,19 +4,21 @@
          <ws:Array>
             <ws:Object>
                <ws:template>
-                  <Controls.suggest:Input placeholder="FIO"
-                                          searchParam="title"
-                                          displayProperty="title"
-                                          source="{{_source}}"
-                                          autoDropDown="{{true}}"
-                                          minSearchLength="{{0}}"
-                                          bind:value="_defaultValue"
-                                          attr:class="example-Suggest__suggest">
-                     <ws:suggestTemplate templateName="Controls-demo/Suggest/resources/SuggestTemplate"/>
-                     <ws:navigation source="page" view="page">
-                        <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>
-                     </ws:navigation>
-                  </Controls.suggest:Input>
+                  <div class="example-Suggest__suggest_wrapper">
+                     <Controls.suggest:Input placeholder="FIO"
+                                             searchParam="title"
+                                             displayProperty="title"
+                                             source="{{_source}}"
+                                             autoDropDown="{{true}}"
+                                             minSearchLength="{{0}}"
+                                             bind:value="_defaultValue"
+                                             attr:class="example-Suggest__suggest">
+                        <ws:suggestTemplate templateName="Controls-demo/Suggest/resources/SuggestTemplate"/>
+                        <ws:navigation source="page" view="page">
+                           <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>
+                        </ws:navigation>
+                     </Controls.suggest:Input>
+                  </div>
                </ws:template>
             </ws:Object>
          </ws:Array>

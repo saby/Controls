@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
         <div class="controls-text-label">Всплывающее окно с опцией className</div>
         <Controls.suggest:Input
-                attr:class="controlsDemo__input demo-SuggestNew__noDelay"
+                attr:class="controlsDemo__input  ControlsDemo-Suggest__padding-left  demo-SuggestNew__noDelay"
                 bind:value="_suggestCustomValue"
                 displayProperty="title"
                 searchParam="title"

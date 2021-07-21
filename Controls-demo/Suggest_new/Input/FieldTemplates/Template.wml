@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell  controlsDemo__ml1">
         <Controls.suggest:Input
                 attr:class="demo-SuggestNew__noDelay"
                 bind:value="_suggestDefaultValue"

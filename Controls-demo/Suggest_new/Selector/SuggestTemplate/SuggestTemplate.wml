@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">list:View в шаблоне автодополнения</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__listView"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__listView"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -13,10 +13,10 @@
           </ws:suggestTemplate>
       </Controls.suggest:Selector>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">grid:View в шаблоне автодополнения</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__gridView"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__gridView"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"

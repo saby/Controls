@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Минимальное количество символов: 1</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__oneSymbol"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__oneSymbol"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -14,10 +14,10 @@
           </ws:suggestTemplate>
       </Controls.suggest:Selector>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__ml1">
       <div class="controls-text-label">Минимальное количество символов: 4</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input demo-SuggestNewSelector__fourSymbols"
+              attr:class="controlsDemo__input  controlsDemo__ml1  demo-SuggestNewSelector__fourSymbols"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"

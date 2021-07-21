@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3">
+<div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3 controlsDemo__ml2">
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo_fixedWidth350">
       <div class="controls-text-label">Минимальное количество символов: 1</div>
       <Controls.suggest:SearchInput
