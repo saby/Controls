@@ -237,12 +237,13 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
     });
     describe('.shiftRange', () => {
         // tslint:disable-next-line:no-magic-numbers
-        const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, topTrigger: 10, bottomTrigger: 10, scroll: 600});
+        const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, topTrigger: 60, bottomTrigger: 60, scroll: 240});
 
         it('to up', () => {
             // tslint:disable-next-line:no-magic-numbers
             instance.resetRange(2, 10, {itemsHeights: [60, 60, 60, 60, 60, 60, 60, 60, 60, 60]});
 
+            assert.deepEqual({start: 2, stop: 6 }, instance.getRange());
             assert.deepEqual({
                 range: {start: 1, stop: 6},
                 placeholders: {top: 60, bottom: 240}
@@ -252,9 +253,11 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
             // tslint:disable-next-line:no-magic-numbers
             instance.resetRange(0, 10, {itemsHeights: [60, 60, 60, 60, 60, 60, 60, 60, 60, 60]});
 
+            assert.deepEqual({start: 0, stop: 4 }, instance.getRange());
+
             assert.deepEqual({
-                range: {start: 3, stop: 5},
-                placeholders: {top: 180, bottom: 300}
+                range: {start: 0, stop: 5},
+                placeholders: {top: 0, bottom: 300}
             }, instance.shiftRange('down'));
         });
     });
@@ -406,13 +409,13 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
     describe('.getParamsToRestoreScroll()', () => {
         it('after shift', () => {
             // tslint:disable-next-line:no-magic-numbers
-            const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, topTrigger: 10, bottomTrigger: 10, scroll: 600});
+            const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, topTrigger: 60, bottomTrigger: 60, scroll: 240});
             // tslint:disable-next-line:no-magic-numbers
             instance.resetRange(0, 10, {itemsHeights: [60, 60, 60, 60, 60, 60, 60, 60, 60, 60]});
             instance.shiftRange('down');
 
             // tslint:disable-next-line:no-magic-numbers
-            assert.deepEqual({direction: 'down', heightDifference: 180}, instance.getParamsToRestoreScroll());
+            assert.deepEqual({direction: 'down', heightDifference: 0}, instance.getParamsToRestoreScroll());
             instance.beforeRestoreScrollPosition();
 
             instance.shiftRange('up');
@@ -458,7 +461,7 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
             // tslint:disable-next-line:no-magic-numbers
             instance.updateItemsHeights(getItemsHeightsData([3, 3, 3, 3, 3, 3, 3, 3, 3, 3]));
             // tslint:disable-next-line:no-magic-numbers
-            assert.deepEqual({direction: 'up', heightDifference: -3}, instance.getParamsToRestoreScroll());
+            assert.deepEqual({direction: 'up', heightDifference: 0}, instance.getParamsToRestoreScroll());
         });
         it('after shifting and adding items in opposite directiond', () => {
             // test for task https://online.sbis.ru/opendoc.html?guid=9040b3b7-eb6c-4a1f-b16a-7cf917bf6137
@@ -536,7 +539,7 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
 
         beforeEach(() => {
             // tslint:disable-next-line:no-magic-numbers
-            instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, topTrigger: 10, bottomTrigger: 10, scroll: 300});
+            instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, topTrigger: 60, bottomTrigger: 60, scroll: 300});
         });
 
         it('range changed keeps value', () => {
@@ -547,7 +550,7 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
             // tslint:disable-next-line:ban-ts-ignore
             // @ts-ignore
             // tslint:disable-next-line:no-magic-numbers
-            instance.viewportResize(300, 0,0, getItemsHeightsData([60, 60, 60, 60, 60]));
+            instance.viewportResize(300, 0, 0, getItemsHeightsData([60, 60, 60, 60, 60]));
             assert.isTrue(instance.rangeChanged);
         });
         it('correct shift range, after viewport resized', () => {
@@ -558,11 +561,11 @@ describe('Controls/_baseList/ScrollContainer/VirtualScroll', () => {
             // tslint:disable-next-line:ban-ts-ignore
             // @ts-ignore
             // tslint:disable-next-line:no-magic-numbers
-            instance.viewportResize(80, 0, 0);
+            instance.viewportResize(80, 24, 24);
             // tslint:disable-next-line:no-magic-numbers
             instance.updateItemsHeights(getItemsHeightsData([60, 60, 60]));
             // tslint:disable-next-line:no-magic-numbers
-            assert.deepEqual({range: {start: 2, stop: 4}, placeholders: {top: 120, bottom: 0}},
+            assert.deepEqual({range: {start: 1, stop: 4}, placeholders: {top: 60, bottom: 0}},
                 instance.shiftRange('down'));
         });
     });

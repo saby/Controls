@@ -3916,6 +3916,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
         }
         this._scrollController?.setTriggerVisibility(direction, state);
+        this._scrollController?.update({ params: this._getScrollParams()});
         if (state) {
             this.handleTriggerVisible(direction);
         }

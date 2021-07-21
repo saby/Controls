@@ -596,7 +596,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             monthTemplate,
             // In most places where control is used, no more than 4 elements are displayed at the visible area.
             // Draw the elements above and below.
-            virtualPageSize: 6,
+            virtualPageSize: 8,
             _limit: 8,
             order: 'asc',
             dateConstructor: WSDate,
