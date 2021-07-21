@@ -20,7 +20,7 @@ describe('Controls/_treeTile/display/TreeTileCollection', () => {
                 tileMode: 'static'
             });
             // проверяем что в модели точно есть невидимые элементы
-            assert.equal(model.getCount(), 11);
+            assert.equal(model.getCount(), 12);
             // проверяем что метод getChildren не возвращает невидимые элементы
             assert.equal(model.getChildren(model.getRoot()).getCount(), 1);
         }) ;

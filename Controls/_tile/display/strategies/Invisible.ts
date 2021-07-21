@@ -4,7 +4,7 @@ import TileCollection from '../TileCollection';
 import TileCollectionItem from '../TileCollectionItem';
 import InvisibleTileItem from '../InvisibleTileItem';
 
-export const COUNT_INVISIBLE_ITEMS = 10;
+export const COUNT_INVISIBLE_ITEMS = 11;
 
 interface IOptions<S extends Model = Model, T extends TileCollectionItem<S>> {
     source: IItemsStrategy<S, T>;
