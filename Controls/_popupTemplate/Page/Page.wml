@@ -1,7 +1,9 @@
 <Controls.Container.Async
-        templateName="{{ _options.pageTemplate }}">
+    templateName="{{ _options.pageTemplate }}">
     <ws:partial
+        on:preloadItemsByKeys="_preloadItemsByKeysHandler()"
         template="{{ content.resolvedTemplate }}"
+        prefetchResult="{{ _prefetchData }}"
         scope="{{ _options.pageTemplateOptions }}"
         />
 </Controls.Container.Async>
