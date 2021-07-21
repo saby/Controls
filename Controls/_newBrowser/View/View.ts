@@ -339,8 +339,8 @@ export default class View extends Control<IOptions, IReceivedState> {
     }
 
     protected _getListOptions(
-        listConfig: Partial<IExplorerOptions>,
-        listOptions: Partial<IExplorerOptions>
+        listConfig: Partial<IExplorerOptions> = {},
+        listOptions: Partial<IExplorerOptions> = {}
     ): IExplorerOptions {
         return {...listConfig, ...listOptions};
     }
@@ -413,7 +413,7 @@ export default class View extends Control<IOptions, IReceivedState> {
         this._masterExplorerOptions = this._getListOptions(listsConfigs.master, options.master);
         this._detailDataSource = listsConfigs.detail.sourceController;
         this._detailDataSource.subscribe('dataLoad', this._onDetailDataLoadCallback);
-        this._masterDataSource = listsConfigs.master.sourceController;
+        this._masterDataSource = listsConfigs.master?.sourceController;
         if (options.listConfiguration) {
             this._createTemplateControllers(options.listConfiguration, options);
         }
