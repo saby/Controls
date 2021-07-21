@@ -81,10 +81,9 @@ const _private = {
  * @remark
  *
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/suggest/ руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_suggestPopup.less переменные тем оформления}
  * @example
- *
  * <pre class="brush: js">
  * // JavaScript
  * define('myControl/SuggestList',
@@ -110,16 +109,16 @@ const _private = {
  *       attr:class="demo-SuggestList"/>
  * </Controls.suggestPopup:ListContainer>
  * </pre>
- * @demo Controls-demo/LookupNew/Input/SuggestPopupOptions/Index
+ * @class Controls/suggestPopup:ListContainer
  * @extends UI/Base:Control
  * @author Герасимов А.М.
- *
  * @public
+ * @demo Controls-demo/LookupNew/Input/SuggestPopupOptions/Index
  */
 
 /*
  * Container for list inside Suggest.
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/suggest/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/input-elements/input/suggest/'>here</a>.
  *
  * @class Controls/_suggestPopup/List
  * @extends UI/Base:Control
