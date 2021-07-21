@@ -168,12 +168,12 @@ export default interface IMenuPopup {
  */
 /**
  * @name Controls/_menu/interface/IMenuBase#backgroundStyle
- * @cfg {backgroundStyle} Задает цвет фона для меню.
+ * @cfg {backgroundStyle} Цвет фона для меню.
  * @demo Controls-demo/dropdown_new/Button/MenuPopupBackground/Index
  */
 
 /**
  * @name Controls/_menu/interface/IMenuBase#hoverBackgroundStyle
- * @cfg {backgroundStyle} Задает цвет фона для пункта меню при наведении.
+ * @cfg {backgroundStyle} Цвет фона для пункта меню при наведении.
  * @demo Controls-demo/Menu/Control/HoverBackgroundStyle/Index
  */
