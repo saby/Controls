@@ -384,6 +384,11 @@
    // Чтобы тень отображалась у лесенки
    z-index: 2;
 }
+// Повышаем вес, чтобы перебить .GUID-селектор
+.controls-Grid_columnScroll__fixed.controls-GridNew__cell_fixed.controls-ListView__item_dragging {
+   // чтобы тень не перекрывалась соседними зафиксированными записями
+   z-index: 4;
+}
 .controls-ListView__item_dragging:before {
    height: var(--item_dragging_shadow-height_list);
    box-shadow: 0 calc(-1 * var(--item_dragging_shadow-height_list)) var(--item_dragging_shadow-spread_list) var(--item_dragging_shadow-color_list);
