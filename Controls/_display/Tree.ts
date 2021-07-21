@@ -1179,7 +1179,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         enumerator: CollectionEnumerator<T>,
         item: T,
         isNext: boolean,
-        skipGroups?: boolean
+        conditionProperty?: string
     ): T {
         const method = isNext ? 'moveNext' : 'movePrevious';
         const parent = item && item.getParent && item.getParent() || this.getRoot();
@@ -1197,7 +1197,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             nearbyItem = enumerator.getCurrent();
 
             // если мы пришли сюда, когда в enumerator ещё ничего нет, то nearbyItem будет undefined
-            if (!!nearbyItem && !nearbyItem.EnumerableItem) {
+            if (!!nearbyItem && conditionProperty && !nearbyItem[conditionProperty]) {
                 nearbyItem = undefined;
                 continue;
             }

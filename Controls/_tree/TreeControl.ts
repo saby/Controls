@@ -1212,7 +1212,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = (model.getLast() !== model.getItemBySourceKey(key)) || model.hasMoreData();
+        const hasNextLeaf = (model.getLast('Markable') !== model.getItemBySourceKey(key)) || model.hasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i).getContents())) {
@@ -1243,7 +1243,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 const markerController = mController || this.getMarkerController();
                 if (item) {
                     this._tempItem = item.getKey();
-                    const dispItem = model.getItemBySourceKey(this._tempItem);
                     if (item.get(this._options.nodeProperty) !== null) {
                         this._doAfterItemExpanded = () => {
                             this._doAfterItemExpanded = null;
@@ -1277,7 +1276,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (model.getLast() === model.getItemBySourceKey(key)) {
+            if (model.getLast('Markable') === model.getItemBySourceKey(key)) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();
