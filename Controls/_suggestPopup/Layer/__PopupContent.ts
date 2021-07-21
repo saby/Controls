@@ -5,11 +5,17 @@ import 'css!Controls/suggestPopup';
 import 'css!Controls/suggest';
 
 var _private = {
-   getBorderWidth: function(container) {
-      return +getComputedStyle(container, null).getPropertyValue('border-left-width').replace('px', '') * 2;
+   getBorderWidth(container?: HTMLElement): number {
+      return container ? Number(getComputedStyle(container, null).getPropertyValue('border-left-width').replace('px', '') * 2) : 0;
    },
+
+   getPopupOffsets(container?: HTMLElement): number {
+      return container ? Number(getComputedStyle(container, null).getPropertyValue('margin-right').replace('px', '')) -
+          Number(getComputedStyle(container, null).getPropertyValue('margin-left').replace('px', '')) : 0;
+   },
+
    getSuggestWidth(target: HTMLElement, container?: HTMLElement): number {
-      return target.offsetWidth - (container ? _private.getBorderWidth(container) : 0);
+      return target.offsetWidth - _private.getBorderWidth(container) + _private.getPopupOffsets(container);
    }
 };
 

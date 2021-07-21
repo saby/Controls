@@ -15,6 +15,10 @@
 	border: var(--popup_border-color_suggest) var(--popup_border-thickness_suggest) solid;
 	box-sizing: border-box;
 	background-color: var(--background-color_sticky);
+	border-radius: var(--border-radius_suggest);
+	padding: var(--offset_xs) 0;
+	margin-left: calc(-1 * var(--offset_m));
+	margin-right: var(--offset_m);
 	// Строка поиска с автодополнением должна перекрывать тени скрола, скроллбар, стики заголовки внутри скрола
 	z-index: var(--popup_z-index_suggest);
 }
@@ -33,7 +37,7 @@
 	height: var(--footer_height_suggest);
 	font-size: var(--font-size_m);
 	cursor: pointer;
-	padding: 0 var(--offset_s);
+	padding: 0 var(--offset_m);
 }
 
 .ws-is-hover {

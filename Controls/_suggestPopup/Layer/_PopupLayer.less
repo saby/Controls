@@ -7,11 +7,11 @@
 }
 
 .controls-Suggest__suggestionsContainer_popup_shadow_top {
-	.box-shadow(0 calc(-1 * var(--box-shadow-offset_suggest)) var(--box-shadow-blur_suggest) var(--box-shadow-color_suggest));
+	.box-shadow(var(--box-shadow-horizontal-offset_suggest) calc(-1 * var(--box-shadow-vertical-offset_suggest)) var(--box-shadow-blur_suggest) var(--box-shadow-color_suggest));
 }
 
 .controls-Suggest__suggestionsContainer_popup_shadow_bottom {
-	.box-shadow(0 var(--box-shadow-offset_suggest) var(--box-shadow-blur_suggest) var(--box-shadow-color_suggest));
+	.box-shadow(var(--box-shadow-horizontal-offset_suggest) var(--box-shadow-vertical-offset_suggest) var(--box-shadow-blur_suggest) var(--box-shadow-color_suggest));
 }
 
 // в edge не работает box-shadow с calc

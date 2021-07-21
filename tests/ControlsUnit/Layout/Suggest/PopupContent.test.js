@@ -126,17 +126,20 @@ define(['Controls/_suggestPopup/Layer/__PopupContent', 'wml!Controls/_suggestPop
          var originGetBorderWidth = PopupContent.default._private.getBorderWidth;
          PopupContent.default._private.getBorderWidth = function() {
             return 2;
-         }
+         };
+         PopupContent.default._private.getPopupOffsets = function() {
+            return 24;
+         };
 
          var target = {
             offsetWidth: 50
-         }
+         };
          var container = {};
 
-         assert.equal(PopupContent.default._private.getSuggestWidth(target, container), 48);
+         assert.equal(PopupContent.default._private.getSuggestWidth(target, container), 72);
 
          container = null;
-         assert.equal(PopupContent.default._private.getSuggestWidth(target, container), 50);
+         assert.equal(PopupContent.default._private.getSuggestWidth(target, container), 72);
          PopupContent.default._private.getBorderWidth = originGetBorderWidth;
       });
 
