@@ -1,11 +1,13 @@
 <div class="controlsDemo__wrapper">
     <Controls.browser:Browser source="{{_viewSource}}"
-                              keyProperty="id"
+                              keyProperty="key"
                               parentProperty="parent"
                               nodeProperty="type"
                               searchParam="title"
                               minSearchLength="{{3}}"
                               nodeTypeProperty="nodeType"
+                              deepReload="{{true}}"
+                              searchNavigationMode="expand"
                               bind:expandedItems="_expandedItems"
                               bind:collapsedItems="_collapsedItems"
                               bind:root="_root">
@@ -17,7 +19,7 @@
                 <Controls.explorer:View
                         name="explorerView"
                         attr:class="demo-Explorer ControlsDemo-Explorer"
-                        keyProperty="id"
+                        keyProperty="key"
                         displayProperty="title"
                         itemActions="{{_itemActions}}"
                         colspanCallback="{{ _colspanCallback }}"
