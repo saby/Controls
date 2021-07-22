@@ -13,7 +13,6 @@ import 'Controls/search';
  *
  * @remark
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/input-elements/directory/lookup/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/69b02f939005820476d32a184ca50b72f9533076/Controls-default-theme/variables/_suggest.less переменные тем оформления}
  *
  * @class Controls/_suggest/Input/Search/Suggest
