@@ -1,7 +1,5 @@
 <div class="controls-BaseControl__cut ws-flexbox ws-justify-content-center controls-BaseControl__cut-container_{{cutSize}}">
     <Controls.Container.Async templateName="Controls/toggle:BigSeparator">
-        <ws:partial template="{{content.resolvedTemplate}}"
-                    value="{{expanded}}"
-                    on:valueChanged="_onCutClick()"/>
+        <ws:partial template="{{content.resolvedTemplate}}" attr:class="{{clickableAreaClass}}" value="{{value}}"/>
     </Controls.Container.Async>
 </div>

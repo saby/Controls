@@ -96,7 +96,7 @@ import {
 } from 'Controls/listDragNDrop';
 
 import BaseControlTpl = require('wml!Controls/_baseList/BaseControl/BaseControl');
-import 'wml!Controls/_baseList/BaseControl/Footer';
+import 'wml!Controls/_baseList/BaseControl/MoreButton';
 
 import {IList} from './interface/IList';
 import { IScrollControllerResult } from './ScrollContainer/interfaces';
@@ -743,7 +743,7 @@ const _private = {
         // Если подгрузка данных осуществляется кликом по кнопке "Еще..." и есть что загружать, то рисуем эту кнопку
         // всегда кроме случая когда задана группировка и все группы свернуты
         if (_private.isDemandNavigation(self._navigation) && self._hasMoreData(sourceController, 'down')) {
-            self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ?
+            self._shouldDrawMoreButton = (options.groupingKeyCallback || options.groupProperty) ?
                 !self._listViewModel.isAllGroupsCollapsed()
                 : true;
         } else if (
@@ -754,11 +754,11 @@ const _private = {
         ) {
             self._shouldDrawCut = true;
         } else {
-            self._shouldDrawFooter = false;
+            self._shouldDrawMoreButton = false;
             self._shouldDrawCut = false;
         }
 
-        if (self._shouldDrawFooter) {
+        if (self._shouldDrawMoreButton) {
             let loadedDataCount = 0;
 
             if (self._listViewModel) {
@@ -775,7 +775,7 @@ const _private = {
             if (typeof loadedDataCount === 'number' && typeof allDataCount === 'number') {
                 self._loadMoreCaption = allDataCount - loadedDataCount;
                 if (self._loadMoreCaption === 0) {
-                    self._shouldDrawFooter = false;
+                    self._shouldDrawMoreButton = false;
                 }
             } else {
                 self._loadMoreCaption = '...';
@@ -1740,12 +1740,12 @@ const _private = {
                     if (itemsCount !== moreMetaCount) {
                         _private.prepareFooter(self, self._options, self._sourceController);
                     } else {
-                        self._shouldDrawFooter = false;
+                        self._shouldDrawMoreButton = false;
                     }
                 } else if (moreMetaCount) {
                     _private.prepareFooter(self, self._options, self._sourceController);
                 } else {
-                    self._shouldDrawFooter = false;
+                    self._shouldDrawMoreButton = false;
                 }
             }
 
@@ -2300,7 +2300,7 @@ const _private = {
             options.itemActionsPosition === 'outside' &&
             !footer &&
             (!results || listViewModel?.getResultsPosition() !== 'bottom') &&
-            !self._shouldDrawFooter
+            !self._shouldDrawMoreButton
         );
     },
 
@@ -3464,7 +3464,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     protected _items: RecordSet;
 
     _loadMoreCaption = null;
-    _shouldDrawFooter = false;
+    _shouldDrawMoreButton = false;
     _shouldDrawCut = false;
 
     _expanded = false;
@@ -6209,23 +6209,27 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.startDragNDrop(this, this._savedItemMouseDownEventArgs.domEvent, this._savedItemMouseDownEventArgs.itemData);
     }
 
-    protected _onClickMoreButton(e): void {
-        _private.loadToDirectionIfNeed(this, 'down');
+    protected _onMoreButtonClick(e): void {
+        if (e.target.closest('.js-controls-BaseControl__loadMore')) {
+            _private.loadToDirectionIfNeed(this, 'down');
+        }
     }
 
-    _onCutClick() {
-        if (!this._expanded) {
-            this._sourceController.setNavigation(undefined);
-            this._reload(this._options).then(() => {
-                this._expanded = true;
-                _private.prepareFooter(this, this._options, this._sourceController);
-            });
-        } else {
-            this._sourceController.setNavigation(this._options.navigation);
-            this._reload(this._options).then(() => {
-                this._expanded = false;
-                _private.prepareFooter(this, this._options, this._sourceController);
-            });
+    protected _onCutClick(e: SyntheticEvent) {
+        if (e.target.closest('.js-controls-BaseControl__cut')) {
+            if (!this._expanded) {
+                this._sourceController.setNavigation(undefined);
+                this._reload(this._options).then(() => {
+                    this._expanded = true;
+                    _private.prepareFooter(this, this._options, this._sourceController);
+                });
+            } else {
+                this._sourceController.setNavigation(this._options.navigation);
+                this._reload(this._options).then(() => {
+                    this._expanded = false;
+                    _private.prepareFooter(this, this._options, this._sourceController);
+                });
+            }
         }
     }
 
