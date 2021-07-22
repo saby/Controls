@@ -597,8 +597,8 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @typedef {String} Controls/_list/interface/IList/VerticalItemPaddingEnum
- * @description Допустимые значения для свойств {@link Controls/list:IList.ItemPadding ItemPadding}.
- * @variant null Нулевой отступ.
+ * @description Допустимые значения для свойств {@link Controls/list:IList/ItemPadding.typedef ItemPadding}.
+ * @variant null Нулевой отступ. Значение передается строкой.
  * @variant s Маленький отступ.
  * @variant l Большой отступ.
  */
@@ -612,8 +612,8 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @typedef {String} Controls/_list/interface/IList/HorizontalItemPaddingEnum
- * @description Допустимые значения для свойств {@link Controls/list:IList.ItemPadding ItemPadding}.
- * @variant null Нулевой отступ.
+ * @description Допустимые значения для свойств {@link Controls/list:IList/ItemPadding.typedef ItemPadding}.
+ * @variant null Нулевой отступ. Значение передается строкой.
  * @variant xs Минимальный отступ.
  * @variant s Маленький отступ.
  * @variant m Средний отступ.
@@ -693,7 +693,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @description Допустимые значения для опции {@link Controls/list:IList#rowSeparatorSize rowSeparatorSize}.
  * @variant s Размер тонкой линии-разделителя.
  * @variant l Размер толстой линии-разделителя.
- * @variant null Без линии-разделителя.
+ * @variant null Без линии-разделителя. Значение передается строкой.
  */
 
 /**
@@ -728,7 +728,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @typedef {String} Controls/_list/interface/IList/TRoundBorderSize
- * @variant null Без скругления.
+ * @variant null Без скругления. Значение передается строкой.
  * @variant XS Минимальный радиус скругления.
  * @variant S Малый радиус скругления.
  * @variant M Средний радиус скругления.
