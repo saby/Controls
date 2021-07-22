@@ -91,7 +91,7 @@
         <ws:if data="{{_shouldDrawCut}}">
             <ws:partial template="wml!Controls/_baseList/BaseControl/Cut"
                         on:click="_onCutClick()"
-                        buttonClass="js-controls-BaseControl__cut"
+                        clickableAreaClass="js-controls-BaseControl__cut"
                         value="{{_expanded}}"
                         cutSize="{{_cutSize}}"/>
         </ws:if>

@@ -6210,7 +6210,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     }
 
     protected _onMoreButtonClick(e): void {
-        if (e.target.closest('.js-controls-BaseControl__moreButton')) {
+        if (e.target.closest('.js-controls-BaseControl__loadMore')) {
             _private.loadToDirectionIfNeed(this, 'down');
         }
     }

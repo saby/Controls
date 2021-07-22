@@ -1,3 +1,3 @@
 <ws:partial template="wml!Controls/_baseList/BaseControl/Cut"
-            attr:class="{{buttonClass}}"
+            clickableAreaClass="js-controls-BaseControl__loadMore"
             cutSize="{{cutSize}}"/>
