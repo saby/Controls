@@ -25,7 +25,6 @@ export interface ICrudConfig {
 /**
  * Контроллер, который инициирует запросы к источнику данных (см. {@link Controls/form:Controller#source source}) для чтения, создания, удаления или обновления записи.
  * Контроллер используется в {@link Controls/form:Controller}.
- * @class Controls/_form/CrudController
  * @public
  * @author Красильников А.С.
  *

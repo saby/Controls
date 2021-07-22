@@ -1,11 +1,8 @@
 /**
  * Библиотека контролов для работы с формами.
  * @library
- * @includes CrudController Controls/_form/CrudController
- * @includes Controller Controls/_form/FormController
- * @includes IFormController Controls/_form/interface/IFormController
- * @includes IControllerBase Controls/_form/interface/IControllerBase
- * @includes PrimaryAction Controls/_form/PrimaryAction
+ * @includes IFormController Controls/form:IFormController
+ * @includes IControllerBase Controls/form:IControllerBase
  * @public
  * @author Крайнов Д.О.
  */
@@ -13,11 +10,8 @@
 /*
  * form library
  * @library
- * @includes CrudController Controls/_form/CrudController
- * @includes Controller Controls/_form/FormController
- * @includes IFormController Controls/_form/interface/IFormController
- * @includes IControllerBase Controls/_form/interface/IControllerBase
- * @includes PrimaryAction Controls/_form/PrimaryAction
+ * @includes IFormController Controls/form:IFormController
+ * @includes IControllerBase Controls/form:IControllerBase
  * @public
  * @author Крайнов Д.О.
  */
