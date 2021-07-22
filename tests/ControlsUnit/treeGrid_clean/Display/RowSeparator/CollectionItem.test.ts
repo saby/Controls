@@ -2,7 +2,6 @@ import { assert } from 'chai';
 import {TreeGridCollection} from 'Controls/treeGrid';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
-import {Collection} from "Controls/display";
 
 interface IData {
     id: number;
@@ -330,6 +329,24 @@ describe('Controls/treeGrid/Display/RowSeparator/CollectionItem', () => {
 
             assert.isFalse(initialLastItem.isBottomSeparatorEnabled());
             assert.isTrue(collection.at(6).isBottomSeparatorEnabled());
+        });
+
+        // 2. Дерево и последняя запись - свёрнутая группа
+        it('The last item is a collapsed group', () => {
+            const data = [
+                {id: 1, pid: null, node: true, group: 'g1'},
+                {id: 2, pid: 1, node: null, group: 'g1'},
+                {id: 3, pid: null, node: true, group: 'g2'},
+                {id: 4, pid: 3, node: null, group: 'g2'},
+                {id: 5, pid: null, node: null, group: 'g3'}
+            ];
+            const collection = getTreeGrid(getItems(data), {
+                groupProperty: 'group',
+                expandedItems: [1, 3],
+                collapsedGroups: ['g2', 'g3']
+            });
+            // 4 запись - группа
+            assert.isTrue(collection.at(4).isBottomSeparatorEnabled());
         });
 
         // 10. Смена groupProperty с пересортировкой возможна только со сменой parent,

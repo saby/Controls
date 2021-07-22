@@ -1189,6 +1189,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         let sameParent = false;
         let current;
         let nearbyItem;
+        let isTreeItem;
 
         enumerator.setCurrent(item);
 
@@ -1202,9 +1203,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 nearbyItem = undefined;
                 continue;
             }
-
-            sameParent = nearbyItem ? nearbyItem.getParent() === parent : false;
-            current = (hasItem && sameParent) ? nearbyItem : undefined;
+            // Когда _getNearbyItem используется для обычных групп, у них нет getParent
+            isTreeItem = nearbyItem && nearbyItem['[Controls/_display/TreeItem]'] || nearbyItem['[Controls/_display/BreadcrumbsItem]'];
+            sameParent = nearbyItem && isTreeItem ? nearbyItem.getParent() === parent : false;
+            current = (hasItem && (!isTreeItem || sameParent)) ? nearbyItem : undefined;
         }
 
         enumerator.setCurrent(initial);
