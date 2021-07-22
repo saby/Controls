@@ -229,11 +229,16 @@ export default class ScrollController {
     getFirstVisibleRecord(listViewContainer: HTMLElement, baseContainer: HTMLElement, scrollTop: number): Model {
         const topOffset = this._getTopOffsetForItemsContainer(listViewContainer, baseContainer);
         const placeholder = this._virtualScroll?.rangeChanged ? this._placeholders.top : 0;
-        const verticalOffset = scrollTop - topOffset - placeholder + (getStickyHeadersHeight(baseContainer, 'top', 'allFixed') || 0);
+        const verticalOffset = scrollTop - topOffset - placeholder + (getStickyHeadersHeight(baseContainer, 'top', 'fixed') || 0);
 
         let firstItemIndex = this._options.collection.getStartIndex();
         firstItemIndex += this._getFirstVisibleItemIndex(listViewContainer.children, verticalOffset);
         firstItemIndex = Math.min(firstItemIndex, this._options.collection.getStopIndex());
+
+        // TODO: Отрефакторить. Задача: https://online.sbis.ru/opendoc.html?guid=0c097079-0143-4b19-9f43-dc38c68ba3bc
+        if (this._options.collection.getStartIndex() && this._options.collection.at(0)['[Controls/_display/GroupItem]'] ) {
+            firstItemIndex--;
+        }
         return this._options.collection.at(firstItemIndex);
     }
 
