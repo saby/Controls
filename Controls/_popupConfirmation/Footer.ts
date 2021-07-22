@@ -39,7 +39,7 @@ class Footer extends Control<IFooterOptions> implements IConfirmationFooter {
                         caption: options.okCaption,
                         viewMode: 'button',
                         buttonStyle: options.primaryAction === 'yes' ? 'primary' : 'secondary',
-                        value: true
+                        value: undefined
                     }
                 ];
             } else if (options.type === 'yesno') {
