@@ -39,7 +39,7 @@ export interface IPagingOptions extends IControlOptions {
  *
  * @mixes Controls/_paging/Paging/Styles
  * @mixes Controls/_paging/Paging/DigitButtons/Styles
- * 
+ *
  * @ignoreoptions readOnly
  *
  */
@@ -83,7 +83,7 @@ class Paging extends Control<IPagingOptions> {
     }
 
     private _needLeftPadding(pagingMode, contentTemplate) {
-        return !(contentTemplate && (pagingMode === 'edge' || pagingMode === 'end'))
+        return !(contentTemplate && (pagingMode === 'edge' || pagingMode === 'edges' || pagingMode === 'end'));
     }
 
     private _getArrowStateVisibility(state: string): string {

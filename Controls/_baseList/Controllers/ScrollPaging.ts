@@ -157,6 +157,12 @@ export default class ScrollPagingController {
                 arrowState.next = 'hidden';
                 break;
 
+            case 'edges':
+                arrowState.end = arrowState.next;
+                arrowState.prev = 'hidden';
+                arrowState.next = 'hidden';
+                break;
+
             case 'end':
                 if (arrowState.next === 'visible' || arrowState.end === 'visible') {
                     arrowState.end = 'visible';
