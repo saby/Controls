@@ -1,5 +1,6 @@
 <div class="controls-demo_LiteSelector-block">
     <Controls.dateRange:RangeShortSelector
+            attr:data-qa="controls-demo_LiteSelector-block__month"
             displayedRanges="{{_displayedRanges}}"
             prevArrowVisibility="{{true}}"
             nextArrowVisibility="{{true}}"
@@ -7,6 +8,7 @@
             bind:endValue="_endValue1"/>
     <div>
         <Controls.dateRange:RangeShortSelector
+                attr:data-qa="controls-demo_LiteSelector-block__year"
                 bind:startValue="_startValue2"
                 bind:endValue="_endValue2"
                 chooseHalfyears="{{false}}"
@@ -16,6 +18,7 @@
     </div>
     <div>
         <Controls.dateRange:RangeShortSelector
+                attr:data-qa="controls-demo_LiteSelector-block__period"
                 displayedRanges="{{_displayedRanges3}}"
                 chooseHalfyears="{{false}}"
                 chooseMonths="{{false}}"
