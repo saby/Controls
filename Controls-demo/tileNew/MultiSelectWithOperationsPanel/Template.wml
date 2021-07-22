@@ -1,0 +1,53 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_MultiSelect">
+<Controls.scroll:Container class="controlsDemo__height500 controlsDemo__width800px">
+   <Controls.operations:Controller
+           bind:selectedKeys="_selectedKeys"
+           bind:excludedKeys="_excludedKeys">
+      <div>
+            <div class="controlsDemo__height200 controlsDemo__width800px">Контент над списком, чтобы панель операций зафиксировалась не сразу при начале скролла</div>
+         <Controls.scroll:StickyBlock
+                 fixedZIndex="{{11}}">
+            <Controls.operations:Panel
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    keyProperty="id"/>
+         </Controls.scroll:StickyBlock>
+         <Controls.treeTile:View
+                 displayProperty="title"
+                 parentProperty="parent"
+                 nodeProperty="parent@"
+                 multiSelectVisibility="visible"
+                 bind:selectedKeys="_selectedKeys"
+                 bind:excludedKeys="_excludedKeys"
+                 tileMode="static"
+                 tileScalingMode="none"
+                 actionMenuViewMode="preview"
+                 actionMode="adaptive"
+                 itemActions="{{_itemActions}}"
+                 imageFit="none"
+                 tileHeight="300"
+                 imageProperty="image"
+                 keyProperty="id"
+                 source="{{_viewSource}}">
+            <ws:itemTemplate>
+               <ws:partial
+                       template="Controls/tile:PreviewTemplate"
+                       titleStyle="{{itemTemplate.item.contents.titleStyle}}"
+                       gradientType="{{itemTemplate.item.contents.gradientType}}"
+                       gradientColor="{{itemTemplate.item.contents.gradientColor}}"
+                       titleLines="{{itemTemplate.item.contents.titleLines}}"
+                       hasTitle="{{itemTemplate.item.contents.isDocument}}"
+                       scope="{{itemTemplate}}">
+                  <ws:topTemplate>
+                     <div>{{itemTemplate.item.contents.additionalText}}</div>
+                  </ws:topTemplate>
+                  <ws:bottomRightTemplate>
+                     <div>{{itemTemplate.item.contents.counter}}</div>
+                  </ws:bottomRightTemplate>
+               </ws:partial>
+            </ws:itemTemplate>
+         </Controls.treeTile:View>
+      </div>
+   </Controls.operations:Controller>
+</Controls.scroll:Container>
+</div>
