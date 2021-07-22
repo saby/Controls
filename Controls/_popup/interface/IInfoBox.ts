@@ -210,7 +210,7 @@ export interface IInfoBox {
  * @param {UICommon/Events:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} config Конфигурация всплывающей подсказки.
  * @remark
- * Если из кода {@link /doc/platform/developmentapl/interface-development/ui-library/events/#event-notify опубликовать событие}, то будет открыта всплывающая подсказка с конфигурацией, которая указана то будет открыта всплывающая подсказка с конфигурацией, которая указана в параметре config.
+ * Если из кода {@link /doc/platform/developmentapl/interface-development/ui-library/events/#event-notify опубликовать событие}, то будет открыта всплывающая подсказка с конфигурацией, которая указана в параметре config.
  * Для закрытия такой подсказки следует опубликовать событие {@link closeInfoBox}.
  * @example
  * <pre class="brush: js">
