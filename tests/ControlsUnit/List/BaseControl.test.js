@@ -1076,7 +1076,7 @@ define([
                      {}
                   ],
                   result: {
-                     _shouldDrawFooter: false
+                     _shouldDrawMoreButton: false
                   }
                },
                {
@@ -1088,7 +1088,7 @@ define([
                      {}
                   ],
                   result: {
-                     _shouldDrawFooter: false
+                     _shouldDrawMoreButton: false
                   }
                },
                {
@@ -1100,7 +1100,7 @@ define([
                      {}
                   ],
                   result: {
-                     _shouldDrawFooter: false
+                     _shouldDrawMoreButton: false
                   }
                },
                {
@@ -1114,7 +1114,7 @@ define([
                      }
                   ],
                   result: {
-                     _shouldDrawFooter: false
+                     _shouldDrawMoreButton: false
                   }
                },
                {
@@ -1135,7 +1135,7 @@ define([
                      }
                   ],
                   result: {
-                     _shouldDrawFooter: true,
+                     _shouldDrawMoreButton: true,
                      _loadMoreCaption: '...'
                   }
                },
@@ -1158,7 +1158,7 @@ define([
                      }
                   ],
                   result: {
-                     _shouldDrawFooter: true,
+                     _shouldDrawMoreButton: true,
                      _loadMoreCaption: '...'
                   }
                },
@@ -1181,7 +1181,7 @@ define([
                      }
                   ],
                   result: {
-                     _shouldDrawFooter: true,
+                     _shouldDrawMoreButton: true,
                      _loadMoreCaption: 5
                   }
                }
@@ -1207,7 +1207,7 @@ define([
             // Проставляем в baseControl корректную навигацию
             test.data[0]._navigation = test.data[1].navigation;
             lists.BaseControl._private.prepareFooter.apply(null, test.data);
-            assert.equal(test.data[0]._shouldDrawFooter, test.result._shouldDrawFooter, 'Invalid prepare footer on step #' + index);
+            assert.equal(test.data[0]._shouldDrawMoreButton, test.result._shouldDrawMoreButton, 'Invalid prepare footer on step #' + index);
             assert.equal(test.data[0]._loadMoreCaption, test.result._loadMoreCaption, 'Invalid prepare footer on step #' + index);
 
             test.data[1].groupingKeyCallback = () => 123;
@@ -1216,7 +1216,7 @@ define([
                getCount: () => undefined
             };
             lists.BaseControl._private.prepareFooter.apply(null, test.data);
-            assert.isFalse(test.data[0]._shouldDrawFooter, 'Invalid prepare footer on step #' + index + ' with all collapsed groups');
+            assert.isFalse(test.data[0]._shouldDrawMoreButton, 'Invalid prepare footer on step #' + index + ' with all collapsed groups');
          });
       });
 
@@ -6575,7 +6575,7 @@ define([
             ctrl._afterMount(cfg);
 
             assert.isNull(ctrl._loadedItems);
-            assert.isTrue(ctrl._shouldDrawFooter, 'Failed draw footer on first load.');
+            assert.isTrue(ctrl._shouldDrawMoreButton, 'Failed draw footer on first load.');
             assert.equal(ctrl._loadMoreCaption, 3, 'Failed draw footer on first load.');
 
             const loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
@@ -6583,7 +6583,7 @@ define([
             assert.equal(ctrl._markerController.getMarkedKey(), 1);
 
             await loadPromise;
-            assert.isFalse(ctrl._shouldDrawFooter, 'Failed draw footer on second load.');
+            assert.isFalse(ctrl._shouldDrawMoreButton, 'Failed draw footer on second load.');
             assert.equal(6, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
             assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
             assert.equal(ctrl._loadingState, null);
