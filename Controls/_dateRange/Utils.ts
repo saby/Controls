@@ -14,7 +14,7 @@ const enum WEEKS_MODE {
 }
 
 var getDayRange = function(startDate, endDate, quantum) {
-   var date = new Date(startDate);
+   var date = new WSDate(startDate);
    if (startDate <= endDate) {
       date.setDate(date.getDate() + quantum - 1);
       return [startDate, date];
@@ -92,7 +92,7 @@ var Utils = {
     */
    getFirstDayOffset: function(year, month) {
       var
-         date = new Date(year, month ? month - 1 : 0),
+         date = new WSDate(year, month ? month - 1 : 0),
          day = date.getDay();
 
       return day ? day - 1 : 6; // Воскресенье 0-й день
@@ -105,7 +105,7 @@ var Utils = {
     * @returns {Number}
     */
    getDaysInMonth: function(year, month) {
-      return new Date(year, month, 0).getDate();
+      return new WSDate(year, month, 0).getDate();
    },
 
    /**
@@ -191,7 +191,7 @@ var Utils = {
             lastQuantumLength = quantum.months[i];
             if (baseDate <= date) {
                start = DateUtil.getStartOfMonth(baseDate);
-               const endValue = new Date(baseDate.getFullYear(), baseDate.getMonth() + (lastQuantumLength - 1));
+               const endValue = new WSDate(baseDate.getFullYear(), baseDate.getMonth() + (lastQuantumLength - 1));
                end = DateUtil.getEndOfMonth(endValue);
             } else {
                start = DateUtil.getStartOfMonth(baseDate);
@@ -207,7 +207,7 @@ var Utils = {
       if (lastQuantumType === 'days') {
          return getDayRange(baseDate, date, lastQuantumLength);
       } else if (lastQuantumType === 'weeks') {
-         date2 = new Date(baseDate);
+         date2 = new WSDate(baseDate);
          date2.setDate(date2.getDate() + (lastQuantumLength - 1) * 7);
          if (baseDate <= date) {
             return [DateUtil.getStartOfWeek(baseDate), DateUtil.getEndOfWeek(date2)];
@@ -215,7 +215,7 @@ var Utils = {
             return [DateUtil.getStartOfWeek(date2), DateUtil.getEndOfWeek(baseDate)];
          }
       } else if (lastQuantumType === 'months') {
-         date2 = new Date(baseDate);
+         date2 = new WSDate(baseDate);
          date2.setMonth(date2.getMonth() + lastQuantumLength - 1);
          if (baseDate <= date) {
             return [DateUtil.getStartOfMonth(baseDate), DateUtil.getEndOfMonth(date2)];
@@ -240,9 +240,9 @@ var Utils = {
       const mondayIndex = 1;
       const fridayIndex = 5;
       // Понедельник
-      const startValue = new Date(date.getFullYear(), date.getMonth(), date.getDate() - weekDay + mondayIndex);
+      const startValue = new WSDate(date.getFullYear(), date.getMonth(), date.getDate() - weekDay + mondayIndex);
       // Пятница
-      const endValue = new Date(startValue.getFullYear(),
+      const endValue = new WSDate(startValue.getFullYear(),
           startValue.getMonth(), startValue.getDate() + (fridayIndex - mondayIndex));
       return [startValue, endValue];
    }
