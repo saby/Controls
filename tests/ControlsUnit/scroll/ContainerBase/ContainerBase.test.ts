@@ -333,28 +333,28 @@ describe('Controls/scroll:ContainerBase', () => {
    });
 
    describe('_resizeObserverCallback', () => {
-      // it('should\'t update state if container is invisible', () => {
-      //    const control: ContainerBase = new ContainerBase(options);
-      //    control._beforeMount(options);
-      //
-      //    control._container = {
-      //       closest: sinon.stub().returns(true),
-      //       className: ''
-      //    }
-      //
-      //    const getComputedStyle = global.getComputedStyle;
-      //    global.getComputedStyle = () => { return {} };
-      //
-      //    sinon.stub(control, '_updateStateAndGenerateEvents');
-      //
-      //    control._resizeObserverCallback();
-      //
-      //    sinon.assert.notCalled(control._updateStateAndGenerateEvents);
-      //
-      //    global.getComputedStyle = getComputedStyle;
-      //
-      //    sinon.restore();
-      // });
+      it('should\'t update state if container is invisible', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._beforeMount(options);
+
+         control._container = {
+            closest: sinon.stub().returns(true),
+            className: ''
+         }
+
+         const getComputedStyle = global.getComputedStyle;
+         global.getComputedStyle = () => { return {} };
+
+         sinon.stub(control, '_updateStateAndGenerateEvents');
+
+         control._resizeObserverCallback();
+
+         sinon.assert.notCalled(control._updateStateAndGenerateEvents);
+
+         global.getComputedStyle = getComputedStyle;
+
+         sinon.restore();
+      });
    });
 
    describe('_scrollHandler', () => {
