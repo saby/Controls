@@ -79,7 +79,6 @@
  */
 
 import EmptyTemplate = require('wml!Controls/_list/emptyTemplate');
-import LoadingIndicatorTemplate = require('wml!Controls/_list/PortionedSearchTemplate');
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
 import * as CharacteristicsTemplate from 'wml!Controls/_list/CharacteristicsTemplate/CharacteristicsTemplate';
 import BaseAction from 'Controls/_list/BaseAction';
@@ -104,7 +103,6 @@ export {
 
     ItemActionsHelpers,
     GroupContentResultsTemplate,
-    LoadingIndicatorTemplate,
     HotKeysContainer
 };
 export {default as AddButton} from 'Controls/_list/AddButton';

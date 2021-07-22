@@ -799,7 +799,7 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlOptions);
             baseControl.saveOptions(baseControlOptions);
 
-            baseControl._items.setMetaData({more: true});
+            baseControl._items.setMetaData({more: true, iterative: true});
             baseControlOptions = {...baseControlOptions};
             baseControlOptions.searchValue = 'testSearchValue';
             baseControl._beforeUpdate(baseControlOptions);

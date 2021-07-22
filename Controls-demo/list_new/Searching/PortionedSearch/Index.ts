@@ -1,51 +1,31 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/Searching/PortionedSearch/PortionedSearch';
-import PortionedSearchSource from 'Controls-demo/list_new/Searching/PortionedSearch/Source';
-import {Memory} from 'Types/source';
-import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
+import PortionedSearchMemory from './PortionedSearchMemory';
+import {SyntheticEvent} from "UI/Vdom";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: PortionedSearchSource = null;
+    protected _viewSource: PortionedSearchMemory = null;
     protected _filter: Object = null;
-    private _dataArray: object[] = generateData({count: 100, entityTemplate: {title: 'lorem'}});
-    private _searchValue: string = '';
+    protected _position: number = 0;
+
+    protected _longLoad: boolean = false;
+    protected _fastLoad: boolean = false;
 
     protected _beforeMount(): void {
-        this._viewSource = new PortionedSearchSource({
-            source: new Memory({
-                keyProperty: 'key',
-                data: this._dataArray,
-                // tslint:disable-next-line
-                filter: (item: any, query: any) => {
-                    let res = true;
-
-                    if (query.title) {
-                        res = item.get('title').toLowerCase().includes(query.title);
-                    }
-
-                    return res;
-                }
-            })
-        });
+        this._viewSource = new PortionedSearchMemory({keyProperty: 'key'});
         this._filter = {};
     }
 
-    protected _startSearch(): void {
-        this._searchValue = 'lorem';
+    protected _longLoadChangedHandler(event: SyntheticEvent, newValue: boolean): void {
+        this._viewSource.setLongLoad(newValue);
+        this._fastLoad = false;
     }
 
-    protected _afterUpdate(): void {
-        if (this._searchValue && !this._filter.title) {
-            this._filter = {
-                title: this._searchValue
-            };
-        }
+    protected _fastLoadChangedHandler(event: SyntheticEvent, newValue: boolean): void {
+        this._viewSource.setFastLoad(newValue);
+        this._longLoad = false;
     }
 
-    protected _resetSearch(): void {
-        this._searchValue = '';
-        this._filter = {};
-    }
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

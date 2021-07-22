@@ -1,0 +1,3 @@
+<div class="{{ item.getClasses() }}" data-qa="{{ item.getQAData() }}">
+    <ws:partial if="{{ item.getContentTemplate() }}" template="{{ item.getContentTemplate() }}" scope="{{ _options }}"/>
+</div>

@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Up/NotEnoughData/HasMore/Index' }}">
+            <a href="{{content.href}}">Есть еще данные для подгрузки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Up.NotEnoughData.HasMore.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LoadingIndicator/Up/NotEnoughData/NotHasMore/Index' }}">
+            <a href="{{content.href}}">Нет еще данных для подгрузки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LoadingIndicator.Up.NotEnoughData.NotHasMore.Index/>
+    </div>
+</div>
+

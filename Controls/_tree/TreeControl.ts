@@ -115,14 +115,14 @@ const _private = {
 
         const eventResult = self._notify(expanded ? 'beforeItemExpand' : 'beforeItemCollapse', [item]);
         if (eventResult instanceof Promise) {
-            self.showIndicator('all');
+            self._indicatorsController.displayGlobalIndicator();
             return eventResult.then(
                 () => {
-                    self.hideIndicator();
+                    self._indicatorsController.hideGlobalIndicator();
                     return _private.doExpand(self, dispItem).then(expandToFirstLeafIfNeed).catch((e) => e);
                 },
                 () => {
-                    self.hideIndicator();
+                    self._indicatorsController.hideGlobalIndicator();
                 }
             );
         } else {
@@ -261,7 +261,7 @@ const _private = {
     loadNodeChildren(self: TreeControl, nodeKey: CrudEntityKey): Promise<object> {
         const sourceController = self.getSourceController();
 
-        self.showIndicator();
+        self._indicatorsController.displayGlobalIndicator();
         return sourceController.load('down', nodeKey).then((list) => {
                 self.stopBatchAdding();
                 return list;
@@ -271,7 +271,7 @@ const _private = {
                 return error;
             })
             .finally(() => {
-                self.hideIndicator();
+                self._indicatorsController.hideGlobalIndicator();
             });
     },
 
@@ -1416,11 +1416,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             return;
         }
 
-        this.showIndicator();
+        this._indicatorsController.displayGlobalIndicator();
         return baseSourceController
             .load(undefined, nodeKey)
             .then((list) => {
-                this.hideIndicator();
+                this._indicatorsController.hideGlobalIndicator();
                 return list as RecordSet;
             })
             .catch((error: Error) => {
@@ -1429,7 +1429,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
 
                 this._onDataError({ error });
-                this.hideIndicator();
+                this._indicatorsController.hideGlobalIndicator();
 
                 throw error;
             });

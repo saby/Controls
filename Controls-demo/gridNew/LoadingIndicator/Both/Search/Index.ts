@@ -9,12 +9,7 @@ export default class Explorer extends Control<IControlOptions> {
    protected _template: TemplateFunction = Template;
    protected _viewSource: SearchMemory;
    protected _filter: object = {};
-   protected _columns: IColumn[] = [
-      {
-         displayProperty: 'title',
-         width: 'max-content'
-      }
-   ];
+   protected _columns: IColumn[] = [{ displayProperty: 'title' }];
    private _dataArray: unknown = generateData({count: 60, entityTemplate: {title: 'lorem'}});
 
    protected _beforeMount(): void {

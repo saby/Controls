@@ -110,93 +110,33 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    pointer-events: auto;
 }
 
+.controls-BaseControl__loadingTrigger {
+   position: absolute;
+   grid-column-start: 1;
+   grid-column-end: -1;
+}
+
 .controls-BaseControl__loadingIndicator {
    background-color: transparent;
    display: flex;
    justify-content: center;
    cursor: auto;
    min-height: 48px;
+   pointer-events: none;
+   grid-column-start: 1;
+   grid-column-end: -1;
+}
 
-   // TODO: KINGO
+.controls-BaseControl__loadingIndicator__state-global {
+   position: absolute;
+   align-items: center;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+
    // Локальный индикатор загрузки на весь экран должен блокировать список, перекрывая кнопки навигации и скроллбар.
    z-index: 17;
-}
-
-.controls-BaseControl__emptyTemplate {
-   height: 100%;
-   display: flex;
-   align-items: center;
-}
-
-.controls-BaseControl__emptyTemplate__contentWrapper {
-   // Пустое представление обязано и расширяться и сжиматья, подстраиваясь под список
-   flex-grow: 1;
-   max-width: 100%;
-}
-
-.controls-BaseControl__loadingIndicator__state-attachToNull {
-   display: flex;
-   justify-content: center;
-}
-
-.controls-BaseControl__loadingIndicator__state-up {
-   position: relative;
-   pointer-events: none;
-}
-
-.controls-BaseControl__loadingIndicator__state-up-absolute {
-   position: absolute;
-   top: var(--scrollpaging_offset-vertical_list);
-   left: 0;
-   right: 0;
-   pointer-events: none;
-}
-
-// По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка
-.controls-BaseControl__loadingIndicator__state-down {
-   position: sticky;
-   pointer-events: none;
-   padding-top: var(--offset_s);
-   bottom: var(--scrollpaging_offset-vertical_list);
-}
-
-.controls-BaseControl__loadingIndicator_style-portionedSearch {
-   padding-top: var(--offset_s);
-   bottom: var(--scrollpaging_offset-vertical_list);
-}
-
-// По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка.
-// IE не поддерживает position: sticky, поэтому прижимаем индикатор загрузки к низу последней записи, тем самым урезая функционал в IE
-.ws-is-ie .controls-BaseControl__loadingIndicator__state-down {
-   position: absolute;
-   left: 0;
-   right: 0;
-}
-
-// IE не поддерживает position: sticky, положение sticky контейнера не нужно компенсировать на контейнер с пагинацией.
-.ws-is-ie .controls-BaseControl_withPaging__loadingIndicator__state-down {
-   margin-bottom: 0;
-}
-
-.controls-BaseControl__loadingIndicator__state-up .controls-BaseControl__loadingIndicatorImg-wrapper {
-   position: absolute;
-   top: 0;
-}
-
-.controls-BaseControl_empty__loadingIndicator__state-down {
-   min-height: calc(var(--content_l_padding_loadingIndicator) * 2 + var(--spinner_l_size_loadingIndicator));
-}
-
-.controls-BaseControl_empty__loadingIndicator__state-down .controls-BaseControl__loadingIndicatorImg-wrapper {
-   top: 0;
-}
-
-.controls-BaseControl__loadingIndicator__state-all {
-   position: absolute;
-   top: 0;
-   left: 0;
-   right: 0;
-   align-items: center;
 }
 
 .controls-BaseControl__loadingIndicatorImg-wrapper {
@@ -209,19 +149,57 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    pointer-events: auto;
 }
 
+.controls-BaseControl__portionedSearch {
+   position: sticky;
+   background-color: transparent;
+   display: flex;
+   justify-content: center;
+   cursor: auto;
+   min-height: 48px;
+   pointer-events: none;
+   grid-column-start: 1;
+   grid-column-end: -1;
+   padding-top: var(--offset_s);
+   bottom: var(--scrollpaging_offset-vertical_list);
+}
+
+// По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка.
+// IE не поддерживает position: sticky, поэтому прижимаем индикатор загрузки к низу последней записи, тем самым урезая функционал в IE
+.ws-is-ie .controls-BaseControl__portionedSearch {
+   position: absolute;
+   left: 0;
+   right: 0;
+}
+
 .controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch {
    box-shadow: var(--loadingIndicator_iterativeSearch_box-shadow_list);
 }
 
 .controls-BaseControl__loadingIndicatorImg {
-   background: var(--spinner_l_background-image_loadingIndicator) 0 0 no-repeat;/**/
+   background: var(--spinner_l_background-image_loadingIndicator) 0 0 no-repeat;
    width: var(--spinner_l_size_loadingIndicator);
    height: var(--spinner_l_size_loadingIndicator);
    background-size: var(--spinner_l_size_loadingIndicator);
 }
 
-.controls-BaseControl__trigger {
-   position: relative;
+// В Яндекс браузере для win-XP css переменные поддерживаются не в полном объеме, из-за чего браузер ожидает полный путь с указанием домена
+// Поэтому каскадом задаем корректный путь
+.ws-is-chrome .ws-is-windows-xp {
+   .controls-BaseControl__loadingIndicatorImg {
+      background: url('/cdn/LoaderIndicator/1.0.0/ajax-loader-indicator.gif') 0 0 no-repeat;
+   }
+}
+
+.controls-BaseControl__emptyTemplate {
+   height: 100%;
+   display: flex;
+   align-items: center;
+}
+
+.controls-BaseControl__emptyTemplate__contentWrapper {
+   // Пустое представление обязано и расширяться и сжиматья, подстраиваясь под список
+   flex-grow: 1;
+   max-width: 100%;
 }
 
 .controls__BaseControl__footer-default__paddingLeft_withCheckboxes,
@@ -326,6 +304,8 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl__continueSearch {
    display: inline-flex;
    width: 100%;
+   grid-column-start: 1;
+   grid-column-end: -1;
    padding-top: calc(var(--offset_s) + var(--content_l_border_radius_loadingIndicator));
    padding-bottom: var(--content_l_padding_loadingIndicator);
 }

@@ -29,7 +29,6 @@ import MultiSelectTemplate = require('wml!Controls/_baseList/Render/multiSelect'
 import EditingTemplate = require('wml!Controls/_baseList/EditInPlace/EditingTemplate');
 import MoneyEditingTemplate = require('wml!Controls/_baseList/EditInPlace/decorated/Money');
 import NumberEditingTemplate = require('wml!Controls/_baseList/EditInPlace/decorated/Number');
-import ContinueSearchTemplate = require('wml!Controls/_baseList/resources/ContinueSearchTemplate');
 
 export {
     ForTemplate,
@@ -41,8 +40,7 @@ export {
     EditingTemplate as BaseEditingTemplate,
     MultiSelectTemplate,
     MoneyEditingTemplate,
-    NumberEditingTemplate,
-    ContinueSearchTemplate
+    NumberEditingTemplate
 };
 //endregion
 
@@ -79,5 +77,13 @@ export {RemoveController} from 'Controls/_baseList/Controllers/RemoveController'
 export {default as VirtualScroll} from './_baseList/ScrollContainer/VirtualScroll';
 export {MoveController, IMoveControllerOptions}  from 'Controls/_baseList/Controllers/MoveController';
 //endregion
+
+// region Indicators
+export * as IndicatorTemplate from 'wml!Controls/_baseList/indicators/IndicatorTemplate';
+export * as LoadingIndicatorItemTemplate from 'wml!Controls/_baseList/indicators/LoadingIndicatorTemplate';
+export * as LoadingTriggerItemTemplate from 'wml!Controls/_baseList/indicators/LoadingTriggerTemplate';
+export * as LoadingIndicatorTemplate from 'wml!Controls/_baseList/indicators/PortionedSearchTemplate';
+export * as ContinueSearchTemplate from 'wml!Controls/_baseList/indicators/ContinueSearchTemplate';
+// endregion Indicators
 
 export {groupConstants, IHiddenGroupPosition, IItemPadding, MultiSelectAccessibility, TRoundBorder} from './display';

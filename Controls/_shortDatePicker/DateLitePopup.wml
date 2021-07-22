@@ -98,6 +98,7 @@
               displayedRanges="{{_displayedRanges}}"
               bind:position="_position"
               attachLoadTopTriggerToNull="{{ false }}"
+              attachLoadDownTriggerToNull="{{ false }}"
               _limit="{{_limit}}"
          class="controls-PeriodLiteDialog__year-list">
          <ws:yearTemplate>

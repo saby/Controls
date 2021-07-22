@@ -173,7 +173,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
                 });
 
-                assert.strictEqual(result.triggerOffset.top, -1);
+                assert.strictEqual(result.triggerOffset.top, 0);
             });
             it('resetTopTriggerOffset === false', () => {
                 const collection = new Collection({
@@ -254,9 +254,9 @@ describe('Controls/list_clean/ScrollController', () => {
         });
     });
 
-    describe('resetDownTriggerOffset', () => {
+    describe('resetBottomTriggerOffset', () => {
         describe('mount', () => {
-            it('resetDownTriggerOffset === true', () => {
+            it('resetBottomTriggerOffset === true', () => {
                 const collection = new Collection({
                     collection: items
                 });
@@ -264,7 +264,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     collection,
                     virtualScrollConfig: {},
                     needScrollCalculation: false,
-                    resetDownTriggerOffset: true
+                    resetBottomTriggerOffset: true
                 });
                 controller.handleResetItems();
 
@@ -273,14 +273,14 @@ describe('Controls/list_clean/ScrollController', () => {
                         collection,
                         virtualScrollConfig: {},
                         needScrollCalculation: false,
-                        resetDownTriggerOffset: true
+                        resetBottomTriggerOffset: true
                     },
                     params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
                 });
 
                 assert.strictEqual(result.triggerOffset.bottom, 0);
             });
-            it('resetDownTriggerOffset === false', () => {
+            it('resetBottomTriggerOffset === false', () => {
                 const collection = new Collection({
                     collection: items
                 });
@@ -288,7 +288,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     collection,
                     virtualScrollConfig: {},
                     needScrollCalculation: false,
-                    resetDownTriggerOffset: false
+                    resetBottomTriggerOffset: false
                 });
                 controller.handleResetItems();
 
@@ -297,7 +297,7 @@ describe('Controls/list_clean/ScrollController', () => {
                         collection,
                         virtualScrollConfig: {},
                         needScrollCalculation: false,
-                        resetDownTriggerOffset: false
+                        resetBottomTriggerOffset: false
                     }, params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
                 });
 
@@ -305,7 +305,7 @@ describe('Controls/list_clean/ScrollController', () => {
             });
         });
         describe('update', () => {
-            it('resetDownTriggerOffset === true -> false', () => {
+            it('resetBottomTriggerOffset === true -> false', () => {
                 const collection = new Collection({
                     collection: items
                 });
@@ -313,7 +313,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     collection,
                     virtualScrollConfig: {},
                     needScrollCalculation: false,
-                    resetDownTriggerOffset: true
+                    resetBottomTriggerOffset: true
                 };
                 const controller = new ScrollController(options);
                 controller.handleResetItems();
@@ -323,7 +323,7 @@ describe('Controls/list_clean/ScrollController', () => {
                         collection,
                         virtualScrollConfig: {},
                         needScrollCalculation: false,
-                        resetDownTriggerOffset: false
+                        resetBottomTriggerOffset: false
                     },
                     params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
                 });
