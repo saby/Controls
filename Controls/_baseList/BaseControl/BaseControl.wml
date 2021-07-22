@@ -82,15 +82,15 @@
         <ws:if data="{{_shouldDrawMoreButton}}">
             <ws:partial
                template="wml!Controls/_baseList/BaseControl/MoreButton"
+               on:click="_onMoreButtonClick()"
                moreFontColorStyle="{{_options.moreFontColorStyle}}"
                loadMoreCaption="{{_loadMoreCaption}}"
                moreButtonTemplate="{{_options.moreButtonTemplate}}"
-               theme="{{_options.theme}}"
             />
         </ws:if>
         <ws:if data="{{_shouldDrawCut}}">
             <ws:partial template="wml!Controls/_baseList/BaseControl/Cut"
-                        on:clickChanged="_onCutClick()"
+                        on:click="_onCutClick()"
                         buttonClass="js-controls-BaseControl__cut"
                         value="{{_expanded}}"
                         cutSize="{{_cutSize}}"/>
@@ -165,7 +165,7 @@
                 on:enableVirtualNavigation="_stopBubblingEvent()"
                 on:disableVirtualNavigation="_stopBubblingEvent()"
                 on:restoreScrollPosition="_stopBubblingEvent()"
-                on:loadMore="_onClickMoreButton()"
+                on:loadMore="_onMoreButtonClick()"
                 on:toggleHorizontalScroll="_onToggleHorizontalScroll()"
         >
             <ws:itemActionsTemplate>

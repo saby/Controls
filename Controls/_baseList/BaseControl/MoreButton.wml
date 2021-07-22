@@ -1,6 +1,13 @@
+<ws:template name="defaultMoreButton">
+    <Controls.buttons:Button attr:class="controls-BaseControl__loadMore" viewMode="link" fontColorStyle="{{moreFontColorStyle}}" caption="{{rk('Еще') + ' ' + loadMoreCaption}}" readOnly="{{false}}"/>
+</ws:template>
+
 <ws:if data="{{moreButtonTemplate}}">
-    <ws:partial template="{{moreButtonTemplate}}"/>
+    <ws:partial template="{{moreButtonTemplate}}"
+                buttonClass="js-controls-BaseControl__moreButton"
+                cutSize="{{_cutSize}}"/>
 </ws:if>
 <ws:else>
-    <Controls.buttons:Button attr:class="controls-BaseControl__loadMore" viewMode="link" fontColorStyle="{{moreFontColorStyle}}" caption="{{rk('Еще') + ' ' + loadMoreCaption}}" readOnly="{{false}}"/>
+    <ws:partial template="defaultMoreButton"
+                attr:class="js-controls-BaseControl__moreButton"/>
 </ws:else>
