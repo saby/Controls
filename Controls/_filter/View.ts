@@ -940,7 +940,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
     private _reload(onlyChangedItems: boolean = false,
                     hasSimplePanel: boolean = true,
-                    items?: IFilterItem[]): Promise<IFilterReceivedState> {
+                    items?: IFilterItem[]): Promise<IFilterReceivedState> | void {
         const loadPromises = [];
         factory(items || this._source).each((item) => {
             if (this._isFrequentItem(item)) {
@@ -960,17 +960,19 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             }
         });
 
-        this._loadPromise = new CancelablePromise(Promise.all(loadPromises));
+        if (loadPromises.length) {
+            this._loadPromise = new CancelablePromise(Promise.all(loadPromises));
 
-        // At first, we will load all the lists in order not to cause blinking of the interface and many redraws.
-        return this._loadPromise.promise.then(() => {
-            return this._loadSelectedItems(this._source, this._configs).then(() => {
-                this._updateText(this._source, this._configs);
-                return {
-                    configs: deleteHistorySourceFromConfig(this._configs, 'source')
-                };
+            // At first, we will load all the lists in order not to cause blinking of the interface and many redraws.
+            return this._loadPromise.promise.then(() => {
+                return this._loadSelectedItems(this._source, this._configs).then(() => {
+                    this._updateText(this._source, this._configs);
+                    return {
+                        configs: deleteHistorySourceFromConfig(this._configs, 'source')
+                    };
+                });
             });
-        });
+        }
     }
 
     private _setValue(selectedKeys: TKey | TKey[], name: string): void {
