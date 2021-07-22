@@ -1,4 +1,4 @@
-<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+<div class="root">
     <div class="separator">Прикладной контент перед вкладками</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__contentBefore">
         <div class="demo-TabButtons-container controls-Tabs__item-underline">

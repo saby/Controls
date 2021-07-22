@@ -1,4 +1,4 @@
-<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+<div class="root">
     <div class="separator">Style="secondary", with space template</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__withSpace">
         <Controls.tabs:Buttons
