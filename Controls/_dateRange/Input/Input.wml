@@ -21,7 +21,7 @@
               valueValidators="{{_startValueValidators}}"
               validateByFocusOut="{{_options.validateByFocusOut}}"
               on:inputControl="_startFieldInputControlHandler()"
-              on:inputCompleted="_notifyInputCompleted()"
+              on:inputCompleted="_inputCompletedHandler()"
               on:tagClick="_proxyEvent('startTagClick')"
               on:tagHover="_proxyEvent('startTagHover')">
       </Controls.input:DateBase>
@@ -58,7 +58,7 @@
               valueValidators="{{_endValueValidators}}"
               validateByFocusOut="{{_options.validateByFocusOut}}"
               on:inputControl="_endFieldInputControlHandler()"
-              on:inputCompleted="_notifyInputCompleted()"
+              on:inputCompleted="_inputCompletedHandler()"
               on:tagClick="_proxyEvent('endTagClick')"
               on:tagHover="_proxyEvent('endTagHover')">
       </Controls.input:DateBase>
