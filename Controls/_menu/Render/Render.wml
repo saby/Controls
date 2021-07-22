@@ -18,7 +18,12 @@
                width="{{_options.width}}"
                scope="{{item.contents['itemTemplateOptions']}}"
                attr:data-qa="{{item.getContents()[_options.nodeProperty] ? 'node' : 'leaf'}}"
-               item="{{_getItemData(item)}}" />  <!-- https://online.sbis.ru/opendoc.html?guid=47950520-ef97-4302-8573-4b8495a3f0ee -->
+               item="{{_getItemData(item)}}" > <!-- https://online.sbis.ru/opendoc.html?guid=47950520-ef97-4302-8573-4b8495a3f0ee -->
+      <ws:multiSelectTpl>
+         <ws:partial template="wml!Controls/_menu/Render/multiSelectTpl"
+                     scope="{{multiSelectTpl}}"/>
+      </ws:multiSelectTpl>
+   </ws:partial>
    <ws:if data="{{_options.allowPin && _isHistorySeparatorVisible(item)}}">
       <div class="controls-Menu__group_separator-container"
            attr:key="{{item.getUid()}} + '_separator'" on:mouseenter="_separatorMouseEnter()">
@@ -50,10 +55,6 @@
             </Controls.scroll:StickyBlock>
          </ws:else>
       </ws:itemTemplate>
-      <ws:multiSelectTpl>
-         <ws:partial template="wml!Controls/_menu/Render/multiSelectTpl"
-                     scope="{{multiSelectTpl}}"/>
-      </ws:multiSelectTpl>
    </Controls.listRender:Render>
 </ws:template>
 
