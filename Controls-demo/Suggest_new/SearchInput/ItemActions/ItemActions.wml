@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo_fixedWidth350">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_padding-left controlsDemo_fixedWidth350">
       <div class="controls-text-label">Автодополнение с пользовательскими операциями.</div>
       <Controls.suggest:SearchInput
               attr:class="controlsDemo__input"

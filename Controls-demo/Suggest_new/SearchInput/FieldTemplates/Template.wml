@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_padding-left">
         <Controls.suggest:SearchInput
                 attr:class="ControlsDemo-Suggest__simple"
                 bind:value="_suggestDownValue"

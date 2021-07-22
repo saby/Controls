@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_padding-left">
       <div class="controls-text-label">Постраничная навигация</div>
       <Controls.suggest:Selector
               attr:class="controlsDemo__input demo-SuggestNewSelector__pageNav"
@@ -13,7 +13,7 @@
           </ws:suggestTemplate>
       </Controls.suggest:Selector>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_padding-left">
       <div class="controls-text-label">Без указания настроек навигации</div>
       <Controls.suggest:Selector
               attr:class="controlsDemo__input demo-SuggestNewSelector__noSettingsNav"
@@ -26,7 +26,7 @@
           </ws:suggestTemplate>
       </Controls.suggest:Selector>
    </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_padding-left">
       <div class="controls-text-label">Подгружать данные, пока не будет достигут порог</div>
       <Controls.suggest:Selector
               attr:class="controlsDemo__input demo-SuggestNewSelector__autoLoadNav"
