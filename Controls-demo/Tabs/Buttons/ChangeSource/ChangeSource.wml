@@ -1,4 +1,4 @@
-<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+<div class="root">
     <div class="separator">
         <span>Style="primary", change source after click</span>
         <div class="clickmebtn" on:click="_setSource()">click me</div>

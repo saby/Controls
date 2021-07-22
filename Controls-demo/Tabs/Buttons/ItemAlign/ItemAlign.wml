@@ -1,4 +1,4 @@
-<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+<div class="root">
     <div class="separator">Прижатые к правому краю</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__rightAlign">
         <Controls.tabs:Buttons
