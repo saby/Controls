@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo_fixedWidth350">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_padding-left controlsDemo_fixedWidth350">
       <div class="controls-text-label">list:View в шаблоне автодополнения</div>
       <Controls.suggest:SearchInput
               attr:class="demo-SuggestNewSearch__listView controlsDemo__input"
@@ -11,7 +11,7 @@
           <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/SearchInput/SuggestTemplate/resources/SuggestTemplate"/>
       </Controls.suggest:SearchInput>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_padding-left">
       <div class="controls-text-label">grid:View в шаблоне автодополнения</div>
       <Controls.suggest:SearchInput
               attr:class="demo-SuggestNewSearch__gridView controlsDemo__input"
