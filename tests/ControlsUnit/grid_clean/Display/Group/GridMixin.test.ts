@@ -1,4 +1,4 @@
-\import { assert } from 'chai';
+import { assert } from 'chai';
 
 import { Model } from 'Types/entity';
 import { IColumn } from 'Controls/grid';
