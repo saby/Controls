@@ -356,6 +356,16 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             }
         }
         //endregion
+
+        if (newOptions.loading !== this._options.loading) {
+            if (newOptions.loading) {
+                this._masterLoading = this._masterDataSource?.sourceController.isLoading();
+                this._detailLoading = this._detailDataSource.sourceController.isLoading();
+            } else {
+                this._masterLoading = false;
+                this._detailLoading = false;
+            }
+        }
     }
 
     protected _beforeUnmount(): void {
