@@ -158,7 +158,7 @@ define(
             combobox._options.dataLoadCallback = () => {
                isCalled = true;
             };
-            combobox._dataLoadCallback(itemsRecords);
+            combobox._dataLoadCallback(combobox._options, itemsRecords);
 
             assert.isTrue(isCalled);
          });
@@ -214,7 +214,7 @@ define(
             });
 
             it('count of items = 0', () => {
-               combobox._dataLoadCallback(itemsCallback);
+               combobox._dataLoadCallback(combobox._options, itemsCallback);
                assert.isTrue(combobox._readOnly);
                assert.isUndefined(combobox._selectedItem);
                assert.equal(combobox._countItems, 0);
@@ -224,7 +224,7 @@ define(
                itemsCallback.add(new entity.Model({
                   rawData: { key: '1' }
                }));
-               combobox._dataLoadCallback(itemsCallback);
+               combobox._dataLoadCallback(combobox._options, itemsCallback);
                assert.isTrue(combobox._readOnly);
                assert.deepEqual(combobox._selectedItem, itemsCallback.at(0));
             });
@@ -232,7 +232,7 @@ define(
             it('count of items = 1, with emptyText', () => {
                combobox._options.emptyText = 'test';
                combobox._options.readOnly = false;
-               combobox._dataLoadCallback(itemsCallback);
+               combobox._dataLoadCallback(combobox._options, itemsCallback);
                assert.isFalse(combobox._readOnly);
             });
 
@@ -240,14 +240,14 @@ define(
                itemsCallback.add(new entity.Model({
                   rawData: { key: '2' }
                }));
-               combobox._dataLoadCallback(itemsCallback);
+               combobox._dataLoadCallback(combobox._options, itemsCallback);
                assert.isFalse(combobox._readOnly);
                assert.isUndefined(combobox._selectedItem);
             });
 
             it('count of items = 2, with options.readOnly', () => {
                combobox._options.readOnly = true;
-               combobox._dataLoadCallback(itemsCallback);
+               combobox._dataLoadCallback(combobox._options, itemsCallback);
                assert.isTrue(combobox._readOnly);
             });
          });
