@@ -64,7 +64,7 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
  * @mixes Controls/interface:IResetValues
  * @mixes Controls/dateRange:IDateRangeSelectable
  * @mixes Controls/dateRange:IDayTemplate
- * 
+ *
  * @mixes Controls/interface:IDateMask
  * @mixes Controls/dateRange:IDateRange
  * @mixes Controls/interface:IDateRangeValidators
@@ -129,6 +129,8 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _endValueValidators = null;
 
     _keyboardActive: boolean = false;
+
+    protected _resetButtonVisible: boolean;
 
     _beforeMount(options: IControlOptions): void {
         /* Опция _displayDate используется только(!) в тестах, чтобы иметь возможность перемотать
@@ -466,6 +468,9 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     _resetValues(): void {
+        this._monthRangeSelectionProcessing = false;
+        this._yearsRangeSelectionProcessing = false;
+        this._dateRangeSelectionProcessing = false;
         this.rangeChanged(this._options.resetStartValue || null, this._options.resetEndValue || null);
         this._resetButtonVisible = false;
     }
@@ -473,11 +478,12 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _updateResetButtonVisible(options): void {
         const hasResetStartValue = options.resetStartValue || options.resetStartValue === null;
         const hasResetEndValue = options.resetEndValue || options.resetEndValue === null;
+
         this._resetButtonVisible = (hasResetStartValue &&
             (!dateUtils.isDatesEqual(this._rangeModel.startValue, options.resetStartValue) ||
             this._rangeModel.startValue !== options.resetStartValue)) ||
             (hasResetEndValue && (!dateUtils.isDatesEqual(this._rangeModel.endValue, options.resetEndValue)
-            || this._rangeModel.startValue !== options.resetEndValue));
+            || this._rangeModel.endValue !== options.resetEndValue));
     }
 
     fixedPeriodClick(start: Date, end: Date): void {
@@ -545,6 +551,9 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     toggleState(date?: Date): void {
+        this._monthRangeSelectionProcessing = false;
+        this._yearsRangeSelectionProcessing = false;
+        this._dateRangeSelectionProcessing = false;
         this._state = this._state === STATES.year ? STATES.month : STATES.year;
         if (this._options.stateChangedCallback) {
             this._options.stateChangedCallback(this._state);
