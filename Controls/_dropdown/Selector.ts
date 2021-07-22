@@ -112,7 +112,7 @@ export default class Selector extends BaseDropdown {
       if (options.navigation && options.selectedKeys &&  options.selectedKeys.length) {
          return loadSelectedItems(this._controller, receivedState, options.source);
       } else {
-         return loadItems(this._controller, receivedState, options.source);
+         return loadItems(this._controller, receivedState, options);
       }
    }
 

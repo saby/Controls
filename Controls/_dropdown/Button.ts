@@ -171,7 +171,7 @@ export default class Button extends BaseDropdown {
         this._calmTimer = new CalmTimer(this._openMenu.bind(this));
 
         if (!options.lazyItemsLoading) {
-            return loadItems(this._controller, receivedState, options.source);
+            return loadItems(this._controller, receivedState, options);
         }
     }
 

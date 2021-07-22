@@ -98,6 +98,15 @@ define(
             assert.isTrue(isSelectedItemsLoad);
          });
 
+         it('_beforeMount items', function() {
+            const ddl = getDropdown(config);
+            ddl._beforeMount({
+               ...config,
+               items: itemsRecords
+            });
+            assert.equal(ddl._text, 'Запись 2');
+         });
+
          it('_getMoreText', () => {
             let ddl = getDropdown(config);
 
