@@ -4,7 +4,7 @@ import {CrudEntityKey, HierarchicalMemory} from 'Types/source';
 import { IColumn } from 'Controls/grid';
 import {ISelectionObject} from 'Controls/interface';
 import {Flat} from 'Controls-demo/treeGridNew/DemoHelpers/Data/Flat';
-import {moverMemoryFilter} from '../moverMemoryFilter';
+import {memoryFilter as moverMemoryFilter} from 'Controls-demo/treeGridNew/DemoHelpers/Filter/memoryFilter';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

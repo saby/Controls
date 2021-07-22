@@ -997,7 +997,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
 
     private _hasFilterSourceInOptions(options: IBrowserOptions): boolean {
         return Browser._hasInOptions(options, ['filterButtonSource', 'fastFilterSource']) ||
-               !!this._getSearchValue(options);
+               (!!this._getSearchValue(options) && !options.filter?.[options.searchParam]);
     }
 
     private static _getSourceControllerForDataLoader(

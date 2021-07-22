@@ -23,6 +23,7 @@ import IItemActionsItem from './interface/IItemActionsItem';
 import {TRoundBorder} from "Controls/_tile/display/mixins/Tile";
 import {isEqual} from "Types/object";
 import IEnumerableItem from './interface/IEnumerableItem';
+import IEdgeRowSeparatorItem from './interface/IEdgeRowSeparatorItem';
 
 export interface IOptions<T extends Model = Model> {
     itemModule?: string;
@@ -96,7 +97,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     InstantiableMixin,
     SerializableMixin,
     ItemCompatibilityListViewModel
-) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable, IItemActionsItem, IEnumerableItem {
+) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable, IItemActionsItem, IEnumerableItem, IEdgeRowSeparatorItem {
 
     // region IInstantiable
 
@@ -104,6 +105,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
     readonly EnumerableItem: boolean = true;
+    readonly EdgeRowSeparatorItem: boolean = true;
     readonly DraggableItem: boolean = true;
     readonly ItemActionsItem: boolean = true;
     readonly DisplaySearchValue: boolean = true;
@@ -459,7 +461,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     getMultiSelectClasses(): string {
         let classes = 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable ';
-        classes += 'js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable ';
+        classes += 'js-controls-ListView__checkbox js-controls-DragScroll__notDraggable ';
         classes += 'controls-CheckboxMarker_inList controls-ListView__checkbox ';
         classes += this.getMultiSelectOffsetClass();
 
@@ -754,7 +756,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
                       showItemActionsOnHover: boolean = true): string {
         const hoverBackgroundStyle = this.getOwner().getHoverBackgroundStyle() || style;
         const editingBackgroundStyle = this.getOwner().getEditingBackgroundStyle();
-        let wrapperClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor)}`;
+
+        // TODO: Убрать js-controls-ListView__editingTarget' по задаче
+        //  https://online.sbis.ru/opendoc.html?guid=deef0d24-dd6a-4e24-8782-5092e949a3d9
+        let wrapperClasses = `controls-ListView__itemV js-controls-ListView__editingTarget ${this._getCursorClasses(cursor)}`;
         wrapperClasses += ` controls-ListView__item_${style}`;
         if (showItemActionsOnHover !== false) {
             wrapperClasses += ' controls-ListView__item_showActions';

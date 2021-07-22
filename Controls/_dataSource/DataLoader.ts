@@ -157,6 +157,7 @@ function getLoadResult(
         sourceController,
         filterController,
         historyItems,
+        filterButtonSource: filterController?.getFilterButtonItems(),
         source: loadConfig.source ? new PrefetchProxy({
             target: loadConfig.source,
             data: {
@@ -276,7 +277,10 @@ export default class DataLoader {
 
         configs.forEach((loadConfig) => {
             if (loadConfig.type === 'custom') {
-                loadPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments).catch((error) => error);
+                const customPromise = loadConfig.loadDataMethod(loadConfig.loadDataMethodArguments)
+                loadPromise = wrapTimeout(customPromise, loadTimeout || getLoadTimeout(loadConfig)).catch((error) => {
+                    return error;
+                });
             } else {
                 loadPromise = loadDataByConfig(loadConfig, loadTimeout);
             }

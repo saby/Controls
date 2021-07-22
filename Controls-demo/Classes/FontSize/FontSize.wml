@@ -1,5 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls-fontsize-3xs">controls-fontsize-3xs</div>
+        <div class="controls-fontsize-2xs">controls-fontsize-2xs</div>
         <div class="controls-fontsize-xs">controls-fontsize-xs</div>
         <div class="controls-fontsize-s">controls-fontsize-s</div>
         <div class="controls-fontsize-m">controls-fontsize-m</div>

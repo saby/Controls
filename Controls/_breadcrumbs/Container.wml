@@ -1,7 +1,8 @@
-<ws:if data="{{_breadCrumbsItems}}">
-   <Controls.dragnDrop:Container on:documentDragEnd="_documentDragEnd()" on:documentDragStart="_documentDragStart()">
+<Controls.dragnDrop:Container on:documentDragEnd="_documentDragEnd()" on:documentDragStart="_documentDragStart()">
+   <ws:if data="{{_breadCrumbsItems || _dragOnBreadCrumbs}}">
       <ws:partial template="{{_options.content}}"
                   items="{{_breadCrumbsItems}}"
+                  root="{{_root}}"
                   keyProperty="{{_keyProperty}}"
                   parentProperty="{{_parentProperty}}"
                   rootVisible="{{_dragOnBreadCrumbs}}"
@@ -9,8 +10,9 @@
                   on:hoveredItemChanged="_hoveredCrumbChanged()"
                   on:itemClick="_itemClickHandler()"
       />
-   </Controls.dragnDrop:Container>
-</ws:if>
-<ws:else>
-   <invisible-node/>
-</ws:else>
+   </ws:if>
+   <ws:else>
+      <!-- нельзя использовать invisible-node. он ломает всплытие событий/-->
+      <div style="display: none"></div>
+   </ws:else>
+</Controls.dragnDrop:Container>

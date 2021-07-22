@@ -453,7 +453,6 @@ export default class _Controller implements IDropdownController {
       return sourcePromise.then((source) => {
          this._source = source;
          if (isHistorySource(this._source)) {
-            this._dataLoadCallbackOnSource = true;
             this._source.setDataLoadCallback(options.dataLoadCallback);
          }
          this._filter = this._prepareFilterForQuery(options);
@@ -495,7 +494,7 @@ export default class _Controller implements IDropdownController {
    }
 
    private _resolveLoadedItems(options: IDropdownControllerOptions, items: RecordSet<Model>): RecordSet<Model> {
-      if (options.dataLoadCallback && !this._dataLoadCallbackOnSource) {
+      if (options.dataLoadCallback && !isHistorySource(this._source)) {
          options.dataLoadCallback(items);
       }
       if (this._selectedItems) {

@@ -1,14 +1,19 @@
 import { TemplateFunction } from 'UI/Base';
 import { GridCell } from 'Controls/grid';
 import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
+import {COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 
 export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeFooterRow> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterCell]': boolean;
 
     getTemplate(content?: TemplateFunction): TemplateFunction|string {
-        // Возвращать шаблон кнопки "Ещё".
-        // https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b
-        return this._$owner.hasMoreStorage() ? null : content;
+        const nav = this.getOwner().getOwner().getNavigation();
+        const isInfinityNav = nav?.view === 'infinity';
+
+        // Если подгрузка данных осуществляется по скролу, то нет смысла выводить кнопку "Ещё".
+        // TODO: Возвращать шаблон кнопки "Ещё".
+        //  https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b
+        return !isInfinityNav && this._$owner.hasMoreStorage() ? null : content;
     }
 
     getContentClasses(
@@ -23,7 +28,7 @@ export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeF
         let classes =
             'controls-TreeGrid__nodeFooterContent' +
             ` controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${rowSeparatorSize}` +
-            ' controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable';
+            ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE}`;
 
         if (colspan !== false) {
             classes += ' controls-TreeGrid__nodeFooterContent_colspaned';

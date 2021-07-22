@@ -21,7 +21,6 @@ import 'Controls/toggle';
 
 /*
  * Editor for boolean type.
- * @class Controls/_propertyGrid/defaultEditors/Boolean
  * @extends UI/Base:Control
  * @implements Controls/propertyGrid:IEditor
  * 

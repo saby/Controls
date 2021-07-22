@@ -1,7 +1,8 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/operations/SimpleMultiSelector/Template';
 import {Memory} from 'Types/source';
-import {Gadgets} from 'Controls-demo/treeGridNew/DemoHelpers/DataCatalog';
+import { Gadgets } from 'Controls-demo/treeGridNew/DemoHelpers/Data/Gadgets';
+import { Flat } from 'Controls-demo/treeGridNew/DemoHelpers/Data/Flat';
 
 export default class MultiSelectorCheckboxDemo extends Control {
     _template: TemplateFunction = template;
@@ -15,10 +16,10 @@ export default class MultiSelectorCheckboxDemo extends Control {
         this._selectedKeys = [];
         this._excludedKeys = [];
         this._filter = {};
-        this._gridColumns = Gadgets.getGridColumnsForFlat();
+        this._gridColumns = Flat.getColumns();
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: Gadgets.getFlatData()
+            data: Gadgets.getData()
         });
     }
 

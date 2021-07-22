@@ -52,8 +52,8 @@ interface IPropertyGridValidatorArguments {
  * Represents a control that allows users to inspect and edit the properties of an object.
  * You can use the standard editors that are provided with the PropertyGrid or you can use custom editors.
  * By default the propertyGrid will autogenerate all the properties for a given object
- * @class Controls/_propertyGrid/PropertyGrid
  * @extends UI/Base:Control
+ * @mixes Controls/interface/IPropertyGrid
  * @mixes Controls/propertyGrid:IPropertyGrid
  *
  * @public

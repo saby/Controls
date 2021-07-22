@@ -111,7 +111,7 @@
 
     <!-- Скроллбар горизонтального скролла. -->
     <ws:if data="{{ _options.columnScroll }}">
-        <Controls.columnScroll:NewScrollBar
+        <Controls.columnScroll:ScrollBar
                 name="horizontalScrollBar"
                 attr:style="{{ _getColumnScrollThumbStyles(_options) }}"
                 stickyHeader="{{ false }}"

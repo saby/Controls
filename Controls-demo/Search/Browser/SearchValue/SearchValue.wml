@@ -25,7 +25,21 @@
         <Controls.list:Container>
           <Controls.list:View emptyTemplate="Не найдено">
             <ws:itemTemplate>
-              <ws:partial template="Controls/list:ItemTemplate"/>
+              <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                  <ws:if data="{{_searchValue}}">
+                    <span>
+                      <Controls.decorator:Highlight
+                        value="{{itemTemplate.item.contents.title}}"
+                        highlightedValue="{{_searchValue}}"
+                      />
+                    </span>
+                  </ws:if>
+                  <ws:else>
+                    {{itemTemplate.item.contents.title}}
+                  </ws:else>
+                </ws:contentTemplate>
+              </ws:partial>
             </ws:itemTemplate>
           </Controls.list:View>
         </Controls.list:Container>

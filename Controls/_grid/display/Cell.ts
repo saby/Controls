@@ -13,7 +13,7 @@ import { TemplateFunction } from 'UI/Base';
 import {IColumn, IColspanParams, TColumnSeparatorSize, ICellPadding} from './interface/IColumn';
 
 import {IEditingConfig, IItemPadding, TMarkerClassName} from 'Controls/display';
-import { COLUMN_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
+import { COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
 
 import Row from './Row';
 
@@ -351,7 +351,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                       templateHighlightOnHover: boolean = true): string {
         const hoverBackgroundStyle = this._$column.hoverBackgroundStyle || this._$owner.getHoverBackgroundStyle();
 
-        let contentClasses = 'controls-Grid__row-cell__content';
+        // TODO: Убрать js-controls-ListView__editingTarget' по задаче
+        //  https://online.sbis.ru/opendoc.html?guid=deef0d24-dd6a-4e24-8782-5092e949a3d9
+        let contentClasses = 'controls-Grid__row-cell__content js-controls-ListView__editingTarget';
 
         contentClasses += ' controls-Grid__row-cell__content_baseline_default';
         contentClasses += ` controls-Grid__row-cell_cursor-${cursor}`;
@@ -481,9 +483,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return '';
     }
 
-    protected _getColumnScrollWrapperClasses(theme: string): string {
+    protected _getColumnScrollWrapperClasses(): string {
         if (this._$isFixed) {
-            return ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed`;
+            return ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE} controls-GridView__cell_fixed`;
         }
         return ` ${COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT}`;
     }

@@ -677,8 +677,18 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
             this._root = newOptions.root;
+
             if (this._listViewModel) {
                 this._listViewModel.setRoot(this._root);
+            }
+
+            // При смене рута надо здесь вызвать onCollectionReset у markerController, т.к. сейчас
+            // загрузкой данных занимается Browser и коллекция меняется раньше чем мы изменим в ней
+            // root. И из-за это функционал простановки маркера отработает не корректно т.к. в коллекции
+            // уже будут данные нового рута а рут еще старый и она скажет что в ней ничего нет.
+            const newMarkedKey = this.getMarkerController()?.onCollectionReset();
+            if (newMarkedKey) {
+                this._changeMarkedKey(newMarkedKey, true);
             }
 
             if (this._options.itemsSetCallback) {
@@ -1212,7 +1222,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     private _getMarkedLeaf(key: CrudEntityKey, model): 'first' | 'last' | 'middle' | 'single' {
         const index = model.getIndexByKey(key);
-        const hasNextLeaf = (model.getLast() !== model.getItemBySourceKey(key)) || model.hasMoreData();
+        const hasNextLeaf = (model.getLast('Markable') !== model.getItemBySourceKey(key)) || model.hasMoreData();
         let hasPrevLeaf = false;
         for (let i = index - 1; i >= 0; i--) {
             if (model.at(i).isNode() === null || !this._isExpanded(model.at(i).getContents())) {
@@ -1243,7 +1253,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 const markerController = mController || this.getMarkerController();
                 if (item) {
                     this._tempItem = item.getKey();
-                    const dispItem = model.getItemBySourceKey(this._tempItem);
                     if (item.get(this._options.nodeProperty) !== null) {
                         this._doAfterItemExpanded = () => {
                             this._doAfterItemExpanded = null;
@@ -1277,7 +1286,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 }
             };
 
-            if (model.getLast() === model.getItemBySourceKey(key)) {
+            if (model.getLast('Markable') === model.getItemBySourceKey(key)) {
                 this._shiftToDirection('down').then(goToNextItem);
             } else {
                 goToNextItem();

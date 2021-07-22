@@ -1,7 +1,7 @@
 import {TemplateFunction} from 'UI/Base';
 
 /**
- * Интерфейс для контрола "Выпадающий список" с возможностью группировки элементов.
+ * Интерфейс для выпадающих списков, поддерживающих группировку элементов.
  *
  * @interface Controls/_dropdown/interface/IGrouped
  * @public

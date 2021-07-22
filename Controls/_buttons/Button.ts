@@ -56,7 +56,8 @@ export function defaultFontColorStyle(viewMode: string): string {
 }
 
 export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
-    this._buttonStyle = options.readOnly ? 'readonly' : options.buttonStyle;
+    this._buttonStyle = options.readOnly ? 'readonly' :
+        (options.viewMode === 'toolButton' ? 'default' : options.buttonStyle);
     this._contrastBackground = options.contrastBackground === undefined ?
         options.viewMode === 'functionalButton' : options.contrastBackground;
     this._viewMode = options.viewMode;

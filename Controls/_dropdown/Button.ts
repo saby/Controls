@@ -15,21 +15,77 @@ import * as Merge from 'Core/core-merge';
 import 'css!Controls/dropdown';
 import 'css!Controls/CommonClasses';
 
+/**
+ * Интерфейс опций для {@link Controls/dropdown:Button}.
+ * @interface Controls/dropdown:IButton
+ * @public
+ * @author Герасимов А.М.
+ */
 export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
     additionalProperty?: string;
+    /**
+     * @name Controls/dropdown:IButton#lazyItemsLoading
+     * @cfg {Boolean} Определяет, будут ли элементы меню загружаться лениво, только после первого клика по кнопке.
+     * @default false
+     * @remark Устанавливать опцию в значение true имеет смысл для локальных данных или
+     * при полной уверенности, что источник вернёт данные для меню.
+     * @example
+     * В данном примере данные для меню будут загружены лениво, после первого клика по кнопке.
+     * <pre class="brush: html; highlight: [7];">
+     * <!-- WML -->
+     * <Controls.dropdown:Button
+     *    bind:selectedKeys="_selectedKeys"
+     *    keyProperty="id"
+     *    displayProperty="title"
+     *    source="{{_source)}}"
+     *    lazyItemsLoading="{{true}}" />
+     * </pre>
+     * <pre>
+     * // JavaScript
+     * _source: null,
+     * _beforeMount: function() {
+     *    this._source = new source.Memory({
+     *       idProperty: 'id',
+     *       data: [
+     *          {id: 1, title: 'Name', icon: 'icon-small icon-TrendUp'},
+     *          {id: 2, title: 'Date of change', icon: 'icon-small icon-TrendDown'}
+     *       ]
+     *    });
+     * }
+     * </pre>
+     */
     lazyItemsLoading?: boolean;
     buttonStyle?: string;
     contrastBackground?: boolean;
     caption?: string;
     fontColorStyle?: string;
+    /**
+     * @name Controls/dropdown:IButton#fontSize
+     * @cfg
+     * @default m
+     * @demo Controls-demo/dropdown_new/Button/FontSize/Index
+     */
     fontSize?: string;
+    /**
+     * @name Controls/dropdown:IButton#showHeader
+     * @cfg {Boolean} Видимость шапки меню.
+     * @default true
+     */
     showHeader?: boolean;
+    /**
+     * @name Controls/dropdown:IButton#menuPopupTrigger
+     * @cfg {String} Название события, которое запускает открытие или закрытие меню.
+     * @variant click Открытие кликом по контенту. Закрытие кликом "мимо" — не по контенту или шаблону.
+     * @variant hover Открытие по ховеру — по наведению курсора на контент. Закрытие по ховеру — по навердению курсора на контент или шаблон.
+     * @default click
+     * @demo Controls-demo/dropdown_new/Button/MenuPopupTrigger/Index
+     */
     menuPopupTrigger?: 'click' | 'hover';
     isAutoItemClick?: boolean;
 }
 
 /**
- * Контрол «Кнопка с меню».
+ * Контрол "Кнопка с меню".
  *
  * @remark
  * Полезные ссылки:
@@ -39,7 +95,6 @@ export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHei
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/897d41142ed56c25fcf1009263d06508aec93c32/Controls-default-theme/variables/_dropdownPopup.less переменные тем оформления dropdownPopup}
  * @demo Controls-demo/dropdown_new/Button/Source/Index
- * @class Controls/_dropdown/Button
  * @extends Controls/_buttons/Button
  * @mixes Controls/menu:IMenuPopup
  * @mixes Controls/menu:IMenuControl
@@ -50,6 +105,7 @@ export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHei
  * @mixes Controls/dropdown:IIconSize
  * @mixes Controls/dropdown:IBaseDropdown
  * @mixes Controls/dropdown:IGrouped
+ * @mixes Controls/dropdown:IButton
  * @mixes Controls/interface:ISource
  * @mixes Controls/interface:IIconStyle
  * @mixes Controls/interface:IFontColorStyle
@@ -304,44 +360,44 @@ export default class Button extends BaseDropdown {
  */
 
 /**
- * @name Controls/_dropdown/Button#lazyItemsLoading
- * @cfg {Boolean} Определяет, будут ли элементы меню загружаться лениво, только после первого клика по кнопке.
- * @default false
- * @remark Устанавливать опцию в значение true имеет смысл для локальных данных или
- * при полной уверенности, что источник вернёт данные для меню.
+ * @name Controls/_dropdown/Button#source
+ * @cfg {Controls/dropdown:IBaseDropdown/SourceCfg.typedef}
+ * @default undefined
+ * @remark
+ * Запись может иметь следующие {@link Controls/dropdown:IBaseDropdown/Item.typedef свойства}.
+ * @demo Controls-demo/dropdown_new/Button/Source/Index
  * @example
- * В данном примере данные для меню будут загружены лениво, после первого клика по кнопке.
- * <pre class="brush: html">
+ * Записи будут отображены из источника _source.
+ * <pre class="brush: html; highlight: [4];">
  * <!-- WML -->
  * <Controls.dropdown:Button
- *    bind:selectedKeys="_selectedKeys"
- *    keyProperty="id"
- *    displayProperty="title"
- *    source="{{_source)}}"
- *    lazyItemsLoading="{{true}}" />
+ *    keyProperty="key"
+ *    source="{{_source}}"
+ *    caption="Create"
+ *    viewMode="link"
+ *    iconSize="m" />
  * </pre>
- * <pre>
+ * <pre class="brush: js; highlight: [2-10];">
  * // JavaScript
- * _source:null,
- * _beforeMount: function() {
- *    this._source = new source.Memory({
- *       idProperty: 'id',
- *       data: [
- *          {id: 1, title: 'Name', icon: 'icon-small icon-TrendUp'},
- *          {id: 2, title: 'Date of change', icon: 'icon-small icon-TrendDown'}
- *       ]
- *    });
- * }
+ * _source: new source.Memory({
+ *    keyProperty: 'key',
+ *    data: [
+ *       {key: '1', icon: 'icon-EmptyMessage', iconStyle: 'info', title: 'Message'},
+ *       {key: '2', icon: 'icon-TFTask', title: 'Task'},
+ *       {key: '3', title: 'Report'},
+ *       {key: '4', title: 'News', readOnly: true}
+ *    ]
+ * })
  * </pre>
  */
 
 /**
  * @name Controls/_dropdown/Button#reloadOnOpen
- * @cfg {Boolean} Определяет, будут ли элементы меню загружаться при каждом клике на кнопку..
+ * @cfg {Boolean} Определяет, будут ли элементы меню загружаться при каждом клике на кнопку.
  * @default false
  * @example
  * В данном примере данные для меню будут загружены при каждом клике по кнопке.
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [7];">
  * <!-- WML -->
  * <Controls.dropdown:Button
  *    bind:selectedKeys="_selectedKeys"
@@ -362,56 +418,6 @@ export default class Button extends BaseDropdown {
  *       ]
  *    });
  * }
- * </pre>
- */
-
-/**
- * @name Controls/_dropdown/Button#fontSize
- * @cfg
- * @demo Controls-demo/dropdown_new/Button/FontSize/Index
- */
-
-/**
- * @typedef {String} Controls/_dropdown/Button/TMenuPopupTrigger
- * @variant click Открытие кликом по контенту. Закрытие кликом "мимо" — не по контенту или шаблону.
- * @variant hover Открытие по ховеру — по наведению курсора на контент. Закрытие по ховеру — по навердению курсора на контент или шаблон.
- */
-/**
- * @name Controls/_dropdown/Button#menuPopupTrigger
- * @cfg {Controls/_dropdown/Button/TMenuPopupTrigger.typedef} Название события, которое запускает открытие или закрытие меню.
- * @default click
- * @demo Controls-demo/dropdown_new/Button/MenuPopupTrigger/Index
- */
-
-/**
- * @name Controls/_dropdown/Button#source
- * @cfg {Controls/_dropdown/interface/IBaseDropdown/SourceCfg.typedef}
- * @default undefined
- * @remark
- * Запись может иметь следующие {@link Controls/_dropdown/interface/IBaseDropdown/Item.typedef свойства}.
- * @demo Controls-demo/dropdown_new/Button/Source/Index
- * @example
- * Записи будут отображены из источника _source.
- * <pre class="brush: html">
- * <!-- WML -->
- * <Controls.dropdown:Button
- *    keyProperty="key"
- *    source="{{_source}}"
- *    caption="Create"
- *    viewMode="link"
- *    iconSize="m" />
- * </pre>
- * <pre class="brush: js">
- * // JavaScript
- * _source: new source.Memory({
- *    keyProperty: 'key',
- *    data: [
- *       {key: '1', icon: 'icon-EmptyMessage', iconStyle: 'info', title: 'Message'},
- *       {key: '2', icon: 'icon-TFTask', title: 'Task'},
- *       {key: '3', title: 'Report'},
- *       {key: '4', title: 'News', readOnly: true}
- *    ]
- * })
  * </pre>
  */
 

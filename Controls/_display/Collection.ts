@@ -1329,7 +1329,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 enumerator,
                 item,
                 true,
-                true
+                'EnumerableItem'
             );
         }
 
@@ -1339,9 +1339,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     /**
      * Возвращает последний элемент
+     * @param conditionProperty свойство, по которому происходит отбор элементов.
      * @return {Controls/_display/CollectionItem}
      */
-    getLast(): T {
+    getLast(conditionProperty?: string): T {
         const enumerator = this._getUtilityEnumerator();
         if (enumerator.getCount() === 0) {
             return;
@@ -1355,12 +1356,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         enumerator.setPosition(lastIndex);
         const item = enumerator.getCurrent();
 
-        if (!(item as CollectionItem).EnumerableItem) {
+        if (conditionProperty && !item[conditionProperty]) {
             return this._getNearbyItem(
                 enumerator,
                 item,
                 false,
-                true
+                conditionProperty
             );
         }
 
@@ -1378,7 +1379,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._getUtilityEnumerator(),
             item,
             true,
-            true
+            'EnumerableItem'
         );
     }
 
@@ -1392,7 +1393,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._getUtilityEnumerator(),
             item,
             false,
-            true
+            'EnumerableItem'
         );
     }
 
@@ -2574,7 +2575,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         }
 
         const oldLastItem = this._lastItem;
-        const lastItem = this.getLast();
+        const lastItem = this.getLast('EdgeRowSeparatorItem');
         if (lastItem !== oldLastItem || force) {
             this._updateLastItemSeparator(oldLastItem, false, silent);
             this._updateLastItemSeparator(lastItem, noMoreNavigation, silent);
@@ -3437,14 +3438,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      * @param enumerator Энумератор элементов
      * @param item Элемент проекции относительно которого искать
      * @param isNext Следующий или предыдущий элемент
-     * @param [skipNonEnumerable=false] Пропускать элементы, которые не должны перечисляться (группы, сепараторы, футеры нод)
+     * @param [conditionProperty] Свойство, по которому происходит отбор элементов
      * @protected
      */
     protected _getNearbyItem(
         enumerator: CollectionEnumerator<T>,
         item: T,
         isNext: boolean,
-        skipNonEnumerable?: boolean
+        conditionProperty?: string
     ): T {
         const method = isNext ? 'moveNext' : 'movePrevious';
         let nearbyItem;
@@ -3452,7 +3453,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         enumerator.setCurrent(item);
         while (enumerator[method]()) {
             nearbyItem = enumerator.getCurrent();
-            if (skipNonEnumerable && !nearbyItem.EnumerableItem) {
+            if (conditionProperty && !nearbyItem[conditionProperty]) {
                 nearbyItem = undefined;
                 continue;
             }

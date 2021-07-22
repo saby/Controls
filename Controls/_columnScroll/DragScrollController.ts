@@ -1,5 +1,6 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {constants} from 'Env/Env';
+import {OVERLAY_JS_SELECTOR} from './DragScrollOverlay/DragScrollOverlay';
 
 export interface IDragScrollParams {
     dragNDropDelay?: number;
@@ -9,12 +10,9 @@ export interface IDragScrollParams {
 }
 
 export const JS_SELECTORS = {
-    CONTENT: 'controls-Grid__DragScroll__content',
-    CONTENT_GRABBING: 'controls-Grid__DragScroll__content_grabbing',
-    NOT_DRAG_SCROLLABLE: 'js-controls-ColumnScroll__notDraggable',
-    OVERLAY: 'controls-Grid__DragScroll__overlay',
-    OVERLAY_ACTIVATED: 'controls-Grid__DragScroll__overlay_activated',
-    OVERLAY_DEACTIVATED: 'controls-Grid__DragScroll__overlay_deactivated'
+    CONTENT: 'controls-DragScroll__content',
+    NOT_DRAG_SCROLLABLE: 'js-controls-DragScroll__notDraggable',
+    OVERLAY: OVERLAY_JS_SELECTOR
 };
 
 // TODO: В будущем этот селектор должен импортироваться из DND. Это селектор не DragScroll'a

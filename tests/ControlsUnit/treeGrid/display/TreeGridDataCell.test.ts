@@ -88,7 +88,7 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
       it('with multiselect && first column', () => {
          treeGridCollection.setMultiSelectVisibility('visible');
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell-checkbox controls-Grid__row-cell_default_min_height controls-Grid__no-rowSeparator ' +
-            'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-ColumnScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
+            'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-DragScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
             'controls-Grid__row-checkboxCell_rowSpacingTop_default controls-Grid__row-cell-background-hover-default controls-Grid__row-cell_rowSpacingBottom_default';
          const cell = treeGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getWrapperClasses('default', 'default'), expected);
@@ -110,7 +110,7 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
          treeGridCollection.setMultiSelectVisibility('visible');
 
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell-checkbox controls-Grid__row-cell_default_min_height controls-Grid__no-rowSeparator ' +
-            'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-ColumnScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
+            'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-DragScroll__notDraggable controls-GridView__checkbox controls-GridView__checkbox_position-default ' +
             'controls-Grid__row-checkboxCell_rowSpacingTop_default controls-Grid__row-cell-background-hover-default controls-Grid__row-cell_rowSpacingBottom_default';
 
          const cell = treeGridCollection.at(0).getColumns()[0];
@@ -144,18 +144,6 @@ describe('Controls/_treeGrid/display/TreeGridDataCell', () => {
          const expected = 'controls-TreeGridView__row-cell_innerWrapper controls-Grid__table__relative-cell-wrapper controls-Grid__table__relative-cell-wrapper_rowSeparator-null ';
          const cell = treeGridCollection.at(0).getColumns()[1];
          CssClassesAssert.isSame(cell.getRelativeCellWrapperClasses('default'), expected);
-
-         sandbox.restore();
-      });
-
-      it('left padding when not support grid', () => {
-         const sandbox = sinon.createSandbox();
-         const stubIsFullGridSupport = sandbox.stub(Display, 'isFullGridSupport');
-         stubIsFullGridSupport.returns(false);
-
-         treeGridCollection.setMultiSelectVisibility('hidden');
-         const cell = treeGridCollection.at(0).getColumns()[0];
-         CssClassesAssert.include(cell.getRelativeCellWrapperClasses('default'), 'controls-Grid__cell_spacingFirstCol_default');
 
          sandbox.restore();
       });

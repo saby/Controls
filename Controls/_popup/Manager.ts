@@ -879,15 +879,21 @@ class Manager {
         if (this._dragTimer) {
             clearTimeout(this._dragTimer);
         }
+
+        /*
+           Событие documentDragStart стреляет на всех контейнерах на странице. Для обработки понимаем, лежит ли
+           нужный контейнер внутри текущего окна.
+           Делать нужно синхронно, а не в таймауте,
+           т.к. конец драга может вызвать перестроение и нода таргета уже не будет в доме
+         */
+        const popupNode = domEvent?.target.closest('.controls-Popup');
+
         // Общий обработчик троттлим в течение 10мс. Нужно для того, чтобы понять, не происходит ли dnd внутри окна
         // и не быть завязаным на порядок срабатывания событий.
         this._dragTimer = setTimeout(() => {
             this._dragTimer = null;
             this._popupItems.each((item) => {
                 const popupContainer = this._getItemContainer(item.id);
-                // Событие documentDragStart стреляет на всех контейнерах на странице. Для обработки понимаем, лежит ли
-                // нужный контейнер внутри текущего окна.
-                const popupNode = domEvent?.target.closest('.controls-Popup');
                 const isInsideDrag = popupNode === popupContainer;
                 if (item.controller.dragNDropOnPage(item, popupContainer, isInsideDrag)) {
                     this.remove(item.id);

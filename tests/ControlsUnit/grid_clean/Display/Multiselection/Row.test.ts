@@ -28,7 +28,7 @@ describe('Controls/grid_clean/Display/Multiselection/Row', () => {
         it('default', () => {
             const classes = row.getMultiSelectClasses();
             CssClassesAssert.include(classes, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable ' +
-                'js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList ' +
+                'js-controls-ListView__checkbox js-controls-DragScroll__notDraggable controls-CheckboxMarker_inList ' +
                 'controls-GridView__checkbox controls-GridView__checkbox_position-default');
         });
 

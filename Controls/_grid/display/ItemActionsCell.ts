@@ -1,6 +1,7 @@
 import Row from './Row';
 import Cell, {IOptions as ICellOptions} from './Cell';
 import IItemActionsCell from './interface/IItemActionsCell';
+import {DRAG_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 
 export interface IOptions<T> extends ICellOptions<T> {
 }
@@ -19,7 +20,7 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
             return this._$owner.isFullGridSupport() ? 'controls-Grid__itemAction__emptyContainer' : '';
         }
         if (this._$owner.isFullGridSupport()) {
-            return 'controls-itemActionsV__container controls-Grid__itemAction js-controls-ColumnScroll__notDraggable';
+            return `controls-itemActionsV__container controls-Grid__itemAction ${DRAG_SCROLL_JS_SELECTORS.NOT_DRAG_SCROLLABLE}`;
         } else {
             return `${super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover)} controls-Grid-table-layout__itemActions__container`;
         }

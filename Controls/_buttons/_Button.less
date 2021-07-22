@@ -288,13 +288,13 @@
 }
 
 .ws-is-hover {
-   .controls-Button_toolButton:hover {
+   .controls-Button_toolButton_style-default:hover {
       border-color: var(--border-color_hover_button_toolButton);
       background-color: var(--background-color_hover_button_toolButton);
    }
 }
 
-.controls-Button_toolButton:active {
+.controls-Button_toolButton_style-default:active {
    border-color: var(--border-color_hover_button_toolButton);
    background-color: var(--background-color_hover_button_toolButton);
 }
@@ -651,6 +651,15 @@
 }
 
 //fontsize buttons default view mode
+
+.controls-fontsize-xs.controls-Button_button__wrapper-fontsize-3xs {
+   font-size: var(--font-size_3xs_button);
+}
+
+.controls-fontsize-xs.controls-Button_button__wrapper-fontsize-2xs {
+   font-size: var(--font-size_2xs_button);
+}
+
 .controls-fontsize-xs.controls-Button_button__wrapper-fontsize-xs {
    font-size: var(--font-size_xs_button);
 }
@@ -688,6 +697,14 @@
 }
 
 //fontsize buttons link view mode
+.controls-fontsize-xs.controls-Button_link__wrapper-fontsize-3xs {
+   font-size: var(--font-size_3xs_button_link);
+}
+
+.controls-fontsize-s.controls-Button_link__wrapper-fontsize-2xs {
+   font-size: var(--font-size_2xs_button_link);
+}
+
 .controls-fontsize-xs.controls-Button_link__wrapper-fontsize-xs {
    font-size: var(--font-size_xs_button_link);
 }

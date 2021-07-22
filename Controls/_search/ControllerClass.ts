@@ -17,6 +17,7 @@ export interface ISearchControllerOptions extends ISearchOptions,
    viewMode?: TViewMode;
    items?: RecordSet;
    searchStartCallback?: Function;
+   deepReload?: boolean;
 }
 
 const SERVICE_FILTERS = {
@@ -294,7 +295,7 @@ export default class ControllerClass {
 
       if (this.isSearchInProcess() && this._searchValue) {
          this._sourceController.setFilter(filter);
-         if (!sourceController.isDeepReload() && !sourceController.isExpandAll()) {
+         if (!this._options.deepReload && !sourceController.isExpandAll()) {
             sourceController.setExpandedItems([]);
          }
 
