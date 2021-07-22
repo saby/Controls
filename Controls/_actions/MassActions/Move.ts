@@ -1,8 +1,9 @@
 import * as rk from 'i18n!Controls';
 import MassAction from './MassAction';
+import {IBaseActionOptions} from '../BaseAction';
 
 export default class Move extends MassAction {
-    constructor(options) {
+    constructor(options: IBaseActionOptions) {
         super(options);
     }
 }
