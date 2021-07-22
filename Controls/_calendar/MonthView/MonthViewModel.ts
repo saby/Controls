@@ -49,7 +49,7 @@ export default class MonthViewModel extends VersionableMixin {
     }
 
     _prepareClass(scope, fontColorStyle, backgroundStyle, borderStyle, fontWeight): string {
-        let textColorClass = 'controls-MonthView__textColor',
+        let textColorClass = 'controls-MonthViewVDOM__textColor',
             backgroundColorClass = 'controls-MonthView__backgroundColor',
             backgroundColorClassRangeHovered,
             css = [];

@@ -69,10 +69,10 @@
  * @remark
  * Опция пдобавляет постфикс к следующим классам. (Для примера возьмем fontColorStyle = 'secondary')
  *
- * * controls-MonthView__textColor-currentMonthDay-weekend_style-secondary
- * * controls-MonthView__textColor-currentMonthDay-workday_style-secondary
- * * controls-MonthView__textColor-otherMonthDay-weekend_style-secondary
- * * controls-MonthView__textColor-otherMonthDay-workday_style-secondary
+ * * controls-MonthViewVDOM__textColor-currentMonthDay-weekend_style-secondary
+ * * controls-MonthViewVDOM__textColor-currentMonthDay-workday_style-secondary
+ * * controls-MonthViewVDOM__textColor-otherMonthDay-weekend_style-secondary
+ * * controls-MonthViewVDOM__textColor-otherMonthDay-workday_style-secondary
  * @example
  * <pre class="brush: html">
  * <Controls.calendar:MonthList>
@@ -86,7 +86,7 @@
  * </Controls.calendar:MonthList>
  * </pre>
  * <pre class="brush: css">
- * .controls-MonthView__textColor-currentMonthDay-weekend_style-secondary {
+ * .controls-MonthViewVDOM__textColor-currentMonthDay-weekend_style-secondary {
  *      color: red;
  * }
  * </pre>
