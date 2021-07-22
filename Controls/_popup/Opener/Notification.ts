@@ -201,3 +201,41 @@ const BASE_OPTIONS = {
 };
 
 export default Notification;
+
+/**
+ * Статический метод для открытия окна уведомления.
+ * @function
+ * @name Controls/_popup/Opener/Notification#openPopup
+ * @param {Controls/_popup/interface/INotificationOpener/PopupOptions.typedef} config Конфигурация окна.
+ * @returns {Promise<string>} Возвращает Promise, который в качестве результата вернет идентификатор окна.
+ * Такой идентификатор используют в методе {@link closePopup} для закрытия окна.
+ * @static
+ * @remark
+ * Дополнительный пример работы со статическим методом доступен {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
+ * При использовании метода не требуется создавать {@link Controls/popup:Notification} в верстке.
+ * @example
+ * <pre class="brush: js">
+ * // TypeScript
+ * import {NotificationOpener} from 'Controls/popup';
+ * ...
+ * _afterMount(){
+ *      this._opener = new NotificationOpener({
+ *          template: 'Controls/popupTemplate:NotificationSimple',
+ *          autoClose: true,
+ *          templateOptions: {
+ *              style: 'success',
+ *              text: `Новое уведомление`,
+ *              icon: 'icon-Admin'
+ *          }
+ *      });
+ *      this._opener.open({});
+ * }
+ *
+ * _beforeUnmount(){
+ *      this._opener.destroy();
+ * }
+ * </pre>
+ * @see closePopup
+ * @see close
+ * @see open
+ */

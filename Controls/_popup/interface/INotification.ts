@@ -34,7 +34,7 @@ export interface INotificationOpener extends IOpener {
  * @name Controls/_popup/interface/INotificationOpener#open
  * @param {Controls/_popup/interface/INotificationOpener/PopupOptions.typedef} popupOptions Конфигурация окна.
  * @remark
- * Чтобы открыть окно без создания в верстке {@link Controls/popup:Notification}, используйте статический метод {@link openPopup}.
+ * Чтобы открыть окно без создания в верстке {@link Controls/popup:Notification}, используйте статический метод {@link Controls/popup:Notification#openPopup openPopup}.
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
@@ -74,46 +74,7 @@ export interface INotificationOpener extends IOpener {
  * }
  * </pre>
  * @see close
- * @see openPopup
  * @see closePopup
- */
-
-/**
- * Статический метод для открытия окна уведомления.
- * @function
- * @name Controls/_popup/interface/INotificationOpener#openPopup
- * @param {Controls/_popup/interface/INotificationOpener/PopupOptions.typedef} config Конфигурация окна.
- * @returns {Promise<string>} Возвращает Promise, который в качестве результата вернет идентификатор окна.
- * Такой идентификатор используют в методе {@link closePopup} для закрытия окна.
- * @static
- * @remark
- * Дополнительный пример работы со статическим методом доступен {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
- * При использовании метода не требуется создавать {@link Controls/popup:Notification} в верстке.
- * @example
- * <pre class="brush: js">
- * // TypeScript
- * import {NotificationOpener} from 'Controls/popup';
- * ...
- * _afterMount(){
- *      this._opener = new NotificationOpener({
- *          template: 'Controls/popupTemplate:NotificationSimple',
- *          autoClose: true,
- *          templateOptions: {
- *              style: 'success',
- *              text: `Новое уведомление`,
- *              icon: 'icon-Admin'
- *          }
- *      });
- *      this._opener.open({});
- * }
- *
- * _beforeUnmount(){
- *      this._opener.destroy();
- * }
- * </pre>
- * @see closePopup
- * @see close
- * @see open
  */
 
 /**
@@ -121,7 +82,7 @@ export interface INotificationOpener extends IOpener {
  * @function
  * @name Controls/_popup/interface/INotificationOpener#closePopup
  * @param {String} popupId Идентификатор окна.
- * Такой идентификатор можно получить при открытии окна методом {@link openPopup}.
+ * Такой идентификатор можно получить при открытии окна методом {@link Controls/popup:Notification#openPopup openPopup}.
  * @static
  * @remark
  * Дополнительный пример работы со статическим методом доступен {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
@@ -142,7 +103,6 @@ export interface INotificationOpener extends IOpener {
  *    Notification.closePopup(this._notificationId);
  * }
  * </pre>
- * @see openPopup
  * @see opener
  * @see close
  */
