@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_up">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_up ControlsDemo-Suggest_padding-left">
         <div class="controls-text-label">Открытие автодополнения вниз</div>
         <Controls.suggest:Input
                 attr:class="controlsDemo__input demo-SuggestNew__autoOpenDown"
@@ -14,7 +14,7 @@
             </ws:suggestTemplate>
         </Controls.suggest:Input>
     </div>
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_down">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_down ControlsDemo-Suggest_padding-left">
         <div class="controls-text-label">Открытие автодополнения вверх</div>
         <Controls.suggest:Input
                 attr:class="controlsDemo__input demo-SuggestNew__autoOpenUp"

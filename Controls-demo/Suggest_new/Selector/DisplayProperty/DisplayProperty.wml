@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_padding-left">
          <div class="controls-text-label">Отображение в поле ввода имени руководителя отдела</div>
          <Controls.suggest:Selector
                  attr:class="controlsDemo__input"
