@@ -1,3 +1,18 @@
+<div style="display: contents">
+<ws:if data="{{_options.pagingMode === 'edges'}}">
+    <div class="controls_paging_theme-{{_options.theme}}
+            controls_Paging_separate
+            controls-PagingV {{_options.contrastBackground ? 'controls-Paging__contrast' : ''}}">
+        <div class="controls-Paging__wrapper">
+            <span class="controls-Paging__btn controls-Paging__btn-Begin
+                        controls-Paging__btn_first controls-Paging__arrow
+                        controls-Paging__arrow__state-{{_stateTop}}"
+                  attr:title="{[В начало]}" on:click="_arrowClick('Begin', 'Top')">
+                <i class="controls-Paging_icon-Begin{{_isDigit() ? '_digits'}} controls-Paging__icon"></i>
+            </span>
+        </div>
+</div>
+</ws:if>
 <div class="controls_paging_theme-{{_options.theme}}
             controls-PagingV {{_options.contrastBackground ? 'controls-Paging__contrast' : ''}}">
     <div class="controls-Paging__wrapper">
@@ -14,6 +29,7 @@
          </span>
         </ws:if>
         <ws:if data="{{(!_options.showDigits || _options.pagingMode === 'numbers') &&
+            _options.pagingMode !== 'edges' &&
          (_getArrowStateVisibility('begin') !== 'hidden')}}">
          <span class="controls-Paging__btn controls-Paging__btn-Begin
                         controls-Paging__btn_first controls-Paging__arrow
@@ -62,4 +78,5 @@
          </span>
         </ws:if>
     </div>
+</div>
 </div>

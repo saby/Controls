@@ -93,7 +93,7 @@ export interface IBasePositionSourceConfig {
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
      *    <ws:navigation source="position" view="infinity">
-     *       <ws:sourceConfig 
+     *       <ws:sourceConfig
      *          field="id"
      *          position="{{_position}}"
      *          direction="bothways"
@@ -133,7 +133,7 @@ export interface INavigationPositionSourceConfig extends IBasePositionSourceConf
 
 /**
  * @description Базовая конфигурация для {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#data-parametr Навигация с фиксированным количеством загружаемых записей}.
- * 
+ *
  * @public
  * @author Крайнов Д.О.
  */
@@ -154,10 +154,10 @@ export interface IBasePageSourceConfig {
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
      *    <ws:navigation source="page" view="pages">
-     *       <ws:sourceConfig 
+     *       <ws:sourceConfig
      *          pageSize="{{10}}"
      *          page="{{0}}"
-     *          hasMore="{{false}}" 
+     *          hasMore="{{false}}"
      *          multiNavigation="{{true}}" />
      *       <ws:viewConfig totalInfo="basic"/>
      *    </ws:navigation>
@@ -207,11 +207,12 @@ export type TNavigationTotalInfo = 'basic' | 'extended';
  * @variant hidden Предназначен для отключения отображения пейджинга в реестре.
  * @variant basic Предназначен для пейджинга в реестре с подгрузкой по скроллу.
  * @variant edge Предназначен для пейджинга с отображением одной команды прокрутки. Отображается кнопка в конец, либо в начало, в зависимости от положения.
+ * @variant edges Предназначен для пейджинга с отображением двух команд прокрутки. Отображается кнопка в конец и в начало.
  * @variant end Предназначен для пейджинга с отображением одной команды прокрутки. Отображается только кнопка в конец.
  * @variant numbers Предназначен для пейджинга с подсчетом записей и страниц.
  * @variant direct Значение устарело и будет удалено. Используйте значение basic.
  */
-export type TNavigationPagingMode = 'hidden' | 'basic' | 'edge' | 'end' | 'numbers' | 'direct';
+export type TNavigationPagingMode = 'hidden' | 'basic' | 'edge' | 'edges' | 'end' | 'numbers' | 'direct';
 
 /**
  * @description Допустимые значения для параметра {@link Controls/interface:INavigationViewConfig#pagingPadding pagingPadding}.
@@ -280,7 +281,7 @@ export interface INavigationOptionValue<U> {
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#source
      * @cfg {Controls/interface:INavigation/TNavigationSource.typedef} Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
-     * @example 
+     * @example
      * <pre class="brush: html; highlight: [3]">
      * <!-- WML -->
      * <Controls.list:View source="{{_viewSource}}">
@@ -311,7 +312,7 @@ export interface INavigationOptionValue<U> {
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
      * @cfg {Controls/interface:INavigationPositionSourceConfig | Controls/interface:INavigationPageSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
-     * @example 
+     * @example
      * Пример конфигурации режима работы с источником данных для навигации по курсору.
      * <pre class="brush: html; highlight: [4]">
      * <!-- WML -->

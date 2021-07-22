@@ -1,0 +1,29 @@
+<ws:template name="contentTemplate">
+    <ws:if data="{{_count}}">
+        <p class="controls-Paging__info" style="text-align: center">{{_count}}</p>
+    </ws:if>
+</ws:template>
+
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <Controls.scroll:Container attr:class="controlsDemo__height400">
+        <Controls.list:HotKeysContainer>
+            <Controls.list:View
+                    keyProperty="key"
+                    name="list"
+                    attr:class="controlsDemo_line-height18"
+                    moveMarkerOnScrollPaging="{{true}}"
+                    source="{{_viewSource}}"
+                    on:activeElementChanged="_updateCount()"
+                    on:pagingArrowClick="_onPagingArrowClick()"
+            >
+                <ws:pagingContentTemplate>
+                    <ws:partial template="contentTemplate"/>
+                </ws:pagingContentTemplate>
+                <ws:navigation source="page" view="infinity">
+                    <ws:sourceConfig pageSize="{{99}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="edges"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.list:HotKeysContainer>
+    </Controls.scroll:Container>
+</div>
