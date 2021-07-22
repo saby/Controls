@@ -1,7 +1,7 @@
 <div class="ws-flexbox ws-align-items-baseline">
     <ws:if data="{{item.icon}}">
-        <div class="icon-{{item.icon}} ws-align-self-center controls-fontweight-default controls-icon_size-s
-                controls-icon_style-{{item.iconStyle || 'secondary'}}"></div>
+        <div class="icon-{{item.icon}} controls-fontweight-default controls-icon_size-{{item.iconSize || 's'}}
+                ws-align-self-center controls-icon_style-{{item.iconStyle || 'secondary'}}"></div>
     </ws:if>
     <ws:if data="{{item.mainCounter}}">
         <div class="controls-Tabs_margin-left">
@@ -11,7 +11,7 @@
         </div>
     </ws:if>
     <ws:if data="{{item.image}}">
-        <div class="ws-align-self-center controls-icon_size-s">
+        <div class="ws-align-self-center controls-icon_size-{{item.imageSize || 's'}}">
             <img src="{{item.image.src}}" srcset="{{item.image.srcSet}}" tooltip="{{item.image.tooltip}}" alt="{{item.image.tooltip}}" class="controls-Tabs_image"/>
         </div>
     </ws:if>
