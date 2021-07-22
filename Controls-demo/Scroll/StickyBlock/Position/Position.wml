@@ -91,12 +91,12 @@
         <Controls.scroll:Container class="controlsDemo__ml2 controlsDemo_fixedWidth300 controlsDemo__height300" scrollOrientation="verticalHorizontal">
             <div class="controlsDemo_fixedWidth550">
                 <div class="controlsDemo__flex">
-                    <div style="width: 400px;">
+                    <div style="width: 488px;">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </div>
                     <Controls.scroll:StickyBlock position="{{ {'horizontal' : 'right'} }}" attr:style="width: 60px; border: 1px solid #000;">
                         <div>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                            Lorem ipsum dolor sit amet, conse ctetur adipiscing elit
                         </div>
                     </Controls.scroll:StickyBlock>
                 </div>
