@@ -1,4 +1,4 @@
-<div class="root controlsDemo_fixedWidth500 {{_options.theme !== 'default' ? ' root__dark_background'}}">
+<div class="root controlsDemo_fixedWidth500">
     <div class="separator">borderVisible = true</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__rightAlign">
         <Controls.tabs:Buttons

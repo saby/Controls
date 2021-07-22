@@ -1,4 +1,4 @@
-<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+<div class="root">
 <div class="separator">horizontalPadding = 'xs'</div>
 <div class="controlsDemo__flex">
     <Controls.tabs:Buttons
