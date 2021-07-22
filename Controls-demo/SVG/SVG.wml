@@ -1,3 +1,4 @@
 <svg>
-    <use xlink:href="{{_circleUrl}}"></use>
+    <use xlink:href="{{_circleUrl}}"
+    attr:data-qa="controlsDemo_SVG_circle"></use>
 </svg>
