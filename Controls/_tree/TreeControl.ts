@@ -835,12 +835,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return _private.toggleExpanded(this, item);
     }
 
-    protected _onClickMoreButton(e, dispItem?): void {
+    protected _onMoreButtonClick(e, dispItem?): void {
         if (dispItem) {
             const nodeKey = dispItem.getContents().getKey();
             _private.loadNodeChildren(this, nodeKey);
         } else {
-            super._onClickMoreButton(e);
+            super._onMoreButtonClick(e);
         }
     }
 

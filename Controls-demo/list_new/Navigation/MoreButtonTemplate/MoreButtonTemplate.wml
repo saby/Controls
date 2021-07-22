@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <div class="controls-text-label controls-text-label">hasMore false</div>
+    <Controls.scroll:Container attr:class="controlsDemo__height400">
+        <Controls.list:View
+                keyProperty="key"
+                source="{{_viewSource}}">
+            <ws:moreButtonTemplate>
+                <ws:partial template="Controls/baseList:MoreButtonCutTemplate"/>
+            </ws:moreButtonTemplate>
+            <ws:navigation source="page" view="demand">
+                <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                <ws:viewConfig pagingMode="basic"/>
+            </ws:navigation>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+</div>

@@ -1,0 +1,3 @@
+<ws:partial template="wml!Controls/_baseList/BaseControl/Cut"
+            clickableAreaClass="js-controls-BaseControl__loadMore"
+            cutSize="{{cutSize}}"/>

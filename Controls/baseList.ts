@@ -26,6 +26,7 @@ import ForTemplate = require('wml!Controls/_baseList/Render/For');
 import ItemTemplate = require('wml!Controls/_baseList/ItemTemplate');
 import GroupTemplate = require('wml!Controls/_baseList/GroupTemplate');
 import FooterTemplate = require('wml!Controls/_baseList/ListView/Footer');
+import MoreButtonCutTemplate = require('wml!Controls/_baseList/BaseControl/MoreButtonCut');
 import MultiSelectTemplate = require('wml!Controls/_baseList/Render/multiSelect');
 import EditingTemplate = require('wml!Controls/_baseList/EditInPlace/EditingTemplate');
 import MoneyEditingTemplate = require('wml!Controls/_baseList/EditInPlace/decorated/Money');
@@ -37,6 +38,7 @@ export {
     ItemTemplate,
     GroupTemplate,
     FooterTemplate,
+    MoreButtonCutTemplate,
     EditingTemplate,
     // TODO: Удалить по https://online.sbis.ru/opendoc.html?guid=d63d6b23-e271-4d0b-a015-1ad37408b76b
     EditingTemplate as BaseEditingTemplate,
