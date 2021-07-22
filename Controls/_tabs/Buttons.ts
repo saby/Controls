@@ -650,9 +650,11 @@ Object.defineProperty(TabsButtons, 'defaultProps', {
  * IconCounterTabTemplate поддерживающий следующие параметры:
  * - icon {String} —  Название иконки.
  * - iconStyle {String} — Стиль отображения иконки.
+ * - iconSize {String} - Размер иконки(Доступны значения s и m).
  * - mainCounter {Number} — Значение счетчика.
  * - mainCounterStyle {String} — Стиль отображения счетчика.
  * - caption {String} — Подпись вкладки.
+ * - imageSize {String} - Размер изображения(Доступны значения s и m).
  * - image {Object} — Конфигурация для отображения картинки.
  *      - src {String} — Url картинки.
  *      - srcSet {String} — Значение для аттрибута srcset.
@@ -662,6 +664,7 @@ Object.defineProperty(TabsButtons, 'defaultProps', {
  * TextCounterTabTemplate поддерживающий следующие параметры:
  * - icon {String} —  Название иконки.
  * - iconStyle {String} — Стиль отображения иконки.
+ * - iconSize {String} - Размер иконки(Доступны значения s и m).
  * - mainCounter {Number} — Значение счетчика.
  * - mainCounterStyle {String} — Стиль отображения счетчика.
  * - caption {String} — Подпись вкладки.
