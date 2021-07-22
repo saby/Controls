@@ -25,7 +25,7 @@ import {IntersectionObserver} from 'Controls/sizeUtils';
 import {EventUtils} from 'UI/Events';
 import Model = require('Controls/_scroll/StickyBlock/Model');
 import template = require('wml!Controls/_scroll/StickyBlock/StickyHeader');
-import Group from "Controls/_scroll/StickyBlock/Group";
+import Group from 'Controls/_scroll/StickyBlock/Group';
 
 export enum BACKGROUND_STYLE {
     TRANSPARENT = 'transparent',
@@ -801,7 +801,7 @@ export default class StickyBlock extends Control<IStickyHeaderOptions> {
             style += 'z-index: ' + zIndex + ';';
         }
 
-        //убрать по https://online.sbis.ru/opendoc.html?guid=ede86ae9-556d-4bbe-8564-a511879c3274
+        // убрать по https://online.sbis.ru/opendoc.html?guid=ede86ae9-556d-4bbe-8564-a511879c3274
         if (task1177692247 && fixedZIndex && !fixedPosition) {
             style += 'z-index: ' + fixedZIndex + ';';
         }
